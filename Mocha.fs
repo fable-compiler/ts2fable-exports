@@ -3,6 +3,7 @@ module rec Mocha
 open System
 open Fable.Core
 open Fable.Import.JS
+open Fable.Import.Browser
 
 let [<Import("*","mocha")>] mocha: Mocha = jsNative
 let [<Import("*","mocha")>] describe: Mocha.IContextDefinition = jsNative
