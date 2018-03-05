@@ -3,7 +3,6 @@ module rec React
 open System
 open Fable.Core
 open Fable.Import.JS
-open Fable.Import.Browser
 
 let [<Import("*","react")>] react: React.IExports = jsNative
 
@@ -115,16 +114,16 @@ module React =
         let asFloat (v: Key) = match v with U2.Case2 o -> Some o | _ -> None
 
     type Ref<'T> =
-        U2<string, ('T option -> obj option)>
+        U2<string, obj>
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module Ref =
         let ofString v: Ref<'T> = v |> U2.Case1
         let isString (v: Ref<'T>) = match v with U2.Case1 _ -> true | _ -> false
         let asString (v: Ref<'T>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofBivarianceHack v: Ref<'T> = v |> U2.Case2
-        let isBivarianceHack (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
-        let asBivarianceHack (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
+        let ofObj v: Ref<'T> = v |> U2.Case2
+        let isObj (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
+        let asObj (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ComponentState =
         obj
@@ -192,14 +191,14 @@ module React =
         abstract useragent: string option with get, set
         abstract webpreferences: string option with get, set
 
-    type Factory<'P> =
-        (obj -> ResizeArray<ReactNode> -> ReactElement<'P>)
+    type [<AllowNullLiteral>] Factory<'P> =
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
 
-    type SFCFactory<'P> =
-        (obj -> ResizeArray<ReactNode> -> SFCElement<'P>)
+    type [<AllowNullLiteral>] SFCFactory<'P> =
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
 
-    type ComponentFactory<'P, 'T> =
-        (obj -> ResizeArray<ReactNode> -> CElement<'P, 'T>)
+    type [<AllowNullLiteral>] ComponentFactory<'P, 'T> =
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
 
     type CFactory<'P, 'T> =
         ComponentFactory<'P, 'T>
@@ -207,8 +206,8 @@ module React =
     type ClassicFactory<'P> =
         CFactory<'P, ClassicComponent<'P, ComponentState>>
 
-    type DOMFactory<'P, 'T> =
-        (obj option -> ResizeArray<ReactNode> -> DOMElement<'P, 'T>)
+    type [<AllowNullLiteral>] DOMFactory<'P, 'T> =
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
 
     type [<AllowNullLiteral>] HTMLFactory<'T> =
         inherit DetailedHTMLFactory<AllHTMLAttributes<'T>, 'T>
@@ -246,7 +245,16 @@ module React =
         let asReactText (v: ReactChild) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ReactFragment =
-        Array<U3<ReactChild, ResizeArray<obj option>, bool>>
+        U2<obj, Array<U3<ReactChild, ResizeArray<obj option>, bool>>>
+
+    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module ReactFragment =
+        let ofCase1 v: ReactFragment = v |> U2.Case1
+        let isCase1 (v: ReactFragment) = match v with U2.Case1 _ -> true | _ -> false
+        let asCase1 (v: ReactFragment) = match v with U2.Case1 o -> Some o | _ -> None
+        let ofArray v: ReactFragment = v |> U2.Case2
+        let isArray (v: ReactFragment) = match v with U2.Case2 _ -> true | _ -> false
+        let asArray (v: ReactFragment) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ReactNode =
         U3<ReactChild, ReactFragment, bool> option

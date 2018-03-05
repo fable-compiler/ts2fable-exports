@@ -1120,22 +1120,19 @@ module Vscode =
         [<Emit "new $0($1...)">] abstract Create: ?value: string -> MarkdownString
 
     type MarkedString =
-        U4<MarkdownString, string, obj, obj>
+        U3<MarkdownString, string, obj>
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module MarkedString =
-        let ofMarkdownString v: MarkedString = v |> U4.Case1
-        let isMarkdownString (v: MarkedString) = match v with U4.Case1 _ -> true | _ -> false
-        let asMarkdownString (v: MarkedString) = match v with U4.Case1 o -> Some o | _ -> None
-        let ofString v: MarkedString = v |> U4.Case2
-        let isString (v: MarkedString) = match v with U4.Case2 _ -> true | _ -> false
-        let asString (v: MarkedString) = match v with U4.Case2 o -> Some o | _ -> None
-        let ofLanguage v: MarkedString = v |> U4.Case3
-        let isLanguage (v: MarkedString) = match v with U4.Case3 _ -> true | _ -> false
-        let asLanguage (v: MarkedString) = match v with U4.Case3 o -> Some o | _ -> None
-        let ofValue v: MarkedString = v |> U4.Case4
-        let isValue (v: MarkedString) = match v with U4.Case4 _ -> true | _ -> false
-        let asValue (v: MarkedString) = match v with U4.Case4 o -> Some o | _ -> None
+        let ofMarkdownString v: MarkedString = v |> U3.Case1
+        let isMarkdownString (v: MarkedString) = match v with U3.Case1 _ -> true | _ -> false
+        let asMarkdownString (v: MarkedString) = match v with U3.Case1 o -> Some o | _ -> None
+        let ofString v: MarkedString = v |> U3.Case2
+        let isString (v: MarkedString) = match v with U3.Case2 _ -> true | _ -> false
+        let asString (v: MarkedString) = match v with U3.Case2 o -> Some o | _ -> None
+        let ofCase3 v: MarkedString = v |> U3.Case3
+        let isCase3 (v: MarkedString) = match v with U3.Case3 _ -> true | _ -> false
+        let asCase3 (v: MarkedString) = match v with U3.Case3 o -> Some o | _ -> None
 
     /// A hover represents additional information for a symbol or word. Hovers are
     /// rendered in a tooltip-like widget.

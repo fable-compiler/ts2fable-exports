@@ -389,7 +389,7 @@ module Ts =
         abstract updateConstructSignature: node: ConstructSignatureDeclaration * typeParameters: ResizeArray<TypeParameterDeclaration> option * parameters: ResizeArray<ParameterDeclaration> * ``type``: TypeNode option -> ConstructSignatureDeclaration
         abstract createIndexSignature: decorators: ResizeArray<Decorator> option * modifiers: ResizeArray<Modifier> option * parameters: ResizeArray<ParameterDeclaration> * ``type``: TypeNode -> IndexSignatureDeclaration
         abstract updateIndexSignature: node: IndexSignatureDeclaration * decorators: ResizeArray<Decorator> option * modifiers: ResizeArray<Modifier> option * parameters: ResizeArray<ParameterDeclaration> * ``type``: TypeNode -> IndexSignatureDeclaration
-        abstract createKeywordTypeNode: kind: KeywordTypeNode -> KeywordTypeNode
+        abstract createKeywordTypeNode: kind: obj -> KeywordTypeNode
         abstract createTypePredicateNode: parameterName: U3<Identifier, ThisTypeNode, string> * ``type``: TypeNode -> TypePredicateNode
         abstract updateTypePredicateNode: node: TypePredicateNode * parameterName: U2<Identifier, ThisTypeNode> * ``type``: TypeNode -> TypePredicateNode
         abstract createTypeReferenceNode: typeName: U2<string, EntityName> * typeArguments: ResizeArray<TypeNode> option -> TypeReferenceNode
@@ -420,8 +420,8 @@ module Ts =
         abstract updateIndexedAccessTypeNode: node: IndexedAccessTypeNode * objectType: TypeNode * indexType: TypeNode -> IndexedAccessTypeNode
         abstract createMappedTypeNode: readonlyToken: ReadonlyToken option * typeParameter: TypeParameterDeclaration * questionToken: QuestionToken option * ``type``: TypeNode option -> MappedTypeNode
         abstract updateMappedTypeNode: node: MappedTypeNode * readonlyToken: ReadonlyToken option * typeParameter: TypeParameterDeclaration * questionToken: QuestionToken option * ``type``: TypeNode option -> MappedTypeNode
-        abstract createLiteralTypeNode: literal: LiteralTypeNode -> LiteralTypeNode
-        abstract updateLiteralTypeNode: node: LiteralTypeNode * literal: LiteralTypeNode -> LiteralTypeNode
+        abstract createLiteralTypeNode: literal: obj -> LiteralTypeNode
+        abstract updateLiteralTypeNode: node: LiteralTypeNode * literal: obj -> LiteralTypeNode
         abstract createObjectBindingPattern: elements: ResizeArray<BindingElement> -> ObjectBindingPattern
         abstract updateObjectBindingPattern: node: ObjectBindingPattern * elements: ResizeArray<BindingElement> -> ObjectBindingPattern
         abstract createArrayBindingPattern: elements: ResizeArray<ArrayBindingElement> -> ArrayBindingPattern
@@ -489,7 +489,7 @@ module Ts =
         abstract updateAsExpression: node: AsExpression * expression: Expression * ``type``: TypeNode -> AsExpression
         abstract createNonNullExpression: expression: Expression -> NonNullExpression
         abstract updateNonNullExpression: node: NonNullExpression * expression: Expression -> NonNullExpression
-        abstract createMetaProperty: keywordToken: MetaProperty * name: Identifier -> MetaProperty
+        abstract createMetaProperty: keywordToken: obj * name: Identifier -> MetaProperty
         abstract updateMetaProperty: node: MetaProperty * name: Identifier -> MetaProperty
         abstract createTemplateSpan: expression: Expression * literal: U2<TemplateMiddle, TemplateTail> -> TemplateSpan
         abstract updateTemplateSpan: node: TemplateSpan * expression: Expression * literal: U2<TemplateMiddle, TemplateTail> -> TemplateSpan
@@ -594,7 +594,7 @@ module Ts =
         abstract updateCaseClause: node: CaseClause * expression: Expression * statements: ResizeArray<Statement> -> CaseClause
         abstract createDefaultClause: statements: ResizeArray<Statement> -> DefaultClause
         abstract updateDefaultClause: node: DefaultClause * statements: ResizeArray<Statement> -> DefaultClause
-        abstract createHeritageClause: token: HeritageClause * types: ResizeArray<ExpressionWithTypeArguments> -> HeritageClause
+        abstract createHeritageClause: token: obj * types: ResizeArray<ExpressionWithTypeArguments> -> HeritageClause
         abstract updateHeritageClause: node: HeritageClause * types: ResizeArray<ExpressionWithTypeArguments> -> HeritageClause
         abstract createCatchClause: variableDeclaration: U2<string, VariableDeclaration> option * block: Block -> CatchClause
         abstract updateCatchClause: node: CatchClause * variableDeclaration: VariableDeclaration option * block: Block -> CatchClause
@@ -1407,7 +1407,7 @@ module Ts =
     type [<AllowNullLiteral>] SignatureDeclarationBase =
         inherit NamedDeclaration
         inherit JSDocContainer
-        abstract kind: SignatureDeclaration with get, set
+        abstract kind: obj with get, set
         abstract name: PropertyName option with get, set
         abstract typeParameters: ResizeArray<TypeParameterDeclaration> option with get, set
         abstract parameters: ResizeArray<ParameterDeclaration> with get, set
@@ -4118,8 +4118,8 @@ module Ts =
         | Maybe = 1
         | True = -1
 
-    type TypeComparer =
-        (Type -> Type -> bool -> Ternary)
+    type [<AllowNullLiteral>] TypeComparer =
+        [<Emit "$0($1...)">] abstract Invoke: s: Type * t: Type * ?reportErrors: bool -> Ternary
 
     type [<AllowNullLiteral>] JsFileExtensionInfo =
         abstract extension: string with get, set
@@ -4542,14 +4542,14 @@ module Ts =
         /// Clean up EmitNode entries on any parse-tree nodes.
         abstract dispose: unit -> unit
 
-    type TransformerFactory<'T> =
-        (TransformationContext -> Transformer<'T>)
+    type [<AllowNullLiteral>] TransformerFactory<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: context: TransformationContext -> Transformer<'T>
 
-    type Transformer<'T> =
-        ('T -> 'T)
+    type [<AllowNullLiteral>] Transformer<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: node: 'T -> 'T
 
-    type Visitor =
-        (Node -> VisitResult<Node>)
+    type [<AllowNullLiteral>] Visitor =
+        [<Emit "$0($1...)">] abstract Invoke: node: Node -> VisitResult<Node>
 
     type VisitResult<'T> =
         U2<'T, ResizeArray<'T>> option
@@ -4622,11 +4622,11 @@ module Ts =
         | Changed = 1
         | Deleted = 2
 
-    type FileWatcherCallback =
-        (string -> FileWatcherEventKind -> unit)
+    type [<AllowNullLiteral>] FileWatcherCallback =
+        [<Emit "$0($1...)">] abstract Invoke: fileName: string * eventKind: FileWatcherEventKind -> unit
 
-    type DirectoryWatcherCallback =
-        (string -> unit)
+    type [<AllowNullLiteral>] DirectoryWatcherCallback =
+        [<Emit "$0($1...)">] abstract Invoke: fileName: string -> unit
 
     type [<AllowNullLiteral>] WatchedFile =
         abstract fileName: string with get, set

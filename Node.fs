@@ -374,38 +374,38 @@ module NodeJS =
         | [<CompiledName "SIGLOST">] SIGLOST
         | [<CompiledName "SIGINFO">] SIGINFO
 
-    type BeforeExitListener =
-        (float -> unit)
+    type [<AllowNullLiteral>] BeforeExitListener =
+        [<Emit "$0($1...)">] abstract Invoke: code: float -> unit
 
-    type DisconnectListener =
-        (unit -> unit)
+    type [<AllowNullLiteral>] DisconnectListener =
+        [<Emit "$0($1...)">] abstract Invoke: unit -> unit
 
-    type ExitListener =
-        (float -> unit)
+    type [<AllowNullLiteral>] ExitListener =
+        [<Emit "$0($1...)">] abstract Invoke: code: float -> unit
 
-    type RejectionHandledListener =
-        (Promise<obj option> -> unit)
+    type [<AllowNullLiteral>] RejectionHandledListener =
+        [<Emit "$0($1...)">] abstract Invoke: promise: Promise<obj option> -> unit
 
-    type UncaughtExceptionListener =
-        (Error -> unit)
+    type [<AllowNullLiteral>] UncaughtExceptionListener =
+        [<Emit "$0($1...)">] abstract Invoke: error: Error -> unit
 
-    type UnhandledRejectionListener =
-        (obj option -> Promise<obj option> -> unit)
+    type [<AllowNullLiteral>] UnhandledRejectionListener =
+        [<Emit "$0($1...)">] abstract Invoke: reason: obj option * promise: Promise<obj option> -> unit
 
-    type WarningListener =
-        (Error -> unit)
+    type [<AllowNullLiteral>] WarningListener =
+        [<Emit "$0($1...)">] abstract Invoke: warning: Error -> unit
 
-    type MessageListener =
-        (obj option -> obj option -> unit)
+    type [<AllowNullLiteral>] MessageListener =
+        [<Emit "$0($1...)">] abstract Invoke: message: obj option * sendHandle: obj option -> unit
 
-    type SignalsListener =
-        (unit -> unit)
+    type [<AllowNullLiteral>] SignalsListener =
+        [<Emit "$0($1...)">] abstract Invoke: unit -> unit
 
-    type NewListenerListener =
-        (U2<string, Symbol> -> (ResizeArray<obj option> -> unit) -> unit)
+    type [<AllowNullLiteral>] NewListenerListener =
+        [<Emit "$0($1...)">] abstract Invoke: ``type``: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> unit
 
-    type RemoveListenerListener =
-        (U2<string, Symbol> -> (ResizeArray<obj option> -> unit) -> unit)
+    type [<AllowNullLiteral>] RemoveListenerListener =
+        [<Emit "$0($1...)">] abstract Invoke: ``type``: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> unit
 
     type [<AllowNullLiteral>] Socket =
         inherit ReadWriteStream
@@ -1617,11 +1617,11 @@ module Readline =
         [<Emit "$0.prependOnceListener('SIGINT',$1)">] abstract prependOnceListener_SIGINT: listener: (unit -> unit) -> ReadLine
         [<Emit "$0.prependOnceListener('SIGTSTP',$1)">] abstract prependOnceListener_SIGTSTP: listener: (unit -> unit) -> ReadLine
 
-    type Completer =
-        (string -> CompleterResult)
+    type [<AllowNullLiteral>] Completer =
+        [<Emit "$0($1...)">] abstract Invoke: line: string -> CompleterResult
 
-    type AsyncCompleter =
-        (string -> (obj option -> CompleterResult -> unit) -> obj option)
+    type [<AllowNullLiteral>] AsyncCompleter =
+        [<Emit "$0($1...)">] abstract Invoke: line: string * callback: (obj option -> CompleterResult -> unit) -> obj option
 
     type CompleterResult =
         ResizeArray<string> * string
@@ -2201,8 +2201,8 @@ module Net =
         abstract allowHalfOpen: bool option with get, set
         abstract pauseOnConnect: bool option with get, set
 
-    type LookupFunction =
-        (string -> Dns.LookupOneOptions -> (NodeJS.ErrnoException option -> string -> float -> unit) -> unit)
+    type [<AllowNullLiteral>] LookupFunction =
+        [<Emit "$0($1...)">] abstract Invoke: hostname: string * options: Dns.LookupOneOptions * callback: (NodeJS.ErrnoException option -> string -> float -> unit) -> unit
 
     type [<AllowNullLiteral>] SocketConstructorOpts =
         abstract fd: float option with get, set
@@ -5861,8 +5861,8 @@ module Perf_hooks =
         abstract getEntriesByName: name: string * ?``type``: string -> ResizeArray<PerformanceEntry>
         abstract getEntriesByType: ``type``: string -> ResizeArray<PerformanceEntry>
 
-    type PerformanceObserverCallback =
-        (PerformanceObserverEntryList -> PerformanceObserver -> unit)
+    type [<AllowNullLiteral>] PerformanceObserverCallback =
+        [<Emit "$0($1...)">] abstract Invoke: list: PerformanceObserverEntryList * observer: PerformanceObserver -> unit
 
     type [<AllowNullLiteral>] PerformanceObserver =
         /// Disconnects the PerformanceObserver instance from all notifications.

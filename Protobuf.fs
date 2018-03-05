@@ -192,8 +192,8 @@ module Message =
     type MessageArray =
         ResizeArray<obj option>
 
-    type StaticToObject =
-        (bool -> Message -> obj)
+    type [<AllowNullLiteral>] StaticToObject =
+        [<Emit "$0($1...)">] abstract Invoke: includeInstance: bool * msg: Message -> obj
 
 type [<AllowNullLiteral>] ExtensionFieldInfo<'T> =
     abstract fieldIndex: float with get, set
@@ -254,17 +254,17 @@ module Map =
         abstract ``done``: bool with get, set
         abstract value: 'T with get, set
 
-type BinaryReadReader =
-    (obj option -> BinaryReader -> unit)
+type [<AllowNullLiteral>] BinaryReadReader =
+    [<Emit "$0($1...)">] abstract Invoke: msg: obj option * binaryReader: BinaryReader -> unit
 
-type BinaryRead =
-    (obj option -> BinaryReadReader -> unit)
+type [<AllowNullLiteral>] BinaryRead =
+    [<Emit "$0($1...)">] abstract Invoke: msg: obj option * reader: BinaryReadReader -> unit
 
-type BinaryWriteCallback =
-    (obj option -> BinaryWriter -> unit)
+type [<AllowNullLiteral>] BinaryWriteCallback =
+    [<Emit "$0($1...)">] abstract Invoke: value: obj option * binaryWriter: BinaryWriter -> unit
 
-type BinaryWrite =
-    (float -> obj option -> BinaryWriteCallback -> unit)
+type [<AllowNullLiteral>] BinaryWrite =
+    [<Emit "$0($1...)">] abstract Invoke: fieldNumber: float * value: obj option * writerCallback: BinaryWriteCallback -> unit
 
 type [<AllowNullLiteral>] BinaryReader =
     abstract alloc: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryReader
