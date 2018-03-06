@@ -253,15 +253,15 @@ module React =
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module ReactNode =
-        let ofReactChildOption v: ReactNode = v |> Option.map U3.Case1
+        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case1
         let ofReactChild v: ReactNode = v |> U3.Case1 |> Some
         let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case1 _ -> true | _ -> false
         let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case1 o -> Some o | _ -> None
-        let ofReactFragmentOption v: ReactNode = v |> Option.map U3.Case2
+        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case2
         let ofReactFragment v: ReactNode = v |> U3.Case2 |> Some
         let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case2 _ -> true | _ -> false
         let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case2 o -> Some o | _ -> None
-        let ofBoolOption v: ReactNode = v |> Option.map U3.Case3
+        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case3
         let ofBool v: ReactNode = v |> U3.Case3 |> Some
         let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case3 _ -> true | _ -> false
         let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case3 o -> Some o | _ -> None
