@@ -3,6 +3,7 @@ module rec React
 open System
 open Fable.Core
 open Fable.Import.JS
+open Fable.Import.Browser
 
 let [<Import("*","react")>] react: React.IExports = jsNative
 
@@ -114,16 +115,16 @@ module React =
         let asFloat (v: Key) = match v with U2.Case2 o -> Some o | _ -> None
 
     type Ref<'T> =
-        U2<string, obj>
+        U2<string, ('T option -> obj option)>
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module Ref =
         let ofString v: Ref<'T> = v |> U2.Case1
         let isString (v: Ref<'T>) = match v with U2.Case1 _ -> true | _ -> false
         let asString (v: Ref<'T>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofObj v: Ref<'T> = v |> U2.Case2
-        let isObj (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
-        let asObj (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
+        let ofBivarianceHack v: Ref<'T> = v |> U2.Case2
+        let isBivarianceHack (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
+        let asBivarianceHack (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ComponentState =
         obj
@@ -245,16 +246,7 @@ module React =
         let asReactText (v: ReactChild) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ReactFragment =
-        U2<obj, Array<U3<ReactChild, ResizeArray<obj option>, bool>>>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactFragment =
-        let ofCase1 v: ReactFragment = v |> U2.Case1
-        let isCase1 (v: ReactFragment) = match v with U2.Case1 _ -> true | _ -> false
-        let asCase1 (v: ReactFragment) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofArray v: ReactFragment = v |> U2.Case2
-        let isArray (v: ReactFragment) = match v with U2.Case2 _ -> true | _ -> false
-        let asArray (v: ReactFragment) = match v with U2.Case2 o -> Some o | _ -> None
+        Array<U3<ReactChild, ResizeArray<obj option>, bool>>
 
     type ReactNode =
         U3<ReactChild, ReactFragment, bool> option
