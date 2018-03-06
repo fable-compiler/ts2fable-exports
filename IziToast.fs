@@ -3,6 +3,7 @@ module rec IziToast
 open System
 open Fable.Core
 open Fable.Import.JS
+open Fable.Import.Browser
 
 let [<Import("*","izitoast")>] iziToast: IziToast = jsNative
 

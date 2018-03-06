@@ -236,9 +236,9 @@ module Yargs =
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module CommandBuilder =
-        let ofCase1 v: CommandBuilder = v |> U2.Case1
-        let isCase1 (v: CommandBuilder) = match v with U2.Case1 _ -> true | _ -> false
-        let asCase1 (v: CommandBuilder) = match v with U2.Case1 o -> Some o | _ -> None
+        let ofItem v: CommandBuilder = v |> U2.Case1
+        let isItem (v: CommandBuilder) = match v with U2.Case1 _ -> true | _ -> false
+        let asItem (v: CommandBuilder) = match v with U2.Case1 o -> Some o | _ -> None
         let ofCase2 v: CommandBuilder = v |> U2.Case2
         let isCase2 (v: CommandBuilder) = match v with U2.Case2 _ -> true | _ -> false
         let asCase2 (v: CommandBuilder) = match v with U2.Case2 o -> Some o | _ -> None
