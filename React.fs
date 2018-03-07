@@ -90,6 +90,9 @@ module React =
         let isComponentType (v: ReactType) = match v with U2.Case2 _ -> true | _ -> false
         let asComponentType (v: ReactType) = match v with U2.Case2 o -> Some o | _ -> None
 
+    type ComponentType =
+        ComponentType<obj>
+
     type ComponentType<'P> =
         U2<ComponentClass<'P>, StatelessComponent<'P>>
 
@@ -278,6 +281,12 @@ module React =
         let isElement (v: ReactInstance) = match v with U2.Case2 _ -> true | _ -> false
         let asElement (v: ReactInstance) = match v with U2.Case2 o -> Some o | _ -> None
 
+    type Component<'S> =
+        Component<obj, 'S>
+
+    type Component =
+        Component<obj, obj>
+
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
         abstract setState: state: U2<(Readonly<'S> -> 'P -> U2<Pick<'S, 'K>, 'S>), U2<Pick<'S, 'K>, 'S>> * ?callback: (unit -> obj option) -> unit
@@ -291,11 +300,23 @@ module React =
     type [<AllowNullLiteral>] ComponentStatic =
         [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> Component<'P, 'S>
 
+    type PureComponent<'S> =
+        PureComponent<obj, 'S>
+
+    type PureComponent =
+        PureComponent<obj, obj>
+
     type [<AllowNullLiteral>] PureComponent<'P, 'S> =
         inherit Component<'P, 'S>
 
     type [<AllowNullLiteral>] PureComponentStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PureComponent<'P, 'S>
+
+    type ClassicComponent<'S> =
+        ClassicComponent<obj, 'S>
+
+    type ClassicComponent =
+        ClassicComponent<obj, obj>
 
     type [<AllowNullLiteral>] ClassicComponent<'P, 'S> =
         inherit Component<'P, 'S>
@@ -306,8 +327,14 @@ module React =
     type [<AllowNullLiteral>] ChildContextProvider<'CC> =
         abstract getChildContext: unit -> 'CC
 
+    type SFC =
+        SFC<obj>
+
     type SFC<'P> =
         StatelessComponent<'P>
+
+    type StatelessComponent =
+        StatelessComponent<obj>
 
     type [<AllowNullLiteral>] StatelessComponent<'P> =
         [<Emit "$0($1...)">] abstract Invoke: props: obj * ?context: obj option -> ReactElement<obj option> option
@@ -315,6 +342,9 @@ module React =
         abstract contextTypes: ValidationMap<obj option> option with get, set
         abstract defaultProps: Partial<'P> option with get, set
         abstract displayName: string option with get, set
+
+    type ComponentClass =
+        ComponentClass<obj>
 
     type [<AllowNullLiteral>] ComponentClass<'P> =
         abstract propTypes: ValidationMap<'P> option with get, set
@@ -325,6 +355,9 @@ module React =
 
     type [<AllowNullLiteral>] ComponentClassStatic =
         [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ComponentClass<'P>
+
+    type ClassicComponentClass =
+        ClassicComponentClass<obj>
 
     type [<AllowNullLiteral>] ClassicComponentClass<'P> =
         inherit ComponentClass<'P>
