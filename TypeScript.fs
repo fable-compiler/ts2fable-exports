@@ -4118,8 +4118,8 @@ module Ts =
         | Maybe = 1
         | True = -1
 
-    type TypeComparer =
-        (Type -> Type -> bool -> Ternary)
+    type [<AllowNullLiteral>] TypeComparer =
+        [<Emit "$0($1...)">] abstract Invoke: s: Type * t: Type * ?reportErrors: bool -> Ternary
 
     type [<AllowNullLiteral>] JsFileExtensionInfo =
         abstract extension: string with get, set
@@ -4542,14 +4542,14 @@ module Ts =
         /// Clean up EmitNode entries on any parse-tree nodes.
         abstract dispose: unit -> unit
 
-    type TransformerFactory<'T> =
-        (TransformationContext -> Transformer<'T>)
+    type [<AllowNullLiteral>] TransformerFactory<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: context: TransformationContext -> Transformer<'T>
 
-    type Transformer<'T> =
-        ('T -> 'T)
+    type [<AllowNullLiteral>] Transformer<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: node: 'T -> 'T
 
-    type Visitor =
-        (Node -> VisitResult<Node>)
+    type [<AllowNullLiteral>] Visitor =
+        [<Emit "$0($1...)">] abstract Invoke: node: Node -> VisitResult<Node>
 
     type VisitResult<'T> =
         U2<'T, ResizeArray<'T>> option
@@ -4622,11 +4622,11 @@ module Ts =
         | Changed = 1
         | Deleted = 2
 
-    type FileWatcherCallback =
-        (string -> FileWatcherEventKind -> unit)
+    type [<AllowNullLiteral>] FileWatcherCallback =
+        [<Emit "$0($1...)">] abstract Invoke: fileName: string * eventKind: FileWatcherEventKind -> unit
 
-    type DirectoryWatcherCallback =
-        (string -> unit)
+    type [<AllowNullLiteral>] DirectoryWatcherCallback =
+        [<Emit "$0($1...)">] abstract Invoke: fileName: string -> unit
 
     type [<AllowNullLiteral>] WatchedFile =
         abstract fileName: string with get, set

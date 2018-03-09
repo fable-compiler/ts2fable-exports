@@ -228,8 +228,8 @@ module Yargs =
         abstract describe: U2<string, obj> option with get, set
         abstract handler: (obj option -> unit) with get, set
 
-    type ParseCallback =
-        (Error option -> Arguments -> string -> unit)
+    type [<AllowNullLiteral>] ParseCallback =
+        [<Emit "$0($1...)">] abstract Invoke: err: Error option * argv: Arguments * output: string -> unit
 
     type CommandBuilder =
         U2<obj, (Argv -> Argv)>
@@ -243,11 +243,11 @@ module Yargs =
         let isCase2 (v: CommandBuilder) = match v with U2.Case2 _ -> true | _ -> false
         let asCase2 (v: CommandBuilder) = match v with U2.Case2 o -> Some o | _ -> None
 
-    type SyncCompletionFunction =
-        (string -> obj option -> ResizeArray<string>)
+    type [<AllowNullLiteral>] SyncCompletionFunction =
+        [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option -> ResizeArray<string>
 
-    type AsyncCompletionFunction =
-        (string -> obj option -> (ResizeArray<string> -> unit) -> unit)
+    type [<AllowNullLiteral>] AsyncCompletionFunction =
+        [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option * ``done``: (ResizeArray<string> -> unit) -> unit
 
     type Choice =
         U2<string, obj> option
