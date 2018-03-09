@@ -289,11 +289,11 @@ module React =
 
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
-        abstract setState: state: U2<(Readonly<'S> -> 'P -> U2<Pick<'S, 'K>, 'S>), U2<Pick<'S, 'K>, 'S>> * ?callback: (unit -> obj option) -> unit
+        abstract setState: state: U2<(obj -> 'P -> U2<obj, 'S>), U2<obj, 'S>> * ?callback: (unit -> obj option) -> unit
         abstract forceUpdate: ?callBack: (unit -> obj option) -> unit
         abstract render: unit -> U2<JSX.Element, obj> option
         abstract props: obj with get, set
-        abstract state: Readonly<'S> with get, set
+        abstract state: obj with get, set
         abstract context: obj option with get, set
         abstract refs: obj with get, set
 
@@ -340,7 +340,7 @@ module React =
         [<Emit "$0($1...)">] abstract Invoke: props: obj * ?context: obj option -> ReactElement<obj option> option
         abstract propTypes: ValidationMap<'P> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
-        abstract defaultProps: Partial<'P> option with get, set
+        abstract defaultProps: obj option with get, set
         abstract displayName: string option with get, set
 
     type ComponentClass =
@@ -350,7 +350,7 @@ module React =
         abstract propTypes: ValidationMap<'P> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
         abstract childContextTypes: ValidationMap<obj option> option with get, set
-        abstract defaultProps: Partial<'P> option with get, set
+        abstract defaultProps: obj option with get, set
         abstract displayName: string option with get, set
 
     type [<AllowNullLiteral>] ComponentClassStatic =
@@ -372,10 +372,10 @@ module React =
     type [<AllowNullLiteral>] ComponentLifecycle<'P, 'S> =
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
-        abstract componentWillReceiveProps: nextProps: Readonly<'P> * nextContext: obj option -> unit
-        abstract shouldComponentUpdate: nextProps: Readonly<'P> * nextState: Readonly<'S> * nextContext: obj option -> bool
-        abstract componentWillUpdate: nextProps: Readonly<'P> * nextState: Readonly<'S> * nextContext: obj option -> unit
-        abstract componentDidUpdate: prevProps: Readonly<'P> * prevState: Readonly<'S> * prevContext: obj option -> unit
+        abstract componentWillReceiveProps: nextProps: obj * nextContext: obj option -> unit
+        abstract shouldComponentUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> bool
+        abstract componentWillUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> unit
+        abstract componentDidUpdate: prevProps: obj * prevState: obj * prevContext: obj option -> unit
         abstract componentWillUnmount: unit -> unit
 
     type [<AllowNullLiteral>] Mixin<'P, 'S> =
