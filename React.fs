@@ -2626,197 +2626,195 @@ module React =
         abstract item: index: float -> Touch
         abstract identifiedTouch: identifier: float -> Touch
 
-module Global =
+module JSX =
 
-    module JSX =
+    type [<AllowNullLiteral>] Element =
+        inherit React.ReactElement<obj option>
 
-        type [<AllowNullLiteral>] Element =
-            inherit React.ReactElement<obj option>
+    type [<AllowNullLiteral>] ElementClass =
+        inherit React.Component<obj option>
+        abstract render: unit -> U2<JSX.Element, obj> option
 
-        type [<AllowNullLiteral>] ElementClass =
-            inherit React.Component<obj option>
-            abstract render: unit -> U2<JSX.Element, obj> option
+    type [<AllowNullLiteral>] ElementAttributesProperty =
+        abstract props: obj with get, set
 
-        type [<AllowNullLiteral>] ElementAttributesProperty =
-            abstract props: obj with get, set
+    type [<AllowNullLiteral>] ElementChildrenAttribute =
+        abstract children: obj with get, set
 
-        type [<AllowNullLiteral>] ElementChildrenAttribute =
-            abstract children: obj with get, set
+    type [<AllowNullLiteral>] IntrinsicAttributes =
+        inherit React.Attributes
 
-        type [<AllowNullLiteral>] IntrinsicAttributes =
-            inherit React.Attributes
+    type [<AllowNullLiteral>] IntrinsicClassAttributes<'T> =
+        inherit React.ClassAttributes<'T>
 
-        type [<AllowNullLiteral>] IntrinsicClassAttributes<'T> =
-            inherit React.ClassAttributes<'T>
-
-        type [<AllowNullLiteral>] IntrinsicElements =
-            abstract a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> with get, set
-            abstract abbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract address: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract area: React.DetailedHTMLProps<React.AreaHTMLAttributes<HTMLAreaElement>, HTMLAreaElement> with get, set
-            abstract article: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract aside: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract audio: React.DetailedHTMLProps<React.AudioHTMLAttributes<HTMLAudioElement>, HTMLAudioElement> with get, set
-            abstract b: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract ``base``: React.DetailedHTMLProps<React.BaseHTMLAttributes<HTMLBaseElement>, HTMLBaseElement> with get, set
-            abstract bdi: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract bdo: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract big: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract blockquote: React.DetailedHTMLProps<React.BlockquoteHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract body: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBodyElement>, HTMLBodyElement> with get, set
-            abstract br: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBRElement>, HTMLBRElement> with get, set
-            abstract button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> with get, set
-            abstract canvas: React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> with get, set
-            abstract caption: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract cite: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract code: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract col: React.DetailedHTMLProps<React.ColHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
-            abstract colgroup: React.DetailedHTMLProps<React.ColgroupHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
-            abstract data: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract datalist: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDataListElement>, HTMLDataListElement> with get, set
-            abstract dd: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract del: React.DetailedHTMLProps<React.DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract details: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract dfn: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract dialog: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
-            abstract dl: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
-            abstract dt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract em: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract embed: React.DetailedHTMLProps<React.EmbedHTMLAttributes<HTMLEmbedElement>, HTMLEmbedElement> with get, set
-            abstract fieldset: React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement> with get, set
-            abstract figcaption: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract figure: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract footer: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract form: React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> with get, set
-            abstract h1: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-            abstract h2: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-            abstract h3: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-            abstract h4: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-            abstract h5: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-            abstract h6: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-            abstract head: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadElement>, HTMLHeadElement> with get, set
-            abstract header: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract hgroup: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract hr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHRElement>, HTMLHRElement> with get, set
-            abstract html: React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLHtmlElement>, HTMLHtmlElement> with get, set
-            abstract i: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract iframe: React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement> with get, set
-            abstract img: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> with get, set
-            abstract input: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> with get, set
-            abstract ins: React.DetailedHTMLProps<React.InsHTMLAttributes<HTMLModElement>, HTMLModElement> with get, set
-            abstract kbd: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract keygen: React.DetailedHTMLProps<React.KeygenHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract label: React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement> with get, set
-            abstract legend: React.DetailedHTMLProps<React.HTMLAttributes<HTMLLegendElement>, HTMLLegendElement> with get, set
-            abstract li: React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> with get, set
-            abstract link: React.DetailedHTMLProps<React.LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement> with get, set
-            abstract main: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract map: React.DetailedHTMLProps<React.MapHTMLAttributes<HTMLMapElement>, HTMLMapElement> with get, set
-            abstract mark: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract menu: React.DetailedHTMLProps<React.MenuHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract menuitem: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract meta: React.DetailedHTMLProps<React.MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement> with get, set
-            abstract meter: React.DetailedHTMLProps<React.MeterHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract nav: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract noindex: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract noscript: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract ``object``: React.DetailedHTMLProps<React.ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
-            abstract ol: React.DetailedHTMLProps<React.OlHTMLAttributes<HTMLOListElement>, HTMLOListElement> with get, set
-            abstract optgroup: React.DetailedHTMLProps<React.OptgroupHTMLAttributes<HTMLOptGroupElement>, HTMLOptGroupElement> with get, set
-            abstract option: React.DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement> with get, set
-            abstract output: React.DetailedHTMLProps<React.OutputHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement> with get, set
-            abstract param: React.DetailedHTMLProps<React.ParamHTMLAttributes<HTMLParamElement>, HTMLParamElement> with get, set
-            abstract picture: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract pre: React.DetailedHTMLProps<React.HTMLAttributes<HTMLPreElement>, HTMLPreElement> with get, set
-            abstract progress: React.DetailedHTMLProps<React.ProgressHTMLAttributes<HTMLProgressElement>, HTMLProgressElement> with get, set
-            abstract q: React.DetailedHTMLProps<React.QuoteHTMLAttributes<HTMLQuoteElement>, HTMLQuoteElement> with get, set
-            abstract rp: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract rt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract ruby: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract s: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract samp: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract script: React.DetailedHTMLProps<React.ScriptHTMLAttributes<HTMLScriptElement>, HTMLScriptElement> with get, set
-            abstract section: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract select: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> with get, set
-            abstract small: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract source: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement> with get, set
-            abstract span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement> with get, set
-            abstract strong: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract style: React.DetailedHTMLProps<React.StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement> with get, set
-            abstract sub: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract summary: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract sup: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract table: React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement> with get, set
-            abstract tbody: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-            abstract td: React.DetailedHTMLProps<React.TdHTMLAttributes<HTMLTableDataCellElement>, HTMLTableDataCellElement> with get, set
-            abstract textarea: React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> with get, set
-            abstract tfoot: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-            abstract th: React.DetailedHTMLProps<React.ThHTMLAttributes<HTMLTableHeaderCellElement>, HTMLTableHeaderCellElement> with get, set
-            abstract thead: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-            abstract time: React.DetailedHTMLProps<React.TimeHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract title: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTitleElement>, HTMLTitleElement> with get, set
-            abstract tr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement> with get, set
-            abstract track: React.DetailedHTMLProps<React.TrackHTMLAttributes<HTMLTrackElement>, HTMLTrackElement> with get, set
-            abstract u: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract ul: React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement> with get, set
-            abstract var: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract video: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
-            abstract wbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract webview: React.DetailedHTMLProps<React.WebViewHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-            abstract svg: React.SVGProps<SVGSVGElement> with get, set
-            abstract animate: React.SVGProps<SVGElement> with get, set
-            abstract animateTransform: React.SVGProps<SVGElement> with get, set
-            abstract circle: React.SVGProps<SVGCircleElement> with get, set
-            abstract clipPath: React.SVGProps<SVGClipPathElement> with get, set
-            abstract defs: React.SVGProps<SVGDefsElement> with get, set
-            abstract desc: React.SVGProps<SVGDescElement> with get, set
-            abstract ellipse: React.SVGProps<SVGEllipseElement> with get, set
-            abstract feBlend: React.SVGProps<SVGFEBlendElement> with get, set
-            abstract feColorMatrix: React.SVGProps<SVGFEColorMatrixElement> with get, set
-            abstract feComponentTransfer: React.SVGProps<SVGFEComponentTransferElement> with get, set
-            abstract feComposite: React.SVGProps<SVGFECompositeElement> with get, set
-            abstract feConvolveMatrix: React.SVGProps<SVGFEConvolveMatrixElement> with get, set
-            abstract feDiffuseLighting: React.SVGProps<SVGFEDiffuseLightingElement> with get, set
-            abstract feDisplacementMap: React.SVGProps<SVGFEDisplacementMapElement> with get, set
-            abstract feDistantLight: React.SVGProps<SVGFEDistantLightElement> with get, set
-            abstract feFlood: React.SVGProps<SVGFEFloodElement> with get, set
-            abstract feFuncA: React.SVGProps<SVGFEFuncAElement> with get, set
-            abstract feFuncB: React.SVGProps<SVGFEFuncBElement> with get, set
-            abstract feFuncG: React.SVGProps<SVGFEFuncGElement> with get, set
-            abstract feFuncR: React.SVGProps<SVGFEFuncRElement> with get, set
-            abstract feGaussianBlur: React.SVGProps<SVGFEGaussianBlurElement> with get, set
-            abstract feImage: React.SVGProps<SVGFEImageElement> with get, set
-            abstract feMerge: React.SVGProps<SVGFEMergeElement> with get, set
-            abstract feMergeNode: React.SVGProps<SVGFEMergeNodeElement> with get, set
-            abstract feMorphology: React.SVGProps<SVGFEMorphologyElement> with get, set
-            abstract feOffset: React.SVGProps<SVGFEOffsetElement> with get, set
-            abstract fePointLight: React.SVGProps<SVGFEPointLightElement> with get, set
-            abstract feSpecularLighting: React.SVGProps<SVGFESpecularLightingElement> with get, set
-            abstract feSpotLight: React.SVGProps<SVGFESpotLightElement> with get, set
-            abstract feTile: React.SVGProps<SVGFETileElement> with get, set
-            abstract feTurbulence: React.SVGProps<SVGFETurbulenceElement> with get, set
-            abstract filter: React.SVGProps<SVGFilterElement> with get, set
-            abstract foreignObject: React.SVGProps<SVGForeignObjectElement> with get, set
-            abstract g: React.SVGProps<SVGGElement> with get, set
-            abstract image: React.SVGProps<SVGImageElement> with get, set
-            abstract line: React.SVGProps<SVGLineElement> with get, set
-            abstract linearGradient: React.SVGProps<SVGLinearGradientElement> with get, set
-            abstract marker: React.SVGProps<SVGMarkerElement> with get, set
-            abstract mask: React.SVGProps<SVGMaskElement> with get, set
-            abstract metadata: React.SVGProps<SVGMetadataElement> with get, set
-            abstract path: React.SVGProps<SVGPathElement> with get, set
-            abstract pattern: React.SVGProps<SVGPatternElement> with get, set
-            abstract polygon: React.SVGProps<SVGPolygonElement> with get, set
-            abstract polyline: React.SVGProps<SVGPolylineElement> with get, set
-            abstract radialGradient: React.SVGProps<SVGRadialGradientElement> with get, set
-            abstract rect: React.SVGProps<SVGRectElement> with get, set
-            abstract stop: React.SVGProps<SVGStopElement> with get, set
-            abstract switch: React.SVGProps<SVGSwitchElement> with get, set
-            abstract symbol: React.SVGProps<SVGSymbolElement> with get, set
-            abstract text: React.SVGProps<SVGTextElement> with get, set
-            abstract textPath: React.SVGProps<SVGTextPathElement> with get, set
-            abstract tspan: React.SVGProps<SVGTSpanElement> with get, set
-            abstract ``use``: React.SVGProps<SVGUseElement> with get, set
-            abstract view: React.SVGProps<SVGViewElement> with get, set
+    type [<AllowNullLiteral>] IntrinsicElements =
+        abstract a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> with get, set
+        abstract abbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract address: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract area: React.DetailedHTMLProps<React.AreaHTMLAttributes<HTMLAreaElement>, HTMLAreaElement> with get, set
+        abstract article: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract aside: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract audio: React.DetailedHTMLProps<React.AudioHTMLAttributes<HTMLAudioElement>, HTMLAudioElement> with get, set
+        abstract b: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract ``base``: React.DetailedHTMLProps<React.BaseHTMLAttributes<HTMLBaseElement>, HTMLBaseElement> with get, set
+        abstract bdi: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract bdo: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract big: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract blockquote: React.DetailedHTMLProps<React.BlockquoteHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract body: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBodyElement>, HTMLBodyElement> with get, set
+        abstract br: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBRElement>, HTMLBRElement> with get, set
+        abstract button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> with get, set
+        abstract canvas: React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> with get, set
+        abstract caption: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract cite: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract code: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract col: React.DetailedHTMLProps<React.ColHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
+        abstract colgroup: React.DetailedHTMLProps<React.ColgroupHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
+        abstract data: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract datalist: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDataListElement>, HTMLDataListElement> with get, set
+        abstract dd: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract del: React.DetailedHTMLProps<React.DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract details: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract dfn: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract dialog: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
+        abstract dl: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
+        abstract dt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract em: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract embed: React.DetailedHTMLProps<React.EmbedHTMLAttributes<HTMLEmbedElement>, HTMLEmbedElement> with get, set
+        abstract fieldset: React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement> with get, set
+        abstract figcaption: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract figure: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract footer: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract form: React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> with get, set
+        abstract h1: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
+        abstract h2: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
+        abstract h3: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
+        abstract h4: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
+        abstract h5: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
+        abstract h6: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
+        abstract head: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadElement>, HTMLHeadElement> with get, set
+        abstract header: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract hgroup: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract hr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHRElement>, HTMLHRElement> with get, set
+        abstract html: React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLHtmlElement>, HTMLHtmlElement> with get, set
+        abstract i: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract iframe: React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement> with get, set
+        abstract img: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> with get, set
+        abstract input: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> with get, set
+        abstract ins: React.DetailedHTMLProps<React.InsHTMLAttributes<HTMLModElement>, HTMLModElement> with get, set
+        abstract kbd: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract keygen: React.DetailedHTMLProps<React.KeygenHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract label: React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement> with get, set
+        abstract legend: React.DetailedHTMLProps<React.HTMLAttributes<HTMLLegendElement>, HTMLLegendElement> with get, set
+        abstract li: React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> with get, set
+        abstract link: React.DetailedHTMLProps<React.LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement> with get, set
+        abstract main: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract map: React.DetailedHTMLProps<React.MapHTMLAttributes<HTMLMapElement>, HTMLMapElement> with get, set
+        abstract mark: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract menu: React.DetailedHTMLProps<React.MenuHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract menuitem: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract meta: React.DetailedHTMLProps<React.MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement> with get, set
+        abstract meter: React.DetailedHTMLProps<React.MeterHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract nav: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract noindex: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract noscript: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract ``object``: React.DetailedHTMLProps<React.ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
+        abstract ol: React.DetailedHTMLProps<React.OlHTMLAttributes<HTMLOListElement>, HTMLOListElement> with get, set
+        abstract optgroup: React.DetailedHTMLProps<React.OptgroupHTMLAttributes<HTMLOptGroupElement>, HTMLOptGroupElement> with get, set
+        abstract option: React.DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement> with get, set
+        abstract output: React.DetailedHTMLProps<React.OutputHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement> with get, set
+        abstract param: React.DetailedHTMLProps<React.ParamHTMLAttributes<HTMLParamElement>, HTMLParamElement> with get, set
+        abstract picture: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract pre: React.DetailedHTMLProps<React.HTMLAttributes<HTMLPreElement>, HTMLPreElement> with get, set
+        abstract progress: React.DetailedHTMLProps<React.ProgressHTMLAttributes<HTMLProgressElement>, HTMLProgressElement> with get, set
+        abstract q: React.DetailedHTMLProps<React.QuoteHTMLAttributes<HTMLQuoteElement>, HTMLQuoteElement> with get, set
+        abstract rp: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract rt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract ruby: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract s: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract samp: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract script: React.DetailedHTMLProps<React.ScriptHTMLAttributes<HTMLScriptElement>, HTMLScriptElement> with get, set
+        abstract section: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract select: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> with get, set
+        abstract small: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract source: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement> with get, set
+        abstract span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement> with get, set
+        abstract strong: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract style: React.DetailedHTMLProps<React.StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement> with get, set
+        abstract sub: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract summary: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract sup: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract table: React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement> with get, set
+        abstract tbody: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
+        abstract td: React.DetailedHTMLProps<React.TdHTMLAttributes<HTMLTableDataCellElement>, HTMLTableDataCellElement> with get, set
+        abstract textarea: React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> with get, set
+        abstract tfoot: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
+        abstract th: React.DetailedHTMLProps<React.ThHTMLAttributes<HTMLTableHeaderCellElement>, HTMLTableHeaderCellElement> with get, set
+        abstract thead: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
+        abstract time: React.DetailedHTMLProps<React.TimeHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract title: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTitleElement>, HTMLTitleElement> with get, set
+        abstract tr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement> with get, set
+        abstract track: React.DetailedHTMLProps<React.TrackHTMLAttributes<HTMLTrackElement>, HTMLTrackElement> with get, set
+        abstract u: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract ul: React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement> with get, set
+        abstract var: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract video: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
+        abstract wbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract webview: React.DetailedHTMLProps<React.WebViewHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract svg: React.SVGProps<SVGSVGElement> with get, set
+        abstract animate: React.SVGProps<SVGElement> with get, set
+        abstract animateTransform: React.SVGProps<SVGElement> with get, set
+        abstract circle: React.SVGProps<SVGCircleElement> with get, set
+        abstract clipPath: React.SVGProps<SVGClipPathElement> with get, set
+        abstract defs: React.SVGProps<SVGDefsElement> with get, set
+        abstract desc: React.SVGProps<SVGDescElement> with get, set
+        abstract ellipse: React.SVGProps<SVGEllipseElement> with get, set
+        abstract feBlend: React.SVGProps<SVGFEBlendElement> with get, set
+        abstract feColorMatrix: React.SVGProps<SVGFEColorMatrixElement> with get, set
+        abstract feComponentTransfer: React.SVGProps<SVGFEComponentTransferElement> with get, set
+        abstract feComposite: React.SVGProps<SVGFECompositeElement> with get, set
+        abstract feConvolveMatrix: React.SVGProps<SVGFEConvolveMatrixElement> with get, set
+        abstract feDiffuseLighting: React.SVGProps<SVGFEDiffuseLightingElement> with get, set
+        abstract feDisplacementMap: React.SVGProps<SVGFEDisplacementMapElement> with get, set
+        abstract feDistantLight: React.SVGProps<SVGFEDistantLightElement> with get, set
+        abstract feFlood: React.SVGProps<SVGFEFloodElement> with get, set
+        abstract feFuncA: React.SVGProps<SVGFEFuncAElement> with get, set
+        abstract feFuncB: React.SVGProps<SVGFEFuncBElement> with get, set
+        abstract feFuncG: React.SVGProps<SVGFEFuncGElement> with get, set
+        abstract feFuncR: React.SVGProps<SVGFEFuncRElement> with get, set
+        abstract feGaussianBlur: React.SVGProps<SVGFEGaussianBlurElement> with get, set
+        abstract feImage: React.SVGProps<SVGFEImageElement> with get, set
+        abstract feMerge: React.SVGProps<SVGFEMergeElement> with get, set
+        abstract feMergeNode: React.SVGProps<SVGFEMergeNodeElement> with get, set
+        abstract feMorphology: React.SVGProps<SVGFEMorphologyElement> with get, set
+        abstract feOffset: React.SVGProps<SVGFEOffsetElement> with get, set
+        abstract fePointLight: React.SVGProps<SVGFEPointLightElement> with get, set
+        abstract feSpecularLighting: React.SVGProps<SVGFESpecularLightingElement> with get, set
+        abstract feSpotLight: React.SVGProps<SVGFESpotLightElement> with get, set
+        abstract feTile: React.SVGProps<SVGFETileElement> with get, set
+        abstract feTurbulence: React.SVGProps<SVGFETurbulenceElement> with get, set
+        abstract filter: React.SVGProps<SVGFilterElement> with get, set
+        abstract foreignObject: React.SVGProps<SVGForeignObjectElement> with get, set
+        abstract g: React.SVGProps<SVGGElement> with get, set
+        abstract image: React.SVGProps<SVGImageElement> with get, set
+        abstract line: React.SVGProps<SVGLineElement> with get, set
+        abstract linearGradient: React.SVGProps<SVGLinearGradientElement> with get, set
+        abstract marker: React.SVGProps<SVGMarkerElement> with get, set
+        abstract mask: React.SVGProps<SVGMaskElement> with get, set
+        abstract metadata: React.SVGProps<SVGMetadataElement> with get, set
+        abstract path: React.SVGProps<SVGPathElement> with get, set
+        abstract pattern: React.SVGProps<SVGPatternElement> with get, set
+        abstract polygon: React.SVGProps<SVGPolygonElement> with get, set
+        abstract polyline: React.SVGProps<SVGPolylineElement> with get, set
+        abstract radialGradient: React.SVGProps<SVGRadialGradientElement> with get, set
+        abstract rect: React.SVGProps<SVGRectElement> with get, set
+        abstract stop: React.SVGProps<SVGStopElement> with get, set
+        abstract switch: React.SVGProps<SVGSwitchElement> with get, set
+        abstract symbol: React.SVGProps<SVGSymbolElement> with get, set
+        abstract text: React.SVGProps<SVGTextElement> with get, set
+        abstract textPath: React.SVGProps<SVGTextPathElement> with get, set
+        abstract tspan: React.SVGProps<SVGTSpanElement> with get, set
+        abstract ``use``: React.SVGProps<SVGUseElement> with get, set
+        abstract view: React.SVGProps<SVGViewElement> with get, set
