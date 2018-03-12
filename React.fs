@@ -366,8 +366,8 @@ module React =
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
         [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ClassicComponentClass<'P>
 
-    type ClassType<'P, 'T, 'C> =
-        obj
+    type [<AllowNullLiteral>] ClassType<'P, 'T, 'C> =
+        interface end
 
     type [<AllowNullLiteral>] ComponentLifecycle<'P, 'S> =
         abstract componentWillMount: unit -> unit
@@ -570,8 +570,8 @@ module React =
         inherit AllHTMLAttributes<'T>
         inherit ClassAttributes<'T>
 
-    type DetailedHTMLProps<'E, 'T> =
-        obj
+    type [<AllowNullLiteral>] DetailedHTMLProps<'E, 'T> =
+        interface end
 
     type [<AllowNullLiteral>] SVGProps<'T> =
         inherit SVGAttributes<'T>

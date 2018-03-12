@@ -1424,8 +1424,8 @@ module Https =
         abstract get: options: U3<RequestOptions, string, URL> * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest
         abstract globalAgent: Agent
 
-    type ServerOptions =
-        obj
+    type [<AllowNullLiteral>] ServerOptions =
+        interface end
 
     type [<StringEnum>] [<RequireQualifiedAccess>] extendedRequestKeys =
         | Pfx
@@ -1438,8 +1438,8 @@ module Https =
         | SecureProtocol
         | Servername
 
-    type RequestOptions =
-        obj
+    type [<AllowNullLiteral>] RequestOptions =
+        interface end
 
     type [<AllowNullLiteral>] AgentOptions =
         inherit Http.AgentOptions
