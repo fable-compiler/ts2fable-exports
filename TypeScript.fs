@@ -841,8 +841,8 @@ module Ts =
     type [<AllowNullLiteral>] Push<'T> =
         abstract push: [<ParamArray>] values: ResizeArray<'T> -> unit
 
-    type Path =
-        obj
+    type [<AllowNullLiteral>] Path =
+        interface end
 
     type [<AllowNullLiteral>] TextRange =
         abstract pos: float with get, set
@@ -1282,8 +1282,8 @@ module Ts =
     type EqualsGreaterThanToken =
         Token<SyntaxKind>
 
-    type EndOfFileToken =
-        obj
+    type [<AllowNullLiteral>] EndOfFileToken =
+        interface end
 
     type AtToken =
         Token<SyntaxKind>
@@ -5390,8 +5390,8 @@ module Ts =
         abstract releaseDocumentWithKey: path: Path * key: DocumentRegistryBucketKey -> unit
         abstract reportStats: unit -> string
 
-    type DocumentRegistryBucketKey =
-        obj
+    type [<AllowNullLiteral>] DocumentRegistryBucketKey =
+        interface end
 
     type [<AllowNullLiteral>] TranspileOptions =
         abstract compilerOptions: CompilerOptions option with get, set
