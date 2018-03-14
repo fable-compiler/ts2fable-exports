@@ -645,5 +645,5 @@ type [<AllowNullLiteral>] EmptyStatic =
 
 module Empty =
 
-    type [<AllowNullLiteral>] AsObject =
-        interface end
+    type AsObject =
+        obj

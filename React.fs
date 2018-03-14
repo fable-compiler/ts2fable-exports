@@ -129,8 +129,8 @@ module React =
         let isBivarianceHack (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
         let asBivarianceHack (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
 
-    type [<AllowNullLiteral>] ComponentState =
-        interface end
+    type ComponentState =
+        obj
 
     type [<AllowNullLiteral>] Attributes =
         abstract key: Key option with get, set
@@ -516,8 +516,8 @@ module React =
         abstract propertyName: string with get, set
         abstract pseudoElement: string with get, set
 
-    type [<AllowNullLiteral>] EventHandler<'E> =
-        abstract bivarianceHack: ``event``: 'E -> unit
+    type EventHandler<'E> =
+        obj
 
     type ReactEventHandler<'T> =
         EventHandler<SyntheticEvent<'T>>
@@ -2569,8 +2569,8 @@ module React =
         inherit ReactHTML
         inherit ReactSVG
 
-    type [<AllowNullLiteral>] Validator<'T> =
-        abstract bivarianceHack: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> Error option
+    type Validator<'T> =
+        obj
 
     type [<AllowNullLiteral>] Requireable<'T> =
         inherit Validator<'T>
