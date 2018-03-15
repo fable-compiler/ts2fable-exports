@@ -4,120 +4,123 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
+let [<Import("*","reactxp")>] reactXP: ReactXP.IExports = jsNative
 
-type [<AllowNullLiteral>] IExports =
-    abstract Accessibility: RXInterfaces.Accessibility
-    abstract ActivityIndicator: obj
-    abstract Alert: RXInterfaces.Alert
-    abstract App: RXInterfaces.App
-    abstract Button: obj
-    abstract Picker: obj
-    abstract Clipboard: RXInterfaces.Clipboard
-    abstract GestureView: obj
-    abstract Image: RXInterfaces.ImageConstructor
-    abstract Input: RXInterfaces.Input
-    abstract International: RXInterfaces.International
-    abstract Link: obj
-    abstract Linking: RXInterfaces.Linking
-    abstract Location: RXInterfaces.Location
-    abstract Modal: RXInterfaces.Modal
-    abstract Network: RXInterfaces.Network
-    abstract Platform: RXInterfaces.Platform
-    abstract Popup: RXInterfaces.Popup
-    abstract ScrollView: RXInterfaces.ScrollViewConstructor
-    abstract StatusBar: RXInterfaces.StatusBar
-    abstract Storage: RXInterfaces.Storage
-    abstract Styles: RXInterfaces.Styles
-    abstract Text: obj
-    abstract TextInput: obj
-    abstract UserInterface: RXInterfaces.UserInterface
-    abstract UserPresence: RXInterfaces.UserPresence
-    abstract View: obj
-    abstract WebView: RXInterfaces.WebViewConstructor
-    abstract createElement: obj
-    abstract Children: React.ReactChildren
-    abstract __spread: obj option
+module ReactXP =
 
-type Accessibility =
-    RXInterfaces.Accessibility
+    type [<AllowNullLiteral>] IExports =
+        abstract Accessibility: RXInterfaces.Accessibility
+        abstract ActivityIndicator: obj
+        abstract Alert: RXInterfaces.Alert
+        abstract App: RXInterfaces.App
+        abstract Button: obj
+        abstract Picker: obj
+        abstract Clipboard: RXInterfaces.Clipboard
+        abstract GestureView: obj
+        abstract Image: RXInterfaces.ImageConstructor
+        abstract Input: RXInterfaces.Input
+        abstract International: RXInterfaces.International
+        abstract Link: obj
+        abstract Linking: RXInterfaces.Linking
+        abstract Location: RXInterfaces.Location
+        abstract Modal: RXInterfaces.Modal
+        abstract Network: RXInterfaces.Network
+        abstract Platform: RXInterfaces.Platform
+        abstract Popup: RXInterfaces.Popup
+        abstract ScrollView: RXInterfaces.ScrollViewConstructor
+        abstract StatusBar: RXInterfaces.StatusBar
+        abstract Storage: RXInterfaces.Storage
+        abstract Styles: RXInterfaces.Styles
+        abstract Text: obj
+        abstract TextInput: obj
+        abstract UserInterface: RXInterfaces.UserInterface
+        abstract UserPresence: RXInterfaces.UserPresence
+        abstract View: obj
+        abstract WebView: RXInterfaces.WebViewConstructor
+        abstract createElement: obj
+        abstract Children: React.ReactChildren
+        abstract __spread: obj option
 
-type ActivityIndicator =
-    RXInterfaces.ActivityIndicator
+    type Accessibility =
+        RXInterfaces.Accessibility
 
-type Alert =
-    RXInterfaces.Alert
+    type ActivityIndicator =
+        RXInterfaces.ActivityIndicator
 
-type App =
-    RXInterfaces.App
+    type Alert =
+        RXInterfaces.Alert
 
-type Button =
-    RXInterfaces.Button
+    type App =
+        RXInterfaces.App
 
-type Picker =
-    RXInterfaces.Picker
+    type Button =
+        RXInterfaces.Button
 
-type Clipboard =
-    RXInterfaces.Clipboard
+    type Picker =
+        RXInterfaces.Picker
 
-type GestureView =
-    RXInterfaces.GestureView
+    type Clipboard =
+        RXInterfaces.Clipboard
 
-type Image =
-    RXInterfaces.Image
+    type GestureView =
+        RXInterfaces.GestureView
 
-type Input =
-    RXInterfaces.Input
+    type Image =
+        RXInterfaces.Image
 
-type International =
-    RXInterfaces.International
+    type Input =
+        RXInterfaces.Input
 
-type Link =
-    RXInterfaces.Link
+    type International =
+        RXInterfaces.International
 
-type Linking =
-    RXInterfaces.Linking
+    type Link =
+        RXInterfaces.Link
 
-type Location =
-    RXInterfaces.Location
+    type Linking =
+        RXInterfaces.Linking
 
-type Modal =
-    RXInterfaces.Modal
+    type Location =
+        RXInterfaces.Location
 
-type Network =
-    RXInterfaces.Network
+    type Modal =
+        RXInterfaces.Modal
 
-type Platform =
-    RXInterfaces.Platform
+    type Network =
+        RXInterfaces.Network
 
-type Popup =
-    RXInterfaces.Popup
+    type Platform =
+        RXInterfaces.Platform
 
-type ScrollView =
-    RXInterfaces.ScrollView
+    type Popup =
+        RXInterfaces.Popup
 
-type StatusBar =
-    RXInterfaces.StatusBar
+    type ScrollView =
+        RXInterfaces.ScrollView
 
-type Storage =
-    RXInterfaces.Storage
+    type StatusBar =
+        RXInterfaces.StatusBar
 
-type Styles =
-    RXInterfaces.Styles
+    type Storage =
+        RXInterfaces.Storage
 
-type Text =
-    RXInterfaces.Text
+    type Styles =
+        RXInterfaces.Styles
 
-type TextInput =
-    RXInterfaces.TextInput
+    type Text =
+        RXInterfaces.Text
 
-type UserInterface =
-    RXInterfaces.UserInterface
+    type TextInput =
+        RXInterfaces.TextInput
 
-type UserPresence =
-    RXInterfaces.UserPresence
+    type UserInterface =
+        RXInterfaces.UserInterface
 
-type View =
-    RXInterfaces.View
+    type UserPresence =
+        RXInterfaces.UserPresence
 
-type WebView =
-    RXInterfaces.WebView
+    type View =
+        RXInterfaces.View
+
+    type WebView =
+        RXInterfaces.WebView
