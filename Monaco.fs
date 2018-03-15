@@ -640,8 +640,8 @@ module Monaco =
             abstract rules: ResizeArray<ITokenThemeRule> with get, set
             abstract colors: IColors with get, set
 
-        type IColors =
-            obj
+        type [<AllowNullLiteral>] IColors =
+            [<Emit "$0[$1]{{=$2}}">] abstract Item: colorId: string -> string with get, set
 
         type [<AllowNullLiteral>] ITokenThemeRule =
             abstract token: string with get, set
