@@ -5,6 +5,7 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
+let [<Import("reporters","mocha")>] reporters: Reporters.IExports = jsNative
 let [<Import("*","mocha")>] mocha: Mocha = jsNative
 let [<Import("*","mocha")>] describe: Mocha.IContextDefinition = jsNative
 let [<Import("*","mocha")>] xdescribe: Mocha.IContextDefinition = jsNative
@@ -98,215 +99,212 @@ type [<AllowNullLiteral>] MochaStaticOptions =
     abstract slow: float option with get, set
     abstract bail: bool option with get, set
 
-module Mocha =
-    let [<Import("reporters","mocha/Mocha")>] reporters: Reporters.IExports = jsNative
+type [<AllowNullLiteral>] ISuiteCallbackContext =
+    abstract timeout: ms: U2<float, string> -> ISuiteCallbackContext
+    abstract retries: n: float -> ISuiteCallbackContext
+    abstract slow: ms: float -> ISuiteCallbackContext
 
-    type [<AllowNullLiteral>] ISuiteCallbackContext =
-        abstract timeout: ms: U2<float, string> -> ISuiteCallbackContext
-        abstract retries: n: float -> ISuiteCallbackContext
-        abstract slow: ms: float -> ISuiteCallbackContext
+type [<AllowNullLiteral>] IHookCallbackContext =
+    abstract skip: unit -> IHookCallbackContext
+    abstract timeout: ms: U2<float, string> -> IHookCallbackContext
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
 
-    type [<AllowNullLiteral>] IHookCallbackContext =
-        abstract skip: unit -> IHookCallbackContext
-        abstract timeout: ms: U2<float, string> -> IHookCallbackContext
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
+type [<AllowNullLiteral>] ITestCallbackContext =
+    abstract skip: unit -> ITestCallbackContext
+    abstract timeout: ms: U2<float, string> -> ITestCallbackContext
+    abstract retries: n: float -> ITestCallbackContext
+    abstract slow: ms: float -> ITestCallbackContext
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
 
-    type [<AllowNullLiteral>] ITestCallbackContext =
-        abstract skip: unit -> ITestCallbackContext
-        abstract timeout: ms: U2<float, string> -> ITestCallbackContext
-        abstract retries: n: float -> ITestCallbackContext
-        abstract slow: ms: float -> ITestCallbackContext
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
+/// Partial interface for Mocha's `Runnable` class. 
+type [<AllowNullLiteral>] IRunnable =
+    abstract title: string with get, set
+    abstract fn: Function with get, set
+    abstract async: bool with get, set
+    abstract sync: bool with get, set
+    abstract timedOut: bool with get, set
+    abstract timeout: n: U2<float, string> -> IRunnable
+    abstract duration: float option with get, set
 
-    /// Partial interface for Mocha's `Runnable` class. 
-    type [<AllowNullLiteral>] IRunnable =
-        abstract title: string with get, set
-        abstract fn: Function with get, set
-        abstract async: bool with get, set
-        abstract sync: bool with get, set
-        abstract timedOut: bool with get, set
-        abstract timeout: n: U2<float, string> -> IRunnable
-        abstract duration: float option with get, set
+/// Partial interface for Mocha's `Suite` class. 
+type [<AllowNullLiteral>] ISuite =
+    abstract parent: ISuite with get, set
+    abstract title: string with get, set
+    abstract fullTitle: unit -> string
 
-    /// Partial interface for Mocha's `Suite` class. 
-    type [<AllowNullLiteral>] ISuite =
-        abstract parent: ISuite with get, set
-        abstract title: string with get, set
-        abstract fullTitle: unit -> string
+/// Partial interface for Mocha's `Test` class. 
+type [<AllowNullLiteral>] ITest =
+    inherit IRunnable
+    abstract parent: ISuite with get, set
+    abstract pending: bool with get, set
+    abstract state: U2<string, string> option with get, set
+    abstract fullTitle: unit -> string
 
-    /// Partial interface for Mocha's `Test` class. 
-    type [<AllowNullLiteral>] ITest =
-        inherit IRunnable
-        abstract parent: ISuite with get, set
-        abstract pending: bool with get, set
-        abstract state: U2<string, string> option with get, set
-        abstract fullTitle: unit -> string
+type [<AllowNullLiteral>] IBeforeAndAfterContext =
+    inherit IHookCallbackContext
+    abstract currentTest: ITest with get, set
 
-    type [<AllowNullLiteral>] IBeforeAndAfterContext =
-        inherit IHookCallbackContext
-        abstract currentTest: ITest with get, set
+type [<AllowNullLiteral>] IStats =
+    abstract suites: float with get, set
+    abstract tests: float with get, set
+    abstract passes: float with get, set
+    abstract pending: float with get, set
+    abstract failures: float with get, set
+    abstract start: DateTime option with get, set
+    abstract ``end``: DateTime option with get, set
+    abstract duration: DateTime option with get, set
 
-    type [<AllowNullLiteral>] IStats =
-        abstract suites: float with get, set
-        abstract tests: float with get, set
-        abstract passes: float with get, set
-        abstract pending: float with get, set
-        abstract failures: float with get, set
-        abstract start: DateTime option with get, set
-        abstract ``end``: DateTime option with get, set
-        abstract duration: DateTime option with get, set
+/// Partial interface for Mocha's `Runner` class. 
+type [<AllowNullLiteral>] IRunner =
+    abstract stats: IStats option with get, set
+    abstract started: bool with get, set
+    abstract suite: ISuite with get, set
+    abstract total: float with get, set
+    abstract failures: float with get, set
+    abstract grep: (string -> bool -> IRunner) with get, set
+    abstract grepTotal: (ISuite -> float) with get, set
+    abstract globals: (ResizeArray<string> -> U2<IRunner, ResizeArray<string>>) with get, set
+    abstract abort: (unit -> IRunner) with get, set
+    abstract run: ((float -> unit) -> IRunner) with get, set
 
-    /// Partial interface for Mocha's `Runner` class. 
-    type [<AllowNullLiteral>] IRunner =
-        abstract stats: IStats option with get, set
-        abstract started: bool with get, set
-        abstract suite: ISuite with get, set
-        abstract total: float with get, set
-        abstract failures: float with get, set
-        abstract grep: (string -> bool -> IRunner) with get, set
-        abstract grepTotal: (ISuite -> float) with get, set
-        abstract globals: (ResizeArray<string> -> U2<IRunner, ResizeArray<string>>) with get, set
-        abstract abort: (unit -> IRunner) with get, set
-        abstract run: ((float -> unit) -> IRunner) with get, set
+type [<AllowNullLiteral>] IContextDefinition =
+    [<Emit "$0($1...)">] abstract Invoke: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
+    abstract only: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
+    abstract skip: description: string * callback: (ISuiteCallbackContext -> unit) -> unit
+    abstract timeout: ms: U2<float, string> -> unit
 
-    type [<AllowNullLiteral>] IContextDefinition =
-        [<Emit "$0($1...)">] abstract Invoke: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
-        abstract only: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
-        abstract skip: description: string * callback: (ISuiteCallbackContext -> unit) -> unit
-        abstract timeout: ms: U2<float, string> -> unit
+type [<AllowNullLiteral>] ITestDefinition =
+    [<Emit "$0($1...)">] abstract Invoke: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
+    abstract only: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
+    abstract skip: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> unit
+    abstract timeout: ms: U2<float, string> -> unit
+    abstract state: U2<string, string> with get, set
 
-    type [<AllowNullLiteral>] ITestDefinition =
-        [<Emit "$0($1...)">] abstract Invoke: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
-        abstract only: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
-        abstract skip: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> unit
-        abstract timeout: ms: U2<float, string> -> unit
-        abstract state: U2<string, string> with get, set
+module Reporters =
 
-    module Reporters =
+    type [<AllowNullLiteral>] IExports =
+        abstract Base: BaseStatic
+        abstract Doc: DocStatic
+        abstract Dot: DotStatic
+        abstract HTML: HTMLStatic
+        abstract HTMLCov: HTMLCovStatic
+        abstract JSON: JSONStatic
+        abstract JSONCov: JSONCovStatic
+        abstract JSONStream: JSONStreamStatic
+        abstract Landing: LandingStatic
+        abstract List: ListStatic
+        abstract Markdown: MarkdownStatic
+        abstract Min: MinStatic
+        abstract Nyan: NyanStatic
+        abstract Progress: ProgressStatic
+        abstract Spec: SpecStatic
+        abstract TAP: TAPStatic
+        abstract XUnit: XUnitStatic
 
-        type [<AllowNullLiteral>] IExports =
-            abstract Base: BaseStatic
-            abstract Doc: DocStatic
-            abstract Dot: DotStatic
-            abstract HTML: HTMLStatic
-            abstract HTMLCov: HTMLCovStatic
-            abstract JSON: JSONStatic
-            abstract JSONCov: JSONCovStatic
-            abstract JSONStream: JSONStreamStatic
-            abstract Landing: LandingStatic
-            abstract List: ListStatic
-            abstract Markdown: MarkdownStatic
-            abstract Min: MinStatic
-            abstract Nyan: NyanStatic
-            abstract Progress: ProgressStatic
-            abstract Spec: SpecStatic
-            abstract TAP: TAPStatic
-            abstract XUnit: XUnitStatic
+    type [<AllowNullLiteral>] Base =
+        abstract stats: IStats with get, set
 
-        type [<AllowNullLiteral>] Base =
-            abstract stats: IStats with get, set
+    type [<AllowNullLiteral>] BaseStatic =
+        [<Emit "new $0($1...)">] abstract Create: runner: IRunner -> Base
 
-        type [<AllowNullLiteral>] BaseStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner -> Base
+    type [<AllowNullLiteral>] Doc =
+        inherit Base
 
-        type [<AllowNullLiteral>] Doc =
-            inherit Base
+    type [<AllowNullLiteral>] DocStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Doc
 
-        type [<AllowNullLiteral>] DocStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Doc
+    type [<AllowNullLiteral>] Dot =
+        inherit Base
 
-        type [<AllowNullLiteral>] Dot =
-            inherit Base
+    type [<AllowNullLiteral>] DotStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Dot
 
-        type [<AllowNullLiteral>] DotStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Dot
+    type [<AllowNullLiteral>] HTML =
+        inherit Base
 
-        type [<AllowNullLiteral>] HTML =
-            inherit Base
+    type [<AllowNullLiteral>] HTMLStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> HTML
 
-        type [<AllowNullLiteral>] HTMLStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> HTML
+    type [<AllowNullLiteral>] HTMLCov =
+        inherit Base
 
-        type [<AllowNullLiteral>] HTMLCov =
-            inherit Base
+    type [<AllowNullLiteral>] HTMLCovStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> HTMLCov
 
-        type [<AllowNullLiteral>] HTMLCovStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> HTMLCov
+    type [<AllowNullLiteral>] JSON =
+        inherit Base
 
-        type [<AllowNullLiteral>] JSON =
-            inherit Base
+    type [<AllowNullLiteral>] JSONStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> JSON
 
-        type [<AllowNullLiteral>] JSONStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> JSON
+    type [<AllowNullLiteral>] JSONCov =
+        inherit Base
 
-        type [<AllowNullLiteral>] JSONCov =
-            inherit Base
+    type [<AllowNullLiteral>] JSONCovStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> JSONCov
 
-        type [<AllowNullLiteral>] JSONCovStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> JSONCov
+    type [<AllowNullLiteral>] JSONStream =
+        inherit Base
 
-        type [<AllowNullLiteral>] JSONStream =
-            inherit Base
+    type [<AllowNullLiteral>] JSONStreamStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> JSONStream
 
-        type [<AllowNullLiteral>] JSONStreamStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> JSONStream
+    type [<AllowNullLiteral>] Landing =
+        inherit Base
 
-        type [<AllowNullLiteral>] Landing =
-            inherit Base
+    type [<AllowNullLiteral>] LandingStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Landing
 
-        type [<AllowNullLiteral>] LandingStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Landing
+    type [<AllowNullLiteral>] List =
+        inherit Base
 
-        type [<AllowNullLiteral>] List =
-            inherit Base
+    type [<AllowNullLiteral>] ListStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> List
 
-        type [<AllowNullLiteral>] ListStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> List
+    type [<AllowNullLiteral>] Markdown =
+        inherit Base
 
-        type [<AllowNullLiteral>] Markdown =
-            inherit Base
+    type [<AllowNullLiteral>] MarkdownStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Markdown
 
-        type [<AllowNullLiteral>] MarkdownStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Markdown
+    type [<AllowNullLiteral>] Min =
+        inherit Base
 
-        type [<AllowNullLiteral>] Min =
-            inherit Base
+    type [<AllowNullLiteral>] MinStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Min
 
-        type [<AllowNullLiteral>] MinStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Min
+    type [<AllowNullLiteral>] Nyan =
+        inherit Base
 
-        type [<AllowNullLiteral>] Nyan =
-            inherit Base
+    type [<AllowNullLiteral>] NyanStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Nyan
 
-        type [<AllowNullLiteral>] NyanStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Nyan
+    type [<AllowNullLiteral>] Progress =
+        inherit Base
 
-        type [<AllowNullLiteral>] Progress =
-            inherit Base
+    type [<AllowNullLiteral>] ProgressStatic =
+        [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: ProgressStaticOptions -> Progress
 
-        type [<AllowNullLiteral>] ProgressStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: ProgressStaticOptions -> Progress
+    type [<AllowNullLiteral>] ProgressStaticOptions =
+        abstract ``open``: string option with get, set
+        abstract complete: string option with get, set
+        abstract incomplete: string option with get, set
+        abstract close: string option with get, set
 
-        type [<AllowNullLiteral>] ProgressStaticOptions =
-            abstract ``open``: string option with get, set
-            abstract complete: string option with get, set
-            abstract incomplete: string option with get, set
-            abstract close: string option with get, set
+    type [<AllowNullLiteral>] Spec =
+        inherit Base
 
-        type [<AllowNullLiteral>] Spec =
-            inherit Base
+    type [<AllowNullLiteral>] SpecStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> Spec
 
-        type [<AllowNullLiteral>] SpecStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Spec
+    type [<AllowNullLiteral>] TAP =
+        inherit Base
 
-        type [<AllowNullLiteral>] TAP =
-            inherit Base
+    type [<AllowNullLiteral>] TAPStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> TAP
 
-        type [<AllowNullLiteral>] TAPStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> TAP
+    type [<AllowNullLiteral>] XUnit =
+        inherit Base
 
-        type [<AllowNullLiteral>] XUnit =
-            inherit Base
-
-        type [<AllowNullLiteral>] XUnitStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: obj option -> XUnit
+    type [<AllowNullLiteral>] XUnitStatic =
+        [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: obj option -> XUnit
