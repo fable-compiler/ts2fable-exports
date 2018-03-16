@@ -2576,8 +2576,8 @@ module React =
         inherit Validator<'T>
         abstract isRequired: Validator<'T> with get, set
 
-    type ValidationMap<'T> =
-        obj
+    type [<AllowNullLiteral>] ValidationMap<'T> =
+        interface end
 
     type [<AllowNullLiteral>] ReactPropTypes =
         abstract any: Requireable<obj option> with get, set
