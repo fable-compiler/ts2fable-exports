@@ -3238,7 +3238,7 @@ module Vscode =
         /// Type of event.
         abstract ``event``: string with get, set
         /// Event specific information.
-        abstract body: obj option option with get, set
+        abstract body: obj option with get, set
 
     /// A debug configuration provider allows to add the initial debug configurations to a newly created launch.json
     /// and to resolve a launch configuration before it is used to start a new debug session.

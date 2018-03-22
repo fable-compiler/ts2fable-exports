@@ -40,7 +40,7 @@ type [<AllowNullLiteral>] MochaSetupOptions =
     abstract reporter: U2<string, ReporterConstructor> option with get, set
     abstract bail: bool option with get, set
     abstract ignoreLeaks: bool option with get, set
-    abstract grep: obj option option with get, set
+    abstract grep: obj option with get, set
     abstract require: ResizeArray<string> option with get, set
 
 type [<AllowNullLiteral>] MochaDone =
@@ -94,7 +94,7 @@ type [<AllowNullLiteral>] MochaStaticOptions =
     abstract ui: string option with get, set
     abstract reporter: U2<string, ReporterConstructor> option with get, set
     abstract timeout: float option with get, set
-    abstract reporterOptions: obj option option with get, set
+    abstract reporterOptions: obj option with get, set
     abstract slow: float option with get, set
     abstract bail: bool option with get, set
 

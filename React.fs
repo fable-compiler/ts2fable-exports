@@ -1596,7 +1596,7 @@ module React =
         abstract role: string option with get, set
         abstract about: string option with get, set
         abstract datatype: string option with get, set
-        abstract inlist: obj option option with get, set
+        abstract inlist: obj option with get, set
         abstract prefix: string option with get, set
         abstract property: string option with get, set
         abstract resource: string option with get, set
@@ -1745,7 +1745,7 @@ module React =
         abstract ``default``: bool option with get, set
         abstract defer: bool option with get, set
         abstract disabled: bool option with get, set
-        abstract download: obj option option with get, set
+        abstract download: obj option with get, set
         abstract encType: string option with get, set
         abstract form: string option with get, set
         abstract formAction: string option with get, set
@@ -1824,7 +1824,7 @@ module React =
 
     type [<AllowNullLiteral>] AnchorHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
-        abstract download: obj option option with get, set
+        abstract download: obj option with get, set
         abstract href: string option with get, set
         abstract hrefLang: string option with get, set
         abstract media: string option with get, set
@@ -1840,7 +1840,7 @@ module React =
         inherit HTMLAttributes<'T>
         abstract alt: string option with get, set
         abstract coords: string option with get, set
-        abstract download: obj option option with get, set
+        abstract download: obj option with get, set
         abstract href: string option with get, set
         abstract hrefLang: string option with get, set
         abstract media: string option with get, set
