@@ -43,7 +43,6 @@ type NativeWheelEvent =
 module React =
 
     type [<AllowNullLiteral>] IExports =
-        abstract createClass: spec: ComponentSpec<'P, 'S> -> ClassicComponentClass<'P>
         abstract createFactory: ``type``: obj -> HTMLFactory<'T>
         abstract createFactory: ``type``: obj -> SVGFactory
         abstract createFactory: ``type``: string -> DOMFactory<'P, 'T>
@@ -51,13 +50,13 @@ module React =
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-        abstract createElement: ``type``: obj * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
-        abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
-        abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
-        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
-        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
-        abstract createElement: ``type``: U3<SFC<'P>, ComponentClass<'P>, string> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
+        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+        abstract createElement: ``type``: obj * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
+        abstract createElement: ``type``: string * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
+        abstract createElement: ``type``: SFC<'P> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
+        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
+        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
+        abstract createElement: ``type``: U3<SFC<'P>, ComponentClass<'P>, string> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
         abstract cloneElement: element: DetailedReactHTMLElement<'P, 'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
         abstract cloneElement: element: ReactHTMLElement<'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactHTMLElement<'T>
         abstract cloneElement: element: ReactSVGElement * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
@@ -65,30 +64,29 @@ module React =
         abstract cloneElement: element: SFCElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
         abstract cloneElement: element: CElement<'P, 'T> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
         abstract cloneElement: element: ReactElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
-        abstract isValidElement: ``object``: IsValidElementObject -> bool
-        abstract DOM: ReactDOM
-        abstract PropTypes: ReactPropTypes
+        abstract isValidElement: ``object``: obj option -> bool
         abstract Children: ReactChildren
+        abstract Fragment: ComponentType
         abstract version: string
         abstract Component: ComponentStatic
         abstract PureComponent: PureComponentStatic
         abstract ComponentClass: ComponentClassStatic
         abstract ClassicComponentClass: ClassicComponentClassStatic
 
-    type [<AllowNullLiteral>] IsValidElementObject =
-        interface end
-
     type ReactType =
-        U2<string, ComponentType<obj option>>
+        ReactType<obj>
+
+    type ReactType<'P> =
+        U2<string, ComponentType<'P>>
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module ReactType =
-        let ofString v: ReactType = v |> U2.Case1
-        let isString (v: ReactType) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: ReactType) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofComponentType v: ReactType = v |> U2.Case2
-        let isComponentType (v: ReactType) = match v with U2.Case2 _ -> true | _ -> false
-        let asComponentType (v: ReactType) = match v with U2.Case2 o -> Some o | _ -> None
+        let ofString v: ReactType<'P> = v |> U2.Case1
+        let isString (v: ReactType<'P>) = match v with U2.Case1 _ -> true | _ -> false
+        let asString (v: ReactType<'P>) = match v with U2.Case1 o -> Some o | _ -> None
+        let ofComponentType v: ReactType<'P> = v |> U2.Case2
+        let isComponentType (v: ReactType<'P>) = match v with U2.Case2 _ -> true | _ -> false
+        let asComponentType (v: ReactType<'P>) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ComponentType =
         ComponentType<obj>
@@ -175,25 +173,9 @@ module React =
         inherit DOMElement<SVGAttributes<SVGElement>, SVGElement>
         abstract ``type``: obj with get, set
 
-    type [<AllowNullLiteral>] WebViewHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract allowFullScreen: bool option with get, set
-        abstract allowpopups: bool option with get, set
-        abstract autoFocus: bool option with get, set
-        abstract autosize: bool option with get, set
-        abstract blinkfeatures: string option with get, set
-        abstract disableblinkfeatures: string option with get, set
-        abstract disableguestresize: bool option with get, set
-        abstract disablewebsecurity: bool option with get, set
-        abstract guestinstance: string option with get, set
-        abstract httpreferrer: string option with get, set
-        abstract nodeintegration: bool option with get, set
-        abstract partition: string option with get, set
-        abstract plugins: bool option with get, set
-        abstract preload: string option with get, set
-        abstract src: string option with get, set
-        abstract useragent: string option with get, set
-        abstract webpreferences: string option with get, set
+    type [<AllowNullLiteral>] ReactPortal =
+        abstract key: Key option with get, set
+        abstract children: ReactNode with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
         [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
@@ -252,22 +234,34 @@ module React =
         Array<U3<ReactChild, ResizeArray<obj option>, bool>>
 
     type ReactNode =
-        U3<ReactChild, ReactFragment, bool> option
+        U6<ReactChild, ReactFragment, ReactPortal, string, float, bool> option
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module ReactNode =
-        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case1
-        let ofReactChild v: ReactNode = v |> U3.Case1 |> Some
-        let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case1 _ -> true | _ -> false
-        let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case1 o -> Some o | _ -> None
-        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case2
-        let ofReactFragment v: ReactNode = v |> U3.Case2 |> Some
-        let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case2 _ -> true | _ -> false
-        let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case2 o -> Some o | _ -> None
-        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case3
-        let ofBool v: ReactNode = v |> U3.Case3 |> Some
-        let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case3 _ -> true | _ -> false
-        let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case3 o -> Some o | _ -> None
+        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case1
+        let ofReactChild v: ReactNode = v |> U6.Case1 |> Some
+        let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case1 _ -> true | _ -> false
+        let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case1 o -> Some o | _ -> None
+        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case2
+        let ofReactFragment v: ReactNode = v |> U6.Case2 |> Some
+        let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case2 _ -> true | _ -> false
+        let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case2 o -> Some o | _ -> None
+        let ofReactPortalOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case3
+        let ofReactPortal v: ReactNode = v |> U6.Case3 |> Some
+        let isReactPortal (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case3 _ -> true | _ -> false
+        let asReactPortal (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case3 o -> Some o | _ -> None
+        let ofStringOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case4
+        let ofString v: ReactNode = v |> U6.Case4 |> Some
+        let isString (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case4 _ -> true | _ -> false
+        let asString (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case4 o -> Some o | _ -> None
+        let ofFloatOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case5
+        let ofFloat v: ReactNode = v |> U6.Case5 |> Some
+        let isFloat (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case5 _ -> true | _ -> false
+        let asFloat (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case5 o -> Some o | _ -> None
+        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case6
+        let ofBool v: ReactNode = v |> U6.Case6 |> Some
+        let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case6 _ -> true | _ -> false
+        let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case6 o -> Some o | _ -> None
 
     type ReactInstance =
         U2<Component<obj option>, Element>
@@ -289,16 +283,16 @@ module React =
 
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
-        abstract setState: state: U2<(obj -> 'P -> U2<obj, 'S>), U2<obj, 'S>> * ?callback: (unit -> obj option) -> unit
-        abstract forceUpdate: ?callBack: (unit -> obj option) -> unit
-        abstract render: unit -> U2<JSX.Element, obj> option
+        abstract setState: state: U2<(obj -> 'P -> U2<obj, 'S> option), U2<obj, 'S> option> * ?callback: (unit -> unit) -> unit
+        abstract forceUpdate: ?callBack: (unit -> unit) -> unit
+        abstract render: unit -> ReactNode
         abstract props: obj with get, set
         abstract state: obj with get, set
         abstract context: obj option with get, set
         abstract refs: obj with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> Component<'P, 'S>
+        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> Component<'P, 'S>
 
     type PureComponent<'S> =
         PureComponent<obj, 'S>
@@ -320,7 +314,7 @@ module React =
 
     type [<AllowNullLiteral>] ClassicComponent<'P, 'S> =
         inherit Component<'P, 'S>
-        abstract replaceState: nextState: 'S * ?callback: (unit -> obj option) -> unit
+        abstract replaceState: nextState: 'S * ?callback: (unit -> unit) -> unit
         abstract isMounted: unit -> bool
         abstract getInitialState: unit -> 'S
 
@@ -354,7 +348,7 @@ module React =
         abstract displayName: string option with get, set
 
     type [<AllowNullLiteral>] ComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ComponentClass<'P>
+        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> ComponentClass<'P>
 
     type ClassicComponentClass =
         ClassicComponentClass<obj>
@@ -364,19 +358,44 @@ module React =
         abstract getDefaultProps: unit -> 'P
 
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ClassicComponentClass<'P>
+        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> ClassicComponentClass<'P>
 
     type [<AllowNullLiteral>] ClassType<'P, 'T, 'C> =
         interface end
 
     type [<AllowNullLiteral>] ComponentLifecycle<'P, 'S> =
+        /// Called immediately before mounting occurs, and before `Component#render`.
+        /// Avoid introducing any side-effects or subscriptions in this method.
         abstract componentWillMount: unit -> unit
+        /// Called immediately after a compoment is mounted. Setting state here will trigger re-rendering.
         abstract componentDidMount: unit -> unit
+        /// Called when the component may be receiving new props.
+        /// React may call this even if props have not changed, so be sure to compare new and existing
+        /// props if you only want to handle changes.
+        /// 
+        /// Calling `Component#setState` generally does not trigger this method.
         abstract componentWillReceiveProps: nextProps: obj * nextContext: obj option -> unit
+        /// Called to determine whether the change in props and state should trigger a re-render.
+        /// 
+        /// `Component` always returns true.
+        /// `PureComponent` implements a shallow comparison on props and state and returns true if any
+        /// props or states have changed.
+        /// 
+        /// If false is returned, `Component#render`, `componentWillUpdate`
+        /// and `componentDidUpdate` will not be called.
         abstract shouldComponentUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> bool
+        /// Called immediately before rendering when new props or state is received. Not called for the initial render.
+        /// 
+        /// Note: You cannot call `Component#setState` here.
         abstract componentWillUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> unit
+        /// Called immediately after updating occurs. Not called for the initial render.
         abstract componentDidUpdate: prevProps: obj * prevState: obj * prevContext: obj option -> unit
+        /// Called immediately before a component is destroyed. Perform any necessary cleanup in this method, such as
+        /// cancelled network requests, or cleaning up any DOM elements created in `componentDidMount`.
         abstract componentWillUnmount: unit -> unit
+        /// Catches exceptions generated in descendant components. Unhandled exceptions will cause
+        /// the entire component tree to unmount.
+        abstract componentDidCatch: error: Error * errorInfo: ErrorInfo -> unit
 
     type [<AllowNullLiteral>] Mixin<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
@@ -391,11 +410,12 @@ module React =
 
     type [<AllowNullLiteral>] ComponentSpec<'P, 'S> =
         inherit Mixin<'P, 'S>
-        abstract render: unit -> ReactElement<obj option> option
+        abstract render: unit -> ReactNode
         [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] SyntheticEvent<'T> =
         abstract bubbles: bool with get, set
+        /// A reference to the element on which the event listener is registered.
         abstract currentTarget: obj with get, set
         abstract cancelable: bool with get, set
         abstract defaultPrevented: bool with get, set
@@ -407,6 +427,8 @@ module React =
         abstract stopPropagation: unit -> unit
         abstract isPropagationStopped: unit -> bool
         abstract persist: unit -> unit
+        /// A reference to the element from which the event was originally dispatched.
+        /// This might be a child element to the element on which the event listener is registered.
         abstract target: EventTarget with get, set
         abstract timeStamp: float with get, set
         abstract ``type``: string with get, set
@@ -430,6 +452,7 @@ module React =
         inherit SyntheticEvent<'T>
         abstract nativeEvent: NativeFocusEvent with get, set
         abstract relatedTarget: EventTarget with get, set
+        abstract target: obj with get, set
 
     type [<AllowNullLiteral>] FormEvent<'T> =
         inherit SyntheticEvent<'T>
@@ -447,7 +470,9 @@ module React =
         abstract altKey: bool with get, set
         abstract charCode: float with get, set
         abstract ctrlKey: bool with get, set
+        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
         abstract getModifierState: key: string -> bool
+        /// See the [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#named-key-attribute-values). for possible values
         abstract key: string with get, set
         abstract keyCode: float with get, set
         abstract locale: string with get, set
@@ -466,6 +491,7 @@ module React =
         abstract clientX: float with get, set
         abstract clientY: float with get, set
         abstract ctrlKey: bool with get, set
+        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
         abstract getModifierState: key: string -> bool
         abstract metaKey: bool with get, set
         abstract nativeEvent: NativeMouseEvent with get, set
@@ -481,6 +507,7 @@ module React =
         abstract altKey: bool with get, set
         abstract changedTouches: TouchList with get, set
         abstract ctrlKey: bool with get, set
+        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
         abstract getModifierState: key: string -> bool
         abstract metaKey: bool with get, set
         abstract nativeEvent: NativeTouchEvent with get, set
@@ -790,6 +817,8 @@ module React =
         abstract backgroundPosition: U2<CSSWideKeyword, obj option> option with get, set
         /// Background-repeat defines if and how background images will be repeated after they have been sized and positioned
         abstract backgroundRepeat: U2<CSSWideKeyword, obj option> option with get, set
+        /// Defines the size of the background images
+        abstract backgroundSize: U2<CSSWideKeyword, obj option> option with get, set
         /// Obsolete - spec retired, not implemented.
         abstract baselineShift: U2<CSSWideKeyword, obj option> option with get, set
         /// Non standard. Sets or retrieves the location of the Dynamic HTML (DHTML) behavior.
@@ -803,9 +832,9 @@ module React =
         /// Sets the color of the bottom border of an element.
         abstract borderBottomColor: U2<CSSWideKeyword, obj option> option with get, set
         /// Defines the shape of the border of the bottom-left corner.
-        abstract borderBottomLeftRadius: U2<CSSWideKeyword, obj option> option with get, set
+        abstract borderBottomLeftRadius: U2<CSSWideKeyword, CSSLength> option with get, set
         /// Defines the shape of the border of the bottom-right corner.
-        abstract borderBottomRightRadius: U2<CSSWideKeyword, obj option> option with get, set
+        abstract borderBottomRightRadius: U2<CSSWideKeyword, CSSLength> option with get, set
         /// Sets the line style of the bottom border of a box.
         abstract borderBottomStyle: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the width of an element's bottom border. To set all four borders,
@@ -849,6 +878,8 @@ module React =
         /// use the border-width shorthand property which sets the values simultaneously for border-top-width,
         /// border-right-width, border-bottom-width, and border-left-width.
         abstract borderLeftWidth: U2<CSSWideKeyword, obj option> option with get, set
+        /// Shorthand property that sets the rounding of all four corners.
+        abstract borderRadius: U2<CSSWideKeyword, CSSLength> option with get, set
         /// Shorthand property that defines the border-width, border-style and border-color of an element's right border
         /// in a single declaration. Note that you can use the corresponding longhand properties to set specific
         /// individual properties of the right border — border-right-width, border-right-style and border-right-color.
@@ -883,9 +914,9 @@ module React =
         /// Colors can be defined several ways. For more information, see Usage.
         abstract borderTopColor: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the rounding of the top-left corner of the element.
-        abstract borderTopLeftRadius: U2<CSSWideKeyword, obj option> option with get, set
+        abstract borderTopLeftRadius: U2<CSSWideKeyword, CSSLength> option with get, set
         /// Sets the rounding of the top-right corner of the element.
-        abstract borderTopRightRadius: U2<CSSWideKeyword, obj option> option with get, set
+        abstract borderTopRightRadius: U2<CSSWideKeyword, CSSLength> option with get, set
         /// Sets the style of an element's top border. To set all four borders, use the shorthand property, border-style.
         /// Otherwise, you can set the borders individually with border-top-style, border-right-style, border-bottom-style, border-left-style.
         abstract borderTopStyle: U2<CSSWideKeyword, obj option> option with get, set
@@ -1128,7 +1159,7 @@ module React =
         /// Defines how the browser distributes space between and around flex items
         /// along the main-axis of their container.
         /// See CSS justify-content property https://www.w3.org/TR/css-flexbox-1/#justify-content-property
-        abstract justifyContent: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
+        abstract justifyContent: U8<CSSWideKeyword, string, string, string, string, string, string, string> option with get, set
         abstract layoutGrid: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridChar: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridLine: U2<CSSWideKeyword, obj option> option with get, set
@@ -1799,6 +1830,8 @@ module React =
         abstract media: string option with get, set
         abstract rel: string option with get, set
         abstract target: string option with get, set
+        abstract ``type``: string option with get, set
+        abstract ``as``: string option with get, set
 
     type [<AllowNullLiteral>] AudioHTMLAttributes<'T> =
         inherit MediaHTMLAttributes<'T>
@@ -1846,6 +1879,7 @@ module React =
     type [<AllowNullLiteral>] ColHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
         abstract span: float option with get, set
+        abstract width: U2<float, string> option with get, set
 
     type [<AllowNullLiteral>] ColgroupHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
@@ -1859,6 +1893,10 @@ module React =
         inherit HTMLAttributes<'T>
         abstract cite: string option with get, set
         abstract dateTime: string option with get, set
+
+    type [<AllowNullLiteral>] DialogHTMLAttributes<'T> =
+        inherit HTMLAttributes<'T>
+        abstract ``open``: bool option with get, set
 
     type [<AllowNullLiteral>] EmbedHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
@@ -1999,6 +2037,7 @@ module React =
         inherit HTMLAttributes<'T>
         abstract autoPlay: bool option with get, set
         abstract controls: bool option with get, set
+        abstract controlsList: string option with get, set
         abstract crossOrigin: string option with get, set
         abstract loop: bool option with get, set
         abstract mediaGroup: string option with get, set
@@ -2141,6 +2180,7 @@ module React =
         abstract colSpan: float option with get, set
         abstract headers: string option with get, set
         abstract rowSpan: float option with get, set
+        abstract scope: string option with get, set
 
     type [<AllowNullLiteral>] ThHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
@@ -2426,6 +2466,26 @@ module React =
         abstract z: U2<float, string> option with get, set
         abstract zoomAndPan: string option with get, set
 
+    type [<AllowNullLiteral>] WebViewHTMLAttributes<'T> =
+        inherit HTMLAttributes<'T>
+        abstract allowFullScreen: bool option with get, set
+        abstract allowpopups: bool option with get, set
+        abstract autoFocus: bool option with get, set
+        abstract autosize: bool option with get, set
+        abstract blinkfeatures: string option with get, set
+        abstract disableblinkfeatures: string option with get, set
+        abstract disableguestresize: bool option with get, set
+        abstract disablewebsecurity: bool option with get, set
+        abstract guestinstance: string option with get, set
+        abstract httpreferrer: string option with get, set
+        abstract nodeintegration: bool option with get, set
+        abstract partition: string option with get, set
+        abstract plugins: bool option with get, set
+        abstract preload: string option with get, set
+        abstract src: string option with get, set
+        abstract useragent: string option with get, set
+        abstract webpreferences: string option with get, set
+
     type [<AllowNullLiteral>] ReactHTML =
         abstract a: DetailedHTMLFactory<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> with get, set
         abstract abbr: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
@@ -2455,7 +2515,7 @@ module React =
         abstract del: DetailedHTMLFactory<DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract details: DetailedHTMLFactory<DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract dfn: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dialog: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract dialog: DetailedHTMLFactory<DialogHTMLAttributes<obj>, obj> with get, set
         abstract div: DetailedHTMLFactory<HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
         abstract dl: DetailedHTMLFactory<HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
         abstract dt: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
@@ -2540,19 +2600,49 @@ module React =
         abstract var: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract video: DetailedHTMLFactory<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
         abstract wbr: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract webview: DetailedHTMLFactory<WebViewHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract webview: DetailedHTMLFactory<WebViewHTMLAttributes<obj>, obj> with get, set
 
     type [<AllowNullLiteral>] ReactSVG =
-        abstract svg: SVGFactory with get, set
         abstract animate: SVGFactory with get, set
         abstract circle: SVGFactory with get, set
+        abstract clipPath: SVGFactory with get, set
         abstract defs: SVGFactory with get, set
+        abstract desc: SVGFactory with get, set
         abstract ellipse: SVGFactory with get, set
+        abstract feBlend: SVGFactory with get, set
+        abstract feColorMatrix: SVGFactory with get, set
+        abstract feComponentTransfer: SVGFactory with get, set
+        abstract feComposite: SVGFactory with get, set
+        abstract feConvolveMatrix: SVGFactory with get, set
+        abstract feDiffuseLighting: SVGFactory with get, set
+        abstract feDisplacementMap: SVGFactory with get, set
+        abstract feDistantLight: SVGFactory with get, set
+        abstract feDropShadow: SVGFactory with get, set
+        abstract feFlood: SVGFactory with get, set
+        abstract feFuncA: SVGFactory with get, set
+        abstract feFuncB: SVGFactory with get, set
+        abstract feFuncG: SVGFactory with get, set
+        abstract feFuncR: SVGFactory with get, set
+        abstract feGaussianBlur: SVGFactory with get, set
+        abstract feImage: SVGFactory with get, set
+        abstract feMerge: SVGFactory with get, set
+        abstract feMergeNode: SVGFactory with get, set
+        abstract feMorphology: SVGFactory with get, set
+        abstract feOffset: SVGFactory with get, set
+        abstract fePointLight: SVGFactory with get, set
+        abstract feSpecularLighting: SVGFactory with get, set
+        abstract feSpotLight: SVGFactory with get, set
+        abstract feTile: SVGFactory with get, set
+        abstract feTurbulence: SVGFactory with get, set
+        abstract filter: SVGFactory with get, set
+        abstract foreignObject: SVGFactory with get, set
         abstract g: SVGFactory with get, set
         abstract image: SVGFactory with get, set
         abstract line: SVGFactory with get, set
         abstract linearGradient: SVGFactory with get, set
+        abstract marker: SVGFactory with get, set
         abstract mask: SVGFactory with get, set
+        abstract metadata: SVGFactory with get, set
         abstract path: SVGFactory with get, set
         abstract pattern: SVGFactory with get, set
         abstract polygon: SVGFactory with get, set
@@ -2560,10 +2650,14 @@ module React =
         abstract radialGradient: SVGFactory with get, set
         abstract rect: SVGFactory with get, set
         abstract stop: SVGFactory with get, set
+        abstract svg: SVGFactory with get, set
+        abstract switch: SVGFactory with get, set
         abstract symbol: SVGFactory with get, set
         abstract text: SVGFactory with get, set
+        abstract textPath: SVGFactory with get, set
         abstract tspan: SVGFactory with get, set
         abstract ``use``: SVGFactory with get, set
+        abstract view: SVGFactory with get, set
 
     type [<AllowNullLiteral>] ReactDOM =
         inherit ReactHTML
@@ -2601,7 +2695,7 @@ module React =
 
     type [<AllowNullLiteral>] ReactChildren =
         abstract map: children: ReactNode * fn: (ReactChild -> float -> 'T) -> ResizeArray<'T>
-        abstract forEach: children: ReactNode * fn: (ReactChild -> float -> obj option) -> unit
+        abstract forEach: children: ReactNode * fn: (ReactChild -> float -> unit) -> unit
         abstract count: children: ReactNode -> float
         abstract only: children: ReactNode -> ReactElement<obj option>
         abstract toArray: children: ReactNode -> ResizeArray<ReactChild>
@@ -2626,6 +2720,10 @@ module React =
         abstract item: index: float -> Touch
         abstract identifiedTouch: identifier: float -> Touch
 
+    type [<AllowNullLiteral>] ErrorInfo =
+        /// Captures which component contained the exception, and its ancestors.
+        abstract componentStack: string with get, set
+
 module JSX =
 
     type [<AllowNullLiteral>] Element =
@@ -2633,7 +2731,7 @@ module JSX =
 
     type [<AllowNullLiteral>] ElementClass =
         inherit React.Component<obj option>
-        abstract render: unit -> U2<JSX.Element, obj> option
+        abstract render: unit -> React.ReactNode
 
     type [<AllowNullLiteral>] ElementAttributesProperty =
         abstract props: obj with get, set
@@ -2676,7 +2774,7 @@ module JSX =
         abstract del: React.DetailedHTMLProps<React.DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract details: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract dfn: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dialog: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract dialog: React.DetailedHTMLProps<React.DialogHTMLAttributes<obj>, obj> with get, set
         abstract div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
         abstract dl: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
         abstract dt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
@@ -2762,7 +2860,7 @@ module JSX =
         abstract var: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract video: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
         abstract wbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract webview: React.DetailedHTMLProps<React.WebViewHTMLAttributes<HTMLElement>, HTMLElement> with get, set
+        abstract webview: React.DetailedHTMLProps<React.WebViewHTMLAttributes<obj>, obj> with get, set
         abstract svg: React.SVGProps<SVGSVGElement> with get, set
         abstract animate: React.SVGProps<SVGElement> with get, set
         abstract animateTransform: React.SVGProps<SVGElement> with get, set
