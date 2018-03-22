@@ -2411,7 +2411,7 @@ module Ts =
     /// Brand for a PropertyAccessExpression which, like a QualifiedName, consists of a sequence of identifiers separated by dots. 
     type [<AllowNullLiteral>] PropertyAccessEntityNameExpression =
         inherit PropertyAccessExpression
-        abstract _propertyAccessExpressionLikeQualifiedNameBrand: obj option option with get, set
+        abstract _propertyAccessExpressionLikeQualifiedNameBrand: obj option with get, set
         abstract expression: EntityNameExpression with get, set
 
     type [<AllowNullLiteral>] ElementAccessExpression =
@@ -4335,7 +4335,7 @@ module Ts =
         abstract options: CompilerOptions with get, set
         abstract typeAcquisition: TypeAcquisition option with get, set
         abstract fileNames: ResizeArray<string> with get, set
-        abstract raw: obj option option with get, set
+        abstract raw: obj option with get, set
         abstract errors: ResizeArray<Diagnostic> with get, set
         abstract wildcardDirectories: MapLike<WatchDirectoryFlags> option with get, set
         abstract compileOnSave: bool option with get, set

@@ -74,13 +74,13 @@ type [<AllowNullLiteral>] IziToastSettings =
     abstract image: string option with get, set
     /// Width of cover image. 
     /// Default value: null
-    abstract imageWidth: float option option with get, set
+    abstract imageWidth: float option with get, set
     /// Sets maxWidth of toast. 
     /// Default value: null
-    abstract maxWidth: float option option with get, set
+    abstract maxWidth: float option with get, set
     /// The z-index CSS attribute of the toast
     /// Default value: null
-    abstract zindex: float option option with get, set
+    abstract zindex: float option with get, set
     /// It can be 1 or 2, or use another layout, creating the class like this: ".iziToast-layout3" 
     /// Default value: 1
     abstract layout: float option with get, set

@@ -664,7 +664,7 @@ module Monaco =
             /// It should export a function `create` that should return the exported proxy.
             abstract moduleId: string with get, set
             /// The data to send over when calling create on the module.
-            abstract createData: obj option option with get, set
+            abstract createData: obj option with get, set
             /// A label to be used to identify the web worker for debugging purposes.
             abstract label: string option with get, set
 

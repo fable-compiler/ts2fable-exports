@@ -183,11 +183,11 @@ module NodeJS =
 
     type [<AllowNullLiteral>] InspectOptions =
         abstract showHidden: bool option with get, set
-        abstract depth: float option option with get, set
+        abstract depth: float option with get, set
         abstract colors: bool option with get, set
         abstract customInspect: bool option with get, set
         abstract showProxy: bool option with get, set
-        abstract maxArrayLength: float option option with get, set
+        abstract maxArrayLength: float option with get, set
         abstract breakLength: float option with get, set
 
     type [<AllowNullLiteral>] ConsoleConstructor =
@@ -634,7 +634,7 @@ module NodeJS =
         abstract undefined: obj with get, set
         abstract unescape: (string -> string) with get, set
         abstract gc: (unit -> unit) with get, set
-        abstract v8debug: obj option option with get, set
+        abstract v8debug: obj option with get, set
 
     type [<AllowNullLiteral>] Timer =
         abstract ref: unit -> unit
@@ -1281,7 +1281,7 @@ module Zlib =
         abstract level: float option with get, set
         abstract memLevel: float option with get, set
         abstract strategy: float option with get, set
-        abstract dictionary: obj option option with get, set
+        abstract dictionary: obj option with get, set
 
     type [<AllowNullLiteral>] Zlib =
         abstract bytesRead: float
@@ -1494,8 +1494,8 @@ module Repl =
         abstract ignoreUndefined: bool option with get, set
         abstract writer: Function option with get, set
         abstract completer: Function option with get, set
-        abstract replMode: obj option option with get, set
-        abstract breakEvalOnSigint: obj option option with get, set
+        abstract replMode: obj option with get, set
+        abstract breakEvalOnSigint: obj option with get, set
 
     type [<AllowNullLiteral>] REPLServer =
         inherit Readline.ReadLine
@@ -1783,8 +1783,8 @@ module Child_process =
 
     type [<AllowNullLiteral>] SpawnOptions =
         abstract cwd: string option with get, set
-        abstract env: obj option option with get, set
-        abstract stdio: obj option option with get, set
+        abstract env: obj option with get, set
+        abstract stdio: obj option with get, set
         abstract detached: bool option with get, set
         abstract uid: float option with get, set
         abstract gid: float option with get, set
@@ -1793,7 +1793,7 @@ module Child_process =
 
     type [<AllowNullLiteral>] ExecOptions =
         abstract cwd: string option with get, set
-        abstract env: obj option option with get, set
+        abstract env: obj option with get, set
         abstract shell: string option with get, set
         abstract timeout: float option with get, set
         abstract maxBuffer: float option with get, set
@@ -1819,7 +1819,7 @@ module Child_process =
 
     type [<AllowNullLiteral>] ExecFileOptions =
         abstract cwd: string option with get, set
-        abstract env: obj option option with get, set
+        abstract env: obj option with get, set
         abstract timeout: float option with get, set
         abstract maxBuffer: float option with get, set
         abstract killSignal: string option with get, set
@@ -1857,7 +1857,7 @@ module Child_process =
 
     type [<AllowNullLiteral>] ForkOptions =
         abstract cwd: string option with get, set
-        abstract env: obj option option with get, set
+        abstract env: obj option with get, set
         abstract execPath: string option with get, set
         abstract execArgv: ResizeArray<string> option with get, set
         abstract silent: bool option with get, set
@@ -1869,8 +1869,8 @@ module Child_process =
     type [<AllowNullLiteral>] SpawnSyncOptions =
         abstract cwd: string option with get, set
         abstract input: U2<string, Buffer> option with get, set
-        abstract stdio: obj option option with get, set
-        abstract env: obj option option with get, set
+        abstract stdio: obj option with get, set
+        abstract env: obj option with get, set
         abstract uid: float option with get, set
         abstract gid: float option with get, set
         abstract timeout: float option with get, set
@@ -1900,8 +1900,8 @@ module Child_process =
     type [<AllowNullLiteral>] ExecSyncOptions =
         abstract cwd: string option with get, set
         abstract input: U2<string, Buffer> option with get, set
-        abstract stdio: obj option option with get, set
-        abstract env: obj option option with get, set
+        abstract stdio: obj option with get, set
+        abstract env: obj option with get, set
         abstract shell: string option with get, set
         abstract uid: float option with get, set
         abstract gid: float option with get, set
@@ -1921,8 +1921,8 @@ module Child_process =
     type [<AllowNullLiteral>] ExecFileSyncOptions =
         abstract cwd: string option with get, set
         abstract input: U2<string, Buffer> option with get, set
-        abstract stdio: obj option option with get, set
-        abstract env: obj option option with get, set
+        abstract stdio: obj option with get, set
+        abstract env: obj option with get, set
         abstract uid: float option with get, set
         abstract gid: float option with get, set
         abstract timeout: float option with get, set
@@ -1967,12 +1967,12 @@ module Url =
     type [<AllowNullLiteral>] UrlObject =
         inherit UrlObjectCommon
         abstract port: U2<string, float> option with get, set
-        abstract query: U2<string, obj> option option with get, set
+        abstract query: U2<string, obj> option with get, set
 
     type [<AllowNullLiteral>] Url =
         inherit UrlObjectCommon
         abstract port: string option with get, set
-        abstract query: U2<string, ParsedUrlQuery> option option with get, set
+        abstract query: U2<string, ParsedUrlQuery> option with get, set
 
     type [<AllowNullLiteral>] UrlWithParsedQuery =
         inherit Url
@@ -4087,7 +4087,7 @@ module Crypto =
         abstract ciphers: string with get, set
 
     type [<AllowNullLiteral>] Credentials =
-        abstract context: obj option option with get, set
+        abstract context: obj option with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] Utf8AsciiLatin1Encoding =
         | Utf8
@@ -4556,8 +4556,8 @@ module Assert =
 
     type [<AllowNullLiteral>] AssertionErrorStaticOptions =
         abstract message: string option with get, set
-        abstract actual: obj option option with get, set
-        abstract expected: obj option option with get, set
+        abstract actual: obj option with get, set
+        abstract expected: obj option with get, set
         abstract operator: string option with get, set
         abstract stackStartFunction: Function option with get, set
 

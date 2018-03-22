@@ -2089,7 +2089,7 @@ module Electron =
         abstract require: ``module``: string -> obj option
         /// The process object in the main process. This is the same as
         /// remote.getGlobal('process') but is cached.
-        abstract ``process``: obj option option with get, set
+        abstract ``process``: obj option with get, set
 
     type [<AllowNullLiteral>] RemoveClientCertificate =
         /// Origin of the server whose associated client certificate must be removed from
