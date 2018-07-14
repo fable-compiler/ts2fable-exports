@@ -583,6 +583,11 @@ module Electron =
 
     type [<AllowNullLiteral>] BrowserView =
         inherit EventEmitter
+        /// Force closing the view, the unload and beforeunload events won't be emitted for
+        /// the web page. After you're done with a view, call this function in order to free
+        /// memory and other resources as soon as possible.
+        abstract destroy: unit -> unit
+        abstract isDestroyed: unit -> bool
         abstract setAutoResize: options: AutoResizeOptions -> unit
         abstract setBackgroundColor: color: string -> unit
         /// Resizes and moves the view to the supplied bounds relative to the window.
@@ -4421,8 +4426,8 @@ module Electron =
         abstract sharedBytes: float with get, set
 
     type [<AllowNullLiteral>] ProgressBarOptions =
-        /// Mode for the progress bar. Can be none, normal, indeterminate, error, or paused.
-        abstract mode: U4<string, string, string, string> with get, set
+        /// Mode for the progress bar. Can be none, normal, indeterminate, error or paused.
+        abstract mode: U5<string, string, string, string, string> with get, set
 
     type [<AllowNullLiteral>] Provider =
         /// Returns Boolean
@@ -4560,9 +4565,18 @@ module Electron =
         abstract args: ResizeArray<string> option with get, set
 
     type [<AllowNullLiteral>] SizeOptions =
+        /// true to make the webview container automatically resize within the bounds
+        /// specified by the attributes normal, min and max.
+        abstract enableAutoSize: bool option with get, set
         /// Normal size of the page. This can be used in combination with the attribute to
         /// manually resize the webview guest contents.
-        abstract normal: Normal option with get, set
+        abstract normal: Size option with get, set
+        /// Minimum size of the page. This can be used in combination with the attribute to
+        /// manually resize the webview guest contents.
+        abstract min: Size option with get, set
+        /// Maximium size of the page. This can be used in combination with the attribute to
+        /// manually resize the webview guest contents.
+        abstract max: Size option with get, set
 
     type [<AllowNullLiteral>] SourcesOptions =
         /// An array of Strings that lists the types of desktop sources to be captured,
@@ -4754,10 +4768,6 @@ module Electron =
         abstract canToggleControls: bool with get, set
         /// Whether the media element can be rotated.
         abstract canRotate: bool with get, set
-
-    type [<AllowNullLiteral>] Normal =
-        abstract width: float with get, set
-        abstract height: float with get, set
 
     type [<AllowNullLiteral>] Options =
         interface end

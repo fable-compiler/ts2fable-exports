@@ -58,10 +58,12 @@ type [<AllowNullLiteral>] IExports =
     abstract clearImmediate: immediateId: obj option -> unit
 
 /// inspector module types 
+/// Console polyfill
 type [<AllowNullLiteral>] Console =
     abstract Console: NodeJS.ConsoleConstructor with get, set
     abstract ``assert``: value: obj option * ?message: string * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract dir: obj: obj option * ?options: NodeJS.InspectOptions -> unit
+    abstract debug: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract error: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract info: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract log: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
@@ -309,6 +311,7 @@ module NodeJS =
         abstract rss: float with get, set
         abstract heapTotal: float with get, set
         abstract heapUsed: float with get, set
+        abstract ``external``: float with get, set
 
     type [<AllowNullLiteral>] CpuUsage =
         abstract user: float with get, set
@@ -416,6 +419,7 @@ module NodeJS =
 
     type [<AllowNullLiteral>] WriteStream =
         inherit Socket
+        abstract writableHighWaterMark: float
         abstract columns: float option with get, set
         abstract rows: float option with get, set
         abstract _write: chunk: obj option * encoding: string * callback: Function -> unit
@@ -428,6 +432,7 @@ module NodeJS =
 
     type [<AllowNullLiteral>] ReadStream =
         inherit Socket
+        abstract readableHighWaterMark: float
         abstract isRaw: bool option with get, set
         abstract setRawMode: mode: bool -> unit
         abstract _read: size: float -> unit
@@ -448,6 +453,7 @@ module NodeJS =
         abstract abort: unit -> unit
         abstract chdir: directory: string -> unit
         abstract cwd: unit -> string
+        abstract debugPort: float with get, set
         abstract emitWarning: warning: U2<string, Error> * ?name: string * ?ctor: Function -> unit
         abstract env: ProcessEnv with get, set
         abstract exit: ?code: float -> obj
@@ -641,6 +647,7 @@ module NodeJS =
         abstract unref: unit -> unit
 
     type [<AllowNullLiteral>] Module =
+        abstract builtinModules: ResizeArray<string> with get, set
         abstract Module: obj with get, set
         abstract exports: obj option with get, set
         abstract require: NodeRequireFunction with get, set
@@ -739,7 +746,7 @@ module Querystring =
         abstract decodeURIComponent: Function option with get, set
 
     type [<AllowNullLiteral>] ParsedUrlQuery =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> option with get, set
 
 module Events =
 
@@ -804,6 +811,7 @@ module Http =
         abstract ``access-control-allow-headers``: string option with get, set
         abstract ``accept-patch``: string option with get, set
         abstract ``accept-ranges``: string option with get, set
+        abstract authorization: string option with get, set
         abstract age: string option with get, set
         abstract allow: string option with get, set
         abstract ``alt-svc``: string option with get, set
@@ -970,6 +978,7 @@ module Http =
         abstract maxFreeSockets: float option with get, set
 
     type [<AllowNullLiteral>] Agent =
+        abstract maxFreeSockets: float with get, set
         abstract maxSockets: float with get, set
         abstract sockets: obj option with get, set
         abstract requests: obj option with get, set
@@ -1221,27 +1230,27 @@ module Zlib =
         abstract createDeflateRaw: ?options: ZlibOptions -> DeflateRaw
         abstract createInflateRaw: ?options: ZlibOptions -> InflateRaw
         abstract createUnzip: ?options: ZlibOptions -> Unzip
-        abstract deflate: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract deflate: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract deflateSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
-        abstract deflateRaw: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract deflateRaw: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract deflateRawSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
-        abstract gzip: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract gzip: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract gzipSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
-        abstract gunzip: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract gunzip: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract gunzipSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
-        abstract inflate: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract inflate: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract inflateSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
-        abstract inflateRaw: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract inflateRaw: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract inflateRawSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
-        abstract unzip: buf: U2<Buffer, string> * callback: (Error option -> Buffer -> unit) -> unit
-        abstract unzip: buf: U2<Buffer, string> * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
-        abstract unzipSync: buf: U2<Buffer, string> * ?options: ZlibOptions -> Buffer
+        abstract deflate: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract deflate: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract deflateSync: buf: InputType * ?options: ZlibOptions -> Buffer
+        abstract deflateRaw: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract deflateRaw: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract deflateRawSync: buf: InputType * ?options: ZlibOptions -> Buffer
+        abstract gzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract gzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract gzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
+        abstract gunzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract gunzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract gunzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
+        abstract inflate: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract inflate: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract inflateSync: buf: InputType * ?options: ZlibOptions -> Buffer
+        abstract inflateRaw: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract inflateRaw: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract inflateRawSync: buf: InputType * ?options: ZlibOptions -> Buffer
+        abstract unzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract unzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
+        abstract unzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
         abstract Z_NO_FLUSH: float
         abstract Z_PARTIAL_FLUSH: float
         abstract Z_SYNC_FLUSH: float
@@ -1327,6 +1336,21 @@ module Zlib =
     type [<AllowNullLiteral>] Unzip =
         inherit Stream.Transform
         inherit Zlib
+
+    type InputType =
+        U3<string, Buffer, DataView>
+
+    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module InputType =
+        let ofString v: InputType = v |> U3.Case1
+        let isString (v: InputType) = match v with U3.Case1 _ -> true | _ -> false
+        let asString (v: InputType) = match v with U3.Case1 o -> Some o | _ -> None
+        let ofBuffer v: InputType = v |> U3.Case2
+        let isBuffer (v: InputType) = match v with U3.Case2 _ -> true | _ -> false
+        let asBuffer (v: InputType) = match v with U3.Case2 o -> Some o | _ -> None
+        let ofDataView v: InputType = v |> U3.Case3
+        let isDataView (v: InputType) = match v with U3.Case3 _ -> true | _ -> false
+        let asDataView (v: InputType) = match v with U3.Case3 o -> Some o | _ -> None
 
     module Constants =
 
@@ -1449,6 +1473,7 @@ module Https =
 
     type [<AllowNullLiteral>] Agent =
         inherit Http.Agent
+        abstract options: AgentOptions with get, set
 
     type [<AllowNullLiteral>] AgentStatic =
         [<Emit "new $0($1...)">] abstract Create: ?options: AgentOptions -> Agent
@@ -1632,6 +1657,9 @@ module Readline =
         abstract completer: U2<Completer, AsyncCompleter> option with get, set
         abstract terminal: bool option with get, set
         abstract historySize: float option with get, set
+        abstract prompt: string option with get, set
+        abstract crlfDelay: float option with get, set
+        abstract removeHistoryDuplicates: bool option with get, set
 
 module Vm =
 
@@ -1639,10 +1667,10 @@ module Vm =
         abstract Script: ScriptStatic
         abstract createContext: ?sandbox: Context -> Context
         abstract isContext: sandbox: Context -> bool
-        abstract runInContext: code: string * contextifiedSandbox: Context * ?options: RunningScriptOptions -> obj option
+        abstract runInContext: code: string * contextifiedSandbox: Context * ?options: U2<RunningScriptOptions, string> -> obj option
         abstract runInDebugContext: code: string -> obj option
-        abstract runInNewContext: code: string * ?sandbox: Context * ?options: RunningScriptOptions -> obj option
-        abstract runInThisContext: code: string * ?options: RunningScriptOptions -> obj option
+        abstract runInNewContext: code: string * ?sandbox: Context * ?options: U2<RunningScriptOptions, string> -> obj option
+        abstract runInThisContext: code: string * ?options: U2<RunningScriptOptions, string> -> obj option
 
     type [<AllowNullLiteral>] Context =
         interface end
@@ -1790,6 +1818,7 @@ module Child_process =
         abstract gid: float option with get, set
         abstract shell: U2<bool, string> option with get, set
         abstract windowsVerbatimArguments: bool option with get, set
+        abstract windowsHide: bool option with get, set
 
     type [<AllowNullLiteral>] ExecOptions =
         abstract cwd: string option with get, set
@@ -1800,6 +1829,7 @@ module Child_process =
         abstract killSignal: string option with get, set
         abstract uid: float option with get, set
         abstract gid: float option with get, set
+        abstract windowsHide: bool option with get, set
 
     type [<AllowNullLiteral>] ExecOptionsWithStringEncoding =
         inherit ExecOptions
@@ -1825,6 +1855,7 @@ module Child_process =
         abstract killSignal: string option with get, set
         abstract uid: float option with get, set
         abstract gid: float option with get, set
+        abstract windowsHide: bool option with get, set
         abstract windowsVerbatimArguments: bool option with get, set
 
     type [<AllowNullLiteral>] ExecFileOptionsWithStringEncoding =
@@ -1878,6 +1909,7 @@ module Child_process =
         abstract maxBuffer: float option with get, set
         abstract encoding: string option with get, set
         abstract shell: U2<bool, string> option with get, set
+        abstract windowsHide: bool option with get, set
         abstract windowsVerbatimArguments: bool option with get, set
 
     type [<AllowNullLiteral>] SpawnSyncOptionsWithStringEncoding =
@@ -1909,6 +1941,7 @@ module Child_process =
         abstract killSignal: string option with get, set
         abstract maxBuffer: float option with get, set
         abstract encoding: string option with get, set
+        abstract windowsHide: bool option with get, set
 
     type [<AllowNullLiteral>] ExecSyncOptionsWithStringEncoding =
         inherit ExecSyncOptions
@@ -1929,6 +1962,7 @@ module Child_process =
         abstract killSignal: string option with get, set
         abstract maxBuffer: float option with get, set
         abstract encoding: string option with get, set
+        abstract windowsHide: bool option with get, set
 
     type [<AllowNullLiteral>] ExecFileSyncOptionsWithStringEncoding =
         inherit ExecFileSyncOptions
@@ -1949,6 +1983,8 @@ module Url =
         abstract format: URL: URL * ?options: URLFormatOptions -> string
         abstract format: urlObject: U2<UrlObject, string> -> string
         abstract resolve: from: string * ``to``: string -> string
+        abstract domainToASCII: domain: string -> string
+        abstract domainToUnicode: domain: string -> string
         abstract URLSearchParams: URLSearchParamsStatic
         abstract URL: URLStatic
 
@@ -2028,6 +2064,7 @@ module Url =
 
 module Dns =
     let [<Import("lookup","dns")>] lookup: Lookup.IExports = jsNative
+    let [<Import("lookupService","dns")>] lookupService: LookupService.IExports = jsNative
     let [<Import("resolve","dns")>] resolve: Resolve.IExports = jsNative
     let [<Import("resolve4","dns")>] resolve4: Resolve4.IExports = jsNative
     let [<Import("resolve6","dns")>] resolve6: Resolve6.IExports = jsNative
@@ -2040,6 +2077,7 @@ module Dns =
         abstract lookup: hostname: string * options: LookupAllOptions * callback: (NodeJS.ErrnoException -> ResizeArray<LookupAddress> -> unit) -> unit
         abstract lookup: hostname: string * options: LookupOptions * callback: (NodeJS.ErrnoException -> U2<string, ResizeArray<LookupAddress>> -> float -> unit) -> unit
         abstract lookup: hostname: string * callback: (NodeJS.ErrnoException -> string -> float -> unit) -> unit
+        abstract lookupService: address: string * port: float * callback: (NodeJS.ErrnoException -> string -> string -> unit) -> unit
         abstract resolve: hostname: string * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
         [<Emit "$0.resolve($1,'A',$2)">] abstract resolve_A: hostname: string * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
         [<Emit "$0.resolve($1,'AAAA',$2)">] abstract resolve_AAAA: hostname: string * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
@@ -2116,6 +2154,11 @@ module Dns =
             abstract __promisify__: hostname: string * options: LookupAllOptions -> Promise<obj>
             abstract __promisify__: hostname: string * ?options: U2<LookupOneOptions, float> -> Promise<obj>
             abstract __promisify__: hostname: string * ?options: U2<LookupOptions, float> -> Promise<obj>
+
+    module LookupService =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract __promisify__: address: string * port: float -> Promise<obj>
 
     type [<AllowNullLiteral>] ResolveOptions =
         abstract ttl: bool with get, set
@@ -2465,8 +2508,8 @@ module Dgram =
 
     type [<AllowNullLiteral>] Socket =
         inherit Events.EventEmitter
-        abstract send: msg: U3<Buffer, String, ResizeArray<obj option>> * port: float * address: string * ?callback: (Error option -> float -> unit) -> unit
-        abstract send: msg: U3<Buffer, String, ResizeArray<obj option>> * offset: float * length: float * port: float * address: string * ?callback: (Error option -> float -> unit) -> unit
+        abstract send: msg: U4<Buffer, string, Uint8Array, ResizeArray<obj option>> * port: float * ?address: string * ?callback: (Error option -> float -> unit) -> unit
+        abstract send: msg: U3<Buffer, string, Uint8Array> * offset: float * length: float * port: float * ?address: string * ?callback: (Error option -> float -> unit) -> unit
         abstract bind: ?port: float * ?address: string * ?callback: (unit -> unit) -> unit
         abstract bind: ?port: float * ?callback: (unit -> unit) -> unit
         abstract bind: ?callback: (unit -> unit) -> unit
@@ -2676,7 +2719,7 @@ module Fs =
         /// <param name="path">A path to the new symlink. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="type">May be set to `'dir'`, `'file'`, or `'junction'` (default is `'file'`) and is only available on Windows (ignored on other platforms).
         /// When using `'junction'`, the `target` argument will automatically be normalized to an absolute path.</param>
-        abstract symlink: target: PathLike * path: PathLike * ``type``: string option * callback: (NodeJS.ErrnoException -> unit) -> unit
+        abstract symlink: target: PathLike * path: PathLike * ``type``: Symlink.Type option * callback: (NodeJS.ErrnoException -> unit) -> unit
         /// <summary>Asynchronous symlink(2) - Create a new symbolic link to an existing file.</summary>
         /// <param name="target">A path to an existing file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="path">A path to the new symlink. If a URL is provided, it must use the `file:` protocol.</param>
@@ -2686,7 +2729,7 @@ module Fs =
         /// <param name="path">A path to the new symlink. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="type">May be set to `'dir'`, `'file'`, or `'junction'` (default is `'file'`) and is only available on Windows (ignored on other platforms).
         /// When using `'junction'`, the `target` argument will automatically be normalized to an absolute path.</param>
-        abstract symlinkSync: target: PathLike * path: PathLike * ?``type``: string option -> unit
+        abstract symlinkSync: target: PathLike * path: PathLike * ?``type``: Symlink.Type option -> unit
         /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -3350,6 +3393,11 @@ module Fs =
             /// When using `'junction'`, the `target` argument will automatically be normalized to an absolute path.</param>
             abstract __promisify__: target: PathLike * path: PathLike * ?``type``: string option -> Promise<unit>
 
+        type [<StringEnum>] [<RequireQualifiedAccess>] Type =
+            | Dir
+            | File
+            | Junction
+
     module Readlink =
 
         type [<AllowNullLiteral>] IExports =
@@ -3673,8 +3721,8 @@ module Path =
         /// If there is no '.' in the last portion of the path or the first character of it is '.', then it returns an empty string</summary>
         /// <param name="p">the path to evaluate.</param>
         abstract extname: p: string -> string
-        abstract sep: string
-        abstract delimiter: string
+        abstract sep: U2<string, string>
+        abstract delimiter: U2<string, string>
         /// <summary>Returns an object from a path string - the opposite of format().</summary>
         /// <param name="pathString">path to evaluate.</param>
         abstract parse: pathString: string -> ParsedPath
@@ -3823,6 +3871,11 @@ module Tls =
         abstract getPeerCertificate: detailed: obj -> DetailedPeerCertificate
         abstract getPeerCertificate: ?detailed: obj -> PeerCertificate
         abstract getPeerCertificate: ?detailed: bool -> U2<PeerCertificate, DetailedPeerCertificate>
+        /// Returns a string containing the negotiated SSL/TLS protocol version of the current connection.
+        /// The value `'unknown'` will be returned for connected sockets that have not completed the handshaking process.
+        /// The value `null` will be returned for server sockets or disconnected client sockets.
+        /// See https://www.openssl.org/docs/man1.0.2/ssl/SSL_get_version.html for more information.
+        abstract getProtocol: unit -> string option
         /// Could be used to speed up handshake establishment when reconnecting to the server.
         abstract getSession: unit -> obj option
         /// NOTE: Works only with client TLS sockets.
@@ -4136,9 +4189,9 @@ module Crypto =
         abstract update: data: string * input_encoding: Utf8AsciiBinaryEncoding * output_encoding: HexBase64BinaryEncoding -> string
         abstract final: unit -> Buffer
         abstract final: output_encoding: string -> string
-        abstract setAutoPadding: ?auto_padding: bool -> unit
+        abstract setAutoPadding: ?auto_padding: bool -> Cipher
         abstract getAuthTag: unit -> Buffer
-        abstract setAAD: buffer: Buffer -> unit
+        abstract setAAD: buffer: Buffer -> Cipher
 
     type [<AllowNullLiteral>] Decipher =
         inherit NodeJS.ReadWriteStream
@@ -4148,9 +4201,9 @@ module Crypto =
         abstract update: data: string * input_encoding: HexBase64BinaryEncoding * output_encoding: Utf8AsciiBinaryEncoding -> string
         abstract final: unit -> Buffer
         abstract final: output_encoding: string -> string
-        abstract setAutoPadding: ?auto_padding: bool -> unit
-        abstract setAuthTag: tag: Buffer -> unit
-        abstract setAAD: buffer: Buffer -> unit
+        abstract setAutoPadding: ?auto_padding: bool -> Decipher
+        abstract setAuthTag: tag: Buffer -> Decipher
+        abstract setAAD: buffer: Buffer -> Decipher
 
     type [<AllowNullLiteral>] Signer =
         inherit NodeJS.WritableStream
@@ -4248,6 +4301,7 @@ module Stream =
         inherit Stream
         inherit NodeJS.ReadableStream
         abstract readable: bool with get, set
+        abstract readableHighWaterMark: float
         abstract _read: size: float -> unit
         abstract read: ?size: float -> obj option
         abstract setEncoding: encoding: string -> Readable
@@ -4317,7 +4371,7 @@ module Stream =
         abstract highWaterMark: float option with get, set
         abstract decodeStrings: bool option with get, set
         abstract objectMode: bool option with get, set
-        abstract write: (U2<string, Buffer> -> string -> Function -> obj option) option with get, set
+        abstract write: (obj option -> string -> Function -> obj option) option with get, set
         abstract writev: (Array<obj> -> Function -> obj option) option with get, set
         abstract destroy: (Error -> obj option) option with get, set
         abstract final: ((Error -> unit) -> unit) option with get, set
@@ -4326,6 +4380,7 @@ module Stream =
         inherit Stream
         inherit NodeJS.WritableStream
         abstract writable: bool with get, set
+        abstract writableHighWaterMark: float
         abstract _write: chunk: obj option * encoding: string * callback: (Error -> unit) -> unit
         abstract _writev: chunks: Array<obj> * callback: (Error -> unit) -> unit
         abstract _destroy: err: Error * callback: Function -> unit
@@ -4411,6 +4466,7 @@ module Stream =
         inherit Readable
         inherit Writable
         abstract writable: bool with get, set
+        abstract writableHighWaterMark: float
         abstract _write: chunk: obj option * encoding: string * callback: (Error -> unit) -> unit
         abstract _writev: chunks: Array<obj> * callback: (Error -> unit) -> unit
         abstract _destroy: err: Error * callback: Function -> unit
@@ -4490,19 +4546,21 @@ module Util =
         abstract callbackify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Promise<unit>) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> (NodeJS.ErrnoException -> unit) -> unit)
         abstract callbackify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Promise<'TResult>) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> (NodeJS.ErrnoException -> 'TResult -> unit) -> unit)
         abstract promisify: fn: CustomPromisify<'TCustom> -> 'TCustom
-        abstract promisify: fn: ((Error -> 'TResult -> unit) -> unit) -> (unit -> Promise<'TResult>)
-        abstract promisify: fn: ((Error -> unit) -> unit) -> (unit -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> (Error -> 'TResult -> unit) -> unit) -> ('T1 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> (Error -> unit) -> unit) -> ('T1 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> (Error -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> (Error -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (Error -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (Error -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (Error -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (Error -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (Error -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (Error -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<unit>)
+        abstract promisify: fn: ((Error option -> 'TResult -> unit) -> unit) -> (unit -> Promise<'TResult>)
+        abstract promisify: fn: ((Error option -> unit) -> unit) -> (unit -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> (Error option -> unit) -> unit) -> ('T1 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<unit>)
         abstract promisify: fn: Function -> Function
+        abstract TextDecoder: TextDecoderStatic
+        abstract TextEncoder: TextEncoderStatic
 
     type [<AllowNullLiteral>] InspectOptions =
         inherit NodeJS.InspectOptions
@@ -4516,13 +4574,36 @@ module Util =
         type [<AllowNullLiteral>] IExports =
             abstract custom: Symbol
 
+    type [<AllowNullLiteral>] TextDecoder =
+        abstract encoding: string
+        abstract fatal: bool
+        abstract ignoreBOM: bool
+        abstract decode: ?input: obj * ?options: TextDecoderDecodeOptions -> string
+
+    type [<AllowNullLiteral>] TextDecoderDecodeOptions =
+        abstract stream: bool option with get, set
+
+    type [<AllowNullLiteral>] TextDecoderStatic =
+        [<Emit "new $0($1...)">] abstract Create: ?encoding: string * ?options: TextDecoderStaticOptions -> TextDecoder
+
+    type [<AllowNullLiteral>] TextDecoderStaticOptions =
+        abstract fatal: bool option with get, set
+        abstract ignoreBOM: bool option with get, set
+
+    type [<AllowNullLiteral>] TextEncoder =
+        abstract encoding: string
+        abstract encode: ?input: string -> Uint8Array
+
+    type [<AllowNullLiteral>] TextEncoderStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> TextEncoder
+
 module Assert =
 
     type [<AllowNullLiteral>] IExports =
         abstract ``internal``: value: obj option * ?message: string -> unit
         abstract AssertionError: AssertionErrorStatic
-        abstract fail: message: string -> unit
-        abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: string -> unit
+        abstract fail: message: string -> obj
+        abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: string -> obj
         abstract ok: value: obj option * ?message: string -> unit
         abstract equal: actual: obj option * expected: obj option * ?message: string -> unit
         abstract notEqual: actual: obj option * expected: obj option * ?message: string -> unit
@@ -4980,6 +5061,17 @@ module Async_hooks =
         /// Disable the callbacks for a given AsyncHook instance from the global pool of AsyncHook callbacks to be executed. Once a hook has been disabled it will not be called again until enabled.
         abstract disable: unit -> AsyncHook
 
+    type [<AllowNullLiteral>] AsyncResourceOptions =
+        /// The ID of the execution context that created this async event.
+        /// Default: `executionAsyncId()`
+        abstract triggerAsyncId: float option with get, set
+        /// Disables automatic `emitDestroy` when the object is garbage collected.
+        /// This usually does not need to be set (even if `emitDestroy` is called
+        /// manually), unless the resource's `asyncId` is retrieved and the
+        /// sensitive API's `emitDestroy` is called with it.
+        /// Default: `false`
+        abstract requireManualDestroy: bool option with get, set
+
     /// The class AsyncResource was designed to be extended by the embedder's async resources.
     /// Using this users can easily trigger the lifetime events of their own resources.
     type [<AllowNullLiteral>] AsyncResource =
@@ -4998,9 +5090,11 @@ module Async_hooks =
         /// <summary>AsyncResource() is meant to be extended. Instantiating a
         /// new AsyncResource() also triggers init. If triggerAsyncId is omitted then
         /// async_hook.executionAsyncId() is used.</summary>
-        /// <param name="type">the name of this async resource type</param>
-        /// <param name="triggerAsyncId">the unique ID of the async resource in whose execution context this async resource was created</param>
-        [<Emit "new $0($1...)">] abstract Create: ``type``: string * ?triggerAsyncId: float -> AsyncResource
+        /// <param name="type">The type of async event.</param>
+        /// <param name="triggerAsyncId">The ID of the execution context that created
+        /// this async event (default: `executionAsyncId()`), or an
+        /// AsyncResourceOptions object (since 8.10)</param>
+        [<Emit "new $0($1...)">] abstract Create: ``type``: string * ?triggerAsyncId: U2<float, AsyncResourceOptions> -> AsyncResource
 
 module Http2 =
     type IncomingHttpHeaders = Http.IncomingHttpHeaders

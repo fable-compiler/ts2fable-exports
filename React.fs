@@ -43,6 +43,7 @@ type NativeWheelEvent =
 module React =
 
     type [<AllowNullLiteral>] IExports =
+        abstract createClass: spec: ComponentSpec<'P, 'S> -> ClassicComponentClass<'P>
         abstract createFactory: ``type``: obj -> HTMLFactory<'T>
         abstract createFactory: ``type``: obj -> SVGFactory
         abstract createFactory: ``type``: string -> DOMFactory<'P, 'T>
@@ -50,13 +51,13 @@ module React =
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-        abstract createElement: ``type``: obj * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
-        abstract createElement: ``type``: string * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
-        abstract createElement: ``type``: SFC<'P> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
-        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
-        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
-        abstract createElement: ``type``: U3<SFC<'P>, ComponentClass<'P>, string> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
+        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<obj, HTMLInputElement>
+        abstract createElement: ``type``: obj * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
+        abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
+        abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
+        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
+        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
+        abstract createElement: ``type``: ComponentClass<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
         abstract cloneElement: element: DetailedReactHTMLElement<'P, 'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
         abstract cloneElement: element: ReactHTMLElement<'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactHTMLElement<'T>
         abstract cloneElement: element: ReactSVGElement * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
@@ -64,29 +65,30 @@ module React =
         abstract cloneElement: element: SFCElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
         abstract cloneElement: element: CElement<'P, 'T> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
         abstract cloneElement: element: ReactElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
-        abstract isValidElement: ``object``: obj option -> bool
+        abstract isValidElement: ``object``: IsValidElementObject -> bool
+        abstract DOM: ReactDOM
+        abstract PropTypes: ReactPropTypes
         abstract Children: ReactChildren
-        abstract Fragment: ComponentType
         abstract version: string
         abstract Component: ComponentStatic
         abstract PureComponent: PureComponentStatic
         abstract ComponentClass: ComponentClassStatic
         abstract ClassicComponentClass: ClassicComponentClassStatic
 
-    type ReactType =
-        ReactType<obj>
+    type [<AllowNullLiteral>] IsValidElementObject =
+        interface end
 
-    type ReactType<'P> =
-        U2<string, ComponentType<'P>>
+    type ReactType =
+        U2<string, ComponentType<obj option>>
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module ReactType =
-        let ofString v: ReactType<'P> = v |> U2.Case1
-        let isString (v: ReactType<'P>) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: ReactType<'P>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofComponentType v: ReactType<'P> = v |> U2.Case2
-        let isComponentType (v: ReactType<'P>) = match v with U2.Case2 _ -> true | _ -> false
-        let asComponentType (v: ReactType<'P>) = match v with U2.Case2 o -> Some o | _ -> None
+        let ofString v: ReactType = v |> U2.Case1
+        let isString (v: ReactType) = match v with U2.Case1 _ -> true | _ -> false
+        let asString (v: ReactType) = match v with U2.Case1 o -> Some o | _ -> None
+        let ofComponentType v: ReactType = v |> U2.Case2
+        let isComponentType (v: ReactType) = match v with U2.Case2 _ -> true | _ -> false
+        let asComponentType (v: ReactType) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ComponentType =
         ComponentType<obj>
@@ -123,9 +125,9 @@ module React =
         let ofString v: Ref<'T> = v |> U2.Case1
         let isString (v: Ref<'T>) = match v with U2.Case1 _ -> true | _ -> false
         let asString (v: Ref<'T>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofBivarianceHack v: Ref<'T> = v |> U2.Case2
-        let isBivarianceHack (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
-        let asBivarianceHack (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
+        let ofCase2 v: Ref<'T> = v |> U2.Case2
+        let isCase2 (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
+        let asCase2 (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
 
     type [<AllowNullLiteral>] ComponentState =
         interface end
@@ -172,10 +174,6 @@ module React =
     type [<AllowNullLiteral>] ReactSVGElement =
         inherit DOMElement<SVGAttributes<SVGElement>, SVGElement>
         abstract ``type``: obj with get, set
-
-    type [<AllowNullLiteral>] ReactPortal =
-        abstract key: Key option with get, set
-        abstract children: ReactNode with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
         [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
@@ -234,34 +232,22 @@ module React =
         Array<U3<ReactChild, ResizeArray<obj option>, bool>>
 
     type ReactNode =
-        U6<ReactChild, ReactFragment, ReactPortal, string, float, bool> option
+        U3<ReactChild, ReactFragment, bool> option
 
     [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module ReactNode =
-        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case1
-        let ofReactChild v: ReactNode = v |> U6.Case1 |> Some
-        let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case1 _ -> true | _ -> false
-        let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case1 o -> Some o | _ -> None
-        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case2
-        let ofReactFragment v: ReactNode = v |> U6.Case2 |> Some
-        let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case2 _ -> true | _ -> false
-        let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case2 o -> Some o | _ -> None
-        let ofReactPortalOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case3
-        let ofReactPortal v: ReactNode = v |> U6.Case3 |> Some
-        let isReactPortal (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case3 _ -> true | _ -> false
-        let asReactPortal (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case3 o -> Some o | _ -> None
-        let ofStringOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case4
-        let ofString v: ReactNode = v |> U6.Case4 |> Some
-        let isString (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case4 _ -> true | _ -> false
-        let asString (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case4 o -> Some o | _ -> None
-        let ofFloatOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case5
-        let ofFloat v: ReactNode = v |> U6.Case5 |> Some
-        let isFloat (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case5 _ -> true | _ -> false
-        let asFloat (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case5 o -> Some o | _ -> None
-        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case6
-        let ofBool v: ReactNode = v |> U6.Case6 |> Some
-        let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case6 _ -> true | _ -> false
-        let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case6 o -> Some o | _ -> None
+        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case1
+        let ofReactChild v: ReactNode = v |> U3.Case1 |> Some
+        let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case1 _ -> true | _ -> false
+        let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case1 o -> Some o | _ -> None
+        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case2
+        let ofReactFragment v: ReactNode = v |> U3.Case2 |> Some
+        let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case2 _ -> true | _ -> false
+        let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case2 o -> Some o | _ -> None
+        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case3
+        let ofBool v: ReactNode = v |> U3.Case3 |> Some
+        let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case3 _ -> true | _ -> false
+        let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case3 o -> Some o | _ -> None
 
     type ReactInstance =
         U2<Component<obj option>, Element>
@@ -283,16 +269,17 @@ module React =
 
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
-        abstract setState: state: U2<(obj -> 'P -> U2<obj, 'S> option), U2<obj, 'S> option> * ?callback: (unit -> unit) -> unit
-        abstract forceUpdate: ?callBack: (unit -> unit) -> unit
-        abstract render: unit -> ReactNode
+        abstract setState: f: ('S -> 'P -> obj) * ?callback: (unit -> obj option) -> unit
+        abstract setState: state: obj * ?callback: (unit -> obj option) -> unit
+        abstract forceUpdate: ?callBack: (unit -> obj option) -> unit
+        abstract render: unit -> U2<JSX.Element, obj> option
         abstract props: obj with get, set
         abstract state: obj with get, set
         abstract context: obj option with get, set
         abstract refs: obj with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> Component<'P, 'S>
+        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> Component<'P, 'S>
 
     type PureComponent<'S> =
         PureComponent<obj, 'S>
@@ -314,7 +301,7 @@ module React =
 
     type [<AllowNullLiteral>] ClassicComponent<'P, 'S> =
         inherit Component<'P, 'S>
-        abstract replaceState: nextState: 'S * ?callback: (unit -> unit) -> unit
+        abstract replaceState: nextState: 'S * ?callback: (unit -> obj option) -> unit
         abstract isMounted: unit -> bool
         abstract getInitialState: unit -> 'S
 
@@ -348,7 +335,7 @@ module React =
         abstract displayName: string option with get, set
 
     type [<AllowNullLiteral>] ComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> ComponentClass<'P>
+        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ComponentClass<'P>
 
     type ClassicComponentClass =
         ClassicComponentClass<obj>
@@ -358,7 +345,7 @@ module React =
         abstract getDefaultProps: unit -> 'P
 
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> ClassicComponentClass<'P>
+        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ClassicComponentClass<'P>
 
     type [<AllowNullLiteral>] ClassType<'P, 'T, 'C> =
         interface end
@@ -410,12 +397,11 @@ module React =
 
     type [<AllowNullLiteral>] ComponentSpec<'P, 'S> =
         inherit Mixin<'P, 'S>
-        abstract render: unit -> ReactNode
+        abstract render: unit -> ReactElement<obj option> option
         [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] SyntheticEvent<'T> =
         abstract bubbles: bool with get, set
-        /// A reference to the element on which the event listener is registered.
         abstract currentTarget: obj with get, set
         abstract cancelable: bool with get, set
         abstract defaultPrevented: bool with get, set
@@ -427,8 +413,6 @@ module React =
         abstract stopPropagation: unit -> unit
         abstract isPropagationStopped: unit -> bool
         abstract persist: unit -> unit
-        /// A reference to the element from which the event was originally dispatched.
-        /// This might be a child element to the element on which the event listener is registered.
         abstract target: EventTarget with get, set
         abstract timeStamp: float with get, set
         abstract ``type``: string with get, set
@@ -452,7 +436,6 @@ module React =
         inherit SyntheticEvent<'T>
         abstract nativeEvent: NativeFocusEvent with get, set
         abstract relatedTarget: EventTarget with get, set
-        abstract target: obj with get, set
 
     type [<AllowNullLiteral>] FormEvent<'T> =
         inherit SyntheticEvent<'T>
@@ -470,9 +453,7 @@ module React =
         abstract altKey: bool with get, set
         abstract charCode: float with get, set
         abstract ctrlKey: bool with get, set
-        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
         abstract getModifierState: key: string -> bool
-        /// See the [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#named-key-attribute-values). for possible values
         abstract key: string with get, set
         abstract keyCode: float with get, set
         abstract locale: string with get, set
@@ -491,7 +472,6 @@ module React =
         abstract clientX: float with get, set
         abstract clientY: float with get, set
         abstract ctrlKey: bool with get, set
-        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
         abstract getModifierState: key: string -> bool
         abstract metaKey: bool with get, set
         abstract nativeEvent: NativeMouseEvent with get, set
@@ -507,7 +487,6 @@ module React =
         abstract altKey: bool with get, set
         abstract changedTouches: TouchList with get, set
         abstract ctrlKey: bool with get, set
-        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
         abstract getModifierState: key: string -> bool
         abstract metaKey: bool with get, set
         abstract nativeEvent: NativeTouchEvent with get, set
@@ -544,7 +523,7 @@ module React =
         abstract pseudoElement: string with get, set
 
     type [<AllowNullLiteral>] EventHandler<'E> =
-        abstract bivarianceHack: ``event``: 'E -> unit
+        [<Emit "$0($1...)">] abstract Invoke: ``event``: 'E -> unit
 
     type ReactEventHandler<'T> =
         EventHandler<SyntheticEvent<'T>>
@@ -817,8 +796,6 @@ module React =
         abstract backgroundPosition: U2<CSSWideKeyword, obj option> option with get, set
         /// Background-repeat defines if and how background images will be repeated after they have been sized and positioned
         abstract backgroundRepeat: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines the size of the background images
-        abstract backgroundSize: U2<CSSWideKeyword, obj option> option with get, set
         /// Obsolete - spec retired, not implemented.
         abstract baselineShift: U2<CSSWideKeyword, obj option> option with get, set
         /// Non standard. Sets or retrieves the location of the Dynamic HTML (DHTML) behavior.
@@ -832,9 +809,9 @@ module React =
         /// Sets the color of the bottom border of an element.
         abstract borderBottomColor: U2<CSSWideKeyword, obj option> option with get, set
         /// Defines the shape of the border of the bottom-left corner.
-        abstract borderBottomLeftRadius: U2<CSSWideKeyword, CSSLength> option with get, set
+        abstract borderBottomLeftRadius: U2<CSSWideKeyword, obj option> option with get, set
         /// Defines the shape of the border of the bottom-right corner.
-        abstract borderBottomRightRadius: U2<CSSWideKeyword, CSSLength> option with get, set
+        abstract borderBottomRightRadius: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the line style of the bottom border of a box.
         abstract borderBottomStyle: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the width of an element's bottom border. To set all four borders,
@@ -878,8 +855,6 @@ module React =
         /// use the border-width shorthand property which sets the values simultaneously for border-top-width,
         /// border-right-width, border-bottom-width, and border-left-width.
         abstract borderLeftWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand property that sets the rounding of all four corners.
-        abstract borderRadius: U2<CSSWideKeyword, CSSLength> option with get, set
         /// Shorthand property that defines the border-width, border-style and border-color of an element's right border
         /// in a single declaration. Note that you can use the corresponding longhand properties to set specific
         /// individual properties of the right border — border-right-width, border-right-style and border-right-color.
@@ -914,9 +889,9 @@ module React =
         /// Colors can be defined several ways. For more information, see Usage.
         abstract borderTopColor: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the rounding of the top-left corner of the element.
-        abstract borderTopLeftRadius: U2<CSSWideKeyword, CSSLength> option with get, set
+        abstract borderTopLeftRadius: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the rounding of the top-right corner of the element.
-        abstract borderTopRightRadius: U2<CSSWideKeyword, CSSLength> option with get, set
+        abstract borderTopRightRadius: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the style of an element's top border. To set all four borders, use the shorthand property, border-style.
         /// Otherwise, you can set the borders individually with border-top-style, border-right-style, border-bottom-style, border-left-style.
         abstract borderTopStyle: U2<CSSWideKeyword, obj option> option with get, set
@@ -1159,7 +1134,7 @@ module React =
         /// Defines how the browser distributes space between and around flex items
         /// along the main-axis of their container.
         /// See CSS justify-content property https://www.w3.org/TR/css-flexbox-1/#justify-content-property
-        abstract justifyContent: U8<CSSWideKeyword, string, string, string, string, string, string, string> option with get, set
+        abstract justifyContent: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
         abstract layoutGrid: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridChar: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridLine: U2<CSSWideKeyword, obj option> option with get, set
@@ -1614,104 +1589,6 @@ module React =
         abstract results: float option with get, set
         abstract security: string option with get, set
         abstract unselectable: bool option with get, set
-        /// Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application. 
-        abstract ``aria-activedescendant``: string option with get, set
-        /// Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute. 
-        abstract ``aria-atomic``: U3<bool, string, string> option with get, set
-        /// Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be
-        /// presented if they are made.
-        abstract ``aria-autocomplete``: U4<string, string, string, string> option with get, set
-        /// Indicates an element is being modified and that assistive technologies MAY want to wait until the modifications are complete before exposing them to the user. 
-        abstract ``aria-busy``: U3<bool, string, string> option with get, set
-        /// Indicates the current "checked" state of checkboxes, radio buttons, and other widgets.
-        abstract ``aria-checked``: U4<bool, string, string, string> option with get, set
-        /// Defines the total number of columns in a table, grid, or treegrid.
-        abstract ``aria-colcount``: float option with get, set
-        /// Defines an element's column index or position with respect to the total number of columns within a table, grid, or treegrid.
-        abstract ``aria-colindex``: float option with get, set
-        /// Defines the number of columns spanned by a cell or gridcell within a table, grid, or treegrid.
-        abstract ``aria-colspan``: float option with get, set
-        /// Indicates the element that represents the current item within a container or set of related elements. 
-        abstract ``aria-current``: U8<bool, string, string, string, string, string, string, string> option with get, set
-        /// Identifies the element (or elements) that describes the object.
-        abstract ``aria-describedby``: string option with get, set
-        /// Identifies the element that provides a detailed, extended description for the object.
-        abstract ``aria-details``: string option with get, set
-        /// Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable.
-        abstract ``aria-disabled``: U3<bool, string, string> option with get, set
-        /// Indicates what functions can be performed when a dragged object is released on the drop target.
-        abstract ``aria-dropeffect``: U6<string, string, string, string, string, string> option with get, set
-        /// Identifies the element that provides an error message for the object.
-        abstract ``aria-errormessage``: string option with get, set
-        /// Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed. 
-        abstract ``aria-expanded``: U3<bool, string, string> option with get, set
-        /// Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion,
-        /// allows assistive technology to override the general default of reading in document source order.
-        abstract ``aria-flowto``: string option with get, set
-        /// Indicates an element's "grabbed" state in a drag-and-drop operation.
-        abstract ``aria-grabbed``: U3<bool, string, string> option with get, set
-        /// Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element. 
-        abstract ``aria-haspopup``: U8<bool, string, string, string, string, string, string, string> option with get, set
-        /// Indicates whether the element is exposed to an accessibility API.
-        abstract ``aria-hidden``: U3<bool, string, string> option with get, set
-        /// Indicates the entered value does not conform to the format expected by the application.
-        abstract ``aria-invalid``: U5<bool, string, string, string, string> option with get, set
-        /// Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element. 
-        abstract ``aria-keyshortcuts``: string option with get, set
-        /// Defines a string value that labels the current element.
-        abstract ``aria-label``: string option with get, set
-        /// Identifies the element (or elements) that labels the current element.
-        abstract ``aria-labelledby``: string option with get, set
-        /// Defines the hierarchical level of an element within a structure. 
-        abstract ``aria-level``: float option with get, set
-        /// Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region. 
-        abstract ``aria-live``: U3<string, string, string> option with get, set
-        /// Indicates whether an element is modal when displayed. 
-        abstract ``aria-modal``: U3<bool, string, string> option with get, set
-        /// Indicates whether a text box accepts multiple lines of input or only a single line. 
-        abstract ``aria-multiline``: U3<bool, string, string> option with get, set
-        /// Indicates that the user may select more than one item from the current selectable descendants. 
-        abstract ``aria-multiselectable``: U3<bool, string, string> option with get, set
-        /// Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous. 
-        abstract ``aria-orientation``: U2<string, string> option with get, set
-        /// Identifies an element (or elements) in order to define a visual, functional, or contextual parent/child relationship
-        /// between DOM elements where the DOM hierarchy cannot be used to represent the relationship.
-        abstract ``aria-owns``: string option with get, set
-        /// Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value.
-        /// A hint could be a sample value or a brief description of the expected format.
-        abstract ``aria-placeholder``: string option with get, set
-        /// Defines an element's number or position in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.
-        abstract ``aria-posinset``: float option with get, set
-        /// Indicates the current "pressed" state of toggle buttons.
-        abstract ``aria-pressed``: U4<bool, string, string, string> option with get, set
-        /// Indicates that the element is not editable, but is otherwise operable.
-        abstract ``aria-readonly``: U3<bool, string, string> option with get, set
-        /// Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.
-        abstract ``aria-relevant``: U5<string, string, string, string, string> option with get, set
-        /// Indicates that user input is required on the element before a form may be submitted. 
-        abstract ``aria-required``: U3<bool, string, string> option with get, set
-        /// Defines a human-readable, author-localized description for the role of an element. 
-        abstract ``aria-roledescription``: string option with get, set
-        /// Defines the total number of rows in a table, grid, or treegrid.
-        abstract ``aria-rowcount``: float option with get, set
-        /// Defines an element's row index or position with respect to the total number of rows within a table, grid, or treegrid.
-        abstract ``aria-rowindex``: float option with get, set
-        /// Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid.
-        abstract ``aria-rowspan``: float option with get, set
-        /// Indicates the current "selected" state of various widgets.
-        abstract ``aria-selected``: U3<bool, string, string> option with get, set
-        /// Defines the number of items in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.
-        abstract ``aria-setsize``: float option with get, set
-        /// Indicates if items in a table or grid are sorted in ascending or descending order. 
-        abstract ``aria-sort``: U4<string, string, string, string> option with get, set
-        /// Defines the maximum allowed value for a range widget. 
-        abstract ``aria-valuemax``: float option with get, set
-        /// Defines the minimum allowed value for a range widget. 
-        abstract ``aria-valuemin``: float option with get, set
-        /// Defines the current value for a range widget.
-        abstract ``aria-valuenow``: float option with get, set
-        /// Defines the human readable text alternative of aria-valuenow for a range widget. 
-        abstract ``aria-valuetext``: string option with get, set
 
     type [<AllowNullLiteral>] AllHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
@@ -1721,7 +1598,6 @@ module React =
         abstract allowFullScreen: bool option with get, set
         abstract allowTransparency: bool option with get, set
         abstract alt: string option with get, set
-        abstract ``as``: string option with get, set
         abstract async: bool option with get, set
         abstract autoComplete: string option with get, set
         abstract autoFocus: bool option with get, set
@@ -1830,8 +1706,6 @@ module React =
         abstract media: string option with get, set
         abstract rel: string option with get, set
         abstract target: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract ``as``: string option with get, set
 
     type [<AllowNullLiteral>] AudioHTMLAttributes<'T> =
         inherit MediaHTMLAttributes<'T>
@@ -1879,7 +1753,6 @@ module React =
     type [<AllowNullLiteral>] ColHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
         abstract span: float option with get, set
-        abstract width: U2<float, string> option with get, set
 
     type [<AllowNullLiteral>] ColgroupHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
@@ -1893,10 +1766,6 @@ module React =
         inherit HTMLAttributes<'T>
         abstract cite: string option with get, set
         abstract dateTime: string option with get, set
-
-    type [<AllowNullLiteral>] DialogHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract ``open``: bool option with get, set
 
     type [<AllowNullLiteral>] EmbedHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
@@ -1945,7 +1814,6 @@ module React =
     type [<AllowNullLiteral>] ImgHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
         abstract alt: string option with get, set
-        abstract crossOrigin: U3<string, string, string> option with get, set
         abstract height: U2<float, string> option with get, set
         abstract sizes: string option with get, set
         abstract src: string option with get, set
@@ -2015,8 +1883,6 @@ module React =
 
     type [<AllowNullLiteral>] LinkHTMLAttributes<'T> =
         inherit HTMLAttributes<'T>
-        abstract ``as``: string option with get, set
-        abstract crossOrigin: string option with get, set
         abstract href: string option with get, set
         abstract hrefLang: string option with get, set
         abstract integrity: string option with get, set
@@ -2037,12 +1903,10 @@ module React =
         inherit HTMLAttributes<'T>
         abstract autoPlay: bool option with get, set
         abstract controls: bool option with get, set
-        abstract controlsList: string option with get, set
         abstract crossOrigin: string option with get, set
         abstract loop: bool option with get, set
         abstract mediaGroup: string option with get, set
         abstract muted: bool option with get, set
-        abstract playsinline: bool option with get, set
         abstract preload: string option with get, set
         abstract src: string option with get, set
 
@@ -2404,7 +2268,7 @@ module React =
         abstract strokeDashoffset: U2<string, float> option with get, set
         abstract strokeLinecap: U4<string, string, string, string> option with get, set
         abstract strokeLinejoin: U4<string, string, string, string> option with get, set
-        abstract strokeMiterlimit: U2<float, string> option with get, set
+        abstract strokeMiterlimit: string option with get, set
         abstract strokeOpacity: U2<float, string> option with get, set
         abstract strokeWidth: U2<float, string> option with get, set
         abstract surfaceScale: U2<float, string> option with get, set
@@ -2466,26 +2330,6 @@ module React =
         abstract z: U2<float, string> option with get, set
         abstract zoomAndPan: string option with get, set
 
-    type [<AllowNullLiteral>] WebViewHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract allowFullScreen: bool option with get, set
-        abstract allowpopups: bool option with get, set
-        abstract autoFocus: bool option with get, set
-        abstract autosize: bool option with get, set
-        abstract blinkfeatures: string option with get, set
-        abstract disableblinkfeatures: string option with get, set
-        abstract disableguestresize: bool option with get, set
-        abstract disablewebsecurity: bool option with get, set
-        abstract guestinstance: string option with get, set
-        abstract httpreferrer: string option with get, set
-        abstract nodeintegration: bool option with get, set
-        abstract partition: string option with get, set
-        abstract plugins: bool option with get, set
-        abstract preload: string option with get, set
-        abstract src: string option with get, set
-        abstract useragent: string option with get, set
-        abstract webpreferences: string option with get, set
-
     type [<AllowNullLiteral>] ReactHTML =
         abstract a: DetailedHTMLFactory<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> with get, set
         abstract abbr: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
@@ -2515,7 +2359,7 @@ module React =
         abstract del: DetailedHTMLFactory<DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract details: DetailedHTMLFactory<DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract dfn: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dialog: DetailedHTMLFactory<DialogHTMLAttributes<obj>, obj> with get, set
+        abstract dialog: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract div: DetailedHTMLFactory<HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
         abstract dl: DetailedHTMLFactory<HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
         abstract dt: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
@@ -2600,49 +2444,18 @@ module React =
         abstract var: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract video: DetailedHTMLFactory<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
         abstract wbr: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract webview: DetailedHTMLFactory<WebViewHTMLAttributes<obj>, obj> with get, set
 
     type [<AllowNullLiteral>] ReactSVG =
+        abstract svg: SVGFactory with get, set
         abstract animate: SVGFactory with get, set
         abstract circle: SVGFactory with get, set
-        abstract clipPath: SVGFactory with get, set
         abstract defs: SVGFactory with get, set
-        abstract desc: SVGFactory with get, set
         abstract ellipse: SVGFactory with get, set
-        abstract feBlend: SVGFactory with get, set
-        abstract feColorMatrix: SVGFactory with get, set
-        abstract feComponentTransfer: SVGFactory with get, set
-        abstract feComposite: SVGFactory with get, set
-        abstract feConvolveMatrix: SVGFactory with get, set
-        abstract feDiffuseLighting: SVGFactory with get, set
-        abstract feDisplacementMap: SVGFactory with get, set
-        abstract feDistantLight: SVGFactory with get, set
-        abstract feDropShadow: SVGFactory with get, set
-        abstract feFlood: SVGFactory with get, set
-        abstract feFuncA: SVGFactory with get, set
-        abstract feFuncB: SVGFactory with get, set
-        abstract feFuncG: SVGFactory with get, set
-        abstract feFuncR: SVGFactory with get, set
-        abstract feGaussianBlur: SVGFactory with get, set
-        abstract feImage: SVGFactory with get, set
-        abstract feMerge: SVGFactory with get, set
-        abstract feMergeNode: SVGFactory with get, set
-        abstract feMorphology: SVGFactory with get, set
-        abstract feOffset: SVGFactory with get, set
-        abstract fePointLight: SVGFactory with get, set
-        abstract feSpecularLighting: SVGFactory with get, set
-        abstract feSpotLight: SVGFactory with get, set
-        abstract feTile: SVGFactory with get, set
-        abstract feTurbulence: SVGFactory with get, set
-        abstract filter: SVGFactory with get, set
-        abstract foreignObject: SVGFactory with get, set
         abstract g: SVGFactory with get, set
         abstract image: SVGFactory with get, set
         abstract line: SVGFactory with get, set
         abstract linearGradient: SVGFactory with get, set
-        abstract marker: SVGFactory with get, set
         abstract mask: SVGFactory with get, set
-        abstract metadata: SVGFactory with get, set
         abstract path: SVGFactory with get, set
         abstract pattern: SVGFactory with get, set
         abstract polygon: SVGFactory with get, set
@@ -2650,21 +2463,17 @@ module React =
         abstract radialGradient: SVGFactory with get, set
         abstract rect: SVGFactory with get, set
         abstract stop: SVGFactory with get, set
-        abstract svg: SVGFactory with get, set
-        abstract switch: SVGFactory with get, set
         abstract symbol: SVGFactory with get, set
         abstract text: SVGFactory with get, set
-        abstract textPath: SVGFactory with get, set
         abstract tspan: SVGFactory with get, set
         abstract ``use``: SVGFactory with get, set
-        abstract view: SVGFactory with get, set
 
     type [<AllowNullLiteral>] ReactDOM =
         inherit ReactHTML
         inherit ReactSVG
 
     type [<AllowNullLiteral>] Validator<'T> =
-        abstract bivarianceHack: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> Error option
+        [<Emit "$0($1...)">] abstract Invoke: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> Error option
 
     type [<AllowNullLiteral>] Requireable<'T> =
         inherit Validator<'T>
@@ -2695,7 +2504,7 @@ module React =
 
     type [<AllowNullLiteral>] ReactChildren =
         abstract map: children: ReactNode * fn: (ReactChild -> float -> 'T) -> ResizeArray<'T>
-        abstract forEach: children: ReactNode * fn: (ReactChild -> float -> unit) -> unit
+        abstract forEach: children: ReactNode * fn: (ReactChild -> float -> obj option) -> unit
         abstract count: children: ReactNode -> float
         abstract only: children: ReactNode -> ReactElement<obj option>
         abstract toArray: children: ReactNode -> ResizeArray<ReactChild>
@@ -2721,7 +2530,7 @@ module React =
         abstract identifiedTouch: identifier: float -> Touch
 
     type [<AllowNullLiteral>] ErrorInfo =
-        /// Captures which component contained the exception, and its ancestors.
+        /// Captures which component contained the exception, and it's ancestors.
         abstract componentStack: string with get, set
 
 module JSX =
@@ -2731,7 +2540,7 @@ module JSX =
 
     type [<AllowNullLiteral>] ElementClass =
         inherit React.Component<obj option>
-        abstract render: unit -> React.ReactNode
+        abstract render: unit -> U2<Element, obj> option
 
     type [<AllowNullLiteral>] ElementAttributesProperty =
         abstract props: obj with get, set
@@ -2774,7 +2583,7 @@ module JSX =
         abstract del: React.DetailedHTMLProps<React.DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract details: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract dfn: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dialog: React.DetailedHTMLProps<React.DialogHTMLAttributes<obj>, obj> with get, set
+        abstract dialog: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
         abstract dl: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
         abstract dt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
@@ -2860,7 +2669,6 @@ module JSX =
         abstract var: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract video: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
         abstract wbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract webview: React.DetailedHTMLProps<React.WebViewHTMLAttributes<obj>, obj> with get, set
         abstract svg: React.SVGProps<SVGSVGElement> with get, set
         abstract animate: React.SVGProps<SVGElement> with get, set
         abstract animateTransform: React.SVGProps<SVGElement> with get, set

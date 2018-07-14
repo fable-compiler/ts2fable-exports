@@ -93,6 +93,9 @@ type [<AllowNullLiteral>] IziToastSettings =
     /// Allows to close toast using the Esc key.
     /// Default value: false
     abstract closeOnEscape: bool option with get, set
+    /// Allows to close toast by clicking itself.
+    /// Default value: false
+    abstract closeOnClick: bool option with get, set
     /// RTL option
     /// Default value: false
     abstract rtl: bool option with get, set
@@ -139,8 +142,13 @@ type [<AllowNullLiteral>] IziToastSettings =
     /// Default value: true
     abstract animateInside: bool option with get, set
     /// Array of buttons.
-    /// Array is an array of array that contains (string, function (instance, toast)) types.
-    abstract buttons: ResizeArray<string * (IziToast -> HTMLDivElement -> unit)> option with get, set
+    /// Array is an array of array that contains (string, function (instance, toast, button, event, inputs)) types.
+    /// The last parameter is a boolean that defines whether there will be focus or not.
+    abstract buttons: ResizeArray<string * (IziToast -> HTMLDivElement -> HTMLDivElement -> Event -> Array<HTMLDivElement> -> unit) * bool> option with get, set
+    /// Array of inputs.
+    /// Array is an array of array that contains (string, function (instance, toast, input, event )) types.
+    /// The last parameter is a boolean that defines whether there will be focus or not.
+    abstract inputs: ResizeArray<string * (IziToast -> HTMLDivElement -> HTMLDivElement -> Event -> unit) * bool> option with get, set
     /// Default toast open animation.
     /// Default value: 'fadeInUp'
     abstract transitionIn: IziToastTransitionIn option with get, set
