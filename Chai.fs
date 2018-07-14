@@ -165,9 +165,10 @@ module Chai =
         abstract most: NumberComparer with get, set
         abstract lte: NumberComparer with get, set
         abstract within: start: float * finish: float * ?message: string -> Assertion
+        abstract within: start: DateTime * finish: DateTime * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] NumberComparer =
-        [<Emit "$0($1...)">] abstract Invoke: value: float * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: value: U2<float, DateTime> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] TypeComparison =
         [<Emit "$0($1...)">] abstract Invoke: ``type``: string * ?message: string -> Assertion
@@ -292,16 +293,21 @@ module Chai =
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notStrictEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts that actual is deeply equal to expected.</summary>
+        /// <summary>Asserts that actual is deeply equal (==) to expected.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts that actual is not deeply equal to expected.</summary>
+        /// <summary>Asserts that actual is not deeply equal (==) to expected.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notDeepEqual: actual: 'T * expected: 'T * ?message: string -> unit
+        /// <summary>Asserts that actual is deeply strict equal (===) to expected.</summary>
+        /// <param name="actual">Actual value.</param>
+        /// <param name="expected">Potential expected value.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract deepStrictEqual: actual: 'T * expected: 'T * ?message: string -> unit
         /// <summary>Asserts valueToCheck is strictly greater than (>) valueToBeAbove.</summary>
         /// <param name="valueToCheck">Actual value.</param>
         /// <param name="valueToBeAbove">Minimum Potential expected value.</param>
