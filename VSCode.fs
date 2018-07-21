@@ -9,6 +9,7 @@ let [<Import("*","vscode")>] vscode: Vscode.IExports = jsNative
 module Vscode =
     let [<Import("commands","vscode")>] commands: Commands.IExports = jsNative
     let [<Import("debug","vscode")>] debug: Debug.IExports = jsNative
+    let [<Import("env","vscode")>] env: Env.IExports = jsNative
     let [<Import("extensions","vscode")>] extensions: Extensions.IExports = jsNative
     let [<Import("languages","vscode")>] languages: Languages.IExports = jsNative
     let [<Import("scm","vscode")>] scm: Scm.IExports = jsNative
@@ -16,6 +17,7 @@ module Vscode =
     let [<Import("workspace","vscode")>] workspace: Workspace.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract version: string
         abstract Position: PositionStatic
         abstract Range: RangeStatic
         abstract Selection: SelectionStatic
@@ -49,7 +51,6 @@ module Vscode =
         abstract ShellExecution: ShellExecutionStatic
         abstract Task: TaskStatic
         abstract TreeItem: TreeItemStatic
-    let version: string = jsNative
 
     /// Represents a reference to a command. Provides a title which
     /// will be used to represent a command in the UI and, optionally,
@@ -2414,11 +2415,13 @@ module Vscode =
         abstract resolveTask: task: Task * ?token: CancellationToken -> ProviderResult<Task>
 
     module Env =
-        let appName: string = jsNative
-        let appRoot: string = jsNative
-        let language: string = jsNative
-        let machineId: string = jsNative
-        let sessionId: string = jsNative
+
+        type [<AllowNullLiteral>] IExports =
+            abstract appName: string
+            abstract appRoot: string
+            abstract language: string
+            abstract machineId: string
+            abstract sessionId: string
 
     module Commands =
 
@@ -2466,6 +2469,16 @@ module Vscode =
     module Window =
 
         type [<AllowNullLiteral>] IExports =
+            abstract activeTextEditor: TextEditor option
+            abstract visibleTextEditors: ResizeArray<TextEditor>
+            abstract onDidChangeActiveTextEditor: Event<TextEditor>
+            abstract onDidChangeVisibleTextEditors: Event<ResizeArray<TextEditor>>
+            abstract onDidChangeTextEditorSelection: Event<TextEditorSelectionChangeEvent>
+            abstract onDidChangeTextEditorOptions: Event<TextEditorOptionsChangeEvent>
+            abstract onDidChangeTextEditorViewColumn: Event<TextEditorViewColumnChangeEvent>
+            abstract onDidCloseTerminal: Event<Terminal>
+            abstract state: WindowState
+            abstract onDidChangeWindowState: Event<WindowState>
             /// <summary>Show the given document in a text editor. A [column](#ViewColumn) can be provided
             /// to control where the editor is being shown. Might change the [active editor](#window.activeTextEditor).</summary>
             /// <param name="document">A text document to be shown.</param>
@@ -2621,16 +2634,6 @@ module Vscode =
             /// <param name="viewId">Id of the view contributed using the extension point `views`.</param>
             /// <param name="treeDataProvider">A [TreeDataProvider](#TreeDataProvider) that provides tree data for the view</param>
             abstract registerTreeDataProvider: viewId: string * treeDataProvider: TreeDataProvider<'T> -> Disposable
-        let activeTextEditor: TextEditor option = jsNative
-        let visibleTextEditors: ResizeArray<TextEditor> = jsNative
-        let onDidChangeActiveTextEditor: Event<TextEditor> = jsNative
-        let onDidChangeVisibleTextEditors: Event<ResizeArray<TextEditor>> = jsNative
-        let onDidChangeTextEditorSelection: Event<TextEditorSelectionChangeEvent> = jsNative
-        let onDidChangeTextEditorOptions: Event<TextEditorOptionsChangeEvent> = jsNative
-        let onDidChangeTextEditorViewColumn: Event<TextEditorViewColumnChangeEvent> = jsNative
-        let onDidCloseTerminal: Event<Terminal> = jsNative
-        let state: WindowState = jsNative
-        let onDidChangeWindowState: Event<WindowState> = jsNative
 
     /// A data provider that provides tree data
     type [<AllowNullLiteral>] TreeDataProvider<'T> =
@@ -2783,6 +2786,10 @@ module Vscode =
     module Workspace =
 
         type [<AllowNullLiteral>] IExports =
+            abstract rootPath: string option
+            abstract workspaceFolders: ResizeArray<WorkspaceFolder> option
+            abstract name: string option
+            abstract onDidChangeWorkspaceFolders: Event<WorkspaceFoldersChangeEvent>
             /// <summary>Returns the [workspace folder](#WorkspaceFolder) that contains a given uri.
             /// * returns `undefined` when the given uri doesn't match any workspace folder
             /// * returns the *input* when the given uri is a workspace folder itself</summary>
@@ -2829,6 +2836,7 @@ module Vscode =
             /// the edit to be rejected.</summary>
             /// <param name="edit">A workspace edit.</param>
             abstract applyEdit: edit: WorkspaceEdit -> Thenable<bool>
+            abstract textDocuments: ResizeArray<TextDocument>
             /// <summary>Opens a document. Will return early if this document is already open. Otherwise
             /// the document is loaded and the [didOpen](#workspace.onDidOpenTextDocument)-event fires.
             /// 
@@ -2857,6 +2865,11 @@ module Vscode =
             /// <param name="scheme">The uri-scheme to register for.</param>
             /// <param name="provider">A content provider.</param>
             abstract registerTextDocumentContentProvider: scheme: string * provider: TextDocumentContentProvider -> Disposable
+            abstract onDidOpenTextDocument: Event<TextDocument>
+            abstract onDidCloseTextDocument: Event<TextDocument>
+            abstract onDidChangeTextDocument: Event<TextDocumentChangeEvent>
+            abstract onWillSaveTextDocument: Event<TextDocumentWillSaveEvent>
+            abstract onDidSaveTextDocument: Event<TextDocument>
             /// <summary>Get a workspace configuration object.
             /// 
             /// When a section-identifier is provided only that part of the configuration
@@ -2867,6 +2880,7 @@ module Vscode =
             /// <param name="section">A dot-separated identifier.</param>
             /// <param name="resource">A resource for which the configuration is asked for</param>
             abstract getConfiguration: ?section: string * ?resource: Uri -> WorkspaceConfiguration
+            abstract onDidChangeConfiguration: Event<ConfigurationChangeEvent>
             /// <summary>Register a task provider.</summary>
             /// <param name="type">The task kind type this provider is registered for.</param>
             /// <param name="provider">A task provider.</param>
@@ -2875,17 +2889,6 @@ module Vscode =
         type [<AllowNullLiteral>] OpenTextDocumentOptions =
             abstract language: string option with get, set
             abstract content: string option with get, set
-        let rootPath: string option = jsNative
-        let workspaceFolders: ResizeArray<WorkspaceFolder> option = jsNative
-        let name: string option = jsNative
-        let onDidChangeWorkspaceFolders: Event<WorkspaceFoldersChangeEvent> = jsNative
-        let textDocuments: ResizeArray<TextDocument> = jsNative
-        let onDidOpenTextDocument: Event<TextDocument> = jsNative
-        let onDidCloseTextDocument: Event<TextDocument> = jsNative
-        let onDidChangeTextDocument: Event<TextDocumentChangeEvent> = jsNative
-        let onWillSaveTextDocument: Event<TextDocumentWillSaveEvent> = jsNative
-        let onDidSaveTextDocument: Event<TextDocument> = jsNative
-        let onDidChangeConfiguration: Event<ConfigurationChangeEvent> = jsNative
 
     /// An event describing the change in Configuration
     type [<AllowNullLiteral>] ConfigurationChangeEvent =
@@ -3199,12 +3202,12 @@ module Vscode =
     module Scm =
 
         type [<AllowNullLiteral>] IExports =
+            abstract inputBox: SourceControlInputBox
             /// <summary>Creates a new [source control](#SourceControl) instance.</summary>
             /// <param name="id">An `id` for the source control. Something short, eg: `git`.</param>
             /// <param name="label">A human-readable string for the source control. Eg: `Git`.</param>
             /// <param name="rootUri">An optional Uri of the root of the source control. Eg: `Uri.parse(workspaceRoot)`.</param>
             abstract createSourceControl: id: string * label: string * ?rootUri: Uri -> SourceControl
-        let inputBox: SourceControlInputBox = jsNative
 
     /// Configuration for a debug session.
     type [<AllowNullLiteral>] DebugConfiguration =
@@ -3266,15 +3269,15 @@ module Vscode =
             /// <param name="folder">The [workspace folder](#WorkspaceFolder) for looking up named configurations and resolving variables or `undefined` for a non-folder setup.</param>
             /// <param name="nameOrConfiguration">Either the name of a debug or compound configuration or a [DebugConfiguration](#DebugConfiguration) object.</param>
             abstract startDebugging: folder: WorkspaceFolder option * nameOrConfiguration: U2<string, DebugConfiguration> -> Thenable<bool>
+            abstract activeDebugSession: DebugSession option
+            abstract onDidChangeActiveDebugSession: Event<DebugSession option>
+            abstract onDidStartDebugSession: Event<DebugSession>
+            abstract onDidReceiveDebugSessionCustomEvent: Event<DebugSessionCustomEvent>
+            abstract onDidTerminateDebugSession: Event<DebugSession>
             /// <summary>Register a [debug configuration provider](#DebugConfigurationProvider) for a specifc debug type.
             /// More than one provider can be registered for the same type.</summary>
             /// <param name="provider">The [debug configuration provider](#DebugConfigurationProvider) to register.</param>
             abstract registerDebugConfigurationProvider: debugType: string * provider: DebugConfigurationProvider -> Disposable
-        let activeDebugSession: DebugSession option = jsNative
-        let onDidChangeActiveDebugSession: Event<DebugSession option> = jsNative
-        let onDidStartDebugSession: Event<DebugSession> = jsNative
-        let onDidReceiveDebugSessionCustomEvent: Event<DebugSessionCustomEvent> = jsNative
-        let onDidTerminateDebugSession: Event<DebugSession> = jsNative
 
     module Extensions =
 
@@ -3285,7 +3288,7 @@ module Vscode =
             /// <summary>Get an extension its full identifier in the form of: `publisher.name`.</summary>
             /// <param name="extensionId">An extension identifier.</param>
             abstract getExtension: extensionId: string -> Extension<'T> option
-        let all: ResizeArray<Extension<obj option>> = jsNative
+            abstract all: ResizeArray<Extension<obj option>>
 
 /// Thenable is a common denominator between ES6 promises, Q, jquery.Deferred, WinJS.Promise,
 /// and others. This API makes no assumption about what promise libary is being used which

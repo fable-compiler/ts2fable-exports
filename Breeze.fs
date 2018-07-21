@@ -1208,6 +1208,9 @@ type [<AllowNullLiteral>] ValidatorFunctionContext =
 module Config =
 
     type [<AllowNullLiteral>] IExports =
+        abstract ajax: string
+        abstract dataService: string
+        abstract functionRegistry: Object
         /// <summary>Returns the ctor function used to implement a specific interface with a specific adapter name.</summary>
         /// <param name="interfaceName">One of the following interface names "ajax", "dataService" or "modelLibrary"</param>
         /// <param name="adapterName">The name of any previously registered adapter. If this parameter is omitted then
@@ -1229,6 +1232,9 @@ module Config =
         /// <summary>Initializes a collection of adapter implementations and makes each one the default for its corresponding interface.</summary>
         /// <param name="config"></param>
         abstract initializeAdapterInstances: config: AdapterInstancesConfig -> ResizeArray<Object>
+        abstract interfaceInitialized: Event
+        abstract interfaceRegistry: Object
+        abstract objectRegistry: Object
         /// <summary>Method use to register implementations of standard breeze interfaces.  Calls to this method are usually
         /// made as the last step within an adapter implementation.</summary>
         /// <param name="interfaceName">- one of the following interface names "ajax", "dataService" or "modelLibrary"</param>
@@ -1239,9 +1245,8 @@ module Config =
         /// <summary>Set the promise implementation, if Q.js is not found.</summary>
         /// <param name="q">- implementation of promise.  </param>
         abstract setQ: q: Promises.IPromiseService -> unit
-    let ajax: string = jsNative
-    let dataService: string = jsNative
-    let functionRegistry: Object = jsNative
+        abstract stringifyPad: string
+        abstract typeRegistry: Object
 
     type [<AllowNullLiteral>] AdapterInstancesConfig =
         /// the name of a previously registered "ajax" adapter 
@@ -1252,11 +1257,6 @@ module Config =
         abstract modelLibary: string option with get, set
         /// the name of a previously registered "uriBuilder" adapter 
         abstract uriBuilder: string option with get, set
-    let interfaceInitialized: Event = jsNative
-    let interfaceRegistry: Object = jsNative
-    let objectRegistry: Object = jsNative
-    let stringifyPad: string = jsNative
-    let typeRegistry: Object = jsNative
 
 module Promises =
 

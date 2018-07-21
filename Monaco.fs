@@ -607,6 +607,7 @@ module Monaco =
             abstract setTheme: themeName: string -> unit
             abstract TextModelResolvedOptions: TextModelResolvedOptionsStatic
             abstract FindMatch: FindMatchStatic
+            abstract EditorType: obj
             abstract InternalEditorOptions: InternalEditorOptionsStatic
             abstract FontInfo: FontInfoStatic
             abstract BareFontInfo: BareFontInfoStatic
@@ -1524,7 +1525,6 @@ module Monaco =
         type [<AllowNullLiteral>] ICommonDiffEditorGetValueOptions =
             abstract preserveBOM: bool with get, set
             abstract lineEnding: string with get, set
-        let EditorType: obj = jsNative
 
         /// An event describing that the current mode associated with a model has changed.
         type [<AllowNullLiteral>] IModelLanguageChangedEvent =
@@ -2962,8 +2962,15 @@ module Monaco =
             abstract getMirrorModels: unit -> ResizeArray<IMirrorModel>
 
     module Languages =
+        let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
 
         module Typescript =
+
+            type [<AllowNullLiteral>] IExports =
+                abstract typescriptDefaults: LanguageServiceDefaults
+                abstract javascriptDefaults: LanguageServiceDefaults
+                abstract getTypeScriptWorker: (unit -> Monaco.Promise<obj option>)
+                abstract getJavaScriptWorker: (unit -> Monaco.Promise<obj option>)
 
             type [<RequireQualifiedAccess>] ModuleKind =
                 | None = 0
@@ -3103,14 +3110,16 @@ module Monaco =
                 /// Configure if all existing models should be eagerly sync'd
                 /// to the worker on start or restart.
                 abstract setEagerModelSync: value: bool -> unit
-            let typescriptDefaults: LanguageServiceDefaults = jsNative
-            let javascriptDefaults: LanguageServiceDefaults = jsNative
-            let getTypeScriptWorker: (unit -> Monaco.Promise<obj option>) = jsNative
-            let getJavaScriptWorker: (unit -> Monaco.Promise<obj option>) = jsNative
 
     module Languages =
+        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
 
         module Css =
+
+            type [<AllowNullLiteral>] IExports =
+                abstract cssDefaults: LanguageServiceDefaults
+                abstract lessDefaults: LanguageServiceDefaults
+                abstract scssDefaults: LanguageServiceDefaults
 
             type [<AllowNullLiteral>] DiagnosticsOptions =
                 abstract validate: bool option
@@ -3120,13 +3129,14 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
-            let cssDefaults: LanguageServiceDefaults = jsNative
-            let lessDefaults: LanguageServiceDefaults = jsNative
-            let scssDefaults: LanguageServiceDefaults = jsNative
 
     module Languages =
+        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
 
         module Json =
+
+            type [<AllowNullLiteral>] IExports =
+                abstract jsonDefaults: LanguageServiceDefaults
 
             type [<AllowNullLiteral>] DiagnosticsOptions =
                 /// If set, the validator will be enabled and perform syntax validation as well as schema based validation.
@@ -3140,11 +3150,16 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
-            let jsonDefaults: LanguageServiceDefaults = jsNative
 
     module Languages =
+        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
 
         module Html =
+
+            type [<AllowNullLiteral>] IExports =
+                abstract htmlDefaults: LanguageServiceDefaults
+                abstract handlebarDefaults: LanguageServiceDefaults
+                abstract razorDefaults: LanguageServiceDefaults
 
             type [<AllowNullLiteral>] HTMLFormatConfiguration =
                 abstract tabSize: float
@@ -3173,6 +3188,3 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract options: Options
                 abstract setOptions: options: Options -> unit
-            let htmlDefaults: LanguageServiceDefaults = jsNative
-            let handlebarDefaults: LanguageServiceDefaults = jsNative
-            let razorDefaults: LanguageServiceDefaults = jsNative
