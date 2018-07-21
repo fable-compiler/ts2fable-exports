@@ -5,7 +5,7 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
-let [<Import("iziToast","izitoast")>] iziToast: IziToast = jsNative
+let [<Import("*","izitoast")>] iziToast: IziToast = jsNative
 
 type [<StringEnum>] [<RequireQualifiedAccess>] IziToastPosition =
     | BottomRight
