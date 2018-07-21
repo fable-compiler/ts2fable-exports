@@ -5,7 +5,7 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
-let [<Import("*","react")>] react: React.IExports = jsNative
+let [<Import("*","")>] react: React.IExports = jsNative
 
 type NativeAnimationEvent =
     AnimationEvent

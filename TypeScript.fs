@@ -4,7 +4,7 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("*","typescript")>] ts: Ts.IExports = jsNative
+let [<Import("*","")>] ts: Ts.IExports = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract setTimeout: handler: (ResizeArray<obj option> -> unit) * timeout: float -> obj option

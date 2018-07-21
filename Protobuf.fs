@@ -4,8 +4,8 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("arith","google-protobuf")>] arith: Arith.IExports = jsNative
-let [<Import("BinaryConstants","google-protobuf")>] binaryConstants: BinaryConstants.IExports = jsNative
+let [<Import("arith","")>] arith: Arith.IExports = jsNative
+let [<Import("BinaryConstants","")>] binaryConstants: BinaryConstants.IExports = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract Message: MessageStatic
