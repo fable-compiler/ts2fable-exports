@@ -4,7 +4,7 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("*","chai")>] chai: Chai.ChaiStatic = jsNative
+let [<Import("Chai.ChaiStatic","chai")>] chai: Chai.ChaiStatic = jsNative
 
 module Chai =
 

@@ -1985,7 +1985,7 @@ type [<AllowNullLiteral>] IExports =
     /// <param name="source">- The object where the methods are hoisted from.</param>
     /// <param name="dest">- The object to hoist the methods onto.</param>
     abstract hoistStatics: source: 'TSource * dest: 'TDest -> 'TDest
-let [<Import("*","@uifabric/utilities/lib/initializeFocusRects")>] IsFocusVisibleClassName: obj = jsNative
+let [<Import("obj","@uifabric/utilities/lib/initializeFocusRects")>] IsFocusVisibleClassName: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// <summary>Initializes the logic which:
@@ -2115,15 +2115,15 @@ type [<AllowNullLiteral>] IExports =
     /// <summary>Detects whether an element's content has overflow in any direction</summary>
     /// <param name="element">- Element to check for overflow</param>
     abstract hasOverflow: element: HTMLElement -> bool
-let [<Import("*","@uifabric/utilities/lib/properties")>] baseElementEvents: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] baseElementProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] htmlElementProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] anchorProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] buttonProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] divProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] inputProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] textAreaProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib/properties")>] imageProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] baseElementEvents: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] baseElementProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] htmlElementProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] anchorProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] buttonProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] divProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] inputProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] textAreaProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib/properties")>] imageProperties: ResizeArray<string> = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// <summary>Gets native supported props for an html element provided the allowance set. Use one of the property
@@ -2152,7 +2152,7 @@ type [<AllowNullLiteral>] IExports =
     abstract setRTL: isRTL: bool * ?persistSetting: bool -> unit
     /// Returns the given key, but flips right/left arrows if necessary.
     abstract getRTLSafeKeyCode: key: float -> float
-let [<Import("*","@uifabric/utilities/lib/scroll")>] DATA_IS_SCROLLABLE_ATTRIBUTE: obj = jsNative
+let [<Import("obj","@uifabric/utilities/lib/scroll")>] DATA_IS_SCROLLABLE_ATTRIBUTE: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// Disables the body scrolling.
@@ -2529,7 +2529,7 @@ type [<AllowNullLiteral>] IPartialTheme =
     abstract semanticColors: obj option with get, set
     abstract isInverted: bool option with get, set
     abstract disableGlobalClassNames: bool option with get, set
-let [<Import("*","@uifabric/styling/lib/classNames/ColorClassNames")>] ColorClassNames: IColorClassNames = jsNative
+let [<Import("IColorClassNames","@uifabric/styling/lib/classNames/ColorClassNames")>] ColorClassNames: IColorClassNames = jsNative
 
 type [<AllowNullLiteral>] IColorClassNames =
     abstract themeDarker: string with get, set
@@ -2822,10 +2822,10 @@ type [<AllowNullLiteral>] IColorClassNames =
     abstract greenLightBorderHover: string with get, set
 type IAnimationStyles = ___interfaces_index.IAnimationStyles
 type IAnimationVariables = ___interfaces_index.IAnimationVariables
-let [<Import("*","@uifabric/styling/lib/styles/AnimationStyles")>] AnimationVariables: IAnimationVariables = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/AnimationStyles")>] AnimationStyles: IAnimationStyles = jsNative
+let [<Import("IAnimationVariables","@uifabric/styling/lib/styles/AnimationStyles")>] AnimationVariables: IAnimationVariables = jsNative
+let [<Import("IAnimationStyles","@uifabric/styling/lib/styles/AnimationStyles")>] AnimationStyles: IAnimationStyles = jsNative
 type IFontStyles = ___interfaces_index.IFontStyles
-let [<Import("*","@uifabric/styling/lib/styles/DefaultFontStyles")>] DefaultFontStyles: IFontStyles = jsNative
+let [<Import("IFontStyles","@uifabric/styling/lib/styles/DefaultFontStyles")>] DefaultFontStyles: IFontStyles = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract registerDefaultFontFaces: baseUrl: string -> unit
@@ -2922,7 +2922,7 @@ type GlobalClassNames<'IStyles> =
     Record<obj, string>
 type ITheme = ___interfaces_index.ITheme
 type IPartialTheme = ___interfaces_index.IPartialTheme
-let [<Import("*","@uifabric/styling/lib/styles/theme")>] ThemeSettingName: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/theme")>] ThemeSettingName: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// <summary>Gets the theme object</summary>
@@ -2943,24 +2943,24 @@ type [<AllowNullLiteral>] IExports =
     /// <param name="theme">- Partial theme object.</param>
     /// <param name="depComments">- Whether to include deprecated tags as comments for deprecated slots.</param>
     abstract createTheme: theme: IPartialTheme * ?depComments: bool -> ITheme
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] HighContrastSelector: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinSmall: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinMedium: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinXLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinXXLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinXXXLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxSmall: float = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxMedium: float = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxLarge: float = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxXLarge: float = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxXXLarge: float = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] HighContrastSelector: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinSmall: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinMedium: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinLarge: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinXLarge: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinXXLarge: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMinXXXLarge: obj = jsNative
+let [<Import("float","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxSmall: float = jsNative
+let [<Import("float","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxMedium: float = jsNative
+let [<Import("float","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxLarge: float = jsNative
+let [<Import("float","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxXLarge: float = jsNative
+let [<Import("float","@uifabric/styling/lib/styles/CommonStyles")>] ScreenWidthMaxXXLarge: float = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract getScreenSelector: min: float * max: float -> string
 type IRawStyle = @uifabric_merge_styles_lib_index.IRawStyle
-let [<Import("*","@uifabric/styling/lib/styles/GeneralStyles")>] normalize: IRawStyle = jsNative
-let [<Import("*","@uifabric/styling/lib/styles/GeneralStyles")>] noWrap: IRawStyle = jsNative
+let [<Import("IRawStyle","@uifabric/styling/lib/styles/GeneralStyles")>] normalize: IRawStyle = jsNative
+let [<Import("IRawStyle","@uifabric/styling/lib/styles/GeneralStyles")>] noWrap: IRawStyle = jsNative
 
 module ZIndexes =
 
@@ -3387,8 +3387,8 @@ type [<AllowNullLiteral>] PersonaCoinBaseStatic =
     [<Emit "new $0($1...)">] abstract Create: props: IPersonaCoinProps -> PersonaCoinBase
 type PersonaPresence = __Persona_types.PersonaPresence
 type PersonaSize = __Persona_types.PersonaSize
-let [<Import("*","office-ui-fabric-react")>] sizeBoolean: (PersonaSize -> obj) = jsNative
-let [<Import("*","office-ui-fabric-react")>] presenceBoolean: (PersonaPresence -> obj) = jsNative
+let [<Import("","office-ui-fabric-react")>] sizeBoolean: (PersonaSize -> obj) = jsNative
+let [<Import("","office-ui-fabric-react")>] presenceBoolean: (PersonaPresence -> obj) = jsNative
 
 module PersonaSize =
 
@@ -3596,7 +3596,7 @@ type [<AllowNullLiteral>] IconBaseStatic =
     [<Emit "new $0($1...)">] abstract Create: props: IIconProps -> IconBase
 type IStyle = ______Styling.IStyle
 type ITheme = ______Styling.ITheme
-let [<Import("*","office-ui-fabric-react")>] getStyles: (IBreadcrumbStyleProps -> IBreadcrumbStyles) = jsNative
+let [<Import("","office-ui-fabric-react")>] getStyles: (IBreadcrumbStyleProps -> IBreadcrumbStyles) = jsNative
 
 type [<AllowNullLiteral>] IBreadcrumbStyleProps =
     abstract className: string option with get, set
@@ -3921,7 +3921,7 @@ type ICalloutPositionedInfo = __positioning_types.ICalloutPositionedInfo
 type IPositionProps = __positioning_types.IPositionProps
 type RectangleEdge = __positioning_types.RectangleEdge
 type IRelativePositions = __positioning_types.IRelativePositions
-let [<Import("*","office-ui-fabric-react")>] __positioningTestPackage: obj = jsNative
+let [<Import("","office-ui-fabric-react")>] __positioningTestPackage: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract Rectangle: RectangleStatic
@@ -4187,9 +4187,9 @@ type [<AllowNullLiteral>] IVerticalDividerClassNames =
     abstract divider: string with get, set
 type ITheme = ______Styling.ITheme
 type IVerticalDividerClassNames = ___Divider_VerticalDivider_types.IVerticalDividerClassNames
-let [<Import("*","office-ui-fabric-react")>] getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames) = jsNative
-let [<Import("*","office-ui-fabric-react")>] getContextualMenuClassNames: (ITheme -> string option -> IContextualMenuClassNames) = jsNative
-let [<Import("*","office-ui-fabric-react")>] getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string option -> string option -> string option -> string option -> bool option -> IMenuItemClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getContextualMenuClassNames: (ITheme -> string option -> IContextualMenuClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string option -> string option -> string option -> string option -> bool option -> IMenuItemClassNames) = jsNative
 
 type [<AllowNullLiteral>] IContextualMenuClassNames =
     abstract container: string with get, set
@@ -4713,7 +4713,7 @@ type [<AllowNullLiteral>] Button =
 type [<AllowNullLiteral>] ButtonStatic =
     [<Emit "new $0($1...)">] abstract Create: props: IButtonProps -> Button
 type IButtonStyles = __Button_types.IButtonStyles
-let [<Import("*","office-ui-fabric-react")>] getBaseButtonClassNames: (IButtonStyles -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getBaseButtonClassNames: (IButtonStyles -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames) = jsNative
 
 type [<AllowNullLiteral>] IButtonClassNames =
     abstract root: string option with get, set
@@ -4725,7 +4725,7 @@ type [<AllowNullLiteral>] IButtonClassNames =
     abstract description: string option with get, set
     abstract screenReaderText: string option with get, set
 type IButtonStyles = ___Button_types.IButtonStyles
-let [<Import("*","office-ui-fabric-react")>] getClassNames: (IButtonStyles -> bool -> bool -> bool -> ISplitButtonClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getClassNames: (IButtonStyles -> bool -> bool -> bool -> ISplitButtonClassNames) = jsNative
 
 type [<AllowNullLiteral>] ISplitButtonClassNames =
     abstract root: string option with get, set
@@ -5666,7 +5666,7 @@ type [<AllowNullLiteral>] IPartialTheme =
     abstract semanticColors: obj option with get, set
     abstract isInverted: bool option with get, set
     abstract disableGlobalClassNames: bool option with get, set
-let [<Import("*","@uifabric/styling/lib-es2015/classNames/ColorClassNames")>] ColorClassNames: IColorClassNames = jsNative
+let [<Import("IColorClassNames","@uifabric/styling/lib-es2015/classNames/ColorClassNames")>] ColorClassNames: IColorClassNames = jsNative
 
 type [<AllowNullLiteral>] IColorClassNames =
     abstract themeDarker: string with get, set
@@ -5959,10 +5959,10 @@ type [<AllowNullLiteral>] IColorClassNames =
     abstract greenLightBorderHover: string with get, set
 type IAnimationStyles = ___interfaces_index.IAnimationStyles
 type IAnimationVariables = ___interfaces_index.IAnimationVariables
-let [<Import("*","@uifabric/styling/lib-es2015/styles/AnimationStyles")>] AnimationVariables: IAnimationVariables = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/AnimationStyles")>] AnimationStyles: IAnimationStyles = jsNative
+let [<Import("IAnimationVariables","@uifabric/styling/lib-es2015/styles/AnimationStyles")>] AnimationVariables: IAnimationVariables = jsNative
+let [<Import("IAnimationStyles","@uifabric/styling/lib-es2015/styles/AnimationStyles")>] AnimationStyles: IAnimationStyles = jsNative
 type IFontStyles = ___interfaces_index.IFontStyles
-let [<Import("*","@uifabric/styling/lib-es2015/styles/DefaultFontStyles")>] DefaultFontStyles: IFontStyles = jsNative
+let [<Import("IFontStyles","@uifabric/styling/lib-es2015/styles/DefaultFontStyles")>] DefaultFontStyles: IFontStyles = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract registerDefaultFontFaces: baseUrl: string -> unit
@@ -6059,7 +6059,7 @@ type GlobalClassNames<'IStyles> =
     Record<obj, string>
 type ITheme = ___interfaces_index.ITheme
 type IPartialTheme = ___interfaces_index.IPartialTheme
-let [<Import("*","@uifabric/styling/lib-es2015/styles/theme")>] ThemeSettingName: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/theme")>] ThemeSettingName: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// <summary>Gets the theme object</summary>
@@ -6080,24 +6080,24 @@ type [<AllowNullLiteral>] IExports =
     /// <param name="theme">- Partial theme object.</param>
     /// <param name="depComments">- Whether to include deprecated tags as comments for deprecated slots.</param>
     abstract createTheme: theme: IPartialTheme * ?depComments: bool -> ITheme
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] HighContrastSelector: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinSmall: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinMedium: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinXLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinXXLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinXXXLarge: obj = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxSmall: float = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxMedium: float = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxLarge: float = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxXLarge: float = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxXXLarge: float = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] HighContrastSelector: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinSmall: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinMedium: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinLarge: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinXLarge: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinXXLarge: obj = jsNative
+let [<Import("obj","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMinXXXLarge: obj = jsNative
+let [<Import("float","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxSmall: float = jsNative
+let [<Import("float","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxMedium: float = jsNative
+let [<Import("float","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxLarge: float = jsNative
+let [<Import("float","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxXLarge: float = jsNative
+let [<Import("float","@uifabric/styling/lib-es2015/styles/CommonStyles")>] ScreenWidthMaxXXLarge: float = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract getScreenSelector: min: float * max: float -> string
 type IRawStyle = @uifabric_merge_styles_lib_index.IRawStyle
-let [<Import("*","@uifabric/styling/lib-es2015/styles/GeneralStyles")>] normalize: IRawStyle = jsNative
-let [<Import("*","@uifabric/styling/lib-es2015/styles/GeneralStyles")>] noWrap: IRawStyle = jsNative
+let [<Import("IRawStyle","@uifabric/styling/lib-es2015/styles/GeneralStyles")>] normalize: IRawStyle = jsNative
+let [<Import("IRawStyle","@uifabric/styling/lib-es2015/styles/GeneralStyles")>] noWrap: IRawStyle = jsNative
 
 module ZIndexes =
 
@@ -7007,7 +7007,7 @@ type [<AllowNullLiteral>] IExports =
     /// <param name="source">- The object where the methods are hoisted from.</param>
     /// <param name="dest">- The object to hoist the methods onto.</param>
     abstract hoistStatics: source: 'TSource * dest: 'TDest -> 'TDest
-let [<Import("*","@uifabric/utilities/lib-es2015/initializeFocusRects")>] IsFocusVisibleClassName: obj = jsNative
+let [<Import("obj","@uifabric/utilities/lib-es2015/initializeFocusRects")>] IsFocusVisibleClassName: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// <summary>Initializes the logic which:
@@ -7137,15 +7137,15 @@ type [<AllowNullLiteral>] IExports =
     /// <summary>Detects whether an element's content has overflow in any direction</summary>
     /// <param name="element">- Element to check for overflow</param>
     abstract hasOverflow: element: HTMLElement -> bool
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] baseElementEvents: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] baseElementProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] htmlElementProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] anchorProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] buttonProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] divProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] inputProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] textAreaProperties: ResizeArray<string> = jsNative
-let [<Import("*","@uifabric/utilities/lib-es2015/properties")>] imageProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] baseElementEvents: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] baseElementProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] htmlElementProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] anchorProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] buttonProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] divProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] inputProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] textAreaProperties: ResizeArray<string> = jsNative
+let [<Import("stringArray","@uifabric/utilities/lib-es2015/properties")>] imageProperties: ResizeArray<string> = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// <summary>Gets native supported props for an html element provided the allowance set. Use one of the property
@@ -7174,7 +7174,7 @@ type [<AllowNullLiteral>] IExports =
     abstract setRTL: isRTL: bool * ?persistSetting: bool -> unit
     /// Returns the given key, but flips right/left arrows if necessary.
     abstract getRTLSafeKeyCode: key: float -> float
-let [<Import("*","@uifabric/utilities/lib-es2015/scroll")>] DATA_IS_SCROLLABLE_ATTRIBUTE: obj = jsNative
+let [<Import("obj","@uifabric/utilities/lib-es2015/scroll")>] DATA_IS_SCROLLABLE_ATTRIBUTE: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     /// Disables the body scrolling.
@@ -7250,7 +7250,7 @@ type [<AllowNullLiteral>] ICheckStyles =
     /// The 'circle' icon styles.
     abstract circle: IStyle with get, set
 type ICheckboxStyles = __Checkbox_types.ICheckboxStyles
-let [<Import("*","office-ui-fabric-react")>] getClassNames: (ICheckboxStyles -> bool -> bool -> bool -> string option -> ICheckboxClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getClassNames: (ICheckboxStyles -> bool -> bool -> bool -> string option -> ICheckboxClassNames) = jsNative
 
 type [<AllowNullLiteral>] ICheckboxClassNames =
     abstract root: string with get, set
@@ -7501,10 +7501,10 @@ type [<AllowNullLiteral>] IColorPickerProps =
     abstract blueLabel: string option with get, set
     /// Label for the alpha textfield
     abstract alphaLabel: string option with get, set
-let [<Import("*","office-ui-fabric-react")>] MAX_COLOR_SATURATION: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] MAX_COLOR_HUE: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] MAX_COLOR_VALUE: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] MAX_COLOR_RGBA: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] MAX_COLOR_SATURATION: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] MAX_COLOR_HUE: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] MAX_COLOR_VALUE: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] MAX_COLOR_RGBA: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract cssColor: color: string -> IRGB option
@@ -7937,8 +7937,8 @@ type [<AllowNullLiteral>] ISelectableDroppableTextProps<'T> =
     abstract errorMessage: string option with get, set
 type IComboBoxStyles = __ComboBox_types.IComboBoxStyles
 type IComboBoxOptionStyles = __ComboBox_types.IComboBoxOptionStyles
-let [<Import("*","office-ui-fabric-react")>] getClassNames: (obj -> string -> bool -> bool -> bool -> bool -> bool -> bool -> IComboBoxClassNames) = jsNative
-let [<Import("*","office-ui-fabric-react")>] getComboBoxOptionClassNames: (obj -> IComboBoxOptionClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getClassNames: (obj -> string -> bool -> bool -> bool -> bool -> bool -> bool -> IComboBoxClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getComboBoxOptionClassNames: (obj -> IComboBoxOptionClassNames) = jsNative
 
 type [<AllowNullLiteral>] IComboBoxClassNames =
     abstract container: string with get, set
@@ -8538,7 +8538,7 @@ type [<AllowNullLiteral>] DatePicker =
 
 type [<AllowNullLiteral>] DatePickerStatic =
     [<Emit "new $0($1...)">] abstract Create: props: IDatePickerProps -> DatePicker
-let [<Import("*","office-ui-fabric-react")>] SELECTION_CHANGE: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] SELECTION_CHANGE: obj = jsNative
 
 type [<AllowNullLiteral>] IObjectWithKey =
     abstract key: U2<string, float> option with get, set
@@ -9260,7 +9260,7 @@ type [<AllowNullLiteral>] IGroupDividerProps =
     abstract onToggleSelectGroup: (IGroup -> unit) option with get, set
     /// Determines if the group selection check box is shown for collapsed groups. 
     abstract isCollapsedGroupSelectVisible: bool option with get, set
-let [<Import("*","office-ui-fabric-react")>] DetailsRowCheck: (IDetailsRowCheckProps -> JSX.Element) = jsNative
+let [<Import("","office-ui-fabric-react")>] DetailsRowCheck: (IDetailsRowCheckProps -> JSX.Element) = jsNative
 
 type [<AllowNullLiteral>] IDetailsRowCheckProps =
     inherit React.HTMLAttributes<HTMLElement>
@@ -11195,11 +11195,11 @@ type [<AllowNullLiteral>] BasePickerListBelow<'T, 'P> =
 
 type [<AllowNullLiteral>] BasePickerListBelowStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> BasePickerListBelow<'T, 'P>
-let [<Import("*","office-ui-fabric-react")>] resultContent: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] resultItem: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePicker: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] resultContent: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] resultItem: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePicker: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
 type IPersonaProps = ____________Persona.IPersonaProps
 type IPickerItemProps = ______PickerItem_types.IPickerItemProps
 type IContextualMenuItem = ____________ContextualMenu.IContextualMenuItem
@@ -11279,7 +11279,7 @@ type [<AllowNullLiteral>] IGenericItem =
     abstract ValidationState: ValidationState with get, set
 type IPickerItemProps = ___PickerItem_types.IPickerItemProps
 type ITag = __TagPicker.ITag
-let [<Import("*","office-ui-fabric-react")>] TagItem: (ITagItemProps -> JSX.Element) = jsNative
+let [<Import("","office-ui-fabric-react")>] TagItem: (ITagItemProps -> JSX.Element) = jsNative
 
 type [<AllowNullLiteral>] ITagItemProps =
     inherit IPickerItemProps<ITag>
@@ -11632,11 +11632,11 @@ type [<AllowNullLiteral>] BaseFloatingPicker<'T, 'P> =
 
 type [<AllowNullLiteral>] BaseFloatingPickerStatic =
     [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseFloatingPicker<'T, 'P>
-let [<Import("*","office-ui-fabric-react")>] resultContent: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] resultItem: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePicker: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] resultContent: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] resultItem: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePicker: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
 type BaseFloatingPicker = ___BaseFloatingPicker.BaseFloatingPicker
 type IBaseFloatingPickerProps = ___BaseFloatingPicker_types.IBaseFloatingPickerProps
 type IPersonaProps = _________Persona.IPersonaProps
@@ -11926,11 +11926,11 @@ type [<AllowNullLiteral>] BaseExtendedPicker<'T, 'P> =
 
 type [<AllowNullLiteral>] BaseExtendedPickerStatic =
     [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseExtendedPicker<'T, 'P>
-let [<Import("*","office-ui-fabric-react")>] resultContent: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] resultItem: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePicker: obj = jsNative
-let [<Import("*","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] resultContent: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] resultItem: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePicker: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
 type IPickerItemProps = _________Pickers.IPickerItemProps
 type IExtendedPersonaProps = _________SelectedItemsList.IExtendedPersonaProps
 type IPersonaProps = _________Persona.IPersonaProps
@@ -11959,10 +11959,10 @@ type [<AllowNullLiteral>] ExtendedPeoplePicker =
 type [<AllowNullLiteral>] ExtendedPeoplePickerStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> ExtendedPeoplePicker
 type IExtendedPersonaProps = ______SelectedItemsList.IExtendedPersonaProps
-let [<Import("*","office-ui-fabric-react")>] people: ResizeArray<obj> = jsNative
-let [<Import("*","office-ui-fabric-react")>] mru: ResizeArray<IExtendedPersonaProps> = jsNative
-let [<Import("*","office-ui-fabric-react")>] groupOne: ResizeArray<IExtendedPersonaProps> = jsNative
-let [<Import("*","office-ui-fabric-react")>] groupTwo: ResizeArray<IExtendedPersonaProps> = jsNative
+let [<Import("objArray","office-ui-fabric-react")>] people: ResizeArray<obj> = jsNative
+let [<Import("IExtendedPersonaPropsArray","office-ui-fabric-react")>] mru: ResizeArray<IExtendedPersonaProps> = jsNative
+let [<Import("IExtendedPersonaPropsArray","office-ui-fabric-react")>] groupOne: ResizeArray<IExtendedPersonaProps> = jsNative
+let [<Import("IExtendedPersonaPropsArray","office-ui-fabric-react")>] groupTwo: ResizeArray<IExtendedPersonaProps> = jsNative
 type IStyle = ______Styling.IStyle
 type ITheme = ______Styling.ITheme
 
@@ -13389,8 +13389,8 @@ type [<AllowNullLiteral>] RatingBaseStatic =
     [<Emit "new $0($1...)">] abstract Create: props: IRatingProps -> RatingBase
 type BaseComponent = ______Utilities.BaseComponent
 type IResizeGroupProps = __ResizeGroup_types.IResizeGroupProps
-let [<Import("*","office-ui-fabric-react")>] getMeasurementCache: (unit -> obj) = jsNative
-let [<Import("*","office-ui-fabric-react")>] getNextResizeGroupStateProvider: (obj -> obj) = jsNative
+let [<Import("","office-ui-fabric-react")>] getMeasurementCache: (unit -> obj) = jsNative
+let [<Import("","office-ui-fabric-react")>] getNextResizeGroupStateProvider: (obj -> obj) = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract ResizeGroupBase: ResizeGroupBaseStatic
@@ -13851,7 +13851,7 @@ type [<AllowNullLiteral>] ISliderStyles =
 type ISpinButtonStyles = __SpinButton_types.ISpinButtonStyles
 type KeyboardSpinDirection = __SpinButton.KeyboardSpinDirection
 type Position = ______utilities_positioning.Position
-let [<Import("*","office-ui-fabric-react")>] getClassNames: (ISpinButtonStyles -> bool -> bool -> KeyboardSpinDirection -> Position -> ISpinButtonClassNames) = jsNative
+let [<Import("","office-ui-fabric-react")>] getClassNames: (ISpinButtonStyles -> bool -> bool -> KeyboardSpinDirection -> Position -> ISpinButtonClassNames) = jsNative
 
 type [<AllowNullLiteral>] ISpinButtonClassNames =
     abstract root: string with get, set
@@ -14611,7 +14611,7 @@ type [<AllowNullLiteral>] TextFieldStatic =
 type ITextField = ___TextField_types.ITextField
 type ITextFieldProps = ___TextField_types.ITextFieldProps
 type BaseComponent = _________Utilities.BaseComponent
-let [<Import("*","office-ui-fabric-react")>] DEFAULT_MASK_CHAR: obj = jsNative
+let [<Import("obj","office-ui-fabric-react")>] DEFAULT_MASK_CHAR: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract MaskedTextField: MaskedTextFieldStatic

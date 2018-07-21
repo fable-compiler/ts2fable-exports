@@ -9,7 +9,6 @@ let [<Import("*","async_hooks")>] async_hooks: Async_hooks.IExports = jsNative
 let [<Import("*","buffer")>] buffer: Buffer.IExports = jsNative
 let [<Import("*","child_process")>] child_process: Child_process.IExports = jsNative
 let [<Import("*","cluster")>] cluster: Cluster.IExports = jsNative
-let [<Import("*","constants")>] constants: Constants.IExports = jsNative
 let [<Import("*","crypto")>] crypto: Crypto.IExports = jsNative
 let [<Import("*","dgram")>] dgram: Dgram.IExports = jsNative
 let [<Import("*","dns")>] dns: Dns.IExports = jsNative
@@ -28,7 +27,6 @@ let [<Import("*","querystring")>] querystring: Querystring.IExports = jsNative
 let [<Import("*","readline")>] readline: Readline.IExports = jsNative
 let [<Import("*","repl")>] repl: Repl.IExports = jsNative
 let [<Import("*","stream")>] stream: Stream.IExports = jsNative
-let [<Import("*","string_decoder")>] string_decoder: String_decoder.IExports = jsNative
 let [<Import("*","timers")>] timers: Timers.IExports = jsNative
 let [<Import("*","tls")>] tls: Tls.IExports = jsNative
 let [<Import("*","tty")>] tty: Tty.IExports = jsNative
@@ -721,9 +719,9 @@ type [<AllowNullLiteral>] NodeBuffer =
 module Buffer =
 
     type [<AllowNullLiteral>] IExports =
-        abstract INSPECT_MAX_BYTES: float
         abstract BuffType: obj
         abstract SlowBuffType: obj
+    let INSPECT_MAX_BYTES: float = jsNative
 
 module Querystring =
 
@@ -789,13 +787,10 @@ module Http =
         abstract IncomingMessage: IncomingMessageStatic
         abstract ClientResponse: ClientResponseStatic
         abstract Agent: AgentStatic
-        abstract METHODS: ResizeArray<string>
-        abstract STATUS_CODES: obj
         abstract createServer: ?requestListener: (IncomingMessage -> ServerResponse -> unit) -> Server
         abstract createClient: ?port: float * ?host: string -> obj option
         abstract request: options: U3<RequestOptions, string, URL> * ?callback: (IncomingMessage -> unit) -> ClientRequest
         abstract get: options: U3<RequestOptions, string, URL> * ?callback: (IncomingMessage -> unit) -> ClientRequest
-        abstract globalAgent: Agent
 
     type [<AllowNullLiteral>] IncomingHttpHeaders =
         abstract accept: string option with get, set
@@ -986,9 +981,12 @@ module Http =
 
     type [<AllowNullLiteral>] AgentStatic =
         [<Emit "new $0($1...)">] abstract Create: ?opts: AgentOptions -> Agent
+    let METHODS: ResizeArray<string> = jsNative
+    let STATUS_CODES: obj = jsNative
 
     type [<AllowNullLiteral>] RequestOptions =
         inherit ClientRequestArgs
+    let globalAgent: Agent = jsNative
 
 module Cluster =
     module Child = Child_process
@@ -997,12 +995,7 @@ module Cluster =
         abstract Worker: WorkerStatic
         abstract disconnect: ?callback: Function -> unit
         abstract fork: ?env: obj option -> Worker
-        abstract isMaster: bool
-        abstract isWorker: bool
-        abstract settings: ClusterSettings
         abstract setupMaster: ?settings: ClusterSettings -> unit
-        abstract worker: Worker
-        abstract workers: obj
         /// events.EventEmitter
         ///    1. disconnect
         ///    2. exit
@@ -1214,9 +1207,13 @@ module Cluster =
         [<Emit "$0.prependOnceListener('message',$1)">] abstract prependOnceListener_message: listener: (Worker -> obj option -> U2<Net.Socket, Net.Server> -> unit) -> Cluster
         [<Emit "$0.prependOnceListener('online',$1)">] abstract prependOnceListener_online: listener: (Worker -> unit) -> Cluster
         [<Emit "$0.prependOnceListener('setup',$1)">] abstract prependOnceListener_setup: listener: (obj option -> unit) -> Cluster
+    let isMaster: bool = jsNative
+    let isWorker: bool = jsNative
+    let settings: ClusterSettings = jsNative
+    let worker: Worker = jsNative
+    let workers: obj = jsNative
 
 module Zlib =
-    let [<Import("constants","zlib")>] constants: Constants.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract createGzip: ?options: ZlibOptions -> Gzip
@@ -1247,36 +1244,6 @@ module Zlib =
         abstract unzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
         abstract unzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract unzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract Z_NO_FLUSH: float
-        abstract Z_PARTIAL_FLUSH: float
-        abstract Z_SYNC_FLUSH: float
-        abstract Z_FULL_FLUSH: float
-        abstract Z_FINISH: float
-        abstract Z_BLOCK: float
-        abstract Z_TREES: float
-        abstract Z_OK: float
-        abstract Z_STREAM_END: float
-        abstract Z_NEED_DICT: float
-        abstract Z_ERRNO: float
-        abstract Z_STREAM_ERROR: float
-        abstract Z_DATA_ERROR: float
-        abstract Z_MEM_ERROR: float
-        abstract Z_BUF_ERROR: float
-        abstract Z_VERSION_ERROR: float
-        abstract Z_NO_COMPRESSION: float
-        abstract Z_BEST_SPEED: float
-        abstract Z_BEST_COMPRESSION: float
-        abstract Z_DEFAULT_COMPRESSION: float
-        abstract Z_FILTERED: float
-        abstract Z_HUFFMAN_ONLY: float
-        abstract Z_RLE: float
-        abstract Z_FIXED: float
-        abstract Z_DEFAULT_STRATEGY: float
-        abstract Z_BINARY: float
-        abstract Z_TEXT: float
-        abstract Z_ASCII: float
-        abstract Z_UNKNOWN: float
-        abstract Z_DEFLATED: float
 
     type [<AllowNullLiteral>] ZlibOptions =
         abstract flush: float option with get, set
@@ -1349,33 +1316,61 @@ module Zlib =
         let asDataView (v: InputType) = match v with U3.Case3 o -> Some o | _ -> None
 
     module Constants =
-
-        type [<AllowNullLiteral>] IExports =
-            abstract Z_NO_FLUSH: float
-            abstract Z_PARTIAL_FLUSH: float
-            abstract Z_SYNC_FLUSH: float
-            abstract Z_FULL_FLUSH: float
-            abstract Z_FINISH: float
-            abstract Z_BLOCK: float
-            abstract Z_TREES: float
-            abstract Z_OK: float
-            abstract Z_STREAM_END: float
-            abstract Z_NEED_DICT: float
-            abstract Z_ERRNO: float
-            abstract Z_STREAM_ERROR: float
-            abstract Z_DATA_ERROR: float
-            abstract Z_MEM_ERROR: float
-            abstract Z_BUF_ERROR: float
-            abstract Z_VERSION_ERROR: float
-            abstract Z_NO_COMPRESSION: float
-            abstract Z_BEST_SPEED: float
-            abstract Z_BEST_COMPRESSION: float
-            abstract Z_DEFAULT_COMPRESSION: float
-            abstract Z_FILTERED: float
-            abstract Z_HUFFMAN_ONLY: float
-            abstract Z_RLE: float
-            abstract Z_FIXED: float
-            abstract Z_DEFAULT_STRATEGY: float
+        let Z_NO_FLUSH: float = jsNative
+        let Z_PARTIAL_FLUSH: float = jsNative
+        let Z_SYNC_FLUSH: float = jsNative
+        let Z_FULL_FLUSH: float = jsNative
+        let Z_FINISH: float = jsNative
+        let Z_BLOCK: float = jsNative
+        let Z_TREES: float = jsNative
+        let Z_OK: float = jsNative
+        let Z_STREAM_END: float = jsNative
+        let Z_NEED_DICT: float = jsNative
+        let Z_ERRNO: float = jsNative
+        let Z_STREAM_ERROR: float = jsNative
+        let Z_DATA_ERROR: float = jsNative
+        let Z_MEM_ERROR: float = jsNative
+        let Z_BUF_ERROR: float = jsNative
+        let Z_VERSION_ERROR: float = jsNative
+        let Z_NO_COMPRESSION: float = jsNative
+        let Z_BEST_SPEED: float = jsNative
+        let Z_BEST_COMPRESSION: float = jsNative
+        let Z_DEFAULT_COMPRESSION: float = jsNative
+        let Z_FILTERED: float = jsNative
+        let Z_HUFFMAN_ONLY: float = jsNative
+        let Z_RLE: float = jsNative
+        let Z_FIXED: float = jsNative
+        let Z_DEFAULT_STRATEGY: float = jsNative
+    let Z_NO_FLUSH: float = jsNative
+    let Z_PARTIAL_FLUSH: float = jsNative
+    let Z_SYNC_FLUSH: float = jsNative
+    let Z_FULL_FLUSH: float = jsNative
+    let Z_FINISH: float = jsNative
+    let Z_BLOCK: float = jsNative
+    let Z_TREES: float = jsNative
+    let Z_OK: float = jsNative
+    let Z_STREAM_END: float = jsNative
+    let Z_NEED_DICT: float = jsNative
+    let Z_ERRNO: float = jsNative
+    let Z_STREAM_ERROR: float = jsNative
+    let Z_DATA_ERROR: float = jsNative
+    let Z_MEM_ERROR: float = jsNative
+    let Z_BUF_ERROR: float = jsNative
+    let Z_VERSION_ERROR: float = jsNative
+    let Z_NO_COMPRESSION: float = jsNative
+    let Z_BEST_SPEED: float = jsNative
+    let Z_BEST_COMPRESSION: float = jsNative
+    let Z_DEFAULT_COMPRESSION: float = jsNative
+    let Z_FILTERED: float = jsNative
+    let Z_HUFFMAN_ONLY: float = jsNative
+    let Z_RLE: float = jsNative
+    let Z_FIXED: float = jsNative
+    let Z_DEFAULT_STRATEGY: float = jsNative
+    let Z_BINARY: float = jsNative
+    let Z_TEXT: float = jsNative
+    let Z_ASCII: float = jsNative
+    let Z_UNKNOWN: float = jsNative
+    let Z_DEFLATED: float = jsNative
 
 module Os =
 
@@ -1391,11 +1386,9 @@ module Os =
         abstract networkInterfaces: unit -> obj
         abstract homedir: unit -> string
         abstract userInfo: ?options: UserInfoOptions -> obj
-        abstract constants: obj
         abstract arch: unit -> string
         abstract platform: unit -> NodeJS.Platform
         abstract tmpdir: unit -> string
-        abstract EOL: string
         abstract endianness: unit -> U2<string, string>
 
     type [<AllowNullLiteral>] UserInfoOptions =
@@ -1432,6 +1425,8 @@ module Os =
         let ofNetworkInterfaceInfoIPv6 v: NetworkInterfaceInfo = v |> U2.Case2
         let isNetworkInterfaceInfoIPv6 (v: NetworkInterfaceInfo) = match v with U2.Case2 _ -> true | _ -> false
         let asNetworkInterfaceInfoIPv6 (v: NetworkInterfaceInfo) = match v with U2.Case2 o -> Some o | _ -> None
+    let constants: obj = jsNative
+    let EOL: string = jsNative
 
 module Https =
     type URL = Url.URL
@@ -1442,7 +1437,6 @@ module Https =
         abstract createServer: options: ServerOptions * ?requestListener: (Http.IncomingMessage -> Http.ServerResponse -> unit) -> Server
         abstract request: options: U3<RequestOptions, string, URL> * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest
         abstract get: options: U3<RequestOptions, string, URL> * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest
-        abstract globalAgent: Agent
 
     type [<AllowNullLiteral>] ServerOptions =
         interface end
@@ -1483,6 +1477,7 @@ module Https =
 
     type [<AllowNullLiteral>] ServerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Server
+    let globalAgent: Agent = jsNative
 
 module Punycode =
 
@@ -1491,12 +1486,12 @@ module Punycode =
         abstract encode: string: string -> string
         abstract toUnicode: domain: string -> string
         abstract toASCII: domain: string -> string
-        abstract ucs2: ucs2
-        abstract version: obj option
+    let ucs2: ucs2 = jsNative
 
     type [<AllowNullLiteral>] ucs2 =
         abstract decode: string: string -> ResizeArray<float>
         abstract encode: codePoints: ResizeArray<float> -> string
+    let version: obj option = jsNative
 
 module Repl =
 
@@ -2066,8 +2061,6 @@ module Dns =
     let [<Import("resolve6","dns")>] resolve6: Resolve6.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
-        abstract ADDRCONFIG: float
-        abstract V4MAPPED: float
         abstract lookup: hostname: string * family: float * callback: (NodeJS.ErrnoException -> string -> float -> unit) -> unit
         abstract lookup: hostname: string * options: LookupOneOptions * callback: (NodeJS.ErrnoException -> string -> float -> unit) -> unit
         abstract lookup: hostname: string * options: LookupAllOptions * callback: (NodeJS.ErrnoException -> ResizeArray<LookupAddress> -> unit) -> unit
@@ -2102,30 +2095,8 @@ module Dns =
         abstract resolveTxt: hostname: string * callback: (NodeJS.ErrnoException -> ResizeArray<ResizeArray<string>> -> unit) -> unit
         abstract reverse: ip: string * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
         abstract setServers: servers: ResizeArray<string> -> unit
-        abstract NODATA: string
-        abstract FORMERR: string
-        abstract SERVFAIL: string
-        abstract NOTFOUND: string
-        abstract NOTIMP: string
-        abstract REFUSED: string
-        abstract BADQUERY: string
-        abstract BADNAME: string
-        abstract BADFAMILY: string
-        abstract BADRESP: string
-        abstract CONNREFUSED: string
-        abstract TIMEOUT: string
-        abstract EOF: string
-        abstract FILE: string
-        abstract NOMEM: string
-        abstract DESTRUCTION: string
-        abstract BADSTR: string
-        abstract BADFLAGS: string
-        abstract NONAME: string
-        abstract BADHINTS: string
-        abstract NOTINITIALIZED: string
-        abstract LOADIPHLPAPI: string
-        abstract ADDRGETNETWORKPARAMS: string
-        abstract CANCELLED: string
+    let ADDRCONFIG: float = jsNative
+    let V4MAPPED: float = jsNative
 
     type [<AllowNullLiteral>] LookupOptions =
         abstract family: float option with get, set
@@ -2218,6 +2189,30 @@ module Dns =
             abstract __promisify__: hostname: string -> Promise<ResizeArray<string>>
             abstract __promisify__: hostname: string * options: ResolveWithTtlOptions -> Promise<ResizeArray<RecordWithTtl>>
             abstract __promisify__: hostname: string * ?options: ResolveOptions -> Promise<U2<ResizeArray<string>, ResizeArray<RecordWithTtl>>>
+    let NODATA: string = jsNative
+    let FORMERR: string = jsNative
+    let SERVFAIL: string = jsNative
+    let NOTFOUND: string = jsNative
+    let NOTIMP: string = jsNative
+    let REFUSED: string = jsNative
+    let BADQUERY: string = jsNative
+    let BADNAME: string = jsNative
+    let BADFAMILY: string = jsNative
+    let BADRESP: string = jsNative
+    let CONNREFUSED: string = jsNative
+    let TIMEOUT: string = jsNative
+    let EOF: string = jsNative
+    let FILE: string = jsNative
+    let NOMEM: string = jsNative
+    let DESTRUCTION: string = jsNative
+    let BADSTR: string = jsNative
+    let BADFLAGS: string = jsNative
+    let NONAME: string = jsNative
+    let BADHINTS: string = jsNative
+    let NOTINITIALIZED: string = jsNative
+    let LOADIPHLPAPI: string = jsNative
+    let ADDRGETNETWORKPARAMS: string = jsNative
+    let CANCELLED: string = jsNative
 
 module Net =
 
@@ -2571,7 +2566,6 @@ module Fs =
     let [<Import("chmod","fs")>] chmod: Chmod.IExports = jsNative
     let [<Import("chown","fs")>] chown: Chown.IExports = jsNative
     let [<Import("close","fs")>] close: Close.IExports = jsNative
-    let [<Import("constants","fs")>] constants: Constants.IExports = jsNative
     let [<Import("copyFile","fs")>] copyFile: CopyFile.IExports = jsNative
     let [<Import("exists","fs")>] exists: Exists.IExports = jsNative
     let [<Import("fchmod","fs")>] fchmod: Fchmod.IExports = jsNative
@@ -3608,49 +3602,47 @@ module Fs =
             abstract __promisify__: path: PathLike -> Promise<bool>
 
     module Constants =
-
-        type [<AllowNullLiteral>] IExports =
-            abstract F_OK: float
-            abstract R_OK: float
-            abstract W_OK: float
-            abstract X_OK: float
-            abstract O_RDONLY: float
-            abstract O_WRONLY: float
-            abstract O_RDWR: float
-            abstract O_CREAT: float
-            abstract O_EXCL: float
-            abstract O_NOCTTY: float
-            abstract O_TRUNC: float
-            abstract O_APPEND: float
-            abstract O_DIRECTORY: float
-            abstract O_NOATIME: float
-            abstract O_NOFOLLOW: float
-            abstract O_SYNC: float
-            abstract O_DSYNC: float
-            abstract O_SYMLINK: float
-            abstract O_DIRECT: float
-            abstract O_NONBLOCK: float
-            abstract S_IFMT: float
-            abstract S_IFREG: float
-            abstract S_IFDIR: float
-            abstract S_IFCHR: float
-            abstract S_IFBLK: float
-            abstract S_IFIFO: float
-            abstract S_IFLNK: float
-            abstract S_IFSOCK: float
-            abstract S_IRWXU: float
-            abstract S_IRUSR: float
-            abstract S_IWUSR: float
-            abstract S_IXUSR: float
-            abstract S_IRWXG: float
-            abstract S_IRGRP: float
-            abstract S_IWGRP: float
-            abstract S_IXGRP: float
-            abstract S_IRWXO: float
-            abstract S_IROTH: float
-            abstract S_IWOTH: float
-            abstract S_IXOTH: float
-            abstract COPYFILE_EXCL: float
+        let F_OK: float = jsNative
+        let R_OK: float = jsNative
+        let W_OK: float = jsNative
+        let X_OK: float = jsNative
+        let O_RDONLY: float = jsNative
+        let O_WRONLY: float = jsNative
+        let O_RDWR: float = jsNative
+        let O_CREAT: float = jsNative
+        let O_EXCL: float = jsNative
+        let O_NOCTTY: float = jsNative
+        let O_TRUNC: float = jsNative
+        let O_APPEND: float = jsNative
+        let O_DIRECTORY: float = jsNative
+        let O_NOATIME: float = jsNative
+        let O_NOFOLLOW: float = jsNative
+        let O_SYNC: float = jsNative
+        let O_DSYNC: float = jsNative
+        let O_SYMLINK: float = jsNative
+        let O_DIRECT: float = jsNative
+        let O_NONBLOCK: float = jsNative
+        let S_IFMT: float = jsNative
+        let S_IFREG: float = jsNative
+        let S_IFDIR: float = jsNative
+        let S_IFCHR: float = jsNative
+        let S_IFBLK: float = jsNative
+        let S_IFIFO: float = jsNative
+        let S_IFLNK: float = jsNative
+        let S_IFSOCK: float = jsNative
+        let S_IRWXU: float = jsNative
+        let S_IRUSR: float = jsNative
+        let S_IWUSR: float = jsNative
+        let S_IXUSR: float = jsNative
+        let S_IRWXG: float = jsNative
+        let S_IRGRP: float = jsNative
+        let S_IWGRP: float = jsNative
+        let S_IXGRP: float = jsNative
+        let S_IRWXO: float = jsNative
+        let S_IROTH: float = jsNative
+        let S_IWOTH: float = jsNative
+        let S_IXOTH: float = jsNative
+        let COPYFILE_EXCL: float = jsNative
 
     module Access =
 
@@ -3717,8 +3709,6 @@ module Path =
         /// If there is no '.' in the last portion of the path or the first character of it is '.', then it returns an empty string</summary>
         /// <param name="p">the path to evaluate.</param>
         abstract extname: p: string -> string
-        abstract sep: U2<string, string>
-        abstract delimiter: U2<string, string>
         /// <summary>Returns an object from a path string - the opposite of format().</summary>
         /// <param name="pathString">path to evaluate.</param>
         abstract parse: pathString: string -> ParsedPath
@@ -3749,6 +3739,8 @@ module Path =
         abstract ext: string option with get, set
         /// The file name without extension (if any) such as 'index'
         abstract name: string option with get, set
+    let sep: U2<string, string> = jsNative
+    let delimiter: U2<string, string> = jsNative
 
     module Posix =
 
@@ -3761,10 +3753,10 @@ module Path =
             abstract dirname: p: string -> string
             abstract basename: p: string * ?ext: string -> string
             abstract extname: p: string -> string
-            abstract sep: string
-            abstract delimiter: string
             abstract parse: p: string -> ParsedPath
             abstract format: pP: FormatInputPathObject -> string
+        let sep: string = jsNative
+        let delimiter: string = jsNative
 
     module Win32 =
 
@@ -3777,19 +3769,17 @@ module Path =
             abstract dirname: p: string -> string
             abstract basename: p: string * ?ext: string -> string
             abstract extname: p: string -> string
-            abstract sep: string
-            abstract delimiter: string
             abstract parse: p: string -> ParsedPath
             abstract format: pP: FormatInputPathObject -> string
+        let sep: string = jsNative
+        let delimiter: string = jsNative
 
 module String_decoder =
-
-    type [<AllowNullLiteral>] IExports =
-        abstract StringDecoder: obj
 
     type [<AllowNullLiteral>] NodeStringDecoder =
         abstract write: buffer: Buffer -> string
         abstract ``end``: ?buffer: Buffer -> string
+    let StringDecoder: obj = jsNative
 
 module Tls =
 
@@ -3806,7 +3796,6 @@ module Tls =
         abstract createSecurePair: ?credentials: Crypto.Credentials * ?isServer: bool * ?requestCert: bool * ?rejectUnauthorized: bool -> SecurePair
         abstract createSecureContext: details: SecureContextOptions -> SecureContext
         abstract getCiphers: unit -> ResizeArray<string>
-        abstract DEFAULT_ECDH_CURVE: string
 
     type [<AllowNullLiteral>] Certificate =
         /// Country code.
@@ -4076,12 +4065,11 @@ module Tls =
 
     type [<AllowNullLiteral>] SecureContext =
         abstract context: obj option with get, set
+    let DEFAULT_ECDH_CURVE: string = jsNative
 
 module Crypto =
 
     type [<AllowNullLiteral>] IExports =
-        abstract Certificate: obj
-        abstract fips: bool
         abstract createCredentials: details: CredentialDetails -> Credentials
         abstract createHash: algorithm: string -> Hash
         abstract createHmac: algorithm: string * key: U2<string, Buffer> -> Hmac
@@ -4119,12 +4107,13 @@ module Crypto =
         abstract getHashes: unit -> ResizeArray<string>
         abstract createECDH: curve_name: string -> ECDH
         abstract timingSafeEqual: a: Buffer * b: Buffer -> bool
-        abstract DEFAULT_ENCODING: string
 
     type [<AllowNullLiteral>] Certificate =
         abstract exportChallenge: spkac: U2<string, Buffer> -> Buffer
         abstract exportPublicKey: spkac: U2<string, Buffer> -> Buffer
         abstract verifySpkac: spkac: Buffer -> bool
+    let Certificate: obj = jsNative
+    let fips: bool = jsNative
 
     type [<AllowNullLiteral>] CredentialDetails =
         abstract pfx: string with get, set
@@ -4258,6 +4247,7 @@ module Crypto =
         abstract getPublicKey: encoding: HexBase64Latin1Encoding * format: ECDHKeyFormat -> string
         abstract setPrivateKey: private_key: Buffer -> unit
         abstract setPrivateKey: private_key: string * encoding: HexBase64Latin1Encoding -> unit
+    let DEFAULT_ENCODING: string = jsNative
 
 module Stream =
 
@@ -4508,7 +4498,6 @@ module Util =
         abstract puts: [<ParamArray>] param: ResizeArray<obj option> -> unit
         abstract print: [<ParamArray>] param: ResizeArray<obj option> -> unit
         abstract log: string: string -> unit
-        abstract inspect: obj
         abstract isArray: ``object``: obj option -> bool
         abstract isRegExp: ``object``: obj option -> bool
         abstract isDate: ``object``: obj option -> bool
@@ -4560,6 +4549,7 @@ module Util =
 
     type [<AllowNullLiteral>] InspectOptions =
         inherit NodeJS.InspectOptions
+    let inspect: obj = jsNative
 
     type [<AllowNullLiteral>] CustomPromisify<'TCustom> =
         inherit Function
@@ -4686,282 +4676,280 @@ module Domain =
         [<Emit "new $0($1...)">] abstract Create: unit -> Domain
 
 module Constants =
-
-    type [<AllowNullLiteral>] IExports =
-        abstract E2BIG: float
-        abstract EACCES: float
-        abstract EADDRINUSE: float
-        abstract EADDRNOTAVAIL: float
-        abstract EAFNOSUPPORT: float
-        abstract EAGAIN: float
-        abstract EALREADY: float
-        abstract EBADF: float
-        abstract EBADMSG: float
-        abstract EBUSY: float
-        abstract ECANCELED: float
-        abstract ECHILD: float
-        abstract ECONNABORTED: float
-        abstract ECONNREFUSED: float
-        abstract ECONNRESET: float
-        abstract EDEADLK: float
-        abstract EDESTADDRREQ: float
-        abstract EDOM: float
-        abstract EEXIST: float
-        abstract EFAULT: float
-        abstract EFBIG: float
-        abstract EHOSTUNREACH: float
-        abstract EIDRM: float
-        abstract EILSEQ: float
-        abstract EINPROGRESS: float
-        abstract EINTR: float
-        abstract EINVAL: float
-        abstract EIO: float
-        abstract EISCONN: float
-        abstract EISDIR: float
-        abstract ELOOP: float
-        abstract EMFILE: float
-        abstract EMLINK: float
-        abstract EMSGSIZE: float
-        abstract ENAMETOOLONG: float
-        abstract ENETDOWN: float
-        abstract ENETRESET: float
-        abstract ENETUNREACH: float
-        abstract ENFILE: float
-        abstract ENOBUFS: float
-        abstract ENODATA: float
-        abstract ENODEV: float
-        abstract ENOENT: float
-        abstract ENOEXEC: float
-        abstract ENOLCK: float
-        abstract ENOLINK: float
-        abstract ENOMEM: float
-        abstract ENOMSG: float
-        abstract ENOPROTOOPT: float
-        abstract ENOSPC: float
-        abstract ENOSR: float
-        abstract ENOSTR: float
-        abstract ENOSYS: float
-        abstract ENOTCONN: float
-        abstract ENOTDIR: float
-        abstract ENOTEMPTY: float
-        abstract ENOTSOCK: float
-        abstract ENOTSUP: float
-        abstract ENOTTY: float
-        abstract ENXIO: float
-        abstract EOPNOTSUPP: float
-        abstract EOVERFLOW: float
-        abstract EPERM: float
-        abstract EPIPE: float
-        abstract EPROTO: float
-        abstract EPROTONOSUPPORT: float
-        abstract EPROTOTYPE: float
-        abstract ERANGE: float
-        abstract EROFS: float
-        abstract ESPIPE: float
-        abstract ESRCH: float
-        abstract ETIME: float
-        abstract ETIMEDOUT: float
-        abstract ETXTBSY: float
-        abstract EWOULDBLOCK: float
-        abstract EXDEV: float
-        abstract WSAEINTR: float
-        abstract WSAEBADF: float
-        abstract WSAEACCES: float
-        abstract WSAEFAULT: float
-        abstract WSAEINVAL: float
-        abstract WSAEMFILE: float
-        abstract WSAEWOULDBLOCK: float
-        abstract WSAEINPROGRESS: float
-        abstract WSAEALREADY: float
-        abstract WSAENOTSOCK: float
-        abstract WSAEDESTADDRREQ: float
-        abstract WSAEMSGSIZE: float
-        abstract WSAEPROTOTYPE: float
-        abstract WSAENOPROTOOPT: float
-        abstract WSAEPROTONOSUPPORT: float
-        abstract WSAESOCKTNOSUPPORT: float
-        abstract WSAEOPNOTSUPP: float
-        abstract WSAEPFNOSUPPORT: float
-        abstract WSAEAFNOSUPPORT: float
-        abstract WSAEADDRINUSE: float
-        abstract WSAEADDRNOTAVAIL: float
-        abstract WSAENETDOWN: float
-        abstract WSAENETUNREACH: float
-        abstract WSAENETRESET: float
-        abstract WSAECONNABORTED: float
-        abstract WSAECONNRESET: float
-        abstract WSAENOBUFS: float
-        abstract WSAEISCONN: float
-        abstract WSAENOTCONN: float
-        abstract WSAESHUTDOWN: float
-        abstract WSAETOOMANYREFS: float
-        abstract WSAETIMEDOUT: float
-        abstract WSAECONNREFUSED: float
-        abstract WSAELOOP: float
-        abstract WSAENAMETOOLONG: float
-        abstract WSAEHOSTDOWN: float
-        abstract WSAEHOSTUNREACH: float
-        abstract WSAENOTEMPTY: float
-        abstract WSAEPROCLIM: float
-        abstract WSAEUSERS: float
-        abstract WSAEDQUOT: float
-        abstract WSAESTALE: float
-        abstract WSAEREMOTE: float
-        abstract WSASYSNOTREADY: float
-        abstract WSAVERNOTSUPPORTED: float
-        abstract WSANOTINITIALISED: float
-        abstract WSAEDISCON: float
-        abstract WSAENOMORE: float
-        abstract WSAECANCELLED: float
-        abstract WSAEINVALIDPROCTABLE: float
-        abstract WSAEINVALIDPROVIDER: float
-        abstract WSAEPROVIDERFAILEDINIT: float
-        abstract WSASYSCALLFAILURE: float
-        abstract WSASERVICE_NOT_FOUND: float
-        abstract WSATYPE_NOT_FOUND: float
-        abstract WSA_E_NO_MORE: float
-        abstract WSA_E_CANCELLED: float
-        abstract WSAEREFUSED: float
-        abstract SIGHUP: float
-        abstract SIGINT: float
-        abstract SIGILL: float
-        abstract SIGABRT: float
-        abstract SIGFPE: float
-        abstract SIGKILL: float
-        abstract SIGSEGV: float
-        abstract SIGTERM: float
-        abstract SIGBREAK: float
-        abstract SIGWINCH: float
-        abstract SSL_OP_ALL: float
-        abstract SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION: float
-        abstract SSL_OP_CIPHER_SERVER_PREFERENCE: float
-        abstract SSL_OP_CISCO_ANYCONNECT: float
-        abstract SSL_OP_COOKIE_EXCHANGE: float
-        abstract SSL_OP_CRYPTOPRO_TLSEXT_BUG: float
-        abstract SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS: float
-        abstract SSL_OP_EPHEMERAL_RSA: float
-        abstract SSL_OP_LEGACY_SERVER_CONNECT: float
-        abstract SSL_OP_MICROSOFT_BIG_SSLV3_BUFFER: float
-        abstract SSL_OP_MICROSOFT_SESS_ID_BUG: float
-        abstract SSL_OP_MSIE_SSLV2_RSA_PADDING: float
-        abstract SSL_OP_NETSCAPE_CA_DN_BUG: float
-        abstract SSL_OP_NETSCAPE_CHALLENGE_BUG: float
-        abstract SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG: float
-        abstract SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG: float
-        abstract SSL_OP_NO_COMPRESSION: float
-        abstract SSL_OP_NO_QUERY_MTU: float
-        abstract SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION: float
-        abstract SSL_OP_NO_SSLv2: float
-        abstract SSL_OP_NO_SSLv3: float
-        abstract SSL_OP_NO_TICKET: float
-        abstract SSL_OP_NO_TLSv1: float
-        abstract SSL_OP_NO_TLSv1_1: float
-        abstract SSL_OP_NO_TLSv1_2: float
-        abstract SSL_OP_PKCS1_CHECK_1: float
-        abstract SSL_OP_PKCS1_CHECK_2: float
-        abstract SSL_OP_SINGLE_DH_USE: float
-        abstract SSL_OP_SINGLE_ECDH_USE: float
-        abstract SSL_OP_SSLEAY_080_CLIENT_DH_BUG: float
-        abstract SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG: float
-        abstract SSL_OP_TLS_BLOCK_PADDING_BUG: float
-        abstract SSL_OP_TLS_D5_BUG: float
-        abstract SSL_OP_TLS_ROLLBACK_BUG: float
-        abstract ENGINE_METHOD_DSA: float
-        abstract ENGINE_METHOD_DH: float
-        abstract ENGINE_METHOD_RAND: float
-        abstract ENGINE_METHOD_ECDH: float
-        abstract ENGINE_METHOD_ECDSA: float
-        abstract ENGINE_METHOD_CIPHERS: float
-        abstract ENGINE_METHOD_DIGESTS: float
-        abstract ENGINE_METHOD_STORE: float
-        abstract ENGINE_METHOD_PKEY_METHS: float
-        abstract ENGINE_METHOD_PKEY_ASN1_METHS: float
-        abstract ENGINE_METHOD_ALL: float
-        abstract ENGINE_METHOD_NONE: float
-        abstract DH_CHECK_P_NOT_SAFE_PRIME: float
-        abstract DH_CHECK_P_NOT_PRIME: float
-        abstract DH_UNABLE_TO_CHECK_GENERATOR: float
-        abstract DH_NOT_SUITABLE_GENERATOR: float
-        abstract NPN_ENABLED: float
-        abstract RSA_PKCS1_PADDING: float
-        abstract RSA_SSLV23_PADDING: float
-        abstract RSA_NO_PADDING: float
-        abstract RSA_PKCS1_OAEP_PADDING: float
-        abstract RSA_X931_PADDING: float
-        abstract RSA_PKCS1_PSS_PADDING: float
-        abstract POINT_CONVERSION_COMPRESSED: float
-        abstract POINT_CONVERSION_UNCOMPRESSED: float
-        abstract POINT_CONVERSION_HYBRID: float
-        abstract O_RDONLY: float
-        abstract O_WRONLY: float
-        abstract O_RDWR: float
-        abstract S_IFMT: float
-        abstract S_IFREG: float
-        abstract S_IFDIR: float
-        abstract S_IFCHR: float
-        abstract S_IFBLK: float
-        abstract S_IFIFO: float
-        abstract S_IFSOCK: float
-        abstract S_IRWXU: float
-        abstract S_IRUSR: float
-        abstract S_IWUSR: float
-        abstract S_IXUSR: float
-        abstract S_IRWXG: float
-        abstract S_IRGRP: float
-        abstract S_IWGRP: float
-        abstract S_IXGRP: float
-        abstract S_IRWXO: float
-        abstract S_IROTH: float
-        abstract S_IWOTH: float
-        abstract S_IXOTH: float
-        abstract S_IFLNK: float
-        abstract O_CREAT: float
-        abstract O_EXCL: float
-        abstract O_NOCTTY: float
-        abstract O_DIRECTORY: float
-        abstract O_NOATIME: float
-        abstract O_NOFOLLOW: float
-        abstract O_SYNC: float
-        abstract O_DSYNC: float
-        abstract O_SYMLINK: float
-        abstract O_DIRECT: float
-        abstract O_NONBLOCK: float
-        abstract O_TRUNC: float
-        abstract O_APPEND: float
-        abstract F_OK: float
-        abstract R_OK: float
-        abstract W_OK: float
-        abstract X_OK: float
-        abstract UV_UDP_REUSEADDR: float
-        abstract SIGQUIT: float
-        abstract SIGTRAP: float
-        abstract SIGIOT: float
-        abstract SIGBUS: float
-        abstract SIGUSR1: float
-        abstract SIGUSR2: float
-        abstract SIGPIPE: float
-        abstract SIGALRM: float
-        abstract SIGCHLD: float
-        abstract SIGSTKFLT: float
-        abstract SIGCONT: float
-        abstract SIGSTOP: float
-        abstract SIGTSTP: float
-        abstract SIGTTIN: float
-        abstract SIGTTOU: float
-        abstract SIGURG: float
-        abstract SIGXCPU: float
-        abstract SIGXFSZ: float
-        abstract SIGVTALRM: float
-        abstract SIGPROF: float
-        abstract SIGIO: float
-        abstract SIGPOLL: float
-        abstract SIGPWR: float
-        abstract SIGSYS: float
-        abstract SIGUNUSED: float
-        abstract defaultCoreCipherList: string
-        abstract defaultCipherList: string
-        abstract ENGINE_METHOD_RSA: float
-        abstract ALPN_ENABLED: float
+    let E2BIG: float = jsNative
+    let EACCES: float = jsNative
+    let EADDRINUSE: float = jsNative
+    let EADDRNOTAVAIL: float = jsNative
+    let EAFNOSUPPORT: float = jsNative
+    let EAGAIN: float = jsNative
+    let EALREADY: float = jsNative
+    let EBADF: float = jsNative
+    let EBADMSG: float = jsNative
+    let EBUSY: float = jsNative
+    let ECANCELED: float = jsNative
+    let ECHILD: float = jsNative
+    let ECONNABORTED: float = jsNative
+    let ECONNREFUSED: float = jsNative
+    let ECONNRESET: float = jsNative
+    let EDEADLK: float = jsNative
+    let EDESTADDRREQ: float = jsNative
+    let EDOM: float = jsNative
+    let EEXIST: float = jsNative
+    let EFAULT: float = jsNative
+    let EFBIG: float = jsNative
+    let EHOSTUNREACH: float = jsNative
+    let EIDRM: float = jsNative
+    let EILSEQ: float = jsNative
+    let EINPROGRESS: float = jsNative
+    let EINTR: float = jsNative
+    let EINVAL: float = jsNative
+    let EIO: float = jsNative
+    let EISCONN: float = jsNative
+    let EISDIR: float = jsNative
+    let ELOOP: float = jsNative
+    let EMFILE: float = jsNative
+    let EMLINK: float = jsNative
+    let EMSGSIZE: float = jsNative
+    let ENAMETOOLONG: float = jsNative
+    let ENETDOWN: float = jsNative
+    let ENETRESET: float = jsNative
+    let ENETUNREACH: float = jsNative
+    let ENFILE: float = jsNative
+    let ENOBUFS: float = jsNative
+    let ENODATA: float = jsNative
+    let ENODEV: float = jsNative
+    let ENOENT: float = jsNative
+    let ENOEXEC: float = jsNative
+    let ENOLCK: float = jsNative
+    let ENOLINK: float = jsNative
+    let ENOMEM: float = jsNative
+    let ENOMSG: float = jsNative
+    let ENOPROTOOPT: float = jsNative
+    let ENOSPC: float = jsNative
+    let ENOSR: float = jsNative
+    let ENOSTR: float = jsNative
+    let ENOSYS: float = jsNative
+    let ENOTCONN: float = jsNative
+    let ENOTDIR: float = jsNative
+    let ENOTEMPTY: float = jsNative
+    let ENOTSOCK: float = jsNative
+    let ENOTSUP: float = jsNative
+    let ENOTTY: float = jsNative
+    let ENXIO: float = jsNative
+    let EOPNOTSUPP: float = jsNative
+    let EOVERFLOW: float = jsNative
+    let EPERM: float = jsNative
+    let EPIPE: float = jsNative
+    let EPROTO: float = jsNative
+    let EPROTONOSUPPORT: float = jsNative
+    let EPROTOTYPE: float = jsNative
+    let ERANGE: float = jsNative
+    let EROFS: float = jsNative
+    let ESPIPE: float = jsNative
+    let ESRCH: float = jsNative
+    let ETIME: float = jsNative
+    let ETIMEDOUT: float = jsNative
+    let ETXTBSY: float = jsNative
+    let EWOULDBLOCK: float = jsNative
+    let EXDEV: float = jsNative
+    let WSAEINTR: float = jsNative
+    let WSAEBADF: float = jsNative
+    let WSAEACCES: float = jsNative
+    let WSAEFAULT: float = jsNative
+    let WSAEINVAL: float = jsNative
+    let WSAEMFILE: float = jsNative
+    let WSAEWOULDBLOCK: float = jsNative
+    let WSAEINPROGRESS: float = jsNative
+    let WSAEALREADY: float = jsNative
+    let WSAENOTSOCK: float = jsNative
+    let WSAEDESTADDRREQ: float = jsNative
+    let WSAEMSGSIZE: float = jsNative
+    let WSAEPROTOTYPE: float = jsNative
+    let WSAENOPROTOOPT: float = jsNative
+    let WSAEPROTONOSUPPORT: float = jsNative
+    let WSAESOCKTNOSUPPORT: float = jsNative
+    let WSAEOPNOTSUPP: float = jsNative
+    let WSAEPFNOSUPPORT: float = jsNative
+    let WSAEAFNOSUPPORT: float = jsNative
+    let WSAEADDRINUSE: float = jsNative
+    let WSAEADDRNOTAVAIL: float = jsNative
+    let WSAENETDOWN: float = jsNative
+    let WSAENETUNREACH: float = jsNative
+    let WSAENETRESET: float = jsNative
+    let WSAECONNABORTED: float = jsNative
+    let WSAECONNRESET: float = jsNative
+    let WSAENOBUFS: float = jsNative
+    let WSAEISCONN: float = jsNative
+    let WSAENOTCONN: float = jsNative
+    let WSAESHUTDOWN: float = jsNative
+    let WSAETOOMANYREFS: float = jsNative
+    let WSAETIMEDOUT: float = jsNative
+    let WSAECONNREFUSED: float = jsNative
+    let WSAELOOP: float = jsNative
+    let WSAENAMETOOLONG: float = jsNative
+    let WSAEHOSTDOWN: float = jsNative
+    let WSAEHOSTUNREACH: float = jsNative
+    let WSAENOTEMPTY: float = jsNative
+    let WSAEPROCLIM: float = jsNative
+    let WSAEUSERS: float = jsNative
+    let WSAEDQUOT: float = jsNative
+    let WSAESTALE: float = jsNative
+    let WSAEREMOTE: float = jsNative
+    let WSASYSNOTREADY: float = jsNative
+    let WSAVERNOTSUPPORTED: float = jsNative
+    let WSANOTINITIALISED: float = jsNative
+    let WSAEDISCON: float = jsNative
+    let WSAENOMORE: float = jsNative
+    let WSAECANCELLED: float = jsNative
+    let WSAEINVALIDPROCTABLE: float = jsNative
+    let WSAEINVALIDPROVIDER: float = jsNative
+    let WSAEPROVIDERFAILEDINIT: float = jsNative
+    let WSASYSCALLFAILURE: float = jsNative
+    let WSASERVICE_NOT_FOUND: float = jsNative
+    let WSATYPE_NOT_FOUND: float = jsNative
+    let WSA_E_NO_MORE: float = jsNative
+    let WSA_E_CANCELLED: float = jsNative
+    let WSAEREFUSED: float = jsNative
+    let SIGHUP: float = jsNative
+    let SIGINT: float = jsNative
+    let SIGILL: float = jsNative
+    let SIGABRT: float = jsNative
+    let SIGFPE: float = jsNative
+    let SIGKILL: float = jsNative
+    let SIGSEGV: float = jsNative
+    let SIGTERM: float = jsNative
+    let SIGBREAK: float = jsNative
+    let SIGWINCH: float = jsNative
+    let SSL_OP_ALL: float = jsNative
+    let SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION: float = jsNative
+    let SSL_OP_CIPHER_SERVER_PREFERENCE: float = jsNative
+    let SSL_OP_CISCO_ANYCONNECT: float = jsNative
+    let SSL_OP_COOKIE_EXCHANGE: float = jsNative
+    let SSL_OP_CRYPTOPRO_TLSEXT_BUG: float = jsNative
+    let SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS: float = jsNative
+    let SSL_OP_EPHEMERAL_RSA: float = jsNative
+    let SSL_OP_LEGACY_SERVER_CONNECT: float = jsNative
+    let SSL_OP_MICROSOFT_BIG_SSLV3_BUFFER: float = jsNative
+    let SSL_OP_MICROSOFT_SESS_ID_BUG: float = jsNative
+    let SSL_OP_MSIE_SSLV2_RSA_PADDING: float = jsNative
+    let SSL_OP_NETSCAPE_CA_DN_BUG: float = jsNative
+    let SSL_OP_NETSCAPE_CHALLENGE_BUG: float = jsNative
+    let SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG: float = jsNative
+    let SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG: float = jsNative
+    let SSL_OP_NO_COMPRESSION: float = jsNative
+    let SSL_OP_NO_QUERY_MTU: float = jsNative
+    let SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION: float = jsNative
+    let SSL_OP_NO_SSLv2: float = jsNative
+    let SSL_OP_NO_SSLv3: float = jsNative
+    let SSL_OP_NO_TICKET: float = jsNative
+    let SSL_OP_NO_TLSv1: float = jsNative
+    let SSL_OP_NO_TLSv1_1: float = jsNative
+    let SSL_OP_NO_TLSv1_2: float = jsNative
+    let SSL_OP_PKCS1_CHECK_1: float = jsNative
+    let SSL_OP_PKCS1_CHECK_2: float = jsNative
+    let SSL_OP_SINGLE_DH_USE: float = jsNative
+    let SSL_OP_SINGLE_ECDH_USE: float = jsNative
+    let SSL_OP_SSLEAY_080_CLIENT_DH_BUG: float = jsNative
+    let SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG: float = jsNative
+    let SSL_OP_TLS_BLOCK_PADDING_BUG: float = jsNative
+    let SSL_OP_TLS_D5_BUG: float = jsNative
+    let SSL_OP_TLS_ROLLBACK_BUG: float = jsNative
+    let ENGINE_METHOD_DSA: float = jsNative
+    let ENGINE_METHOD_DH: float = jsNative
+    let ENGINE_METHOD_RAND: float = jsNative
+    let ENGINE_METHOD_ECDH: float = jsNative
+    let ENGINE_METHOD_ECDSA: float = jsNative
+    let ENGINE_METHOD_CIPHERS: float = jsNative
+    let ENGINE_METHOD_DIGESTS: float = jsNative
+    let ENGINE_METHOD_STORE: float = jsNative
+    let ENGINE_METHOD_PKEY_METHS: float = jsNative
+    let ENGINE_METHOD_PKEY_ASN1_METHS: float = jsNative
+    let ENGINE_METHOD_ALL: float = jsNative
+    let ENGINE_METHOD_NONE: float = jsNative
+    let DH_CHECK_P_NOT_SAFE_PRIME: float = jsNative
+    let DH_CHECK_P_NOT_PRIME: float = jsNative
+    let DH_UNABLE_TO_CHECK_GENERATOR: float = jsNative
+    let DH_NOT_SUITABLE_GENERATOR: float = jsNative
+    let NPN_ENABLED: float = jsNative
+    let RSA_PKCS1_PADDING: float = jsNative
+    let RSA_SSLV23_PADDING: float = jsNative
+    let RSA_NO_PADDING: float = jsNative
+    let RSA_PKCS1_OAEP_PADDING: float = jsNative
+    let RSA_X931_PADDING: float = jsNative
+    let RSA_PKCS1_PSS_PADDING: float = jsNative
+    let POINT_CONVERSION_COMPRESSED: float = jsNative
+    let POINT_CONVERSION_UNCOMPRESSED: float = jsNative
+    let POINT_CONVERSION_HYBRID: float = jsNative
+    let O_RDONLY: float = jsNative
+    let O_WRONLY: float = jsNative
+    let O_RDWR: float = jsNative
+    let S_IFMT: float = jsNative
+    let S_IFREG: float = jsNative
+    let S_IFDIR: float = jsNative
+    let S_IFCHR: float = jsNative
+    let S_IFBLK: float = jsNative
+    let S_IFIFO: float = jsNative
+    let S_IFSOCK: float = jsNative
+    let S_IRWXU: float = jsNative
+    let S_IRUSR: float = jsNative
+    let S_IWUSR: float = jsNative
+    let S_IXUSR: float = jsNative
+    let S_IRWXG: float = jsNative
+    let S_IRGRP: float = jsNative
+    let S_IWGRP: float = jsNative
+    let S_IXGRP: float = jsNative
+    let S_IRWXO: float = jsNative
+    let S_IROTH: float = jsNative
+    let S_IWOTH: float = jsNative
+    let S_IXOTH: float = jsNative
+    let S_IFLNK: float = jsNative
+    let O_CREAT: float = jsNative
+    let O_EXCL: float = jsNative
+    let O_NOCTTY: float = jsNative
+    let O_DIRECTORY: float = jsNative
+    let O_NOATIME: float = jsNative
+    let O_NOFOLLOW: float = jsNative
+    let O_SYNC: float = jsNative
+    let O_DSYNC: float = jsNative
+    let O_SYMLINK: float = jsNative
+    let O_DIRECT: float = jsNative
+    let O_NONBLOCK: float = jsNative
+    let O_TRUNC: float = jsNative
+    let O_APPEND: float = jsNative
+    let F_OK: float = jsNative
+    let R_OK: float = jsNative
+    let W_OK: float = jsNative
+    let X_OK: float = jsNative
+    let UV_UDP_REUSEADDR: float = jsNative
+    let SIGQUIT: float = jsNative
+    let SIGTRAP: float = jsNative
+    let SIGIOT: float = jsNative
+    let SIGBUS: float = jsNative
+    let SIGUSR1: float = jsNative
+    let SIGUSR2: float = jsNative
+    let SIGPIPE: float = jsNative
+    let SIGALRM: float = jsNative
+    let SIGCHLD: float = jsNative
+    let SIGSTKFLT: float = jsNative
+    let SIGCONT: float = jsNative
+    let SIGSTOP: float = jsNative
+    let SIGTSTP: float = jsNative
+    let SIGTTIN: float = jsNative
+    let SIGTTOU: float = jsNative
+    let SIGURG: float = jsNative
+    let SIGXCPU: float = jsNative
+    let SIGXFSZ: float = jsNative
+    let SIGVTALRM: float = jsNative
+    let SIGPROF: float = jsNative
+    let SIGIO: float = jsNative
+    let SIGPOLL: float = jsNative
+    let SIGPWR: float = jsNative
+    let SIGSYS: float = jsNative
+    let SIGUNUSED: float = jsNative
+    let defaultCoreCipherList: string = jsNative
+    let defaultCipherList: string = jsNative
+    let ENGINE_METHOD_RSA: float = jsNative
+    let ALPN_ENABLED: float = jsNative
 
 module V8 =
 
@@ -5095,7 +5083,6 @@ module Async_hooks =
 module Http2 =
     type IncomingHttpHeaders = Http.IncomingHttpHeaders
     type OutgoingHttpHeaders = Http.OutgoingHttpHeaders
-    let [<Import("constants","http2")>] constants: Constants.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract getDefaultSettings: unit -> Settings
@@ -5630,219 +5617,216 @@ module Http2 =
         [<Emit "$0.prependOnceListener('finish',$1)">] abstract prependOnceListener_finish: listener: (unit -> unit) -> Http2ServerResponse
 
     module Constants =
-
-        type [<AllowNullLiteral>] IExports =
-            abstract NGHTTP2_SESSION_SERVER: float
-            abstract NGHTTP2_SESSION_CLIENT: float
-            abstract NGHTTP2_STREAM_STATE_IDLE: float
-            abstract NGHTTP2_STREAM_STATE_OPEN: float
-            abstract NGHTTP2_STREAM_STATE_RESERVED_LOCAL: float
-            abstract NGHTTP2_STREAM_STATE_RESERVED_REMOTE: float
-            abstract NGHTTP2_STREAM_STATE_HALF_CLOSED_LOCAL: float
-            abstract NGHTTP2_STREAM_STATE_HALF_CLOSED_REMOTE: float
-            abstract NGHTTP2_STREAM_STATE_CLOSED: float
-            abstract NGHTTP2_NO_ERROR: float
-            abstract NGHTTP2_PROTOCOL_ERROR: float
-            abstract NGHTTP2_INTERNAL_ERROR: float
-            abstract NGHTTP2_FLOW_CONTROL_ERROR: float
-            abstract NGHTTP2_SETTINGS_TIMEOUT: float
-            abstract NGHTTP2_STREAM_CLOSED: float
-            abstract NGHTTP2_FRAME_SIZE_ERROR: float
-            abstract NGHTTP2_REFUSED_STREAM: float
-            abstract NGHTTP2_CANCEL: float
-            abstract NGHTTP2_COMPRESSION_ERROR: float
-            abstract NGHTTP2_CONNECT_ERROR: float
-            abstract NGHTTP2_ENHANCE_YOUR_CALM: float
-            abstract NGHTTP2_INADEQUATE_SECURITY: float
-            abstract NGHTTP2_HTTP_1_1_REQUIRED: float
-            abstract NGHTTP2_ERR_FRAME_SIZE_ERROR: float
-            abstract NGHTTP2_FLAG_NONE: float
-            abstract NGHTTP2_FLAG_END_STREAM: float
-            abstract NGHTTP2_FLAG_END_HEADERS: float
-            abstract NGHTTP2_FLAG_ACK: float
-            abstract NGHTTP2_FLAG_PADDED: float
-            abstract NGHTTP2_FLAG_PRIORITY: float
-            abstract DEFAULT_SETTINGS_HEADER_TABLE_SIZE: float
-            abstract DEFAULT_SETTINGS_ENABLE_PUSH: float
-            abstract DEFAULT_SETTINGS_INITIAL_WINDOW_SIZE: float
-            abstract DEFAULT_SETTINGS_MAX_FRAME_SIZE: float
-            abstract MAX_MAX_FRAME_SIZE: float
-            abstract MIN_MAX_FRAME_SIZE: float
-            abstract MAX_INITIAL_WINDOW_SIZE: float
-            abstract NGHTTP2_DEFAULT_WEIGHT: float
-            abstract NGHTTP2_SETTINGS_HEADER_TABLE_SIZE: float
-            abstract NGHTTP2_SETTINGS_ENABLE_PUSH: float
-            abstract NGHTTP2_SETTINGS_MAX_CONCURRENT_STREAMS: float
-            abstract NGHTTP2_SETTINGS_INITIAL_WINDOW_SIZE: float
-            abstract NGHTTP2_SETTINGS_MAX_FRAME_SIZE: float
-            abstract NGHTTP2_SETTINGS_MAX_HEADER_LIST_SIZE: float
-            abstract PADDING_STRATEGY_NONE: float
-            abstract PADDING_STRATEGY_MAX: float
-            abstract PADDING_STRATEGY_CALLBACK: float
-            abstract HTTP2_HEADER_STATUS: string
-            abstract HTTP2_HEADER_METHOD: string
-            abstract HTTP2_HEADER_AUTHORITY: string
-            abstract HTTP2_HEADER_SCHEME: string
-            abstract HTTP2_HEADER_PATH: string
-            abstract HTTP2_HEADER_ACCEPT_CHARSET: string
-            abstract HTTP2_HEADER_ACCEPT_ENCODING: string
-            abstract HTTP2_HEADER_ACCEPT_LANGUAGE: string
-            abstract HTTP2_HEADER_ACCEPT_RANGES: string
-            abstract HTTP2_HEADER_ACCEPT: string
-            abstract HTTP2_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN: string
-            abstract HTTP2_HEADER_AGE: string
-            abstract HTTP2_HEADER_ALLOW: string
-            abstract HTTP2_HEADER_AUTHORIZATION: string
-            abstract HTTP2_HEADER_CACHE_CONTROL: string
-            abstract HTTP2_HEADER_CONNECTION: string
-            abstract HTTP2_HEADER_CONTENT_DISPOSITION: string
-            abstract HTTP2_HEADER_CONTENT_ENCODING: string
-            abstract HTTP2_HEADER_CONTENT_LANGUAGE: string
-            abstract HTTP2_HEADER_CONTENT_LENGTH: string
-            abstract HTTP2_HEADER_CONTENT_LOCATION: string
-            abstract HTTP2_HEADER_CONTENT_MD5: string
-            abstract HTTP2_HEADER_CONTENT_RANGE: string
-            abstract HTTP2_HEADER_CONTENT_TYPE: string
-            abstract HTTP2_HEADER_COOKIE: string
-            abstract HTTP2_HEADER_DATE: string
-            abstract HTTP2_HEADER_ETAG: string
-            abstract HTTP2_HEADER_EXPECT: string
-            abstract HTTP2_HEADER_EXPIRES: string
-            abstract HTTP2_HEADER_FROM: string
-            abstract HTTP2_HEADER_HOST: string
-            abstract HTTP2_HEADER_IF_MATCH: string
-            abstract HTTP2_HEADER_IF_MODIFIED_SINCE: string
-            abstract HTTP2_HEADER_IF_NONE_MATCH: string
-            abstract HTTP2_HEADER_IF_RANGE: string
-            abstract HTTP2_HEADER_IF_UNMODIFIED_SINCE: string
-            abstract HTTP2_HEADER_LAST_MODIFIED: string
-            abstract HTTP2_HEADER_LINK: string
-            abstract HTTP2_HEADER_LOCATION: string
-            abstract HTTP2_HEADER_MAX_FORWARDS: string
-            abstract HTTP2_HEADER_PREFER: string
-            abstract HTTP2_HEADER_PROXY_AUTHENTICATE: string
-            abstract HTTP2_HEADER_PROXY_AUTHORIZATION: string
-            abstract HTTP2_HEADER_RANGE: string
-            abstract HTTP2_HEADER_REFERER: string
-            abstract HTTP2_HEADER_REFRESH: string
-            abstract HTTP2_HEADER_RETRY_AFTER: string
-            abstract HTTP2_HEADER_SERVER: string
-            abstract HTTP2_HEADER_SET_COOKIE: string
-            abstract HTTP2_HEADER_STRICT_TRANSPORT_SECURITY: string
-            abstract HTTP2_HEADER_TRANSFER_ENCODING: string
-            abstract HTTP2_HEADER_TE: string
-            abstract HTTP2_HEADER_UPGRADE: string
-            abstract HTTP2_HEADER_USER_AGENT: string
-            abstract HTTP2_HEADER_VARY: string
-            abstract HTTP2_HEADER_VIA: string
-            abstract HTTP2_HEADER_WWW_AUTHENTICATE: string
-            abstract HTTP2_HEADER_HTTP2_SETTINGS: string
-            abstract HTTP2_HEADER_KEEP_ALIVE: string
-            abstract HTTP2_HEADER_PROXY_CONNECTION: string
-            abstract HTTP2_METHOD_ACL: string
-            abstract HTTP2_METHOD_BASELINE_CONTROL: string
-            abstract HTTP2_METHOD_BIND: string
-            abstract HTTP2_METHOD_CHECKIN: string
-            abstract HTTP2_METHOD_CHECKOUT: string
-            abstract HTTP2_METHOD_CONNECT: string
-            abstract HTTP2_METHOD_COPY: string
-            abstract HTTP2_METHOD_DELETE: string
-            abstract HTTP2_METHOD_GET: string
-            abstract HTTP2_METHOD_HEAD: string
-            abstract HTTP2_METHOD_LABEL: string
-            abstract HTTP2_METHOD_LINK: string
-            abstract HTTP2_METHOD_LOCK: string
-            abstract HTTP2_METHOD_MERGE: string
-            abstract HTTP2_METHOD_MKACTIVITY: string
-            abstract HTTP2_METHOD_MKCALENDAR: string
-            abstract HTTP2_METHOD_MKCOL: string
-            abstract HTTP2_METHOD_MKREDIRECTREF: string
-            abstract HTTP2_METHOD_MKWORKSPACE: string
-            abstract HTTP2_METHOD_MOVE: string
-            abstract HTTP2_METHOD_OPTIONS: string
-            abstract HTTP2_METHOD_ORDERPATCH: string
-            abstract HTTP2_METHOD_PATCH: string
-            abstract HTTP2_METHOD_POST: string
-            abstract HTTP2_METHOD_PRI: string
-            abstract HTTP2_METHOD_PROPFIND: string
-            abstract HTTP2_METHOD_PROPPATCH: string
-            abstract HTTP2_METHOD_PUT: string
-            abstract HTTP2_METHOD_REBIND: string
-            abstract HTTP2_METHOD_REPORT: string
-            abstract HTTP2_METHOD_SEARCH: string
-            abstract HTTP2_METHOD_TRACE: string
-            abstract HTTP2_METHOD_UNBIND: string
-            abstract HTTP2_METHOD_UNCHECKOUT: string
-            abstract HTTP2_METHOD_UNLINK: string
-            abstract HTTP2_METHOD_UNLOCK: string
-            abstract HTTP2_METHOD_UPDATE: string
-            abstract HTTP2_METHOD_UPDATEREDIRECTREF: string
-            abstract HTTP2_METHOD_VERSION_CONTROL: string
-            abstract HTTP_STATUS_CONTINUE: float
-            abstract HTTP_STATUS_SWITCHING_PROTOCOLS: float
-            abstract HTTP_STATUS_PROCESSING: float
-            abstract HTTP_STATUS_OK: float
-            abstract HTTP_STATUS_CREATED: float
-            abstract HTTP_STATUS_ACCEPTED: float
-            abstract HTTP_STATUS_NON_AUTHORITATIVE_INFORMATION: float
-            abstract HTTP_STATUS_NO_CONTENT: float
-            abstract HTTP_STATUS_RESET_CONTENT: float
-            abstract HTTP_STATUS_PARTIAL_CONTENT: float
-            abstract HTTP_STATUS_MULTI_STATUS: float
-            abstract HTTP_STATUS_ALREADY_REPORTED: float
-            abstract HTTP_STATUS_IM_USED: float
-            abstract HTTP_STATUS_MULTIPLE_CHOICES: float
-            abstract HTTP_STATUS_MOVED_PERMANENTLY: float
-            abstract HTTP_STATUS_FOUND: float
-            abstract HTTP_STATUS_SEE_OTHER: float
-            abstract HTTP_STATUS_NOT_MODIFIED: float
-            abstract HTTP_STATUS_USE_PROXY: float
-            abstract HTTP_STATUS_TEMPORARY_REDIRECT: float
-            abstract HTTP_STATUS_PERMANENT_REDIRECT: float
-            abstract HTTP_STATUS_BAD_REQUEST: float
-            abstract HTTP_STATUS_UNAUTHORIZED: float
-            abstract HTTP_STATUS_PAYMENT_REQUIRED: float
-            abstract HTTP_STATUS_FORBIDDEN: float
-            abstract HTTP_STATUS_NOT_FOUND: float
-            abstract HTTP_STATUS_METHOD_NOT_ALLOWED: float
-            abstract HTTP_STATUS_NOT_ACCEPTABLE: float
-            abstract HTTP_STATUS_PROXY_AUTHENTICATION_REQUIRED: float
-            abstract HTTP_STATUS_REQUEST_TIMEOUT: float
-            abstract HTTP_STATUS_CONFLICT: float
-            abstract HTTP_STATUS_GONE: float
-            abstract HTTP_STATUS_LENGTH_REQUIRED: float
-            abstract HTTP_STATUS_PRECONDITION_FAILED: float
-            abstract HTTP_STATUS_PAYLOAD_TOO_LARGE: float
-            abstract HTTP_STATUS_URI_TOO_LONG: float
-            abstract HTTP_STATUS_UNSUPPORTED_MEDIA_TYPE: float
-            abstract HTTP_STATUS_RANGE_NOT_SATISFIABLE: float
-            abstract HTTP_STATUS_EXPECTATION_FAILED: float
-            abstract HTTP_STATUS_TEAPOT: float
-            abstract HTTP_STATUS_MISDIRECTED_REQUEST: float
-            abstract HTTP_STATUS_UNPROCESSABLE_ENTITY: float
-            abstract HTTP_STATUS_LOCKED: float
-            abstract HTTP_STATUS_FAILED_DEPENDENCY: float
-            abstract HTTP_STATUS_UNORDERED_COLLECTION: float
-            abstract HTTP_STATUS_UPGRADE_REQUIRED: float
-            abstract HTTP_STATUS_PRECONDITION_REQUIRED: float
-            abstract HTTP_STATUS_TOO_MANY_REQUESTS: float
-            abstract HTTP_STATUS_REQUEST_HEADER_FIELDS_TOO_LARGE: float
-            abstract HTTP_STATUS_UNAVAILABLE_FOR_LEGAL_REASONS: float
-            abstract HTTP_STATUS_INTERNAL_SERVER_ERROR: float
-            abstract HTTP_STATUS_NOT_IMPLEMENTED: float
-            abstract HTTP_STATUS_BAD_GATEWAY: float
-            abstract HTTP_STATUS_SERVICE_UNAVAILABLE: float
-            abstract HTTP_STATUS_GATEWAY_TIMEOUT: float
-            abstract HTTP_STATUS_HTTP_VERSION_NOT_SUPPORTED: float
-            abstract HTTP_STATUS_VARIANT_ALSO_NEGOTIATES: float
-            abstract HTTP_STATUS_INSUFFICIENT_STORAGE: float
-            abstract HTTP_STATUS_LOOP_DETECTED: float
-            abstract HTTP_STATUS_BANDWIDTH_LIMIT_EXCEEDED: float
-            abstract HTTP_STATUS_NOT_EXTENDED: float
-            abstract HTTP_STATUS_NETWORK_AUTHENTICATION_REQUIRED: float
+        let NGHTTP2_SESSION_SERVER: float = jsNative
+        let NGHTTP2_SESSION_CLIENT: float = jsNative
+        let NGHTTP2_STREAM_STATE_IDLE: float = jsNative
+        let NGHTTP2_STREAM_STATE_OPEN: float = jsNative
+        let NGHTTP2_STREAM_STATE_RESERVED_LOCAL: float = jsNative
+        let NGHTTP2_STREAM_STATE_RESERVED_REMOTE: float = jsNative
+        let NGHTTP2_STREAM_STATE_HALF_CLOSED_LOCAL: float = jsNative
+        let NGHTTP2_STREAM_STATE_HALF_CLOSED_REMOTE: float = jsNative
+        let NGHTTP2_STREAM_STATE_CLOSED: float = jsNative
+        let NGHTTP2_NO_ERROR: float = jsNative
+        let NGHTTP2_PROTOCOL_ERROR: float = jsNative
+        let NGHTTP2_INTERNAL_ERROR: float = jsNative
+        let NGHTTP2_FLOW_CONTROL_ERROR: float = jsNative
+        let NGHTTP2_SETTINGS_TIMEOUT: float = jsNative
+        let NGHTTP2_STREAM_CLOSED: float = jsNative
+        let NGHTTP2_FRAME_SIZE_ERROR: float = jsNative
+        let NGHTTP2_REFUSED_STREAM: float = jsNative
+        let NGHTTP2_CANCEL: float = jsNative
+        let NGHTTP2_COMPRESSION_ERROR: float = jsNative
+        let NGHTTP2_CONNECT_ERROR: float = jsNative
+        let NGHTTP2_ENHANCE_YOUR_CALM: float = jsNative
+        let NGHTTP2_INADEQUATE_SECURITY: float = jsNative
+        let NGHTTP2_HTTP_1_1_REQUIRED: float = jsNative
+        let NGHTTP2_ERR_FRAME_SIZE_ERROR: float = jsNative
+        let NGHTTP2_FLAG_NONE: float = jsNative
+        let NGHTTP2_FLAG_END_STREAM: float = jsNative
+        let NGHTTP2_FLAG_END_HEADERS: float = jsNative
+        let NGHTTP2_FLAG_ACK: float = jsNative
+        let NGHTTP2_FLAG_PADDED: float = jsNative
+        let NGHTTP2_FLAG_PRIORITY: float = jsNative
+        let DEFAULT_SETTINGS_HEADER_TABLE_SIZE: float = jsNative
+        let DEFAULT_SETTINGS_ENABLE_PUSH: float = jsNative
+        let DEFAULT_SETTINGS_INITIAL_WINDOW_SIZE: float = jsNative
+        let DEFAULT_SETTINGS_MAX_FRAME_SIZE: float = jsNative
+        let MAX_MAX_FRAME_SIZE: float = jsNative
+        let MIN_MAX_FRAME_SIZE: float = jsNative
+        let MAX_INITIAL_WINDOW_SIZE: float = jsNative
+        let NGHTTP2_DEFAULT_WEIGHT: float = jsNative
+        let NGHTTP2_SETTINGS_HEADER_TABLE_SIZE: float = jsNative
+        let NGHTTP2_SETTINGS_ENABLE_PUSH: float = jsNative
+        let NGHTTP2_SETTINGS_MAX_CONCURRENT_STREAMS: float = jsNative
+        let NGHTTP2_SETTINGS_INITIAL_WINDOW_SIZE: float = jsNative
+        let NGHTTP2_SETTINGS_MAX_FRAME_SIZE: float = jsNative
+        let NGHTTP2_SETTINGS_MAX_HEADER_LIST_SIZE: float = jsNative
+        let PADDING_STRATEGY_NONE: float = jsNative
+        let PADDING_STRATEGY_MAX: float = jsNative
+        let PADDING_STRATEGY_CALLBACK: float = jsNative
+        let HTTP2_HEADER_STATUS: string = jsNative
+        let HTTP2_HEADER_METHOD: string = jsNative
+        let HTTP2_HEADER_AUTHORITY: string = jsNative
+        let HTTP2_HEADER_SCHEME: string = jsNative
+        let HTTP2_HEADER_PATH: string = jsNative
+        let HTTP2_HEADER_ACCEPT_CHARSET: string = jsNative
+        let HTTP2_HEADER_ACCEPT_ENCODING: string = jsNative
+        let HTTP2_HEADER_ACCEPT_LANGUAGE: string = jsNative
+        let HTTP2_HEADER_ACCEPT_RANGES: string = jsNative
+        let HTTP2_HEADER_ACCEPT: string = jsNative
+        let HTTP2_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN: string = jsNative
+        let HTTP2_HEADER_AGE: string = jsNative
+        let HTTP2_HEADER_ALLOW: string = jsNative
+        let HTTP2_HEADER_AUTHORIZATION: string = jsNative
+        let HTTP2_HEADER_CACHE_CONTROL: string = jsNative
+        let HTTP2_HEADER_CONNECTION: string = jsNative
+        let HTTP2_HEADER_CONTENT_DISPOSITION: string = jsNative
+        let HTTP2_HEADER_CONTENT_ENCODING: string = jsNative
+        let HTTP2_HEADER_CONTENT_LANGUAGE: string = jsNative
+        let HTTP2_HEADER_CONTENT_LENGTH: string = jsNative
+        let HTTP2_HEADER_CONTENT_LOCATION: string = jsNative
+        let HTTP2_HEADER_CONTENT_MD5: string = jsNative
+        let HTTP2_HEADER_CONTENT_RANGE: string = jsNative
+        let HTTP2_HEADER_CONTENT_TYPE: string = jsNative
+        let HTTP2_HEADER_COOKIE: string = jsNative
+        let HTTP2_HEADER_DATE: string = jsNative
+        let HTTP2_HEADER_ETAG: string = jsNative
+        let HTTP2_HEADER_EXPECT: string = jsNative
+        let HTTP2_HEADER_EXPIRES: string = jsNative
+        let HTTP2_HEADER_FROM: string = jsNative
+        let HTTP2_HEADER_HOST: string = jsNative
+        let HTTP2_HEADER_IF_MATCH: string = jsNative
+        let HTTP2_HEADER_IF_MODIFIED_SINCE: string = jsNative
+        let HTTP2_HEADER_IF_NONE_MATCH: string = jsNative
+        let HTTP2_HEADER_IF_RANGE: string = jsNative
+        let HTTP2_HEADER_IF_UNMODIFIED_SINCE: string = jsNative
+        let HTTP2_HEADER_LAST_MODIFIED: string = jsNative
+        let HTTP2_HEADER_LINK: string = jsNative
+        let HTTP2_HEADER_LOCATION: string = jsNative
+        let HTTP2_HEADER_MAX_FORWARDS: string = jsNative
+        let HTTP2_HEADER_PREFER: string = jsNative
+        let HTTP2_HEADER_PROXY_AUTHENTICATE: string = jsNative
+        let HTTP2_HEADER_PROXY_AUTHORIZATION: string = jsNative
+        let HTTP2_HEADER_RANGE: string = jsNative
+        let HTTP2_HEADER_REFERER: string = jsNative
+        let HTTP2_HEADER_REFRESH: string = jsNative
+        let HTTP2_HEADER_RETRY_AFTER: string = jsNative
+        let HTTP2_HEADER_SERVER: string = jsNative
+        let HTTP2_HEADER_SET_COOKIE: string = jsNative
+        let HTTP2_HEADER_STRICT_TRANSPORT_SECURITY: string = jsNative
+        let HTTP2_HEADER_TRANSFER_ENCODING: string = jsNative
+        let HTTP2_HEADER_TE: string = jsNative
+        let HTTP2_HEADER_UPGRADE: string = jsNative
+        let HTTP2_HEADER_USER_AGENT: string = jsNative
+        let HTTP2_HEADER_VARY: string = jsNative
+        let HTTP2_HEADER_VIA: string = jsNative
+        let HTTP2_HEADER_WWW_AUTHENTICATE: string = jsNative
+        let HTTP2_HEADER_HTTP2_SETTINGS: string = jsNative
+        let HTTP2_HEADER_KEEP_ALIVE: string = jsNative
+        let HTTP2_HEADER_PROXY_CONNECTION: string = jsNative
+        let HTTP2_METHOD_ACL: string = jsNative
+        let HTTP2_METHOD_BASELINE_CONTROL: string = jsNative
+        let HTTP2_METHOD_BIND: string = jsNative
+        let HTTP2_METHOD_CHECKIN: string = jsNative
+        let HTTP2_METHOD_CHECKOUT: string = jsNative
+        let HTTP2_METHOD_CONNECT: string = jsNative
+        let HTTP2_METHOD_COPY: string = jsNative
+        let HTTP2_METHOD_DELETE: string = jsNative
+        let HTTP2_METHOD_GET: string = jsNative
+        let HTTP2_METHOD_HEAD: string = jsNative
+        let HTTP2_METHOD_LABEL: string = jsNative
+        let HTTP2_METHOD_LINK: string = jsNative
+        let HTTP2_METHOD_LOCK: string = jsNative
+        let HTTP2_METHOD_MERGE: string = jsNative
+        let HTTP2_METHOD_MKACTIVITY: string = jsNative
+        let HTTP2_METHOD_MKCALENDAR: string = jsNative
+        let HTTP2_METHOD_MKCOL: string = jsNative
+        let HTTP2_METHOD_MKREDIRECTREF: string = jsNative
+        let HTTP2_METHOD_MKWORKSPACE: string = jsNative
+        let HTTP2_METHOD_MOVE: string = jsNative
+        let HTTP2_METHOD_OPTIONS: string = jsNative
+        let HTTP2_METHOD_ORDERPATCH: string = jsNative
+        let HTTP2_METHOD_PATCH: string = jsNative
+        let HTTP2_METHOD_POST: string = jsNative
+        let HTTP2_METHOD_PRI: string = jsNative
+        let HTTP2_METHOD_PROPFIND: string = jsNative
+        let HTTP2_METHOD_PROPPATCH: string = jsNative
+        let HTTP2_METHOD_PUT: string = jsNative
+        let HTTP2_METHOD_REBIND: string = jsNative
+        let HTTP2_METHOD_REPORT: string = jsNative
+        let HTTP2_METHOD_SEARCH: string = jsNative
+        let HTTP2_METHOD_TRACE: string = jsNative
+        let HTTP2_METHOD_UNBIND: string = jsNative
+        let HTTP2_METHOD_UNCHECKOUT: string = jsNative
+        let HTTP2_METHOD_UNLINK: string = jsNative
+        let HTTP2_METHOD_UNLOCK: string = jsNative
+        let HTTP2_METHOD_UPDATE: string = jsNative
+        let HTTP2_METHOD_UPDATEREDIRECTREF: string = jsNative
+        let HTTP2_METHOD_VERSION_CONTROL: string = jsNative
+        let HTTP_STATUS_CONTINUE: float = jsNative
+        let HTTP_STATUS_SWITCHING_PROTOCOLS: float = jsNative
+        let HTTP_STATUS_PROCESSING: float = jsNative
+        let HTTP_STATUS_OK: float = jsNative
+        let HTTP_STATUS_CREATED: float = jsNative
+        let HTTP_STATUS_ACCEPTED: float = jsNative
+        let HTTP_STATUS_NON_AUTHORITATIVE_INFORMATION: float = jsNative
+        let HTTP_STATUS_NO_CONTENT: float = jsNative
+        let HTTP_STATUS_RESET_CONTENT: float = jsNative
+        let HTTP_STATUS_PARTIAL_CONTENT: float = jsNative
+        let HTTP_STATUS_MULTI_STATUS: float = jsNative
+        let HTTP_STATUS_ALREADY_REPORTED: float = jsNative
+        let HTTP_STATUS_IM_USED: float = jsNative
+        let HTTP_STATUS_MULTIPLE_CHOICES: float = jsNative
+        let HTTP_STATUS_MOVED_PERMANENTLY: float = jsNative
+        let HTTP_STATUS_FOUND: float = jsNative
+        let HTTP_STATUS_SEE_OTHER: float = jsNative
+        let HTTP_STATUS_NOT_MODIFIED: float = jsNative
+        let HTTP_STATUS_USE_PROXY: float = jsNative
+        let HTTP_STATUS_TEMPORARY_REDIRECT: float = jsNative
+        let HTTP_STATUS_PERMANENT_REDIRECT: float = jsNative
+        let HTTP_STATUS_BAD_REQUEST: float = jsNative
+        let HTTP_STATUS_UNAUTHORIZED: float = jsNative
+        let HTTP_STATUS_PAYMENT_REQUIRED: float = jsNative
+        let HTTP_STATUS_FORBIDDEN: float = jsNative
+        let HTTP_STATUS_NOT_FOUND: float = jsNative
+        let HTTP_STATUS_METHOD_NOT_ALLOWED: float = jsNative
+        let HTTP_STATUS_NOT_ACCEPTABLE: float = jsNative
+        let HTTP_STATUS_PROXY_AUTHENTICATION_REQUIRED: float = jsNative
+        let HTTP_STATUS_REQUEST_TIMEOUT: float = jsNative
+        let HTTP_STATUS_CONFLICT: float = jsNative
+        let HTTP_STATUS_GONE: float = jsNative
+        let HTTP_STATUS_LENGTH_REQUIRED: float = jsNative
+        let HTTP_STATUS_PRECONDITION_FAILED: float = jsNative
+        let HTTP_STATUS_PAYLOAD_TOO_LARGE: float = jsNative
+        let HTTP_STATUS_URI_TOO_LONG: float = jsNative
+        let HTTP_STATUS_UNSUPPORTED_MEDIA_TYPE: float = jsNative
+        let HTTP_STATUS_RANGE_NOT_SATISFIABLE: float = jsNative
+        let HTTP_STATUS_EXPECTATION_FAILED: float = jsNative
+        let HTTP_STATUS_TEAPOT: float = jsNative
+        let HTTP_STATUS_MISDIRECTED_REQUEST: float = jsNative
+        let HTTP_STATUS_UNPROCESSABLE_ENTITY: float = jsNative
+        let HTTP_STATUS_LOCKED: float = jsNative
+        let HTTP_STATUS_FAILED_DEPENDENCY: float = jsNative
+        let HTTP_STATUS_UNORDERED_COLLECTION: float = jsNative
+        let HTTP_STATUS_UPGRADE_REQUIRED: float = jsNative
+        let HTTP_STATUS_PRECONDITION_REQUIRED: float = jsNative
+        let HTTP_STATUS_TOO_MANY_REQUESTS: float = jsNative
+        let HTTP_STATUS_REQUEST_HEADER_FIELDS_TOO_LARGE: float = jsNative
+        let HTTP_STATUS_UNAVAILABLE_FOR_LEGAL_REASONS: float = jsNative
+        let HTTP_STATUS_INTERNAL_SERVER_ERROR: float = jsNative
+        let HTTP_STATUS_NOT_IMPLEMENTED: float = jsNative
+        let HTTP_STATUS_BAD_GATEWAY: float = jsNative
+        let HTTP_STATUS_SERVICE_UNAVAILABLE: float = jsNative
+        let HTTP_STATUS_GATEWAY_TIMEOUT: float = jsNative
+        let HTTP_STATUS_HTTP_VERSION_NOT_SUPPORTED: float = jsNative
+        let HTTP_STATUS_VARIANT_ALSO_NEGOTIATES: float = jsNative
+        let HTTP_STATUS_INSUFFICIENT_STORAGE: float = jsNative
+        let HTTP_STATUS_LOOP_DETECTED: float = jsNative
+        let HTTP_STATUS_BANDWIDTH_LIMIT_EXCEEDED: float = jsNative
+        let HTTP_STATUS_NOT_EXTENDED: float = jsNative
+        let HTTP_STATUS_NETWORK_AUTHENTICATION_REQUIRED: float = jsNative
 
 module Perf_hooks =
-    let [<Import("constants","perf_hooks")>] constants: Constants.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PerformanceObserver: PerformanceObserverStatic
@@ -5971,9 +5955,7 @@ module Perf_hooks =
         [<Emit "new $0($1...)">] abstract Create: callback: PerformanceObserverCallback -> PerformanceObserver
 
     module Constants =
-
-        type [<AllowNullLiteral>] IExports =
-            abstract NODE_PERFORMANCE_GC_MAJOR: float
-            abstract NODE_PERFORMANCE_GC_MINOR: float
-            abstract NODE_PERFORMANCE_GC_INCREMENTAL: float
-            abstract NODE_PERFORMANCE_GC_WEAKCB: float
+        let NODE_PERFORMANCE_GC_MAJOR: float = jsNative
+        let NODE_PERFORMANCE_GC_MINOR: float = jsNative
+        let NODE_PERFORMANCE_GC_INCREMENTAL: float = jsNative
+        let NODE_PERFORMANCE_GC_WEAKCB: float = jsNative
