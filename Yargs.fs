@@ -4,7 +4,7 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("yargs","yargs")>] yargs: Yargs.Argv = jsNative
+let [<Import("*","yargs")>] yargs: Yargs.Argv = jsNative
 
 module Yargs =
 

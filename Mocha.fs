@@ -5,7 +5,7 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
-let [<Import("mocha","mocha")>] mocha: Mocha = jsNative
+let [<Import("*","mocha")>] mocha: Mocha = jsNative
 let [<Import("describe","mocha")>] describe: Mocha.IContextDefinition = jsNative
 let [<Import("xdescribe","mocha")>] xdescribe: Mocha.IContextDefinition = jsNative
 let [<Import("context","mocha")>] context: Mocha.IContextDefinition = jsNative
