@@ -86,7 +86,7 @@ module Electron =
         inherit String
 
     type [<AllowNullLiteral>] AcceleratorStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Accelerator
+        [<Emit "new $0($1...)">] abstract Create: image: U2<NativeImage, string> -> Accelerator
 
     type [<AllowNullLiteral>] Event =
         inherit GlobalEvent

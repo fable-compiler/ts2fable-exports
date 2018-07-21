@@ -1001,6 +1001,5 @@ module Chai =
     type [<AllowNullLiteral>] AssertionErrorStatic =
         [<Emit "new $0($1...)">] abstract Create: message: string * ?_props: obj option * ?ssf: Function -> AssertionError
 
-/// Provides functionality common to all JavaScript objects.
 type [<AllowNullLiteral>] Object =
     abstract should: Chai.Assertion with get, set

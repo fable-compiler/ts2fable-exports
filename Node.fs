@@ -58,7 +58,6 @@ type [<AllowNullLiteral>] IExports =
     abstract clearImmediate: immediateId: obj option -> unit
 
 /// inspector module types 
-/// Console polyfill
 type [<AllowNullLiteral>] Console =
     abstract Console: NodeJS.ConsoleConstructor with get, set
     abstract ``assert``: value: obj option * ?message: string * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
@@ -104,11 +103,8 @@ type [<AllowNullLiteral>] IteratorResult<'T> =
     interface end
 
 type [<AllowNullLiteral>] SymbolConstructor =
-    /// A method that returns the default iterator for an object. Called by the semantics of the
-    /// for-of statement.
     abstract iterator: Symbol
 
-/// Allows manipulation and formatting of text strings and determination and location of substrings within strings.
 type [<AllowNullLiteral>] String =
     /// Removes whitespace from the left end of a string. 
     abstract trimLeft: unit -> string
