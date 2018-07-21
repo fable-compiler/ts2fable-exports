@@ -4,7 +4,7 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("","synctasks")>] config: obj = jsNative
+let [<Import("config","synctasks")>] config: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract fromThenable: thenable: Es6Thenable<'T> -> STPromise<'T>

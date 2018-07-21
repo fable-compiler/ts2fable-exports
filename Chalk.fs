@@ -4,7 +4,7 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("obj","chalk")>] chalk: obj = jsNative
+let [<Import("chalk","chalk")>] chalk: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract ChalkConstructor: ChalkConstructorStatic

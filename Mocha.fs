@@ -5,15 +5,15 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
-let [<Import("Mocha","mocha")>] mocha: Mocha = jsNative
-let [<Import("Mocha.IContextDefinition","mocha")>] describe: Mocha.IContextDefinition = jsNative
-let [<Import("Mocha.IContextDefinition","mocha")>] xdescribe: Mocha.IContextDefinition = jsNative
-let [<Import("Mocha.IContextDefinition","mocha")>] context: Mocha.IContextDefinition = jsNative
-let [<Import("Mocha.IContextDefinition","mocha")>] suite: Mocha.IContextDefinition = jsNative
-let [<Import("Mocha.ITestDefinition","mocha")>] it: Mocha.ITestDefinition = jsNative
-let [<Import("Mocha.ITestDefinition","mocha")>] xit: Mocha.ITestDefinition = jsNative
-let [<Import("Mocha.ITestDefinition","mocha")>] test: Mocha.ITestDefinition = jsNative
-let [<Import("Mocha.ITestDefinition","mocha")>] specify: Mocha.ITestDefinition = jsNative
+let [<Import("mocha","mocha")>] mocha: Mocha = jsNative
+let [<Import("describe","mocha")>] describe: Mocha.IContextDefinition = jsNative
+let [<Import("xdescribe","mocha")>] xdescribe: Mocha.IContextDefinition = jsNative
+let [<Import("context","mocha")>] context: Mocha.IContextDefinition = jsNative
+let [<Import("suite","mocha")>] suite: Mocha.IContextDefinition = jsNative
+let [<Import("it","mocha")>] it: Mocha.ITestDefinition = jsNative
+let [<Import("xit","mocha")>] xit: Mocha.ITestDefinition = jsNative
+let [<Import("test","mocha")>] test: Mocha.ITestDefinition = jsNative
+let [<Import("specify","mocha")>] specify: Mocha.ITestDefinition = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract run: unit -> unit
