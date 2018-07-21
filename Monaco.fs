@@ -8,8 +8,8 @@ open Fable.Import.Browser
 let [<Import("*","monaco-editor")>] monaco: Monaco.IExports = jsNative
 
 module Monaco =
-    let [<Import("editor","monaco-editor/monaco")>] editor: Editor.IExports = jsNative
-    let [<Import("languages","monaco-editor/monaco")>] languages: Languages.IExports = jsNative
+    let [<Import("editor","monaco")>] editor: Editor.IExports = jsNative
+    let [<Import("languages","monaco")>] languages: Languages.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Emitter: EmitterStatic
@@ -2962,7 +2962,7 @@ module Monaco =
             abstract getMirrorModels: unit -> ResizeArray<IMirrorModel>
 
     module Languages =
-        let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
+        let [<Import("typescript","languages")>] typescript: Typescript.IExports = jsNative
 
         module Typescript =
 
@@ -3112,7 +3112,7 @@ module Monaco =
                 abstract setEagerModelSync: value: bool -> unit
 
     module Languages =
-        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
+        let [<Import("css","languages")>] css: Css.IExports = jsNative
 
         module Css =
 
@@ -3131,7 +3131,7 @@ module Monaco =
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
 
     module Languages =
-        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
+        let [<Import("json","languages")>] json: Json.IExports = jsNative
 
         module Json =
 
@@ -3152,7 +3152,7 @@ module Monaco =
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
 
     module Languages =
-        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
+        let [<Import("html","languages")>] html: Html.IExports = jsNative
 
         module Html =
 

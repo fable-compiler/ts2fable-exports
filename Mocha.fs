@@ -99,7 +99,7 @@ type [<AllowNullLiteral>] MochaStaticOptions =
     abstract bail: bool option with get, set
 
 module Mocha =
-    let [<Import("reporters","mocha/Mocha")>] reporters: Reporters.IExports = jsNative
+    let [<Import("reporters","Mocha")>] reporters: Reporters.IExports = jsNative
 
     type [<AllowNullLiteral>] ISuiteCallbackContext =
         abstract timeout: ms: U2<float, string> -> ISuiteCallbackContext
