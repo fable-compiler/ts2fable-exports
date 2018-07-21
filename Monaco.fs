@@ -5,7 +5,7 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
-let [<Import("*","")>] monaco: Monaco.IExports = jsNative
+let [<Import("*","monaco-editor")>] monaco: Monaco.IExports = jsNative
 
 module Monaco =
     let [<Import("editor","monaco")>] editor: Editor.IExports = jsNative

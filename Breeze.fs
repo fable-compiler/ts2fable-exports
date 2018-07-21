@@ -4,8 +4,8 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("config","")>] config: Config.IExports = jsNative
-let [<Import("core","")>] core: Core.IExports = jsNative
+let [<Import("config","breeze-client")>] config: Config.IExports = jsNative
+let [<Import("core","breeze-client")>] core: Core.IExports = jsNative
 let [<Import("DataType","breeze-client")>] DataType: DataType = jsNative
 let [<Import("EntityAction","breeze-client")>] EntityAction: EntityAction = jsNative
 let [<Import("EntityState","breeze-client")>] EntityState: EntityState = jsNative

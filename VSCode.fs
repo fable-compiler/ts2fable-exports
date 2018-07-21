@@ -7,14 +7,14 @@ open Fable.Import.JS
 let [<Import("*","vscode")>] vscode: Vscode.IExports = jsNative
 
 module Vscode =
-    let [<Import("commands","")>] commands: Commands.IExports = jsNative
-    let [<Import("debug","")>] debug: Debug.IExports = jsNative
-    let [<Import("env","")>] env: Env.IExports = jsNative
-    let [<Import("extensions","")>] extensions: Extensions.IExports = jsNative
-    let [<Import("languages","")>] languages: Languages.IExports = jsNative
-    let [<Import("scm","")>] scm: Scm.IExports = jsNative
-    let [<Import("window","")>] window: Window.IExports = jsNative
-    let [<Import("workspace","")>] workspace: Workspace.IExports = jsNative
+    let [<Import("commands","vscode")>] commands: Commands.IExports = jsNative
+    let [<Import("debug","vscode")>] debug: Debug.IExports = jsNative
+    let [<Import("env","vscode")>] env: Env.IExports = jsNative
+    let [<Import("extensions","vscode")>] extensions: Extensions.IExports = jsNative
+    let [<Import("languages","vscode")>] languages: Languages.IExports = jsNative
+    let [<Import("scm","vscode")>] scm: Scm.IExports = jsNative
+    let [<Import("window","vscode")>] window: Window.IExports = jsNative
+    let [<Import("workspace","vscode")>] workspace: Workspace.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract version: string
