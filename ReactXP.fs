@@ -5,3289 +5,299 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
+module ReactXP = __web_ReactXP
+type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Accessibility: AccessibilityStatic
+
+type [<AllowNullLiteral>] Accessibility =
+    inherit NativeAccessibility
+    abstract _lastAnnouncement: obj with get, set
+    abstract announceForAccessibility: announcement: string -> unit
+
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+type AccessibilityPlatformUtil as CommonAccessibilityNativeUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil as CommonAccessibilityNativeUtil
+let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    inherit CommonAccessibilityNativeUtil
+    abstract _sendAccessibilityEvent: obj with get, set
+    abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+
+type [<AllowNullLiteral>] IExports =
+    abstract GestureView: GestureViewStatic
+
+type [<AllowNullLiteral>] GestureView =
+    inherit BaseGestureView
+    abstract _getPreferredPanRatio: unit -> float
+    abstract _getEventTimestamp: e: Types.TouchEvent -> float
+
+type [<AllowNullLiteral>] GestureViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
+type Image as CommonImage = ___native_common_Image.Image as CommonImage
+
+type [<AllowNullLiteral>] IExports =
+    abstract Image: ImageStatic
+
+type [<AllowNullLiteral>] Image =
+    inherit CommonImage
+    abstract _getAdditionalProps: unit -> RN.ImagePropertiesAndroid
+
+type [<AllowNullLiteral>] ImageStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Image
+
+module __android_ReactXP =
+    let [<Import("*","reactxp/android/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+
+    module ReactXP =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract Accessibility: RXInterfaces.Accessibility
+            abstract ActivityIndicator: obj
+            abstract Alert: RXInterfaces.Alert
+            abstract App: RXInterfaces.App
+            abstract Button: obj
+            abstract Picker: obj
+            abstract Clipboard: RXInterfaces.Clipboard
+            abstract GestureView: obj
+            abstract Image: RXInterfaces.ImageConstructor
+            abstract Input: RXInterfaces.Input
+            abstract International: RXInterfaces.International
+            abstract Link: obj
+            abstract Linking: RXInterfaces.Linking
+            abstract Location: RXInterfaces.Location
+            abstract Modal: RXInterfaces.Modal
+            abstract Network: RXInterfaces.Network
+            abstract Platform: RXInterfaces.Platform
+            abstract Popup: RXInterfaces.Popup
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor
+            abstract StatusBar: RXInterfaces.StatusBar
+            abstract Storage: RXInterfaces.Storage
+            abstract Styles: RXInterfaces.Styles
+            abstract Text: obj
+            abstract TextInput: obj
+            abstract UserInterface: RXInterfaces.UserInterface
+            abstract UserPresence: RXInterfaces.UserPresence
+            abstract View: obj
+            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Animated: RXInterfaces.Animated
+            abstract __spread: obj option
+
+        type Accessibility =
+            RXInterfaces.Accessibility
+
+        type ActivityIndicator =
+            RXInterfaces.ActivityIndicator
+
+        type Alert =
+            RXInterfaces.Alert
+
+        type App =
+            RXInterfaces.App
+
+        type Button =
+            RXInterfaces.Button
 
-type [<AllowNullLiteral>] Event =
-    interface end
+        type Picker =
+            RXInterfaces.Picker
 
-type [<AllowNullLiteral>] AnimationEvent =
-    inherit Event
+        type Clipboard =
+            RXInterfaces.Clipboard
 
-type [<AllowNullLiteral>] ClipboardEvent =
-    inherit Event
+        type GestureView =
+            RXInterfaces.GestureView
 
-type [<AllowNullLiteral>] CompositionEvent =
-    inherit Event
+        type Image =
+            RXInterfaces.Image
 
-type [<AllowNullLiteral>] DragEvent =
-    inherit Event
+        type Input =
+            RXInterfaces.Input
 
-type [<AllowNullLiteral>] FocusEvent =
-    inherit Event
+        type International =
+            RXInterfaces.International
 
-type [<AllowNullLiteral>] KeyboardEvent =
-    inherit Event
+        type Link =
+            RXInterfaces.Link
 
-type [<AllowNullLiteral>] MouseEvent =
-    inherit Event
+        type Linking =
+            RXInterfaces.Linking
 
-type [<AllowNullLiteral>] TouchEvent =
-    inherit Event
+        type Location =
+            RXInterfaces.Location
 
-type [<AllowNullLiteral>] TransitionEvent =
-    inherit Event
+        type Modal =
+            RXInterfaces.Modal
 
-type [<AllowNullLiteral>] UIEvent =
-    inherit Event
+        type Network =
+            RXInterfaces.Network
 
-type [<AllowNullLiteral>] WheelEvent =
-    inherit Event
+        type Platform =
+            RXInterfaces.Platform
 
-type [<AllowNullLiteral>] EventTarget =
-    interface end
+        type Popup =
+            RXInterfaces.Popup
 
-type [<AllowNullLiteral>] Document =
-    interface end
+        type ScrollView =
+            RXInterfaces.ScrollView
 
-type [<AllowNullLiteral>] DataTransfer =
-    interface end
+        type StatusBar =
+            RXInterfaces.StatusBar
 
-type [<AllowNullLiteral>] StyleMedia =
-    interface end
+        type Storage =
+            RXInterfaces.Storage
 
-type [<AllowNullLiteral>] Element =
-    interface end
+        type Styles =
+            RXInterfaces.Styles
 
-type [<AllowNullLiteral>] HTMLElement =
-    inherit Element
+        type Text =
+            RXInterfaces.Text
 
-type [<AllowNullLiteral>] HTMLAnchorElement =
-    inherit HTMLElement
+        type TextInput =
+            RXInterfaces.TextInput
 
-type [<AllowNullLiteral>] HTMLAreaElement =
-    inherit HTMLElement
+        type UserInterface =
+            RXInterfaces.UserInterface
 
-type [<AllowNullLiteral>] HTMLAudioElement =
-    inherit HTMLElement
+        type UserPresence =
+            RXInterfaces.UserPresence
+
+        type View =
+            RXInterfaces.View
 
-type [<AllowNullLiteral>] HTMLBaseElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLBodyElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLBRElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLButtonElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLCanvasElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLDivElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLDListElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLEmbedElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLFieldSetElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLFormElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLHeadingElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLHeadElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLHRElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTableColElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLDataListElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLHtmlElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLIFrameElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLImageElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLInputElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLModElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLLabelElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLLegendElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLLIElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLLinkElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLMapElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLMetaElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLObjectElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLOListElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLOptGroupElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLOptionElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLParagraphElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLParamElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLPreElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLProgressElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLQuoteElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLScriptElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLSelectElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLSourceElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLSpanElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLStyleElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTableElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTableSectionElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTableDataCellElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTextAreaElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTableHeaderCellElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTitleElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTableRowElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLTrackElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLUListElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLVideoElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] HTMLWebViewElement =
-    inherit HTMLElement
-
-type [<AllowNullLiteral>] SVGElement =
-    inherit Element
-
-type [<AllowNullLiteral>] SVGSVGElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGCircleElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGClipPathElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGDefsElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGDescElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGEllipseElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEBlendElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEColorMatrixElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEComponentTransferElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFECompositeElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEConvolveMatrixElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEDiffuseLightingElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEDisplacementMapElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEDistantLightElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEFloodElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEFuncAElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEFuncBElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEFuncGElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEFuncRElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEGaussianBlurElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEImageElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEMergeElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEMergeNodeElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEMorphologyElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEOffsetElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFEPointLightElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFESpecularLightingElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFESpotLightElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFETileElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFETurbulenceElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGFilterElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGForeignObjectElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGGElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGImageElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGLineElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGLinearGradientElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGMarkerElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGMaskElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGMetadataElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGPathElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGPatternElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGPolygonElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGPolylineElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGRadialGradientElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGRectElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGStopElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGSwitchElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGSymbolElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGTextElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGTextPathElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGTSpanElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGUseElement =
-    inherit SVGElement
-
-type [<AllowNullLiteral>] SVGViewElement =
-    inherit SVGElement
-let [<Import("*","react")>] react: React.IExports = jsNative
-
-type NativeAnimationEvent =
-    AnimationEvent
-
-type NativeClipboardEvent =
-    ClipboardEvent
-
-type NativeCompositionEvent =
-    CompositionEvent
-
-type NativeDragEvent =
-    DragEvent
-
-type NativeFocusEvent =
-    FocusEvent
-
-type NativeKeyboardEvent =
-    KeyboardEvent
-
-type NativeMouseEvent =
-    MouseEvent
-
-type NativeTouchEvent =
-    TouchEvent
-
-type NativeTransitionEvent =
-    TransitionEvent
-
-type NativeUIEvent =
-    UIEvent
-
-type NativeWheelEvent =
-    WheelEvent
-
-module React =
-
-    type [<AllowNullLiteral>] IExports =
-        abstract createFactory: ``type``: obj -> HTMLFactory<'T>
-        abstract createFactory: ``type``: obj -> SVGFactory
-        abstract createFactory: ``type``: string -> DOMFactory<'P, 'T>
-        abstract createFactory: ``type``: SFC<'P> -> SFCFactory<'P>
-        abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
-        abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T>
-        abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-        abstract createElement: ``type``: obj * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
-        abstract createElement: ``type``: string * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
-        abstract createElement: ``type``: SFC<'P> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
-        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
-        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
-        abstract createElement: ``type``: U3<SFC<'P>, ComponentClass<'P>, string> * ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
-        abstract cloneElement: element: DetailedReactHTMLElement<'P, 'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
-        abstract cloneElement: element: ReactHTMLElement<'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactHTMLElement<'T>
-        abstract cloneElement: element: ReactSVGElement * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
-        abstract cloneElement: element: DOMElement<'P, 'T> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
-        abstract cloneElement: element: SFCElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
-        abstract cloneElement: element: CElement<'P, 'T> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
-        abstract cloneElement: element: ReactElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
-        abstract isValidElement: ``object``: obj option -> bool
-        abstract Children: ReactChildren
-        abstract Fragment: ComponentType
-        abstract version: string
-        abstract Component: ComponentStatic
-        abstract PureComponent: PureComponentStatic
-        abstract ComponentClass: ComponentClassStatic
-        abstract ClassicComponentClass: ClassicComponentClassStatic
-
-    type ReactType =
-        ReactType<obj>
-
-    type ReactType<'P> =
-        U2<string, ComponentType<'P>>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactType =
-        let ofString v: ReactType<'P> = v |> U2.Case1
-        let isString (v: ReactType<'P>) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: ReactType<'P>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofComponentType v: ReactType<'P> = v |> U2.Case2
-        let isComponentType (v: ReactType<'P>) = match v with U2.Case2 _ -> true | _ -> false
-        let asComponentType (v: ReactType<'P>) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type ComponentType =
-        ComponentType<obj>
-
-    type ComponentType<'P> =
-        U2<ComponentClass<'P>, StatelessComponent<'P>>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ComponentType =
-        let ofComponentClass v: ComponentType<'P> = v |> U2.Case1
-        let isComponentClass (v: ComponentType<'P>) = match v with U2.Case1 _ -> true | _ -> false
-        let asComponentClass (v: ComponentType<'P>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofStatelessComponent v: ComponentType<'P> = v |> U2.Case2
-        let isStatelessComponent (v: ComponentType<'P>) = match v with U2.Case2 _ -> true | _ -> false
-        let asStatelessComponent (v: ComponentType<'P>) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type Key =
-        U2<string, float>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module Key =
-        let ofString v: Key = v |> U2.Case1
-        let isString (v: Key) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: Key) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofFloat v: Key = v |> U2.Case2
-        let isFloat (v: Key) = match v with U2.Case2 _ -> true | _ -> false
-        let asFloat (v: Key) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type Ref<'T> =
-        U2<string, ('T option -> obj option)>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module Ref =
-        let ofString v: Ref<'T> = v |> U2.Case1
-        let isString (v: Ref<'T>) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: Ref<'T>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofBivarianceHack v: Ref<'T> = v |> U2.Case2
-        let isBivarianceHack (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
-        let asBivarianceHack (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type [<AllowNullLiteral>] ComponentState =
-        interface end
-
-    type [<AllowNullLiteral>] Attributes =
-        abstract key: Key option with get, set
-
-    type [<AllowNullLiteral>] ClassAttributes<'T> =
-        inherit Attributes
-        abstract ref: Ref<'T> option with get, set
-
-    type [<AllowNullLiteral>] ReactElement<'P> =
-        abstract ``type``: U3<string, ComponentClass<'P>, SFC<'P>> with get, set
-        abstract props: 'P with get, set
-        abstract key: Key option with get, set
-
-    type [<AllowNullLiteral>] SFCElement<'P> =
-        inherit ReactElement<'P>
-        abstract ``type``: SFC<'P> with get, set
-
-    type CElement<'P, 'T> =
-        ComponentElement<'P, 'T>
-
-    type [<AllowNullLiteral>] ComponentElement<'P, 'T> =
-        inherit ReactElement<'P>
-        abstract ``type``: ComponentClass<'P> with get, set
-        abstract ref: Ref<'T> option with get, set
-
-    type ClassicElement<'P> =
-        CElement<'P, ClassicComponent<'P, ComponentState>>
-
-    type [<AllowNullLiteral>] DOMElement<'P, 'T> =
-        inherit ReactElement<'P>
-        abstract ``type``: string with get, set
-        abstract ref: Ref<'T> with get, set
-
-    type [<AllowNullLiteral>] ReactHTMLElement<'T> =
-        inherit DetailedReactHTMLElement<AllHTMLAttributes<'T>, 'T>
-
-    type [<AllowNullLiteral>] DetailedReactHTMLElement<'P, 'T> =
-        inherit DOMElement<'P, 'T>
-        abstract ``type``: obj with get, set
-
-    type [<AllowNullLiteral>] ReactSVGElement =
-        inherit DOMElement<SVGAttributes<SVGElement>, SVGElement>
-        abstract ``type``: obj with get, set
-
-    type [<AllowNullLiteral>] ReactPortal =
-        abstract key: Key option with get, set
-        abstract children: ReactNode with get, set
-
-    type [<AllowNullLiteral>] Factory<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
-
-    type [<AllowNullLiteral>] SFCFactory<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
-
-    type [<AllowNullLiteral>] ComponentFactory<'P, 'T> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
-
-    type CFactory<'P, 'T> =
-        ComponentFactory<'P, 'T>
-
-    type ClassicFactory<'P> =
-        CFactory<'P, ClassicComponent<'P, ComponentState>>
-
-    type [<AllowNullLiteral>] DOMFactory<'P, 'T> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
-
-    type [<AllowNullLiteral>] HTMLFactory<'T> =
-        inherit DetailedHTMLFactory<AllHTMLAttributes<'T>, 'T>
-
-    type [<AllowNullLiteral>] DetailedHTMLFactory<'P, 'T> =
-        inherit DOMFactory<'P, 'T>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
-
-    type [<AllowNullLiteral>] SVGFactory =
-        inherit DOMFactory<SVGAttributes<SVGElement>, SVGElement>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
-
-    type ReactText =
-        U2<string, float>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactText =
-        let ofString v: ReactText = v |> U2.Case1
-        let isString (v: ReactText) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: ReactText) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofFloat v: ReactText = v |> U2.Case2
-        let isFloat (v: ReactText) = match v with U2.Case2 _ -> true | _ -> false
-        let asFloat (v: ReactText) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type ReactChild =
-        U2<ReactElement<obj option>, ReactText>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactChild =
-        let ofReactElement v: ReactChild = v |> U2.Case1
-        let isReactElement (v: ReactChild) = match v with U2.Case1 _ -> true | _ -> false
-        let asReactElement (v: ReactChild) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofReactText v: ReactChild = v |> U2.Case2
-        let isReactText (v: ReactChild) = match v with U2.Case2 _ -> true | _ -> false
-        let asReactText (v: ReactChild) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type ReactFragment =
-        Array<U3<ReactChild, ResizeArray<obj option>, bool>>
-
-    type ReactNode =
-        U6<ReactChild, ReactFragment, ReactPortal, string, float, bool> option
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactNode =
-        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case1
-        let ofReactChild v: ReactNode = v |> U6.Case1 |> Some
-        let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case1 _ -> true | _ -> false
-        let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case1 o -> Some o | _ -> None
-        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case2
-        let ofReactFragment v: ReactNode = v |> U6.Case2 |> Some
-        let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case2 _ -> true | _ -> false
-        let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case2 o -> Some o | _ -> None
-        let ofReactPortalOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case3
-        let ofReactPortal v: ReactNode = v |> U6.Case3 |> Some
-        let isReactPortal (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case3 _ -> true | _ -> false
-        let asReactPortal (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case3 o -> Some o | _ -> None
-        let ofStringOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case4
-        let ofString v: ReactNode = v |> U6.Case4 |> Some
-        let isString (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case4 _ -> true | _ -> false
-        let asString (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case4 o -> Some o | _ -> None
-        let ofFloatOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case5
-        let ofFloat v: ReactNode = v |> U6.Case5 |> Some
-        let isFloat (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case5 _ -> true | _ -> false
-        let asFloat (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case5 o -> Some o | _ -> None
-        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U6.Case6
-        let ofBool v: ReactNode = v |> U6.Case6 |> Some
-        let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U6.Case6 _ -> true | _ -> false
-        let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U6.Case6 o -> Some o | _ -> None
-
-    type ReactInstance =
-        U2<Component<obj option>, Element>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactInstance =
-        let ofComponent v: ReactInstance = v |> U2.Case1
-        let isComponent (v: ReactInstance) = match v with U2.Case1 _ -> true | _ -> false
-        let asComponent (v: ReactInstance) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofElement v: ReactInstance = v |> U2.Case2
-        let isElement (v: ReactInstance) = match v with U2.Case2 _ -> true | _ -> false
-        let asElement (v: ReactInstance) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type Component<'S> =
-        Component<obj, 'S>
-
-    type Component =
-        Component<obj, obj>
-
-    type [<AllowNullLiteral>] Component<'P, 'S> =
-        inherit ComponentLifecycle<'P, 'S>
-        abstract setState: state: U2<(obj -> 'P -> U2<obj, 'S>), U2<obj, 'S>> * ?callback: (unit -> unit) -> unit
-        abstract forceUpdate: ?callBack: (unit -> unit) -> unit
-        abstract render: unit -> ReactNode
-        abstract props: obj with get, set
-        abstract state: obj with get, set
-        abstract context: obj option with get, set
-        abstract refs: obj with get, set
-
-    type [<AllowNullLiteral>] ComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> Component<'P, 'S>
-
-    type PureComponent<'S> =
-        PureComponent<obj, 'S>
-
-    type PureComponent =
-        PureComponent<obj, obj>
-
-    type [<AllowNullLiteral>] PureComponent<'P, 'S> =
-        inherit Component<'P, 'S>
-
-    type [<AllowNullLiteral>] PureComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> PureComponent<'P, 'S>
-
-    type ClassicComponent<'S> =
-        ClassicComponent<obj, 'S>
-
-    type ClassicComponent =
-        ClassicComponent<obj, obj>
-
-    type [<AllowNullLiteral>] ClassicComponent<'P, 'S> =
-        inherit Component<'P, 'S>
-        abstract replaceState: nextState: 'S * ?callback: (unit -> unit) -> unit
-        abstract isMounted: unit -> bool
-        abstract getInitialState: unit -> 'S
-
-    type [<AllowNullLiteral>] ChildContextProvider<'CC> =
-        abstract getChildContext: unit -> 'CC
-
-    type SFC =
-        SFC<obj>
-
-    type SFC<'P> =
-        StatelessComponent<'P>
-
-    type StatelessComponent =
-        StatelessComponent<obj>
-
-    type [<AllowNullLiteral>] StatelessComponent<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: props: obj * ?context: obj option -> ReactElement<obj option> option
-        abstract propTypes: ValidationMap<'P> option with get, set
-        abstract contextTypes: ValidationMap<obj option> option with get, set
-        abstract defaultProps: obj option with get, set
-        abstract displayName: string option with get, set
-
-    type ComponentClass =
-        ComponentClass<obj>
-
-    type [<AllowNullLiteral>] ComponentClass<'P> =
-        abstract propTypes: ValidationMap<'P> option with get, set
-        abstract contextTypes: ValidationMap<obj option> option with get, set
-        abstract childContextTypes: ValidationMap<obj option> option with get, set
-        abstract defaultProps: obj option with get, set
-        abstract displayName: string option with get, set
-
-    type [<AllowNullLiteral>] ComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> ComponentClass<'P>
-
-    type ClassicComponentClass =
-        ClassicComponentClass<obj>
-
-    type [<AllowNullLiteral>] ClassicComponentClass<'P> =
-        inherit ComponentClass<'P>
-        abstract getDefaultProps: unit -> 'P
-
-    type [<AllowNullLiteral>] ClassicComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: 'P * ?context: obj option -> ClassicComponentClass<'P>
-
-    type [<AllowNullLiteral>] ClassType<'P, 'T, 'C> =
-        interface end
-
-    type [<AllowNullLiteral>] ComponentLifecycle<'P, 'S> =
-        /// Called immediately before mounting occurs, and before `Component#render`.
-        /// Avoid introducing any side-effects or subscriptions in this method.
-        abstract componentWillMount: unit -> unit
-        /// Called immediately after a compoment is mounted. Setting state here will trigger re-rendering.
-        abstract componentDidMount: unit -> unit
-        /// Called when the component may be receiving new props.
-        /// React may call this even if props have not changed, so be sure to compare new and existing
-        /// props if you only want to handle changes.
-        /// 
-        /// Calling `Component#setState` generally does not trigger this method.
-        abstract componentWillReceiveProps: nextProps: obj * nextContext: obj option -> unit
-        /// Called to determine whether the change in props and state should trigger a re-render.
-        /// 
-        /// `Component` always returns true.
-        /// `PureComponent` implements a shallow comparison on props and state and returns true if any
-        /// props or states have changed.
-        /// 
-        /// If false is returned, `Component#render`, `componentWillUpdate`
-        /// and `componentDidUpdate` will not be called.
-        abstract shouldComponentUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> bool
-        /// Called immediately before rendering when new props or state is received. Not called for the initial render.
-        /// 
-        /// Note: You cannot call `Component#setState` here.
-        abstract componentWillUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> unit
-        /// Called immediately after updating occurs. Not called for the initial render.
-        abstract componentDidUpdate: prevProps: obj * prevState: obj * prevContext: obj option -> unit
-        /// Called immediately before a component is destroyed. Perform any necessary cleanup in this method, such as
-        /// cancelled network requests, or cleaning up any DOM elements created in `componentDidMount`.
-        abstract componentWillUnmount: unit -> unit
-        /// Catches exceptions generated in descendant components. Unhandled exceptions will cause
-        /// the entire component tree to unmount.
-        abstract componentDidCatch: error: Error * errorInfo: ErrorInfo -> unit
-
-    type [<AllowNullLiteral>] Mixin<'P, 'S> =
-        inherit ComponentLifecycle<'P, 'S>
-        abstract mixins: Array<Mixin<'P, 'S>> option with get, set
-        abstract statics: obj option with get, set
-        abstract displayName: string option with get, set
-        abstract propTypes: ValidationMap<obj option> option with get, set
-        abstract contextTypes: ValidationMap<obj option> option with get, set
-        abstract childContextTypes: ValidationMap<obj option> option with get, set
-        abstract getDefaultProps: unit -> 'P
-        abstract getInitialState: unit -> 'S
-
-    type [<AllowNullLiteral>] ComponentSpec<'P, 'S> =
-        inherit Mixin<'P, 'S>
-        abstract render: unit -> ReactNode
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
-
-    type [<AllowNullLiteral>] SyntheticEvent<'T> =
-        abstract bubbles: bool with get, set
-        /// A reference to the element on which the event listener is registered.
-        abstract currentTarget: obj with get, set
-        abstract cancelable: bool with get, set
-        abstract defaultPrevented: bool with get, set
-        abstract eventPhase: float with get, set
-        abstract isTrusted: bool with get, set
-        abstract nativeEvent: Event with get, set
-        abstract preventDefault: unit -> unit
-        abstract isDefaultPrevented: unit -> bool
-        abstract stopPropagation: unit -> unit
-        abstract isPropagationStopped: unit -> bool
-        abstract persist: unit -> unit
-        /// A reference to the element from which the event was originally dispatched.
-        /// This might be a child element to the element on which the event listener is registered.
-        abstract target: EventTarget with get, set
-        abstract timeStamp: float with get, set
-        abstract ``type``: string with get, set
-
-    type [<AllowNullLiteral>] ClipboardEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract clipboardData: DataTransfer with get, set
-        abstract nativeEvent: NativeClipboardEvent with get, set
-
-    type [<AllowNullLiteral>] CompositionEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract data: string with get, set
-        abstract nativeEvent: NativeCompositionEvent with get, set
-
-    type [<AllowNullLiteral>] DragEvent<'T> =
-        inherit MouseEvent<'T>
-        abstract dataTransfer: DataTransfer with get, set
-        abstract nativeEvent: NativeDragEvent with get, set
-
-    type [<AllowNullLiteral>] FocusEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract nativeEvent: NativeFocusEvent with get, set
-        abstract relatedTarget: EventTarget with get, set
-
-    type [<AllowNullLiteral>] FormEvent<'T> =
-        inherit SyntheticEvent<'T>
-
-    type [<AllowNullLiteral>] InvalidEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract target: obj with get, set
-
-    type [<AllowNullLiteral>] ChangeEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract target: obj with get, set
-
-    type [<AllowNullLiteral>] KeyboardEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract altKey: bool with get, set
-        abstract charCode: float with get, set
-        abstract ctrlKey: bool with get, set
-        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
-        abstract getModifierState: key: string -> bool
-        /// See the [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#named-key-attribute-values). for possible values
-        abstract key: string with get, set
-        abstract keyCode: float with get, set
-        abstract locale: string with get, set
-        abstract location: float with get, set
-        abstract metaKey: bool with get, set
-        abstract nativeEvent: NativeKeyboardEvent with get, set
-        abstract repeat: bool with get, set
-        abstract shiftKey: bool with get, set
-        abstract which: float with get, set
-
-    type [<AllowNullLiteral>] MouseEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract altKey: bool with get, set
-        abstract button: float with get, set
-        abstract buttons: float with get, set
-        abstract clientX: float with get, set
-        abstract clientY: float with get, set
-        abstract ctrlKey: bool with get, set
-        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
-        abstract getModifierState: key: string -> bool
-        abstract metaKey: bool with get, set
-        abstract nativeEvent: NativeMouseEvent with get, set
-        abstract pageX: float with get, set
-        abstract pageY: float with get, set
-        abstract relatedTarget: EventTarget with get, set
-        abstract screenX: float with get, set
-        abstract screenY: float with get, set
-        abstract shiftKey: bool with get, set
-
-    type [<AllowNullLiteral>] TouchEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract altKey: bool with get, set
-        abstract changedTouches: TouchList with get, set
-        abstract ctrlKey: bool with get, set
-        /// See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
-        abstract getModifierState: key: string -> bool
-        abstract metaKey: bool with get, set
-        abstract nativeEvent: NativeTouchEvent with get, set
-        abstract shiftKey: bool with get, set
-        abstract targetTouches: TouchList with get, set
-        abstract touches: TouchList with get, set
-
-    type [<AllowNullLiteral>] UIEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract detail: float with get, set
-        abstract nativeEvent: NativeUIEvent with get, set
-        abstract view: AbstractView with get, set
-
-    type [<AllowNullLiteral>] WheelEvent<'T> =
-        inherit MouseEvent<'T>
-        abstract deltaMode: float with get, set
-        abstract deltaX: float with get, set
-        abstract deltaY: float with get, set
-        abstract deltaZ: float with get, set
-        abstract nativeEvent: NativeWheelEvent with get, set
-
-    type [<AllowNullLiteral>] AnimationEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract animationName: string with get, set
-        abstract elapsedTime: float with get, set
-        abstract nativeEvent: NativeAnimationEvent with get, set
-        abstract pseudoElement: string with get, set
-
-    type [<AllowNullLiteral>] TransitionEvent<'T> =
-        inherit SyntheticEvent<'T>
-        abstract elapsedTime: float with get, set
-        abstract nativeEvent: NativeTransitionEvent with get, set
-        abstract propertyName: string with get, set
-        abstract pseudoElement: string with get, set
-
-    type [<AllowNullLiteral>] EventHandler<'E> =
-        abstract bivarianceHack: ``event``: 'E -> unit
-
-    type ReactEventHandler<'T> =
-        EventHandler<SyntheticEvent<'T>>
-
-    type ClipboardEventHandler<'T> =
-        EventHandler<ClipboardEvent<'T>>
-
-    type CompositionEventHandler<'T> =
-        EventHandler<CompositionEvent<'T>>
-
-    type DragEventHandler<'T> =
-        EventHandler<DragEvent<'T>>
-
-    type FocusEventHandler<'T> =
-        EventHandler<FocusEvent<'T>>
-
-    type FormEventHandler<'T> =
-        EventHandler<FormEvent<'T>>
-
-    type ChangeEventHandler<'T> =
-        EventHandler<ChangeEvent<'T>>
-
-    type KeyboardEventHandler<'T> =
-        EventHandler<KeyboardEvent<'T>>
-
-    type MouseEventHandler<'T> =
-        EventHandler<MouseEvent<'T>>
-
-    type TouchEventHandler<'T> =
-        EventHandler<TouchEvent<'T>>
-
-    type UIEventHandler<'T> =
-        EventHandler<UIEvent<'T>>
-
-    type WheelEventHandler<'T> =
-        EventHandler<WheelEvent<'T>>
-
-    type AnimationEventHandler<'T> =
-        EventHandler<AnimationEvent<'T>>
-
-    type TransitionEventHandler<'T> =
-        EventHandler<TransitionEvent<'T>>
-
-    type [<AllowNullLiteral>] Props<'T> =
-        abstract children: ReactNode option with get, set
-        abstract key: Key option with get, set
-        abstract ref: Ref<'T> option with get, set
-
-    type [<AllowNullLiteral>] HTMLProps<'T> =
-        inherit AllHTMLAttributes<'T>
-        inherit ClassAttributes<'T>
-
-    type [<AllowNullLiteral>] DetailedHTMLProps<'E, 'T> =
-        interface end
-
-    type [<AllowNullLiteral>] SVGProps<'T> =
-        inherit SVGAttributes<'T>
-        inherit ClassAttributes<'T>
-
-    type [<AllowNullLiteral>] DOMAttributes<'T> =
-        abstract children: ReactNode option with get, set
-        abstract dangerouslySetInnerHTML: obj option with get, set
-        abstract onCopy: ClipboardEventHandler<'T> option with get, set
-        abstract onCopyCapture: ClipboardEventHandler<'T> option with get, set
-        abstract onCut: ClipboardEventHandler<'T> option with get, set
-        abstract onCutCapture: ClipboardEventHandler<'T> option with get, set
-        abstract onPaste: ClipboardEventHandler<'T> option with get, set
-        abstract onPasteCapture: ClipboardEventHandler<'T> option with get, set
-        abstract onCompositionEnd: CompositionEventHandler<'T> option with get, set
-        abstract onCompositionEndCapture: CompositionEventHandler<'T> option with get, set
-        abstract onCompositionStart: CompositionEventHandler<'T> option with get, set
-        abstract onCompositionStartCapture: CompositionEventHandler<'T> option with get, set
-        abstract onCompositionUpdate: CompositionEventHandler<'T> option with get, set
-        abstract onCompositionUpdateCapture: CompositionEventHandler<'T> option with get, set
-        abstract onFocus: FocusEventHandler<'T> option with get, set
-        abstract onFocusCapture: FocusEventHandler<'T> option with get, set
-        abstract onBlur: FocusEventHandler<'T> option with get, set
-        abstract onBlurCapture: FocusEventHandler<'T> option with get, set
-        abstract onChange: FormEventHandler<'T> option with get, set
-        abstract onChangeCapture: FormEventHandler<'T> option with get, set
-        abstract onInput: FormEventHandler<'T> option with get, set
-        abstract onInputCapture: FormEventHandler<'T> option with get, set
-        abstract onReset: FormEventHandler<'T> option with get, set
-        abstract onResetCapture: FormEventHandler<'T> option with get, set
-        abstract onSubmit: FormEventHandler<'T> option with get, set
-        abstract onSubmitCapture: FormEventHandler<'T> option with get, set
-        abstract onInvalid: FormEventHandler<'T> option with get, set
-        abstract onInvalidCapture: FormEventHandler<'T> option with get, set
-        abstract onLoad: ReactEventHandler<'T> option with get, set
-        abstract onLoadCapture: ReactEventHandler<'T> option with get, set
-        abstract onError: ReactEventHandler<'T> option with get, set
-        abstract onErrorCapture: ReactEventHandler<'T> option with get, set
-        abstract onKeyDown: KeyboardEventHandler<'T> option with get, set
-        abstract onKeyDownCapture: KeyboardEventHandler<'T> option with get, set
-        abstract onKeyPress: KeyboardEventHandler<'T> option with get, set
-        abstract onKeyPressCapture: KeyboardEventHandler<'T> option with get, set
-        abstract onKeyUp: KeyboardEventHandler<'T> option with get, set
-        abstract onKeyUpCapture: KeyboardEventHandler<'T> option with get, set
-        abstract onAbort: ReactEventHandler<'T> option with get, set
-        abstract onAbortCapture: ReactEventHandler<'T> option with get, set
-        abstract onCanPlay: ReactEventHandler<'T> option with get, set
-        abstract onCanPlayCapture: ReactEventHandler<'T> option with get, set
-        abstract onCanPlayThrough: ReactEventHandler<'T> option with get, set
-        abstract onCanPlayThroughCapture: ReactEventHandler<'T> option with get, set
-        abstract onDurationChange: ReactEventHandler<'T> option with get, set
-        abstract onDurationChangeCapture: ReactEventHandler<'T> option with get, set
-        abstract onEmptied: ReactEventHandler<'T> option with get, set
-        abstract onEmptiedCapture: ReactEventHandler<'T> option with get, set
-        abstract onEncrypted: ReactEventHandler<'T> option with get, set
-        abstract onEncryptedCapture: ReactEventHandler<'T> option with get, set
-        abstract onEnded: ReactEventHandler<'T> option with get, set
-        abstract onEndedCapture: ReactEventHandler<'T> option with get, set
-        abstract onLoadedData: ReactEventHandler<'T> option with get, set
-        abstract onLoadedDataCapture: ReactEventHandler<'T> option with get, set
-        abstract onLoadedMetadata: ReactEventHandler<'T> option with get, set
-        abstract onLoadedMetadataCapture: ReactEventHandler<'T> option with get, set
-        abstract onLoadStart: ReactEventHandler<'T> option with get, set
-        abstract onLoadStartCapture: ReactEventHandler<'T> option with get, set
-        abstract onPause: ReactEventHandler<'T> option with get, set
-        abstract onPauseCapture: ReactEventHandler<'T> option with get, set
-        abstract onPlay: ReactEventHandler<'T> option with get, set
-        abstract onPlayCapture: ReactEventHandler<'T> option with get, set
-        abstract onPlaying: ReactEventHandler<'T> option with get, set
-        abstract onPlayingCapture: ReactEventHandler<'T> option with get, set
-        abstract onProgress: ReactEventHandler<'T> option with get, set
-        abstract onProgressCapture: ReactEventHandler<'T> option with get, set
-        abstract onRateChange: ReactEventHandler<'T> option with get, set
-        abstract onRateChangeCapture: ReactEventHandler<'T> option with get, set
-        abstract onSeeked: ReactEventHandler<'T> option with get, set
-        abstract onSeekedCapture: ReactEventHandler<'T> option with get, set
-        abstract onSeeking: ReactEventHandler<'T> option with get, set
-        abstract onSeekingCapture: ReactEventHandler<'T> option with get, set
-        abstract onStalled: ReactEventHandler<'T> option with get, set
-        abstract onStalledCapture: ReactEventHandler<'T> option with get, set
-        abstract onSuspend: ReactEventHandler<'T> option with get, set
-        abstract onSuspendCapture: ReactEventHandler<'T> option with get, set
-        abstract onTimeUpdate: ReactEventHandler<'T> option with get, set
-        abstract onTimeUpdateCapture: ReactEventHandler<'T> option with get, set
-        abstract onVolumeChange: ReactEventHandler<'T> option with get, set
-        abstract onVolumeChangeCapture: ReactEventHandler<'T> option with get, set
-        abstract onWaiting: ReactEventHandler<'T> option with get, set
-        abstract onWaitingCapture: ReactEventHandler<'T> option with get, set
-        abstract onClick: MouseEventHandler<'T> option with get, set
-        abstract onClickCapture: MouseEventHandler<'T> option with get, set
-        abstract onContextMenu: MouseEventHandler<'T> option with get, set
-        abstract onContextMenuCapture: MouseEventHandler<'T> option with get, set
-        abstract onDoubleClick: MouseEventHandler<'T> option with get, set
-        abstract onDoubleClickCapture: MouseEventHandler<'T> option with get, set
-        abstract onDrag: DragEventHandler<'T> option with get, set
-        abstract onDragCapture: DragEventHandler<'T> option with get, set
-        abstract onDragEnd: DragEventHandler<'T> option with get, set
-        abstract onDragEndCapture: DragEventHandler<'T> option with get, set
-        abstract onDragEnter: DragEventHandler<'T> option with get, set
-        abstract onDragEnterCapture: DragEventHandler<'T> option with get, set
-        abstract onDragExit: DragEventHandler<'T> option with get, set
-        abstract onDragExitCapture: DragEventHandler<'T> option with get, set
-        abstract onDragLeave: DragEventHandler<'T> option with get, set
-        abstract onDragLeaveCapture: DragEventHandler<'T> option with get, set
-        abstract onDragOver: DragEventHandler<'T> option with get, set
-        abstract onDragOverCapture: DragEventHandler<'T> option with get, set
-        abstract onDragStart: DragEventHandler<'T> option with get, set
-        abstract onDragStartCapture: DragEventHandler<'T> option with get, set
-        abstract onDrop: DragEventHandler<'T> option with get, set
-        abstract onDropCapture: DragEventHandler<'T> option with get, set
-        abstract onMouseDown: MouseEventHandler<'T> option with get, set
-        abstract onMouseDownCapture: MouseEventHandler<'T> option with get, set
-        abstract onMouseEnter: MouseEventHandler<'T> option with get, set
-        abstract onMouseLeave: MouseEventHandler<'T> option with get, set
-        abstract onMouseMove: MouseEventHandler<'T> option with get, set
-        abstract onMouseMoveCapture: MouseEventHandler<'T> option with get, set
-        abstract onMouseOut: MouseEventHandler<'T> option with get, set
-        abstract onMouseOutCapture: MouseEventHandler<'T> option with get, set
-        abstract onMouseOver: MouseEventHandler<'T> option with get, set
-        abstract onMouseOverCapture: MouseEventHandler<'T> option with get, set
-        abstract onMouseUp: MouseEventHandler<'T> option with get, set
-        abstract onMouseUpCapture: MouseEventHandler<'T> option with get, set
-        abstract onSelect: ReactEventHandler<'T> option with get, set
-        abstract onSelectCapture: ReactEventHandler<'T> option with get, set
-        abstract onTouchCancel: TouchEventHandler<'T> option with get, set
-        abstract onTouchCancelCapture: TouchEventHandler<'T> option with get, set
-        abstract onTouchEnd: TouchEventHandler<'T> option with get, set
-        abstract onTouchEndCapture: TouchEventHandler<'T> option with get, set
-        abstract onTouchMove: TouchEventHandler<'T> option with get, set
-        abstract onTouchMoveCapture: TouchEventHandler<'T> option with get, set
-        abstract onTouchStart: TouchEventHandler<'T> option with get, set
-        abstract onTouchStartCapture: TouchEventHandler<'T> option with get, set
-        abstract onScroll: UIEventHandler<'T> option with get, set
-        abstract onScrollCapture: UIEventHandler<'T> option with get, set
-        abstract onWheel: WheelEventHandler<'T> option with get, set
-        abstract onWheelCapture: WheelEventHandler<'T> option with get, set
-        abstract onAnimationStart: AnimationEventHandler<'T> option with get, set
-        abstract onAnimationStartCapture: AnimationEventHandler<'T> option with get, set
-        abstract onAnimationEnd: AnimationEventHandler<'T> option with get, set
-        abstract onAnimationEndCapture: AnimationEventHandler<'T> option with get, set
-        abstract onAnimationIteration: AnimationEventHandler<'T> option with get, set
-        abstract onAnimationIterationCapture: AnimationEventHandler<'T> option with get, set
-        abstract onTransitionEnd: TransitionEventHandler<'T> option with get, set
-        abstract onTransitionEndCapture: TransitionEventHandler<'T> option with get, set
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] CSSWideKeyword =
-        | Initial
-        | Inherit
-        | Unset
-
-    type CSSPercentage =
-        string
-
-    type CSSLength =
-        U2<float, string>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module CSSLength =
-        let ofFloat v: CSSLength = v |> U2.Case1
-        let isFloat (v: CSSLength) = match v with U2.Case1 _ -> true | _ -> false
-        let asFloat (v: CSSLength) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofString v: CSSLength = v |> U2.Case2
-        let isString (v: CSSLength) = match v with U2.Case2 _ -> true | _ -> false
-        let asString (v: CSSLength) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type [<AllowNullLiteral>] CSSProperties =
-        /// Aligns a flex container's lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
-        abstract alignContent: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
-        /// Sets the default alignment in the cross axis for all of the flex container's items, including anonymous flex items, similarly to how justify-content aligns items along the main axis.
-        abstract alignItems: U6<CSSWideKeyword, string, string, string, string, string> option with get, set
-        /// Allows the default alignment to be overridden for individual flex items.
-        abstract alignSelf: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
-        /// This property allows precise alignment of elements, such as graphics,
-        /// that do not have a baseline-table or lack the desired baseline in their baseline-table.
-        /// With the alignment-adjust property, the position of the baseline identified by the alignment-baseline
-        /// can be explicitly determined. It also determines precisely the alignment point for each glyph within a textual element.
-        abstract alignmentAdjust: U2<CSSWideKeyword, obj option> option with get, set
-        abstract alignmentBaseline: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines a length of time to elapse before an animation starts, allowing an animation to begin execution some time after it is applied.
-        abstract animationDelay: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines whether an animation should run in reverse on some or all cycles.
-        abstract animationDirection: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies how many times an animation cycle should play.
-        abstract animationIterationCount: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines the list of animations that apply to the element.
-        abstract animationName: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines whether an animation is running or paused.
-        abstract animationPlayState: U2<CSSWideKeyword, obj option> option with get, set
-        /// Allows changing the style of any element to platform-based interface elements or vice versa.
-        abstract appearance: U2<CSSWideKeyword, obj option> option with get, set
-        /// Determines whether or not the “back” side of a transformed element is visible when facing the viewer.
-        abstract backfaceVisibility: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand property to set the values for one or more of:
-        /// background-clip, background-color, background-image,
-        /// background-origin, background-position, background-repeat,
-        /// background-size, and background-attachment.
-        abstract background: U2<CSSWideKeyword, obj option> option with get, set
-        /// If a background-image is specified, this property determines
-        /// whether that image's position is fixed within the viewport,
-        /// or scrolls along with its containing block.
-        /// See CSS 3 background-attachment property https://drafts.csswg.org/css-backgrounds-3/#the-background-attachment
-        abstract backgroundAttachment: U4<CSSWideKeyword, string, string, string> option with get, set
-        /// This property describes how the element's background images should blend with each other and the element's background color.
-        /// The value is a list of blend modes that corresponds to each background image. Each element in the list will apply to the
-        /// corresponding element of background-image. If a property doesn’t have enough comma-separated values to match the number of layers,
-        /// the UA must calculate its used value by repeating the list of values until there are enough.
-        abstract backgroundBlendMode: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the background color of an element.
-        abstract backgroundColor: U2<CSSWideKeyword, obj option> option with get, set
-        abstract backgroundComposite: U2<CSSWideKeyword, obj option> option with get, set
-        /// Applies one or more background images to an element. These can be any valid CSS image, including url() paths to image files or CSS gradients.
-        abstract backgroundImage: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies what the background-position property is relative to.
-        abstract backgroundOrigin: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the position of a background image.
-        abstract backgroundPosition: U2<CSSWideKeyword, obj option> option with get, set
-        /// Background-repeat defines if and how background images will be repeated after they have been sized and positioned
-        abstract backgroundRepeat: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines the size of the background images
-        abstract backgroundSize: U2<CSSWideKeyword, obj option> option with get, set
-        /// Obsolete - spec retired, not implemented.
-        abstract baselineShift: U2<CSSWideKeyword, obj option> option with get, set
-        /// Non standard. Sets or retrieves the location of the Dynamic HTML (DHTML) behavior.
-        abstract behavior: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand property that defines the different properties of all four sides of an element's border in a single declaration.
-        /// It can be used to set border-width, border-style and border-color, or a subset of these.
-        abstract border: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand that sets the values of border-bottom-color,
-        /// border-bottom-style, and border-bottom-width.
-        abstract borderBottom: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the color of the bottom border of an element.
-        abstract borderBottomColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines the shape of the border of the bottom-left corner.
-        abstract borderBottomLeftRadius: U2<CSSWideKeyword, CSSLength> option with get, set
-        /// Defines the shape of the border of the bottom-right corner.
-        abstract borderBottomRightRadius: U2<CSSWideKeyword, CSSLength> option with get, set
-        /// Sets the line style of the bottom border of a box.
-        abstract borderBottomStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the width of an element's bottom border. To set all four borders,
-        /// use the border-width shorthand property which sets the values simultaneously for border-top-width,
-        /// border-right-width, border-bottom-width, and border-left-width.
-        abstract borderBottomWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Border-collapse can be used for collapsing the borders between table cells
-        abstract borderCollapse: U2<CSSWideKeyword, obj option> option with get, set
-        /// The CSS border-color property sets the color of an element's four borders.
-        /// This property can have from one to four values, made up of the elementary properties:
-        ///       •       border-top-color
-        ///       •       border-right-color
-        ///       •       border-bottom-color
-        ///       •       border-left-color The default color is the currentColor of each of these values.
-        /// If you provide one value, it sets the color for the element. Two values set the horizontal and vertical values,
-        /// respectively. Providing three values sets the top, vertical, and bottom values, in that order.
-        /// Four values set all for sides: top, right, bottom, and left, in that order.
-        abstract borderColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies different corner clipping effects, such as scoop (inner curves), bevel (straight cuts) or notch (cut-off rectangles).
-        /// Works along with border-radius to specify the size of each corner effect.
-        abstract borderCornerShape: U2<CSSWideKeyword, obj option> option with get, set
-        /// The property border-image-source is used to set the image to be used instead of the border style.
-        /// If this is set to none the border-style is used instead.
-        abstract borderImageSource: U2<CSSWideKeyword, obj option> option with get, set
-        /// The border-image-width CSS property defines the offset to use for dividing the border image in nine parts,
-        /// the top-left corner, central top edge, top-right-corner, central right edge, bottom-right corner, central bottom edge,
-        /// bottom-left corner, and central right edge. They represent inward distance from the top, right, bottom, and left edges.
-        abstract borderImageWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand property that defines the border-width, border-style and border-color of an element's left border in a single declaration.
-        /// Note that you can use the corresponding longhand properties to set specific individual properties of the left border — border-left-width,
-        /// border-left-style and border-left-color.
-        abstract borderLeft: U2<CSSWideKeyword, obj option> option with get, set
-        /// The CSS border-left-color property sets the color of an element's left border. This page explains the border-left-color value,
-        /// but often you will find it more convenient to fix the border's left color as part of a shorthand set, either border-left or border-color.
-        /// Colors can be defined several ways. For more information, see Usage.
-        abstract borderLeftColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the style of an element's left border. To set all four borders, use the shorthand property, border-style.
-        /// Otherwise, you can set the borders individually with border-top-style, border-right-style, border-bottom-style, border-left-style.
-        abstract borderLeftStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the width of an element's left border. To set all four borders,
-        /// use the border-width shorthand property which sets the values simultaneously for border-top-width,
-        /// border-right-width, border-bottom-width, and border-left-width.
-        abstract borderLeftWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand property that sets the rounding of all four corners.
-        abstract borderRadius: U2<CSSWideKeyword, CSSLength> option with get, set
-        /// Shorthand property that defines the border-width, border-style and border-color of an element's right border
-        /// in a single declaration. Note that you can use the corresponding longhand properties to set specific
-        /// individual properties of the right border — border-right-width, border-right-style and border-right-color.
-        abstract borderRight: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the color of an element's right border. This page explains the border-right-color value,
-        /// but often you will find it more convenient to fix the border's right color as part of a shorthand set,
-        /// either border-right or border-color.
-        /// Colors can be defined several ways. For more information, see Usage.
-        abstract borderRightColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the style of an element's right border. To set all four borders, use the shorthand property,
-        /// border-style. Otherwise, you can set the borders individually with border-top-style, border-right-style,
-        /// border-bottom-style, border-left-style.
-        abstract borderRightStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the width of an element's right border. To set all four borders,
-        /// use the border-width shorthand property which sets the values simultaneously for border-top-width,
-        /// border-right-width, border-bottom-width, and border-left-width.
-        abstract borderRightWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the distance between the borders of adjacent cells.
-        abstract borderSpacing: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the style of an element's four borders. This property can have from one to four values.
-        /// With only one value, the value will be applied to all four borders;
-        /// otherwise, this works as a shorthand property for each of border-top-style, border-right-style,
-        /// border-bottom-style, border-left-style, where each border style may be assigned a separate value.
-        abstract borderStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand property that defines the border-width, border-style and border-color of an element's top border
-        /// in a single declaration. Note that you can use the corresponding longhand properties to set specific
-        /// individual properties of the top border — border-top-width, border-top-style and border-top-color.
-        abstract borderTop: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the color of an element's top border. This page explains the border-top-color value,
-        /// but often you will find it more convenient to fix the border's top color as part of a shorthand set,
-        /// either border-top or border-color.
-        /// Colors can be defined several ways. For more information, see Usage.
-        abstract borderTopColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the rounding of the top-left corner of the element.
-        abstract borderTopLeftRadius: U2<CSSWideKeyword, CSSLength> option with get, set
-        /// Sets the rounding of the top-right corner of the element.
-        abstract borderTopRightRadius: U2<CSSWideKeyword, CSSLength> option with get, set
-        /// Sets the style of an element's top border. To set all four borders, use the shorthand property, border-style.
-        /// Otherwise, you can set the borders individually with border-top-style, border-right-style, border-bottom-style, border-left-style.
-        abstract borderTopStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the width of an element's top border. To set all four borders,
-        /// use the border-width shorthand property which sets the values simultaneously for border-top-width,
-        /// border-right-width, border-bottom-width, and border-left-width.
-        abstract borderTopWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the width of an element's four borders. This property can have from one to four values.
-        /// This is a shorthand property for setting values simultaneously for border-top-width,
-        /// border-right-width, border-bottom-width, and border-left-width.
-        abstract borderWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies how far an absolutely positioned box's bottom margin edge
-        /// is offset above the bottom edge of the box's containing block. For relatively positioned boxes,
-        /// the offset is with respect to the bottom edges of the box itself
-        /// (i.e., the box is given a position in the normal flow, then offset from that position according to these properties).
-        abstract bottom: U2<CSSWideKeyword, obj option> option with get, set
-        /// Obsolete.
-        abstract boxAlign: U2<CSSWideKeyword, obj option> option with get, set
-        /// Breaks a box into fragments creating new borders,
-        /// padding and repeating backgrounds or lets it stay as a continuous box on a page break,
-        /// column break, or, for inline elements, at a line break.
-        abstract boxDecorationBreak: U2<CSSWideKeyword, obj option> option with get, set
-        /// Deprecated
-        abstract boxDirection: U2<CSSWideKeyword, obj option> option with get, set
-        /// Do not use. This property has been replaced by the flex-wrap property.
-        /// Gets or sets a value that specifies the direction to add successive rows or columns when the value of box-lines is set to multiple.
-        abstract boxLineProgression: U2<CSSWideKeyword, obj option> option with get, set
-        /// Do not use. This property has been replaced by the flex-wrap property.
-        /// Gets or sets a value that specifies whether child elements wrap onto multiple lines or columns based on the space available in the object.
-        abstract boxLines: U2<CSSWideKeyword, obj option> option with get, set
-        /// Do not use. This property has been replaced by flex-order.
-        /// Specifies the ordinal group that a child element of the object belongs to.
-        /// This ordinal value identifies the display order (along the axis defined by the box-orient property) for the group.
-        abstract boxOrdinalGroup: U2<CSSWideKeyword, obj option> option with get, set
-        /// Deprecated.
-        abstract boxFlex: U2<CSSWideKeyword, float> option with get, set
-        /// Deprecated.
-        abstract boxFlexGroup: U2<CSSWideKeyword, float> option with get, set
-        /// Cast a drop shadow from the frame of almost any element.
-        /// MDN: https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
-        abstract boxShadow: U2<CSSWideKeyword, obj option> option with get, set
-        /// The CSS break-after property allows you to force a break on multi-column layouts.
-        /// More specifically, it allows you to force a break after an element.
-        /// It allows you to determine if a break should occur, and what type of break it should be.
-        /// The break-after CSS property describes how the page, column or region break behaves after the generated box.
-        /// If there is no generated box, the property is ignored.
-        abstract breakAfter: U2<CSSWideKeyword, obj option> option with get, set
-        /// Control page/column/region breaks that fall above a block of content
-        abstract breakBefore: U2<CSSWideKeyword, obj option> option with get, set
-        /// Control page/column/region breaks that fall within a block of content
-        abstract breakInside: U2<CSSWideKeyword, obj option> option with get, set
-        /// The clear CSS property specifies if an element can be positioned next to
-        /// or must be positioned below the floating elements that precede it in the markup.
-        abstract clear: U2<CSSWideKeyword, obj option> option with get, set
-        /// Deprecated; see clip-path.
-        /// Lets you specify the dimensions of an absolutely positioned element that should be visible,
-        /// and the element is clipped into this shape, and displayed.
-        abstract clip: U2<CSSWideKeyword, obj option> option with get, set
-        /// Clipping crops an graphic, so that only a portion of the graphic is rendered, or filled.
-        /// This clip-rule property, when used with the clip-path property, defines which clip rule, or algorithm,
-        /// to use when filling the different parts of a graphics.
-        abstract clipRule: U2<CSSWideKeyword, obj option> option with get, set
-        /// The color property sets the color of an element's foreground content (usually text),
-        /// accepting any standard CSS color from keywords and hex values to RGB(a) and HSL(a).
-        abstract color: U2<CSSWideKeyword, obj option> option with get, set
-        /// Describes the number of columns of the element.
-        /// See CSS 3 column-count property https://www.w3.org/TR/css3-multicol/#cc
-        abstract columnCount: U3<CSSWideKeyword, float, string> option with get, set
-        /// Specifies how to fill columns (balanced or sequential).
-        abstract columnFill: U2<CSSWideKeyword, obj option> option with get, set
-        /// The column-gap property controls the width of the gap between columns in multi-column elements.
-        abstract columnGap: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the width, style, and color of the rule between columns.
-        abstract columnRule: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the color of the rule between columns.
-        abstract columnRuleColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the width of the rule between columns.
-        abstract columnRuleWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// The column-span CSS property makes it possible for an element to span across all columns when its value is set to all.
-        /// An element that spans more than one column is called a spanning element.
-        abstract columnSpan: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the width of columns in multi-column elements.
-        abstract columnWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property is a shorthand property for setting column-width and/or column-count.
-        abstract columns: U2<CSSWideKeyword, obj option> option with get, set
-        /// The counter-increment property accepts one or more names of counters (identifiers),
-        /// each one optionally followed by an integer which specifies the value by which the counter should be incremented
-        /// (e.g. if the value is 2, the counter increases by 2 each time it is invoked).
-        abstract counterIncrement: U2<CSSWideKeyword, obj option> option with get, set
-        /// The counter-reset property contains a list of one or more names of counters,
-        /// each one optionally followed by an integer (otherwise, the integer defaults to 0.).
-        /// Each time the given element is invoked, the counters specified by the property are set to the given integer.
-        abstract counterReset: U2<CSSWideKeyword, obj option> option with get, set
-        /// The cue property specifies sound files (known as an "auditory icon") to be played by speech media agents
-        /// before and after presenting an element's content; if only one file is specified, it is played both before and after.
-        /// The volume at which the file(s) should be played, relative to the volume of the main element, may also be specified.
-        /// The icon files may also be set separately with the cue-before and cue-after properties.
-        abstract cue: U2<CSSWideKeyword, obj option> option with get, set
-        /// The cue-after property specifies a sound file (known as an "auditory icon") to be played by speech media agents
-        /// after presenting an element's content; the volume at which the file should be played may also be specified.
-        /// The shorthand property cue sets cue sounds for both before and after the element is presented.
-        abstract cueAfter: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the mouse cursor displayed when the mouse pointer is over an element.
-        abstract cursor: U2<CSSWideKeyword, obj option> option with get, set
-        /// The direction CSS property specifies the text direction/writing direction. The rtl is used for Hebrew or Arabic text, the ltr is for other languages.
-        abstract direction: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies the type of rendering box used for an element. It is a shorthand property for many other display properties.
-        abstract display: U2<CSSWideKeyword, obj option> option with get, set
-        /// The ‘fill’ property paints the interior of the given graphical element.
-        /// The area to be painted consists of any areas inside the outline of the shape.
-        /// To determine the inside of the shape, all subpaths are considered,
-        /// and the interior is determined according to the rules associated with the current value of the ‘fill-rule’ property.
-        /// The zero-width geometric outline of a shape is included in the area to be painted.
-        abstract fill: U2<CSSWideKeyword, obj option> option with get, set
-        /// SVG: Specifies the opacity of the color or the content the current object is filled with.
-        /// See SVG 1.1 https://www.w3.org/TR/SVG/painting.html#FillOpacityProperty
-        abstract fillOpacity: U2<CSSWideKeyword, float> option with get, set
-        /// The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are included inside the shape.
-        /// For a simple, non-intersecting path, it is intuitively clear what region lies "inside";
-        /// however, for a more complex path, such as a path that intersects itself or where one subpath encloses another,
-        /// the interpretation of "inside" is not so obvious.
-        /// The ‘fill-rule’ property provides two options for how the inside of a shape is determined:
-        abstract fillRule: U2<CSSWideKeyword, obj option> option with get, set
-        /// Applies various image processing effects. This property is largely unsupported. See Compatibility section for more information.
-        abstract filter: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand for `flex-grow`, `flex-shrink`, and `flex-basis`.
-        abstract flex: U3<CSSWideKeyword, float, string> option with get, set
-        /// Obsolete, do not use. This property has been renamed to align-items.
-        /// Specifies the alignment (perpendicular to the layout axis defined by the flex-direction property) of child elements of the object.
-        abstract flexAlign: U2<CSSWideKeyword, obj option> option with get, set
-        /// The flex-basis CSS property describes the initial main size of the flex item
-        /// before any free space is distributed according to the flex factors described in the flex property (flex-grow and flex-shrink).
-        abstract flexBasis: U2<CSSWideKeyword, obj option> option with get, set
-        /// The flex-direction CSS property describes how flex items are placed in the flex container, by setting the direction of the flex container's main axis.
-        abstract flexDirection: U5<CSSWideKeyword, string, string, string, string> option with get, set
-        /// The flex-flow CSS property defines the flex container's main and cross axis. It is a shorthand property for the flex-direction and flex-wrap properties.
-        abstract flexFlow: U2<CSSWideKeyword, string> option with get, set
-        /// Specifies the flex grow factor of a flex item.
-        /// See CSS flex-grow property https://drafts.csswg.org/css-flexbox-1/#flex-grow-property
-        abstract flexGrow: U2<CSSWideKeyword, float> option with get, set
-        /// Do not use. This property has been renamed to align-self
-        /// Specifies the alignment (perpendicular to the layout axis defined by flex-direction) of child elements of the object.
-        abstract flexItemAlign: U2<CSSWideKeyword, obj option> option with get, set
-        /// Do not use. This property has been renamed to align-content.
-        /// Specifies how a flexbox's lines align within the flexbox when there is extra space along the axis that is perpendicular to the axis defined by the flex-direction property.
-        abstract flexLinePack: U2<CSSWideKeyword, obj option> option with get, set
-        /// Gets or sets a value that specifies the ordinal group that a flexbox element belongs to. This ordinal value identifies the display order for the group.
-        abstract flexOrder: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the flex shrink factor of a flex item.
-        /// See CSS flex-shrink property https://drafts.csswg.org/css-flexbox-1/#flex-shrink-property
-        abstract flexShrink: U2<CSSWideKeyword, float> option with get, set
-        /// Specifies whether flex items are forced into a single line or can be wrapped onto multiple lines.
-        /// If wrapping is allowed, this property also enables you to control the direction in which lines are stacked.
-        /// See CSS flex-wrap property https://drafts.csswg.org/css-flexbox-1/#flex-wrap-property
-        abstract flexWrap: U4<CSSWideKeyword, string, string, string> option with get, set
-        /// Elements which have the style float are floated horizontally.
-        /// These elements can move as far to the left or right of the containing element.
-        /// All elements after the floating element will flow around it, but elements before the floating element are not impacted.
-        /// If several floating elements are placed after each other, they will float next to each other as long as there is room.
-        abstract float: U2<CSSWideKeyword, obj option> option with get, set
-        /// Flows content from a named flow (specified by a corresponding flow-into) through selected elements to form a dynamic chain of layout regions.
-        abstract flowFrom: U2<CSSWideKeyword, obj option> option with get, set
-        /// The font property is shorthand that allows you to do one of two things: you can either set up six of the most mature font properties in one line,
-        /// or you can set one of a choice of keywords to adopt a system font setting.
-        abstract font: U2<CSSWideKeyword, obj option> option with get, set
-        /// The font-family property allows one or more font family names and/or generic family names to be specified for usage on the selected element(s)' text.
-        /// The browser then goes through the list; for each character in the selection it applies the first font family that has an available glyph for that character.
-        abstract fontFamily: U2<CSSWideKeyword, obj option> option with get, set
-        /// The font-kerning property allows contextual adjustment of inter-glyph spacing, i.e. the spaces between the characters in text.
-        /// This property controls <bold>metric kerning</bold> - that utilizes adjustment data contained in the font. Optical Kerning is not supported as yet.
-        abstract fontKerning: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the size of the font. Used to compute em and ex units.
-        /// See CSS 3 font-size property https://www.w3.org/TR/css-fonts-3/#propdef-font-size
-        abstract fontSize: obj option with get, set
-        /// The font-size-adjust property adjusts the font-size of the fallback fonts defined with font-family,
-        /// so that the x-height is the same no matter what font is used.
-        /// This preserves the readability of the text when fallback happens.
-        /// See CSS 3 font-size-adjust property https://www.w3.org/TR/css-fonts-3/#propdef-font-size-adjust
-        abstract fontSizeAdjust: U3<CSSWideKeyword, string, float> option with get, set
-        /// Allows you to expand or condense the widths for a normal, condensed, or expanded font face.
-        /// See CSS 3 font-stretch property https://drafts.csswg.org/css-fonts-3/#propdef-font-stretch
-        abstract fontStretch: obj option with get, set
-        /// The font-style property allows normal, italic, or oblique faces to be selected.
-        /// Italic forms are generally cursive in nature while oblique faces are typically sloped versions of the regular face.
-        /// Oblique faces can be simulated by artificially sloping the glyphs of the regular face.
-        /// See CSS 3 font-style property https://www.w3.org/TR/css-fonts-3/#propdef-font-style
-        abstract fontStyle: U4<CSSWideKeyword, string, string, string> option with get, set
-        /// This value specifies whether the user agent is allowed to synthesize bold or oblique font faces when a font family lacks bold or italic faces.
-        abstract fontSynthesis: U2<CSSWideKeyword, obj option> option with get, set
-        /// The font-variant property enables you to select the small-caps font within a font family.
-        abstract fontVariant: U2<CSSWideKeyword, obj option> option with get, set
-        /// Fonts can provide alternate glyphs in addition to default glyph for a character. This property provides control over the selection of these alternate glyphs.
-        abstract fontVariantAlternates: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the weight or boldness of the font.
-        /// See CSS 3 'font-weight' property https://www.w3.org/TR/css-fonts-3/#propdef-font-weight
-        abstract fontWeight: U6<CSSWideKeyword, string, string, string, string, obj> option with get, set
-        /// Lays out one or more grid items bound by 4 grid lines. Shorthand for setting grid-column-start, grid-column-end, grid-row-start, and grid-row-end in a single declaration.
-        abstract gridArea: U2<CSSWideKeyword, obj option> option with get, set
-        /// Controls a grid item's placement in a grid area, particularly grid position and a grid span. Shorthand for setting grid-column-start and grid-column-end in a single declaration.
-        abstract gridColumn: U2<CSSWideKeyword, obj option> option with get, set
-        /// Controls a grid item's placement in a grid area as well as grid position and a grid span.
-        /// The grid-column-end property (with grid-row-start, grid-row-end, and grid-column-start) determines a grid item's placement by specifying the grid lines of a grid item's grid area.
-        abstract gridColumnEnd: U2<CSSWideKeyword, obj option> option with get, set
-        /// Determines a grid item's placement by specifying the starting grid lines of a grid item's grid area.
-        /// A grid item's placement in a grid area consists of a grid position and a grid span.
-        /// See also ( grid-row-start, grid-row-end, and grid-column-end)
-        abstract gridColumnStart: U2<CSSWideKeyword, obj option> option with get, set
-        /// Gets or sets a value that indicates which row an element within a Grid should appear in. Shorthand for setting grid-row-start and grid-row-end in a single declaration.
-        abstract gridRow: U2<CSSWideKeyword, obj option> option with get, set
-        /// Determines a grid item’s placement by specifying the block-end. A grid item's placement in a grid area consists of a grid position and a grid span.
-        /// The grid-row-end property (with grid-row-start, grid-column-start, and grid-column-end) determines a grid item's placement by specifying the grid lines of a grid item's grid area.
-        abstract gridRowEnd: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies a row position based upon an integer location, string value, or desired row size.
-        /// css/properties/grid-row is used as short-hand for grid-row-position and grid-row-position
-        abstract gridRowPosition: U2<CSSWideKeyword, obj option> option with get, set
-        abstract gridRowSpan: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies named grid areas which are not associated with any particular grid item, but can be referenced from the grid-placement properties.
-        /// The syntax of the grid-template-areas property also provides a visualization of the structure of the grid, making the overall layout of the grid container easier to understand.
-        abstract gridTemplateAreas: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies (with grid-template-rows) the line names and track sizing functions of the grid.
-        /// Each sizing function can be specified as a length, a percentage of the grid container’s size,
-        /// a measurement of the contents occupying the column or row, or a fraction of the free space in the grid.
-        abstract gridTemplateColumns: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies (with grid-template-columns) the line names and track sizing functions of the grid.
-        /// Each sizing function can be specified as a length, a percentage of the grid container’s size,
-        /// a measurement of the contents occupying the column or row, or a fraction of the free space in the grid.
-        abstract gridTemplateRows: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the height of an element. The content area of the element height does not include the padding, border, and margin of the element.
-        abstract height: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the minimum number of characters in a hyphenated word
-        abstract hyphenateLimitChars: U2<CSSWideKeyword, obj option> option with get, set
-        /// Indicates the maximum number of successive hyphenated lines in an element. The ‘no-limit’ value means that there is no limit.
-        abstract hyphenateLimitLines: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the maximum amount of trailing whitespace (before justification) that may be left in a line before hyphenation is triggered
-        /// to pull part of a word from the next line back up into the current one.
-        abstract hyphenateLimitZone: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies whether or not words in a sentence can be split by the use of a manual or automatic hyphenation mechanism.
-        abstract hyphens: U2<CSSWideKeyword, obj option> option with get, set
-        abstract imeMode: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines how the browser distributes space between and around flex items
-        /// along the main-axis of their container.
-        /// See CSS justify-content property https://www.w3.org/TR/css-flexbox-1/#justify-content-property
-        abstract justifyContent: U8<CSSWideKeyword, string, string, string, string, string, string, string> option with get, set
-        abstract layoutGrid: U2<CSSWideKeyword, obj option> option with get, set
-        abstract layoutGridChar: U2<CSSWideKeyword, obj option> option with get, set
-        abstract layoutGridLine: U2<CSSWideKeyword, obj option> option with get, set
-        abstract layoutGridMode: U2<CSSWideKeyword, obj option> option with get, set
-        abstract layoutGridType: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the left edge of an element
-        abstract left: U2<CSSWideKeyword, obj option> option with get, set
-        /// The letter-spacing CSS property specifies the spacing behavior between text characters.
-        abstract letterSpacing: U2<CSSWideKeyword, obj option> option with get, set
-        /// Deprecated. Gets or sets line-breaking rules for text in selected languages such as Japanese, Chinese, and Korean.
-        abstract lineBreak: U2<CSSWideKeyword, obj option> option with get, set
-        abstract lineClamp: U2<CSSWideKeyword, float> option with get, set
-        /// Specifies the height of an inline block level element.
-        /// See CSS 2.1 line-height property https://www.w3.org/TR/CSS21/visudet.html#propdef-line-height
-        abstract lineHeight: U5<CSSWideKeyword, string, float, CSSLength, CSSPercentage> option with get, set
-        /// Shorthand property that sets the list-style-type, list-style-position and list-style-image properties in one declaration.
-        abstract listStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property sets the image that will be used as the list item marker. When the image is available,
-        /// it will replace the marker set with the 'list-style-type' marker. That also means that if the image is not available,
-        /// it will show the style specified by list-style-property
-        abstract listStyleImage: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies if the list-item markers should appear inside or outside the content flow.
-        abstract listStylePosition: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the type of list-item marker in a list.
-        abstract listStyleType: U2<CSSWideKeyword, obj option> option with get, set
-        /// The margin property is shorthand to allow you to set all four margins of an element at once.
-        /// Its equivalent longhand properties are margin-top, margin-right, margin-bottom and margin-left.
-        /// Negative values are also allowed.
-        abstract margin: U2<CSSWideKeyword, obj option> option with get, set
-        /// margin-bottom sets the bottom margin of an element.
-        abstract marginBottom: U2<CSSWideKeyword, obj option> option with get, set
-        /// margin-left sets the left margin of an element.
-        abstract marginLeft: U2<CSSWideKeyword, obj option> option with get, set
-        /// margin-right sets the right margin of an element.
-        abstract marginRight: U2<CSSWideKeyword, obj option> option with get, set
-        /// margin-top sets the top margin of an element.
-        abstract marginTop: U2<CSSWideKeyword, obj option> option with get, set
-        /// The marquee-direction determines the initial direction in which the marquee content moves.
-        abstract marqueeDirection: U2<CSSWideKeyword, obj option> option with get, set
-        /// The 'marquee-style' property determines a marquee's scrolling behavior.
-        abstract marqueeStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property is shorthand for setting mask-image, mask-mode, mask-repeat, mask-position, mask-clip, mask-origin, mask-composite and mask-size.
-        /// Omitted values are set to their original properties' initial values.
-        abstract mask: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property is shorthand for setting mask-border-source, mask-border-slice, mask-border-width, mask-border-outset, and mask-border-repeat.
-        /// Omitted values are set to their original properties' initial values.
-        abstract maskBorder: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies how the images for the sides and the middle part of the mask image are scaled and tiled.
-        /// The first keyword applies to the horizontal sides, the second one applies to the vertical ones.
-        /// If the second keyword is absent, it is assumed to be the same as the first, similar to the CSS border-image-repeat property.
-        abstract maskBorderRepeat: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies inward offsets from the top, right, bottom, and left edges of the mask image,
-        /// dividing it into nine regions: four corners, four edges, and a middle.
-        /// The middle image part is discarded and treated as fully transparent black unless the fill keyword is present.
-        /// The four values set the top, right, bottom and left offsets in that order, similar to the CSS border-image-slice property.
-        abstract maskBorderSlice: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies an image to be used as a mask. An image that is empty, fails to download, is non-existent, or cannot be displayed is ignored and does not mask the element.
-        abstract maskBorderSource: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property sets the width of the mask box image, similar to the CSS border-image-width property.
-        abstract maskBorderWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Determines the mask painting area, which defines the area that is affected by the mask.
-        /// The painted content of an element may be restricted to this area.
-        abstract maskClip: U2<CSSWideKeyword, obj option> option with get, set
-        /// For elements rendered as a single box, specifies the mask positioning area.
-        /// For elements rendered as multiple boxes (e.g., inline boxes on several lines, boxes on several pages)
-        /// specifies which boxes box-decoration-break operates on to determine the mask positioning area(s).
-        abstract maskOrigin: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property must not be used. It is no longer included in any standard or standard track specification,
-        /// nor is it implemented in any browser. It is only used when the text-align-last property is set to size.
-        /// It controls allowed adjustments of font-size to fit line content.
-        abstract maxFontSize: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the maximum height for an element. It prevents the height of the element to exceed the specified value.
-        /// If min-height is specified and is greater than max-height, max-height is overridden.
-        abstract maxHeight: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the maximum width for an element. It limits the width property to be larger than the value specified in max-width.
-        abstract maxWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the minimum height for an element. It prevents the height of the element to be smaller than the specified value.
-        /// The value of min-height overrides both max-height and height.
-        abstract minHeight: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the minimum width of an element. It limits the width property to be not smaller than the value specified in min-width.
-        abstract minWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the transparency of an element.
-        /// See CSS 3 opacity property https://drafts.csswg.org/css-color-3/#opacity
-        abstract opacity: U2<CSSWideKeyword, float> option with get, set
-        /// Specifies the order used to lay out flex items in their flex container.
-        /// Elements are laid out in the ascending order of the order value.
-        /// See CSS order property https://drafts.csswg.org/css-flexbox-1/#order-property
-        abstract order: U2<CSSWideKeyword, float> option with get, set
-        /// In paged media, this property defines the minimum number of lines in
-        /// a block container that must be left at the bottom of the page.
-        /// See CSS 3 orphans, widows properties https://drafts.csswg.org/css-break-3/#widows-orphans
-        abstract orphans: U2<CSSWideKeyword, float> option with get, set
-        /// The CSS outline property is a shorthand property for setting one or more of the individual outline properties outline-style,
-        /// outline-width and outline-color in a single rule. In most cases the use of this shortcut is preferable and more convenient.
-        /// Outlines differ from borders in the following ways:
-        ///       •       Outlines do not take up space, they are drawn above the content.
-        ///       •       Outlines may be non-rectangular. They are rectangular in Gecko/Firefox.
-        ///               Internet Explorer attempts to place the smallest contiguous outline around all elements or shapes that are indicated to have an outline.
-        ///               Opera draws a non-rectangular shape around a construct.
-        abstract outline: U2<CSSWideKeyword, obj option> option with get, set
-        /// The outline-color property sets the color of the outline of an element. An outline is a line that is drawn around elements, outside the border edge, to make the element stand out.
-        abstract outlineColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// The outline-offset property offsets the outline and draw it beyond the border edge.
-        abstract outlineOffset: U2<CSSWideKeyword, obj option> option with get, set
-        /// The overflow property controls how extra content exceeding the bounding box of an element is rendered.
-        /// It can be used in conjunction with an element that has a fixed width and height, to eliminate text-induced page distortion.
-        abstract overflow: U5<CSSWideKeyword, string, string, string, string> option with get, set
-        /// Specifies the preferred scrolling methods for elements that overflow.
-        abstract overflowStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Controls how extra content exceeding the x-axis of the bounding box of an element is rendered.
-        abstract overflowX: U5<CSSWideKeyword, string, string, string, string> option with get, set
-        /// Controls how extra content exceeding the y-axis of the bounding box of an element is rendered.
-        abstract overflowY: U5<CSSWideKeyword, string, string, string, string> option with get, set
-        /// The padding optional CSS property sets the required padding space on one to four sides of an element.
-        /// The padding area is the space between an element and its border. Negative values are not allowed but decimal values are permitted.
-        /// The element size is treated as fixed, and the content of the element shifts toward the center as padding is increased.
-        /// The padding property is a shorthand to avoid setting each side separately (padding-top, padding-right, padding-bottom, padding-left).
-        abstract padding: U2<CSSWideKeyword, obj option> option with get, set
-        /// The padding-bottom CSS property of an element sets the padding space required on the bottom of an element.
-        /// The padding area is the space between the content of the element and its border.
-        /// Contrary to margin-bottom values, negative values of padding-bottom are invalid.
-        abstract paddingBottom: U2<CSSWideKeyword, obj option> option with get, set
-        /// The padding-left CSS property of an element sets the padding space required on the left side of an element.
-        /// The padding area is the space between the content of the element and its border.
-        /// Contrary to margin-left values, negative values of padding-left are invalid.
-        abstract paddingLeft: U2<CSSWideKeyword, obj option> option with get, set
-        /// The padding-right CSS property of an element sets the padding space required on the right side of an element.
-        /// The padding area is the space between the content of the element and its border.
-        /// Contrary to margin-right values, negative values of padding-right are invalid.
-        abstract paddingRight: U2<CSSWideKeyword, obj option> option with get, set
-        /// The padding-top CSS property of an element sets the padding space required on the top of an element.
-        /// The padding area is the space between the content of the element and its border.
-        /// Contrary to margin-top values, negative values of padding-top are invalid.
-        abstract paddingTop: U2<CSSWideKeyword, obj option> option with get, set
-        /// The page-break-after property is supported in all major browsers. With CSS3, page-break-* properties are only aliases of the break-* properties.
-        /// The CSS3 Fragmentation spec defines breaks for all CSS box fragmentation.
-        abstract pageBreakAfter: U2<CSSWideKeyword, obj option> option with get, set
-        /// The page-break-before property sets the page-breaking behavior before an element.
-        /// With CSS3, page-break-* properties are only aliases of the break-* properties.
-        /// The CSS3 Fragmentation spec defines breaks for all CSS box fragmentation.
-        abstract pageBreakBefore: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the page-breaking behavior inside an element. With CSS3, page-break-* properties are only aliases of the break-* properties.
-        /// The CSS3 Fragmentation spec defines breaks for all CSS box fragmentation.
-        abstract pageBreakInside: U2<CSSWideKeyword, obj option> option with get, set
-        /// The pause property determines how long a speech media agent should pause before and after presenting an element.
-        /// It is a shorthand for the pause-before and pause-after properties.
-        abstract pause: U2<CSSWideKeyword, obj option> option with get, set
-        /// The pause-after property determines how long a speech media agent should pause after presenting an element.
-        /// It may be replaced by the shorthand property pause, which sets pause time before and after.
-        abstract pauseAfter: U2<CSSWideKeyword, obj option> option with get, set
-        /// The pause-before property determines how long a speech media agent should pause before presenting an element.
-        /// It may be replaced by the shorthand property pause, which sets pause time before and after.
-        abstract pauseBefore: U2<CSSWideKeyword, obj option> option with get, set
-        /// The perspective property defines how far an element is placed from the view on the z-axis, from the screen to the viewer.
-        /// Perspective defines how an object is viewed. In graphic arts, perspective is the representation on a flat surface of what the viewer's eye would see in a 3D space.
-        /// (See Wikipedia for more information about graphical perspective and for related illustrations.)
-        /// The illusion of perspective on a flat surface, such as a computer screen,
-        /// is created by projecting points on the flat surface as they would appear if the flat surface were a window
-        /// through which the viewer was looking at the object. In discussion of virtual environments, this flat surface is called a projection plane.
-        abstract perspective: U2<CSSWideKeyword, obj option> option with get, set
-        /// The perspective-origin property establishes the origin for the perspective property.
-        /// It effectively sets the X and Y position at which the viewer appears to be looking at the children of the element.
-        /// When used with perspective, perspective-origin changes the appearance of an object,
-        /// as if a viewer were looking at it from a different origin.
-        /// An object appears differently if a viewer is looking directly at it versus looking at it from below, above, or from the side.
-        /// Thus, the perspective-origin is like a vanishing point.
-        /// The default value of perspective-origin is 50% 50%.
-        /// This displays an object as if the viewer's eye were positioned directly at the center of the screen, both top-to-bottom and left-to-right.
-        /// A value of 0% 0% changes the object as if the viewer was looking toward the top left angle.
-        /// A value of 100% 100% changes the appearance as if viewed toward the bottom right angle.
-        abstract perspectiveOrigin: U2<CSSWideKeyword, obj option> option with get, set
-        /// The pointer-events property allows you to control whether an element can be the target for the pointing device (e.g, mouse, pen) events.
-        abstract pointerEvents: U2<CSSWideKeyword, obj option> option with get, set
-        /// The position property controls the type of positioning used by an element within its parent elements.
-        /// The effect of the position property depends on a lot of factors, for example the position property of parent elements.
-        abstract position: U6<CSSWideKeyword, string, string, string, string, string> option with get, set
-        /// Obsolete: unsupported.
-        /// This property determines whether or not a full-width punctuation mark character should be trimmed if it appears at the beginning of a line,
-        /// so that its "ink" lines up with the first glyph in the line above and below.
-        abstract punctuationTrim: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the type of quotation marks for embedded quotations.
-        abstract quotes: U2<CSSWideKeyword, obj option> option with get, set
-        /// Controls whether the last region in a chain displays additional 'overset' content according its default overflow property,
-        /// or if it displays a fragment of content as if it were flowing into a subsequent region.
-        abstract regionFragment: U2<CSSWideKeyword, obj option> option with get, set
-        /// The rest-after property determines how long a speech media agent should pause after presenting an element's main content,
-        /// before presenting that element's exit cue sound. It may be replaced by the shorthand property rest, which sets rest time before and after.
-        abstract restAfter: U2<CSSWideKeyword, obj option> option with get, set
-        /// The rest-before property determines how long a speech media agent should pause after presenting an intro cue sound for an element,
-        /// before presenting that element's main content. It may be replaced by the shorthand property rest, which sets rest time before and after.
-        abstract restBefore: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the position an element in relation to the right side of the containing element.
-        abstract right: U2<CSSWideKeyword, obj option> option with get, set
-        abstract rubyAlign: U2<CSSWideKeyword, obj option> option with get, set
-        abstract rubyPosition: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines the alpha channel threshold used to extract a shape from an image. Can be thought of as a "minimum opacity" threshold;
-        /// that is, a value of 0.5 means that the shape will enclose all the pixels that are more than 50% opaque.
-        abstract shapeImageThreshold: U2<CSSWideKeyword, obj option> option with get, set
-        /// A future level of CSS Shapes will define a shape-inside property, which will define a shape to wrap content within the element.
-        /// See Editor's Draft <http://dev.w3.org/csswg/css-shapes/> and CSSWG wiki page on next-level plans <http://wiki.csswg.org/spec/css-shapes>
-        abstract shapeInside: U2<CSSWideKeyword, obj option> option with get, set
-        /// Adds a margin to a shape-outside. In effect, defines a new shape that is the smallest contour around all the points
-        /// that are the shape-margin distance outward perpendicular to each point on the underlying shape.
-        /// For points where a perpendicular direction is not defined (e.g., a triangle corner),
-        /// takes all points on a circle centered at the point and with a radius of the shape-margin distance.
-        /// This property accepts only non-negative values.
-        abstract shapeMargin: U2<CSSWideKeyword, obj option> option with get, set
-        /// Declares a shape around which text should be wrapped, with possible modifications from the shape-margin property.
-        /// The shape defined by shape-outside and shape-margin changes the geometry of a float element's float area.
-        abstract shapeOutside: U2<CSSWideKeyword, obj option> option with get, set
-        /// The speak property determines whether or not a speech synthesizer will read aloud the contents of an element.
-        abstract speak: U2<CSSWideKeyword, obj option> option with get, set
-        /// The speak-as property determines how the speech synthesizer interprets the content: words as whole words or as a sequence of letters,
-        /// numbers as a numerical value or a sequence of digits, punctuation as pauses in speech or named punctuation characters.
-        abstract speakAs: U2<CSSWideKeyword, obj option> option with get, set
-        /// SVG: Specifies the opacity of the outline on the current object.
-        /// See SVG 1.1 https://www.w3.org/TR/SVG/painting.html#StrokeOpacityProperty
-        abstract strokeOpacity: U2<CSSWideKeyword, float> option with get, set
-        /// SVG: Specifies the width of the outline on the current object.
-        /// See SVG 1.1 https://www.w3.org/TR/SVG/painting.html#StrokeWidthProperty
-        abstract strokeWidth: U3<CSSWideKeyword, CSSPercentage, CSSLength> option with get, set
-        /// The tab-size CSS property is used to customise the width of a tab (U+0009) character.
-        abstract tabSize: U2<CSSWideKeyword, obj option> option with get, set
-        /// The 'table-layout' property controls the algorithm used to lay out the table cells, rows, and columns.
-        abstract tableLayout: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-align CSS property describes how inline content like text is aligned in its parent block element.
-        /// text-align does not control the alignment of block elements itself, only their inline content.
-        abstract textAlign: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-align-last CSS property describes how the last line of a block element or a line before line break is aligned in its parent block element.
-        abstract textAlignLast: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-decoration CSS property is used to set the text formatting to underline, overline, line-through or blink.
-        /// underline and overline decorations are positioned under the text, line-through over it.
-        abstract textDecoration: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the color of any text decoration, such as underlines, overlines, and strike throughs.
-        abstract textDecorationColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets what kind of line decorations are added to an element, such as underlines, overlines, etc.
-        abstract textDecorationLine: U2<CSSWideKeyword, obj option> option with get, set
-        abstract textDecorationLineThrough: U2<CSSWideKeyword, obj option> option with get, set
-        abstract textDecorationNone: U2<CSSWideKeyword, obj option> option with get, set
-        abstract textDecorationOverline: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies what parts of an element’s content are skipped over when applying any text decoration.
-        abstract textDecorationSkip: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies the style of the text decoration line drawn on the specified element.
-        /// The intended meaning for the values are the same as those of the border-style-properties.
-        abstract textDecorationStyle: U2<CSSWideKeyword, obj option> option with get, set
-        abstract textDecorationUnderline: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-emphasis property will apply special emphasis marks to the elements text.
-        /// Slightly similar to the text-decoration property only that this property can have affect on the line-height.
-        /// It also is noted that this is shorthand for text-emphasis-style and for text-emphasis-color.
-        abstract textEmphasis: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-emphasis-color property specifies the foreground color of the emphasis marks.
-        abstract textEmphasisColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-emphasis-style property applies special emphasis marks to an element's text.
-        abstract textEmphasisStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property helps determine an inline box's block-progression dimension,
-        /// derived from the text-height and font-size properties for non-replaced elements,
-        /// the height or the width for replaced elements, and the stacked block-progression dimension for inline-block elements.
-        /// The block-progression dimension determines the position of the padding, border and margin for the element.
-        abstract textHeight: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the amount of space horizontally that should be left on the first line of the text of an element.
-        /// This horizontal spacing is at the beginning of the first line and is in respect to the left edge of the containing block box.
-        abstract textIndent: U2<CSSWideKeyword, obj option> option with get, set
-        abstract textJustifyTrim: U2<CSSWideKeyword, obj option> option with get, set
-        abstract textKashidaSpace: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-line-through property is a shorthand property for text-line-through-style, text-line-through-color and text-line-through-mode.
-        /// (Considered obsolete; use text-decoration instead.)
-        abstract textLineThrough: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the line colors for the line-through text decoration.
-        /// (Considered obsolete; use text-decoration-color instead.)
-        abstract textLineThroughColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the mode for the line-through text decoration, determining whether the text decoration affects the space characters or not.
-        /// (Considered obsolete; use text-decoration-skip instead.)
-        abstract textLineThroughMode: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the line style for line-through text decoration.
-        /// (Considered obsolete; use text-decoration-style instead.)
-        abstract textLineThroughStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the line width for the line-through text decoration.
-        abstract textLineThroughWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-overflow shorthand CSS property determines how overflowed content that is not displayed is signaled to the users.
-        /// It can be clipped, display an ellipsis ('…', U+2026 HORIZONTAL ELLIPSIS) or a Web author-defined string.
-        /// It covers the two long-hand properties text-overflow-mode and text-overflow-ellipsis
-        abstract textOverflow: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-overline property is the shorthand for the text-overline-style, text-overline-width, text-overline-color, and text-overline-mode properties.
-        abstract textOverline: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the line color for the overline text decoration.
-        abstract textOverlineColor: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the mode for the overline text decoration, determining whether the text decoration affects the space characters or not.
-        abstract textOverlineMode: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the line style for overline text decoration.
-        abstract textOverlineStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies the line width for the overline text decoration.
-        abstract textOverlineWidth: U2<CSSWideKeyword, obj option> option with get, set
-        /// The text-rendering CSS property provides information to the browser about how to optimize when rendering text.
-        /// Options are: legibility, speed or geometric precision.
-        abstract textRendering: U2<CSSWideKeyword, obj option> option with get, set
-        /// Obsolete: unsupported.
-        abstract textScript: U2<CSSWideKeyword, obj option> option with get, set
-        /// The CSS text-shadow property applies one or more drop shadows to the text and <text-decorations> of an element.
-        /// Each shadow is specified as an offset from the text, along with optional color and blur radius values.
-        abstract textShadow: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property transforms text for styling purposes. (It has no effect on the underlying content.)
-        abstract textTransform: U2<CSSWideKeyword, obj option> option with get, set
-        /// Unsupported.
-        /// This property will add a underline position value to the element that has an underline defined.
-        abstract textUnderlinePosition: U2<CSSWideKeyword, obj option> option with get, set
-        /// After review this should be replaced by text-decoration should it not?
-        /// This property will set the underline style for text with a line value for underline, overline, and line-through.
-        abstract textUnderlineStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies how far an absolutely positioned box's top margin edge is offset below the top edge of the box's containing block.
-        /// For relatively positioned boxes, the offset is with respect to the top edges of the box itself (i.e., the box is given a position in the normal flow,
-        /// then offset from that position according to these properties).
-        abstract top: U2<CSSWideKeyword, obj option> option with get, set
-        /// Determines whether touch input may trigger default behavior supplied by the user agent, such as panning or zooming.
-        abstract touchAction: U2<CSSWideKeyword, obj option> option with get, set
-        /// CSS transforms allow elements styled with CSS to be transformed in two-dimensional or three-dimensional space.
-        /// Using this property, elements can be translated, rotated, scaled, and skewed. The value list may consist of 2D and/or 3D transform values.
-        abstract transform: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property defines the origin of the transformation axes relative to the element to which the transformation is applied.
-        abstract transformOrigin: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property allows you to define the relative position of the origin of the transformation grid along the z-axis.
-        abstract transformOriginZ: U2<CSSWideKeyword, obj option> option with get, set
-        /// This property specifies how nested elements are rendered in 3D space relative to their parent.
-        abstract transformStyle: U2<CSSWideKeyword, obj option> option with get, set
-        /// The transition CSS property is a shorthand property for transition-property, transition-duration, transition-timing-function,
-        /// and transition-delay. It allows to define the transition between two states of an element.
-        abstract transition: U2<CSSWideKeyword, obj option> option with get, set
-        /// Defines when the transition will start. A value of ‘0s’ means the transition will execute as soon as the property is changed.
-        /// Otherwise, the value specifies an offset from the moment the property is changed, and the transition will delay execution by that offset.
-        abstract transitionDelay: U2<CSSWideKeyword, obj option> option with get, set
-        /// The 'transition-duration' property specifies the length of time a transition animation takes to complete.
-        abstract transitionDuration: U2<CSSWideKeyword, obj option> option with get, set
-        /// The 'transition-property' property specifies the name of the CSS property to which the transition is applied.
-        abstract transitionProperty: U2<CSSWideKeyword, obj option> option with get, set
-        /// Sets the pace of action within a transition
-        abstract transitionTimingFunction: U2<CSSWideKeyword, obj option> option with get, set
-        /// The unicode-bidi CSS property specifies the level of embedding with respect to the bidirectional algorithm.
-        abstract unicodeBidi: U2<CSSWideKeyword, obj option> option with get, set
-        /// unicode-range allows you to set a specific range of characters to be downloaded from a font (embedded using @font-face) and made available for use on the current page.
-        abstract unicodeRange: U2<CSSWideKeyword, obj option> option with get, set
-        /// This is for all the high level UX stuff.
-        abstract userFocus: U2<CSSWideKeyword, obj option> option with get, set
-        /// For inputing user content
-        abstract userInput: U2<CSSWideKeyword, obj option> option with get, set
-        /// The vertical-align property controls how inline elements or text are vertically aligned compared to the baseline.
-        /// If this property is used on table-cells it controls the vertical alignment of content of the table cell.
-        abstract verticalAlign: U2<CSSWideKeyword, obj option> option with get, set
-        /// The visibility property specifies whether the boxes generated by an element are rendered.
-        abstract visibility: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-balance property sets the apparent position (in stereo sound) of the synthesized voice for spoken media.
-        abstract voiceBalance: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-duration property allows the author to explicitly set the amount of time it should take a speech synthesizer to read an element's content,
-        /// for example to allow the speech to be synchronized with other media.
-        /// With a value of auto (the default) the length of time it takes to read the content is determined by the content itself and the voice-rate property.
-        abstract voiceDuration: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-family property sets the speaker's voice used by a speech media agent to read an element.
-        /// The speaker may be specified as a named character (to match a voice option in the speech reading software)
-        /// or as a generic description of the age and gender of the voice.
-        /// Similar to the font-family property for visual media,
-        /// a comma-separated list of fallback options may be given in case the speech reader does not recognize the character name
-        /// or cannot synthesize the requested combination of generic properties.
-        abstract voiceFamily: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-pitch property sets pitch or tone (high or low) for the synthesized speech when reading an element;
-        /// the pitch may be specified absolutely or relative to the normal pitch for the voice-family used to read the text.
-        abstract voicePitch: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-range property determines how much variation in pitch or tone will be created by the speech synthesize when reading an element.
-        /// Emphasized text, grammatical structures and punctuation may all be rendered as changes in pitch,
-        /// this property determines how strong or obvious those changes are;
-        /// large ranges are associated with enthusiastic or emotional speech,
-        /// while small ranges are associated with flat or mechanical speech.
-        abstract voiceRange: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-rate property sets the speed at which the voice synthesized by a speech media agent will read content.
-        abstract voiceRate: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-stress property sets the level of vocal emphasis to be used for synthesized speech reading the element.
-        abstract voiceStress: U2<CSSWideKeyword, obj option> option with get, set
-        /// The voice-volume property sets the volume for spoken content in speech media. It replaces the deprecated volume property.
-        abstract voiceVolume: U2<CSSWideKeyword, obj option> option with get, set
-        /// The white-space property controls whether and how white space inside the element is collapsed, and whether lines may wrap at unforced "soft wrap" opportunities.
-        abstract whiteSpace: U2<CSSWideKeyword, obj option> option with get, set
-        /// Obsolete: unsupported.
-        abstract whiteSpaceTreatment: U2<CSSWideKeyword, obj option> option with get, set
-        /// In paged media, this property defines the mimimum number of lines
-        /// that must be left at the top of the second page.
-        /// See CSS 3 orphans, widows properties https://drafts.csswg.org/css-break-3/#widows-orphans
-        abstract widows: U2<CSSWideKeyword, float> option with get, set
-        /// Specifies the width of the content area of an element. The content area of the element width does not include the padding, border, and margin of the element.
-        abstract width: U2<CSSWideKeyword, obj option> option with get, set
-        /// The word-break property is often used when there is long generated content that is strung together without and spaces or hyphens to beak apart.
-        /// A common case of this is when there is a long URL that does not have any hyphens. This case could potentially cause the breaking of the layout as it could extend past the parent element.
-        abstract wordBreak: U2<CSSWideKeyword, obj option> option with get, set
-        /// The word-spacing CSS property specifies the spacing behavior between "words".
-        abstract wordSpacing: U2<CSSWideKeyword, obj option> option with get, set
-        /// An alias of css/properties/overflow-wrap, word-wrap defines whether to break words when the content exceeds the boundaries of its container.
-        abstract wordWrap: U2<CSSWideKeyword, obj option> option with get, set
-        /// Specifies how exclusions affect inline content within block-level elements. Elements lay out their inline content in their content area but wrap around exclusion areas.
-        abstract wrapFlow: U2<CSSWideKeyword, obj option> option with get, set
-        /// Set the value that is used to offset the inner wrap shape from other shapes. Inline content that intersects a shape with this property will be pushed by this shape's margin.
-        abstract wrapMargin: U2<CSSWideKeyword, obj option> option with get, set
-        /// Obsolete and unsupported. Do not use.
-        /// This CSS property controls the text when it reaches the end of the block in which it is enclosed.
-        abstract wrapOption: U2<CSSWideKeyword, obj option> option with get, set
-        /// writing-mode specifies if lines of text are laid out horizontally or vertically, and the direction which lines of text and blocks progress.
-        abstract writingMode: U2<CSSWideKeyword, obj option> option with get, set
-        /// The z-index property specifies the z-order of an element and its descendants.
-        /// When elements overlap, z-order determines which one covers the other.
-        /// See CSS 2 z-index property https://www.w3.org/TR/CSS2/visuren.html#z-index
-        abstract zIndex: U3<CSSWideKeyword, string, float> option with get, set
-        /// Sets the initial zoom factor of a document defined by @viewport.
-        /// See CSS zoom descriptor https://drafts.csswg.org/css-device-adapt/#zoom-desc
-        abstract zoom: U4<CSSWideKeyword, string, float, CSSPercentage> option with get, set
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
-
-    type [<AllowNullLiteral>] HTMLAttributes<'T> =
-        inherit DOMAttributes<'T>
-        abstract defaultChecked: bool option with get, set
-        abstract defaultValue: U2<string, ResizeArray<string>> option with get, set
-        abstract suppressContentEditableWarning: bool option with get, set
-        abstract accessKey: string option with get, set
-        abstract className: string option with get, set
-        abstract contentEditable: bool option with get, set
-        abstract contextMenu: string option with get, set
-        abstract dir: string option with get, set
-        abstract draggable: bool option with get, set
-        abstract hidden: bool option with get, set
-        abstract id: string option with get, set
-        abstract lang: string option with get, set
-        abstract slot: string option with get, set
-        abstract spellCheck: bool option with get, set
-        abstract style: CSSProperties option with get, set
-        abstract tabIndex: float option with get, set
-        abstract title: string option with get, set
-        abstract inputMode: string option with get, set
-        abstract is: string option with get, set
-        abstract radioGroup: string option with get, set
-        abstract role: string option with get, set
-        abstract about: string option with get, set
-        abstract datatype: string option with get, set
-        abstract inlist: obj option with get, set
-        abstract prefix: string option with get, set
-        abstract property: string option with get, set
-        abstract resource: string option with get, set
-        abstract typeof: string option with get, set
-        abstract vocab: string option with get, set
-        abstract autoCapitalize: string option with get, set
-        abstract autoCorrect: string option with get, set
-        abstract autoSave: string option with get, set
-        abstract color: string option with get, set
-        abstract itemProp: string option with get, set
-        abstract itemScope: bool option with get, set
-        abstract itemType: string option with get, set
-        abstract itemID: string option with get, set
-        abstract itemRef: string option with get, set
-        abstract results: float option with get, set
-        abstract security: string option with get, set
-        abstract unselectable: bool option with get, set
-        /// Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application. 
-        abstract ``aria-activedescendant``: string option with get, set
-        /// Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute. 
-        abstract ``aria-atomic``: U3<bool, string, string> option with get, set
-        /// Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be
-        /// presented if they are made.
-        abstract ``aria-autocomplete``: U4<string, string, string, string> option with get, set
-        /// Indicates an element is being modified and that assistive technologies MAY want to wait until the modifications are complete before exposing them to the user. 
-        abstract ``aria-busy``: U3<bool, string, string> option with get, set
-        /// Indicates the current "checked" state of checkboxes, radio buttons, and other widgets.
-        abstract ``aria-checked``: U4<bool, string, string, string> option with get, set
-        /// Defines the total number of columns in a table, grid, or treegrid.
-        abstract ``aria-colcount``: float option with get, set
-        /// Defines an element's column index or position with respect to the total number of columns within a table, grid, or treegrid.
-        abstract ``aria-colindex``: float option with get, set
-        /// Defines the number of columns spanned by a cell or gridcell within a table, grid, or treegrid.
-        abstract ``aria-colspan``: float option with get, set
-        /// Indicates the element that represents the current item within a container or set of related elements. 
-        abstract ``aria-current``: U8<bool, string, string, string, string, string, string, string> option with get, set
-        /// Identifies the element (or elements) that describes the object.
-        abstract ``aria-describedby``: string option with get, set
-        /// Identifies the element that provides a detailed, extended description for the object.
-        abstract ``aria-details``: string option with get, set
-        /// Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable.
-        abstract ``aria-disabled``: U3<bool, string, string> option with get, set
-        /// Indicates what functions can be performed when a dragged object is released on the drop target.
-        abstract ``aria-dropeffect``: U6<string, string, string, string, string, string> option with get, set
-        /// Identifies the element that provides an error message for the object.
-        abstract ``aria-errormessage``: string option with get, set
-        /// Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed. 
-        abstract ``aria-expanded``: U3<bool, string, string> option with get, set
-        /// Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion,
-        /// allows assistive technology to override the general default of reading in document source order.
-        abstract ``aria-flowto``: string option with get, set
-        /// Indicates an element's "grabbed" state in a drag-and-drop operation.
-        abstract ``aria-grabbed``: U3<bool, string, string> option with get, set
-        /// Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element. 
-        abstract ``aria-haspopup``: U8<bool, string, string, string, string, string, string, string> option with get, set
-        /// Indicates whether the element is exposed to an accessibility API.
-        abstract ``aria-hidden``: U3<bool, string, string> option with get, set
-        /// Indicates the entered value does not conform to the format expected by the application.
-        abstract ``aria-invalid``: U5<bool, string, string, string, string> option with get, set
-        /// Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element. 
-        abstract ``aria-keyshortcuts``: string option with get, set
-        /// Defines a string value that labels the current element.
-        abstract ``aria-label``: string option with get, set
-        /// Identifies the element (or elements) that labels the current element.
-        abstract ``aria-labelledby``: string option with get, set
-        /// Defines the hierarchical level of an element within a structure. 
-        abstract ``aria-level``: float option with get, set
-        /// Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region. 
-        abstract ``aria-live``: U3<string, string, string> option with get, set
-        /// Indicates whether an element is modal when displayed. 
-        abstract ``aria-modal``: U3<bool, string, string> option with get, set
-        /// Indicates whether a text box accepts multiple lines of input or only a single line. 
-        abstract ``aria-multiline``: U3<bool, string, string> option with get, set
-        /// Indicates that the user may select more than one item from the current selectable descendants. 
-        abstract ``aria-multiselectable``: U3<bool, string, string> option with get, set
-        /// Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous. 
-        abstract ``aria-orientation``: U2<string, string> option with get, set
-        /// Identifies an element (or elements) in order to define a visual, functional, or contextual parent/child relationship
-        /// between DOM elements where the DOM hierarchy cannot be used to represent the relationship.
-        abstract ``aria-owns``: string option with get, set
-        /// Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value.
-        /// A hint could be a sample value or a brief description of the expected format.
-        abstract ``aria-placeholder``: string option with get, set
-        /// Defines an element's number or position in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.
-        abstract ``aria-posinset``: float option with get, set
-        /// Indicates the current "pressed" state of toggle buttons.
-        abstract ``aria-pressed``: U4<bool, string, string, string> option with get, set
-        /// Indicates that the element is not editable, but is otherwise operable.
-        abstract ``aria-readonly``: U3<bool, string, string> option with get, set
-        /// Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.
-        abstract ``aria-relevant``: U5<string, string, string, string, string> option with get, set
-        /// Indicates that user input is required on the element before a form may be submitted. 
-        abstract ``aria-required``: U3<bool, string, string> option with get, set
-        /// Defines a human-readable, author-localized description for the role of an element. 
-        abstract ``aria-roledescription``: string option with get, set
-        /// Defines the total number of rows in a table, grid, or treegrid.
-        abstract ``aria-rowcount``: float option with get, set
-        /// Defines an element's row index or position with respect to the total number of rows within a table, grid, or treegrid.
-        abstract ``aria-rowindex``: float option with get, set
-        /// Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid.
-        abstract ``aria-rowspan``: float option with get, set
-        /// Indicates the current "selected" state of various widgets.
-        abstract ``aria-selected``: U3<bool, string, string> option with get, set
-        /// Defines the number of items in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.
-        abstract ``aria-setsize``: float option with get, set
-        /// Indicates if items in a table or grid are sorted in ascending or descending order. 
-        abstract ``aria-sort``: U4<string, string, string, string> option with get, set
-        /// Defines the maximum allowed value for a range widget. 
-        abstract ``aria-valuemax``: float option with get, set
-        /// Defines the minimum allowed value for a range widget. 
-        abstract ``aria-valuemin``: float option with get, set
-        /// Defines the current value for a range widget.
-        abstract ``aria-valuenow``: float option with get, set
-        /// Defines the human readable text alternative of aria-valuenow for a range widget. 
-        abstract ``aria-valuetext``: string option with get, set
-
-    type [<AllowNullLiteral>] AllHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract accept: string option with get, set
-        abstract acceptCharset: string option with get, set
-        abstract action: string option with get, set
-        abstract allowFullScreen: bool option with get, set
-        abstract allowTransparency: bool option with get, set
-        abstract alt: string option with get, set
-        abstract ``as``: string option with get, set
-        abstract async: bool option with get, set
-        abstract autoComplete: string option with get, set
-        abstract autoFocus: bool option with get, set
-        abstract autoPlay: bool option with get, set
-        abstract capture: bool option with get, set
-        abstract cellPadding: U2<float, string> option with get, set
-        abstract cellSpacing: U2<float, string> option with get, set
-        abstract charSet: string option with get, set
-        abstract challenge: string option with get, set
-        abstract ``checked``: bool option with get, set
-        abstract cite: string option with get, set
-        abstract classID: string option with get, set
-        abstract cols: float option with get, set
-        abstract colSpan: float option with get, set
-        abstract content: string option with get, set
-        abstract controls: bool option with get, set
-        abstract coords: string option with get, set
-        abstract crossOrigin: string option with get, set
-        abstract data: string option with get, set
-        abstract dateTime: string option with get, set
-        abstract ``default``: bool option with get, set
-        abstract defer: bool option with get, set
-        abstract disabled: bool option with get, set
-        abstract download: obj option with get, set
-        abstract encType: string option with get, set
-        abstract form: string option with get, set
-        abstract formAction: string option with get, set
-        abstract formEncType: string option with get, set
-        abstract formMethod: string option with get, set
-        abstract formNoValidate: bool option with get, set
-        abstract formTarget: string option with get, set
-        abstract frameBorder: U2<float, string> option with get, set
-        abstract headers: string option with get, set
-        abstract height: U2<float, string> option with get, set
-        abstract high: float option with get, set
-        abstract href: string option with get, set
-        abstract hrefLang: string option with get, set
-        abstract htmlFor: string option with get, set
-        abstract httpEquiv: string option with get, set
-        abstract integrity: string option with get, set
-        abstract keyParams: string option with get, set
-        abstract keyType: string option with get, set
-        abstract kind: string option with get, set
-        abstract label: string option with get, set
-        abstract list: string option with get, set
-        abstract loop: bool option with get, set
-        abstract low: float option with get, set
-        abstract manifest: string option with get, set
-        abstract marginHeight: float option with get, set
-        abstract marginWidth: float option with get, set
-        abstract max: U2<float, string> option with get, set
-        abstract maxLength: float option with get, set
-        abstract media: string option with get, set
-        abstract mediaGroup: string option with get, set
-        abstract ``method``: string option with get, set
-        abstract min: U2<float, string> option with get, set
-        abstract minLength: float option with get, set
-        abstract multiple: bool option with get, set
-        abstract muted: bool option with get, set
-        abstract name: string option with get, set
-        abstract nonce: string option with get, set
-        abstract noValidate: bool option with get, set
-        abstract ``open``: bool option with get, set
-        abstract optimum: float option with get, set
-        abstract pattern: string option with get, set
-        abstract placeholder: string option with get, set
-        abstract playsInline: bool option with get, set
-        abstract poster: string option with get, set
-        abstract preload: string option with get, set
-        abstract readOnly: bool option with get, set
-        abstract rel: string option with get, set
-        abstract required: bool option with get, set
-        abstract reversed: bool option with get, set
-        abstract rows: float option with get, set
-        abstract rowSpan: float option with get, set
-        abstract sandbox: string option with get, set
-        abstract scope: string option with get, set
-        abstract scoped: bool option with get, set
-        abstract scrolling: string option with get, set
-        abstract seamless: bool option with get, set
-        abstract selected: bool option with get, set
-        abstract shape: string option with get, set
-        abstract size: float option with get, set
-        abstract sizes: string option with get, set
-        abstract span: float option with get, set
-        abstract src: string option with get, set
-        abstract srcDoc: string option with get, set
-        abstract srcLang: string option with get, set
-        abstract srcSet: string option with get, set
-        abstract start: float option with get, set
-        abstract step: U2<float, string> option with get, set
-        abstract summary: string option with get, set
-        abstract target: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract useMap: string option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-        abstract width: U2<float, string> option with get, set
-        abstract wmode: string option with get, set
-        abstract wrap: string option with get, set
-
-    type [<AllowNullLiteral>] AnchorHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract download: obj option with get, set
-        abstract href: string option with get, set
-        abstract hrefLang: string option with get, set
-        abstract media: string option with get, set
-        abstract rel: string option with get, set
-        abstract target: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract ``as``: string option with get, set
-
-    type [<AllowNullLiteral>] AudioHTMLAttributes<'T> =
-        inherit MediaHTMLAttributes<'T>
-
-    type [<AllowNullLiteral>] AreaHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract alt: string option with get, set
-        abstract coords: string option with get, set
-        abstract download: obj option with get, set
-        abstract href: string option with get, set
-        abstract hrefLang: string option with get, set
-        abstract media: string option with get, set
-        abstract rel: string option with get, set
-        abstract shape: string option with get, set
-        abstract target: string option with get, set
-
-    type [<AllowNullLiteral>] BaseHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract href: string option with get, set
-        abstract target: string option with get, set
-
-    type [<AllowNullLiteral>] BlockquoteHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract cite: string option with get, set
-
-    type [<AllowNullLiteral>] ButtonHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract autoFocus: bool option with get, set
-        abstract disabled: bool option with get, set
-        abstract form: string option with get, set
-        abstract formAction: string option with get, set
-        abstract formEncType: string option with get, set
-        abstract formMethod: string option with get, set
-        abstract formNoValidate: bool option with get, set
-        abstract formTarget: string option with get, set
-        abstract name: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-
-    type [<AllowNullLiteral>] CanvasHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract height: U2<float, string> option with get, set
-        abstract width: U2<float, string> option with get, set
-
-    type [<AllowNullLiteral>] ColHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract span: float option with get, set
-        abstract width: U2<float, string> option with get, set
-
-    type [<AllowNullLiteral>] ColgroupHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract span: float option with get, set
-
-    type [<AllowNullLiteral>] DetailsHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract ``open``: bool option with get, set
-
-    type [<AllowNullLiteral>] DelHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract cite: string option with get, set
-        abstract dateTime: string option with get, set
-
-    type [<AllowNullLiteral>] EmbedHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract height: U2<float, string> option with get, set
-        abstract src: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract width: U2<float, string> option with get, set
-
-    type [<AllowNullLiteral>] FieldsetHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract disabled: bool option with get, set
-        abstract form: string option with get, set
-        abstract name: string option with get, set
-
-    type [<AllowNullLiteral>] FormHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract acceptCharset: string option with get, set
-        abstract action: string option with get, set
-        abstract autoComplete: string option with get, set
-        abstract encType: string option with get, set
-        abstract ``method``: string option with get, set
-        abstract name: string option with get, set
-        abstract noValidate: bool option with get, set
-        abstract target: string option with get, set
-
-    type [<AllowNullLiteral>] HtmlHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract manifest: string option with get, set
-
-    type [<AllowNullLiteral>] IframeHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract allowFullScreen: bool option with get, set
-        abstract allowTransparency: bool option with get, set
-        abstract frameBorder: U2<float, string> option with get, set
-        abstract height: U2<float, string> option with get, set
-        abstract marginHeight: float option with get, set
-        abstract marginWidth: float option with get, set
-        abstract name: string option with get, set
-        abstract sandbox: string option with get, set
-        abstract scrolling: string option with get, set
-        abstract seamless: bool option with get, set
-        abstract src: string option with get, set
-        abstract srcDoc: string option with get, set
-        abstract width: U2<float, string> option with get, set
-
-    type [<AllowNullLiteral>] ImgHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract alt: string option with get, set
-        abstract height: U2<float, string> option with get, set
-        abstract sizes: string option with get, set
-        abstract src: string option with get, set
-        abstract srcSet: string option with get, set
-        abstract useMap: string option with get, set
-        abstract width: U2<float, string> option with get, set
-
-    type [<AllowNullLiteral>] InsHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract cite: string option with get, set
-        abstract dateTime: string option with get, set
-
-    type [<AllowNullLiteral>] InputHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract accept: string option with get, set
-        abstract alt: string option with get, set
-        abstract autoComplete: string option with get, set
-        abstract autoFocus: bool option with get, set
-        abstract capture: bool option with get, set
-        abstract ``checked``: bool option with get, set
-        abstract crossOrigin: string option with get, set
-        abstract disabled: bool option with get, set
-        abstract form: string option with get, set
-        abstract formAction: string option with get, set
-        abstract formEncType: string option with get, set
-        abstract formMethod: string option with get, set
-        abstract formNoValidate: bool option with get, set
-        abstract formTarget: string option with get, set
-        abstract height: U2<float, string> option with get, set
-        abstract list: string option with get, set
-        abstract max: U2<float, string> option with get, set
-        abstract maxLength: float option with get, set
-        abstract min: U2<float, string> option with get, set
-        abstract minLength: float option with get, set
-        abstract multiple: bool option with get, set
-        abstract name: string option with get, set
-        abstract pattern: string option with get, set
-        abstract placeholder: string option with get, set
-        abstract readOnly: bool option with get, set
-        abstract required: bool option with get, set
-        abstract size: float option with get, set
-        abstract src: string option with get, set
-        abstract step: U2<float, string> option with get, set
-        abstract ``type``: string option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-        abstract width: U2<float, string> option with get, set
-        abstract onChange: ChangeEventHandler<'T> option with get, set
-
-    type [<AllowNullLiteral>] KeygenHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract autoFocus: bool option with get, set
-        abstract challenge: string option with get, set
-        abstract disabled: bool option with get, set
-        abstract form: string option with get, set
-        abstract keyType: string option with get, set
-        abstract keyParams: string option with get, set
-        abstract name: string option with get, set
-
-    type [<AllowNullLiteral>] LabelHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract form: string option with get, set
-        abstract htmlFor: string option with get, set
-
-    type [<AllowNullLiteral>] LiHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-
-    type [<AllowNullLiteral>] LinkHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract ``as``: string option with get, set
-        abstract crossOrigin: string option with get, set
-        abstract href: string option with get, set
-        abstract hrefLang: string option with get, set
-        abstract integrity: string option with get, set
-        abstract media: string option with get, set
-        abstract rel: string option with get, set
-        abstract sizes: string option with get, set
-        abstract ``type``: string option with get, set
-
-    type [<AllowNullLiteral>] MapHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract name: string option with get, set
-
-    type [<AllowNullLiteral>] MenuHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract ``type``: string option with get, set
-
-    type [<AllowNullLiteral>] MediaHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract autoPlay: bool option with get, set
-        abstract controls: bool option with get, set
-        abstract controlsList: string option with get, set
-        abstract crossOrigin: string option with get, set
-        abstract loop: bool option with get, set
-        abstract mediaGroup: string option with get, set
-        abstract muted: bool option with get, set
-        abstract playsinline: bool option with get, set
-        abstract preload: string option with get, set
-        abstract src: string option with get, set
-
-    type [<AllowNullLiteral>] MetaHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract charSet: string option with get, set
-        abstract content: string option with get, set
-        abstract httpEquiv: string option with get, set
-        abstract name: string option with get, set
-
-    type [<AllowNullLiteral>] MeterHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract form: string option with get, set
-        abstract high: float option with get, set
-        abstract low: float option with get, set
-        abstract max: U2<float, string> option with get, set
-        abstract min: U2<float, string> option with get, set
-        abstract optimum: float option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-
-    type [<AllowNullLiteral>] QuoteHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract cite: string option with get, set
-
-    type [<AllowNullLiteral>] ObjectHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract classID: string option with get, set
-        abstract data: string option with get, set
-        abstract form: string option with get, set
-        abstract height: U2<float, string> option with get, set
-        abstract name: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract useMap: string option with get, set
-        abstract width: U2<float, string> option with get, set
-        abstract wmode: string option with get, set
-
-    type [<AllowNullLiteral>] OlHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract reversed: bool option with get, set
-        abstract start: float option with get, set
-
-    type [<AllowNullLiteral>] OptgroupHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract disabled: bool option with get, set
-        abstract label: string option with get, set
-
-    type [<AllowNullLiteral>] OptionHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract disabled: bool option with get, set
-        abstract label: string option with get, set
-        abstract selected: bool option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-
-    type [<AllowNullLiteral>] OutputHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract form: string option with get, set
-        abstract htmlFor: string option with get, set
-        abstract name: string option with get, set
-
-    type [<AllowNullLiteral>] ParamHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract name: string option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-
-    type [<AllowNullLiteral>] ProgressHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract max: U2<float, string> option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-
-    type [<AllowNullLiteral>] ScriptHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract async: bool option with get, set
-        abstract charSet: string option with get, set
-        abstract crossOrigin: string option with get, set
-        abstract defer: bool option with get, set
-        abstract integrity: string option with get, set
-        abstract nonce: string option with get, set
-        abstract src: string option with get, set
-        abstract ``type``: string option with get, set
-
-    type [<AllowNullLiteral>] SelectHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract autoFocus: bool option with get, set
-        abstract disabled: bool option with get, set
-        abstract form: string option with get, set
-        abstract multiple: bool option with get, set
-        abstract name: string option with get, set
-        abstract required: bool option with get, set
-        abstract size: float option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-        abstract onChange: ChangeEventHandler<'T> option with get, set
-
-    type [<AllowNullLiteral>] SourceHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract media: string option with get, set
-        abstract sizes: string option with get, set
-        abstract src: string option with get, set
-        abstract srcSet: string option with get, set
-        abstract ``type``: string option with get, set
-
-    type [<AllowNullLiteral>] StyleHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract media: string option with get, set
-        abstract nonce: string option with get, set
-        abstract scoped: bool option with get, set
-        abstract ``type``: string option with get, set
-
-    type [<AllowNullLiteral>] TableHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract cellPadding: U2<float, string> option with get, set
-        abstract cellSpacing: U2<float, string> option with get, set
-        abstract summary: string option with get, set
-
-    type [<AllowNullLiteral>] TextareaHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract autoComplete: string option with get, set
-        abstract autoFocus: bool option with get, set
-        abstract cols: float option with get, set
-        abstract dirName: string option with get, set
-        abstract disabled: bool option with get, set
-        abstract form: string option with get, set
-        abstract maxLength: float option with get, set
-        abstract minLength: float option with get, set
-        abstract name: string option with get, set
-        abstract placeholder: string option with get, set
-        abstract readOnly: bool option with get, set
-        abstract required: bool option with get, set
-        abstract rows: float option with get, set
-        abstract value: U3<string, ResizeArray<string>, float> option with get, set
-        abstract wrap: string option with get, set
-        abstract onChange: ChangeEventHandler<'T> option with get, set
-
-    type [<AllowNullLiteral>] TdHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract colSpan: float option with get, set
-        abstract headers: string option with get, set
-        abstract rowSpan: float option with get, set
-        abstract scope: string option with get, set
-
-    type [<AllowNullLiteral>] ThHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract colSpan: float option with get, set
-        abstract headers: string option with get, set
-        abstract rowSpan: float option with get, set
-        abstract scope: string option with get, set
-
-    type [<AllowNullLiteral>] TimeHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract dateTime: string option with get, set
-
-    type [<AllowNullLiteral>] TrackHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract ``default``: bool option with get, set
-        abstract kind: string option with get, set
-        abstract label: string option with get, set
-        abstract src: string option with get, set
-        abstract srcLang: string option with get, set
-
-    type [<AllowNullLiteral>] VideoHTMLAttributes<'T> =
-        inherit MediaHTMLAttributes<'T>
-        abstract height: U2<float, string> option with get, set
-        abstract playsInline: bool option with get, set
-        abstract poster: string option with get, set
-        abstract width: U2<float, string> option with get, set
-
-    type [<AllowNullLiteral>] SVGAttributes<'T> =
-        inherit DOMAttributes<'T>
-        abstract className: string option with get, set
-        abstract color: string option with get, set
-        abstract height: U2<float, string> option with get, set
-        abstract id: string option with get, set
-        abstract lang: string option with get, set
-        abstract max: U2<float, string> option with get, set
-        abstract media: string option with get, set
-        abstract ``method``: string option with get, set
-        abstract min: U2<float, string> option with get, set
-        abstract name: string option with get, set
-        abstract style: CSSProperties option with get, set
-        abstract target: string option with get, set
-        abstract ``type``: string option with get, set
-        abstract width: U2<float, string> option with get, set
-        abstract role: string option with get, set
-        abstract tabIndex: float option with get, set
-        abstract accentHeight: U2<float, string> option with get, set
-        abstract accumulate: U2<string, string> option with get, set
-        abstract additive: U2<string, string> option with get, set
-        abstract alignmentBaseline: obj option with get, set
-        abstract allowReorder: U2<string, string> option with get, set
-        abstract alphabetic: U2<float, string> option with get, set
-        abstract amplitude: U2<float, string> option with get, set
-        abstract arabicForm: U4<string, string, string, string> option with get, set
-        abstract ascent: U2<float, string> option with get, set
-        abstract attributeName: string option with get, set
-        abstract attributeType: string option with get, set
-        abstract autoReverse: U2<float, string> option with get, set
-        abstract azimuth: U2<float, string> option with get, set
-        abstract baseFrequency: U2<float, string> option with get, set
-        abstract baselineShift: U2<float, string> option with get, set
-        abstract baseProfile: U2<float, string> option with get, set
-        abstract bbox: U2<float, string> option with get, set
-        abstract ``begin``: U2<float, string> option with get, set
-        abstract bias: U2<float, string> option with get, set
-        abstract by: U2<float, string> option with get, set
-        abstract calcMode: U2<float, string> option with get, set
-        abstract capHeight: U2<float, string> option with get, set
-        abstract clip: U2<float, string> option with get, set
-        abstract clipPath: string option with get, set
-        abstract clipPathUnits: U2<float, string> option with get, set
-        abstract clipRule: U2<float, string> option with get, set
-        abstract colorInterpolation: U2<float, string> option with get, set
-        abstract colorInterpolationFilters: U4<string, string, string, string> option with get, set
-        abstract colorProfile: U2<float, string> option with get, set
-        abstract colorRendering: U2<float, string> option with get, set
-        abstract contentScriptType: U2<float, string> option with get, set
-        abstract contentStyleType: U2<float, string> option with get, set
-        abstract cursor: U2<float, string> option with get, set
-        abstract cx: U2<float, string> option with get, set
-        abstract cy: U2<float, string> option with get, set
-        abstract d: string option with get, set
-        abstract decelerate: U2<float, string> option with get, set
-        abstract descent: U2<float, string> option with get, set
-        abstract diffuseConstant: U2<float, string> option with get, set
-        abstract direction: U2<float, string> option with get, set
-        abstract display: U2<float, string> option with get, set
-        abstract divisor: U2<float, string> option with get, set
-        abstract dominantBaseline: U2<float, string> option with get, set
-        abstract dur: U2<float, string> option with get, set
-        abstract dx: U2<float, string> option with get, set
-        abstract dy: U2<float, string> option with get, set
-        abstract edgeMode: U2<float, string> option with get, set
-        abstract elevation: U2<float, string> option with get, set
-        abstract enableBackground: U2<float, string> option with get, set
-        abstract ``end``: U2<float, string> option with get, set
-        abstract exponent: U2<float, string> option with get, set
-        abstract externalResourcesRequired: U2<float, string> option with get, set
-        abstract fill: string option with get, set
-        abstract fillOpacity: U2<float, string> option with get, set
-        abstract fillRule: U3<string, string, string> option with get, set
-        abstract filter: string option with get, set
-        abstract filterRes: U2<float, string> option with get, set
-        abstract filterUnits: U2<float, string> option with get, set
-        abstract floodColor: U2<float, string> option with get, set
-        abstract floodOpacity: U2<float, string> option with get, set
-        abstract focusable: U2<float, string> option with get, set
-        abstract fontFamily: string option with get, set
-        abstract fontSize: U2<float, string> option with get, set
-        abstract fontSizeAdjust: U2<float, string> option with get, set
-        abstract fontStretch: U2<float, string> option with get, set
-        abstract fontStyle: U2<float, string> option with get, set
-        abstract fontVariant: U2<float, string> option with get, set
-        abstract fontWeight: U2<float, string> option with get, set
-        abstract format: U2<float, string> option with get, set
-        abstract from: U2<float, string> option with get, set
-        abstract fx: U2<float, string> option with get, set
-        abstract fy: U2<float, string> option with get, set
-        abstract g1: U2<float, string> option with get, set
-        abstract g2: U2<float, string> option with get, set
-        abstract glyphName: U2<float, string> option with get, set
-        abstract glyphOrientationHorizontal: U2<float, string> option with get, set
-        abstract glyphOrientationVertical: U2<float, string> option with get, set
-        abstract glyphRef: U2<float, string> option with get, set
-        abstract gradientTransform: string option with get, set
-        abstract gradientUnits: string option with get, set
-        abstract hanging: U2<float, string> option with get, set
-        abstract horizAdvX: U2<float, string> option with get, set
-        abstract horizOriginX: U2<float, string> option with get, set
-        abstract ideographic: U2<float, string> option with get, set
-        abstract imageRendering: U2<float, string> option with get, set
-        abstract in2: U2<float, string> option with get, set
-        abstract ``in``: string option with get, set
-        abstract intercept: U2<float, string> option with get, set
-        abstract k1: U2<float, string> option with get, set
-        abstract k2: U2<float, string> option with get, set
-        abstract k3: U2<float, string> option with get, set
-        abstract k4: U2<float, string> option with get, set
-        abstract k: U2<float, string> option with get, set
-        abstract kernelMatrix: U2<float, string> option with get, set
-        abstract kernelUnitLength: U2<float, string> option with get, set
-        abstract kerning: U2<float, string> option with get, set
-        abstract keyPoints: U2<float, string> option with get, set
-        abstract keySplines: U2<float, string> option with get, set
-        abstract keyTimes: U2<float, string> option with get, set
-        abstract lengthAdjust: U2<float, string> option with get, set
-        abstract letterSpacing: U2<float, string> option with get, set
-        abstract lightingColor: U2<float, string> option with get, set
-        abstract limitingConeAngle: U2<float, string> option with get, set
-        abstract local: U2<float, string> option with get, set
-        abstract markerEnd: string option with get, set
-        abstract markerHeight: U2<float, string> option with get, set
-        abstract markerMid: string option with get, set
-        abstract markerStart: string option with get, set
-        abstract markerUnits: U2<float, string> option with get, set
-        abstract markerWidth: U2<float, string> option with get, set
-        abstract mask: string option with get, set
-        abstract maskContentUnits: U2<float, string> option with get, set
-        abstract maskUnits: U2<float, string> option with get, set
-        abstract mathematical: U2<float, string> option with get, set
-        abstract mode: U2<float, string> option with get, set
-        abstract numOctaves: U2<float, string> option with get, set
-        abstract offset: U2<float, string> option with get, set
-        abstract opacity: U2<float, string> option with get, set
-        abstract operator: U2<float, string> option with get, set
-        abstract order: U2<float, string> option with get, set
-        abstract orient: U2<float, string> option with get, set
-        abstract orientation: U2<float, string> option with get, set
-        abstract origin: U2<float, string> option with get, set
-        abstract overflow: U2<float, string> option with get, set
-        abstract overlinePosition: U2<float, string> option with get, set
-        abstract overlineThickness: U2<float, string> option with get, set
-        abstract paintOrder: U2<float, string> option with get, set
-        abstract panose1: U2<float, string> option with get, set
-        abstract pathLength: U2<float, string> option with get, set
-        abstract patternContentUnits: string option with get, set
-        abstract patternTransform: U2<float, string> option with get, set
-        abstract patternUnits: string option with get, set
-        abstract pointerEvents: U2<float, string> option with get, set
-        abstract points: string option with get, set
-        abstract pointsAtX: U2<float, string> option with get, set
-        abstract pointsAtY: U2<float, string> option with get, set
-        abstract pointsAtZ: U2<float, string> option with get, set
-        abstract preserveAlpha: U2<float, string> option with get, set
-        abstract preserveAspectRatio: string option with get, set
-        abstract primitiveUnits: U2<float, string> option with get, set
-        abstract r: U2<float, string> option with get, set
-        abstract radius: U2<float, string> option with get, set
-        abstract refX: U2<float, string> option with get, set
-        abstract refY: U2<float, string> option with get, set
-        abstract renderingIntent: U2<float, string> option with get, set
-        abstract repeatCount: U2<float, string> option with get, set
-        abstract repeatDur: U2<float, string> option with get, set
-        abstract requiredExtensions: U2<float, string> option with get, set
-        abstract requiredFeatures: U2<float, string> option with get, set
-        abstract restart: U2<float, string> option with get, set
-        abstract result: string option with get, set
-        abstract rotate: U2<float, string> option with get, set
-        abstract rx: U2<float, string> option with get, set
-        abstract ry: U2<float, string> option with get, set
-        abstract scale: U2<float, string> option with get, set
-        abstract seed: U2<float, string> option with get, set
-        abstract shapeRendering: U2<float, string> option with get, set
-        abstract slope: U2<float, string> option with get, set
-        abstract spacing: U2<float, string> option with get, set
-        abstract specularConstant: U2<float, string> option with get, set
-        abstract specularExponent: U2<float, string> option with get, set
-        abstract speed: U2<float, string> option with get, set
-        abstract spreadMethod: string option with get, set
-        abstract startOffset: U2<float, string> option with get, set
-        abstract stdDeviation: U2<float, string> option with get, set
-        abstract stemh: U2<float, string> option with get, set
-        abstract stemv: U2<float, string> option with get, set
-        abstract stitchTiles: U2<float, string> option with get, set
-        abstract stopColor: string option with get, set
-        abstract stopOpacity: U2<float, string> option with get, set
-        abstract strikethroughPosition: U2<float, string> option with get, set
-        abstract strikethroughThickness: U2<float, string> option with get, set
-        abstract string: U2<float, string> option with get, set
-        abstract stroke: string option with get, set
-        abstract strokeDasharray: U2<string, float> option with get, set
-        abstract strokeDashoffset: U2<string, float> option with get, set
-        abstract strokeLinecap: U4<string, string, string, string> option with get, set
-        abstract strokeLinejoin: U4<string, string, string, string> option with get, set
-        abstract strokeMiterlimit: U2<float, string> option with get, set
-        abstract strokeOpacity: U2<float, string> option with get, set
-        abstract strokeWidth: U2<float, string> option with get, set
-        abstract surfaceScale: U2<float, string> option with get, set
-        abstract systemLanguage: U2<float, string> option with get, set
-        abstract tableValues: U2<float, string> option with get, set
-        abstract targetX: U2<float, string> option with get, set
-        abstract targetY: U2<float, string> option with get, set
-        abstract textAnchor: string option with get, set
-        abstract textDecoration: U2<float, string> option with get, set
-        abstract textLength: U2<float, string> option with get, set
-        abstract textRendering: U2<float, string> option with get, set
-        abstract ``to``: U2<float, string> option with get, set
-        abstract transform: string option with get, set
-        abstract u1: U2<float, string> option with get, set
-        abstract u2: U2<float, string> option with get, set
-        abstract underlinePosition: U2<float, string> option with get, set
-        abstract underlineThickness: U2<float, string> option with get, set
-        abstract unicode: U2<float, string> option with get, set
-        abstract unicodeBidi: U2<float, string> option with get, set
-        abstract unicodeRange: U2<float, string> option with get, set
-        abstract unitsPerEm: U2<float, string> option with get, set
-        abstract vAlphabetic: U2<float, string> option with get, set
-        abstract values: string option with get, set
-        abstract vectorEffect: U2<float, string> option with get, set
-        abstract version: string option with get, set
-        abstract vertAdvY: U2<float, string> option with get, set
-        abstract vertOriginX: U2<float, string> option with get, set
-        abstract vertOriginY: U2<float, string> option with get, set
-        abstract vHanging: U2<float, string> option with get, set
-        abstract vIdeographic: U2<float, string> option with get, set
-        abstract viewBox: string option with get, set
-        abstract viewTarget: U2<float, string> option with get, set
-        abstract visibility: U2<float, string> option with get, set
-        abstract vMathematical: U2<float, string> option with get, set
-        abstract widths: U2<float, string> option with get, set
-        abstract wordSpacing: U2<float, string> option with get, set
-        abstract writingMode: U2<float, string> option with get, set
-        abstract x1: U2<float, string> option with get, set
-        abstract x2: U2<float, string> option with get, set
-        abstract x: U2<float, string> option with get, set
-        abstract xChannelSelector: string option with get, set
-        abstract xHeight: U2<float, string> option with get, set
-        abstract xlinkActuate: string option with get, set
-        abstract xlinkArcrole: string option with get, set
-        abstract xlinkHref: string option with get, set
-        abstract xlinkRole: string option with get, set
-        abstract xlinkShow: string option with get, set
-        abstract xlinkTitle: string option with get, set
-        abstract xlinkType: string option with get, set
-        abstract xmlBase: string option with get, set
-        abstract xmlLang: string option with get, set
-        abstract xmlns: string option with get, set
-        abstract xmlnsXlink: string option with get, set
-        abstract xmlSpace: string option with get, set
-        abstract y1: U2<float, string> option with get, set
-        abstract y2: U2<float, string> option with get, set
-        abstract y: U2<float, string> option with get, set
-        abstract yChannelSelector: string option with get, set
-        abstract z: U2<float, string> option with get, set
-        abstract zoomAndPan: string option with get, set
-
-    type [<AllowNullLiteral>] WebViewHTMLAttributes<'T> =
-        inherit HTMLAttributes<'T>
-        abstract allowFullScreen: bool option with get, set
-        abstract allowpopups: bool option with get, set
-        abstract autoFocus: bool option with get, set
-        abstract autosize: bool option with get, set
-        abstract blinkfeatures: string option with get, set
-        abstract disableblinkfeatures: string option with get, set
-        abstract disableguestresize: bool option with get, set
-        abstract disablewebsecurity: bool option with get, set
-        abstract guestinstance: string option with get, set
-        abstract httpreferrer: string option with get, set
-        abstract nodeintegration: bool option with get, set
-        abstract partition: string option with get, set
-        abstract plugins: bool option with get, set
-        abstract preload: string option with get, set
-        abstract src: string option with get, set
-        abstract useragent: string option with get, set
-        abstract webpreferences: string option with get, set
-
-    type [<AllowNullLiteral>] ReactHTML =
-        abstract a: DetailedHTMLFactory<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> with get, set
-        abstract abbr: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract address: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract area: DetailedHTMLFactory<AreaHTMLAttributes<HTMLAreaElement>, HTMLAreaElement> with get, set
-        abstract article: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract aside: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract audio: DetailedHTMLFactory<AudioHTMLAttributes<HTMLAudioElement>, HTMLAudioElement> with get, set
-        abstract b: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ``base``: DetailedHTMLFactory<BaseHTMLAttributes<HTMLBaseElement>, HTMLBaseElement> with get, set
-        abstract bdi: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract bdo: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract big: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract blockquote: DetailedHTMLFactory<BlockquoteHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract body: DetailedHTMLFactory<HTMLAttributes<HTMLBodyElement>, HTMLBodyElement> with get, set
-        abstract br: DetailedHTMLFactory<HTMLAttributes<HTMLBRElement>, HTMLBRElement> with get, set
-        abstract button: DetailedHTMLFactory<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> with get, set
-        abstract canvas: DetailedHTMLFactory<CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> with get, set
-        abstract caption: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract cite: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract code: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract col: DetailedHTMLFactory<ColHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
-        abstract colgroup: DetailedHTMLFactory<ColgroupHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
-        abstract data: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract datalist: DetailedHTMLFactory<HTMLAttributes<HTMLDataListElement>, HTMLDataListElement> with get, set
-        abstract dd: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract del: DetailedHTMLFactory<DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract details: DetailedHTMLFactory<DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dfn: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dialog: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract div: DetailedHTMLFactory<HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
-        abstract dl: DetailedHTMLFactory<HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
-        abstract dt: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract em: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract embed: DetailedHTMLFactory<EmbedHTMLAttributes<HTMLEmbedElement>, HTMLEmbedElement> with get, set
-        abstract fieldset: DetailedHTMLFactory<FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement> with get, set
-        abstract figcaption: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract figure: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract footer: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract form: DetailedHTMLFactory<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> with get, set
-        abstract h1: DetailedHTMLFactory<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h2: DetailedHTMLFactory<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h3: DetailedHTMLFactory<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h4: DetailedHTMLFactory<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h5: DetailedHTMLFactory<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h6: DetailedHTMLFactory<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract head: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLHeadElement> with get, set
-        abstract header: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract hgroup: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract hr: DetailedHTMLFactory<HTMLAttributes<HTMLHRElement>, HTMLHRElement> with get, set
-        abstract html: DetailedHTMLFactory<HtmlHTMLAttributes<HTMLHtmlElement>, HTMLHtmlElement> with get, set
-        abstract i: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract iframe: DetailedHTMLFactory<IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement> with get, set
-        abstract img: DetailedHTMLFactory<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> with get, set
-        abstract input: DetailedHTMLFactory<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> with get, set
-        abstract ins: DetailedHTMLFactory<InsHTMLAttributes<HTMLModElement>, HTMLModElement> with get, set
-        abstract kbd: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract keygen: DetailedHTMLFactory<KeygenHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract label: DetailedHTMLFactory<LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement> with get, set
-        abstract legend: DetailedHTMLFactory<HTMLAttributes<HTMLLegendElement>, HTMLLegendElement> with get, set
-        abstract li: DetailedHTMLFactory<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> with get, set
-        abstract link: DetailedHTMLFactory<LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement> with get, set
-        abstract main: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract map: DetailedHTMLFactory<MapHTMLAttributes<HTMLMapElement>, HTMLMapElement> with get, set
-        abstract mark: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract menu: DetailedHTMLFactory<MenuHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract menuitem: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract meta: DetailedHTMLFactory<MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement> with get, set
-        abstract meter: DetailedHTMLFactory<MeterHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract nav: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract noscript: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ``object``: DetailedHTMLFactory<ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
-        abstract ol: DetailedHTMLFactory<OlHTMLAttributes<HTMLOListElement>, HTMLOListElement> with get, set
-        abstract optgroup: DetailedHTMLFactory<OptgroupHTMLAttributes<HTMLOptGroupElement>, HTMLOptGroupElement> with get, set
-        abstract option: DetailedHTMLFactory<OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement> with get, set
-        abstract output: DetailedHTMLFactory<OutputHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract p: DetailedHTMLFactory<HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement> with get, set
-        abstract param: DetailedHTMLFactory<ParamHTMLAttributes<HTMLParamElement>, HTMLParamElement> with get, set
-        abstract picture: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract pre: DetailedHTMLFactory<HTMLAttributes<HTMLPreElement>, HTMLPreElement> with get, set
-        abstract progress: DetailedHTMLFactory<ProgressHTMLAttributes<HTMLProgressElement>, HTMLProgressElement> with get, set
-        abstract q: DetailedHTMLFactory<QuoteHTMLAttributes<HTMLQuoteElement>, HTMLQuoteElement> with get, set
-        abstract rp: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract rt: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ruby: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract s: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract samp: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract script: DetailedHTMLFactory<ScriptHTMLAttributes<HTMLScriptElement>, HTMLScriptElement> with get, set
-        abstract section: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract select: DetailedHTMLFactory<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> with get, set
-        abstract small: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract source: DetailedHTMLFactory<SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement> with get, set
-        abstract span: DetailedHTMLFactory<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement> with get, set
-        abstract strong: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract style: DetailedHTMLFactory<StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement> with get, set
-        abstract sub: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract summary: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract sup: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract table: DetailedHTMLFactory<TableHTMLAttributes<HTMLTableElement>, HTMLTableElement> with get, set
-        abstract tbody: DetailedHTMLFactory<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-        abstract td: DetailedHTMLFactory<TdHTMLAttributes<HTMLTableDataCellElement>, HTMLTableDataCellElement> with get, set
-        abstract textarea: DetailedHTMLFactory<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> with get, set
-        abstract tfoot: DetailedHTMLFactory<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-        abstract th: DetailedHTMLFactory<ThHTMLAttributes<HTMLTableHeaderCellElement>, HTMLTableHeaderCellElement> with get, set
-        abstract thead: DetailedHTMLFactory<HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-        abstract time: DetailedHTMLFactory<TimeHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract title: DetailedHTMLFactory<HTMLAttributes<HTMLTitleElement>, HTMLTitleElement> with get, set
-        abstract tr: DetailedHTMLFactory<HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement> with get, set
-        abstract track: DetailedHTMLFactory<TrackHTMLAttributes<HTMLTrackElement>, HTMLTrackElement> with get, set
-        abstract u: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ul: DetailedHTMLFactory<HTMLAttributes<HTMLUListElement>, HTMLUListElement> with get, set
-        abstract var: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract video: DetailedHTMLFactory<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
-        abstract wbr: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract webview: DetailedHTMLFactory<WebViewHTMLAttributes<obj>, obj> with get, set
-
-    type [<AllowNullLiteral>] ReactSVG =
-        abstract animate: SVGFactory with get, set
-        abstract circle: SVGFactory with get, set
-        abstract clipPath: SVGFactory with get, set
-        abstract defs: SVGFactory with get, set
-        abstract desc: SVGFactory with get, set
-        abstract ellipse: SVGFactory with get, set
-        abstract feBlend: SVGFactory with get, set
-        abstract feColorMatrix: SVGFactory with get, set
-        abstract feComponentTransfer: SVGFactory with get, set
-        abstract feComposite: SVGFactory with get, set
-        abstract feConvolveMatrix: SVGFactory with get, set
-        abstract feDiffuseLighting: SVGFactory with get, set
-        abstract feDisplacementMap: SVGFactory with get, set
-        abstract feDistantLight: SVGFactory with get, set
-        abstract feDropShadow: SVGFactory with get, set
-        abstract feFlood: SVGFactory with get, set
-        abstract feFuncA: SVGFactory with get, set
-        abstract feFuncB: SVGFactory with get, set
-        abstract feFuncG: SVGFactory with get, set
-        abstract feFuncR: SVGFactory with get, set
-        abstract feGaussianBlur: SVGFactory with get, set
-        abstract feImage: SVGFactory with get, set
-        abstract feMerge: SVGFactory with get, set
-        abstract feMergeNode: SVGFactory with get, set
-        abstract feMorphology: SVGFactory with get, set
-        abstract feOffset: SVGFactory with get, set
-        abstract fePointLight: SVGFactory with get, set
-        abstract feSpecularLighting: SVGFactory with get, set
-        abstract feSpotLight: SVGFactory with get, set
-        abstract feTile: SVGFactory with get, set
-        abstract feTurbulence: SVGFactory with get, set
-        abstract filter: SVGFactory with get, set
-        abstract foreignObject: SVGFactory with get, set
-        abstract g: SVGFactory with get, set
-        abstract image: SVGFactory with get, set
-        abstract line: SVGFactory with get, set
-        abstract linearGradient: SVGFactory with get, set
-        abstract marker: SVGFactory with get, set
-        abstract mask: SVGFactory with get, set
-        abstract metadata: SVGFactory with get, set
-        abstract path: SVGFactory with get, set
-        abstract pattern: SVGFactory with get, set
-        abstract polygon: SVGFactory with get, set
-        abstract polyline: SVGFactory with get, set
-        abstract radialGradient: SVGFactory with get, set
-        abstract rect: SVGFactory with get, set
-        abstract stop: SVGFactory with get, set
-        abstract svg: SVGFactory with get, set
-        abstract switch: SVGFactory with get, set
-        abstract symbol: SVGFactory with get, set
-        abstract text: SVGFactory with get, set
-        abstract textPath: SVGFactory with get, set
-        abstract tspan: SVGFactory with get, set
-        abstract ``use``: SVGFactory with get, set
-        abstract view: SVGFactory with get, set
-
-    type [<AllowNullLiteral>] ReactDOM =
-        inherit ReactHTML
-        inherit ReactSVG
-
-    type [<AllowNullLiteral>] Validator<'T> =
-        abstract bivarianceHack: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> Error option
-
-    type [<AllowNullLiteral>] Requireable<'T> =
-        inherit Validator<'T>
-        abstract isRequired: Validator<'T> with get, set
-
-    type [<AllowNullLiteral>] ValidationMap<'T> =
-        interface end
-
-    type [<AllowNullLiteral>] ReactPropTypes =
-        abstract any: Requireable<obj option> with get, set
-        abstract array: Requireable<obj option> with get, set
-        abstract bool: Requireable<obj option> with get, set
-        abstract func: Requireable<obj option> with get, set
-        abstract number: Requireable<obj option> with get, set
-        abstract ``object``: Requireable<obj option> with get, set
-        abstract string: Requireable<obj option> with get, set
-        abstract node: Requireable<obj option> with get, set
-        abstract element: Requireable<obj option> with get, set
-        abstract instanceOf: expectedClass: ReactPropTypesInstanceOfExpectedClass -> Requireable<obj option>
-        abstract oneOf: types: ResizeArray<obj option> -> Requireable<obj option>
-        abstract oneOfType: types: Array<Validator<obj option>> -> Requireable<obj option>
-        abstract arrayOf: ``type``: Validator<obj option> -> Requireable<obj option>
-        abstract objectOf: ``type``: Validator<obj option> -> Requireable<obj option>
-        abstract shape: ``type``: ValidationMap<obj option> -> Requireable<obj option>
-
-    type [<AllowNullLiteral>] ReactPropTypesInstanceOfExpectedClass =
-        interface end
-
-    type [<AllowNullLiteral>] ReactChildren =
-        abstract map: children: ReactNode * fn: (ReactChild -> float -> 'T) -> ResizeArray<'T>
-        abstract forEach: children: ReactNode * fn: (ReactChild -> float -> unit) -> unit
-        abstract count: children: ReactNode -> float
-        abstract only: children: ReactNode -> ReactElement<obj option>
-        abstract toArray: children: ReactNode -> ResizeArray<ReactChild>
-
-    type [<AllowNullLiteral>] AbstractView =
-        abstract styleMedia: StyleMedia with get, set
-        abstract document: Document with get, set
-
-    type [<AllowNullLiteral>] Touch =
-        abstract identifier: float with get, set
-        abstract target: EventTarget with get, set
-        abstract screenX: float with get, set
-        abstract screenY: float with get, set
-        abstract clientX: float with get, set
-        abstract clientY: float with get, set
-        abstract pageX: float with get, set
-        abstract pageY: float with get, set
-
-    type [<AllowNullLiteral>] TouchList =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: float -> Touch with get, set
-        abstract length: float with get, set
-        abstract item: index: float -> Touch
-        abstract identifiedTouch: identifier: float -> Touch
-
-    type [<AllowNullLiteral>] ErrorInfo =
-        /// Captures which component contained the exception, and its ancestors.
-        abstract componentStack: string with get, set
-
-module JSX =
-
-    type [<AllowNullLiteral>] Element =
-        inherit React.ReactElement<obj option>
-
-    type [<AllowNullLiteral>] ElementClass =
-        inherit React.Component<obj option>
-        abstract render: unit -> React.ReactNode
-
-    type [<AllowNullLiteral>] ElementAttributesProperty =
-        abstract props: obj with get, set
-
-    type [<AllowNullLiteral>] ElementChildrenAttribute =
-        abstract children: obj with get, set
-
-    type [<AllowNullLiteral>] IntrinsicAttributes =
-        inherit React.Attributes
-
-    type [<AllowNullLiteral>] IntrinsicClassAttributes<'T> =
-        inherit React.ClassAttributes<'T>
-
-    type [<AllowNullLiteral>] IntrinsicElements =
-        abstract a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> with get, set
-        abstract abbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract address: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract area: React.DetailedHTMLProps<React.AreaHTMLAttributes<HTMLAreaElement>, HTMLAreaElement> with get, set
-        abstract article: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract aside: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract audio: React.DetailedHTMLProps<React.AudioHTMLAttributes<HTMLAudioElement>, HTMLAudioElement> with get, set
-        abstract b: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ``base``: React.DetailedHTMLProps<React.BaseHTMLAttributes<HTMLBaseElement>, HTMLBaseElement> with get, set
-        abstract bdi: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract bdo: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract big: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract blockquote: React.DetailedHTMLProps<React.BlockquoteHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract body: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBodyElement>, HTMLBodyElement> with get, set
-        abstract br: React.DetailedHTMLProps<React.HTMLAttributes<HTMLBRElement>, HTMLBRElement> with get, set
-        abstract button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> with get, set
-        abstract canvas: React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> with get, set
-        abstract caption: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract cite: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract code: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract col: React.DetailedHTMLProps<React.ColHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
-        abstract colgroup: React.DetailedHTMLProps<React.ColgroupHTMLAttributes<HTMLTableColElement>, HTMLTableColElement> with get, set
-        abstract data: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract datalist: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDataListElement>, HTMLDataListElement> with get, set
-        abstract dd: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract del: React.DetailedHTMLProps<React.DelHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract details: React.DetailedHTMLProps<React.DetailsHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dfn: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract dialog: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> with get, set
-        abstract dl: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDListElement>, HTMLDListElement> with get, set
-        abstract dt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract em: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract embed: React.DetailedHTMLProps<React.EmbedHTMLAttributes<HTMLEmbedElement>, HTMLEmbedElement> with get, set
-        abstract fieldset: React.DetailedHTMLProps<React.FieldsetHTMLAttributes<HTMLFieldSetElement>, HTMLFieldSetElement> with get, set
-        abstract figcaption: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract figure: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract footer: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract form: React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> with get, set
-        abstract h1: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h2: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h3: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h4: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h5: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract h6: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> with get, set
-        abstract head: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadElement>, HTMLHeadElement> with get, set
-        abstract header: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract hgroup: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract hr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHRElement>, HTMLHRElement> with get, set
-        abstract html: React.DetailedHTMLProps<React.HtmlHTMLAttributes<HTMLHtmlElement>, HTMLHtmlElement> with get, set
-        abstract i: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract iframe: React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement> with get, set
-        abstract img: React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> with get, set
-        abstract input: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> with get, set
-        abstract ins: React.DetailedHTMLProps<React.InsHTMLAttributes<HTMLModElement>, HTMLModElement> with get, set
-        abstract kbd: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract keygen: React.DetailedHTMLProps<React.KeygenHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract label: React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement> with get, set
-        abstract legend: React.DetailedHTMLProps<React.HTMLAttributes<HTMLLegendElement>, HTMLLegendElement> with get, set
-        abstract li: React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> with get, set
-        abstract link: React.DetailedHTMLProps<React.LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement> with get, set
-        abstract main: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract map: React.DetailedHTMLProps<React.MapHTMLAttributes<HTMLMapElement>, HTMLMapElement> with get, set
-        abstract mark: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract menu: React.DetailedHTMLProps<React.MenuHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract menuitem: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract meta: React.DetailedHTMLProps<React.MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement> with get, set
-        abstract meter: React.DetailedHTMLProps<React.MeterHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract nav: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract noindex: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract noscript: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ``object``: React.DetailedHTMLProps<React.ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
-        abstract ol: React.DetailedHTMLProps<React.OlHTMLAttributes<HTMLOListElement>, HTMLOListElement> with get, set
-        abstract optgroup: React.DetailedHTMLProps<React.OptgroupHTMLAttributes<HTMLOptGroupElement>, HTMLOptGroupElement> with get, set
-        abstract option: React.DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement> with get, set
-        abstract output: React.DetailedHTMLProps<React.OutputHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement> with get, set
-        abstract param: React.DetailedHTMLProps<React.ParamHTMLAttributes<HTMLParamElement>, HTMLParamElement> with get, set
-        abstract picture: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract pre: React.DetailedHTMLProps<React.HTMLAttributes<HTMLPreElement>, HTMLPreElement> with get, set
-        abstract progress: React.DetailedHTMLProps<React.ProgressHTMLAttributes<HTMLProgressElement>, HTMLProgressElement> with get, set
-        abstract q: React.DetailedHTMLProps<React.QuoteHTMLAttributes<HTMLQuoteElement>, HTMLQuoteElement> with get, set
-        abstract rp: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract rt: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ruby: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract s: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract samp: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract script: React.DetailedHTMLProps<React.ScriptHTMLAttributes<HTMLScriptElement>, HTMLScriptElement> with get, set
-        abstract section: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract select: React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> with get, set
-        abstract small: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract source: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement> with get, set
-        abstract span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement> with get, set
-        abstract strong: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract style: React.DetailedHTMLProps<React.StyleHTMLAttributes<HTMLStyleElement>, HTMLStyleElement> with get, set
-        abstract sub: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract summary: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract sup: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract table: React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement> with get, set
-        abstract tbody: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-        abstract td: React.DetailedHTMLProps<React.TdHTMLAttributes<HTMLTableDataCellElement>, HTMLTableDataCellElement> with get, set
-        abstract textarea: React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> with get, set
-        abstract tfoot: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-        abstract th: React.DetailedHTMLProps<React.ThHTMLAttributes<HTMLTableHeaderCellElement>, HTMLTableHeaderCellElement> with get, set
-        abstract thead: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableSectionElement>, HTMLTableSectionElement> with get, set
-        abstract time: React.DetailedHTMLProps<React.TimeHTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract title: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTitleElement>, HTMLTitleElement> with get, set
-        abstract tr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableRowElement>, HTMLTableRowElement> with get, set
-        abstract track: React.DetailedHTMLProps<React.TrackHTMLAttributes<HTMLTrackElement>, HTMLTrackElement> with get, set
-        abstract u: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ul: React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement> with get, set
-        abstract var: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract video: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> with get, set
-        abstract wbr: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract webview: React.DetailedHTMLProps<React.WebViewHTMLAttributes<obj>, obj> with get, set
-        abstract svg: React.SVGProps<SVGSVGElement> with get, set
-        abstract animate: React.SVGProps<SVGElement> with get, set
-        abstract animateTransform: React.SVGProps<SVGElement> with get, set
-        abstract circle: React.SVGProps<SVGCircleElement> with get, set
-        abstract clipPath: React.SVGProps<SVGClipPathElement> with get, set
-        abstract defs: React.SVGProps<SVGDefsElement> with get, set
-        abstract desc: React.SVGProps<SVGDescElement> with get, set
-        abstract ellipse: React.SVGProps<SVGEllipseElement> with get, set
-        abstract feBlend: React.SVGProps<SVGFEBlendElement> with get, set
-        abstract feColorMatrix: React.SVGProps<SVGFEColorMatrixElement> with get, set
-        abstract feComponentTransfer: React.SVGProps<SVGFEComponentTransferElement> with get, set
-        abstract feComposite: React.SVGProps<SVGFECompositeElement> with get, set
-        abstract feConvolveMatrix: React.SVGProps<SVGFEConvolveMatrixElement> with get, set
-        abstract feDiffuseLighting: React.SVGProps<SVGFEDiffuseLightingElement> with get, set
-        abstract feDisplacementMap: React.SVGProps<SVGFEDisplacementMapElement> with get, set
-        abstract feDistantLight: React.SVGProps<SVGFEDistantLightElement> with get, set
-        abstract feFlood: React.SVGProps<SVGFEFloodElement> with get, set
-        abstract feFuncA: React.SVGProps<SVGFEFuncAElement> with get, set
-        abstract feFuncB: React.SVGProps<SVGFEFuncBElement> with get, set
-        abstract feFuncG: React.SVGProps<SVGFEFuncGElement> with get, set
-        abstract feFuncR: React.SVGProps<SVGFEFuncRElement> with get, set
-        abstract feGaussianBlur: React.SVGProps<SVGFEGaussianBlurElement> with get, set
-        abstract feImage: React.SVGProps<SVGFEImageElement> with get, set
-        abstract feMerge: React.SVGProps<SVGFEMergeElement> with get, set
-        abstract feMergeNode: React.SVGProps<SVGFEMergeNodeElement> with get, set
-        abstract feMorphology: React.SVGProps<SVGFEMorphologyElement> with get, set
-        abstract feOffset: React.SVGProps<SVGFEOffsetElement> with get, set
-        abstract fePointLight: React.SVGProps<SVGFEPointLightElement> with get, set
-        abstract feSpecularLighting: React.SVGProps<SVGFESpecularLightingElement> with get, set
-        abstract feSpotLight: React.SVGProps<SVGFESpotLightElement> with get, set
-        abstract feTile: React.SVGProps<SVGFETileElement> with get, set
-        abstract feTurbulence: React.SVGProps<SVGFETurbulenceElement> with get, set
-        abstract filter: React.SVGProps<SVGFilterElement> with get, set
-        abstract foreignObject: React.SVGProps<SVGForeignObjectElement> with get, set
-        abstract g: React.SVGProps<SVGGElement> with get, set
-        abstract image: React.SVGProps<SVGImageElement> with get, set
-        abstract line: React.SVGProps<SVGLineElement> with get, set
-        abstract linearGradient: React.SVGProps<SVGLinearGradientElement> with get, set
-        abstract marker: React.SVGProps<SVGMarkerElement> with get, set
-        abstract mask: React.SVGProps<SVGMaskElement> with get, set
-        abstract metadata: React.SVGProps<SVGMetadataElement> with get, set
-        abstract path: React.SVGProps<SVGPathElement> with get, set
-        abstract pattern: React.SVGProps<SVGPatternElement> with get, set
-        abstract polygon: React.SVGProps<SVGPolygonElement> with get, set
-        abstract polyline: React.SVGProps<SVGPolylineElement> with get, set
-        abstract radialGradient: React.SVGProps<SVGRadialGradientElement> with get, set
-        abstract rect: React.SVGProps<SVGRectElement> with get, set
-        abstract stop: React.SVGProps<SVGStopElement> with get, set
-        abstract switch: React.SVGProps<SVGSwitchElement> with get, set
-        abstract symbol: React.SVGProps<SVGSymbolElement> with get, set
-        abstract text: React.SVGProps<SVGTextElement> with get, set
-        abstract textPath: React.SVGProps<SVGTextPathElement> with get, set
-        abstract tspan: React.SVGProps<SVGTSpanElement> with get, set
-        abstract ``use``: React.SVGProps<SVGUseElement> with get, set
-        abstract view: React.SVGProps<SVGViewElement> with get, set
+        type WebView =
+            RXInterfaces.WebView
+let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StatusBar: StatusBarStatic
+
+type [<AllowNullLiteral>] StatusBar =
+    inherit RX.StatusBar
+    abstract isOverlay: unit -> bool
+    abstract setHidden: hidden: bool * showHideTransition: U2<string, string> -> unit
+    abstract setBackgroundColor: color: string * animated: bool -> unit
+    abstract setTranslucent: translucent: bool -> unit
+    abstract setBarStyle: style: U3<string, string, string> * animated: bool -> unit
+    abstract setNetworkActivityIndicatorVisible: value: bool -> unit
+
+type [<AllowNullLiteral>] StatusBarStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
+type Text as CommonText = ___native_common_Text.Text as CommonText
+
+type [<AllowNullLiteral>] IExports =
+    abstract Text: TextStatic
+
+type [<AllowNullLiteral>] Text =
+    inherit CommonText
+    abstract _getStyles: unit -> Types.StyleRuleSetRecursiveArray<Types.TextStyleRuleSet>
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] TextStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Text
+
+type [<AllowNullLiteral>] IExports =
+    abstract Accessibility: AccessibilityStatic
+
+type [<AllowNullLiteral>] Accessibility =
+    inherit RX.Accessibility
+    abstract isScreenReaderEnabled: unit -> bool
+    abstract screenReaderChangedEvent: SubscribableEvent<(bool -> unit)> with get, set
+    abstract isHighContrastEnabled: unit -> bool
+    abstract newAnnouncementReadyEvent: SubscribableEvent<(string -> unit)> with get, set
+    abstract announceForAccessibility: announcement: string -> unit
+
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+let [<Import("ImportantForAccessibilityMap","reactxp")>] ImportantForAccessibilityMap: obj = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityPlatformUtil: AccessibilityPlatformUtilStatic
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ImportantForAccessibilityValue =
+    | Auto
+    | Yes
+    | No
+    | [<CompiledName "no-hide-descendants">] NoHideDescendants
+
+type [<AllowNullLiteral>] AccessibilityPlatformUtil =
+    abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
+
+type [<AllowNullLiteral>] AccessibilityPlatformUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityPlatformUtil
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    abstract isHidden: importantForAccessibility: Types.ImportantForAccessibility option -> obj option
+    abstract importantForAccessibilityToString: importantForAccessibility: Types.ImportantForAccessibility option * ?defaultImportantForAccessibility: Types.ImportantForAccessibility -> ImportantForAccessibilityValue option
+    abstract accessibilityLiveRegionToString: liveRegion: Types.AccessibilityLiveRegion -> string option
+    abstract accessibilityTraitToString: ``trait``: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> * ?defaultTrait: Types.AccessibilityTrait -> U2<string, ResizeArray<string>> option
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+let [<Import("instance","reactxp")>] instance: AppConfig = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AppConfig: AppConfigStatic
+
+/// AppConfig.tsx
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// A simple class to store application config.
+type [<AllowNullLiteral>] AppConfig =
+    abstract _isDebug: obj with get, set
+    abstract _isDevelopment: obj with get, set
+    abstract setAppConfig: isDebug: bool * isDevelopment: bool -> unit
+    abstract isDebugMode: unit -> bool
+    abstract isDevelopmentMode: unit -> bool
+
+/// AppConfig.tsx
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// A simple class to store application config.
+type [<AllowNullLiteral>] AppConfigStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AppConfig
+
+type [<AllowNullLiteral>] IExports =
+    /// https://github.com/gre/bezier-easing
+    /// BezierEasing - use bezier curve for transition easing function
+    /// by Gaëtan Renaudeau 2014 - 2015 – MIT License
+    abstract bezier: mX1: float * mY1: float * mX2: float * mY2: float -> (float -> float)
+let [<Import("_default","reactxp")>] _default: Easing = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Easing: EasingStatic
+
+type [<AllowNullLiteral>] Easing =
+    inherit Types.Animated.Easing
+    abstract CubicBezier: x1: float * y1: float * x2: float * y2: float -> Types.Animated.EasingFunction
+    abstract Default: unit -> Types.Animated.EasingFunction
+    abstract Linear: unit -> Types.Animated.EasingFunction
+    abstract Out: unit -> Types.Animated.EasingFunction
+    abstract In: unit -> Types.Animated.EasingFunction
+    abstract InOut: unit -> Types.Animated.EasingFunction
+    abstract OutBack: unit -> Types.Animated.EasingFunction
+    abstract InBack: unit -> Types.Animated.EasingFunction
+    abstract InOutBack: unit -> Types.Animated.EasingFunction
+    abstract Steps: intervals: float * ?``end``: bool -> Types.Animated.EasingFunction
+    abstract StepStart: unit -> Types.Animated.EasingFunction
+    abstract StepEnd: unit -> Types.Animated.EasingFunction
+
+type [<AllowNullLiteral>] EasingStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Easing
 
 type [<AllowNullLiteral>] IExports =
     abstract ActivityIndicator: ActivityIndicatorStatic
@@ -3680,7 +690,213 @@ type [<AllowNullLiteral>] International =
     abstract allowRTL: allow: bool -> unit
     abstract forceRTL: force: bool -> unit
     abstract isRTL: unit -> bool
-let [<Import("*","reactxp")>] animated: Animated.IExports = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Linking: LinkingStatic
+
+type [<AllowNullLiteral>] Linking =
+    inherit RX.Linking
+    abstract _openUrl: url: string -> SyncTasks.Promise<unit>
+    abstract launchSms: phoneInfo: Types.SmsInfo -> SyncTasks.Promise<unit>
+    abstract openUrl: url: string -> SyncTasks.Promise<unit>
+    abstract _createEmailUrl: emailInfo: Types.EmailInfo -> string
+    abstract _createSmsUrl: smsInfo: Types.SmsInfo -> string
+    abstract _isEmailValid: obj with get, set
+    abstract _filterValidEmails: obj with get, set
+
+type [<AllowNullLiteral>] LinkingStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Linking
+let [<Import("_default","reactxp")>] _default: Location = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Location: LocationStatic
+
+type [<AllowNullLiteral>] Location =
+    inherit RX.Location
+    abstract setConfiguration: config: RX.LocationConfiguration -> unit
+    abstract isAvailable: unit -> bool
+    abstract getCurrentPosition: ?options: PositionOptions -> SyncTasks.Promise<Position>
+    abstract watchPosition: successCallback: Types.LocationSuccessCallback * ?errorCallback: Types.LocationFailureCallback * ?options: PositionOptions -> SyncTasks.Promise<Types.LocationWatchId>
+    abstract clearWatch: watchID: Types.LocationWatchId -> unit
+
+type [<AllowNullLiteral>] LocationStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Location
+
+type [<AllowNullLiteral>] Dictionary<'T> =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> 'T with get, set
+
+module __common_ModuleInterface =
+    let [<Import("*","reactxp/common/ModuleInterface")>] reactXP: ReactXP.IExports = jsNative
+
+    module ReactXP =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract Accessibility: Interfaces.Accessibility
+            abstract ActivityIndicator: obj
+            abstract Alert: Interfaces.Alert
+            abstract App: Interfaces.App
+            abstract Button: obj
+            abstract Picker: obj
+            abstract Clipboard: Interfaces.Clipboard
+            abstract GestureView: obj
+            abstract Image: Interfaces.ImageConstructor
+            abstract Input: Interfaces.Input
+            abstract International: Interfaces.International
+            abstract Link: obj
+            abstract Linking: Interfaces.Linking
+            abstract Location: Interfaces.Location
+            abstract Modal: Interfaces.Modal
+            abstract Network: Interfaces.Network
+            abstract Platform: Interfaces.Platform
+            abstract Popup: Interfaces.Popup
+            abstract ScrollView: Interfaces.ScrollViewConstructor
+            abstract StatusBar: Interfaces.StatusBar
+            abstract Storage: Interfaces.Storage
+            abstract Styles: Interfaces.Styles
+            abstract Text: obj
+            abstract TextInput: obj
+            abstract UserInterface: Interfaces.UserInterface
+            abstract UserPresence: Interfaces.UserPresence
+            abstract View: obj
+            abstract WebView: Interfaces.WebViewConstructor
+            abstract Animated: Interfaces.Animated
+            abstract createElement: obj
+            abstract Children: obj
+            abstract __spread: obj option
+
+        type Accessibility =
+            Interfaces.Accessibility
+
+        type ActivityIndicator =
+            Interfaces.ActivityIndicator
+
+        type Alert =
+            Interfaces.Alert
+
+        type App =
+            Interfaces.App
+
+        type Button =
+            Interfaces.Button
+
+        type Picker =
+            Interfaces.Picker
+
+        type Clipboard =
+            Interfaces.Clipboard
+
+        type GestureView =
+            Interfaces.GestureView
+
+        type Image =
+            Interfaces.Image
+
+        type Input =
+            Interfaces.Input
+
+        type International =
+            Interfaces.International
+
+        type Link =
+            Interfaces.Link
+
+        type Linking =
+            Interfaces.Linking
+
+        type Location =
+            Interfaces.Location
+
+        type Modal =
+            Interfaces.Modal
+
+        type Network =
+            Interfaces.Network
+
+        type Platform =
+            Interfaces.Platform
+
+        type Popup =
+            Interfaces.Popup
+
+        type ScrollView =
+            Interfaces.ScrollView
+
+        type StatusBar =
+            Interfaces.StatusBar
+
+        type Storage =
+            Interfaces.Storage
+
+        type Styles =
+            Interfaces.Styles
+
+        type Text =
+            Interfaces.Text
+
+        type TextInput =
+            Interfaces.TextInput
+
+        type UserInterface =
+            Interfaces.UserInterface
+
+        type UserPresence =
+            Interfaces.UserPresence
+
+        type View =
+            Interfaces.View
+
+        type WebView =
+            Interfaces.WebView
+
+        type Animated =
+            Interfaces.Animated
+
+type [<AllowNullLiteral>] IExports =
+    abstract PopupContainerViewBase: PopupContainerViewBaseStatic
+
+type [<AllowNullLiteral>] PopupContainerViewBaseProps =
+    inherit Types.CommonProps
+    abstract hidden: bool option with get, set
+
+type [<AllowNullLiteral>] PopupContainerViewContext =
+    abstract focusManager: FocusManagerBase option with get, set
+
+type [<AllowNullLiteral>] PopupComponent =
+    abstract onShow: (unit -> unit) with get, set
+    abstract onHide: (unit -> unit) with get, set
+
+type [<AllowNullLiteral>] PopupContainerViewBase<'P, 'S> =
+    inherit React.Component<'P, 'S>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _popupComponentStack: obj with get, set
+    abstract getChildContext: unit -> obj
+    abstract registerPopupComponent: onShow: (unit -> unit) * onHide: (unit -> unit) -> PopupComponent
+    abstract unregisterPopupComponent: ``component``: PopupComponent -> unit
+    abstract isHidden: unit -> bool
+    abstract componentDidUpdate: prevProps: 'P * prevState: 'S -> unit
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] PopupContainerViewBaseStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: 'P * context: PopupContainerViewContext -> PopupContainerViewBase<'P, 'S>
+let [<Import("instance","reactxp")>] instance: StyleLeakDetector = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StyleLeakDetector: StyleLeakDetectorStatic
+
+type [<AllowNullLiteral>] StyleLeakDetector =
+    abstract _fingerprintRegistry: obj with get, set
+    abstract _getFingerprint: obj with get, set
+    /// We need to sort objects before using JSON.stringify as otherwise objects
+    /// {a: 1, b: 2} and {b: 2, a: 1} would have a different fingerprints
+    abstract _sortAny: obj with get, set
+    abstract _sortObject: obj with get, set
+    abstract _sortArray: obj with get, set
+    abstract isDisabled: unit -> bool
+    abstract detectLeaks: style: 'T -> unit
+
+type [<AllowNullLiteral>] StyleLeakDetectorStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StyleLeakDetector
 let [<Import("Children","reactxp")>] Children: React.ReactChildren = jsNative
 
 type [<AllowNullLiteral>] IExports =
@@ -4503,68 +1719,71 @@ type [<AllowNullLiteral>] LocationSuccessCallback =
 type [<AllowNullLiteral>] LocationFailureCallback =
     [<Emit "$0($1...)">] abstract Invoke: error: LocationErrorType -> unit
 
-module Animated =
+module __common_Types =
+    let [<Import("*","reactxp/common/Types")>] animated: Animated.IExports = jsNative
 
-    type [<AllowNullLiteral>] IExports =
-        abstract timing: TimingFunction
-        abstract sequence: SequenceFunction
-        abstract ``parallel``: ParallelFunction
+    module Animated =
 
-    type [<AllowNullLiteral>] EndResult =
-        abstract finished: bool with get, set
+        type [<AllowNullLiteral>] IExports =
+            abstract timing: TimingFunction
+            abstract sequence: SequenceFunction
+            abstract ``parallel``: ParallelFunction
 
-    type [<AllowNullLiteral>] EndCallback =
-        [<Emit "$0($1...)">] abstract Invoke: result: EndResult -> unit
+        type [<AllowNullLiteral>] EndResult =
+            abstract finished: bool with get, set
 
-    type [<AllowNullLiteral>] CompositeAnimation =
-        abstract start: (EndCallback -> unit) with get, set
-        abstract stop: (unit -> unit) with get, set
+        type [<AllowNullLiteral>] EndCallback =
+            [<Emit "$0($1...)">] abstract Invoke: result: EndResult -> unit
 
-    type [<AllowNullLiteral>] LoopConfig =
-        abstract restartFrom: float with get, set
+        type [<AllowNullLiteral>] CompositeAnimation =
+            abstract start: (EndCallback -> unit) with get, set
+            abstract stop: (unit -> unit) with get, set
 
-    type [<AllowNullLiteral>] AnimationConfig =
-        abstract useNativeDriver: bool option with get, set
-        abstract isInteraction: bool option with get, set
+        type [<AllowNullLiteral>] LoopConfig =
+            abstract restartFrom: float with get, set
 
-    type [<AllowNullLiteral>] TimingAnimationConfig =
-        inherit AnimationConfig
-        abstract toValue: float with get, set
-        abstract easing: EasingFunction option with get, set
-        abstract duration: float option with get, set
-        abstract delay: float option with get, set
-        abstract loop: LoopConfig option with get, set
+        type [<AllowNullLiteral>] AnimationConfig =
+            abstract useNativeDriver: bool option with get, set
+            abstract isInteraction: bool option with get, set
 
-    type [<AllowNullLiteral>] InterpolationConfigType =
-        abstract inputRange: ResizeArray<float> with get, set
-        abstract outputRange: ResizeArray<U2<float, string>> with get, set
+        type [<AllowNullLiteral>] TimingAnimationConfig =
+            inherit AnimationConfig
+            abstract toValue: float with get, set
+            abstract easing: EasingFunction option with get, set
+            abstract duration: float option with get, set
+            abstract delay: float option with get, set
+            abstract loop: LoopConfig option with get, set
 
-    type [<AllowNullLiteral>] TimingFunction =
-        [<Emit "$0($1...)">] abstract Invoke: value: U2<RX.Types.AnimatedValue, RX.Types.InterpolatedValue> * config: TimingAnimationConfig -> CompositeAnimation
+        type [<AllowNullLiteral>] InterpolationConfigType =
+            abstract inputRange: ResizeArray<float> with get, set
+            abstract outputRange: ResizeArray<U2<float, string>> with get, set
 
-    type [<AllowNullLiteral>] SequenceFunction =
-        [<Emit "$0($1...)">] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
+        type [<AllowNullLiteral>] TimingFunction =
+            [<Emit "$0($1...)">] abstract Invoke: value: U2<RX.Types.AnimatedValue, RX.Types.InterpolatedValue> * config: TimingAnimationConfig -> CompositeAnimation
 
-    type [<AllowNullLiteral>] ParallelFunction =
-        [<Emit "$0($1...)">] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
+        type [<AllowNullLiteral>] SequenceFunction =
+            [<Emit "$0($1...)">] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
 
-    type [<AllowNullLiteral>] EasingFunction =
-        abstract cssName: string with get, set
-        abstract ``function``: (float -> float) with get, set
+        type [<AllowNullLiteral>] ParallelFunction =
+            [<Emit "$0($1...)">] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
 
-    type [<AllowNullLiteral>] Easing =
-        abstract Default: unit -> EasingFunction
-        abstract Linear: unit -> EasingFunction
-        abstract Out: unit -> EasingFunction
-        abstract In: unit -> EasingFunction
-        abstract InOut: unit -> EasingFunction
-        abstract InBack: unit -> EasingFunction
-        abstract OutBack: unit -> EasingFunction
-        abstract InOutBack: unit -> EasingFunction
-        abstract StepStart: unit -> EasingFunction
-        abstract StepEnd: unit -> EasingFunction
-        abstract Steps: intervals: float * ?``end``: bool -> EasingFunction
-        abstract CubicBezier: x1: float * y1: float * x2: float * y2: float -> EasingFunction
+        type [<AllowNullLiteral>] EasingFunction =
+            abstract cssName: string with get, set
+            abstract ``function``: (float -> float) with get, set
+
+        type [<AllowNullLiteral>] Easing =
+            abstract Default: unit -> EasingFunction
+            abstract Linear: unit -> EasingFunction
+            abstract Out: unit -> EasingFunction
+            abstract In: unit -> EasingFunction
+            abstract InOut: unit -> EasingFunction
+            abstract InBack: unit -> EasingFunction
+            abstract OutBack: unit -> EasingFunction
+            abstract InOutBack: unit -> EasingFunction
+            abstract StepStart: unit -> EasingFunction
+            abstract StepEnd: unit -> EasingFunction
+            abstract Steps: intervals: float * ?``end``: bool -> EasingFunction
+            abstract CubicBezier: x1: float * y1: float * x2: float * y2: float -> EasingFunction
 
 type [<AllowNullLiteral>] SyntheticEvent =
     abstract bubbles: bool
@@ -4719,28 +1938,1466 @@ type [<RequireQualifiedAccess>] DeviceNetworkType =
     | Mobile2G = 3
     | Mobile3G = 4
     | Mobile4G = 5
-let [<Import("_default","reactxp")>] _default: Easing = jsNative
+type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
 type [<AllowNullLiteral>] IExports =
-    abstract Easing: EasingStatic
+    abstract Accessibility: AccessibilityStatic
 
-type [<AllowNullLiteral>] Easing =
-    inherit Types.Animated.Easing
-    abstract CubicBezier: x1: float * y1: float * x2: float * y2: float -> Types.Animated.EasingFunction
-    abstract Default: unit -> Types.Animated.EasingFunction
-    abstract Linear: unit -> Types.Animated.EasingFunction
-    abstract Out: unit -> Types.Animated.EasingFunction
-    abstract In: unit -> Types.Animated.EasingFunction
-    abstract InOut: unit -> Types.Animated.EasingFunction
-    abstract OutBack: unit -> Types.Animated.EasingFunction
-    abstract InBack: unit -> Types.Animated.EasingFunction
-    abstract InOutBack: unit -> Types.Animated.EasingFunction
-    abstract Steps: intervals: float * ?``end``: bool -> Types.Animated.EasingFunction
-    abstract StepStart: unit -> Types.Animated.EasingFunction
-    abstract StepEnd: unit -> Types.Animated.EasingFunction
+type [<AllowNullLiteral>] Accessibility =
+    inherit NativeAccessibility
+    abstract _announcementQueue: obj with get, set
+    abstract _retryTimestamp: obj with get, set
+    abstract _updateScreenReaderStatus: isEnabled: bool -> unit
+    abstract announceForAccessibility: announcement: string -> unit
+    abstract _postAnnouncement: obj with get, set
+    abstract _recalcAnnouncement: obj with get, set
 
-type [<AllowNullLiteral>] EasingStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Easing
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    inherit AccessibilityPlatformUtil
+    abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+
+type [<AllowNullLiteral>] IExports =
+    abstract GestureView: GestureViewStatic
+
+type [<AllowNullLiteral>] GestureView =
+    inherit BaseGestureView
+    abstract _getPreferredPanRatio: unit -> float
+    abstract _getEventTimestamp: e: Types.TouchEvent -> float
+
+type [<AllowNullLiteral>] GestureViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
+type Linking as CommonLinking = ___native_common_Linking.Linking as CommonLinking
+let [<Import("_default","reactxp")>] _default: Linking = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Linking: LinkingStatic
+
+type [<AllowNullLiteral>] Linking =
+    inherit CommonLinking
+    abstract _createSmsUrl: smsInfo: Types.SmsInfo -> string
+
+type [<AllowNullLiteral>] LinkingStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Linking
+
+module __ios_ReactXP =
+    let [<Import("*","reactxp/ios/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+
+    module ReactXP =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract Accessibility: RXInterfaces.Accessibility
+            abstract ActivityIndicator: obj
+            abstract Alert: RXInterfaces.Alert
+            abstract App: RXInterfaces.App
+            abstract Button: obj
+            abstract Picker: obj
+            abstract Clipboard: RXInterfaces.Clipboard
+            abstract GestureView: obj
+            abstract Image: RXInterfaces.ImageConstructor
+            abstract Input: RXInterfaces.Input
+            abstract International: RXInterfaces.International
+            abstract Link: obj
+            abstract Linking: RXInterfaces.Linking
+            abstract Location: RXInterfaces.Location
+            abstract Modal: RXInterfaces.Modal
+            abstract Network: RXInterfaces.Network
+            abstract Platform: RXInterfaces.Platform
+            abstract Popup: RXInterfaces.Popup
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor
+            abstract StatusBar: RXInterfaces.StatusBar
+            abstract Storage: RXInterfaces.Storage
+            abstract Styles: RXInterfaces.Styles
+            abstract Text: obj
+            abstract TextInput: obj
+            abstract UserInterface: RXInterfaces.UserInterface
+            abstract UserPresence: RXInterfaces.UserPresence
+            abstract View: obj
+            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Animated: RXInterfaces.Animated
+            abstract __spread: obj option
+
+        type Accessibility =
+            RXInterfaces.Accessibility
+
+        type ActivityIndicator =
+            RXInterfaces.ActivityIndicator
+
+        type Alert =
+            RXInterfaces.Alert
+
+        type App =
+            RXInterfaces.App
+
+        type Button =
+            RXInterfaces.Button
+
+        type Picker =
+            RXInterfaces.Picker
+
+        type Clipboard =
+            RXInterfaces.Clipboard
+
+        type GestureView =
+            RXInterfaces.GestureView
+
+        type Image =
+            RXInterfaces.Image
+
+        type Input =
+            RXInterfaces.Input
+
+        type International =
+            RXInterfaces.International
+
+        type Link =
+            RXInterfaces.Link
+
+        type Linking =
+            RXInterfaces.Linking
+
+        type Location =
+            RXInterfaces.Location
+
+        type Modal =
+            RXInterfaces.Modal
+
+        type Network =
+            RXInterfaces.Network
+
+        type Platform =
+            RXInterfaces.Platform
+
+        type Popup =
+            RXInterfaces.Popup
+
+        type ScrollView =
+            RXInterfaces.ScrollView
+
+        type StatusBar =
+            RXInterfaces.StatusBar
+
+        type Storage =
+            RXInterfaces.Storage
+
+        type Styles =
+            RXInterfaces.Styles
+
+        type Text =
+            RXInterfaces.Text
+
+        type TextInput =
+            RXInterfaces.TextInput
+
+        type UserInterface =
+            RXInterfaces.UserInterface
+
+        type UserPresence =
+            RXInterfaces.UserPresence
+
+        type View =
+            RXInterfaces.View
+
+        type WebView =
+            RXInterfaces.WebView
+let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StatusBar: StatusBarStatic
+
+type [<AllowNullLiteral>] StatusBar =
+    inherit RX.StatusBar
+    abstract isOverlay: unit -> bool
+    abstract setBarStyle: style: U3<string, string, string> * animated: bool -> unit
+    abstract setHidden: hidden: bool * showHideTransition: U2<string, string> -> unit
+    abstract setNetworkActivityIndicatorVisible: value: bool -> unit
+    abstract setBackgroundColor: color: string * animated: bool -> unit
+    abstract setTranslucent: translucent: bool -> unit
+
+type [<AllowNullLiteral>] StatusBarStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
+type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Accessibility: AccessibilityStatic
+
+type [<AllowNullLiteral>] Accessibility =
+    inherit NativeAccessibility
+    abstract _announcementQueue: obj with get, set
+    abstract _retryTimestamp: obj with get, set
+    abstract _updateScreenReaderStatus: isEnabled: bool -> unit
+    abstract announceForAccessibility: announcement: string -> unit
+    abstract _postAnnouncement: obj with get, set
+    abstract _recalcAnnouncement: obj with get, set
+
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    inherit AccessibilityPlatformUtil
+    abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+
+type [<AllowNullLiteral>] IExports =
+    abstract GestureView: GestureViewStatic
+
+type [<AllowNullLiteral>] GestureView =
+    inherit BaseGestureView
+    abstract _getPreferredPanRatio: unit -> float
+    abstract _getEventTimestamp: e: Types.TouchEvent -> float
+
+type [<AllowNullLiteral>] GestureViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
+let [<Import("_default","reactxp")>] _default: Input = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Input: InputStatic
+
+type [<AllowNullLiteral>] Input =
+    inherit RX.Input
+
+type [<AllowNullLiteral>] InputStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Input
+type Linking as CommonLinking = ___native_common_Linking.Linking as CommonLinking
+let [<Import("_default","reactxp")>] _default: Linking = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Linking: LinkingStatic
+
+type [<AllowNullLiteral>] Linking =
+    inherit CommonLinking
+    abstract _createSmsUrl: smsInfo: Types.SmsInfo -> string
+
+type [<AllowNullLiteral>] LinkingStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Linking
+
+module __macos_ReactXP =
+    let [<Import("*","reactxp/macos/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+
+    module ReactXP =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract Accessibility: RXInterfaces.Accessibility
+            abstract ActivityIndicator: obj
+            abstract Alert: RXInterfaces.Alert
+            abstract App: RXInterfaces.App
+            abstract Button: obj
+            abstract Picker: obj
+            abstract Clipboard: RXInterfaces.Clipboard
+            abstract GestureView: obj
+            abstract Image: RXInterfaces.ImageConstructor
+            abstract Input: RXInterfaces.Input
+            abstract International: RXInterfaces.International
+            abstract Link: obj
+            abstract Linking: RXInterfaces.Linking
+            abstract Location: RXInterfaces.Location
+            abstract Modal: RXInterfaces.Modal
+            abstract Network: RXInterfaces.Network
+            abstract Platform: RXInterfaces.Platform
+            abstract Popup: RXInterfaces.Popup
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor
+            abstract StatusBar: RXInterfaces.StatusBar
+            abstract Storage: RXInterfaces.Storage
+            abstract Styles: RXInterfaces.Styles
+            abstract Text: obj
+            abstract TextInput: obj
+            abstract UserInterface: RXInterfaces.UserInterface
+            abstract UserPresence: RXInterfaces.UserPresence
+            abstract View: obj
+            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Animated: RXInterfaces.Animated
+            abstract __spread: obj option
+
+        type Accessibility =
+            RXInterfaces.Accessibility
+
+        type ActivityIndicator =
+            RXInterfaces.ActivityIndicator
+
+        type Alert =
+            RXInterfaces.Alert
+
+        type App =
+            RXInterfaces.App
+
+        type Button =
+            RXInterfaces.Button
+
+        type Picker =
+            RXInterfaces.Picker
+
+        type Clipboard =
+            RXInterfaces.Clipboard
+
+        type GestureView =
+            RXInterfaces.GestureView
+
+        type Image =
+            RXInterfaces.Image
+
+        type Input =
+            RXInterfaces.Input
+
+        type International =
+            RXInterfaces.International
+
+        type Link =
+            RXInterfaces.Link
+
+        type Linking =
+            RXInterfaces.Linking
+
+        type Location =
+            RXInterfaces.Location
+
+        type Modal =
+            RXInterfaces.Modal
+
+        type Network =
+            RXInterfaces.Network
+
+        type Platform =
+            RXInterfaces.Platform
+
+        type Popup =
+            RXInterfaces.Popup
+
+        type ScrollView =
+            RXInterfaces.ScrollView
+
+        type StatusBar =
+            RXInterfaces.StatusBar
+
+        type Storage =
+            RXInterfaces.Storage
+
+        type Styles =
+            RXInterfaces.Styles
+
+        type Text =
+            RXInterfaces.Text
+
+        type TextInput =
+            RXInterfaces.TextInput
+
+        type UserInterface =
+            RXInterfaces.UserInterface
+
+        type UserPresence =
+            RXInterfaces.UserPresence
+
+        type View =
+            RXInterfaces.View
+
+        type WebView =
+            RXInterfaces.WebView
+let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StatusBar: StatusBarStatic
+
+type [<AllowNullLiteral>] StatusBar =
+    inherit RX.StatusBar
+    abstract isOverlay: unit -> bool
+    abstract setHidden: hidden: bool * showHideTransition: U2<string, string> -> unit
+    abstract setBackgroundColor: color: string * animated: bool -> unit
+    abstract setTranslucent: translucent: bool -> unit
+    abstract setBarStyle: style: U3<string, string, string> * animated: bool -> unit
+    abstract setNetworkActivityIndicatorVisible: value: bool -> unit
+
+type [<AllowNullLiteral>] StatusBarStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract TextInput: TextInputStatic
+
+type [<AllowNullLiteral>] TextInputState =
+    abstract inputValue: string with get, set
+    abstract isFocused: bool with get, set
+
+type [<AllowNullLiteral>] TextInputContext =
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] TextInput =
+    inherit React.Component<Types.TextInputProps, TextInputState>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: TextInputContext with get, set
+    abstract _selectionStart: obj with get, set
+    abstract _selectionEnd: obj with get, set
+    abstract _mountedComponent: obj with get, set
+    abstract componentDidMount: unit -> unit
+    abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (obj option -> unit) with get, set
+    abstract _onPaste: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract _onChangeText: obj with get, set
+    abstract _onSelectionChange: obj with get, set
+    abstract _onKeyPress: obj with get, set
+    abstract _onScroll: obj with get, set
+    abstract blur: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract setAccessibilityFocus: unit -> unit
+    abstract isFocused: unit -> bool
+    abstract selectAll: unit -> unit
+    abstract selectRange: start: float * ``end``: float -> unit
+    abstract getSelectionRange: unit -> obj
+    abstract setValue: value: string -> unit
+
+type [<AllowNullLiteral>] TextInputStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
+type View as ViewCommon = ___native_common_View.View as ViewCommon
+
+type [<AllowNullLiteral>] IExports =
+    abstract View: ViewStatic
+
+type [<AllowNullLiteral>] View =
+    inherit ViewCommon
+    abstract _buildInternalProps: props: Types.ViewProps -> unit
+
+type [<AllowNullLiteral>] ViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> View
+type Accessibility as CommonAccessibility = ___common_Accessibility.Accessibility as CommonAccessibility
+let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Accessibility: AccessibilityStatic
+
+type [<AllowNullLiteral>] Accessibility =
+    inherit CommonAccessibility
+    abstract _isScreenReaderEnabled: bool with get, set
+    abstract _updateScreenReaderStatus: isEnabled: bool -> unit
+    abstract isScreenReaderEnabled: unit -> bool
+
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+type AccessibilityUtil as CommonAccessibilityUtil = ___common_AccessibilityUtil.AccessibilityUtil as CommonAccessibilityUtil
+type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityLiveRegionValue =
+    | None
+    | Polite
+    | Assertive
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityComponentTypeValue =
+    | None
+    | Button
+    | Radiobutton_checked
+    | Radiobutton_unchecked
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    inherit CommonAccessibilityUtil
+    abstract _instance: obj with get, set
+    abstract setAccessibilityPlatformUtil: instance: AccessibilityPlatformUtil -> unit
+    abstract accessibilityTraitToString: overrideTraits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option * ?defaultTrait: Types.AccessibilityTrait * ?ensureDefaultTrait: bool -> ResizeArray<RN.AccessibilityTraits>
+    abstract accessibilityComponentTypeToString: overrideTraits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option * ?defaultTrait: Types.AccessibilityTrait -> AccessibilityComponentTypeValue option
+    abstract accessibilityLiveRegionToString: liveRegion: Types.AccessibilityLiveRegion option -> AccessibilityLiveRegionValue option
+    abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+
+type [<AllowNullLiteral>] IExports =
+    abstract ActivityIndicator: ActivityIndicatorStatic
+
+type [<AllowNullLiteral>] ActivityIndicatorState =
+    abstract isVisible: bool option with get, set
+
+type [<AllowNullLiteral>] ActivityIndicator =
+    inherit React.Component<Types.ActivityIndicatorProps, ActivityIndicatorState>
+    abstract _isMounted: obj with get, set
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] ActivityIndicatorStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ActivityIndicatorProps -> ActivityIndicator
+let [<Import("_default","reactxp")>] _default: Alert = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Alert: AlertStatic
+
+type [<AllowNullLiteral>] Alert =
+    inherit RX.Alert
+    abstract show: title: string * ?message: string * ?buttons: ResizeArray<Types.AlertButtonSpec> * ?options: RX.Types.AlertOptions -> unit
+
+type [<AllowNullLiteral>] AlertStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Alert
+let [<Import("CommonAnimatedClasses","reactxp")>] CommonAnimatedClasses: AnimatedClasses = jsNative
+let [<Import("AnimatedCommon","reactxp")>] AnimatedCommon: obj = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract makeAnimated: nativeAnimatedClasses: AnimatedClasses * ?useFocusRestrictedView: bool -> RX.Animated
+
+type [<AllowNullLiteral>] AnimatedClasses =
+    abstract Image: obj with get, set
+    abstract Text: obj with get, set
+    abstract TextInput: obj with get, set
+    abstract View: obj with get, set
+let [<Import("_default","reactxp")>] _default: App = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract App: AppStatic
+
+type [<AllowNullLiteral>] App =
+    inherit RX.App
+    abstract initialize: debug: bool * development: bool -> unit
+    abstract getActivationState: unit -> Types.AppActivationState
+    abstract getRootViewFactory: unit -> RN.ComponentProvider
+    abstract getRootViewUsingPropsFactory: unit -> RN.ComponentProvider
+
+type [<AllowNullLiteral>] AppStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> App
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+type Button as ButtonBase = ___common_Interfaces.Button as ButtonBase
+
+type [<AllowNullLiteral>] IExports =
+    abstract Button: ButtonStatic
+
+type [<AllowNullLiteral>] ButtonContext =
+    abstract hasRxButtonAscendant: bool option with get, set
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] Button =
+    inherit ButtonBase
+    abstract contextTypes: obj with get, set
+    abstract context: ButtonContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _mixin_componentDidMount: obj with get, set
+    abstract _mixin_componentWillUnmount: obj with get, set
+    abstract touchableGetInitialState: (unit -> RN.Touchable.State) with get, set
+    abstract touchableHandleStartShouldSetResponder: (unit -> bool) with get, set
+    abstract touchableHandleResponderTerminationRequest: (unit -> bool) with get, set
+    abstract touchableHandleResponderGrant: (RN.GestureResponderEvent -> unit) with get, set
+    abstract touchableHandleResponderMove: (RN.GestureResponderEvent -> unit) with get, set
+    abstract touchableHandleResponderRelease: (RN.GestureResponderEvent -> unit) with get, set
+    abstract touchableHandleResponderTerminate: (RN.GestureResponderEvent -> unit) with get, set
+    abstract _isMounted: bool with get, set
+    abstract _isMouseOver: bool with get, set
+    abstract _isHoverStarted: bool with get, set
+    abstract _buttonElement: obj option with get, set
+    abstract _hideTimeout: obj with get, set
+    abstract _defaultOpacityValue: obj with get, set
+    abstract _opacityAnimatedValue: obj with get, set
+    abstract _opacityAnimatedStyle: obj with get, set
+    abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
+    abstract render: unit -> JSX.Element
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract componentWillReceiveProps: nextProps: Types.ButtonProps -> unit
+    abstract getChildContext: unit -> ButtonContext
+    abstract setNativeProps: nativeProps: RN.ViewProps -> unit
+    abstract touchableHandleActivePressIn: (Types.SyntheticEvent -> unit) with get, set
+    abstract touchableHandleActivePressOut: (Types.SyntheticEvent -> unit) with get, set
+    abstract touchableHandlePress: (Types.SyntheticEvent -> unit) with get, set
+    abstract touchableHandleLongPress: (Types.SyntheticEvent -> unit) with get, set
+    abstract touchableGetHighlightDelayMS: (unit -> float) with get, set
+    abstract touchableGetPressRectOffset: (unit -> obj) with get, set
+    abstract requestFocus: unit -> unit
+    abstract blur: unit -> unit
+    abstract focus: unit -> unit
+    abstract _setOpacityStyles: obj with get, set
+    abstract _onMount: obj with get, set
+    abstract _isTouchFeedbackApplicable: obj with get, set
+    abstract _opacityActive: obj with get, set
+    abstract _opacityInactive: obj with get, set
+    abstract _getDefaultOpacityValue: obj with get, set
+    abstract _onMouseEnter: (Types.SyntheticEvent -> unit) with get, set
+    abstract _onMouseLeave: (Types.SyntheticEvent -> unit) with get, set
+    abstract _onHoverStart: (Types.SyntheticEvent -> unit) with get, set
+    abstract _onHoverEnd: (Types.SyntheticEvent -> unit) with get, set
+    /// Animate the touchable to a new opacity.
+    abstract setOpacityTo: value: float * duration: float -> unit
+    abstract _hasPressHandler: obj with get, set
+    abstract _showUnderlay: obj with get, set
+    abstract _hideUnderlay: obj with get, set
+
+type [<AllowNullLiteral>] ButtonStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
+let [<Import("_default","reactxp")>] _default: Clipboard = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Clipboard: ClipboardStatic
+
+type [<AllowNullLiteral>] Clipboard =
+    inherit RX.Clipboard
+    abstract setText: text: string -> unit
+    abstract getText: unit -> SyncTasks.Promise<string>
+
+type [<AllowNullLiteral>] ClipboardStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Clipboard
+let [<Import("_default","reactxp")>] _default: FrontLayerViewManager = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract FrontLayerViewManager: FrontLayerViewManagerStatic
+
+type [<AllowNullLiteral>] FrontLayerViewManager =
+    abstract _overlayStack: obj with get, set
+    abstract _cachedPopups: obj with get, set
+    abstract event_changed: SubscribableEvent<(unit -> unit)> with get, set
+    abstract showModal: modal: React.ReactElement<Types.ViewProps> * modalId: string * ?options: Types.ModalOptions -> unit
+    abstract isModalDisplayed: ?modalId: string -> bool
+    abstract dismissModal: modalId: string -> unit
+    abstract dismissAllmodals: unit -> unit
+    abstract showPopup: popupOptions: Types.PopupOptions * popupId: string * ?delay: float -> bool
+    abstract dismissPopup: popupId: string -> unit
+    abstract dismissAllPopups: unit -> unit
+    abstract getModalLayerView: ?rootViewId: string option -> React.ReactElement<obj option> option
+    abstract getActivePopupId: unit -> string option
+    abstract releaseCachedPopups: unit -> unit
+    abstract modalOptionsMatchesRootViewId: obj with get, set
+    abstract _renderPopup: obj with get, set
+    abstract getPopupLayerView: ?rootViewId: string option -> JSX.Element option
+    abstract _onBackgroundPressed: obj with get, set
+    abstract _dismissActivePopup: obj with get, set
+    abstract _findIndexOfModal: obj with get, set
+    abstract _findIndexOfPopup: obj with get, set
+    abstract _getActiveOverlay: obj with get, set
+    abstract isPopupDisplayed: ?popupId: string -> bool
+
+type [<AllowNullLiteral>] FrontLayerViewManagerStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> FrontLayerViewManager
+
+type [<AllowNullLiteral>] IExports =
+    abstract GestureView: GestureViewStatic
+
+type [<AllowNullLiteral>] GestureView =
+    inherit React.Component<Types.GestureViewProps, Types.Stateless>
+    abstract _panResponder: obj with get, set
+    abstract _doubleTapTimer: obj with get, set
+    abstract _pendingGestureType: obj with get, set
+    abstract _pendingGestureState: obj with get, set
+    abstract _lastTapEvent: obj with get, set
+    abstract _lastGestureStartEvent: obj with get, set
+    abstract componentWillUnmount: unit -> unit
+    abstract _getPreferredPanRatio: unit -> float
+    abstract _getEventTimestamp: e: Types.TouchEvent -> float
+    abstract _onPanResponderEnd: obj with get, set
+    abstract _setPendingGestureState: obj with get, set
+    abstract _detectMoveGesture: obj with get, set
+    abstract _isTap: obj with get, set
+    abstract _isDoubleTap: obj with get, set
+    abstract _startDoubleTapTimer: obj with get, set
+    abstract _cancelDoubleTapTimer: obj with get, set
+    abstract _reportDelayedTap: obj with get, set
+    abstract _shouldRespondToPinchZoom: obj with get, set
+    abstract _shouldRespondToRotate: obj with get, set
+    abstract _shouldRespondToPan: obj with get, set
+    abstract _shouldRespondToPanVertical: obj with get, set
+    abstract _shouldRespondToPanHorizontal: obj with get, set
+    abstract _calcDistance: obj with get, set
+    abstract _calcAngle: obj with get, set
+    abstract _radiansToDegrees: obj with get, set
+    abstract _sendMultiTouchEvents: obj with get, set
+    abstract _sendPanEvent: obj with get, set
+    abstract _sendTapEvent: obj with get, set
+    abstract _sendDoubleTapEvent: obj with get, set
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] GestureViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
+
+type [<AllowNullLiteral>] IExports =
+    abstract Image: ImageStatic
+
+type [<AllowNullLiteral>] ImageContext =
+    abstract isRxParentAText: bool option with get, set
+
+type [<AllowNullLiteral>] Image =
+    inherit React.Component<Types.ImageProps, Types.Stateless>
+    inherit React.ChildContextProvider<ImageContext>
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
+    abstract _nativeImageWidth: obj with get, set
+    abstract _nativeImageHeight: obj with get, set
+    abstract _getAdditionalProps: unit -> U2<RN.ImageProperties, obj>
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
+    abstract setNativeProps: nativeProps: RN.ImageProperties -> unit
+    abstract getChildContext: unit -> obj
+    abstract getStyles: unit -> ResizeArray<Types.StyleRuleSetRecursive<Types.StyleRuleSet<Types.ImageStyle>>>
+    abstract _onLoad: obj with get, set
+    abstract _onError: obj with get, set
+    abstract _buildSource: obj with get, set
+    abstract getNativeWidth: unit -> float option
+    abstract getNativeHeight: unit -> float option
+
+type [<AllowNullLiteral>] ImageStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Image
+    abstract prefetch: url: string -> SyncTasks.Promise<bool>
+    abstract getMetadata: url: string -> SyncTasks.Promise<Types.ImageMetadata>
+let [<Import("_default","reactxp")>] _default: Input = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Input: InputStatic
+
+type [<AllowNullLiteral>] Input =
+    inherit RX.Input
+
+type [<AllowNullLiteral>] InputStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Input
+let [<Import("_default","reactxp")>] _default: International = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract International: InternationalStatic
+
+type [<AllowNullLiteral>] International =
+    inherit RXInterfaces.International
+    abstract allowRTL: allow: bool -> unit
+    abstract forceRTL: force: bool -> unit
+    abstract isRTL: unit -> bool
+
+type [<AllowNullLiteral>] InternationalStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> International
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract LinkBase: LinkBaseStatic
+    abstract Link: LinkStatic
+
+type [<AllowNullLiteral>] LinkContext =
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+    abstract isRxParentAText: bool option with get, set
+
+type [<AllowNullLiteral>] LinkBase<'S> =
+    inherit React.Component<Types.LinkProps, 'S>
+    abstract contextTypes: obj with get, set
+    abstract context: LinkContext with get, set
+    abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
+    abstract _isMounted: bool with get, set
+    abstract setNativeProps: nativeProps: RN.TextProps -> unit
+    abstract render: unit -> JSX.Element
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _render: internalProps: RN.TextProps * onMount: (obj option -> unit) -> JSX.Element
+    abstract _onMount: (obj option -> unit) with get, set
+    abstract _onPress: (RX.Types.SyntheticEvent -> unit) with get, set
+    abstract _onLongPress: (RX.Types.SyntheticEvent -> unit) with get, set
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+
+type [<AllowNullLiteral>] LinkBaseStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> LinkBase<'S>
+
+type [<AllowNullLiteral>] Link =
+    inherit LinkBase<obj>
+
+type [<AllowNullLiteral>] LinkStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Link
+type Linking as CommonLinking = ___common_Linking.Linking as CommonLinking
+let [<Import("_default","reactxp")>] _default: Linking = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Linking: LinkingStatic
+
+type [<AllowNullLiteral>] Linking =
+    inherit CommonLinking
+    abstract _openUrl: url: string -> SyncTasks.Promise<unit>
+    abstract getInitialUrl: unit -> SyncTasks.Promise<string option>
+    abstract launchEmail: emailInfo: Types.EmailInfo -> SyncTasks.Promise<unit>
+
+type [<AllowNullLiteral>] LinkingStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Linking
+let [<Import("_default","reactxp")>] _default: MainViewStore = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract MainViewStore: MainViewStoreStatic
+
+type [<AllowNullLiteral>] MainViewStore =
+    inherit SubscribableEvent<(unit -> unit)>
+    abstract _mainView: obj with get, set
+    abstract getMainView: unit -> React.ReactElement<obj option> option
+    abstract setMainView: view: React.ReactElement<obj option> -> unit
+
+type [<AllowNullLiteral>] MainViewStoreStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> MainViewStore
+let [<Import("_default","reactxp")>] _default: Modal = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Modal: ModalStatic
+
+type [<AllowNullLiteral>] Modal =
+    inherit RX.Modal
+    abstract isDisplayed: ?modalId: string -> bool
+    abstract show: modal: React.ReactElement<Types.ViewProps> * modalId: string * ?options: Types.ModalOptions -> unit
+    abstract dismiss: modalId: string -> unit
+    abstract dismissAll: unit -> unit
+
+type [<AllowNullLiteral>] ModalStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Modal
+
+type [<AllowNullLiteral>] IExports =
+    abstract ModalContainer: ModalContainerStatic
+
+type [<AllowNullLiteral>] ModalContainerProps =
+    inherit Types.CommonProps
+    abstract hidden: bool option with get, set
+
+type [<AllowNullLiteral>] ModalContainer =
+    inherit React.Component<ModalContainerProps, Types.Stateless>
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] ModalContainerStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: ModalContainerProps -> ModalContainer
+let [<Import("_default","reactxp")>] _default: Network = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Network: NetworkStatic
+
+type [<AllowNullLiteral>] Network =
+    inherit RX.Network
+    abstract isConnected: unit -> SyncTasks.Promise<bool>
+    abstract getType: unit -> SyncTasks.Promise<Types.DeviceNetworkType>
+    abstract _onEventOccured: obj with get, set
+    abstract _getNetworkTypeFromNetInfo: obj with get, set
+    abstract _getNetworkTypeFromConnectionInfo: obj with get, set
+
+type [<AllowNullLiteral>] NetworkStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Network
+
+type [<AllowNullLiteral>] IExports =
+    abstract Picker: PickerStatic
+
+type [<AllowNullLiteral>] Picker =
+    inherit RX.Picker
+    abstract render: unit -> JSX.Element
+    abstract onValueChange: (obj option -> float -> unit) with get, set
+
+type [<AllowNullLiteral>] PickerStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Picker
+let [<Import("_default","reactxp")>] _default: Platform = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Platform: PlatformStatic
+
+type [<AllowNullLiteral>] Platform =
+    inherit RX.Platform
+    abstract getType: unit -> Types.PlatformType
+    abstract select: specifics: obj -> 'T option
+
+type [<AllowNullLiteral>] PlatformStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Platform
+let [<Import("_default","reactxp")>] _default: Popup = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Popup: PopupStatic
+
+type [<AllowNullLiteral>] Popup =
+    inherit RX.Popup
+    abstract show: options: Types.PopupOptions * popupId: string * ?delay: float -> bool
+    abstract autoDismiss: popupId: string * ?delay: float -> unit
+    abstract dismiss: popupId: string -> unit
+    abstract dismissAll: unit -> unit
+    abstract isDisplayed: ?popupId: string -> bool
+
+type [<AllowNullLiteral>] PopupStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Popup
+type PopupContainerViewBase = ___common_PopupContainerViewBase.PopupContainerViewBase
+type PopupContainerViewBaseProps = ___common_PopupContainerViewBase.PopupContainerViewBaseProps
+type PopupContainerViewContext = ___common_PopupContainerViewBase.PopupContainerViewContext
+
+type [<AllowNullLiteral>] IExports =
+    abstract PopupContainerView: PopupContainerViewStatic
+
+type [<AllowNullLiteral>] PopupContainerViewProps =
+    inherit PopupContainerViewBaseProps
+    abstract popupOptions: Types.PopupOptions with get, set
+    abstract anchorHandle: float option with get, set
+    abstract onDismissPopup: (unit -> unit) option with get, set
+
+type [<AllowNullLiteral>] PopupContainerViewState =
+    abstract isMeasuringPopup: bool with get, set
+    abstract popupWidth: float with get, set
+    abstract popupHeight: float with get, set
+    abstract anchorPosition: Types.PopupPosition with get, set
+    abstract anchorOffset: float with get, set
+    abstract popupY: float with get, set
+    abstract popupX: float with get, set
+    abstract constrainedPopupWidth: float with get, set
+    abstract constrainedPopupHeight: float with get, set
+
+type [<AllowNullLiteral>] PopupContainerView =
+    inherit PopupContainerViewBase<PopupContainerViewProps, PopupContainerViewState>
+    abstract _mountedComponent: obj with get, set
+    abstract _viewHandle: obj with get, set
+    abstract _respositionPopupTimer: obj with get, set
+    abstract _getInitialState: obj with get, set
+    abstract componentWillReceiveProps: prevProps: PopupContainerViewProps -> unit
+    abstract componentDidUpdate: prevProps: PopupContainerViewProps * prevState: PopupContainerViewState -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
+    abstract _recalcPosition: obj with get, set
+    abstract _recalcPositionFromLayoutData: obj with get, set
+    abstract _recalcInnerPosition: obj with get, set
+    abstract _dismissPopup: obj with get, set
+    abstract _startRepositionPopupTimer: obj with get, set
+    abstract _stopRepositionPopupTimer: obj with get, set
+
+type [<AllowNullLiteral>] PopupContainerViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: PopupContainerViewProps * context: PopupContainerViewContext -> PopupContainerView
+
+type [<AllowNullLiteral>] IExports =
+    abstract BaseRootView: BaseRootViewStatic
+    abstract RootViewUsingStore: RootViewUsingStoreStatic
+    abstract RootViewUsingProps: RootViewUsingPropsStatic
+
+type [<AllowNullLiteral>] BaseRootViewProps =
+    abstract reactxp_rootViewId: string option with get, set
+
+type [<AllowNullLiteral>] RootViewPropsWithMainViewType =
+    inherit BaseRootViewProps
+    abstract reactxp_mainViewType: string with get, set
+
+type [<AllowNullLiteral>] RootViewState =
+    abstract mainView: obj option with get, set
+    abstract announcementText: string option with get, set
+
+type [<AllowNullLiteral>] BaseRootView<'P> =
+    inherit React.Component<'P, RootViewState>
+    abstract _frontLayerViewChangedSubscription: obj with get, set
+    abstract _newAnnouncementEventChangedSubscription: obj with get, set
+    abstract _memoryWarningEventSubscription: obj with get, set
+    abstract _mainViewProps: obj with get, set
+    abstract _rootViewId: string option with get, set
+    abstract _getPropsForMainView: unit -> obj
+    abstract componentWillMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract _renderAnnouncerView: unit -> JSX.Element
+    abstract renderTopView: content: JSX.Element -> JSX.Element
+
+type [<AllowNullLiteral>] BaseRootViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: 'P -> BaseRootView<'P>
+
+type [<AllowNullLiteral>] RootViewUsingStore =
+    inherit BaseRootView<BaseRootViewProps>
+    abstract _changeListener: obj with get, set
+    abstract componentWillMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _onChange: obj with get, set
+    abstract _getStateFromStore: obj with get, set
+    abstract _getPropsForMainView: unit -> obj
+
+type [<AllowNullLiteral>] RootViewUsingStoreStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: BaseRootViewProps -> RootViewUsingStore
+
+type [<AllowNullLiteral>] RootViewUsingProps =
+    inherit BaseRootView<RootViewPropsWithMainViewType>
+    abstract _getPropsForMainView: unit -> obj
+
+type [<AllowNullLiteral>] RootViewUsingPropsStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: RootViewPropsWithMainViewType -> RootViewUsingProps
+
+type [<AllowNullLiteral>] IExports =
+    abstract ScrollView: ScrollViewStatic
+
+type [<AllowNullLiteral>] ScrollView =
+    inherit ViewBase<Types.ScrollViewProps, Types.Stateless>
+    inherit RX.ScrollView
+    abstract _scrollTop: obj with get, set
+    abstract _scrollLeft: obj with get, set
+    abstract _nativeView: obj option with get, set
+    abstract _render: props: Types.ScrollViewProps -> JSX.Element
+    abstract render: unit -> JSX.Element
+    abstract _onScroll: obj with get, set
+    abstract setScrollTop: scrollTop: float * ?animate: bool -> unit
+    abstract setScrollLeft: scrollLeft: float * ?animate: bool -> unit
+    abstract addToScrollTop: deltaTop: float * ?animate: bool -> unit
+    abstract addToScrollLeft: deltaLeft: float * ?animate: bool -> unit
+
+type [<AllowNullLiteral>] ScrollViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollView
+    abstract useCustomScrollbars: unit -> unit
+let [<Import("_default","reactxp")>] _default: Storage = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Storage: StorageStatic
+
+type [<AllowNullLiteral>] Storage =
+    inherit RX.Storage
+    abstract getItem: key: string -> SyncTasks.Promise<string option>
+    abstract setItem: key: string * value: string -> SyncTasks.Promise<unit>
+    abstract removeItem: key: string -> SyncTasks.Promise<unit>
+    abstract clear: unit -> SyncTasks.Promise<unit>
+
+type [<AllowNullLiteral>] StorageStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Storage
+type StyleLeakDetector as CommonStyleLeakDetector = ___common_StyleLeakDetector.StyleLeakDetector as CommonStyleLeakDetector
+let [<Import("_default","reactxp")>] _default: StyleLeakDetector = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StyleLeakDetector: StyleLeakDetectorStatic
+
+type [<AllowNullLiteral>] StyleLeakDetector =
+    inherit CommonStyleLeakDetector
+    abstract isDisabled: unit -> bool
+
+type [<AllowNullLiteral>] StyleLeakDetectorStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StyleLeakDetector
+let [<Import("_default","reactxp")>] _default: Styles = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Styles: StylesStatic
+
+type [<AllowNullLiteral>] Styles =
+    inherit RX.Styles
+    abstract combine: ruleSet1: Types.StyleRuleSetRecursive<'S> option * ?ruleSet2: Types.StyleRuleSetRecursive<'S> -> Types.StyleRuleSetOrArray<'S> option
+    abstract createViewStyle: ruleSet: Types.ViewStyle * ?cacheStyle: bool -> Types.ViewStyleRuleSet
+    abstract createAnimatedViewStyle: ruleSet: Types.AnimatedViewStyle -> Types.AnimatedViewStyleRuleSet
+    abstract createScrollViewStyle: ruleSet: Types.ScrollViewStyle * ?cacheStyle: bool -> Types.ScrollViewStyleRuleSet
+    abstract createButtonStyle: ruleSet: Types.ButtonStyle * ?cacheStyle: bool -> Types.ButtonStyleRuleSet
+    abstract createWebViewStyle: ruleSet: Types.WebViewStyle * ?cacheStyle: bool -> Types.WebViewStyleRuleSet
+    abstract createTextStyle: ruleSet: Types.TextStyle * ?cacheStyle: bool -> Types.TextStyleRuleSet
+    abstract createAnimatedTextStyle: ruleSet: Types.AnimatedTextStyle -> Types.AnimatedTextStyleRuleSet
+    abstract createTextInputStyle: ruleSet: Types.TextInputStyle * ?cacheStyle: bool -> Types.TextInputStyleRuleSet
+    abstract createAnimatedTextInputStyle: ruleSet: Types.AnimatedTextInputStyle -> Types.AnimatedTextInputStyleRuleSet
+    abstract createImageStyle: ruleSet: Types.ImageStyle * ?cacheStyle: bool -> Types.ImageStyleRuleSet
+    abstract createAnimatedImageStyle: ruleSet: Types.AnimatedImageStyle -> Types.AnimatedImageStyleRuleSet
+    abstract createLinkStyle: ruleSet: Types.LinkStyle * ?cacheStyle: bool -> Types.LinkStyleRuleSet
+    abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
+    abstract getCssPropertyAliasesCssStyle: unit -> obj
+    abstract _adaptStyles: obj with get, set
+    abstract _adaptAnimatedStyles: obj with get, set
+
+type [<AllowNullLiteral>] StylesStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Styles
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract Text: TextStatic
+
+type [<AllowNullLiteral>] TextContext =
+    abstract isRxParentAText: bool with get, set
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+    abstract isRxParentAContextMenuResponder: bool option with get, set
+
+type [<AllowNullLiteral>] Text =
+    inherit React.Component<Types.TextProps, Types.Stateless>
+    inherit React.ChildContextProvider<TextContext>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: TextContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
+    abstract setNativeProps: nativeProps: RN.TextProps -> unit
+    abstract render: unit -> JSX.Element
+    abstract componentDidMount: unit -> unit
+    abstract _onMount: (obj option -> unit) with get, set
+    abstract _onPress: obj with get, set
+    abstract getChildContext: unit -> obj
+    abstract _getStyles: unit -> Types.StyleRuleSetRecursiveArray<Types.TextStyleRuleSet>
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+
+type [<AllowNullLiteral>] TextStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Text
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract TextInput: TextInputStatic
+
+type [<AllowNullLiteral>] TextInputState =
+    abstract inputValue: string with get, set
+    abstract isFocused: bool with get, set
+
+type [<AllowNullLiteral>] TextInputContext =
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] TextInput =
+    inherit React.Component<Types.TextInputProps, TextInputState>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: TextInputContext with get, set
+    abstract _selectionToSet: obj with get, set
+    abstract _selection: obj with get, set
+    abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
+    abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
+    abstract componentDidMount: unit -> unit
+    abstract _render: props: RN.TextInputProps * onMount: (obj option -> unit) -> JSX.Element
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract _onChangeText: obj with get, set
+    abstract _onSelectionChange: obj with get, set
+    abstract _onKeyPress: obj with get, set
+    abstract _onPaste: obj with get, set
+    abstract _onScroll: obj with get, set
+    abstract blur: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract setAccessibilityFocus: unit -> unit
+    abstract isFocused: unit -> bool
+    abstract selectAll: unit -> unit
+    abstract selectRange: start: float * ``end``: float -> unit
+    abstract getSelectionRange: unit -> obj
+    abstract setValue: value: string -> unit
+
+type [<AllowNullLiteral>] TextInputStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
+let [<Import("_default","reactxp")>] _default: UserInterface = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract UserInterface: UserInterfaceStatic
+
+type [<AllowNullLiteral>] UserInterface =
+    inherit RX.UserInterface
+    abstract _touchLatencyThresholhdMs: obj with get, set
+    abstract _isNavigatingWithKeyboard: obj with get, set
+    abstract _rootViewUsingPropsFactory: obj with get, set
+    abstract measureLayoutRelativeToWindow: ``component``: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
+    abstract measureLayoutRelativeToAncestor: ``component``: React.Component<obj option, obj option> * ancestor: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
+    abstract measureWindow: ?rootViewId: string -> Types.LayoutInfo
+    abstract getContentSizeMultiplier: unit -> SyncTasks.Promise<float>
+    abstract getMaxContentSizeMultiplier: unit -> SyncTasks.Promise<float>
+    abstract setMaxContentSizeMultiplier: maxContentSizeMultiplier: float -> unit
+    abstract useCustomScrollbars: ?enable: bool -> unit
+    abstract dismissKeyboard: unit -> unit
+    abstract isHighPixelDensityScreen: unit -> bool
+    abstract getPixelRatio: unit -> float
+    abstract setMainView: element: React.ReactElement<obj option> -> unit
+    abstract registerRootViewUsingPropsFactory: factory: RN.ComponentProvider -> unit
+    abstract registerRootView: viewKey: string * getComponentFunc: Function -> unit
+    abstract renderMainView: unit -> unit
+    abstract enableTouchLatencyEvents: latencyThresholdMs: float -> unit
+    abstract evaluateTouchLatency: e: Types.SyntheticEvent -> unit
+    abstract isNavigatingWithKeyboard: unit -> bool
+    abstract _keyboardNavigationStateChanged: obj with get, set
+
+type [<AllowNullLiteral>] UserInterfaceStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> UserInterface
+let [<Import("_default","reactxp")>] _default: UserPresence = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract UserPresence: UserPresenceStatic
+
+type [<AllowNullLiteral>] UserPresence =
+    inherit RX.UserPresence
+    abstract isUserPresent: unit -> bool
+
+type [<AllowNullLiteral>] UserPresenceStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> UserPresence
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract View: ViewStatic
+
+type [<AllowNullLiteral>] ViewContext =
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] View =
+    inherit ViewBase<Types.ViewProps, Types.Stateless>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: ViewContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _internalProps: obj option with get, set
+    abstract touchableGetInitialState: (unit -> RN.Touchable.State) with get, set
+    abstract touchableHandleStartShouldSetResponder: (unit -> bool) with get, set
+    abstract touchableHandleResponderTerminationRequest: (unit -> bool) with get, set
+    abstract touchableHandleResponderGrant: (React.SyntheticEvent<obj option> -> unit) with get, set
+    abstract touchableHandleResponderMove: (React.SyntheticEvent<obj option> -> unit) with get, set
+    abstract touchableHandleResponderRelease: (React.SyntheticEvent<obj option> -> unit) with get, set
+    abstract touchableHandleResponderTerminate: (React.SyntheticEvent<obj option> -> unit) with get, set
+    abstract _mixinIsApplied: obj with get, set
+    abstract _childrenKeys: obj with get, set
+    abstract _mixin_componentDidMount: obj option with get, set
+    abstract _mixin_componentWillUnmount: obj option with get, set
+    abstract _isMounted: bool with get, set
+    abstract _hideTimeout: obj with get, set
+    abstract _defaultOpacityValue: obj with get, set
+    abstract _opacityAnimatedValue: obj with get, set
+    abstract _opacityAnimatedStyle: obj with get, set
+    abstract _focusArbitratorProvider: obj with get, set
+    abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
+    abstract componentWillUpdate: nextProps: Types.ViewProps * nextState: ViewComponentWillUpdateNextState -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _updateMixin: obj with get, set
+    abstract getChildContext: unit -> ViewContext
+    /// Attention:
+    /// be careful with setting any non layout properties unconditionally in this method to any value
+    /// as on android that would lead to extra layers of Views.
+    abstract _buildInternalProps: props: Types.ViewProps -> unit
+    abstract _isTouchFeedbackApplicable: obj with get, set
+    abstract _opacityActive: obj with get, set
+    abstract _opacityInactive: obj with get, set
+    abstract _getDefaultOpacityValue: obj with get, set
+    abstract _setOpacityTo: obj with get, set
+    abstract _showUnderlay: obj with get, set
+    abstract _hideUnderlay: obj with get, set
+    abstract _isButton: viewProps: Types.ViewProps -> bool
+    abstract _updateFocusArbitratorProvider: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract touchableHandlePress: e: Types.SyntheticEvent -> unit
+    abstract touchableHandleLongPress: e: Types.SyntheticEvent -> unit
+    abstract touchableHandleActivePressIn: e: Types.SyntheticEvent -> unit
+    abstract touchableHandleActivePressOut: e: Types.SyntheticEvent -> unit
+    abstract touchableGetHighlightDelayMS: unit -> float
+    abstract touchableGetPressRectOffset: unit -> obj
+    abstract setFocusRestricted: restricted: bool -> unit
+    abstract setFocusLimited: limited: bool -> unit
+    abstract blur: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+
+type [<AllowNullLiteral>] ViewComponentWillUpdateNextState =
+    interface end
+
+type [<AllowNullLiteral>] ViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
+
+type [<AllowNullLiteral>] IExports =
+    abstract ViewBase: ViewBaseStatic
+
+type [<AllowNullLiteral>] ViewBase<'P, 'S> =
+    inherit RX.ViewBase<'P, 'S>
+    abstract _defaultViewStyle: obj with get, set
+    abstract _layoutEventValues: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract _nativeView: RN.View option with get, set
+    abstract setNativeProps: nativeProps: RN.ViewProps -> unit
+    abstract _setNativeView: (obj option -> unit) with get, set
+    abstract _getStyles: props: Types.ViewProps -> RX.Types.StyleRuleSetRecursive<RX.Types.StyleRuleSet<RX.Types.ViewStyle>>
+    abstract _onLayout: (RN.LayoutChangeEvent -> unit) with get, set
+
+type [<AllowNullLiteral>] ViewBaseStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> ViewBase<'P, 'S>
+    abstract setDefaultViewStyle: defaultViewStyle: Types.ViewStyleRuleSet -> unit
+    abstract getDefaultViewStyle: unit -> RX.Types.StyleRuleSet<RX.Types.ViewStyle>
+
+type [<AllowNullLiteral>] IExports =
+    abstract WebView: WebViewStatic
+
+type [<AllowNullLiteral>] WebView =
+    inherit React.Component<Types.WebViewProps, Types.Stateless>
+    inherit RX.WebView
+    abstract _mountedComponent: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (obj option -> unit) with get, set
+    abstract _onMessage: (RN.NativeSyntheticEvent<RN.WebViewMessageEventData> -> unit) with get, set
+    abstract _buildSource: obj with get, set
+    abstract postMessage: message: string * ?targetOrigin: string -> unit
+    abstract reload: unit -> unit
+    abstract goBack: unit -> unit
+    abstract goForward: unit -> unit
+
+type [<AllowNullLiteral>] WebViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> WebView
+type ComponentProvider = React_native.ComponentProvider
+type App as AppCommon = ___native_common_App.App as AppCommon
+let [<Import("_default","reactxp")>] _default: App = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract App: AppStatic
+
+type [<AllowNullLiteral>] App =
+    inherit AppCommon
+    abstract getRootViewFactory: unit -> ComponentProvider
+    abstract getRootViewUsingPropsFactory: unit -> ComponentProvider
+
+type [<AllowNullLiteral>] AppStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> App
+type Input as InputCommon = ___native_common_Input.Input as InputCommon
+let [<Import("_default","reactxp")>] _default: Input = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Input: InputStatic
+
+type [<AllowNullLiteral>] Input =
+    inherit InputCommon
+    abstract dispatchKeyDown: e: Types.KeyboardEvent -> unit
+    abstract dispatchKeyUp: e: Types.KeyboardEvent -> unit
+
+type [<AllowNullLiteral>] InputStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Input
+type RootView as RootViewBase = ___native_common_RootView.RootView as RootViewBase
+type RootViewUsingProps as RootViewUsingPropsBase = ___native_common_RootView.RootViewUsingProps as RootViewUsingPropsBase
+type BaseRootViewProps = ___native_common_RootView.BaseRootViewProps
+type RootViewPropsWithMainViewType = ___native_common_RootView.RootViewPropsWithMainViewType
+type RootViewState = ___native_common_RootView.RootViewState
+type BaseRootView = ___native_common_RootView.BaseRootView
+let [<Import("RootViewUsingStore","reactxp")>] RootViewUsingStore: obj = jsNative
+let [<Import("RootViewUsingProps","reactxp")>] RootViewUsingProps: obj = jsNative
+module Ts = Typescript
+type RuleFailure = Tslint.RuleFailure
+type Rules = Tslint.Rules
+
+type [<AllowNullLiteral>] IExports =
+    abstract Rule: RuleStatic
+
+type [<AllowNullLiteral>] Rule =
+    inherit Rules.AbstractRule
+    abstract FAILURE_STRING_PART: string with get, set
+    abstract apply: sourceFile: Ts.SourceFile -> ResizeArray<RuleFailure>
+
+type [<AllowNullLiteral>] RuleStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Rule
+module Ts = Typescript
+type RuleFailure = Tslint.RuleFailure
+type Rules = Tslint.Rules
+
+type [<AllowNullLiteral>] IExports =
+    abstract Rule: RuleStatic
+
+type [<AllowNullLiteral>] Rule =
+    inherit Rules.AbstractRule
+    abstract apply: sourceFile: Ts.SourceFile -> ResizeArray<RuleFailure>
+
+type [<AllowNullLiteral>] RuleStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Rule
+module Ts = Typescript
+type RuleFailure = Tslint.RuleFailure
+type Rules = Tslint.Rules
+
+type [<AllowNullLiteral>] IExports =
+    abstract Rule: RuleStatic
+
+type [<AllowNullLiteral>] Rule =
+    inherit Rules.AbstractRule
+    abstract apply: sourceFile: Ts.SourceFile -> ResizeArray<RuleFailure>
+
+type [<AllowNullLiteral>] RuleStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Rule
+type Accessibility as CommonAccessibility = ___common_Accessibility.Accessibility as CommonAccessibility
+let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Accessibility: AccessibilityStatic
+
+type [<AllowNullLiteral>] Accessibility =
+    inherit CommonAccessibility
+    abstract isScreenReaderEnabled: unit -> bool
+
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityAnnouncer: AccessibilityAnnouncerStatic
+
+type [<AllowNullLiteral>] AccessibilityAnnouncerState =
+    abstract announcementText: string with get, set
+    abstract announcementTextInNestedDiv: bool with get, set
+
+type [<AllowNullLiteral>] AccessibilityAnnouncer =
+    inherit React.Component<obj, AccessibilityAnnouncerState>
+    abstract _clearAnnouncementTimer: obj with get, set
+    abstract _newAnnouncementEventChangedSubscription: obj with get, set
+    abstract _getInitialState: obj with get, set
+    abstract componentDidUpdate: prevProps: AccessibilityAnnouncerComponentDidUpdatePrevProps * prevState: AccessibilityAnnouncerState -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract _cancelClearAnnouncementTimer: obj with get, set
+    abstract _startClearAnnouncementTimer: obj with get, set
+
+type [<AllowNullLiteral>] AccessibilityAnnouncerComponentDidUpdatePrevProps =
+    interface end
+
+type [<AllowNullLiteral>] AccessibilityAnnouncerStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: AccessibilityAnnouncerStaticProps -> AccessibilityAnnouncer
+
+type [<AllowNullLiteral>] AccessibilityAnnouncerStaticProps =
+    interface end
+type AccessibilityUtil as CommonAccessibiltiyUtil = ___common_AccessibilityUtil.AccessibilityUtil as CommonAccessibiltiyUtil
+let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    inherit CommonAccessibiltiyUtil
+    abstract accessibilityLiveRegionToString: liveRegion: Types.AccessibilityLiveRegion -> Types.AriaLive option
+    abstract accessibilityTraitToString: traits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option * ?defaultTrait: Types.AccessibilityTrait -> string option
+    abstract accessibilityTraitToAriaSelected: traits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option -> bool option
+    abstract accessibilityTraitToAriaChecked: traits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option -> bool option
+    abstract accessibilityTraitToAriaHasPopup: traits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option -> bool option
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+
+type [<AllowNullLiteral>] IExports =
+    abstract ActivityIndicator: ActivityIndicatorStatic
+
+type [<AllowNullLiteral>] ActivityIndicatorState =
+    abstract isVisible: bool option with get, set
+
+type [<AllowNullLiteral>] ActivityIndicator =
+    inherit React.Component<Types.ActivityIndicatorProps, ActivityIndicatorState>
+    abstract _isStyleSheetInstalled: obj with get, set
+    abstract _isMounted: obj with get, set
+    abstract _installStyleSheet: obj with get, set
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] ActivityIndicatorStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ActivityIndicatorProps -> ActivityIndicator
+let [<Import("_default","reactxp")>] _default: Alert = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Alert: AlertStatic
+
+type [<AllowNullLiteral>] Alert =
+    inherit RX.Alert
+    abstract _modalId: obj with get, set
+    abstract show: title: string * ?message: string * ?buttons: ResizeArray<Types.AlertButtonSpec> * ?options: Types.AlertOptions -> unit
+
+type [<AllowNullLiteral>] AlertStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Alert
+type ViewProps = ___common_Types.ViewProps
+
+type [<AllowNullLiteral>] IExports =
+    abstract AlertModalContent: AlertModalContentStatic
+
+type [<AllowNullLiteral>] AppModalContentProps =
+    inherit ViewProps
+    abstract buttons: ResizeArray<Types.AlertButtonSpec> option with get, set
+    abstract title: string with get, set
+    abstract message: string option with get, set
+    abstract modalId: string with get, set
+    abstract theme: Types.AlertModalTheme option with get, set
+
+type [<AllowNullLiteral>] AppModalContentState =
+    abstract hoverIndex: float with get, set
+
+type [<AllowNullLiteral>] AlertModalContent =
+    inherit RX.Component<AppModalContentProps, AppModalContentState>
+    abstract render: unit -> JSX.Element
+    abstract _onPressButton: obj with get, set
+    abstract _onPressBody: obj with get, set
+    abstract _onPressBackground: obj with get, set
+
+type [<AllowNullLiteral>] AlertModalContentStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: AppModalContentProps -> AlertModalContent
 let [<Import("timing","reactxp")>] timing: Types.Animated.TimingFunction = jsNative
 let [<Import("sequence","reactxp")>] sequence: Types.Animated.SequenceFunction = jsNative
 let [<Import("parallel","reactxp")>] ``parallel``: Types.Animated.ParallelFunction = jsNative
@@ -4799,124 +3456,1818 @@ type TextInput =
 
 type View =
     RX.AnimatedView
-let [<Import("*","reactxp")>] reactXP: ReactXP.IExports = jsNative
+let [<Import("_default","reactxp")>] _default: App = jsNative
 
-module ReactXP =
+type [<AllowNullLiteral>] IExports =
+    abstract App: AppStatic
 
-    type [<AllowNullLiteral>] IExports =
-        abstract Accessibility: RXInterfaces.Accessibility
-        abstract ActivityIndicator: obj
-        abstract Alert: RXInterfaces.Alert
-        abstract App: RXInterfaces.App
-        abstract Button: obj
-        abstract Picker: obj
-        abstract Clipboard: RXInterfaces.Clipboard
-        abstract GestureView: obj
-        abstract Image: RXInterfaces.ImageConstructor
-        abstract Input: RXInterfaces.Input
-        abstract International: RXInterfaces.International
-        abstract Link: obj
-        abstract Linking: RXInterfaces.Linking
-        abstract Location: RXInterfaces.Location
-        abstract Modal: RXInterfaces.Modal
-        abstract Network: RXInterfaces.Network
-        abstract Platform: RXInterfaces.Platform
-        abstract Popup: RXInterfaces.Popup
-        abstract ScrollView: RXInterfaces.ScrollViewConstructor
-        abstract StatusBar: RXInterfaces.StatusBar
-        abstract Storage: RXInterfaces.Storage
-        abstract Styles: RXInterfaces.Styles
-        abstract Text: obj
-        abstract TextInput: obj
-        abstract UserInterface: RXInterfaces.UserInterface
-        abstract UserPresence: RXInterfaces.UserPresence
-        abstract View: obj
-        abstract WebView: RXInterfaces.WebViewConstructor
-        abstract createElement: obj
-        abstract Children: React.ReactChildren
-        abstract __spread: obj option
+type [<AllowNullLiteral>] App =
+    inherit RX.App
+    abstract _activationState: obj with get, set
+    abstract initialize: debug: bool * development: bool -> unit
+    abstract getActivationState: unit -> Types.AppActivationState
+    abstract _setActivationState: obj with get, set
 
-    type Accessibility =
-        RXInterfaces.Accessibility
+type [<AllowNullLiteral>] AppStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> App
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+type Button as ButtonBase = ___common_Interfaces.Button as ButtonBase
 
-    type ActivityIndicator =
-        RXInterfaces.ActivityIndicator
+type [<AllowNullLiteral>] IExports =
+    abstract Button: ButtonStatic
 
-    type Alert =
-        RXInterfaces.Alert
+type [<AllowNullLiteral>] ButtonContext =
+    abstract hasRxButtonAscendant: bool option with get, set
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
 
-    type App =
-        RXInterfaces.App
+type [<AllowNullLiteral>] Button =
+    inherit ButtonBase
+    abstract contextTypes: obj with get, set
+    abstract context: ButtonContext with get, set
+    abstract childContextTypes: obj with get, set
+    abstract _isMounted: obj with get, set
+    abstract _lastMouseDownEvent: obj with get, set
+    abstract _ignoreClick: obj with get, set
+    abstract _longPressTimer: obj with get, set
+    abstract _isMouseOver: obj with get, set
+    abstract _isFocusedWithKeyboard: obj with get, set
+    abstract _isHoverStarted: obj with get, set
+    abstract getChildContext: unit -> ButtonContext
+    abstract render: unit -> JSX.Element
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+    abstract onClick: (Types.MouseEvent -> unit) with get, set
+    abstract _getStyles: obj with get, set
+    abstract _onContextMenu: obj with get, set
+    abstract _onMouseDown: obj with get, set
+    abstract _onMouseUp: obj with get, set
+    abstract _onMouseEnter: obj with get, set
+    abstract _onMouseLeave: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract _onHoverStart: obj with get, set
+    abstract _onHoverEnd: obj with get, set
 
-    type Button =
-        RXInterfaces.Button
+type [<AllowNullLiteral>] ButtonStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
+let [<Import("_default","reactxp")>] _default: Clipboard = jsNative
 
-    type Picker =
-        RXInterfaces.Picker
+type [<AllowNullLiteral>] IExports =
+    abstract Clipboard: ClipboardStatic
 
-    type Clipboard =
-        RXInterfaces.Clipboard
+type [<AllowNullLiteral>] Clipboard =
+    inherit RX.Clipboard
+    abstract setText: text: string -> unit
+    abstract getText: unit -> SyncTasks.Promise<string>
+    abstract _createInvisibleNode: obj with get, set
+    abstract _copyNode: obj with get, set
 
-    type GestureView =
-        RXInterfaces.GestureView
+type [<AllowNullLiteral>] ClipboardStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Clipboard
 
-    type Image =
-        RXInterfaces.Image
+type [<AllowNullLiteral>] IExports =
+    abstract Scrollbar: ScrollbarStatic
 
-    type Input =
-        RXInterfaces.Input
+/// CustomScrollbar.ts
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// Custom scrollbar implementation for web.
+type [<AllowNullLiteral>] ScrollbarOptions =
+    abstract horizontal: bool option with get, set
+    abstract vertical: bool option with get, set
+    abstract hiddenScrollbar: bool option with get, set
 
-    type International =
-        RXInterfaces.International
+type [<AllowNullLiteral>] Scrollbar =
+    abstract _container: obj with get, set
+    abstract _verticalBar: obj with get, set
+    abstract _horizontalBar: obj with get, set
+    abstract _viewport: obj with get, set
+    abstract _dragging: obj with get, set
+    abstract _dragIsVertical: obj with get, set
+    abstract _scrollingVisible: obj with get, set
+    abstract _hasHorizontal: obj with get, set
+    abstract _hasVertical: obj with get, set
+    abstract _hasHiddenScrollbar: obj with get, set
+    abstract _stopDragCallback: obj with get, set
+    abstract _startDragVCallback: obj with get, set
+    abstract _startDragHCallback: obj with get, set
+    abstract _handleDragCallback: obj with get, set
+    abstract _handleWheelCallback: obj with get, set
+    abstract _handleMouseDownCallback: obj with get, set
+    abstract _updateCallback: obj with get, set
+    abstract _asyncInitTimer: obj with get, set
+    abstract _tryLtrOverride: obj with get, set
+    abstract _prevent: obj with get, set
+    abstract _updateSliders: obj with get, set
+    abstract _handleDrag: obj with get, set
+    abstract _startDrag: obj with get, set
+    abstract _stopDrag: obj with get, set
+    abstract _handleWheel: obj with get, set
+    abstract _handleMouseDown: obj with get, set
+    abstract _normalizeDelta: obj with get, set
+    abstract _addListeners: obj with get, set
+    abstract _removeListeners: obj with get, set
+    abstract _createDivWithClass: obj with get, set
+    abstract _addScrollBar: obj with get, set
+    abstract _addScrollbars: obj with get, set
+    abstract _removeScrollbars: obj with get, set
+    abstract _calcNewBarSize: obj with get, set
+    abstract _resize: obj with get, set
+    abstract update: unit -> unit
+    abstract show: unit -> unit
+    abstract hide: unit -> unit
+    abstract init: ?options: ScrollbarOptions -> unit
+    abstract dispose: unit -> unit
 
-    type Link =
-        RXInterfaces.Link
+type [<AllowNullLiteral>] ScrollbarStatic =
+    abstract getNativeScrollbarWidth: unit -> float
+    abstract _installStyleSheet: unit -> unit
+    [<Emit "new $0($1...)">] abstract Create: container: HTMLElement -> Scrollbar
+let [<Import("_default","reactxp")>] _default: FrontLayerViewManager = jsNative
 
-    type Linking =
-        RXInterfaces.Linking
+type [<AllowNullLiteral>] IExports =
+    abstract FrontLayerViewManager: FrontLayerViewManagerStatic
 
-    type Location =
-        RXInterfaces.Location
+type [<AllowNullLiteral>] FrontLayerViewManager =
+    abstract _mainView: obj with get, set
+    abstract _modalStack: obj with get, set
+    abstract _activePopupOptions: obj with get, set
+    abstract _activePopupId: obj with get, set
+    abstract _activePopupAutoDismiss: obj with get, set
+    abstract _activePopupAutoDismissDelay: obj with get, set
+    abstract _activePopupShowDelay: obj with get, set
+    abstract _popupShowDelayTimer: obj with get, set
+    abstract _cachedPopups: obj with get, set
+    abstract _isRtlDefault: obj with get, set
+    abstract _isRtlAllowed: obj with get, set
+    abstract _isRtlForced: obj with get, set
+    abstract setMainView: element: React.ReactElement<obj option> -> unit
+    abstract isModalDisplayed: ?modalId: string -> bool
+    abstract showModal: modal: React.ReactElement<Types.ViewProps> * modalId: string * ?options: Types.ModalOptions -> unit
+    abstract dismissModal: modalId: string -> unit
+    abstract dismissAllModals: unit -> unit
+    abstract _shouldPopupBeDismissed: obj with get, set
+    abstract showPopup: options: Types.PopupOptions * popupId: string * ?showDelay: float -> bool
+    abstract _showPopup: obj with get, set
+    abstract autoDismissPopup: popupId: string * ?dismissDelay: float -> unit
+    abstract dismissPopup: popupId: string -> unit
+    abstract dismissAllPopups: unit -> unit
+    abstract _renderRootView: obj with get, set
+    abstract isPopupDisplayed: ?popupId: string -> bool
+    abstract allowRTL: allow: bool -> unit
+    abstract forceRTL: force: bool -> unit
+    abstract isRTL: unit -> bool
 
-    type Modal =
-        RXInterfaces.Modal
+type [<AllowNullLiteral>] FrontLayerViewManagerStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> FrontLayerViewManager
 
-    type Network =
-        RXInterfaces.Network
+type [<AllowNullLiteral>] IExports =
+    abstract GestureView: GestureViewStatic
 
-    type Platform =
-        RXInterfaces.Platform
+type [<AllowNullLiteral>] GestureView =
+    inherit React.Component<Types.GestureViewProps, Types.Stateless>
+    abstract _id: obj with get, set
+    abstract _container: obj with get, set
+    abstract _doubleTapTimer: obj with get, set
+    abstract _lastTapEvent: obj with get, set
+    abstract _responder: obj with get, set
+    abstract _pendingGestureType: obj with get, set
+    abstract _gestureTypeLocked: obj with get, set
+    abstract _skipNextTap: obj with get, set
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract _createMouseResponder: obj with get, set
+    abstract _disposeMouseResponder: obj with get, set
+    abstract _setContainerRef: obj with get, set
+    abstract _getStyles: obj with get, set
+    abstract _onClick: obj with get, set
+    abstract _sendContextMenuEvent: obj with get, set
+    abstract _detectGestureType: obj with get, set
+    abstract _getPanPixelThreshold: obj with get, set
+    abstract _shouldRespondToPan: obj with get, set
+    abstract _shouldRespondToPanVertical: obj with get, set
+    abstract _shouldRespondToPanHorizontal: obj with get, set
+    abstract _onWheel: obj with get, set
+    abstract _calcDistance: obj with get, set
+    abstract _isDoubleTap: obj with get, set
+    abstract _startDoubleTapTimer: obj with get, set
+    abstract _cancelDoubleTapTimer: obj with get, set
+    abstract _reportDelayedTap: obj with get, set
+    abstract _sendTapEvent: obj with get, set
+    abstract _sendDoubleTapEvent: obj with get, set
+    abstract _sendPanEvent: obj with get, set
+    abstract _getGestureViewClientRect: obj with get, set
 
-    type Popup =
-        RXInterfaces.Popup
+type [<AllowNullLiteral>] GestureViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> GestureView
 
-    type ScrollView =
-        RXInterfaces.ScrollView
+type [<AllowNullLiteral>] IExports =
+    abstract Image: ImageStatic
 
-    type StatusBar =
-        RXInterfaces.StatusBar
+type [<AllowNullLiteral>] ImageState =
+    abstract showImgTag: bool with get, set
+    abstract xhrRequest: bool with get, set
+    abstract displayUrl: string with get, set
 
-    type Storage =
-        RXInterfaces.Storage
+type [<AllowNullLiteral>] ImageContext =
+    abstract isRxParentAText: bool option with get, set
 
-    type Styles =
-        RXInterfaces.Styles
+type [<AllowNullLiteral>] Image =
+    inherit React.Component<Types.ImageProps, ImageState>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: ImageContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _mountedComponent: obj with get, set
+    abstract getChildContext: unit -> obj
+    abstract _isMounted: obj with get, set
+    abstract _nativeImageWidth: obj with get, set
+    abstract _nativeImageHeight: obj with get, set
+    abstract componentWillReceiveProps: nextProps: Types.ImageProps -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _initializeAndSetState: obj with get, set
+    abstract _handleXhrBlob: obj with get, set
+    abstract _startXhrImageFetch: obj with get, set
+    abstract _actuallyStartXhrImageFetch: obj with get, set
+    abstract render: unit -> React.ReactElement<obj option>
+    abstract _onMount: (HTMLImageElement option -> unit) with get, set
+    abstract _getStyles: obj with get, set
+    abstract _buildBackgroundSize: obj with get, set
+    abstract _onLoad: obj with get, set
+    abstract _imgOnError: obj with get, set
+    abstract _onError: obj with get, set
+    abstract _onMouseUp: obj with get, set
+    abstract getNativeWidth: unit -> float option
+    abstract getNativeHeight: unit -> float option
 
-    type Text =
-        RXInterfaces.Text
+type [<AllowNullLiteral>] ImageStatic =
+    abstract prefetch: url: string -> SyncTasks.Promise<bool>
+    abstract getMetadata: url: string -> SyncTasks.Promise<Types.ImageMetadata>
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ImageProps -> Image
+let [<Import("_default","reactxp")>] _default: Input = jsNative
 
-    type TextInput =
-        RXInterfaces.TextInput
+type [<AllowNullLiteral>] IExports =
+    abstract Input: InputStatic
 
-    type UserInterface =
-        RXInterfaces.UserInterface
+type [<AllowNullLiteral>] Input =
+    inherit RX.Input
+    abstract dispatchKeyDown: e: Types.KeyboardEvent -> unit
+    abstract dispatchKeyUp: e: Types.KeyboardEvent -> unit
 
-    type UserPresence =
-        RXInterfaces.UserPresence
+type [<AllowNullLiteral>] InputStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Input
+let [<Import("_default","reactxp")>] _default: International = jsNative
 
-    type View =
-        RXInterfaces.View
+type [<AllowNullLiteral>] IExports =
+    abstract International: InternationalStatic
 
-    type WebView =
-        RXInterfaces.WebView
-module ReactXP = __web_ReactXP
+type [<AllowNullLiteral>] International =
+    inherit RXInterfaces.International
+    abstract allowRTL: allow: bool -> unit
+    abstract forceRTL: force: bool -> unit
+    abstract isRTL: unit -> bool
+
+type [<AllowNullLiteral>] InternationalStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> International
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract Link: LinkStatic
+
+type [<AllowNullLiteral>] LinkContext =
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] Link =
+    inherit React.Component<Types.LinkProps, Types.Stateless>
+    abstract contextTypes: obj with get, set
+    abstract context: LinkContext with get, set
+    abstract _isMounted: obj with get, set
+    abstract _longPressTimer: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+    abstract _getStyles: unit -> Types.LinkStyleRuleSet
+    abstract _onClick: obj with get, set
+    abstract _onMouseDown: obj with get, set
+    abstract _onMouseUp: obj with get, set
+    abstract _onContextMenu: obj with get, set
+
+type [<AllowNullLiteral>] LinkStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Link
+type Linking as CommonLinking = ___common_Linking.Linking as CommonLinking
+let [<Import("_default","reactxp")>] _default: Linking = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Linking: LinkingStatic
+
+type [<AllowNullLiteral>] Linking =
+    inherit CommonLinking
+    abstract _openUrl: url: string -> SyncTasks.Promise<unit>
+    abstract launchEmail: emailInfo: Types.EmailInfo -> SyncTasks.Promise<unit>
+    abstract getInitialUrl: unit -> SyncTasks.Promise<string option>
+
+type [<AllowNullLiteral>] LinkingStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Linking
+let [<Import("_default","reactxp")>] _default: Modal = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Modal: ModalStatic
+
+type [<AllowNullLiteral>] Modal =
+    inherit RX.Modal
+    abstract isDisplayed: ?modalId: string -> bool
+    abstract show: modal: React.ReactElement<Types.ViewProps> * modalId: string * ?options: Types.ModalOptions -> unit
+    abstract dismiss: modalId: string -> unit
+    abstract dismissAll: unit -> unit
+
+type [<AllowNullLiteral>] ModalStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Modal
+
+type [<AllowNullLiteral>] IExports =
+    abstract ModalContainer: ModalContainerStatic
+
+type [<AllowNullLiteral>] ModalContainer =
+    inherit React.Component<Types.CommonProps, Types.Stateless>
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] ModalContainerStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.CommonProps -> ModalContainer
+let [<Import("_default","reactxp")>] _default: Network = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Network: NetworkStatic
+
+type [<AllowNullLiteral>] Network =
+    inherit RX.Network
+    abstract isConnected: unit -> SyncTasks.Promise<bool>
+    abstract getType: unit -> SyncTasks.Promise<Types.DeviceNetworkType>
+    abstract _onEventOccured: obj with get, set
+
+type [<AllowNullLiteral>] NetworkStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Network
+
+type [<AllowNullLiteral>] IExports =
+    abstract Picker: PickerStatic
+
+type [<AllowNullLiteral>] Picker =
+    inherit RX.Picker
+    abstract render: unit -> JSX.Element
+    abstract _getStyles: obj with get, set
+    abstract _onValueChange: obj with get, set
+
+type [<AllowNullLiteral>] PickerStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Picker
+let [<Import("_default","reactxp")>] _default: Platform = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Platform: PlatformStatic
+
+type [<AllowNullLiteral>] Platform =
+    inherit RX.Platform
+    abstract getType: unit -> Types.PlatformType
+    abstract select: specifics: obj -> 'T option
+
+type [<AllowNullLiteral>] PlatformStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Platform
+let [<Import("_default","reactxp")>] _default: Popup = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Popup: PopupStatic
+
+type [<AllowNullLiteral>] Popup =
+    inherit RX.Popup
+    abstract show: options: Types.PopupOptions * popupId: string * ?delay: float -> bool
+    abstract autoDismiss: popupId: string * ?delay: float -> unit
+    abstract dismiss: popupId: string -> unit
+    abstract dismissAll: unit -> unit
+    abstract isDisplayed: ?popupId: string -> bool
+
+type [<AllowNullLiteral>] PopupStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Popup
+type PopupContainerViewBase = ___common_PopupContainerViewBase.PopupContainerViewBase
+type PopupContainerViewBaseProps = ___common_PopupContainerViewBase.PopupContainerViewBaseProps
+type PopupContainerViewContext = ___common_PopupContainerViewBase.PopupContainerViewContext
+
+type [<AllowNullLiteral>] IExports =
+    abstract PopupContainerView: PopupContainerViewStatic
+
+type [<AllowNullLiteral>] PopupContainerViewProps =
+    inherit PopupContainerViewBaseProps
+    abstract style: React.CSSProperties with get, set
+    abstract onMouseEnter: (React.MouseEvent<HTMLDivElement> -> unit) option with get, set
+    abstract onMouseLeave: (React.MouseEvent<HTMLDivElement> -> unit) option with get, set
+
+type [<AllowNullLiteral>] PopupContainerView =
+    inherit PopupContainerViewBase<PopupContainerViewProps, Types.Stateless>
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] PopupContainerViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: PopupContainerViewProps * context: PopupContainerViewContext -> PopupContainerView
+
+module __web_ReactXP =
+    let [<Import("*","reactxp/web/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+
+    module ReactXP =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract Accessibility: RXInterfaces.Accessibility
+            abstract ActivityIndicator: obj
+            abstract Alert: RXInterfaces.Alert
+            abstract App: RXInterfaces.App
+            abstract Button: obj
+            abstract Picker: obj
+            abstract Clipboard: RXInterfaces.Clipboard
+            abstract GestureView: obj
+            abstract Image: RXInterfaces.ImageConstructor
+            abstract Input: RXInterfaces.Input
+            abstract International: RXInterfaces.International
+            abstract Link: obj
+            abstract Linking: RXInterfaces.Linking
+            abstract Location: RXInterfaces.Location
+            abstract Modal: RXInterfaces.Modal
+            abstract Network: RXInterfaces.Network
+            abstract Platform: RXInterfaces.Platform
+            abstract Popup: RXInterfaces.Popup
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor
+            abstract StatusBar: RXInterfaces.StatusBar
+            abstract Storage: RXInterfaces.Storage
+            abstract Styles: RXInterfaces.Styles
+            abstract Text: obj
+            abstract TextInput: obj
+            abstract UserInterface: RXInterfaces.UserInterface
+            abstract UserPresence: RXInterfaces.UserPresence
+            abstract View: obj
+            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract createElement: obj
+            abstract Children: React.ReactChildren
+            abstract __spread: obj option
+
+        type Accessibility =
+            RXInterfaces.Accessibility
+
+        type ActivityIndicator =
+            RXInterfaces.ActivityIndicator
+
+        type Alert =
+            RXInterfaces.Alert
+
+        type App =
+            RXInterfaces.App
+
+        type Button =
+            RXInterfaces.Button
+
+        type Picker =
+            RXInterfaces.Picker
+
+        type Clipboard =
+            RXInterfaces.Clipboard
+
+        type GestureView =
+            RXInterfaces.GestureView
+
+        type Image =
+            RXInterfaces.Image
+
+        type Input =
+            RXInterfaces.Input
+
+        type International =
+            RXInterfaces.International
+
+        type Link =
+            RXInterfaces.Link
+
+        type Linking =
+            RXInterfaces.Linking
+
+        type Location =
+            RXInterfaces.Location
+
+        type Modal =
+            RXInterfaces.Modal
+
+        type Network =
+            RXInterfaces.Network
+
+        type Platform =
+            RXInterfaces.Platform
+
+        type Popup =
+            RXInterfaces.Popup
+
+        type ScrollView =
+            RXInterfaces.ScrollView
+
+        type StatusBar =
+            RXInterfaces.StatusBar
+
+        type Storage =
+            RXInterfaces.Storage
+
+        type Styles =
+            RXInterfaces.Styles
+
+        type Text =
+            RXInterfaces.Text
+
+        type TextInput =
+            RXInterfaces.TextInput
+
+        type UserInterface =
+            RXInterfaces.UserInterface
+
+        type UserPresence =
+            RXInterfaces.UserPresence
+
+        type View =
+            RXInterfaces.View
+
+        type WebView =
+            RXInterfaces.WebView
+
+type [<AllowNullLiteral>] IExports =
+    abstract PopupDescriptor: PopupDescriptorStatic
+    abstract RootView: RootViewStatic
+
+type [<AllowNullLiteral>] PopupDescriptor =
+    abstract popupId: string with get, set
+    abstract popupOptions: Types.PopupOptions with get, set
+
+type [<AllowNullLiteral>] PopupDescriptorStatic =
+    [<Emit "new $0($1...)">] abstract Create: popupId: string * popupOptions: Types.PopupOptions -> PopupDescriptor
+
+type [<AllowNullLiteral>] RootViewProps =
+    abstract mainView: React.ReactNode option with get, set
+    abstract modal: React.ReactElement<Types.ViewProps> option with get, set
+    abstract activePopup: PopupDescriptor option with get, set
+    abstract cachedPopup: ResizeArray<PopupDescriptor> option with get, set
+    abstract autoDismiss: bool option with get, set
+    abstract autoDismissDelay: float option with get, set
+    abstract onDismissPopup: (unit -> unit) option with get, set
+    abstract keyBoardFocusOutline: string option with get, set
+    abstract mouseFocusOutline: string option with get, set
+    abstract writingDirection: U3<string, string, string> option with get, set
+
+type [<AllowNullLiteral>] RootViewState =
+    abstract isMeasuringPopup: bool with get, set
+    abstract popupWidth: float with get, set
+    abstract popupHeight: float with get, set
+    abstract anchorPosition: Types.PopupPosition with get, set
+    abstract anchorOffset: float with get, set
+    abstract popupTop: float with get, set
+    abstract popupLeft: float with get, set
+    abstract constrainedPopupWidth: float with get, set
+    abstract constrainedPopupHeight: float with get, set
+    abstract isMouseInPopup: bool with get, set
+    abstract focusClass: string option with get, set
+
+type [<AllowNullLiteral>] RootView =
+    inherit React.Component<RootViewProps, RootViewState>
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _mountedComponent: obj with get, set
+    abstract _hidePopupTimer: obj with get, set
+    abstract _respositionPopupTimer: obj with get, set
+    abstract _clickHandlerInstalled: obj with get, set
+    abstract _keyboardHandlerInstalled: obj with get, set
+    abstract _focusManager: obj with get, set
+    abstract _isNavigatingWithKeyboardUpateTimer: obj with get, set
+    abstract _shouldEnableKeyboardNavigationModeOnFocus: obj with get, set
+    abstract _applicationIsNotActive: obj with get, set
+    abstract _applicationIsNotActiveTimer: obj with get, set
+    abstract _prevFocusedElement: obj with get, set
+    abstract _updateKeyboardNavigationModeOnFocusTimer: obj with get, set
+    abstract getChildContext: unit -> obj
+    abstract _getInitialState: obj with get, set
+    abstract componentWillReceiveProps: prevProps: RootViewProps -> unit
+    abstract componentDidUpdate: prevProps: RootViewProps * prevState: RootViewState -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _renderPopup: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (PopupContainerView option -> unit) with get, set
+    abstract _tryClosePopup: obj with get, set
+    abstract _determineIfClickOnElement: obj with get, set
+    abstract _onMouseDownCapture: obj with get, set
+    abstract _onKeyDownCapture: obj with get, set
+    abstract _onFocusIn: obj with get, set
+    abstract _onFocusOut: obj with get, set
+    abstract _requestApplicationIsNotActive: obj with get, set
+    abstract _cancelApplicationIsNotActive: obj with get, set
+    abstract _updateKeyboardNavigationState: obj with get, set
+    abstract _onKeyDown: obj with get, set
+    abstract _onKeyUp: obj with get, set
+    abstract _onMouseEnter: obj with get, set
+    abstract _onMouseLeave: obj with get, set
+    abstract _startHidePopupTimer: obj with get, set
+    abstract _stopHidePopupTimer: obj with get, set
+    abstract _dismissPopup: obj with get, set
+    abstract _startRepositionPopupTimer: obj with get, set
+    abstract _stopRepositionPopupTimer: obj with get, set
+    abstract _recalcPosition: obj with get, set
+    abstract _recalcInnerPosition: obj with get, set
+
+type [<AllowNullLiteral>] RootViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: RootViewProps -> RootView
+
+type [<AllowNullLiteral>] IExports =
+    abstract ScrollView: ScrollViewStatic
+
+type [<AllowNullLiteral>] ScrollView =
+    inherit ViewBase<Types.ScrollViewProps, Types.Stateless>
+    inherit RX.ScrollView
+    abstract _mountedComponent: obj with get, set
+    abstract _mounted: obj with get, set
+    abstract _customScrollbar: obj with get, set
+    abstract _customScrollbarEnabled: obj with get, set
+    abstract _dragging: obj with get, set
+    abstract componentDidUpdate: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract componentWillMount: unit -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillReceiveProps: newProps: Types.ScrollViewProps -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _getContainer: unit -> HTMLElement option
+    abstract _onScroll: obj with get, set
+    abstract _onPropsChange: obj with get, set
+    abstract createCustomScrollbarsIfNeeded: obj with get, set
+    abstract _getContainerStyle: obj with get, set
+    abstract _renderNormal: obj with get, set
+    abstract _renderWithCustomScrollbar: obj with get, set
+    abstract _onMount: (HTMLElement option -> unit) with get, set
+    abstract setScrollTop: scrollTop: float * ?animate: bool -> unit
+    abstract setScrollLeft: scrollLeft: float * ?animate: bool -> unit
+    abstract addToScrollTop: deltaTop: float * animate: bool -> unit
+    abstract addToScrollLeft: deltaLeft: float * animate: bool -> unit
+    abstract _easeInOut: obj with get, set
+    abstract _onTouchStart: obj with get, set
+    abstract _onTouchEnd: obj with get, set
+
+type [<AllowNullLiteral>] ScrollViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ScrollViewProps -> ScrollView
+let [<Import("_default","reactxp")>] _default: ScrollViewConfig = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract ScrollViewConfig: ScrollViewConfigStatic
+
+/// ScrollViewConfig.ts
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// Web-specific scroll view configuration, required to avoid circular
+/// dependency between application and ScrollView.
+type [<AllowNullLiteral>] ScrollViewConfig =
+    abstract _useCustomScrollbars: obj with get, set
+    abstract setUseCustomScrollbars: value: bool -> unit
+    abstract useCustomScrollbars: unit -> bool
+
+/// ScrollViewConfig.ts
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// Web-specific scroll view configuration, required to avoid circular
+/// dependency between application and ScrollView.
+type [<AllowNullLiteral>] ScrollViewConfigStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollViewConfig
+let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StatusBar: StatusBarStatic
+
+type [<AllowNullLiteral>] StatusBar =
+    inherit RX.StatusBar
+    abstract isOverlay: unit -> bool
+    abstract setBarStyle: style: U3<string, string, string> * animated: bool -> unit
+    abstract setHidden: hidden: bool * showHideTransition: U2<string, string> -> unit
+    abstract setNetworkActivityIndicatorVisible: value: bool -> unit
+    abstract setBackgroundColor: color: string * animated: bool -> unit
+    abstract setTranslucent: translucent: bool -> unit
+
+type [<AllowNullLiteral>] StatusBarStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
+let [<Import("_default","reactxp")>] _default: Storage = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Storage: StorageStatic
+
+type [<AllowNullLiteral>] Storage =
+    inherit RX.Storage
+    abstract getItem: key: string -> SyncTasks.Promise<string option>
+    abstract setItem: key: string * value: string -> SyncTasks.Promise<unit>
+    abstract removeItem: key: string -> SyncTasks.Promise<unit>
+    abstract clear: unit -> SyncTasks.Promise<unit>
+
+type [<AllowNullLiteral>] StorageStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Storage
+let [<Import("_default","reactxp")>] _default: Styles = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Styles: StylesStatic
+    abstract memoize: func: 'T * ?resolver: (ResizeArray<obj option> -> obj option) -> 'T
+
+type [<AllowNullLiteral>] CssAliasMap =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: prop: string -> string with get, set
+
+type [<AllowNullLiteral>] Styles =
+    inherit RX.Styles
+    abstract combine: ruleSet1: Types.StyleRuleSetRecursive<'S> option * ?ruleSet2: Types.StyleRuleSetRecursive<'S> -> Types.StyleRuleSetOrArray<'S> option
+    abstract createViewStyle: ruleSet: Types.ViewStyle * ?cacheStyle: bool -> Types.ViewStyleRuleSet
+    abstract createAnimatedViewStyle: ruleSet: Types.AnimatedViewStyle -> Types.AnimatedViewStyleRuleSet
+    abstract createScrollViewStyle: ruleSet: Types.ScrollViewStyle * ?cacheStyle: bool -> Types.ScrollViewStyleRuleSet
+    abstract createButtonStyle: ruleSet: Types.ButtonStyle * ?cacheStyle: bool -> Types.ButtonStyleRuleSet
+    abstract createWebViewStyle: ruleSet: Types.WebViewStyle * ?cacheStyle: bool -> Types.WebViewStyleRuleSet
+    abstract createTextStyle: ruleSet: Types.TextStyle * ?cacheStyle: bool -> Types.TextStyleRuleSet
+    abstract createAnimatedTextStyle: ruleSet: Types.AnimatedTextStyle -> Types.AnimatedTextStyleRuleSet
+    abstract createTextInputStyle: ruleSet: Types.TextInputStyle * ?cacheStyle: bool -> Types.TextInputStyleRuleSet
+    abstract createAnimatedTextInputStyle: ruleSet: Types.AnimatedTextInputStyle -> Types.AnimatedTextInputStyleRuleSet
+    abstract createLinkStyle: ruleSet: Types.LinkStyle * ?cacheStyle: bool -> Types.LinkStyleRuleSet
+    abstract createImageStyle: ruleSet: Types.ImageStyle * ?cacheStyle: bool -> Types.ImageStyleRuleSet
+    abstract createAnimatedImageStyle: ruleSet: Types.AnimatedImageStyle -> Types.AnimatedImageStyleRuleSet
+    abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
+    abstract _getCssPropertyAlias: obj with get, set
+    abstract _createDummyElement: obj with get, set
+    abstract _getCssPropertyAliasesJsStyle: obj with get, set
+    abstract convertJsToCssStyle: prop: string -> string
+    abstract _cssPropertyAliasesCssStyle: (unit -> CssAliasMap) with get, set
+    abstract getCssPropertyAliasesCssStyle: unit -> obj
+    abstract getParentComponentName: ``component``: obj option -> string
+    abstract _adaptStyles: obj with get, set
+
+type [<AllowNullLiteral>] StylesStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Styles
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+type Text as TextBase = ___common_Interfaces.Text as TextBase
+
+type [<AllowNullLiteral>] IExports =
+    abstract Text: TextStatic
+
+type [<AllowNullLiteral>] TextContext =
+    abstract isRxParentAText: bool with get, set
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] Text =
+    inherit TextBase
+    abstract contextTypes: obj with get, set
+    abstract context: TextContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _isMounted: obj with get, set
+    abstract getChildContext: unit -> obj
+    abstract render: unit -> JSX.Element
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _getStyles: unit -> Types.TextStyleRuleSet
+    abstract blur: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+
+type [<AllowNullLiteral>] TextStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Text
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+
+type [<AllowNullLiteral>] IExports =
+    abstract TextInput: TextInputStatic
+
+type [<AllowNullLiteral>] TextInputState =
+    abstract inputValue: string option with get, set
+
+type [<AllowNullLiteral>] TextInputContext =
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] TextInput =
+    inherit React.Component<Types.TextInputProps, TextInputState>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: TextInputContext with get, set
+    abstract _mountedComponent: obj with get, set
+    abstract _selectionStart: obj with get, set
+    abstract _selectionEnd: obj with get, set
+    abstract _isFocused: obj with get, set
+    abstract _ariaLiveEnabled: obj with get, set
+    abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
+    abstract componentDidMount: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract _onMount: obj with get, set
+    abstract _onInput: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract _getKeyboardType: obj with get, set
+    abstract _onPaste: obj with get, set
+    abstract _onInputChanged: obj with get, set
+    abstract _checkSelectionChanged: obj with get, set
+    abstract _onKeyDown: obj with get, set
+    abstract _onScroll: obj with get, set
+    abstract _focus: obj with get, set
+    abstract blur: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract setAccessibilityFocus: unit -> unit
+    abstract isFocused: unit -> bool
+    abstract selectAll: unit -> unit
+    abstract selectRange: start: float * ``end``: float -> unit
+    abstract getSelectionRange: unit -> obj
+    abstract setValue: value: string -> unit
+
+type [<AllowNullLiteral>] TextInputStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
+let [<Import("_default","reactxp")>] _default: UserInterface = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract UserInterface: UserInterfaceStatic
+
+type [<AllowNullLiteral>] UserInterface =
+    inherit RX.UserInterface
+    abstract _isNavigatingWithKeyboard: obj with get, set
+    abstract measureLayoutRelativeToWindow: ``component``: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
+    abstract measureLayoutRelativeToAncestor: ``component``: React.Component<obj option, obj option> * ancestor: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
+    abstract measureWindow: ?rootViewId: string -> Types.LayoutInfo
+    abstract getContentSizeMultiplier: unit -> SyncTasks.Promise<float>
+    abstract getMaxContentSizeMultiplier: unit -> SyncTasks.Promise<float>
+    abstract setMaxContentSizeMultiplier: maxContentSizeMultiplier: float -> unit
+    abstract isHighPixelDensityScreen: unit -> bool
+    abstract getPixelRatio: unit -> float
+    abstract setMainView: element: React.ReactElement<obj option> -> unit
+    abstract registerRootView: viewKey: string * getComponentFunc: Function -> unit
+    abstract useCustomScrollbars: ?enable: bool -> unit
+    abstract dismissKeyboard: unit -> unit
+    abstract enableTouchLatencyEvents: latencyThresholdMs: float -> unit
+    abstract evaluateTouchLatency: e: Types.MouseEvent -> unit
+    abstract isNavigatingWithKeyboard: unit -> bool
+    abstract _keyboardNavigationStateChanged: obj with get, set
+
+type [<AllowNullLiteral>] UserInterfaceStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> UserInterface
+let [<Import("instance","reactxp")>] instance: UserPresence = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract UserPresence: UserPresenceStatic
+
+type [<AllowNullLiteral>] UserPresence =
+    inherit RX.UserPresence
+    abstract _isPresent: obj with get, set
+    abstract isUserPresent: unit -> bool
+    abstract _setUserPresent: obj with get, set
+    abstract _handleWakeup: obj with get, set
+    abstract _handleIdle: obj with get, set
+    abstract _handleFocus: obj with get, set
+    abstract _handleBlur: obj with get, set
+
+type [<AllowNullLiteral>] UserPresenceStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> UserPresence
+type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+type FocusManager = __utils_FocusManager.FocusManager
+
+type [<AllowNullLiteral>] IExports =
+    abstract View: ViewStatic
+
+type [<AllowNullLiteral>] ViewContext =
+    abstract isRxParentAText: bool option with get, set
+    abstract focusManager: FocusManager option with get, set
+    abstract popupContainer: PopupContainerView option with get, set
+    abstract focusArbitrator: FocusArbitratorProvider option with get, set
+
+type [<AllowNullLiteral>] View =
+    inherit ViewBase<Types.ViewProps, Types.Stateless>
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: ViewContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _focusManager: obj with get, set
+    abstract _limitFocusWithin: obj with get, set
+    abstract _isFocusLimited: obj with get, set
+    abstract _isFocusRestricted: obj with get, set
+    abstract _focusArbitratorProvider: obj with get, set
+    abstract _resizeDetectorAnimationFrame: obj with get, set
+    abstract _resizeDetectorNodes: obj with get, set
+    abstract _popupContainer: obj with get, set
+    abstract _popupToken: obj with get, set
+    abstract _renderResizeDetectorIfNeeded: obj with get, set
+    abstract _resizeDetectorReset: obj with get, set
+    abstract _resizeDetectorOnScroll: obj with get, set
+    abstract getChildContext: unit -> ViewContext
+    abstract _getContainer: unit -> HTMLElement option
+    abstract _isHidden: obj with get, set
+    abstract _updateFocusArbitratorProvider: obj with get, set
+    abstract setFocusRestricted: restricted: bool -> unit
+    abstract setFocusLimited: limited: bool -> unit
+    abstract render: unit -> React.ReactElement<obj option>
+    abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
+    abstract enableFocusManager: unit -> unit
+    abstract disableFocusManager: unit -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract blur: unit -> unit
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+
+type [<AllowNullLiteral>] ViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
+
+type [<AllowNullLiteral>] IExports =
+    abstract ViewBase: ViewBaseStatic
+
+type [<AllowNullLiteral>] ViewBase<'P, 'S> =
+    inherit RX.ViewBase<'P, 'S>
+    abstract _viewCheckingTimer: obj with get, set
+    abstract _isResizeHandlerInstalled: obj with get, set
+    abstract _viewCheckingList: obj with get, set
+    abstract _appActivationState: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract _getContainer: unit -> HTMLElement option
+    abstract _isMounted: bool with get, set
+    abstract _isPopupDisplayed: obj with get, set
+    abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
+    abstract _layoutReportList: obj with get, set
+    abstract _layoutReportingTimer: obj with get, set
+    abstract _reportLayoutChange: obj with get, set
+    abstract _lastX: float with get, set
+    abstract _lastY: float with get, set
+    abstract _lastWidth: float with get, set
+    abstract _lastHeight: float with get, set
+    abstract _checkAndReportLayout: unit -> SyncTasks.Promise<unit>
+    abstract _checkViewCheckerBuild: obj with get, set
+    abstract _checkViewCheckerUnbuild: obj with get, set
+    abstract componentDidMount: unit -> unit
+    abstract componentDidUpdate: unit -> unit
+    abstract _onResize: obj with get, set
+    abstract componentWillUnmount: unit -> unit
+
+type [<AllowNullLiteral>] ViewBaseStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> ViewBase<'P, 'S>
+    abstract setActivationState: newState: Types.AppActivationState -> unit
+    abstract _checkViews: unit -> unit
+    abstract _reportDeferredLayoutChanges: unit -> unit
+
+type [<AllowNullLiteral>] IExports =
+    abstract WebView: WebViewStatic
+
+type [<AllowNullLiteral>] WebViewState =
+    abstract postComplete: bool option with get, set
+    abstract webFormIdentifier: string option with get, set
+    abstract webFrameIdentifier: string option with get, set
+
+type [<AllowNullLiteral>] WebView =
+    inherit React.Component<Types.WebViewProps, WebViewState>
+    inherit RX.WebView
+    abstract _webFrameNumber: obj with get, set
+    abstract _onMessageReceived: obj with get, set
+    abstract _messageListenerInstalled: obj with get, set
+    abstract _mountedComponent: obj with get, set
+    abstract _onMessageReceivedToken: obj with get, set
+    abstract componentDidMount: unit -> unit
+    abstract componentDidUpdate: prevProps: Types.WebViewProps * prevState: WebViewState -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _getCustomHtml: obj with get, set
+    abstract _setContents: obj with get, set
+    abstract _installMessageListener: obj with get, set
+    abstract _postRender: obj with get, set
+    abstract render: unit -> JSX.Element
+    abstract _onMount: (HTMLIFrameElement option -> unit) with get, set
+    abstract _onLoad: obj with get, set
+    abstract _sandboxToStringValue: obj with get, set
+    abstract postMessage: message: string * ?targetOrigin: string -> unit
+    abstract reload: unit -> unit
+    abstract goBack: unit -> unit
+    abstract goForward: unit -> unit
+
+type [<AllowNullLiteral>] WebViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.WebViewProps -> WebView
+let [<Import("_default","reactxp")>] _default: Window = jsNative
+type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract Accessibility: AccessibilityStatic
+
+type [<AllowNullLiteral>] Accessibility =
+    inherit NativeAccessibility
+    abstract _isHighContrast: obj with get, set
+    abstract _updateIsHighContrast: obj with get, set
+    abstract isHighContrastEnabled: unit -> bool
+
+type [<AllowNullLiteral>] AccessibilityStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityAnnouncer: AccessibilityAnnouncerStatic
+
+type [<AllowNullLiteral>] AccessibilityAnnouncer =
+    inherit React.Component<obj, obj>
+    abstract _viewElement: obj with get, set
+    abstract _announcementQueue: obj with get, set
+    abstract _announcementQueueTimer: obj with get, set
+    abstract _newAnnouncementEventChangedSubscription: obj with get, set
+    abstract _lastAnnouncement: obj with get, set
+    abstract componentWillUnmount: unit -> unit
+    abstract render: unit -> JSX.Element
+    abstract _onViewRef: obj with get, set
+    abstract _tryDequeueAndAnnounce: obj with get, set
+    abstract _dequeueAndPostAnnouncement: obj with get, set
+
+type [<AllowNullLiteral>] AccessibilityAnnouncerStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: AccessibilityAnnouncerStaticProps -> AccessibilityAnnouncer
+
+type [<AllowNullLiteral>] AccessibilityAnnouncerStaticProps =
+    interface end
+type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AccessibilityUtil: AccessibilityUtilStatic
+
+type [<AllowNullLiteral>] AccessibilityUtil =
+    inherit AccessibilityPlatformUtil
+    abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
+
+type [<AllowNullLiteral>] AccessibilityUtilStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
+type ComponentProvider = React_native.ComponentProvider
+type App as AppCommon = ___native_common_App.App as AppCommon
+let [<Import("_default","reactxp")>] _default: App = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract App: AppStatic
+
+type [<AllowNullLiteral>] App =
+    inherit AppCommon
+    abstract getRootViewFactory: unit -> ComponentProvider
+    abstract getRootViewUsingPropsFactory: unit -> ComponentProvider
+
+type [<AllowNullLiteral>] AppStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> App
+type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
+type Button as ButtonBase = ___native_common_Button.Button as ButtonBase
+type ButtonContext as ButtonContextBase = ___native_common_Button.ButtonContext as ButtonContextBase
+type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+
+type [<AllowNullLiteral>] IExports =
+    abstract Button: ButtonStatic
+
+type [<AllowNullLiteral>] ButtonContext =
+    inherit ButtonContextBase
+    abstract isRxParentAContextMenuResponder: bool option with get, set
+    abstract isRxParentAFocusableInSameFocusManager: bool option with get, set
+
+type [<AllowNullLiteral>] Button =
+    inherit ButtonBase
+    inherit React.ChildContextProvider<ButtonContext>
+    inherit FocusManagerFocusableComponent
+    abstract context: ButtonContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _isFocusedWithKeyboard: obj with get, set
+    abstract _getContextMenuOffset: unit -> obj
+    abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+    abstract setNativeProps: nativeProps: RN.ViewProps -> unit
+    abstract getChildContext: unit -> ButtonContext
+    abstract _onAccessibilityTap: obj with get, set
+    abstract _onKeyDown: obj with get, set
+    abstract _onKeyUp: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract _onHoverStart: (React.SyntheticEvent<obj option> -> unit) with get, set
+    abstract _onHoverEnd: (React.SyntheticEvent<obj option> -> unit) with get, set
+    abstract onFocus: unit -> unit
+    abstract getTabIndex: unit -> float option
+    abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
+    abstract updateNativeAccessibilityProps: unit -> unit
+
+type [<AllowNullLiteral>] ButtonStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Button
+type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+
+type [<AllowNullLiteral>] IExports =
+    abstract GestureView: GestureViewStatic
+
+type [<AllowNullLiteral>] GestureView =
+    inherit BaseGestureView
+    abstract _getPreferredPanRatio: unit -> float
+    abstract _getEventTimestamp: e: Types.TouchEvent -> float
+
+type [<AllowNullLiteral>] GestureViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
+type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
+type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+type LinkBase = ___native_common_Link.LinkBase
+
+type [<AllowNullLiteral>] IExports =
+    abstract Link: LinkStatic
+
+type [<AllowNullLiteral>] LinkState =
+    abstract isRestrictedOrLimited: bool with get, set
+
+type [<AllowNullLiteral>] Link =
+    inherit LinkBase<LinkState>
+    inherit FocusManagerFocusableComponent
+    abstract _getContextMenuOffset: unit -> obj
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract _restrictedOrLimitedCallback: obj with get, set
+    abstract _render: internalProps: RN.TextProps * onMount: (obj option -> unit) -> JSX.Element
+    abstract _renderLinkAsFocusableText: obj with get, set
+    abstract _focusableElement: obj with get, set
+    abstract _onFocusableRef: obj with get, set
+    abstract _createFocusableTextProps: obj with get, set
+    abstract _nativeHyperlinkElement: obj with get, set
+    abstract _onNativeHyperlinkRef: obj with get, set
+    abstract _renderLinkAsNativeHyperlink: obj with get, set
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+    abstract setNativeProps: nativeProps: RN.TextProps -> unit
+    abstract requestFocus: unit -> unit
+    abstract _isAvailableToFocus: obj with get, set
+    abstract _onKeyDown: obj with get, set
+    abstract _onKeyUp: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract onFocus: unit -> unit
+    abstract getTabIndex: unit -> float option
+    abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
+    abstract updateNativeAccessibilityProps: unit -> unit
+
+type [<AllowNullLiteral>] LinkStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.LinkProps -> Link
+
+module __windows_ReactXP =
+    let [<Import("*","reactxp/windows/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+
+    module ReactXP =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract Accessibility: RXInterfaces.Accessibility
+            abstract ActivityIndicator: obj
+            abstract Alert: RXInterfaces.Alert
+            abstract App: RXInterfaces.App
+            abstract Button: obj
+            abstract Picker: obj
+            abstract Clipboard: RXInterfaces.Clipboard
+            abstract GestureView: obj
+            abstract Image: RXInterfaces.ImageConstructor
+            abstract Input: RXInterfaces.Input
+            abstract International: RXInterfaces.International
+            abstract Link: obj
+            abstract Linking: RXInterfaces.Linking
+            abstract Location: RXInterfaces.Location
+            abstract Modal: RXInterfaces.Modal
+            abstract Network: RXInterfaces.Network
+            abstract Platform: RXInterfaces.Platform
+            abstract Popup: RXInterfaces.Popup
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor
+            abstract StatusBar: RXInterfaces.StatusBar
+            abstract Storage: RXInterfaces.Storage
+            abstract Styles: RXInterfaces.Styles
+            abstract Text: obj
+            abstract TextInput: obj
+            abstract UserInterface: RXInterfaces.UserInterface
+            abstract UserPresence: RXInterfaces.UserPresence
+            abstract View: obj
+            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Animated: RXInterfaces.Animated
+            abstract __spread: obj option
+
+        type Accessibility =
+            RXInterfaces.Accessibility
+
+        type ActivityIndicator =
+            RXInterfaces.ActivityIndicator
+
+        type Alert =
+            RXInterfaces.Alert
+
+        type App =
+            RXInterfaces.App
+
+        type Button =
+            RXInterfaces.Button
+
+        type Picker =
+            RXInterfaces.Picker
+
+        type Clipboard =
+            RXInterfaces.Clipboard
+
+        type GestureView =
+            RXInterfaces.GestureView
+
+        type Image =
+            RXInterfaces.Image
+
+        type Input =
+            RXInterfaces.Input
+
+        type International =
+            RXInterfaces.International
+
+        type Link =
+            RXInterfaces.Link
+
+        type Linking =
+            RXInterfaces.Linking
+
+        type Location =
+            RXInterfaces.Location
+
+        type Modal =
+            RXInterfaces.Modal
+
+        type Network =
+            RXInterfaces.Network
+
+        type Platform =
+            RXInterfaces.Platform
+
+        type Popup =
+            RXInterfaces.Popup
+
+        type ScrollView =
+            RXInterfaces.ScrollView
+
+        type StatusBar =
+            RXInterfaces.StatusBar
+
+        type Storage =
+            RXInterfaces.Storage
+
+        type Styles =
+            RXInterfaces.Styles
+
+        type Text =
+            RXInterfaces.Text
+
+        type TextInput =
+            RXInterfaces.TextInput
+
+        type UserInterface =
+            RXInterfaces.UserInterface
+
+        type UserPresence =
+            RXInterfaces.UserPresence
+
+        type View =
+            RXInterfaces.View
+
+        type WebView =
+            RXInterfaces.WebView
+type RootView as RootViewBase = ___native_desktop_RootView.RootView as RootViewBase
+type RootViewUsingProps as RootViewUsingPropsBase = ___native_desktop_RootView.RootViewUsingProps as RootViewUsingPropsBase
+type BaseRootViewProps = ___native_desktop_RootView.BaseRootViewProps
+type RootViewPropsWithMainViewType = ___native_desktop_RootView.RootViewPropsWithMainViewType
+type RootViewState = ___native_desktop_RootView.RootViewState
+type BaseRootView = ___native_desktop_RootView.BaseRootView
+
+type [<AllowNullLiteral>] IExports =
+    abstract RootViewUsingStore: RootViewUsingStoreStatic
+    abstract RootViewUsingProps: RootViewUsingPropsStatic
+
+type [<AllowNullLiteral>] RootViewUsingStore =
+    inherit RootViewBase
+    abstract renderTopView: content: JSX.Element -> JSX.Element
+    abstract _renderAnnouncerView: unit -> JSX.Element
+
+type [<AllowNullLiteral>] RootViewUsingStoreStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> RootViewUsingStore
+
+type [<AllowNullLiteral>] RootViewUsingProps =
+    inherit RootViewUsingPropsBase
+    abstract renderTopView: content: JSX.Element -> JSX.Element
+    abstract _renderAnnouncerView: unit -> JSX.Element
+
+type [<AllowNullLiteral>] RootViewUsingPropsStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> RootViewUsingProps
+type ScrollView as ScrollViewBase = ___native_common_ScrollView.ScrollView as ScrollViewBase
+
+type [<AllowNullLiteral>] IExports =
+    abstract ScrollView: ScrollViewStatic
+
+type [<AllowNullLiteral>] ScrollView =
+    inherit ScrollViewBase
+    abstract _render: props: Types.ScrollViewProps -> JSX.Element
+    abstract _onKeyDown: obj with get, set
+
+type [<AllowNullLiteral>] ScrollViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollView
+let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract StatusBar: StatusBarStatic
+
+type [<AllowNullLiteral>] StatusBar =
+    inherit RX.StatusBar
+    abstract isOverlay: unit -> bool
+    abstract setHidden: hidden: bool * showHideTransition: U2<string, string> -> unit
+    abstract setBackgroundColor: color: string * animated: bool -> unit
+    abstract setTranslucent: translucent: bool -> unit
+    abstract setBarStyle: style: U3<string, string, string> * animated: bool -> unit
+    abstract setNetworkActivityIndicatorVisible: value: bool -> unit
+
+type [<AllowNullLiteral>] StatusBarStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
+type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
+type Text as TextBase = ___native_common_Text.Text as TextBase
+type TextContext as TextContextBase = ___native_common_Text.TextContext as TextContextBase
+type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+
+type [<AllowNullLiteral>] IExports =
+    abstract Text: TextStatic
+
+type [<AllowNullLiteral>] TextContext =
+    inherit TextContextBase
+    abstract isRxParentAFocusableInSameFocusManager: bool option with get, set
+
+type [<AllowNullLiteral>] Text =
+    inherit TextBase
+    inherit React.ChildContextProvider<TextContext>
+    inherit FocusManagerFocusableComponent
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: TextContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract requestFocus: unit -> unit
+    abstract getChildContext: unit -> TextContext
+    abstract onFocus: unit -> unit
+    abstract getTabIndex: unit -> float
+    abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
+    abstract updateNativeAccessibilityProps: unit -> unit
+
+type [<AllowNullLiteral>] TextStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Text
+type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
+type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+type TextInput as TextInputBase = ___native_common_TextInput.TextInput as TextInputBase
+
+type [<AllowNullLiteral>] IExports =
+    abstract TextInput: TextInputStatic
+
+type [<AllowNullLiteral>] TextInput =
+    inherit TextInputBase
+    inherit FocusManagerFocusableComponent
+    abstract _render: props: RN.TextInputProps * onMount: (obj option -> unit) -> JSX.Element
+    abstract _onFocusEx: obj with get, set
+    abstract onFocus: unit -> unit
+    abstract getTabIndex: unit -> float
+    abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
+    abstract updateNativeAccessibilityProps: unit -> unit
+
+type [<AllowNullLiteral>] TextInputStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> TextInput
+type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
+type View as ViewCommon = ___native_common_View.View as ViewCommon
+type ViewContext as ViewContextCommon = ___native_common_View.ViewContext as ViewContextCommon
+type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+type FocusManager = ___native_desktop_utils_FocusManager.FocusManager
+
+type [<AllowNullLiteral>] IExports =
+    abstract View: ViewStatic
+
+type [<AllowNullLiteral>] ViewContext =
+    inherit ViewContextCommon
+    abstract isRxParentAText: bool option with get, set
+    abstract focusManager: FocusManager option with get, set
+    abstract popupContainer: PopupContainerView option with get, set
+    abstract isRxParentAContextMenuResponder: bool option with get, set
+    abstract isRxParentAFocusableInSameFocusManager: bool option with get, set
+
+type [<AllowNullLiteral>] View =
+    inherit ViewCommon
+    inherit React.ChildContextProvider<ViewContext>
+    inherit FocusManagerFocusableComponent
+    abstract contextTypes: React.ValidationMap<obj option> with get, set
+    abstract context: ViewContext with get, set
+    abstract childContextTypes: React.ValidationMap<obj option> with get, set
+    abstract _getContextMenuOffset: unit -> obj
+    abstract _onKeyDown: obj with get, set
+    abstract _onMouseEnter: obj with get, set
+    abstract _onMouseLeave: obj with get, set
+    abstract _onMouseOver: obj with get, set
+    abstract _onMouseMove: obj with get, set
+    abstract _focusableElement: obj with get, set
+    abstract _focusManager: obj with get, set
+    abstract _limitFocusWithin: obj with get, set
+    abstract _isFocusLimited: obj with get, set
+    abstract _isFocusRestricted: obj with get, set
+    abstract _popupContainer: obj with get, set
+    abstract _popupToken: obj with get, set
+    abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
+    abstract enableFocusManager: unit -> unit
+    abstract disableFocusManager: unit -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract hasTrait: obj with get, set
+    abstract _showContextMenu: obj with get, set
+    abstract _buildInternalProps: props: Types.ViewProps -> unit
+    abstract render: unit -> JSX.Element
+    abstract _onFocusableRef: obj with get, set
+    abstract requestFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract blur: unit -> unit
+    abstract getChildContext: unit -> ViewContext
+    abstract _isHidden: obj with get, set
+    abstract setFocusRestricted: restricted: bool -> unit
+    abstract setFocusLimited: limited: bool -> unit
+    abstract _focusRestrictionCallback: obj with get, set
+    abstract setNativeProps: nativeProps: RN.ViewProps -> unit
+    abstract _isButton: viewProps: Types.ViewProps -> bool
+    abstract _onFocusableKeyDown: obj with get, set
+    abstract _onFocusableKeyUp: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract onFocus: unit -> unit
+    abstract getTabIndex: unit -> float option
+    abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
+    abstract updateNativeAccessibilityProps: unit -> unit
+
+type [<AllowNullLiteral>] ViewStatic =
+    [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
+
+type [<AllowNullLiteral>] IExports =
+    abstract setSortAndFilterFunc: sortAndFilter: SortAndFilterFunc -> unit
+    abstract FocusArbitratorProvider: FocusArbitratorProviderStatic
+
+type [<RequireQualifiedAccess>] FocusCandidateType =
+    | Focus = 1
+    | FocusFirst = 2
+
+type [<AllowNullLiteral>] FocusCandidateInternal =
+    abstract ``component``: React.Component<obj option, obj option> with get, set
+    abstract focus: (unit -> unit) with get, set
+    abstract isAvailable: (unit -> bool) with get, set
+    abstract ``type``: FocusCandidateType with get, set
+    abstract accessibilityId: string option with get, set
+
+type [<AllowNullLiteral>] SortAndFilterFunc =
+    [<Emit "$0($1...)">] abstract Invoke: candidates: ResizeArray<FocusCandidateInternal> -> ResizeArray<FocusCandidateInternal>
+
+type [<AllowNullLiteral>] FocusArbitratorProvider =
+    abstract _id: obj with get, set
+    abstract _parentArbitratorProvider: obj with get, set
+    abstract _arbitratorCallback: obj with get, set
+    abstract _candidates: obj with get, set
+    abstract _pendingChildren: obj with get, set
+    abstract _notifyParent: obj with get, set
+    abstract _arbitrate: obj with get, set
+    abstract _requestFocus: obj with get, set
+    abstract _arbitrate: obj with get, set
+    abstract setCallback: ?arbitrator: Types.FocusArbitrator -> unit
+
+type [<AllowNullLiteral>] FocusArbitratorProviderStatic =
+    [<Emit "new $0($1...)">] abstract Create: ?view: Interfaces.View * ?arbitrator: Types.FocusArbitrator -> FocusArbitratorProvider
+    abstract requestFocus: ``component``: React.Component<obj option, obj option> * focus: (unit -> unit) * isAvailable: (unit -> bool) * ?``type``: FocusCandidateType -> unit
+
+type [<AllowNullLiteral>] IExports =
+    abstract FocusManager: FocusManagerStatic
+    abstract applyFocusableComponentMixin: Component: obj option * ?isConditionallyFocusable: Function * ?accessibleOnly: bool -> unit
+
+type [<RequireQualifiedAccess>] RestrictFocusType =
+    | Unrestricted = 0
+    | Restricted = 1
+    | RestrictedFocusFirst = 2
+
+type [<AllowNullLiteral>] FocusableInternal =
+    abstract focusableComponentId: string option with get, set
+
+type [<AllowNullLiteral>] FocusableComponentInternal =
+    interface end
+
+type [<AllowNullLiteral>] StoredFocusableComponent =
+    abstract id: string with get, set
+    abstract numericId: float with get, set
+    abstract ``component``: FocusableComponentInternal with get, set
+    abstract onFocus: (unit -> unit) with get, set
+    abstract accessibleOnly: bool with get, set
+    abstract restricted: bool with get, set
+    abstract limitedCount: float with get, set
+    abstract limitedCountAccessible: float with get, set
+    abstract removed: bool option with get, set
+    abstract callbacks: ResizeArray<FocusableComponentStateCallback> option with get, set
+
+type [<AllowNullLiteral>] FocusableComponentStateCallback =
+    [<Emit "$0($1...)">] abstract Invoke: restrictedOrLimited: bool -> unit
+
+type [<AllowNullLiteral>] FocusManagerRestrictionStateCallback =
+    [<Emit "$0($1...)">] abstract Invoke: restricted: RestrictFocusType -> unit
+
+type [<AllowNullLiteral>] FocusManager =
+    abstract _restrictionStack: obj with get, set
+    abstract _currentRestrictionOwner: FocusManager option with get, set
+    abstract _restoreRestrictionTimer: obj with get, set
+    abstract _pendingPrevFocusedComponent: obj with get, set
+    abstract _currentFocusedComponent: StoredFocusableComponent option with get, set
+    abstract _allFocusableComponents: obj with get, set
+    abstract _skipFocusCheck: bool with get, set
+    abstract _resetFocusTimer: float option with get, set
+    abstract _parent: obj with get, set
+    abstract _isFocusLimited: obj with get, set
+    abstract _currentRestrictType: obj with get, set
+    abstract _prevFocusedComponent: obj with get, set
+    abstract _myFocusableComponentIds: obj with get, set
+    abstract _restrictionStateCallback: obj with get, set
+    abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
+    abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
+    abstract focusComponent: ``component``: FocusableComponentInternal -> bool
+    abstract resetFocus: focusFirstWhenNavigatingWithKeyboard: bool -> unit
+    abstract _updateComponentFocusRestriction: storedComponent: StoredFocusableComponent -> unit
+    abstract addFocusableComponent: ``component``: FocusableComponentInternal * ?accessibleOnly: bool -> unit
+    abstract removeFocusableComponent: ``component``: FocusableComponentInternal -> unit
+    abstract restrictFocusWithin: restrictType: RestrictFocusType * ?noFocusReset: bool -> unit
+    abstract removeFocusRestriction: unit -> unit
+    abstract limitFocusWithin: limitType: Types.LimitFocusType -> unit
+    abstract removeFocusLimitation: unit -> unit
+    abstract release: unit -> unit
+    abstract setRestrictionStateCallback: callback: FocusManagerRestrictionStateCallback option -> unit
+    abstract _getStoredComponent: obj with get, set
+    abstract _removeFocusRestriction: obj with get, set
+    abstract _clearRestoreRestrictionTimeout: obj with get, set
+
+type [<AllowNullLiteral>] FocusManagerStatic =
+    [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
+    abstract subscribe: ``component``: FocusableComponentInternal * callback: FocusableComponentStateCallback -> unit
+    abstract unsubscribe: ``component``: FocusableComponentInternal * callback: FocusableComponentStateCallback -> unit
+    abstract isComponentFocusRestrictedOrLimited: ``component``: FocusableComponentInternal -> bool
+    abstract getCurrentFocusedComponent: unit -> string option
+    abstract _callFocusableComponentStateChangeCallbacks: storedComponent: StoredFocusableComponent * restrictedOrLimited: bool -> unit
+
+type [<AllowNullLiteral>] IExports =
+    abstract Timers: TimersStatic
+
+/// Timers.ts
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// Utility functions for creating timers. We wrap the normal
+/// global timer methods because they are defined in both
+/// the node and lib type definition files, and the definitions
+/// don't match. Depending on which one TypeScript picks up,
+/// we can get compiler errors.
+type [<AllowNullLiteral>] Timers =
+    interface end
+
+/// Timers.ts
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// Utility functions for creating timers. We wrap the normal
+/// global timer methods because they are defined in both
+/// the node and lib type definition files, and the definitions
+/// don't match. Depending on which one TypeScript picks up,
+/// we can get compiler errors.
+type [<AllowNullLiteral>] TimersStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> Timers
+    abstract clearInterval: handle: float -> unit
+    abstract clearTimeout: handle: float -> unit
+    abstract setInterval: handler: (unit -> unit) * timeout: float -> float
+    abstract setTimeout: handler: (unit -> unit) * timeout: float -> float
+let [<Import("_default","reactxp")>] _default: EventHelpers = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract EventHelpers: EventHelpersStatic
+
+type [<AllowNullLiteral>] EventHelpers =
+    abstract toKeyboardEvent: e: Types.SyntheticEvent -> Types.KeyboardEvent
+    abstract toFocusEvent: e: Types.SyntheticEvent -> Types.FocusEvent
+    abstract toMouseEvent: e: Types.SyntheticEvent -> Types.MouseEvent
+    abstract toDragEvent: e: Types.SyntheticEvent -> Types.DragEvent
+    abstract toMouseButton: e: Types.TouchEvent -> float
+    abstract isRightMouseButton: e: Types.SyntheticEvent -> bool
+    abstract keyboardToMouseEvent: e: Types.KeyboardEvent * layoutInfo: Types.LayoutInfo * contextMenuOffset: EventHelpersKeyboardToMouseEventContextMenuOffset -> Types.MouseEvent
+
+type [<AllowNullLiteral>] EventHelpersKeyboardToMouseEventContextMenuOffset =
+    abstract x: float with get, set
+    abstract y: float with get, set
+
+type [<AllowNullLiteral>] EventHelpersStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> EventHelpers
+type FocusManager as FocusManagerBase = ______common_utils_FocusManager.FocusManager as FocusManagerBase
+type FocusableComponentInternal as FocusableComponentInternalBase = ______common_utils_FocusManager.FocusableComponentInternal as FocusableComponentInternalBase
+type StoredFocusableComponent as StoredFocusableComponentBase = ______common_utils_FocusManager.StoredFocusableComponent as StoredFocusableComponentBase
+type ImportantForAccessibilityValue = ______native_common_AccessibilityUtil.ImportantForAccessibilityValue
+type FocusableComponentStateCallback = ______common_utils_FocusManager.FocusableComponentStateCallback
+
+type [<AllowNullLiteral>] IExports =
+    abstract FocusManager: FocusManagerStatic
+    abstract applyFocusableComponentMixin: Component: obj option * ?isConditionallyFocusable: Function * ?accessibleOnly: bool -> unit
+
+type [<RequireQualifiedAccess>] OverrideType =
+    | None = 0
+    | Accessible = 1
+    | Limited = 2
+
+type [<AllowNullLiteral>] StoredFocusableComponent =
+    inherit StoredFocusableComponentBase
+    abstract curOverrideType: OverrideType option with get, set
+
+type [<AllowNullLiteral>] FocusManagerFocusableComponent =
+    abstract getTabIndex: unit -> float option
+    abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
+    abstract onFocus: unit -> unit
+    abstract focus: unit -> unit
+    abstract updateNativeAccessibilityProps: unit -> unit
+
+type [<AllowNullLiteral>] FocusableComponentInternal =
+    inherit FocusManagerFocusableComponent
+    inherit FocusableComponentInternalBase
+    abstract tabIndexOverride: float option with get, set
+    abstract tabIndexLocalOverride: float option with get, set
+    abstract tabIndexLocalOverrideTimer: float option with get, set
+    abstract importantForAccessibilityOverride: string option with get, set
+    abstract onFocusSink: (unit -> unit) option with get, set
+
+type [<AllowNullLiteral>] FocusManager =
+    inherit FocusManagerBase
+    abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
+    abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
+    abstract focusComponent: ``component``: FocusableComponentInternal -> bool
+    abstract focusFirst: obj with get, set
+    abstract resetFocus: focusFirstWhenNavigatingWithKeyboard: bool -> unit
+    abstract _updateComponentFocusRestriction: storedComponent: StoredFocusableComponent -> unit
+    abstract _updateComponentTabIndexAndIFAOverrides: obj with get, set
+
+type [<AllowNullLiteral>] FocusManagerStatic =
+    [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
+
+type [<AllowNullLiteral>] IExports =
+    abstract executeTransition: element: HTMLElement * transitions: ResizeArray<TransitionSpec> * ``done``: (unit -> unit) -> unit
+
+/// executeTransition.tsx
+/// 
+/// Copyright (c) Microsoft Corporation. All rights reserved.
+/// Licensed under the MIT license.
+/// 
+/// Provides a convenient API for applying a CSS transition to a DOM element and
+/// notifying when the transition is complete.
+type [<AllowNullLiteral>] TransitionSpec =
+    abstract property: string with get, set
+    abstract duration: float with get, set
+    abstract timing: string option with get, set
+    abstract delay: float option with get, set
+    abstract from: obj option with get, set
+    abstract ``to``: obj option with get, set
+
+type [<AllowNullLiteral>] IExports =
+    abstract AnimateListEdits: AnimateListEditsStatic
+
+type [<AllowNullLiteral>] AnimateListEditsProps =
+    abstract animateChildEnter: bool option with get, set
+    abstract animateChildLeave: bool option with get, set
+    abstract animateChildMove: bool option with get, set
+
+type [<AllowNullLiteral>] AnimateListEdits =
+    inherit React.Component<AnimateListEditsProps, Types.Stateless>
+    abstract _handleWillAnimate: edits: MonitorListEdits.Edits * ``done``: (unit -> unit) -> unit
+    abstract render: unit -> JSX.Element
+
+type [<AllowNullLiteral>] AnimateListEditsStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AnimateListEdits
+
+type [<AllowNullLiteral>] IExports =
+    abstract MonitorListEdits: MonitorListEditsStatic
+
+type [<AllowNullLiteral>] AddEdit =
+    abstract element: U2<React.Component<obj option, obj option>, Element> with get, set
+
+type [<AllowNullLiteral>] MoveEdit =
+    abstract element: U2<React.Component<obj option, obj option>, Element> with get, set
+    abstract leftDelta: float with get, set
+    abstract topDelta: float with get, set
+
+type [<AllowNullLiteral>] RemoveEdit =
+    abstract element: U2<React.Component<obj option, obj option>, Element> with get, set
+    abstract leftDelta: float with get, set
+    abstract topDelta: float with get, set
+
+type [<AllowNullLiteral>] Edits =
+    abstract added: ResizeArray<AddEdit> with get, set
+    abstract moved: ResizeArray<MoveEdit> with get, set
+    abstract removed: ResizeArray<RemoveEdit> with get, set
+
+type [<AllowNullLiteral>] MonitorListEditsProps =
+    inherit React.HTMLAttributes<obj option>
+    abstract componentWillAnimate: (Edits -> (unit -> unit) -> unit) with get, set
+    abstract testId: string option with get, set
+
+type [<AllowNullLiteral>] MonitorListEdits =
+    inherit React.Component<MonitorListEditsProps, Types.Stateless>
+    abstract _itemRefs: obj with get, set
+    abstract _refReplacementCache: obj with get, set
+    abstract _isMounted: obj with get, set
+    abstract _childrenKeys: obj with get, set
+    abstract _childrenMap: obj with get, set
+    abstract _childrenToRender: obj with get, set
+    abstract _phase: obj with get, set
+    abstract _willAnimatePhaseInfo: obj with get, set
+    abstract componentWillMount: unit -> unit
+    abstract componentDidMount: unit -> unit
+    abstract componentWillUnmount: unit -> unit
+    abstract shouldComponentUpdate: unit -> bool
+    abstract componentWillUpdate: nextProps: MonitorListEditsProps -> unit
+    abstract render: unit -> JSX.Element
+    abstract componentDidUpdate: prevProps: MonitorListEditsProps -> unit
+    abstract _saveRef: obj with get, set
+
+type [<AllowNullLiteral>] MonitorListEditsStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> MonitorListEdits
+let [<Import("_default","reactxp")>] _default: AppVisibilityUtils = jsNative
+
+type [<AllowNullLiteral>] IExports =
+    abstract AppVisibilityUtils: AppVisibilityUtilsStatic
+
+type [<AllowNullLiteral>] AppVisibilityUtils =
+    abstract _isIdle: obj with get, set
+    abstract _timer: obj with get, set
+    abstract onFocusedEvent: SubscribableEvent<(unit -> unit)>
+    abstract onBlurredEvent: SubscribableEvent<(unit -> unit)>
+    abstract onAppForegroundedEvent: SubscribableEvent<(unit -> unit)>
+    abstract onAppBackgroundedEvent: SubscribableEvent<(unit -> unit)>
+    abstract onIdleEvent: SubscribableEvent<(unit -> unit)>
+    abstract onWakeUpEvent: SubscribableEvent<(unit -> unit)>
+    abstract hasFocusAndActive: unit -> bool
+    abstract hasFocus: unit -> bool
+    abstract isAppInForeground: unit -> bool
+    abstract _trackIdleStatus: obj with get, set
+    abstract _wakeUpAndSetTimerForIdle: obj with get, set
+    abstract _onFocus: obj with get, set
+    abstract _onBlur: obj with get, set
+    abstract _onAppVisibilityChanged: obj with get, set
+    abstract _onWakeUp: obj with get, set
+    abstract _onIdle: obj with get, set
+
+type [<AllowNullLiteral>] AppVisibilityUtilsStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> AppVisibilityUtils
+type FocusManager as FocusManagerBase = ______common_utils_FocusManager.FocusManager as FocusManagerBase
+type FocusableComponentInternal = ______common_utils_FocusManager.FocusableComponentInternal
+type StoredFocusableComponent as StoredFocusableComponentBase = ______common_utils_FocusManager.StoredFocusableComponent as StoredFocusableComponentBase
+type FocusCandidateInternal = ______common_utils_AutoFocusHelper.FocusCandidateInternal
+type FocusableComponentStateCallback = ______common_utils_FocusManager.FocusableComponentStateCallback
+
+type [<AllowNullLiteral>] IExports =
+    abstract FocusManager: FocusManagerStatic
+    abstract applyFocusableComponentMixin: Component: obj option * ?isConditionallyFocusable: Function -> unit
+
+type [<AllowNullLiteral>] StoredFocusableComponent =
+    inherit StoredFocusableComponentBase
+    abstract origTabIndex: float option with get, set
+    abstract origAriaHidden: string option with get, set
+    abstract curTabIndex: float option with get, set
+    abstract curAriaHidden: bool option with get, set
+
+type [<AllowNullLiteral>] FocusManager =
+    inherit FocusManagerBase
+    abstract _setTabIndexTimer: obj with get, set
+    abstract _setTabIndexElement: obj with get, set
+    abstract _lastFocusedProgrammatically: obj with get, set
+    abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
+    abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
+    abstract focusComponent: ``component``: FocusableComponentInternal -> bool
+    abstract _isComponentAvailable: obj with get, set
+    abstract _getFirstFocusable: obj with get, set
+    abstract resetFocus: focusFirstWhenNavigatingWithKeyboard: bool -> unit
+    abstract _updateComponentFocusRestriction: storedComponent: StoredFocusableComponent -> unit
+    abstract _setTabIndex: obj with get, set
+    abstract _setAriaHidden: obj with get, set
+
+type [<AllowNullLiteral>] FocusManagerStatic =
+    [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
+    abstract initListeners: unit -> unit
+    abstract setLastFocusedProgrammatically: element: HTMLElement option -> unit
+    abstract getLastFocusedProgrammatically: ?reset: bool -> HTMLElement option
+    abstract focusFirst: ?last: bool -> unit
+    abstract sortAndFilterAutoFocusCandidates: candidates: ResizeArray<FocusCandidateInternal> -> ResizeArray<FocusCandidateInternal>
+
+type [<AllowNullLiteral>] IExports =
+    abstract MouseResponder: MouseResponderStatic
+
+type [<AllowNullLiteral>] MouseResponderConfig =
+    abstract id: float with get, set
+    abstract target: HTMLElement with get, set
+    abstract shouldBecomeFirstResponder: (MouseEvent -> Types.PanGestureState -> bool) option with get, set
+    abstract onMove: (MouseEvent -> Types.PanGestureState -> unit) option with get, set
+    abstract onTerminate: (MouseEvent -> Types.PanGestureState -> unit) option with get, set
+
+type [<AllowNullLiteral>] MouseResponderSubscription =
+    abstract dispose: unit -> unit
+
+type [<AllowNullLiteral>] MouseResponder =
+    abstract _currentResponder: obj with get, set
+    abstract _pendingGestureState: obj with get, set
+    abstract _initialized: obj with get, set
+    abstract _responders: obj with get, set
+    abstract _initializeEventHandlers: obj with get, set
+    abstract _removeEventHandlers: obj with get, set
+    abstract _onMouseDown: obj with get, set
+    abstract _onMouseMove: obj with get, set
+    abstract _onMouseUp: obj with get, set
+    abstract _calcVelocity: obj with get, set
+
+type [<AllowNullLiteral>] MouseResponderStatic =
+    [<Emit "new $0($1...)">] abstract Create: unit -> MouseResponder
+    abstract create: config: MouseResponderConfig -> MouseResponderSubscription
+
+type [<AllowNullLiteral>] IExports =
+    abstract restyleForInlineText: reactElement: React.ReactElement<obj option> -> React.ReactElement<obj option>
