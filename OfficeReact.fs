@@ -41,8 +41,7 @@ module __common_IAccessiblePopupProps =
         abstract isClickableOutsideFocusTrap: bool option with get, set
 
 module __common_shallowUntilTarget =
-    let [<Import("","office-ui-fabric-react/common/shallowUntilTarget")>] : ``.IExports`` = jsNative
-    type ShallowWrapper = enzyme.ShallowWrapper
+    type ShallowWrapper = Enzyme.ShallowWrapper
 
     type [<AllowNullLiteral>] IExports =
         /// An extention of enzyme's shallow function which will fail to work
@@ -62,23 +61,34 @@ module __common_shallowUntilTarget =
         abstract shallowOptions: IShallowRendererProps with get, set
 
 module __common_TestImages =
-    let [<Import("TestImages","office-ui-fabric-react")>] TestImages: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract TestImages: obj
 
 module __common_testUtilities =
-    type ReactWrapper = enzyme.ReactWrapper
-    let [<Import("findNodes","office-ui-fabric-react")>] findNodes: (ReactWrapper<obj option, obj option> -> string -> ReactWrapper<obj option, obj option>) = jsNative
-    let [<Import("expectNodes","office-ui-fabric-react")>] expectNodes: (ReactWrapper<obj option, obj option> -> string -> float -> unit) = jsNative
-    let [<Import("expectOne","office-ui-fabric-react")>] expectOne: (ReactWrapper<obj option, obj option> -> string -> unit) = jsNative
-    let [<Import("expectMissing","office-ui-fabric-react")>] expectMissing: (ReactWrapper<obj option, obj option> -> string -> unit) = jsNative
+    type ReactWrapper = Enzyme.ReactWrapper
+
+    type [<AllowNullLiteral>] IExports =
+        abstract findNodes: (ReactWrapper<obj option, obj option> -> string -> ReactWrapper<obj option, obj option>)
+        abstract expectNodes: (ReactWrapper<obj option, obj option> -> string -> float -> unit)
+        abstract expectOne: (ReactWrapper<obj option, obj option> -> string -> unit)
+        abstract expectMissing: (ReactWrapper<obj option, obj option> -> string -> unit)
+
+module __common__exampleStyles_scss =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract exampleCheckbox: obj
+        abstract exampleLabel: obj
 
 module __demo_AppDefinition =
     type IAppDefinition = __demo_@uifabric_example_app_base.IAppDefinition
     type IAppProps = __demo_@uifabric_example_app_base.IAppProps
-    let [<Import("AppDefinition","office-ui-fabric-react")>] AppDefinition: IAppDefinition = jsNative
-    let [<Import("App","office-ui-fabric-react")>] App: (IAppProps -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract AppDefinition: IAppDefinition
+        abstract App: (IAppProps -> JSX.Element)
 
 module __demo_GettingStartedPage =
-    let [<Import("","office-ui-fabric-react/demo/GettingStartedPage")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract GettingStartedPage: GettingStartedPageStatic
@@ -91,10 +101,18 @@ module __demo_GettingStartedPage =
     type [<AllowNullLiteral>] GettingStartedPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GettingStartedPage
 
+module __components_ActivityItem_ActivityItem_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ActivityItemStatus: obj
+
 module __components_ActivityItem_ActivityItem_classNames =
     type IActivityItemStyles = __components_ActivityItem_ActivityItem_types.IActivityItemStyles
     type IPersonaProps = Persona.IPersonaProps
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (IActivityItemStyles -> string -> ResizeArray<IPersonaProps> -> bool -> IActivityItemClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getClassNames: (IActivityItemStyles -> string -> ResizeArray<IPersonaProps> -> bool -> IActivityItemClassNames)
 
     type [<AllowNullLiteral>] IActivityItemClassNames =
         abstract root: string option with get, set
@@ -108,7 +126,6 @@ module __components_ActivityItem_ActivityItem_classNames =
         abstract pulsingBeacon: string option with get, set
 
 module __components_ActivityItem_ActivityItem =
-    let [<Import("","office-ui-fabric-react/components/ActivityItem/ActivityItem")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IActivityItemProps = __components_ActivityItem_ActivityItem_types.IActivityItemProps
 
@@ -131,7 +148,9 @@ module __components_ActivityItem_ActivityItem =
 module __components_ActivityItem_ActivityItem_styles =
     type ITheme = Styling.ITheme
     type IActivityItemStyles = __components_ActivityItem_ActivityItem_types.IActivityItemStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IActivityItemStyles option -> bool option -> string option -> string option -> bool option -> IActivityItemStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IActivityItemStyles option -> bool option -> string option -> string option -> bool option -> IActivityItemStyles)
 
 module __components_ActivityItem_ActivityItem_types =
     type IStyle = Styling.IStyle
@@ -212,7 +231,6 @@ module __components_ActivityItem_ActivityItem_types =
         abstract isCompactTimeStamp: IStyle option with get, set
 
 module __components_ActivityItem_ActivityItemPage =
-    let [<Import("","office-ui-fabric-react/components/ActivityItem/ActivityItemPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ActivityItem_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -226,7 +244,6 @@ module __components_ActivityItem_ActivityItemPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ActivityItemPage
 
 module __components_Autofill_Autofill =
-    let [<Import("","office-ui-fabric-react/components/Autofill/Autofill")>] : ``.IExports`` = jsNative
     type IAutofillProps = __components_Autofill_Autofill_types.IAutofillProps
     type IAutofill = __components_Autofill_Autofill_types.IAutofill
     type BaseComponent = Utilities.BaseComponent
@@ -355,7 +372,6 @@ module __components_Autofill_Autofill_types =
         inherit IAutofillProps
 
 module __components_Breadcrumb_Breadcrumb_base =
-    let [<Import("","office-ui-fabric-react/components/Breadcrumb/Breadcrumb.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IBreadcrumbProps = __components_Breadcrumb_Breadcrumb_types.IBreadcrumbProps
     type IBreadcrumbItem = __components_Breadcrumb_Breadcrumb_types.IBreadcrumbItem
@@ -388,10 +404,24 @@ module __components_Breadcrumb_Breadcrumb_base =
     type [<AllowNullLiteral>] BreadcrumbBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IBreadcrumbProps -> BreadcrumbBase
 
+module __components_Breadcrumb_Breadcrumb_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract BreadcrumbStatus: obj
+
+module __components_Breadcrumb_Breadcrumb =
+    type IBreadcrumbProps = __components_Breadcrumb_Breadcrumb_types.IBreadcrumbProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Breadcrumb: (IBreadcrumbProps -> JSX.Element)
+
 module __components_Breadcrumb_Breadcrumb_styles =
     type IStyle = Styling.IStyle
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IBreadcrumbStyleProps -> IBreadcrumbStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IBreadcrumbStyleProps -> IBreadcrumbStyles)
 
     type [<AllowNullLiteral>] IBreadcrumbStyleProps =
         abstract className: string option with get, set
@@ -469,7 +499,6 @@ module __components_Breadcrumb_Breadcrumb_types =
         abstract item: IBreadcrumbItem option with get, set
 
 module __components_Breadcrumb_BreadcrumbPage =
-    let [<Import("","office-ui-fabric-react/components/Breadcrumb/BreadcrumbPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Breadcrumb_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -484,7 +513,9 @@ module __components_Breadcrumb_BreadcrumbPage =
 
 module __components_Button_BaseButton_classNames =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
-    let [<Import("getBaseButtonClassNames","office-ui-fabric-react")>] getBaseButtonClassNames: (IButtonStyles -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getBaseButtonClassNames: (IButtonStyles -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames)
 
     type [<AllowNullLiteral>] IButtonClassNames =
         abstract root: string option with get, set
@@ -497,7 +528,6 @@ module __components_Button_BaseButton_classNames =
         abstract screenReaderText: string option with get, set
 
 module __components_Button_BaseButton =
-    let [<Import("","office-ui-fabric-react/components/Button/BaseButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IContextualMenuProps = ContextualMenu.IContextualMenuProps
     type IButtonProps = __components_Button_Button_types.IButtonProps
@@ -568,10 +598,17 @@ module __components_Button_BaseButton =
 module __components_Button_BaseButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles)
+
+module __components_Button_Button_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ButtonStatus: obj
 
 module __components_Button_Button =
-    let [<Import("","office-ui-fabric-react/components/Button/Button")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -825,7 +862,6 @@ module __components_Button_Button_types =
         abstract splitButtonFlexContainer: IStyle option with get, set
 
 module __components_Button_ButtonPage =
-    let [<Import("","office-ui-fabric-react/components/Button/ButtonPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Button_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -845,7 +881,6 @@ module __components_Button_ButtonPage =
         [<Emit "new $0($1...)">] abstract Create: props: IComponentDemoPageProps -> ButtonPage
 
 module __components_Button_ButtonThemes =
-    let [<Import("","office-ui-fabric-react/components/Button/ButtonThemes")>] : ``.IExports`` = jsNative
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
 
@@ -853,8 +888,13 @@ module __components_Button_ButtonThemes =
         abstract standardStyles: theme: ITheme -> IButtonStyles
         abstract primaryStyles: theme: ITheme -> IButtonStyles
 
+module __components_Calendar_Calendar_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract CalendarStatus: obj
+
 module __components_Calendar_Calendar =
-    let [<Import("","office-ui-fabric-react/components/Calendar/Calendar")>] : ``.IExports`` = jsNative
     type ICalendar = __components_Calendar_Calendar_types.ICalendar
     type ICalendarProps = __components_Calendar_Calendar_types.ICalendarProps
     type BaseComponent = Utilities.BaseComponent
@@ -900,78 +940,80 @@ module __components_Calendar_Calendar =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarProps -> Calendar
 
 module __components_Calendar_Calendar_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("picker","office-ui-fabric-react")>] picker: obj = jsNative
-    let [<Import("holder","office-ui-fabric-react")>] holder: obj = jsNative
-    let [<Import("pickerIsOpened","office-ui-fabric-react")>] pickerIsOpened: obj = jsNative
-    let [<Import("frame","office-ui-fabric-react")>] frame: obj = jsNative
-    let [<Import("wrap","office-ui-fabric-react")>] wrap: obj = jsNative
-    let [<Import("goTodaySpacing","office-ui-fabric-react")>] goTodaySpacing: obj = jsNative
-    let [<Import("dayPicker","office-ui-fabric-react")>] dayPicker: obj = jsNative
-    let [<Import("header","office-ui-fabric-react")>] header: obj = jsNative
-    let [<Import("divider","office-ui-fabric-react")>] divider: obj = jsNative
-    let [<Import("monthAndYear","office-ui-fabric-react")>] monthAndYear: obj = jsNative
-    let [<Import("year","office-ui-fabric-react")>] year: obj = jsNative
-    let [<Import("currentYear","office-ui-fabric-react")>] currentYear: obj = jsNative
-    let [<Import("table","office-ui-fabric-react")>] table: obj = jsNative
-    let [<Import("dayWrapper","office-ui-fabric-react")>] dayWrapper: obj = jsNative
-    let [<Import("weekday","office-ui-fabric-react")>] weekday: obj = jsNative
-    let [<Import("day","office-ui-fabric-react")>] day: obj = jsNative
-    let [<Import("dayIsToday","office-ui-fabric-react")>] dayIsToday: obj = jsNative
-    let [<Import("dayIsDisabled","office-ui-fabric-react")>] dayIsDisabled: obj = jsNative
-    let [<Import("dayIsUnfocused","office-ui-fabric-react")>] dayIsUnfocused: obj = jsNative
-    let [<Import("dayIsFocused","office-ui-fabric-react")>] dayIsFocused: obj = jsNative
-    let [<Import("dayIsHighlighted","office-ui-fabric-react")>] dayIsHighlighted: obj = jsNative
-    let [<Import("pickerIsFocused","office-ui-fabric-react")>] pickerIsFocused: obj = jsNative
-    let [<Import("dayDisabled","office-ui-fabric-react")>] dayDisabled: obj = jsNative
-    let [<Import("dayBackground","office-ui-fabric-react")>] dayBackground: obj = jsNative
-    let [<Import("dayHover","office-ui-fabric-react")>] dayHover: obj = jsNative
-    let [<Import("dayPress","office-ui-fabric-react")>] dayPress: obj = jsNative
-    let [<Import("weekBackground","office-ui-fabric-react")>] weekBackground: obj = jsNative
-    let [<Import("showWeekNumbers","office-ui-fabric-react")>] showWeekNumbers: obj = jsNative
-    let [<Import("weekNumbers","office-ui-fabric-react")>] weekNumbers: obj = jsNative
-    let [<Import("weekIsHighlighted","office-ui-fabric-react")>] weekIsHighlighted: obj = jsNative
-    let [<Import("showWeekNumbersRTL","office-ui-fabric-react")>] showWeekNumbersRTL: obj = jsNative
-    let [<Import("monthComponents","office-ui-fabric-react")>] monthComponents: obj = jsNative
-    let [<Import("yearComponents","office-ui-fabric-react")>] yearComponents: obj = jsNative
-    let [<Import("decadeComponents","office-ui-fabric-react")>] decadeComponents: obj = jsNative
-    let [<Import("prevMonth","office-ui-fabric-react")>] prevMonth: obj = jsNative
-    let [<Import("nextMonth","office-ui-fabric-react")>] nextMonth: obj = jsNative
-    let [<Import("prevYear","office-ui-fabric-react")>] prevYear: obj = jsNative
-    let [<Import("nextYear","office-ui-fabric-react")>] nextYear: obj = jsNative
-    let [<Import("prevDecade","office-ui-fabric-react")>] prevDecade: obj = jsNative
-    let [<Import("nextDecade","office-ui-fabric-react")>] nextDecade: obj = jsNative
-    let [<Import("prevMonthIsDisabled","office-ui-fabric-react")>] prevMonthIsDisabled: obj = jsNative
-    let [<Import("nextMonthIsDisabled","office-ui-fabric-react")>] nextMonthIsDisabled: obj = jsNative
-    let [<Import("prevYearIsDisabled","office-ui-fabric-react")>] prevYearIsDisabled: obj = jsNative
-    let [<Import("nextYearIsDisabled","office-ui-fabric-react")>] nextYearIsDisabled: obj = jsNative
-    let [<Import("prevDecadeIsDisabled","office-ui-fabric-react")>] prevDecadeIsDisabled: obj = jsNative
-    let [<Import("nextDecadeIsDisabled","office-ui-fabric-react")>] nextDecadeIsDisabled: obj = jsNative
-    let [<Import("headerToggleView","office-ui-fabric-react")>] headerToggleView: obj = jsNative
-    let [<Import("currentDecade","office-ui-fabric-react")>] currentDecade: obj = jsNative
-    let [<Import("optionGrid","office-ui-fabric-react")>] optionGrid: obj = jsNative
-    let [<Import("monthOption","office-ui-fabric-react")>] monthOption: obj = jsNative
-    let [<Import("yearOption","office-ui-fabric-react")>] yearOption: obj = jsNative
-    let [<Import("isHighlighted","office-ui-fabric-react")>] isHighlighted: obj = jsNative
-    let [<Import("monthOptionIsDisabled","office-ui-fabric-react")>] monthOptionIsDisabled: obj = jsNative
-    let [<Import("yearOptionIsDisabled","office-ui-fabric-react")>] yearOptionIsDisabled: obj = jsNative
-    let [<Import("goToday","office-ui-fabric-react")>] goToday: obj = jsNative
-    let [<Import("goTodayInlineMonth","office-ui-fabric-react")>] goTodayInlineMonth: obj = jsNative
-    let [<Import("isPickingYears","office-ui-fabric-react")>] isPickingYears: obj = jsNative
-    let [<Import("monthPicker","office-ui-fabric-react")>] monthPicker: obj = jsNative
-    let [<Import("yearPicker","office-ui-fabric-react")>] yearPicker: obj = jsNative
-    let [<Import("monthPickerVisible","office-ui-fabric-react")>] monthPickerVisible: obj = jsNative
-    let [<Import("toggleMonthView","office-ui-fabric-react")>] toggleMonthView: obj = jsNative
-    let [<Import("calendarsInline","office-ui-fabric-react")>] calendarsInline: obj = jsNative
-    let [<Import("monthPickerOnly","office-ui-fabric-react")>] monthPickerOnly: obj = jsNative
-    let [<Import("monthPickerAsOverlay","office-ui-fabric-react")>] monthPickerAsOverlay: obj = jsNative
-    let [<Import("holderWithButton","office-ui-fabric-react")>] holderWithButton: obj = jsNative
-    let [<Import("monthIsHighlighted","office-ui-fabric-react")>] monthIsHighlighted: obj = jsNative
-    let [<Import("monthIsCurrentMonth","office-ui-fabric-react")>] monthIsCurrentMonth: obj = jsNative
-    let [<Import("topLeftCornerDate","office-ui-fabric-react")>] topLeftCornerDate: obj = jsNative
-    let [<Import("topRightCornerDate","office-ui-fabric-react")>] topRightCornerDate: obj = jsNative
-    let [<Import("bottomLeftCornerDate","office-ui-fabric-react")>] bottomLeftCornerDate: obj = jsNative
-    let [<Import("bottomRightCornerDate","office-ui-fabric-react")>] bottomRightCornerDate: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract picker: obj
+        abstract holder: obj
+        abstract pickerIsOpened: obj
+        abstract frame: obj
+        abstract wrap: obj
+        abstract goTodaySpacing: obj
+        abstract dayPicker: obj
+        abstract header: obj
+        abstract divider: obj
+        abstract monthAndYear: obj
+        abstract year: obj
+        abstract currentYear: obj
+        abstract table: obj
+        abstract dayWrapper: obj
+        abstract weekday: obj
+        abstract day: obj
+        abstract dayIsToday: obj
+        abstract dayIsDisabled: obj
+        abstract dayIsUnfocused: obj
+        abstract dayIsFocused: obj
+        abstract dayIsHighlighted: obj
+        abstract pickerIsFocused: obj
+        abstract dayDisabled: obj
+        abstract dayBackground: obj
+        abstract dayHover: obj
+        abstract dayPress: obj
+        abstract weekBackground: obj
+        abstract showWeekNumbers: obj
+        abstract weekNumbers: obj
+        abstract weekIsHighlighted: obj
+        abstract showWeekNumbersRTL: obj
+        abstract monthComponents: obj
+        abstract yearComponents: obj
+        abstract decadeComponents: obj
+        abstract prevMonth: obj
+        abstract nextMonth: obj
+        abstract prevYear: obj
+        abstract nextYear: obj
+        abstract prevDecade: obj
+        abstract nextDecade: obj
+        abstract prevMonthIsDisabled: obj
+        abstract nextMonthIsDisabled: obj
+        abstract prevYearIsDisabled: obj
+        abstract nextYearIsDisabled: obj
+        abstract prevDecadeIsDisabled: obj
+        abstract nextDecadeIsDisabled: obj
+        abstract headerToggleView: obj
+        abstract currentDecade: obj
+        abstract optionGrid: obj
+        abstract monthOption: obj
+        abstract yearOption: obj
+        abstract isHighlighted: obj
+        abstract monthOptionIsDisabled: obj
+        abstract yearOptionIsDisabled: obj
+        abstract goToday: obj
+        abstract goTodayInlineMonth: obj
+        abstract isPickingYears: obj
+        abstract monthPicker: obj
+        abstract yearPicker: obj
+        abstract monthPickerVisible: obj
+        abstract toggleMonthView: obj
+        abstract calendarsInline: obj
+        abstract monthPickerOnly: obj
+        abstract monthPickerAsOverlay: obj
+        abstract holderWithButton: obj
+        abstract monthIsHighlighted: obj
+        abstract monthIsCurrentMonth: obj
+        abstract topLeftCornerDate: obj
+        abstract topRightCornerDate: obj
+        abstract bottomLeftCornerDate: obj
+        abstract bottomRightCornerDate: obj
 
 module __components_Calendar_Calendar_types =
     type Calendar = __components_Calendar_Calendar.Calendar
@@ -1085,7 +1127,6 @@ module __components_Calendar_Calendar_types =
         abstract formatYear: (DateTime -> string) with get, set
 
 module __components_Calendar_CalendarDay =
-    let [<Import("","office-ui-fabric-react/components/Calendar/CalendarDay")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICalendarStrings = __components_Calendar_Calendar_types.ICalendarStrings
     type ICalendarIconStrings = __components_Calendar_Calendar_types.ICalendarIconStrings
@@ -1172,7 +1213,6 @@ module __components_Calendar_CalendarDay =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarDayProps -> CalendarDay
 
 module __components_Calendar_CalendarMonth =
-    let [<Import("","office-ui-fabric-react/components/Calendar/CalendarMonth")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICalendarStrings = __components_Calendar_Calendar_types.ICalendarStrings
     type ICalendarIconStrings = __components_Calendar_Calendar_types.ICalendarIconStrings
@@ -1221,7 +1261,6 @@ module __components_Calendar_CalendarMonth =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarMonthProps -> CalendarMonth
 
 module __components_Calendar_CalendarPage =
-    let [<Import("","office-ui-fabric-react/components/Calendar/CalendarPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Calendar_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -1234,8 +1273,13 @@ module __components_Calendar_CalendarPage =
     type [<AllowNullLiteral>] CalendarPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CalendarPage
 
+module __components_Callout_Callout_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract CalloutStatus: obj
+
 module __components_Callout_Callout =
-    let [<Import("","office-ui-fabric-react/components/Callout/Callout")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICalloutProps = __components_Callout_Callout_types.ICalloutProps
     type ICalloutState = __components_Callout_CalloutContent_base.ICalloutState
@@ -1380,7 +1424,6 @@ module __components_Callout_Callout_types =
         abstract calloutMain: IStyle with get, set
 
 module __components_Callout_CalloutContent_base =
-    let [<Import("","office-ui-fabric-react/components/Callout/CalloutContent.base")>] : ``.IExports`` = jsNative
     type ICalloutProps = __components_Callout_Callout_types.ICalloutProps
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
     type BaseComponent = Utilities.BaseComponent
@@ -1435,13 +1478,20 @@ module __components_Callout_CalloutContent_base =
     type [<AllowNullLiteral>] CalloutContentBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalloutProps -> CalloutContentBase
 
+module __components_Callout_CalloutContent =
+    type ICalloutProps = __components_Callout_Callout_types.ICalloutProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract CalloutContent: (ICalloutProps -> JSX.Element)
+
 module __components_Callout_CalloutContent_styles =
     type ICalloutContentStyleProps = __components_Callout_Callout_types.ICalloutContentStyleProps
     type ICalloutContentStyles = __components_Callout_Callout_types.ICalloutContentStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ICalloutContentStyleProps -> ICalloutContentStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ICalloutContentStyleProps -> ICalloutContentStyles)
 
 module __components_Callout_CalloutPage =
-    let [<Import("","office-ui-fabric-react/components/Callout/CalloutPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Callout_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -1455,7 +1505,6 @@ module __components_Callout_CalloutPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> CalloutPage
 
 module __components_Check_Check_base =
-    let [<Import("","office-ui-fabric-react/components/Check/Check.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICheckProps = __components_Check_Check_types.ICheckProps
 
@@ -1471,17 +1520,27 @@ module __components_Check_Check_base =
     type [<AllowNullLiteral>] CheckBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CheckBase
 
+module __components_Check_Check =
+    type ICheckProps = __components_Check_Check_types.ICheckProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Check: (ICheckProps -> JSX.Element)
+
 module __components_Check_Check_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("rootIsChecked","office-ui-fabric-react")>] rootIsChecked: obj = jsNative
-    let [<Import("check","office-ui-fabric-react")>] check: obj = jsNative
-    let [<Import("checkHost","office-ui-fabric-react")>] checkHost: obj = jsNative
-    let [<Import("circle","office-ui-fabric-react")>] circle: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract rootIsChecked: obj
+        abstract check: obj
+        abstract checkHost: obj
+        abstract circle: obj
 
 module __components_Check_Check_styles =
     type ICheckStyleProps = __components_Check_Check_types.ICheckStyleProps
     type ICheckStyles = __components_Check_Check_types.ICheckStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ICheckStyleProps -> ICheckStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ICheckStyleProps -> ICheckStyles)
 
 module __components_Check_Check_types =
     type CheckBase = __components_Check_Check_base.CheckBase
@@ -1522,7 +1581,6 @@ module __components_Check_Check_types =
         abstract circle: IStyle with get, set
 
 module __components_Checkbox_Checkbox_base =
-    let [<Import("","office-ui-fabric-react/components/Checkbox/Checkbox.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICheckbox = __components_Checkbox_Checkbox_types.ICheckbox
     type ICheckboxProps = __components_Checkbox_Checkbox_types.ICheckboxProps
@@ -1557,9 +1615,17 @@ module __components_Checkbox_Checkbox_base =
         /// <param name="context">Context or initial state for the base component.</param>
         [<Emit "new $0($1...)">] abstract Create: props: ICheckboxProps * ?context: obj option -> Checkbox
 
+module __components_Checkbox_Checkbox_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract CheckboxStatus: obj
+
 module __components_Checkbox_Checkbox_classNames =
     type ICheckboxStyles = __components_Checkbox_Checkbox_types.ICheckboxStyles
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (ICheckboxStyles -> bool -> bool -> bool -> string option -> ICheckboxClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getClassNames: (ICheckboxStyles -> bool -> bool -> bool -> string option -> ICheckboxClassNames)
 
     type [<AllowNullLiteral>] ICheckboxClassNames =
         abstract root: string with get, set
@@ -1571,7 +1637,9 @@ module __components_Checkbox_Checkbox_classNames =
 module __components_Checkbox_Checkbox_styles =
     type ICheckboxStyles = __components_Checkbox_Checkbox_types.ICheckboxStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> ICheckboxStyles option -> ICheckboxStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> ICheckboxStyles option -> ICheckboxStyles)
 
 module __components_Checkbox_Checkbox_types =
     type IStyle = Styling.IStyle
@@ -1682,7 +1750,6 @@ module __components_Checkbox_Checkbox_types =
         abstract textDisabled: IStyle option with get, set
 
 module __components_Checkbox_CheckboxPage =
-    let [<Import("","office-ui-fabric-react/components/Checkbox/CheckboxPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Checkbox_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -1695,8 +1762,13 @@ module __components_Checkbox_CheckboxPage =
     type [<AllowNullLiteral>] CheckboxPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CheckboxPage
 
+module __components_ChoiceGroup_ChoiceGroup_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ChoiceGroupStatus: obj
+
 module __components_ChoiceGroup_ChoiceGroup =
-    let [<Import("","office-ui-fabric-react/components/ChoiceGroup/ChoiceGroup")>] : ``.IExports`` = jsNative
     type IChoiceGroupProps = __components_ChoiceGroup_ChoiceGroup_types.IChoiceGroupProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -1730,27 +1802,29 @@ module __components_ChoiceGroup_ChoiceGroup =
         [<Emit "new $0($1...)">] abstract Create: props: IChoiceGroupProps -> ChoiceGroup
 
 module __components_ChoiceGroup_ChoiceGroup_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("optionsContainIconOrImage","office-ui-fabric-react")>] optionsContainIconOrImage: obj = jsNative
-    let [<Import("choiceField","office-ui-fabric-react")>] choiceField: obj = jsNative
-    let [<Import("input","office-ui-fabric-react")>] input: obj = jsNative
-    let [<Import("field","office-ui-fabric-react")>] field: obj = jsNative
-    let [<Import("fieldIsChecked","office-ui-fabric-react")>] fieldIsChecked: obj = jsNative
-    let [<Import("fieldIsDisabled","office-ui-fabric-react")>] fieldIsDisabled: obj = jsNative
-    let [<Import("choiceFieldIsImage","office-ui-fabric-react")>] choiceFieldIsImage: obj = jsNative
-    let [<Import("choiceFieldIsIcon","office-ui-fabric-react")>] choiceFieldIsIcon: obj = jsNative
-    let [<Import("fieldIsImage","office-ui-fabric-react")>] fieldIsImage: obj = jsNative
-    let [<Import("fieldIsIcon","office-ui-fabric-react")>] fieldIsIcon: obj = jsNative
-    let [<Import("innerField","office-ui-fabric-react")>] innerField: obj = jsNative
-    let [<Import("imageIsLarge","office-ui-fabric-react")>] imageIsLarge: obj = jsNative
-    let [<Import("imageWrapper","office-ui-fabric-react")>] imageWrapper: obj = jsNative
-    let [<Import("imageWrapperIsHidden","office-ui-fabric-react")>] imageWrapperIsHidden: obj = jsNative
-    let [<Import("labelWrapper","office-ui-fabric-react")>] labelWrapper: obj = jsNative
-    let [<Import("inputHasImage","office-ui-fabric-react")>] inputHasImage: obj = jsNative
-    let [<Import("inputHasIcon","office-ui-fabric-react")>] inputHasIcon: obj = jsNative
-    let [<Import("iconWrapper","office-ui-fabric-react")>] iconWrapper: obj = jsNative
-    let [<Import("choiceFieldIsInFocus","office-ui-fabric-react")>] choiceFieldIsInFocus: obj = jsNative
-    let [<Import("choiceFieldWrapper","office-ui-fabric-react")>] choiceFieldWrapper: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract optionsContainIconOrImage: obj
+        abstract choiceField: obj
+        abstract input: obj
+        abstract field: obj
+        abstract fieldIsChecked: obj
+        abstract fieldIsDisabled: obj
+        abstract choiceFieldIsImage: obj
+        abstract choiceFieldIsIcon: obj
+        abstract fieldIsImage: obj
+        abstract fieldIsIcon: obj
+        abstract innerField: obj
+        abstract imageIsLarge: obj
+        abstract imageWrapper: obj
+        abstract imageWrapperIsHidden: obj
+        abstract labelWrapper: obj
+        abstract inputHasImage: obj
+        abstract inputHasIcon: obj
+        abstract iconWrapper: obj
+        abstract choiceFieldIsInFocus: obj
+        abstract choiceFieldWrapper: obj
 
 module __components_ChoiceGroup_ChoiceGroup_types =
     type IIconProps = Icon.IIconProps
@@ -1808,7 +1882,6 @@ module __components_ChoiceGroup_ChoiceGroup_types =
         abstract labelId: string option with get, set
 
 module __components_ChoiceGroup_ChoiceGroupPage =
-    let [<Import("","office-ui-fabric-react/components/ChoiceGroup/ChoiceGroupPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ChoiceGroup_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -1822,7 +1895,6 @@ module __components_ChoiceGroup_ChoiceGroupPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ChoiceGroupPage
 
 module __components_Coachmark_Coachmark =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/Coachmark")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICoachmarkTypes = __components_Coachmark_Coachmark_types.ICoachmarkTypes
 
@@ -1873,14 +1945,13 @@ module __components_Coachmark_Coachmark =
         [<Emit "new $0($1...)">] abstract Create: props: ICoachmarkTypes -> Coachmark
 
 module __components_Coachmark_Coachmark_styles =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/Coachmark.styles")>] : ``.IExports`` = jsNative
     type IStyle = Styling.IStyle
     type ITheme = Styling.ITheme
-    let [<Import("translateOne","office-ui-fabric-react")>] translateOne: string = jsNative
-    let [<Import("scaleOne","office-ui-fabric-react")>] scaleOne: string = jsNative
-    let [<Import("rotateOne","office-ui-fabric-react")>] rotateOne: string = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract translateOne: string
+        abstract scaleOne: string
+        abstract rotateOne: string
         abstract getStyles: props: ICoachmarkStyleProps * ?theme: ITheme -> ICoachmarkStyles
 
     type [<AllowNullLiteral>] ICoachmarkStyleProps =
@@ -1975,7 +2046,6 @@ module __components_Coachmark_Coachmark_types =
         abstract beaconColorTwo: string option with get, set
 
 module __components_Coachmark_CoachmarkPage =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/CoachmarkPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Coachmark_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -1988,8 +2058,13 @@ module __components_Coachmark_CoachmarkPage =
     type [<AllowNullLiteral>] CoachmarkPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CoachmarkPage
 
+module __components_ColorPicker_ColorPicker_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ColorPickerStatus: obj
+
 module __components_ColorPicker_ColorPicker =
-    let [<Import("","office-ui-fabric-react/components/ColorPicker/ColorPicker")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IColorPickerProps = __components_ColorPicker_ColorPicker_types.IColorPickerProps
     type IColor = __utilities_color_colors.IColor
@@ -2022,23 +2097,25 @@ module __components_ColorPicker_ColorPicker =
         [<Emit "new $0($1...)">] abstract Create: props: IColorPickerProps -> ColorPicker
 
 module __components_ColorPicker_ColorPicker_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("panel","office-ui-fabric-react")>] panel: obj = jsNative
-    let [<Import("colorRect","office-ui-fabric-react")>] colorRect: obj = jsNative
-    let [<Import("rectContainer","office-ui-fabric-react")>] rectContainer: obj = jsNative
-    let [<Import("capture","office-ui-fabric-react")>] capture: obj = jsNative
-    let [<Import("rectContainerIsAdjusting","office-ui-fabric-react")>] rectContainerIsAdjusting: obj = jsNative
-    let [<Import("table","office-ui-fabric-react")>] table: obj = jsNative
-    let [<Import("tableHexCell","office-ui-fabric-react")>] tableHexCell: obj = jsNative
-    let [<Import("thumb","office-ui-fabric-react")>] thumb: obj = jsNative
-    let [<Import("thumbIsSlider","office-ui-fabric-react")>] thumbIsSlider: obj = jsNative
-    let [<Import("light","office-ui-fabric-react")>] light: obj = jsNative
-    let [<Import("dark","office-ui-fabric-react")>] dark: obj = jsNative
-    let [<Import("slider","office-ui-fabric-react")>] slider: obj = jsNative
-    let [<Import("colorSliderIsHue","office-ui-fabric-react")>] colorSliderIsHue: obj = jsNative
-    let [<Import("colorSliderIsAlpha","office-ui-fabric-react")>] colorSliderIsAlpha: obj = jsNative
-    let [<Import("sliderOverlay","office-ui-fabric-react")>] sliderOverlay: obj = jsNative
-    let [<Import("input","office-ui-fabric-react")>] input: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract panel: obj
+        abstract colorRect: obj
+        abstract rectContainer: obj
+        abstract capture: obj
+        abstract rectContainerIsAdjusting: obj
+        abstract table: obj
+        abstract tableHexCell: obj
+        abstract thumb: obj
+        abstract thumbIsSlider: obj
+        abstract light: obj
+        abstract dark: obj
+        abstract slider: obj
+        abstract colorSliderIsHue: obj
+        abstract colorSliderIsAlpha: obj
+        abstract sliderOverlay: obj
+        abstract input: obj
 
 module __components_ColorPicker_ColorPicker_types =
 
@@ -2063,7 +2140,6 @@ module __components_ColorPicker_ColorPicker_types =
         abstract alphaLabel: string option with get, set
 
 module __components_ColorPicker_ColorPickerPage =
-    let [<Import("","office-ui-fabric-react/components/ColorPicker/ColorPickerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ColorPicker_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -2077,7 +2153,6 @@ module __components_ColorPicker_ColorPickerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ColorPickerPage
 
 module __components_ColorPicker_ColorRectangle =
-    let [<Import("","office-ui-fabric-react/components/ColorPicker/ColorRectangle")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IColor = __utilities_color_colors.IColor
 
@@ -2111,7 +2186,6 @@ module __components_ColorPicker_ColorRectangle =
         [<Emit "new $0($1...)">] abstract Create: props: IColorRectangleProps -> ColorRectangle
 
 module __components_ColorPicker_ColorSlider =
-    let [<Import("","office-ui-fabric-react/components/ColorPicker/ColorSlider")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -2146,11 +2220,19 @@ module __components_ColorPicker_ColorSlider =
     type [<AllowNullLiteral>] ColorSliderStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IColorSliderProps -> ColorSlider
 
+module __components_ComboBox_ComboBox_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ComboBoxStatus: obj
+
 module __components_ComboBox_ComboBox_classNames =
     type IComboBoxStyles = __components_ComboBox_ComboBox_types.IComboBoxStyles
     type IComboBoxOptionStyles = __components_ComboBox_ComboBox_types.IComboBoxOptionStyles
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (obj -> string -> bool -> bool -> bool -> bool -> bool -> bool -> IComboBoxClassNames) = jsNative
-    let [<Import("getComboBoxOptionClassNames","office-ui-fabric-react")>] getComboBoxOptionClassNames: (obj -> IComboBoxOptionClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getClassNames: (obj -> string -> bool -> bool -> bool -> bool -> bool -> bool -> IComboBoxClassNames)
+        abstract getComboBoxOptionClassNames: (obj -> IComboBoxOptionClassNames)
 
     type [<AllowNullLiteral>] IComboBoxClassNames =
         abstract container: string with get, set
@@ -2169,7 +2251,6 @@ module __components_ComboBox_ComboBox_classNames =
         abstract root: string with get, set
 
 module __components_ComboBox_ComboBox =
-    let [<Import("","office-ui-fabric-react/components/ComboBox/ComboBox")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IComboBoxOption = __components_ComboBox_ComboBox_types.IComboBoxOption
     type IComboBoxProps = __components_ComboBox_ComboBox_types.IComboBoxProps
@@ -2362,9 +2443,11 @@ module __components_ComboBox_ComboBox_styles =
     type IComboBoxOptionStyles = __components_ComboBox_ComboBox_types.IComboBoxOptionStyles
     type IComboBoxStyles = __components_ComboBox_ComboBox_types.IComboBoxStyles
     type IButtonStyles = Button.IButtonStyles
-    let [<Import("getOptionStyles","office-ui-fabric-react")>] getOptionStyles: (ITheme -> obj option -> obj option -> bool option -> obj) = jsNative
-    let [<Import("getCaretDownButtonStyles","office-ui-fabric-react")>] getCaretDownButtonStyles: (ITheme -> obj option -> IButtonStyles) = jsNative
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> obj option -> string option -> obj) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getOptionStyles: (ITheme -> obj option -> obj option -> bool option -> obj)
+        abstract getCaretDownButtonStyles: (ITheme -> obj option -> IButtonStyles)
+        abstract getStyles: (ITheme -> obj option -> string option -> obj)
 
 module __components_ComboBox_ComboBox_types =
     type IIconProps = Icon.IIconProps
@@ -2507,7 +2590,6 @@ module __components_ComboBox_ComboBox_types =
         abstract optionText: IStyle with get, set
 
 module __components_ComboBox_ComboBoxPage =
-    let [<Import("","office-ui-fabric-react/components/ComboBox/ComboBoxPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ComboBox_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -2521,7 +2603,6 @@ module __components_ComboBox_ComboBoxPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ComboBoxPage
 
 module __components_ComboBox_VirtualizedComboBox =
-    let [<Import("","office-ui-fabric-react/components/ComboBox/VirtualizedComboBox")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IComboBoxProps = __components_ComboBox_ComboBox_types.IComboBoxProps
     type IComboBox = __components_ComboBox_ComboBox_types.IComboBox
@@ -2545,8 +2626,13 @@ module __components_ComboBox_VirtualizedComboBox =
     type [<AllowNullLiteral>] VirtualizedComboBoxStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> VirtualizedComboBox
 
+module __components_CommandBar_CommandBar_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract CommandBarStatus: obj
+
 module __components_CommandBar_CommandBar =
-    let [<Import("","office-ui-fabric-react/components/CommandBar/CommandBar")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ICommandBar = __components_CommandBar_CommandBar_types.ICommandBar
     type ICommandBarProps = __components_CommandBar_CommandBar_types.ICommandBarProps
@@ -2600,27 +2686,29 @@ module __components_CommandBar_CommandBar =
         [<Emit "new $0($1...)">] abstract Create: props: ICommandBarProps -> CommandBar
 
 module __components_CommandBar_CommandBar_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("container","office-ui-fabric-react")>] container: obj = jsNative
-    let [<Import("primaryCommands","office-ui-fabric-react")>] primaryCommands: obj = jsNative
-    let [<Import("sideCommands","office-ui-fabric-react")>] sideCommands: obj = jsNative
-    let [<Import("item","office-ui-fabric-react")>] item: obj = jsNative
-    let [<Import("itemChevronDown","office-ui-fabric-react")>] itemChevronDown: obj = jsNative
-    let [<Import("itemCommandText","office-ui-fabric-react")>] itemCommandText: obj = jsNative
-    let [<Import("itemText","office-ui-fabric-react")>] itemText: obj = jsNative
-    let [<Import("itemLinkIsNoName","office-ui-fabric-react")>] itemLinkIsNoName: obj = jsNative
-    let [<Import("itemIcon","office-ui-fabric-react")>] itemIcon: obj = jsNative
-    let [<Import("itemLink","office-ui-fabric-react")>] itemLink: obj = jsNative
-    let [<Import("itemLinkIsExpanded","office-ui-fabric-react")>] itemLinkIsExpanded: obj = jsNative
-    let [<Import("itemOverflow","office-ui-fabric-react")>] itemOverflow: obj = jsNative
-    let [<Import("inactive","office-ui-fabric-react")>] inactive: obj = jsNative
-    let [<Import("itemIconColor","office-ui-fabric-react")>] itemIconColor: obj = jsNative
-    let [<Import("search","office-ui-fabric-react")>] search: obj = jsNative
-    let [<Import("searchInput","office-ui-fabric-react")>] searchInput: obj = jsNative
-    let [<Import("searchIconSearchWrapper","office-ui-fabric-react")>] searchIconSearchWrapper: obj = jsNative
-    let [<Import("searchIconArrowWrapper","office-ui-fabric-react")>] searchIconArrowWrapper: obj = jsNative
-    let [<Import("searchIconClearWrapper","office-ui-fabric-react")>] searchIconClearWrapper: obj = jsNative
-    let [<Import("searchIconWrapper","office-ui-fabric-react")>] searchIconWrapper: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract container: obj
+        abstract primaryCommands: obj
+        abstract sideCommands: obj
+        abstract item: obj
+        abstract itemChevronDown: obj
+        abstract itemCommandText: obj
+        abstract itemText: obj
+        abstract itemLinkIsNoName: obj
+        abstract itemIcon: obj
+        abstract itemLink: obj
+        abstract itemLinkIsExpanded: obj
+        abstract itemOverflow: obj
+        abstract inactive: obj
+        abstract itemIconColor: obj
+        abstract search: obj
+        abstract searchInput: obj
+        abstract searchIconSearchWrapper: obj
+        abstract searchIconArrowWrapper: obj
+        abstract searchIconClearWrapper: obj
+        abstract searchIconWrapper: obj
 
 module __components_CommandBar_CommandBar_types =
     type IContextualMenuItem = __components_ContextualMenu_index.IContextualMenuItem
@@ -2658,7 +2746,6 @@ module __components_CommandBar_CommandBar_types =
         abstract iconOnly: bool option with get, set
 
 module __components_CommandBar_CommandBarPage =
-    let [<Import("","office-ui-fabric-react/components/CommandBar/CommandBarPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_CommandBar_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -2671,12 +2758,20 @@ module __components_CommandBar_CommandBarPage =
     type [<AllowNullLiteral>] CommandBarPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CommandBarPage
 
+module __components_ContextualMenu_ContextualMenu_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ContextualMenuStatus: obj
+
 module __components_ContextualMenu_ContextualMenu_classNames =
     type ITheme = Styling.ITheme
     type IVerticalDividerClassNames = __components_Divider_VerticalDivider_types.IVerticalDividerClassNames
-    let [<Import("getSplitButtonVerticalDividerClassNames","office-ui-fabric-react")>] getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames) = jsNative
-    let [<Import("getContextualMenuClassNames","office-ui-fabric-react")>] getContextualMenuClassNames: (ITheme -> string option -> IContextualMenuClassNames) = jsNative
-    let [<Import("getItemClassNames","office-ui-fabric-react")>] getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string option -> string option -> string option -> string option -> bool option -> IMenuItemClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames)
+        abstract getContextualMenuClassNames: (ITheme -> string option -> IContextualMenuClassNames)
+        abstract getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string option -> string option -> string option -> string option -> bool option -> IMenuItemClassNames)
 
     type [<AllowNullLiteral>] IContextualMenuClassNames =
         abstract container: string with get, set
@@ -2701,7 +2796,6 @@ module __components_ContextualMenu_ContextualMenu_classNames =
         abstract linkContentMenu: string with get, set
 
 module __components_ContextualMenu_ContextualMenu =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenu")>] : ``.IExports`` = jsNative
     type IContextualMenuProps = __components_ContextualMenu_ContextualMenu_types.IContextualMenuProps
     type IContextualMenuItem = __components_ContextualMenu_ContextualMenu_types.IContextualMenuItem
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
@@ -2800,8 +2894,10 @@ module __components_ContextualMenu_ContextualMenu_styles =
     type ITheme = Styling.ITheme
     type IContextualMenuStyles = __components_ContextualMenu_ContextualMenu_types.IContextualMenuStyles
     type IMenuItemStyles = __components_ContextualMenu_ContextualMenu_types.IMenuItemStyles
-    let [<Import("getMenuItemStyles","office-ui-fabric-react")>] getMenuItemStyles: (ITheme -> IMenuItemStyles) = jsNative
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IContextualMenuStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getMenuItemStyles: (ITheme -> IMenuItemStyles)
+        abstract getStyles: (ITheme -> IContextualMenuStyles)
 
 module __components_ContextualMenu_ContextualMenu_types =
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
@@ -3070,7 +3166,6 @@ module __components_ContextualMenu_ContextualMenu_types =
         abstract list: IStyle with get, set
 
 module __components_ContextualMenu_ContextualMenuItem =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenuItem")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IContextualMenuItemProps = __components_ContextualMenu_ContextualMenuItem_types.IContextualMenuItemProps
 
@@ -3126,7 +3221,6 @@ module __components_ContextualMenu_ContextualMenuItem_types =
         abstract getSubmenuTarget: (unit -> HTMLElement option) option with get, set
 
 module __components_ContextualMenu_ContextualMenuPage =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenuPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ContextualMenu_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -3139,8 +3233,13 @@ module __components_ContextualMenu_ContextualMenuPage =
     type [<AllowNullLiteral>] ContextualMenuPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuPage
 
+module __components_DatePicker_DatePicker_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DatePickerStatus: obj
+
 module __components_DatePicker_DatePicker =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/DatePicker")>] : ``.IExports`` = jsNative
     type IDatePicker = __components_DatePicker_DatePicker_types.IDatePicker
     type IDatePickerProps = __components_DatePicker_DatePicker_types.IDatePickerProps
     type BaseComponent = Utilities.BaseComponent
@@ -3188,11 +3287,13 @@ module __components_DatePicker_DatePicker =
         [<Emit "new $0($1...)">] abstract Create: props: IDatePickerProps -> DatePicker
 
 module __components_DatePicker_DatePicker_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("textField","office-ui-fabric-react")>] textField: obj = jsNative
-    let [<Import("eventWithLabel","office-ui-fabric-react")>] eventWithLabel: obj = jsNative
-    let [<Import("msDatePickerDisabled","office-ui-fabric-react")>] msDatePickerDisabled: obj = jsNative
-    let [<Import("eventWithoutLabel","office-ui-fabric-react")>] eventWithoutLabel: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract textField: obj
+        abstract eventWithLabel: obj
+        abstract msDatePickerDisabled: obj
+        abstract eventWithoutLabel: obj
 
 module __components_DatePicker_DatePicker_types =
     type DatePicker = __components_DatePicker_DatePicker.DatePicker
@@ -3305,7 +3406,6 @@ module __components_DatePicker_DatePicker_types =
         abstract nextYearAriaLabel: string option with get, set
 
 module __components_DatePicker_DatePickerPage =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/DatePickerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_DatePicker_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -3319,7 +3419,6 @@ module __components_DatePicker_DatePickerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> DatePickerPage
 
 module __components_DetailsList_DetailsColumn =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/DetailsColumn")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IRenderFunction = Utilities.IRenderFunction
     type IColumn = __components_DetailsList_DetailsList_types.IColumn
@@ -3363,7 +3462,6 @@ module __components_DetailsList_DetailsColumn =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsColumnProps -> DetailsColumn
 
 module __components_DetailsList_DetailsHeader =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/DetailsHeader")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IRenderFunction = Utilities.IRenderFunction
     type IColumn = __components_DetailsList_DetailsList_types.IColumn
@@ -3489,39 +3587,46 @@ module __components_DetailsList_DetailsHeader =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsHeaderProps -> DetailsHeader
 
 module __components_DetailsList_DetailsHeader_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("rootIsSelectAllHidden","office-ui-fabric-react")>] rootIsSelectAllHidden: obj = jsNative
-    let [<Import("cell","office-ui-fabric-react")>] cell: obj = jsNative
-    let [<Import("cellIsCheck","office-ui-fabric-react")>] cellIsCheck: obj = jsNative
-    let [<Import("cellWrapperPadded","office-ui-fabric-react")>] cellWrapperPadded: obj = jsNative
-    let [<Import("cellIsActionable","office-ui-fabric-react")>] cellIsActionable: obj = jsNative
-    let [<Import("cellIsEmpty","office-ui-fabric-react")>] cellIsEmpty: obj = jsNative
-    let [<Import("gripperBarVerticalStyle","office-ui-fabric-react")>] gripperBarVerticalStyle: obj = jsNative
-    let [<Import("cellSizer","office-ui-fabric-react")>] cellSizer: obj = jsNative
-    let [<Import("cellIsResizing","office-ui-fabric-react")>] cellIsResizing: obj = jsNative
-    let [<Import("cellSizerStart","office-ui-fabric-react")>] cellSizerStart: obj = jsNative
-    let [<Import("cellSizerEnd","office-ui-fabric-react")>] cellSizerEnd: obj = jsNative
-    let [<Import("collapseButton","office-ui-fabric-react")>] collapseButton: obj = jsNative
-    let [<Import("collapseButtonIsCollapsed","office-ui-fabric-react")>] collapseButtonIsCollapsed: obj = jsNative
-    let [<Import("iconOnlyHeader","office-ui-fabric-react")>] iconOnlyHeader: obj = jsNative
-    let [<Import("nearIcon","office-ui-fabric-react")>] nearIcon: obj = jsNative
-    let [<Import("sortIcon","office-ui-fabric-react")>] sortIcon: obj = jsNative
-    let [<Import("filterChevron","office-ui-fabric-react")>] filterChevron: obj = jsNative
-    let [<Import("cellTitle","office-ui-fabric-react")>] cellTitle: obj = jsNative
-    let [<Import("cellName","office-ui-fabric-react")>] cellName: obj = jsNative
-    let [<Import("checkTooltip","office-ui-fabric-react")>] checkTooltip: obj = jsNative
-    let [<Import("cellTooltip","office-ui-fabric-react")>] cellTooltip: obj = jsNative
-    let [<Import("sizingOverlay","office-ui-fabric-react")>] sizingOverlay: obj = jsNative
-    let [<Import("accessibleLabel","office-ui-fabric-react")>] accessibleLabel: obj = jsNative
-    let [<Import("borderWhileDragging","office-ui-fabric-react")>] borderWhileDragging: obj = jsNative
-    let [<Import("fadeOut","office-ui-fabric-react")>] fadeOut: obj = jsNative
-    let [<Import("dropHintCircleStyle","office-ui-fabric-react")>] dropHintCircleStyle: obj = jsNative
-    let [<Import("dropHintLineStyle","office-ui-fabric-react")>] dropHintLineStyle: obj = jsNative
-    let [<Import("dropHintStyle","office-ui-fabric-react")>] dropHintStyle: obj = jsNative
-    let [<Import("borderAfterDropping","office-ui-fabric-react")>] borderAfterDropping: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract rootIsSelectAllHidden: obj
+        abstract cell: obj
+        abstract cellIsCheck: obj
+        abstract cellWrapperPadded: obj
+        abstract cellIsActionable: obj
+        abstract cellIsEmpty: obj
+        abstract gripperBarVerticalStyle: obj
+        abstract cellSizer: obj
+        abstract cellIsResizing: obj
+        abstract cellSizerStart: obj
+        abstract cellSizerEnd: obj
+        abstract collapseButton: obj
+        abstract collapseButtonIsCollapsed: obj
+        abstract iconOnlyHeader: obj
+        abstract nearIcon: obj
+        abstract sortIcon: obj
+        abstract filterChevron: obj
+        abstract cellTitle: obj
+        abstract cellName: obj
+        abstract checkTooltip: obj
+        abstract cellTooltip: obj
+        abstract sizingOverlay: obj
+        abstract accessibleLabel: obj
+        abstract borderWhileDragging: obj
+        abstract fadeOut: obj
+        abstract dropHintCircleStyle: obj
+        abstract dropHintLineStyle: obj
+        abstract dropHintStyle: obj
+        abstract borderAfterDropping: obj
+
+module __components_DetailsList_DetailsList_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DetailsListStatus: obj
 
 module __components_DetailsList_DetailsList =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/DetailsList")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type CheckboxVisibility = __components_DetailsList_DetailsList_types.CheckboxVisibility
     type ConstrainMode = __components_DetailsList_DetailsList_types.ConstrainMode
@@ -3613,10 +3718,12 @@ module __components_DetailsList_DetailsList =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsListProps -> DetailsList
 
 module __components_DetailsList_DetailsList_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("focusZone","office-ui-fabric-react")>] focusZone: obj = jsNative
-    let [<Import("rootIsHorizontalConstrained","office-ui-fabric-react")>] rootIsHorizontalConstrained: obj = jsNative
-    let [<Import("rootCompact","office-ui-fabric-react")>] rootCompact: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract focusZone: obj
+        abstract rootIsHorizontalConstrained: obj
+        abstract rootCompact: obj
 
 module __components_DetailsList_DetailsList_types =
     type DetailsList = __components_DetailsList_DetailsList.DetailsList
@@ -3848,7 +3955,6 @@ module __components_DetailsList_DetailsList_types =
         | Hidden = 2
 
 module __components_DetailsList_DetailsListPage =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/DetailsListPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_DetailsList_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -3862,7 +3968,6 @@ module __components_DetailsList_DetailsListPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> DetailsListPage
 
 module __components_DetailsList_DetailsRow =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/DetailsRow")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IColumn = __components_DetailsList_DetailsList_types.IColumn
     type CheckboxVisibility = __components_DetailsList_DetailsList_types.CheckboxVisibility
@@ -3954,26 +4059,30 @@ module __components_DetailsList_DetailsRow =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsRowProps -> DetailsRow
 
 module __components_DetailsList_DetailsRow_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("cell","office-ui-fabric-react")>] cell: obj = jsNative
-    let [<Import("shimmer","office-ui-fabric-react")>] shimmer: obj = jsNative
-    let [<Import("shimmerIconPlaceholder","office-ui-fabric-react")>] shimmerIconPlaceholder: obj = jsNative
-    let [<Import("check","office-ui-fabric-react")>] check: obj = jsNative
-    let [<Import("rootIsSelected","office-ui-fabric-react")>] rootIsSelected: obj = jsNative
-    let [<Import("isRowHeader","office-ui-fabric-react")>] isRowHeader: obj = jsNative
-    let [<Import("rootIsContentUnselectable","office-ui-fabric-react")>] rootIsContentUnselectable: obj = jsNative
-    let [<Import("checkCell","office-ui-fabric-react")>] checkCell: obj = jsNative
-    let [<Import("isPadded","office-ui-fabric-react")>] isPadded: obj = jsNative
-    let [<Import("isMultiline","office-ui-fabric-react")>] isMultiline: obj = jsNative
-    let [<Import("fields","office-ui-fabric-react")>] fields: obj = jsNative
-    let [<Import("cellMeasurer","office-ui-fabric-react")>] cellMeasurer: obj = jsNative
-    let [<Import("checkCover","office-ui-fabric-react")>] checkCover: obj = jsNative
-    let [<Import("anySelected","office-ui-fabric-react")>] anySelected: obj = jsNative
-    let [<Import("shimmerLeftBorder","office-ui-fabric-react")>] shimmerLeftBorder: obj = jsNative
-    let [<Import("shimmerBottomBorder","office-ui-fabric-react")>] shimmerBottomBorder: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract cell: obj
+        abstract shimmer: obj
+        abstract shimmerIconPlaceholder: obj
+        abstract check: obj
+        abstract rootIsSelected: obj
+        abstract isRowHeader: obj
+        abstract rootIsContentUnselectable: obj
+        abstract checkCell: obj
+        abstract isPadded: obj
+        abstract isMultiline: obj
+        abstract fields: obj
+        abstract cellMeasurer: obj
+        abstract checkCover: obj
+        abstract anySelected: obj
+        abstract shimmerLeftBorder: obj
+        abstract shimmerBottomBorder: obj
 
 module __components_DetailsList_DetailsRowCheck =
-    let [<Import("DetailsRowCheck","office-ui-fabric-react")>] DetailsRowCheck: (IDetailsRowCheckProps -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DetailsRowCheck: (IDetailsRowCheckProps -> JSX.Element)
 
     type [<AllowNullLiteral>] IDetailsRowCheckProps =
         inherit React.HTMLAttributes<HTMLElement>
@@ -3985,16 +4094,17 @@ module __components_DetailsList_DetailsRowCheck =
         abstract canSelect: bool with get, set
 
 module __components_DetailsList_DetailsRowCheck_scss =
-    let [<Import("check","office-ui-fabric-react")>] check: obj = jsNative
-    let [<Import("isHeader","office-ui-fabric-react")>] isHeader: obj = jsNative
-    let [<Import("owner","office-ui-fabric-react")>] owner: obj = jsNative
-    let [<Import("isSelected","office-ui-fabric-react")>] isSelected: obj = jsNative
-    let [<Import("isVisible","office-ui-fabric-react")>] isVisible: obj = jsNative
-    let [<Import("anySelected","office-ui-fabric-react")>] anySelected: obj = jsNative
-    let [<Import("isDisabled","office-ui-fabric-react")>] isDisabled: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract check: obj
+        abstract isHeader: obj
+        abstract owner: obj
+        abstract isSelected: obj
+        abstract isVisible: obj
+        abstract anySelected: obj
+        abstract isDisabled: obj
 
 module __components_DetailsList_DetailsRowFields =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/DetailsRowFields")>] : ``.IExports`` = jsNative
     type IColumn = __components_DetailsList_DetailsList_types.IColumn
     type BaseComponent = Utilities.BaseComponent
 
@@ -4025,7 +4135,6 @@ module __components_DetailsList_DetailsRowFields =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsRowFieldsProps -> DetailsRowFields
 
 module __components_Dialog_Dialog_base =
-    let [<Import("","office-ui-fabric-react/components/Dialog/Dialog.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDialogProps = __components_Dialog_Dialog_types.IDialogProps
 
@@ -4045,10 +4154,24 @@ module __components_Dialog_Dialog_base =
     type [<AllowNullLiteral>] DialogBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDialogProps -> DialogBase
 
+module __components_Dialog_Dialog_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DialogStatus: obj
+
+module __components_Dialog_Dialog =
+    type IDialogProps = __components_Dialog_Dialog_types.IDialogProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Dialog: (IDialogProps -> JSX.Element)
+
 module __components_Dialog_Dialog_styles =
     type IDialogStyleProps = __components_Dialog_Dialog_types.IDialogStyleProps
     type IDialogStyles = __components_Dialog_Dialog_types.IDialogStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IDialogStyleProps -> IDialogStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IDialogStyleProps -> IDialogStyles)
 
 module __components_Dialog_Dialog_types =
     type IModalProps = Modal.IModalProps
@@ -4137,7 +4260,6 @@ module __components_Dialog_Dialog_types =
         abstract main: IStyle with get, set
 
 module __components_Dialog_DialogContent_base =
-    let [<Import("","office-ui-fabric-react/components/Dialog/DialogContent.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDialogContentProps = __components_Dialog_DialogContent_types.IDialogContentProps
 
@@ -4153,10 +4275,18 @@ module __components_Dialog_DialogContent_base =
     type [<AllowNullLiteral>] DialogContentBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDialogContentProps -> DialogContentBase
 
+module __components_Dialog_DialogContent =
+    type IDialogContentProps = __components_Dialog_DialogContent_types.IDialogContentProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DialogContent: (IDialogContentProps -> JSX.Element)
+
 module __components_Dialog_DialogContent_styles =
     type IDialogContentStyleProps = __components_Dialog_DialogContent_types.IDialogContentStyleProps
     type IDialogContentStyles = __components_Dialog_DialogContent_types.IDialogContentStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IDialogContentStyleProps -> IDialogContentStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IDialogContentStyleProps -> IDialogContentStyles)
 
 module __components_Dialog_DialogContent_types =
     type DialogContentBase = __components_Dialog_DialogContent_base.DialogContentBase
@@ -4231,7 +4361,6 @@ module __components_Dialog_DialogContent_types =
         abstract topButton: IStyle with get, set
 
 module __components_Dialog_DialogFooter_base =
-    let [<Import("","office-ui-fabric-react/components/Dialog/DialogFooter.base")>] : ``.IExports`` = jsNative
     type IDialogFooterProps = __components_Dialog_DialogFooter_types.IDialogFooterProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -4247,10 +4376,18 @@ module __components_Dialog_DialogFooter_base =
     type [<AllowNullLiteral>] DialogFooterBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DialogFooterBase
 
+module __components_Dialog_DialogFooter =
+    type IDialogFooterProps = __components_Dialog_DialogFooter_types.IDialogFooterProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DialogFooter: (IDialogFooterProps -> JSX.Element)
+
 module __components_Dialog_DialogFooter_styles =
     type IDialogFooterStyleProps = __components_Dialog_DialogFooter_types.IDialogFooterStyleProps
     type IDialogFooterStyles = __components_Dialog_DialogFooter_types.IDialogFooterStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IDialogFooterStyleProps -> IDialogFooterStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IDialogFooterStyleProps -> IDialogFooterStyles)
 
 module __components_Dialog_DialogFooter_types =
     type DialogFooterBase = __components_Dialog_DialogFooter_base.DialogFooterBase
@@ -4282,7 +4419,6 @@ module __components_Dialog_DialogFooter_types =
         abstract action: IStyle with get, set
 
 module __components_Dialog_DialogPage =
-    let [<Import("","office-ui-fabric-react/components/Dialog/DialogPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Dialog_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -4295,8 +4431,13 @@ module __components_Dialog_DialogPage =
     type [<AllowNullLiteral>] DialogPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DialogPage
 
+module __components_Divider_Divider_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DividerStatus: obj
+
 module __components_Divider_DividerPage =
-    let [<Import("","office-ui-fabric-react/components/Divider/DividerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Divider_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -4312,7 +4453,15 @@ module __components_Divider_DividerPage =
 module __components_Divider_VerticalDivider_classNames =
     type ITheme = Styling.ITheme
     type IVerticalDividerClassNames = __components_Divider_VerticalDivider_types.IVerticalDividerClassNames
-    let [<Import("getDividerClassNames","office-ui-fabric-react")>] getDividerClassNames: (ITheme -> IVerticalDividerClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getDividerClassNames: (ITheme -> IVerticalDividerClassNames)
+
+module __components_Divider_VerticalDivider =
+    type IVerticalDividerProps = __components_Divider_VerticalDivider_types.IVerticalDividerProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract VerticalDivider: (IVerticalDividerProps -> JSX.Element)
 
 module __components_Divider_VerticalDivider_types =
     type ITheme = Styling.ITheme
@@ -4325,8 +4474,13 @@ module __components_Divider_VerticalDivider_types =
         abstract wrapper: string with get, set
         abstract divider: string with get, set
 
+module __components_DocumentCard_DocumentCard_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DocumentCardStatus: obj
+
 module __components_DocumentCard_DocumentCard =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCard")>] : ``.IExports`` = jsNative
     type IDocumentCardProps = __components_DocumentCard_DocumentCard_types.IDocumentCardProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -4345,31 +4499,33 @@ module __components_DocumentCard_DocumentCard =
         [<Emit "new $0($1...)">] abstract Create: props: IDocumentCardProps -> DocumentCard
 
 module __components_DocumentCard_DocumentCard_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("rootIsActionable","office-ui-fabric-react")>] rootIsActionable: obj = jsNative
-    let [<Import("location","office-ui-fabric-react")>] location: obj = jsNative
-    let [<Import("title","office-ui-fabric-react")>] title: obj = jsNative
-    let [<Import("rootIsCompact","office-ui-fabric-react")>] rootIsCompact: obj = jsNative
-    let [<Import("preview","office-ui-fabric-react")>] preview: obj = jsNative
-    let [<Import("icon","office-ui-fabric-react")>] icon: obj = jsNative
-    let [<Import("previewIconContainer","office-ui-fabric-react")>] previewIconContainer: obj = jsNative
-    let [<Import("activity","office-ui-fabric-react")>] activity: obj = jsNative
-    let [<Import("actions","office-ui-fabric-react")>] actions: obj = jsNative
-    let [<Import("action","office-ui-fabric-react")>] action: obj = jsNative
-    let [<Import("views","office-ui-fabric-react")>] views: obj = jsNative
-    let [<Import("activityIsMultiplePeople","office-ui-fabric-react")>] activityIsMultiplePeople: obj = jsNative
-    let [<Import("avatar","office-ui-fabric-react")>] avatar: obj = jsNative
-    let [<Import("activityDetails","office-ui-fabric-react")>] activityDetails: obj = jsNative
-    let [<Import("avatars","office-ui-fabric-react")>] avatars: obj = jsNative
-    let [<Import("name","office-ui-fabric-react")>] name: obj = jsNative
-    let [<Import("activityActivity","office-ui-fabric-react")>] activityActivity: obj = jsNative
-    let [<Import("previewIsFileList","office-ui-fabric-react")>] previewIsFileList: obj = jsNative
-    let [<Import("fileList","office-ui-fabric-react")>] fileList: obj = jsNative
-    let [<Import("fileListIcon","office-ui-fabric-react")>] fileListIcon: obj = jsNative
-    let [<Import("fileListMore","office-ui-fabric-react")>] fileListMore: obj = jsNative
-    let [<Import("secondaryTitle","office-ui-fabric-react")>] secondaryTitle: obj = jsNative
-    let [<Import("logo","office-ui-fabric-react")>] logo: obj = jsNative
-    let [<Import("status","office-ui-fabric-react")>] status: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract rootIsActionable: obj
+        abstract location: obj
+        abstract title: obj
+        abstract rootIsCompact: obj
+        abstract preview: obj
+        abstract icon: obj
+        abstract previewIconContainer: obj
+        abstract activity: obj
+        abstract actions: obj
+        abstract action: obj
+        abstract views: obj
+        abstract activityIsMultiplePeople: obj
+        abstract avatar: obj
+        abstract activityDetails: obj
+        abstract avatars: obj
+        abstract name: obj
+        abstract activityActivity: obj
+        abstract previewIsFileList: obj
+        abstract fileList: obj
+        abstract fileListIcon: obj
+        abstract fileListMore: obj
+        abstract secondaryTitle: obj
+        abstract logo: obj
+        abstract status: obj
 
 module __components_DocumentCard_DocumentCard_types =
     type DocumentCard = __components_DocumentCard_DocumentCard.DocumentCard
@@ -4527,7 +4683,6 @@ module __components_DocumentCard_DocumentCard_types =
         abstract status: string with get, set
 
 module __components_DocumentCard_DocumentCardActions =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardActions")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDocumentCardActionsProps = __components_DocumentCard_DocumentCard_types.IDocumentCardActionsProps
 
@@ -4542,7 +4697,6 @@ module __components_DocumentCard_DocumentCardActions =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardActions
 
 module __components_DocumentCard_DocumentCardActivity =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardActivity")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDocumentCardActivityProps = __components_DocumentCard_DocumentCard_types.IDocumentCardActivityProps
 
@@ -4560,7 +4714,6 @@ module __components_DocumentCard_DocumentCardActivity =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardActivity
 
 module __components_DocumentCard_DocumentCardLocation =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardLocation")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDocumentCardLocationProps = __components_DocumentCard_DocumentCard_types.IDocumentCardLocationProps
 
@@ -4575,7 +4728,6 @@ module __components_DocumentCard_DocumentCardLocation =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardLocation
 
 module __components_DocumentCard_DocumentCardLogo =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardLogo")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDocumentCardLogoProps = __components_DocumentCard_DocumentCard_types.IDocumentCardLogoProps
 
@@ -4590,7 +4742,6 @@ module __components_DocumentCard_DocumentCardLogo =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardLogo
 
 module __components_DocumentCard_DocumentCardPage =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_DocumentCard_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -4604,7 +4755,6 @@ module __components_DocumentCard_DocumentCardPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardPage
 
 module __components_DocumentCard_DocumentCardPreview =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardPreview")>] : ``.IExports`` = jsNative
     type IDocumentCardPreviewProps = __components_DocumentCard_DocumentCard_types.IDocumentCardPreviewProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -4621,7 +4771,6 @@ module __components_DocumentCard_DocumentCardPreview =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardPreview
 
 module __components_DocumentCard_DocumentCardStatus =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardStatus")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDocumentCardStatusProps = __components_DocumentCard_DocumentCard_types.IDocumentCardStatusProps
 
@@ -4636,7 +4785,6 @@ module __components_DocumentCard_DocumentCardStatus =
         [<Emit "new $0($1...)">] abstract Create: props: IDocumentCardStatusProps -> DocumentCardStatus
 
 module __components_DocumentCard_DocumentCardTitle =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/DocumentCardTitle")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IDocumentCardTitleProps = __components_DocumentCard_DocumentCard_types.IDocumentCardTitleProps
 
@@ -4665,8 +4813,13 @@ module __components_DocumentCard_DocumentCardTitle =
     type [<AllowNullLiteral>] DocumentCardTitleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDocumentCardTitleProps -> DocumentCardTitle
 
+module __components_Dropdown_Dropdown_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract DropdownStatus: obj
+
 module __components_Dropdown_Dropdown =
-    let [<Import("","office-ui-fabric-react/components/Dropdown/Dropdown")>] : ``.IExports`` = jsNative
     type IDropdownProps = __components_Dropdown_Dropdown_types.IDropdownProps
     type IWithResponsiveModeState = __utilities_decorators_withResponsiveMode.IWithResponsiveModeState
     type BaseComponent = Utilities.BaseComponent
@@ -4738,24 +4891,26 @@ module __components_Dropdown_Dropdown =
         [<Emit "new $0($1...)">] abstract Create: props: IDropdownProps -> Dropdown
 
 module __components_Dropdown_Dropdown_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("title","office-ui-fabric-react")>] title: obj = jsNative
-    let [<Import("caretDown","office-ui-fabric-react")>] caretDown: obj = jsNative
-    let [<Import("titleIsPlaceHolder","office-ui-fabric-react")>] titleIsPlaceHolder: obj = jsNative
-    let [<Import("titleIsError","office-ui-fabric-react")>] titleIsError: obj = jsNative
-    let [<Import("rootIsDisabled","office-ui-fabric-react")>] rootIsDisabled: obj = jsNative
-    let [<Import("listWrapper","office-ui-fabric-react")>] listWrapper: obj = jsNative
-    let [<Import("caretDownWrapper","office-ui-fabric-react")>] caretDownWrapper: obj = jsNative
-    let [<Import("panel","office-ui-fabric-react")>] panel: obj = jsNative
-    let [<Import("callout","office-ui-fabric-react")>] callout: obj = jsNative
-    let [<Import("errorMessage","office-ui-fabric-react")>] errorMessage: obj = jsNative
-    let [<Import("items","office-ui-fabric-react")>] items: obj = jsNative
-    let [<Import("item","office-ui-fabric-react")>] item: obj = jsNative
-    let [<Import("itemIsDisabled","office-ui-fabric-react")>] itemIsDisabled: obj = jsNative
-    let [<Import("itemIsSelected","office-ui-fabric-react")>] itemIsSelected: obj = jsNative
-    let [<Import("header","office-ui-fabric-react")>] header: obj = jsNative
-    let [<Import("divider","office-ui-fabric-react")>] divider: obj = jsNative
-    let [<Import("optionText","office-ui-fabric-react")>] optionText: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract title: obj
+        abstract caretDown: obj
+        abstract titleIsPlaceHolder: obj
+        abstract titleIsError: obj
+        abstract rootIsDisabled: obj
+        abstract listWrapper: obj
+        abstract caretDownWrapper: obj
+        abstract panel: obj
+        abstract callout: obj
+        abstract errorMessage: obj
+        abstract items: obj
+        abstract item: obj
+        abstract itemIsDisabled: obj
+        abstract itemIsSelected: obj
+        abstract header: obj
+        abstract divider: obj
+        abstract optionText: obj
 
 module __components_Dropdown_Dropdown_types =
     type IRenderFunction = Utilities.IRenderFunction
@@ -4807,7 +4962,6 @@ module __components_Dropdown_Dropdown_types =
         abstract isSelected: bool option with get, set
 
 module __components_Dropdown_DropdownPage =
-    let [<Import("","office-ui-fabric-react/components/Dropdown/DropdownPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Dropdown_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -4821,7 +4975,6 @@ module __components_Dropdown_DropdownPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> DropdownPage
 
 module __components_ExtendedPicker_BaseExtendedPicker =
-    let [<Import("","office-ui-fabric-react/components/ExtendedPicker/BaseExtendedPicker")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type Autofill = Autofill.Autofill
     type IBaseExtendedPickerProps = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps
@@ -4877,6 +5030,12 @@ module __components_ExtendedPicker_BaseExtendedPicker =
 
     type [<AllowNullLiteral>] BaseExtendedPickerStatic =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseExtendedPicker<'T, 'P>
+
+module __components_ExtendedPicker_BaseExtendedPicker_scss =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract pickerText: obj
+        abstract pickerInput: obj
 
 module __components_ExtendedPicker_BaseExtendedPicker_tests =
     type IBaseExtendedPickerProps = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps
@@ -4939,7 +5098,6 @@ module __components_ExtendedPicker_BaseExtendedPicker_types =
         abstract selectedItems: ResizeArray<'T> option with get, set
 
 module __components_Fabric_Fabric =
-    let [<Import("","office-ui-fabric-react/components/Fabric/Fabric")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IFabricProps = __components_Fabric_Fabric_types.IFabricProps
 
@@ -4960,7 +5118,9 @@ module __components_Fabric_Fabric =
 module __components_Fabric_Fabric_styles =
     type IFabricStyleProps = __components_Fabric_Fabric_types.IFabricStyleProps
     type IFabricStyles = __components_Fabric_Fabric_types.IFabricStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IFabricStyleProps -> IFabricStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IFabricStyleProps -> IFabricStyles)
 
     type [<AllowNullLiteral>] IFabricClassNames =
         abstract root: string with get, set
@@ -4983,7 +5143,6 @@ module __components_Fabric_Fabric_types =
         abstract root: IStyle with get, set
 
 module __components_Facepile_Facepile_base =
-    let [<Import("","office-ui-fabric-react/components/Facepile/Facepile.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IFacepileProps = __components_Facepile_Facepile_types.IFacepileProps
 
@@ -5015,22 +5174,38 @@ module __components_Facepile_Facepile_base =
     type [<AllowNullLiteral>] FacepileBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IFacepileProps -> FacepileBase
 
+module __components_Facepile_Facepile_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract FacepileStatus: obj
+
+module __components_Facepile_Facepile =
+    type IFacepileProps = __components_Facepile_Facepile_types.IFacepileProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Facepile: (IFacepileProps -> JSX.Element)
+
 module __components_Facepile_Facepile_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("clear","office-ui-fabric-react")>] clear: obj = jsNative
-    let [<Import("itemContainer","office-ui-fabric-react")>] itemContainer: obj = jsNative
-    let [<Import("members","office-ui-fabric-react")>] members: obj = jsNative
-    let [<Import("itemButton","office-ui-fabric-react")>] itemButton: obj = jsNative
-    let [<Import("addButton","office-ui-fabric-react")>] addButton: obj = jsNative
-    let [<Import("overflowButton","office-ui-fabric-react")>] overflowButton: obj = jsNative
-    let [<Import("descriptiveOverflowButton","office-ui-fabric-react")>] descriptiveOverflowButton: obj = jsNative
-    let [<Import("overflowInitialsIcon","office-ui-fabric-react")>] overflowInitialsIcon: obj = jsNative
-    let [<Import("screenReaderOnly","office-ui-fabric-react")>] screenReaderOnly: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract clear: obj
+        abstract itemContainer: obj
+        abstract members: obj
+        abstract itemButton: obj
+        abstract addButton: obj
+        abstract overflowButton: obj
+        abstract descriptiveOverflowButton: obj
+        abstract overflowInitialsIcon: obj
+        abstract screenReaderOnly: obj
 
 module __components_Facepile_Facepile_styles =
     type IFacepileStyleProps = __components_Facepile_Facepile_types.IFacepileStyleProps
     type IFacepileStyles = __components_Facepile_Facepile_types.IFacepileStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IFacepileStyleProps -> IFacepileStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IFacepileStyleProps -> IFacepileStyles)
 
 module __components_Facepile_Facepile_types =
     type FacepileBase = __components_Facepile_Facepile_base.FacepileBase
@@ -5120,7 +5295,6 @@ module __components_Facepile_Facepile_types =
         abstract root: IStyle with get, set
 
 module __components_Facepile_FacepileButton =
-    let [<Import("","office-ui-fabric-react/components/Facepile/FacepileButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = Button.IButtonProps
 
@@ -5135,7 +5309,6 @@ module __components_Facepile_FacepileButton =
         [<Emit "new $0($1...)">] abstract Create: unit -> FacepileButton
 
 module __components_Facepile_FacepilePage =
-    let [<Import("","office-ui-fabric-react/components/Facepile/FacepilePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Facepile_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -5149,7 +5322,6 @@ module __components_Facepile_FacepilePage =
         [<Emit "new $0($1...)">] abstract Create: unit -> FacepilePage
 
 module __components_FloatingPicker_BaseFloatingPicker =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/BaseFloatingPicker")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IBaseFloatingPicker = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPicker
     type IBaseFloatingPickerProps = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPickerProps
@@ -5215,7 +5387,9 @@ module __components_FloatingPicker_BaseFloatingPicker =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseFloatingPicker<'T, 'P>
 
 module __components_FloatingPicker_BaseFloatingPicker_scss =
-    let [<Import("callout","office-ui-fabric-react")>] callout: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract callout: obj
 
 module __components_FloatingPicker_BaseFloatingPicker_types =
     type ISuggestionModel = Pickers.ISuggestionModel
@@ -5295,7 +5469,6 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         abstract footerItemsProps: ResizeArray<ISuggestionsHeaderFooterProps> option with get, set
 
 module __components_FocusTrapZone_FocusTrapZone =
-    let [<Import("","office-ui-fabric-react/components/FocusTrapZone/FocusTrapZone")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IFocusTrapZone = __components_FocusTrapZone_FocusTrapZone_types.IFocusTrapZone
     type IFocusTrapZoneProps = __components_FocusTrapZone_FocusTrapZone_types.IFocusTrapZoneProps
@@ -5355,7 +5528,6 @@ module __components_FocusTrapZone_FocusTrapZone_types =
         abstract onKeyDown: (React.KeyboardEvent<HTMLElement> -> unit) option with get, set
 
 module __components_FocusTrapZone_FocusTrapZonePage =
-    let [<Import("","office-ui-fabric-react/components/FocusTrapZone/FocusTrapZonePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_FocusTrapZone_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -5369,7 +5541,6 @@ module __components_FocusTrapZone_FocusTrapZonePage =
         [<Emit "new $0($1...)">] abstract Create: unit -> FocusTrapZonePage
 
 module __components_FocusZone_FocusZone =
-    let [<Import("","office-ui-fabric-react/components/FocusZone/FocusZone")>] : ``.IExports`` = jsNative
     type IFocusZone = __components_FocusZone_FocusZone_types.IFocusZone
     type IFocusZoneProps = __components_FocusZone_FocusZone_types.IFocusZoneProps
     type BaseComponent = Utilities.BaseComponent
@@ -5509,7 +5680,6 @@ module __components_FocusZone_FocusZone_types =
         | Bidirectional = 2
 
 module __components_FocusZone_FocusZonePage =
-    let [<Import("","office-ui-fabric-react/components/FocusZone/FocusZonePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_FocusZone_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -5522,8 +5692,13 @@ module __components_FocusZone_FocusZonePage =
     type [<AllowNullLiteral>] FocusZonePageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> FocusZonePage
 
+module __components_GroupedList_GroupedList_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract GroupedListStatus: obj
+
 module __components_GroupedList_GroupedList =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/GroupedList")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IGroupedList = __components_GroupedList_GroupedList_types.IGroupedList
     type IGroupedListProps = __components_GroupedList_GroupedList_types.IGroupedListProps
@@ -5567,9 +5742,11 @@ module __components_GroupedList_GroupedList =
         [<Emit "new $0($1...)">] abstract Create: props: IGroupedListProps -> GroupedList
 
 module __components_GroupedList_GroupedList_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("group","office-ui-fabric-react")>] group: obj = jsNative
-    let [<Import("groupIsDropping","office-ui-fabric-react")>] groupIsDropping: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract group: obj
+        abstract groupIsDropping: obj
 
 module __components_GroupedList_GroupedList_types =
     type GroupedList = __components_GroupedList_GroupedList.GroupedList
@@ -5726,7 +5903,6 @@ module __components_GroupedList_GroupedList_types =
         abstract isCollapsedGroupSelectVisible: bool option with get, set
 
 module __components_GroupedList_GroupedListPage =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/GroupedListPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_GroupedList_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -5740,7 +5916,6 @@ module __components_GroupedList_GroupedListPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> GroupedListPage
 
 module __components_GroupedList_GroupedListSection =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/GroupedListSection")>] : ``.IExports`` = jsNative
     type IGroup = __components_GroupedList_GroupedList_types.IGroup
     type IGroupDividerProps = __components_GroupedList_GroupedList_types.IGroupDividerProps
     type IDragDropContext = __utilities_dragdrop_index.IDragDropContext
@@ -5842,7 +6017,6 @@ module __components_GroupedList_GroupedListSection =
         [<Emit "new $0($1...)">] abstract Create: props: IGroupedListSectionProps -> GroupedListSection
 
 module __components_GroupedList_GroupFooter =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/GroupFooter")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IGroupDividerProps = __components_GroupedList_GroupedList_types.IGroupDividerProps
 
@@ -5857,10 +6031,11 @@ module __components_GroupedList_GroupFooter =
         [<Emit "new $0($1...)">] abstract Create: unit -> GroupFooter
 
 module __components_GroupedList_GroupFooter_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
 
 module __components_GroupedList_GroupHeader =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/GroupHeader")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IGroupDividerProps = __components_GroupedList_GroupedList_types.IGroupDividerProps
 
@@ -5883,18 +6058,19 @@ module __components_GroupedList_GroupHeader =
         [<Emit "new $0($1...)">] abstract Create: props: IGroupDividerProps -> GroupHeader
 
 module __components_GroupedList_GroupHeader_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("rootIsSelected","office-ui-fabric-react")>] rootIsSelected: obj = jsNative
-    let [<Import("groupHeaderContainer","office-ui-fabric-react")>] groupHeaderContainer: obj = jsNative
-    let [<Import("check","office-ui-fabric-react")>] check: obj = jsNative
-    let [<Import("expand","office-ui-fabric-react")>] expand: obj = jsNative
-    let [<Import("title","office-ui-fabric-react")>] title: obj = jsNative
-    let [<Import("headerCount","office-ui-fabric-react")>] headerCount: obj = jsNative
-    let [<Import("expandIsCollapsed","office-ui-fabric-react")>] expandIsCollapsed: obj = jsNative
-    let [<Import("dropIcon","office-ui-fabric-react")>] dropIcon: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract rootIsSelected: obj
+        abstract groupHeaderContainer: obj
+        abstract check: obj
+        abstract expand: obj
+        abstract title: obj
+        abstract headerCount: obj
+        abstract expandIsCollapsed: obj
+        abstract dropIcon: obj
 
 module __components_GroupedList_GroupShowAll =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/GroupShowAll")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IGroupDividerProps = __components_GroupedList_GroupedList_types.IGroupDividerProps
 
@@ -5915,19 +6091,24 @@ module __components_GroupedList_GroupShowAll =
         [<Emit "new $0($1...)">] abstract Create: unit -> GroupShowAll
 
 module __components_GroupedList_GroupShowAll_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
 
 module __components_GroupedList_GroupSpacer =
-    let [<Import("GroupSpacer","office-ui-fabric-react")>] GroupSpacer: (IGroupSpacerProps -> U2<obj, JSX.Element>) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract GroupSpacer: (IGroupSpacerProps -> U2<obj, JSX.Element>)
 
     type [<AllowNullLiteral>] IGroupSpacerProps =
         abstract count: float with get, set
 
 module __components_GroupedList_GroupSpacer_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
 
 module __components_HoverCard_ExpandingCard =
-    let [<Import("","office-ui-fabric-react/components/HoverCard/ExpandingCard")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IExpandingCardProps = __components_HoverCard_ExpandingCard_types.IExpandingCardProps
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
@@ -5959,7 +6140,9 @@ module __components_HoverCard_ExpandingCard =
 module __components_HoverCard_ExpandingCard_styles =
     type IExpandingCardStyles = __components_HoverCard_ExpandingCard_types.IExpandingCardStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IExpandingCardStyles option -> IExpandingCardStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IExpandingCardStyles option -> IExpandingCardStyles)
 
 module __components_HoverCard_ExpandingCard_types =
     type ExpandingCard = __components_HoverCard_ExpandingCard.ExpandingCard
@@ -6028,8 +6211,13 @@ module __components_HoverCard_ExpandingCard_types =
         /// Style for the expanded card scroll content
         abstract expandedCardScroll: IStyle option with get, set
 
+module __components_HoverCard_HoverCard_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract HoverCardStatus: obj
+
 module __components_HoverCard_HoverCard =
-    let [<Import("","office-ui-fabric-react/components/HoverCard/HoverCard")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IHoverCardProps = __components_HoverCard_HoverCard_types.IHoverCardProps
     type ExpandingCardMode = __components_HoverCard_ExpandingCard_types.ExpandingCardMode
@@ -6064,6 +6252,12 @@ module __components_HoverCard_HoverCard =
 
     type [<AllowNullLiteral>] HoverCardStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IHoverCardProps -> HoverCard
+
+module __components_HoverCard_HoverCard_styles =
+    type IHoverCardStyles = __components_HoverCard_HoverCard_types.IHoverCardStyles
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IHoverCardStyles option -> IHoverCardStyles)
 
 module __components_HoverCard_HoverCard_types =
     type HoverCard = __components_HoverCard_HoverCard.HoverCard
@@ -6112,7 +6306,6 @@ module __components_HoverCard_HoverCard_types =
         abstract host: IStyle option with get, set
 
 module __components_HoverCard_HoverCardPage =
-    let [<Import("","office-ui-fabric-react/components/HoverCard/HoverCardPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_HoverCard_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6126,7 +6319,6 @@ module __components_HoverCard_HoverCardPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> HoverCardPage
 
 module __components_Icon_Icon_base =
-    let [<Import("","office-ui-fabric-react/components/Icon/Icon.base")>] : ``.IExports`` = jsNative
     type IIconProps = __components_Icon_Icon_types.IIconProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -6145,10 +6337,24 @@ module __components_Icon_Icon_base =
     type [<AllowNullLiteral>] IconBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IIconProps -> IconBase
 
+module __components_Icon_Icon_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract IconStatus: obj
+
+module __components_Icon_Icon =
+    type IIconProps = __components_Icon_Icon_types.IIconProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Icon: (IIconProps -> JSX.Element)
+
 module __components_Icon_Icon_styles =
     type IIconStyleProps = __components_Icon_Icon_types.IIconStyleProps
     type IIconStyles = __components_Icon_Icon_types.IIconStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IIconStyleProps -> IIconStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IIconStyleProps -> IIconStyles)
 
 module __components_Icon_Icon_types =
     type IImageProps = __components_Image_Image_types.IImageProps
@@ -6193,7 +6399,6 @@ module __components_Icon_Icon_types =
         abstract imageContainer: IStyle option with get, set
 
 module __components_Icon_IconPage =
-    let [<Import("","office-ui-fabric-react/components/Icon/IconPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Icon_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6207,7 +6412,6 @@ module __components_Icon_IconPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> IconPage
 
 module __components_Image_Image_base =
-    let [<Import("","office-ui-fabric-react/components/Image/Image.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IImageProps = __components_Image_Image_types.IImageProps
     type ImageLoadState = __components_Image_Image_types.ImageLoadState
@@ -6236,10 +6440,24 @@ module __components_Image_Image_base =
     type [<AllowNullLiteral>] ImageBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IImageProps -> ImageBase
 
+module __components_Image_Image_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ImageStatus: obj
+
+module __components_Image_Image =
+    type IImageProps = __components_Image_Image_types.IImageProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Image: (IImageProps -> JSX.Element)
+
 module __components_Image_Image_styles =
     type IImageStyleProps = __components_Image_Image_types.IImageStyleProps
     type IImageStyles = __components_Image_Image_types.IImageStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IImageStyleProps -> IImageStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IImageStyleProps -> IImageStyles)
 
 module __components_Image_Image_types =
     type IStyle = Styling.IStyle
@@ -6333,7 +6551,6 @@ module __components_Image_Image_types =
         abstract image: IStyle with get, set
 
 module __components_Image_ImagePage =
-    let [<Import("","office-ui-fabric-react/components/Image/ImagePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Image_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6346,8 +6563,13 @@ module __components_Image_ImagePage =
     type [<AllowNullLiteral>] ImagePageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImagePage
 
+module __components_Keytip_Keytip_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract KeytipStatus: obj
+
 module __components_Keytip_Keytip =
-    let [<Import("","office-ui-fabric-react/components/Keytip/Keytip")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IKeytip = __components_Keytip_Keytip_types.IKeytip
     type IKeytipProps = __components_Keytip_Keytip_types.IKeytipProps
@@ -6372,9 +6594,11 @@ module __components_Keytip_Keytip_styles =
     type ICalloutContentStyles = Callout.ICalloutContentStyles
     type IStyleFunction = Utilities.IStyleFunction
     type IPoint = Utilities.IPoint
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IKeytipStyleProps -> IKeytipStyles) = jsNative
-    let [<Import("getCalloutStyles","office-ui-fabric-react")>] getCalloutStyles: (ICalloutContentStyleProps -> ICalloutContentStyles) = jsNative
-    let [<Import("getCalloutOffsetStyles","office-ui-fabric-react")>] getCalloutOffsetStyles: (IPoint -> IStyleFunction<ICalloutContentStyleProps, ICalloutContentStyles>) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IKeytipStyleProps -> IKeytipStyles)
+        abstract getCalloutStyles: (ICalloutContentStyleProps -> ICalloutContentStyles)
+        abstract getCalloutOffsetStyles: (IPoint -> IStyleFunction<ICalloutContentStyleProps, ICalloutContentStyles>)
 
 module __components_Keytip_Keytip_types =
     type ICalloutProps = Callout.ICalloutProps
@@ -6439,7 +6663,6 @@ module __components_Keytip_Keytip_types =
         abstract root: IStyle with get, set
 
 module __components_Keytip_KeytipContent_base =
-    let [<Import("","office-ui-fabric-react/components/Keytip/KeytipContent.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IKeytipProps = __components_Keytip_Keytip_types.IKeytipProps
 
@@ -6455,8 +6678,13 @@ module __components_Keytip_KeytipContent_base =
     type [<AllowNullLiteral>] KeytipContentBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> KeytipContentBase
 
+module __components_Keytip_KeytipContent =
+    type IKeytipProps = __components_Keytip_Keytip_types.IKeytipProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract KeytipContent: (IKeytipProps -> JSX.Element)
+
 module __components_Keytip_KeytipsPage =
-    let [<Import("","office-ui-fabric-react/components/Keytip/KeytipsPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Keytip_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6470,7 +6698,6 @@ module __components_Keytip_KeytipsPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> KeytipsPage
 
 module __components_KeytipData_KeytipData =
-    let [<Import("","office-ui-fabric-react/components/KeytipData/KeytipData")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IRenderComponent = Utilities.IRenderComponent
     type IKeytipDataProps = __components_KeytipData_KeytipData_types.IKeytipDataProps
@@ -6539,7 +6766,6 @@ module __components_KeytipLayer_IKeytipTreeNode =
         abstract persisted: bool option with get, set
 
 module __components_KeytipLayer_KeytipLayer_base =
-    let [<Import("","office-ui-fabric-react/components/KeytipLayer/KeytipLayer.base")>] : ``.IExports`` = jsNative
     type IKeytipLayerProps = __components_KeytipLayer_KeytipLayer_types.IKeytipLayerProps
     type IKeytipProps = Keytip.IKeytipProps
     type BaseComponent = Utilities.BaseComponent
@@ -6625,13 +6851,21 @@ module __components_KeytipLayer_KeytipLayer_base =
     type [<AllowNullLiteral>] KeytipLayerBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IKeytipLayerProps * context: obj option -> KeytipLayerBase
 
+module __components_KeytipLayer_KeytipLayer =
+    type IKeytipLayerProps = __components_KeytipLayer_KeytipLayer_types.IKeytipLayerProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract KeytipLayer: (IKeytipLayerProps -> JSX.Element)
+
 module __components_KeytipLayer_KeytipLayer_styles =
     type ILayerStyles = Layer.ILayerStyles
     type ILayerStyleProps = Layer.ILayerStyleProps
     type IKeytipLayerStyleProps = __components_KeytipLayer_KeytipLayer_types.IKeytipLayerStyleProps
     type IKeytipLayerStyles = __components_KeytipLayer_KeytipLayer_types.IKeytipLayerStyles
-    let [<Import("getLayerStyles","office-ui-fabric-react")>] getLayerStyles: (ILayerStyleProps -> ILayerStyles) = jsNative
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IKeytipLayerStyleProps -> IKeytipLayerStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getLayerStyles: (ILayerStyleProps -> ILayerStyles)
+        abstract getStyles: (IKeytipLayerStyleProps -> IKeytipLayerStyles)
 
 module __components_KeytipLayer_KeytipLayer_types =
     type IStyleFunction = Utilities.IStyleFunction
@@ -6669,7 +6903,6 @@ module __components_KeytipLayer_KeytipLayer_types =
         interface end
 
 module __components_KeytipLayer_KeytipTree =
-    let [<Import("","office-ui-fabric-react/components/KeytipLayer/KeytipTree")>] : ``.IExports`` = jsNative
     type IKeytipProps = Keytip.IKeytipProps
     type IKeytipTreeNode = __components_KeytipLayer_IKeytipTreeNode.IKeytipTreeNode
 
@@ -6726,7 +6959,6 @@ module __components_KeytipLayer_KeytipTree =
         [<Emit "new $0($1...)">] abstract Create: unit -> KeytipTree
 
 module __components_Label_Label_base =
-    let [<Import("","office-ui-fabric-react/components/Label/Label.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ILabelProps = __components_Label_Label_types.ILabelProps
 
@@ -6740,9 +6972,17 @@ module __components_Label_Label_base =
     type [<AllowNullLiteral>] LabelStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Label
 
+module __components_Label_Label_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract LabelStatus: obj
+
 module __components_Label_Label_classNames =
     type ITheme = Styling.ITheme
-    let [<Import("getLabelClassNames","office-ui-fabric-react")>] getLabelClassNames: (ITheme -> string option -> bool -> bool -> ILabelClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getLabelClassNames: (ITheme -> string option -> bool -> bool -> ILabelClassNames)
 
     type [<AllowNullLiteral>] ILabelClassNames =
         abstract root: string with get, set
@@ -6766,7 +7006,6 @@ module __components_Label_Label_types =
         abstract theme: ITheme option with get, set
 
 module __components_Label_LabelPage =
-    let [<Import("","office-ui-fabric-react/components/Label/LabelPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Label_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6780,7 +7019,6 @@ module __components_Label_LabelPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> LabelPage
 
 module __components_Layer_Layer_base =
-    let [<Import("","office-ui-fabric-react/components/Layer/Layer.base")>] : ``.IExports`` = jsNative
     type ILayerProps = __components_Layer_Layer_types.ILayerProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -6814,10 +7052,24 @@ module __components_Layer_Layer_base =
         abstract setDefaultTarget: ?selector: string -> unit
         [<Emit "new $0($1...)">] abstract Create: props: ILayerProps -> LayerBase
 
+module __components_Layer_Layer_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract LayerStatus: obj
+
+module __components_Layer_Layer =
+    type ILayerProps = __components_Layer_Layer_types.ILayerProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Layer: (ILayerProps -> JSX.Element)
+
 module __components_Layer_Layer_styles =
     type ILayerStyleProps = __components_Layer_Layer_types.ILayerStyleProps
     type ILayerStyles = __components_Layer_Layer_types.ILayerStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ILayerStyleProps -> ILayerStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ILayerStyleProps -> ILayerStyles)
 
 module __components_Layer_Layer_types =
     type LayerBase = __components_Layer_Layer_base.LayerBase
@@ -6866,7 +7118,6 @@ module __components_Layer_Layer_types =
         abstract content: IStyle option with get, set
 
 module __components_Layer_LayerHost =
-    let [<Import("","office-ui-fabric-react/components/Layer/LayerHost")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ILayerHostProps = __components_Layer_LayerHost_types.ILayerHostProps
 
@@ -6897,7 +7148,6 @@ module __components_Layer_LayerHost_types =
         abstract id: string option with get, set
 
 module __components_Layer_LayerPage =
-    let [<Import("","office-ui-fabric-react/components/Layer/LayerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Layer_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6911,7 +7161,6 @@ module __components_Layer_LayerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> LayerPage
 
 module __components_Link_Link_base =
-    let [<Import("","office-ui-fabric-react/components/Link/Link.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ILink = __components_Link_Link_types.ILink
     type ILinkProps = __components_Link_Link_types.ILinkProps
@@ -6930,10 +7179,24 @@ module __components_Link_Link_base =
     type [<AllowNullLiteral>] LinkBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> LinkBase
 
+module __components_Link_Link_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract LinkStatus: obj
+
+module __components_Link_Link =
+    type ILinkProps = __components_Link_Link_types.ILinkProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Link: (ILinkProps -> JSX.Element)
+
 module __components_Link_Link_styles =
     type ILinkStyleProps = __components_Link_Link_types.ILinkStyleProps
     type ILinkStyles = __components_Link_Link_types.ILinkStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ILinkStyleProps -> ILinkStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ILinkStyleProps -> ILinkStyles)
 
 module __components_Link_Link_types =
     type LinkBase = __components_Link_Link_base.LinkBase
@@ -6970,7 +7233,6 @@ module __components_Link_Link_types =
         abstract root: IStyle with get, set
 
 module __components_Link_LinkPage =
-    let [<Import("","office-ui-fabric-react/components/Link/LinkPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Link_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -6983,8 +7245,13 @@ module __components_Link_LinkPage =
     type [<AllowNullLiteral>] LinkPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> LinkPage
 
+module __components_List_List_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ListStatus: obj
+
 module __components_List_List =
-    let [<Import("","office-ui-fabric-react/components/List/List")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IList = __components_List_List_types.IList
     type IListProps = __components_List_List_types.IListProps
@@ -7236,7 +7503,6 @@ module __components_List_List_types =
         abstract key: string option with get, set
 
 module __components_List_ListPage =
-    let [<Import("","office-ui-fabric-react/components/List/ListPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_List_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7250,7 +7516,6 @@ module __components_List_ListPage =
         [<Emit "new $0($1...)">] abstract Create: props: IComponentDemoPageProps -> ListPage
 
 module __components_MarqueeSelection_MarqueeSelection_base =
-    let [<Import("","office-ui-fabric-react/components/MarqueeSelection/MarqueeSelection.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPoint = Utilities.IPoint
     type IRectangle = Utilities.IRectangle
@@ -7308,16 +7573,26 @@ module __components_MarqueeSelection_MarqueeSelection_base =
     type [<AllowNullLiteral>] MarqueeSelectionBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IMarqueeSelectionProps -> MarqueeSelectionBase
 
+module __components_MarqueeSelection_MarqueeSelection =
+    type IMarqueeSelectionProps = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract MarqueeSelection: (IMarqueeSelectionProps -> JSX.Element)
+
 module __components_MarqueeSelection_MarqueeSelection_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("dragMask","office-ui-fabric-react")>] dragMask: obj = jsNative
-    let [<Import("box","office-ui-fabric-react")>] box: obj = jsNative
-    let [<Import("boxFill","office-ui-fabric-react")>] boxFill: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract dragMask: obj
+        abstract box: obj
+        abstract boxFill: obj
 
 module __components_MarqueeSelection_MarqueeSelection_styles =
     type IMarqueeSelectionStyleProps = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionStyleProps
     type IMarqueeSelectionStyles = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IMarqueeSelectionStyleProps -> IMarqueeSelectionStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IMarqueeSelectionStyleProps -> IMarqueeSelectionStyles)
 
 module __components_MarqueeSelection_MarqueeSelection_types =
     type ISelection = __utilities_selection_interfaces.ISelection
@@ -7366,7 +7641,6 @@ module __components_MarqueeSelection_MarqueeSelection_types =
         abstract boxFill: IStyle option with get, set
 
 module __components_MarqueeSelection_MarqueeSelectionPage =
-    let [<Import("","office-ui-fabric-react/components/MarqueeSelection/MarqueeSelectionPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_MarqueeSelection_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7379,8 +7653,13 @@ module __components_MarqueeSelection_MarqueeSelectionPage =
     type [<AllowNullLiteral>] MarqueeSelectionPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> MarqueeSelectionPage
 
+module __components_MessageBar_MessageBar_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract MessageBarStatus: obj
+
 module __components_MessageBar_MessageBar =
-    let [<Import("","office-ui-fabric-react/components/MessageBar/MessageBar")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IMessageBarProps = __components_MessageBar_MessageBar_types.IMessageBarProps
 
@@ -7413,27 +7692,29 @@ module __components_MessageBar_MessageBar =
         [<Emit "new $0($1...)">] abstract Create: props: IMessageBarProps -> MessageBar
 
 module __components_MessageBar_MessageBar_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("icon","office-ui-fabric-react")>] icon: obj = jsNative
-    let [<Import("text","office-ui-fabric-react")>] text: obj = jsNative
-    let [<Import("noDismissButton","office-ui-fabric-react")>] noDismissButton: obj = jsNative
-    let [<Import("innerText","office-ui-fabric-react")>] innerText: obj = jsNative
-    let [<Import("rootIsWarning","office-ui-fabric-react")>] rootIsWarning: obj = jsNative
-    let [<Import("rootIsSevereWarning","office-ui-fabric-react")>] rootIsSevereWarning: obj = jsNative
-    let [<Import("rootIsError","office-ui-fabric-react")>] rootIsError: obj = jsNative
-    let [<Import("rootIsBlocked","office-ui-fabric-react")>] rootIsBlocked: obj = jsNative
-    let [<Import("rootIsSuccess","office-ui-fabric-react")>] rootIsSuccess: obj = jsNative
-    let [<Import("content","office-ui-fabric-react")>] content: obj = jsNative
-    let [<Import("actions","office-ui-fabric-react")>] actions: obj = jsNative
-    let [<Import("actionsSingleLine","office-ui-fabric-react")>] actionsSingleLine: obj = jsNative
-    let [<Import("dismissal","office-ui-fabric-react")>] dismissal: obj = jsNative
-    let [<Import("expand","office-ui-fabric-react")>] expand: obj = jsNative
-    let [<Import("dismissSingleLine","office-ui-fabric-react")>] dismissSingleLine: obj = jsNative
-    let [<Import("expandSingleLine","office-ui-fabric-react")>] expandSingleLine: obj = jsNative
-    let [<Import("multiLine","office-ui-fabric-react")>] multiLine: obj = jsNative
-    let [<Import("multiLineWithActions","office-ui-fabric-react")>] multiLineWithActions: obj = jsNative
-    let [<Import("singleLine","office-ui-fabric-react")>] singleLine: obj = jsNative
-    let [<Import("expandingSingleLine","office-ui-fabric-react")>] expandingSingleLine: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract icon: obj
+        abstract text: obj
+        abstract noDismissButton: obj
+        abstract innerText: obj
+        abstract rootIsWarning: obj
+        abstract rootIsSevereWarning: obj
+        abstract rootIsError: obj
+        abstract rootIsBlocked: obj
+        abstract rootIsSuccess: obj
+        abstract content: obj
+        abstract actions: obj
+        abstract actionsSingleLine: obj
+        abstract dismissal: obj
+        abstract expand: obj
+        abstract dismissSingleLine: obj
+        abstract expandSingleLine: obj
+        abstract multiLine: obj
+        abstract multiLineWithActions: obj
+        abstract singleLine: obj
+        abstract expandingSingleLine: obj
 
 module __components_MessageBar_MessageBar_types =
     type BaseButton = Button.BaseButton
@@ -7478,7 +7759,6 @@ module __components_MessageBar_MessageBar_types =
         | Remove = 90000
 
 module __components_MessageBar_MessageBarPage =
-    let [<Import("","office-ui-fabric-react/components/MessageBar/MessageBarPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_MessageBar_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7491,8 +7771,13 @@ module __components_MessageBar_MessageBarPage =
     type [<AllowNullLiteral>] MessageBarPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> MessageBarPage
 
+module __components_Modal_Modal_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ModalStatus: obj
+
 module __components_Modal_Modal =
-    let [<Import("","office-ui-fabric-react/components/Modal/Modal")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IModalProps = __components_Modal_Modal_types.IModalProps
     type IModal = __components_Modal_Modal_types.IModal
@@ -7522,10 +7807,12 @@ module __components_Modal_Modal =
         [<Emit "new $0($1...)">] abstract Create: props: IModalProps -> Modal
 
 module __components_Modal_Modal_scss =
-    let [<Import("duration","office-ui-fabric-react")>] duration: obj = jsNative
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("rootIsVisible","office-ui-fabric-react")>] rootIsVisible: obj = jsNative
-    let [<Import("main","office-ui-fabric-react")>] main: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract duration: obj
+        abstract root: obj
+        abstract rootIsVisible: obj
+        abstract main: obj
 
 module __components_Modal_Modal_types =
     type Modal = __components_Modal_Modal.Modal
@@ -7565,7 +7852,6 @@ module __components_Modal_Modal_types =
         abstract subtitleAriaId: string option with get, set
 
 module __components_Modal_ModalPage =
-    let [<Import("","office-ui-fabric-react/components/Modal/ModalPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Modal_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7579,7 +7865,6 @@ module __components_Modal_ModalPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ModalPage
 
 module __components_Nav_Nav_base =
-    let [<Import("","office-ui-fabric-react/components/Nav/Nav.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type INav = __components_Nav_Nav_types.INav
     type INavProps = __components_Nav_Nav_types.INavProps
@@ -7615,12 +7900,26 @@ module __components_Nav_Nav_base =
     type [<AllowNullLiteral>] NavBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: INavProps -> NavBase
 
+module __components_Nav_Nav_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract NavStatus: obj
+
+module __components_Nav_Nav =
+    type INavProps = __components_Nav_Nav_types.INavProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Nav: (INavProps -> JSX.Element)
+
 module __components_Nav_Nav_styles =
     type INavStyleProps = __components_Nav_Nav_types.INavStyleProps
     type INavStyles = __components_Nav_Nav_types.INavStyles
     type IButtonStyles = Button.IButtonStyles
-    let [<Import("buttonStyles","office-ui-fabric-react")>] buttonStyles: IButtonStyles = jsNative
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (INavStyleProps -> INavStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract buttonStyles: IButtonStyles
+        abstract getStyles: (INavStyleProps -> INavStyles)
 
 module __components_Nav_Nav_types =
     type IStyle = Styling.IStyle
@@ -7780,7 +8079,6 @@ module __components_Nav_Nav_types =
         abstract groupContent: IStyle with get, set
 
 module __components_Nav_NavPage =
-    let [<Import("","office-ui-fabric-react/components/Nav/NavPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Nav_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7793,8 +8091,13 @@ module __components_Nav_NavPage =
     type [<AllowNullLiteral>] NavPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> NavPage
 
+module __components_OverflowSet_OverflowSet_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract OverflowSetStatus: obj
+
 module __components_OverflowSet_OverflowSet =
-    let [<Import("","office-ui-fabric-react/components/OverflowSet/OverflowSet")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IOverflowSet = __components_OverflowSet_OverflowSet_types.IOverflowSet
     type IOverflowSetProps = __components_OverflowSet_OverflowSet_types.IOverflowSetProps
@@ -7833,9 +8136,11 @@ module __components_OverflowSet_OverflowSet =
         [<Emit "new $0($1...)">] abstract Create: props: IOverflowSetProps -> OverflowSet
 
 module __components_OverflowSet_OverflowSet_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("rootVertical","office-ui-fabric-react")>] rootVertical: obj = jsNative
-    let [<Import("item","office-ui-fabric-react")>] item: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract rootVertical: obj
+        abstract item: obj
 
 module __components_OverflowSet_OverflowSet_types =
     type OverflowSet = __components_OverflowSet_OverflowSet.OverflowSet
@@ -7897,7 +8202,6 @@ module __components_OverflowSet_OverflowSet_types =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
 
 module __components_OverflowSet_OverflowSetPage =
-    let [<Import("","office-ui-fabric-react/components/OverflowSet/OverflowSetPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_OverflowSet_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7911,7 +8215,6 @@ module __components_OverflowSet_OverflowSetPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetPage
 
 module __components_Overlay_Overlay_base =
-    let [<Import("","office-ui-fabric-react/components/Overlay/Overlay.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IOverlayProps = __components_Overlay_Overlay_types.IOverlayProps
 
@@ -7927,10 +8230,24 @@ module __components_Overlay_Overlay_base =
     type [<AllowNullLiteral>] OverlayBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverlayBase
 
+module __components_Overlay_Overlay_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract OverlayStatus: obj
+
+module __components_Overlay_Overlay =
+    type IOverlayProps = __components_Overlay_Overlay_types.IOverlayProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Overlay: (IOverlayProps -> JSX.Element)
+
 module __components_Overlay_Overlay_styles =
     type IOverlayStyleProps = __components_Overlay_Overlay_types.IOverlayStyleProps
     type IOverlayStyles = __components_Overlay_Overlay_types.IOverlayStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IOverlayStyleProps -> IOverlayStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IOverlayStyleProps -> IOverlayStyles)
 
 module __components_Overlay_Overlay_types =
     type IStyle = Styling.IStyle
@@ -7969,7 +8286,6 @@ module __components_Overlay_Overlay_types =
         abstract root: IStyle with get, set
 
 module __components_Overlay_OverlayPage =
-    let [<Import("","office-ui-fabric-react/components/Overlay/OverlayPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Overlay_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -7982,8 +8298,13 @@ module __components_Overlay_OverlayPage =
     type [<AllowNullLiteral>] OverlayPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverlayPage
 
+module __components_Panel_Panel_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PanelStatus: obj
+
 module __components_Panel_Panel =
-    let [<Import("","office-ui-fabric-react/components/Panel/Panel")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPanel = __components_Panel_Panel_types.IPanel
     type IPanelProps = __components_Panel_Panel_types.IPanelProps
@@ -8021,29 +8342,31 @@ module __components_Panel_Panel =
         [<Emit "new $0($1...)">] abstract Create: props: IPanelProps -> Panel
 
 module __components_Panel_Panel_scss =
-    let [<Import("hiddenPanel","office-ui-fabric-react")>] hiddenPanel: obj = jsNative
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("overlay","office-ui-fabric-react")>] overlay: obj = jsNative
-    let [<Import("main","office-ui-fabric-react")>] main: obj = jsNative
-    let [<Import("rootIsSmall","office-ui-fabric-react")>] rootIsSmall: obj = jsNative
-    let [<Import("rootIsSmallLeft","office-ui-fabric-react")>] rootIsSmallLeft: obj = jsNative
-    let [<Import("rootIsSmallFluid","office-ui-fabric-react")>] rootIsSmallFluid: obj = jsNative
-    let [<Import("rootIsMedium","office-ui-fabric-react")>] rootIsMedium: obj = jsNative
-    let [<Import("rootIsLarge","office-ui-fabric-react")>] rootIsLarge: obj = jsNative
-    let [<Import("rootIsXLarge","office-ui-fabric-react")>] rootIsXLarge: obj = jsNative
-    let [<Import("rootIsCustom","office-ui-fabric-react")>] rootIsCustom: obj = jsNative
-    let [<Import("rootIsFixed","office-ui-fabric-react")>] rootIsFixed: obj = jsNative
-    let [<Import("rootIsOpen","office-ui-fabric-react")>] rootIsOpen: obj = jsNative
-    let [<Import("navigation","office-ui-fabric-react")>] navigation: obj = jsNative
-    let [<Import("contentInner","office-ui-fabric-react")>] contentInner: obj = jsNative
-    let [<Import("rootHasCloseButton","office-ui-fabric-react")>] rootHasCloseButton: obj = jsNative
-    let [<Import("header","office-ui-fabric-react")>] header: obj = jsNative
-    let [<Import("content","office-ui-fabric-react")>] content: obj = jsNative
-    let [<Import("footerInner","office-ui-fabric-react")>] footerInner: obj = jsNative
-    let [<Import("contentGrow","office-ui-fabric-react")>] contentGrow: obj = jsNative
-    let [<Import("footer","office-ui-fabric-react")>] footer: obj = jsNative
-    let [<Import("footerIsSticky","office-ui-fabric-react")>] footerIsSticky: obj = jsNative
-    let [<Import("headerText","office-ui-fabric-react")>] headerText: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract hiddenPanel: obj
+        abstract root: obj
+        abstract overlay: obj
+        abstract main: obj
+        abstract rootIsSmall: obj
+        abstract rootIsSmallLeft: obj
+        abstract rootIsSmallFluid: obj
+        abstract rootIsMedium: obj
+        abstract rootIsLarge: obj
+        abstract rootIsXLarge: obj
+        abstract rootIsCustom: obj
+        abstract rootIsFixed: obj
+        abstract rootIsOpen: obj
+        abstract navigation: obj
+        abstract contentInner: obj
+        abstract rootHasCloseButton: obj
+        abstract header: obj
+        abstract content: obj
+        abstract footerInner: obj
+        abstract contentGrow: obj
+        abstract footer: obj
+        abstract footerIsSticky: obj
+        abstract headerText: obj
 
 module __components_Panel_Panel_types =
     type Panel = __components_Panel_Panel.Panel
@@ -8146,7 +8469,6 @@ module __components_Panel_Panel_types =
         | Custom = 7
 
 module __components_Panel_PanelPage =
-    let [<Import("","office-ui-fabric-react/components/Panel/PanelPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Panel_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -8160,7 +8482,6 @@ module __components_Panel_PanelPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> PanelPage
 
 module __components_Persona_Persona_base =
-    let [<Import("","office-ui-fabric-react/components/Persona/Persona.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
 
@@ -8182,10 +8503,24 @@ module __components_Persona_Persona_base =
     type [<AllowNullLiteral>] PersonaBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPersonaProps -> PersonaBase
 
+module __components_Persona_Persona_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PersonaStatus: obj
+
+module __components_Persona_Persona =
+    type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Persona: (IPersonaProps -> JSX.Element)
+
 module __components_Persona_Persona_styles =
     type IPersonaStyleProps = __components_Persona_Persona_types.IPersonaStyleProps
     type IPersonaStyles = __components_Persona_Persona_types.IPersonaStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IPersonaStyleProps -> IPersonaStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IPersonaStyleProps -> IPersonaStyles)
 
 module __components_Persona_Persona_types =
     type IRenderFunction = Utilities.IRenderFunction
@@ -8384,8 +8719,10 @@ module __components_Persona_Persona_types =
 module __components_Persona_PersonaConsts =
     type PersonaPresence = __components_Persona_Persona_types.PersonaPresence
     type PersonaSize = __components_Persona_Persona_types.PersonaSize
-    let [<Import("sizeBoolean","office-ui-fabric-react")>] sizeBoolean: (PersonaSize -> obj) = jsNative
-    let [<Import("presenceBoolean","office-ui-fabric-react")>] presenceBoolean: (PersonaPresence -> obj) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract sizeBoolean: (PersonaSize -> obj)
+        abstract presenceBoolean: (PersonaPresence -> obj)
 
     module PersonaSize =
 
@@ -8411,14 +8748,12 @@ module __components_Persona_PersonaConsts =
             abstract border: obj
 
 module __components_Persona_PersonaInitialsColor =
-    let [<Import("","office-ui-fabric-react/components/Persona/PersonaInitialsColor")>] : ``.IExports`` = jsNative
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
 
     type [<AllowNullLiteral>] IExports =
         abstract initialsColorPropToColorCode: props: IPersonaProps -> string
 
 module __components_Persona_PersonaPage =
-    let [<Import("","office-ui-fabric-react/components/Persona/PersonaPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Persona_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -8432,7 +8767,6 @@ module __components_Persona_PersonaPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> PersonaPage
 
 module __components_pickers_BasePicker =
-    let [<Import("","office-ui-fabric-react/components/pickers/BasePicker")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type KeyCodes = Utilities.KeyCodes
     type IFocusZone = FocusZone.IFocusZone
@@ -8531,10 +8865,12 @@ module __components_pickers_BasePicker =
         [<Emit "new $0($1...)">] abstract Create: unit -> BasePickerListBelow<'T, 'P>
 
 module __components_pickers_BasePicker_scss =
-    let [<Import("pickerText","office-ui-fabric-react")>] pickerText: obj = jsNative
-    let [<Import("inputFocused","office-ui-fabric-react")>] inputFocused: obj = jsNative
-    let [<Import("pickerInput","office-ui-fabric-react")>] pickerInput: obj = jsNative
-    let [<Import("screenReaderOnly","office-ui-fabric-react")>] screenReaderOnly: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract pickerText: obj
+        abstract inputFocused: obj
+        abstract pickerInput: obj
+        abstract screenReaderOnly: obj
 
 module __components_pickers_BasePicker_types =
     type IPickerItemProps = __components_pickers_PickerItem_types.IPickerItemProps
@@ -8679,8 +9015,13 @@ module __components_pickers_PickerItem_types =
         abstract key: U2<string, float> option with get, set
         abstract removeButtonAriaLabel: string option with get, set
 
+module __components_pickers_Pickers_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PickersStatus: obj
+
 module __components_pickers_PickersPage =
-    let [<Import("","office-ui-fabric-react/components/pickers/PickersPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_pickers_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -8694,7 +9035,6 @@ module __components_pickers_PickersPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> PickersPage
 
 module __components_Pivot_Pivot_base =
-    let [<Import("","office-ui-fabric-react/components/Pivot/Pivot.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPivotProps = __components_Pivot_Pivot_types.IPivotProps
     type IPivotItemProps = __components_Pivot_PivotItem_types.IPivotItemProps
@@ -8753,24 +9093,40 @@ module __components_Pivot_Pivot_base =
     type [<AllowNullLiteral>] PivotBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPivotProps -> PivotBase
 
+module __components_Pivot_Pivot_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PivotStatus: obj
+
+module __components_Pivot_Pivot =
+    type IPivotProps = __components_Pivot_Pivot_types.IPivotProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Pivot: (IPivotProps -> JSX.Element)
+
 module __components_Pivot_Pivot_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("links","office-ui-fabric-react")>] links: obj = jsNative
-    let [<Import("link","office-ui-fabric-react")>] link: obj = jsNative
-    let [<Import("text","office-ui-fabric-react")>] text: obj = jsNative
-    let [<Import("count","office-ui-fabric-react")>] count: obj = jsNative
-    let [<Import("icon","office-ui-fabric-react")>] icon: obj = jsNative
-    let [<Import("linkIsSelected","office-ui-fabric-react")>] linkIsSelected: obj = jsNative
-    let [<Import("linkIsDisabled","office-ui-fabric-react")>] linkIsDisabled: obj = jsNative
-    let [<Import("linkIsOverflow","office-ui-fabric-react")>] linkIsOverflow: obj = jsNative
-    let [<Import("ellipsis","office-ui-fabric-react")>] ellipsis: obj = jsNative
-    let [<Import("rootIsLarge","office-ui-fabric-react")>] rootIsLarge: obj = jsNative
-    let [<Import("rootIsTabs","office-ui-fabric-react")>] rootIsTabs: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract links: obj
+        abstract link: obj
+        abstract text: obj
+        abstract count: obj
+        abstract icon: obj
+        abstract linkIsSelected: obj
+        abstract linkIsDisabled: obj
+        abstract linkIsOverflow: obj
+        abstract ellipsis: obj
+        abstract rootIsLarge: obj
+        abstract rootIsTabs: obj
 
 module __components_Pivot_Pivot_styles =
     type IPivotStyleProps = __components_Pivot_Pivot_types.IPivotStyleProps
     type IPivotStyles = __components_Pivot_Pivot_types.IPivotStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IPivotStyleProps -> IPivotStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IPivotStyleProps -> IPivotStyles)
 
 module __components_Pivot_Pivot_types =
     type PivotBase = __components_Pivot_Pivot_base.PivotBase
@@ -8850,7 +9206,6 @@ module __components_Pivot_Pivot_types =
         | Large = 1
 
 module __components_Pivot_PivotItem =
-    let [<Import("","office-ui-fabric-react/components/Pivot/PivotItem")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPivotItemProps = __components_Pivot_PivotItem_types.IPivotItemProps
 
@@ -8898,7 +9253,6 @@ module __components_Pivot_PivotItem_types =
         abstract keytipProps: IKeytipProps option with get, set
 
 module __components_Pivot_PivotPage =
-    let [<Import("","office-ui-fabric-react/components/Pivot/PivotPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Pivot_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -8912,7 +9266,6 @@ module __components_Pivot_PivotPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotPage
 
 module __components_Popup_Popup =
-    let [<Import("","office-ui-fabric-react/components/Popup/Popup")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPopupProps = __components_Popup_Popup_types.IPopupProps
 
@@ -8972,7 +9325,6 @@ module __components_Popup_Popup_types =
         abstract shouldRestoreFocus: bool option with get, set
 
 module __components_ProgressIndicator_ProgressIndicator_base =
-    let [<Import("","office-ui-fabric-react/components/ProgressIndicator/ProgressIndicator.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IProgressIndicatorProps = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorProps
 
@@ -8992,10 +9344,24 @@ module __components_ProgressIndicator_ProgressIndicator_base =
     type [<AllowNullLiteral>] ProgressIndicatorBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IProgressIndicatorProps -> ProgressIndicatorBase
 
+module __components_ProgressIndicator_ProgressIndicator_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ProgressIndicatorStatus: obj
+
+module __components_ProgressIndicator_ProgressIndicator =
+    type IProgressIndicatorProps = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ProgressIndicator: (IProgressIndicatorProps -> JSX.Element)
+
 module __components_ProgressIndicator_ProgressIndicator_styles =
     type IProgressIndicatorStyleProps = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorStyleProps
     type IProgressIndicatorStyles = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IProgressIndicatorStyleProps -> IProgressIndicatorStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IProgressIndicatorStyleProps -> IProgressIndicatorStyles)
 
 module __components_ProgressIndicator_ProgressIndicator_types =
     type ProgressIndicatorBase = __components_ProgressIndicator_ProgressIndicator_base.ProgressIndicatorBase
@@ -9052,7 +9418,6 @@ module __components_ProgressIndicator_ProgressIndicator_types =
         abstract progressBar: IStyle with get, set
 
 module __components_ProgressIndicator_ProgressIndicatorPage =
-    let [<Import("","office-ui-fabric-react/components/ProgressIndicator/ProgressIndicatorPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ProgressIndicator_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -9066,7 +9431,6 @@ module __components_ProgressIndicator_ProgressIndicatorPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ProgressIndicatorPage
 
 module __components_Rating_Rating_base =
-    let [<Import("","office-ui-fabric-react/components/Rating/Rating.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IRatingProps = __components_Rating_Rating_types.IRatingProps
 
@@ -9095,8 +9459,19 @@ module __components_Rating_Rating_base =
     type [<AllowNullLiteral>] RatingBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IRatingProps -> RatingBase
 
+module __components_Rating_Rating_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract RatingStatus: obj
+
+module __components_Rating_Rating =
+    type IRatingProps = __components_Rating_Rating_types.IRatingProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Rating: (IRatingProps -> JSX.Element)
+
 module __components_Rating_Rating_styles =
-    let [<Import("","office-ui-fabric-react/components/Rating/Rating.styles")>] : ``.IExports`` = jsNative
     type IRatingStyleProps = __components_Rating_Rating_types.IRatingStyleProps
     type IRatingStyles = __components_Rating_Rating_types.IRatingStyles
 
@@ -9168,7 +9543,6 @@ module __components_Rating_Rating_types =
         abstract ratingFocusZone: IStyle with get, set
 
 module __components_Rating_RatingPage =
-    let [<Import("","office-ui-fabric-react/components/Rating/RatingPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Rating_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -9182,13 +9556,12 @@ module __components_Rating_RatingPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> RatingPage
 
 module __components_ResizeGroup_ResizeGroup_base =
-    let [<Import("","office-ui-fabric-react/components/ResizeGroup/ResizeGroup.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IResizeGroupProps = __components_ResizeGroup_ResizeGroup_types.IResizeGroupProps
-    let [<Import("getMeasurementCache","office-ui-fabric-react")>] getMeasurementCache: (unit -> obj) = jsNative
-    let [<Import("getNextResizeGroupStateProvider","office-ui-fabric-react")>] getNextResizeGroupStateProvider: (obj -> obj) = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract getMeasurementCache: (unit -> obj)
+        abstract getNextResizeGroupStateProvider: (obj -> obj)
         abstract ResizeGroupBase: ResizeGroupBaseStatic
 
     type [<AllowNullLiteral>] IResizeGroupState =
@@ -9222,10 +9595,24 @@ module __components_ResizeGroup_ResizeGroup_base =
     type [<AllowNullLiteral>] ResizeGroupBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IResizeGroupProps -> ResizeGroupBase
 
+module __components_ResizeGroup_ResizeGroup_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ResizeGroupStatus: obj
+
+module __components_ResizeGroup_ResizeGroup =
+    type IResizeGroupProps = __components_ResizeGroup_ResizeGroup_types.IResizeGroupProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ResizeGroup: (IResizeGroupProps -> JSX.Element)
+
 module __components_ResizeGroup_ResizeGroup_styles =
     type IResizeGroupStyleProps = __components_ResizeGroup_ResizeGroup_types.IResizeGroupStyleProps
     type IResizeGroupStyles = __components_ResizeGroup_ResizeGroup_types.IResizeGroupStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IResizeGroupStyleProps -> IResizeGroupStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IResizeGroupStyleProps -> IResizeGroupStyles)
 
 module __components_ResizeGroup_ResizeGroup_types =
     type ResizeGroupBase = __components_ResizeGroup_ResizeGroup_base.ResizeGroupBase
@@ -9281,7 +9668,6 @@ module __components_ResizeGroup_ResizeGroup_types =
         abstract root: IStyle with get, set
 
 module __components_ResizeGroup_ResizeGroupPage =
-    let [<Import("","office-ui-fabric-react/components/ResizeGroup/ResizeGroupPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ResizeGroup_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -9295,7 +9681,6 @@ module __components_ResizeGroup_ResizeGroupPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ResizeGroupPage
 
 module __components_ScrollablePane_ScrollablePane_base =
-    let [<Import("","office-ui-fabric-react/components/ScrollablePane/ScrollablePane.base")>] : ``.IExports`` = jsNative
     module PropTypes = Prop_types
     type BaseComponent = Utilities.BaseComponent
     type IScrollablePane = __components_ScrollablePane_ScrollablePane_types.IScrollablePane
@@ -9352,15 +9737,31 @@ module __components_ScrollablePane_ScrollablePane_base =
     type [<AllowNullLiteral>] ScrollablePaneBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IScrollablePaneProps -> ScrollablePaneBase
 
+module __components_ScrollablePane_ScrollablePane_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ScrollablePaneStatus: obj
+
+module __components_ScrollablePane_ScrollablePane =
+    type IScrollablePaneProps = __components_ScrollablePane_ScrollablePane_types.IScrollablePaneProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ScrollablePane: (IScrollablePaneProps -> JSX.Element)
+
 module __components_ScrollablePane_ScrollablePane_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("stickyAbove","office-ui-fabric-react")>] stickyAbove: obj = jsNative
-    let [<Import("stickyBelow","office-ui-fabric-react")>] stickyBelow: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract stickyAbove: obj
+        abstract stickyBelow: obj
 
 module __components_ScrollablePane_ScrollablePane_styles =
     type IScrollablePaneStyleProps = __components_ScrollablePane_ScrollablePane_types.IScrollablePaneStyleProps
     type IScrollablePaneStyles = __components_ScrollablePane_ScrollablePane_types.IScrollablePaneStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IScrollablePaneStyleProps -> IScrollablePaneStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IScrollablePaneStyleProps -> IScrollablePaneStyles)
 
 module __components_ScrollablePane_ScrollablePane_types =
     type ScrollablePaneBase = __components_ScrollablePane_ScrollablePane_base.ScrollablePaneBase
@@ -9407,7 +9808,6 @@ module __components_ScrollablePane_ScrollablePane_types =
         abstract contentContainer: IStyle with get, set
 
 module __components_ScrollablePane_ScrollablePanePage =
-    let [<Import("","office-ui-fabric-react/components/ScrollablePane/ScrollablePanePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ScrollablePane_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -9421,7 +9821,6 @@ module __components_ScrollablePane_ScrollablePanePage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ScrollablePanePage
 
 module __components_SearchBox_SearchBox_base =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/SearchBox.base")>] : ``.IExports`` = jsNative
     type ISearchBoxProps = __components_SearchBox_SearchBox_types.ISearchBoxProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -9457,8 +9856,19 @@ module __components_SearchBox_SearchBox_base =
     type [<AllowNullLiteral>] SearchBoxBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISearchBoxProps -> SearchBoxBase
 
+module __components_SearchBox_SearchBox_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SearchBoxStatus: obj
+
+module __components_SearchBox_SearchBox =
+    type ISearchBoxProps = __components_SearchBox_SearchBox_types.ISearchBoxProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SearchBox: (ISearchBoxProps -> JSX.Element)
+
 module __components_SearchBox_SearchBox_styles =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/SearchBox.styles")>] : ``.IExports`` = jsNative
     type ISearchBoxStyleProps = __components_SearchBox_SearchBox_types.ISearchBoxStyleProps
     type ISearchBoxStyles = __components_SearchBox_SearchBox_types.ISearchBoxStyles
 
@@ -9534,7 +9944,6 @@ module __components_SearchBox_SearchBox_types =
         abstract clearButton: IStyle option with get, set
 
 module __components_SearchBox_SearchBoxPage =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/SearchBoxPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_SearchBox_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -9548,7 +9957,6 @@ module __components_SearchBox_SearchBoxPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> SearchBoxPage
 
 module __components_SelectedItemsList_BaseSelectedItemsList =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/BaseSelectedItemsList")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type Selection = Selection.Selection
     type IBaseSelectedItemsList = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsList
@@ -9643,7 +10051,6 @@ module __components_SelectedItemsList_BaseSelectedItemsList_types =
         abstract onItemDeleted: ('T -> unit) option with get, set
 
 module __components_Slider_Slider_base =
-    let [<Import("","office-ui-fabric-react/components/Slider/Slider.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ISliderProps = __components_Slider_Slider_types.ISliderProps
     type ISlider = __components_Slider_Slider_types.ISlider
@@ -9683,27 +10090,43 @@ module __components_Slider_Slider_base =
     type [<AllowNullLiteral>] SliderBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISliderProps -> SliderBase
 
+module __components_Slider_Slider_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SliderStatus: obj
+
+module __components_Slider_Slider =
+    type ISliderProps = __components_Slider_Slider_types.ISliderProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Slider: (ISliderProps -> JSX.Element)
+
 module __components_Slider_Slider_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("titleLabel","office-ui-fabric-react")>] titleLabel: obj = jsNative
-    let [<Import("line","office-ui-fabric-react")>] line: obj = jsNative
-    let [<Import("lineContainer","office-ui-fabric-react")>] lineContainer: obj = jsNative
-    let [<Import("container","office-ui-fabric-react")>] container: obj = jsNative
-    let [<Import("valueLabel","office-ui-fabric-react")>] valueLabel: obj = jsNative
-    let [<Import("slideBox","office-ui-fabric-react")>] slideBox: obj = jsNative
-    let [<Import("thumb","office-ui-fabric-react")>] thumb: obj = jsNative
-    let [<Import("rootIsHorizontal","office-ui-fabric-react")>] rootIsHorizontal: obj = jsNative
-    let [<Import("rootIsVertical","office-ui-fabric-react")>] rootIsVertical: obj = jsNative
-    let [<Import("activeSection","office-ui-fabric-react")>] activeSection: obj = jsNative
-    let [<Import("inactiveSection","office-ui-fabric-react")>] inactiveSection: obj = jsNative
-    let [<Import("showTransitions","office-ui-fabric-react")>] showTransitions: obj = jsNative
-    let [<Import("rootIsEnabled","office-ui-fabric-react")>] rootIsEnabled: obj = jsNative
-    let [<Import("rootIsDisabled","office-ui-fabric-react")>] rootIsDisabled: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract titleLabel: obj
+        abstract line: obj
+        abstract lineContainer: obj
+        abstract container: obj
+        abstract valueLabel: obj
+        abstract slideBox: obj
+        abstract thumb: obj
+        abstract rootIsHorizontal: obj
+        abstract rootIsVertical: obj
+        abstract activeSection: obj
+        abstract inactiveSection: obj
+        abstract showTransitions: obj
+        abstract rootIsEnabled: obj
+        abstract rootIsDisabled: obj
 
 module __components_Slider_Slider_styles =
     type ISliderStyleProps = __components_Slider_Slider_types.ISliderStyleProps
     type ISliderStyles = __components_Slider_Slider_types.ISliderStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ISliderStyleProps -> ISliderStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ISliderStyleProps -> ISliderStyles)
 
 module __components_Slider_Slider_types =
     type SliderBase = __components_Slider_Slider_base.SliderBase
@@ -9779,7 +10202,6 @@ module __components_Slider_Slider_types =
         abstract valueLabel: IStyle with get, set
 
 module __components_Slider_SliderPage =
-    let [<Import("","office-ui-fabric-react/components/Slider/SliderPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Slider_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -9792,11 +10214,19 @@ module __components_Slider_SliderPage =
     type [<AllowNullLiteral>] SliderPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SliderPage
 
+module __components_SpinButton_SpinButton_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SpinButtonStatus: obj
+
 module __components_SpinButton_SpinButton_classNames =
     type ISpinButtonStyles = __components_SpinButton_SpinButton_types.ISpinButtonStyles
     type KeyboardSpinDirection = __components_SpinButton_SpinButton.KeyboardSpinDirection
     type Position = __utilities_positioning.Position
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (ISpinButtonStyles -> bool -> bool -> KeyboardSpinDirection -> Position -> ISpinButtonClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getClassNames: (ISpinButtonStyles -> bool -> bool -> KeyboardSpinDirection -> Position -> ISpinButtonClassNames)
 
     type [<AllowNullLiteral>] ISpinButtonClassNames =
         abstract root: string with get, set
@@ -9808,7 +10238,6 @@ module __components_SpinButton_SpinButton_classNames =
         abstract arrowBox: string with get, set
 
 module __components_SpinButton_SpinButton =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/SpinButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ISpinButton = __components_SpinButton_SpinButton_types.ISpinButton
     type ISpinButtonProps = __components_SpinButton_SpinButton_types.ISpinButtonProps
@@ -9888,8 +10317,10 @@ module __components_SpinButton_SpinButton_styles =
     type ITheme = Styling.ITheme
     type IButtonStyles = Button.IButtonStyles
     type ISpinButtonStyles = __components_SpinButton_SpinButton_types.ISpinButtonStyles
-    let [<Import("getArrowButtonStyles","office-ui-fabric-react")>] getArrowButtonStyles: (ITheme -> bool -> obj option -> IButtonStyles) = jsNative
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> obj option -> ISpinButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getArrowButtonStyles: (ITheme -> bool -> obj option -> IButtonStyles)
+        abstract getStyles: (ITheme -> obj option -> ISpinButtonStyles)
 
 module __components_SpinButton_SpinButton_types =
     type Position = __utilities_positioning.Position
@@ -10031,7 +10462,6 @@ module __components_SpinButton_SpinButton_types =
         abstract arrowButtonsContainerDisabled: IStyle with get, set
 
 module __components_SpinButton_SpinButtonPage =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/SpinButtonPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_SpinButton_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -10057,7 +10487,6 @@ module __components_Spinner_interfaces =
         | Large = 3
 
 module __components_Spinner_Spinner_base =
-    let [<Import("","office-ui-fabric-react/components/Spinner/Spinner.base")>] : ``.IExports`` = jsNative
     type ISpinnerProps = __components_Spinner_Spinner_types.ISpinnerProps
     type BaseComponent = Utilities.BaseComponent
 
@@ -10072,10 +10501,24 @@ module __components_Spinner_Spinner_base =
     type [<AllowNullLiteral>] SpinnerBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinnerBase
 
+module __components_Spinner_Spinner_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SpinnerStatus: obj
+
+module __components_Spinner_Spinner =
+    type ISpinnerProps = __components_Spinner_Spinner_types.ISpinnerProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Spinner: (ISpinnerProps -> JSX.Element)
+
 module __components_Spinner_Spinner_styles =
     type ISpinnerStyleProps = __components_Spinner_Spinner_types.ISpinnerStyleProps
     type ISpinnerStyles = __components_Spinner_Spinner_types.ISpinnerStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ISpinnerStyleProps -> ISpinnerStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ISpinnerStyleProps -> ISpinnerStyles)
 
 module __components_Spinner_Spinner_types =
     type ITheme = Styling.ITheme
@@ -10130,7 +10573,6 @@ module __components_Spinner_Spinner_types =
         abstract screenReaderText: IStyle option with get, set
 
 module __components_Spinner_SpinnerPage =
-    let [<Import("","office-ui-fabric-react/components/Spinner/SpinnerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Spinner_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -10144,7 +10586,6 @@ module __components_Spinner_SpinnerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinnerPage
 
 module __components_Sticky_Sticky =
-    let [<Import("","office-ui-fabric-react/components/Sticky/Sticky")>] : ``.IExports`` = jsNative
     module PropTypes = Prop_types
     type BaseComponent = Utilities.BaseComponent
     type IStickyProps = __components_Sticky_Sticky_types.IStickyProps
@@ -10215,7 +10656,6 @@ module __components_Sticky_Sticky_types =
         | Footer = 2
 
 module __components_SwatchColorPicker_ColorPickerGridCell_base =
-    let [<Import("","office-ui-fabric-react/components/SwatchColorPicker/ColorPickerGridCell.base")>] : ``.IExports`` = jsNative
     type IColorPickerGridCellProps = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellProps
 
     type [<AllowNullLiteral>] IExports =
@@ -10237,10 +10677,18 @@ module __components_SwatchColorPicker_ColorPickerGridCell_base =
     type [<AllowNullLiteral>] ColorPickerGridCellBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ColorPickerGridCellBase
 
+module __components_SwatchColorPicker_ColorPickerGridCell =
+    type IColorPickerGridCellProps = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ColorPickerGridCell: (IColorPickerGridCellProps -> JSX.Element)
+
 module __components_SwatchColorPicker_ColorPickerGridCell_styles =
     type IColorPickerGridCellStyleProps = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellStyleProps
     type IColorPickerGridCellStyles = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IColorPickerGridCellStyleProps -> IColorPickerGridCellStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IColorPickerGridCellStyleProps -> IColorPickerGridCellStyles)
 
 module __components_SwatchColorPicker_ColorPickerGridCell_types =
     type IStyle = Styling.IStyle
@@ -10320,7 +10768,6 @@ module __components_SwatchColorPicker_ColorPickerGridCell_types =
         abstract svg: IStyle with get, set
 
 module __components_SwatchColorPicker_SwatchColorPicker_base =
-    let [<Import("","office-ui-fabric-react/components/SwatchColorPicker/SwatchColorPicker.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ISwatchColorPicker = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPicker
     type ISwatchColorPickerProps = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerProps
@@ -10377,10 +10824,24 @@ module __components_SwatchColorPicker_SwatchColorPicker_base =
     type [<AllowNullLiteral>] SwatchColorPickerBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISwatchColorPickerProps -> SwatchColorPickerBase
 
+module __components_SwatchColorPicker_SwatchColorPicker_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SwatchColorPickerStatus: obj
+
+module __components_SwatchColorPicker_SwatchColorPicker =
+    type ISwatchColorPickerProps = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SwatchColorPicker: (ISwatchColorPickerProps -> JSX.Element)
+
 module __components_SwatchColorPicker_SwatchColorPicker_styles =
     type ISwatchColorPickerStyleProps = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerStyleProps
     type ISwatchColorPickerStyles = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ISwatchColorPickerStyleProps -> ISwatchColorPickerStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ISwatchColorPickerStyleProps -> ISwatchColorPickerStyles)
 
 module __components_SwatchColorPicker_SwatchColorPicker_types =
     type IStyle = Styling.IStyle
@@ -10459,7 +10920,6 @@ module __components_SwatchColorPicker_SwatchColorPicker_types =
         abstract focusedContainer: IStyle option with get, set
 
 module __components_SwatchColorPicker_SwatchColorPickerPage =
-    let [<Import("","office-ui-fabric-react/components/SwatchColorPicker/SwatchColorPickerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_SwatchColorPicker_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -10472,8 +10932,13 @@ module __components_SwatchColorPicker_SwatchColorPickerPage =
     type [<AllowNullLiteral>] SwatchColorPickerPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SwatchColorPickerPage
 
+module __components_TeachingBubble_TeachingBubble_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract TeachingBubbleStatus: obj
+
 module __components_TeachingBubble_TeachingBubble =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/TeachingBubble")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ITeachingBubbleProps = __components_TeachingBubble_TeachingBubble_types.ITeachingBubbleProps
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
@@ -10494,21 +10959,23 @@ module __components_TeachingBubble_TeachingBubble =
         [<Emit "new $0($1...)">] abstract Create: props: ITeachingBubbleProps -> TeachingBubble
 
 module __components_TeachingBubble_TeachingBubble_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("bounceAnimation","office-ui-fabric-react")>] bounceAnimation: obj = jsNative
-    let [<Import("opacityFadeIn","office-ui-fabric-react")>] opacityFadeIn: obj = jsNative
-    let [<Import("bodyContent","office-ui-fabric-react")>] bodyContent: obj = jsNative
-    let [<Import("headerIsLarge","office-ui-fabric-react")>] headerIsLarge: obj = jsNative
-    let [<Import("headerIsSmall","office-ui-fabric-react")>] headerIsSmall: obj = jsNative
-    let [<Import("headline","office-ui-fabric-react")>] headline: obj = jsNative
-    let [<Import("headerIsCondensed","office-ui-fabric-react")>] headerIsCondensed: obj = jsNative
-    let [<Import("body","office-ui-fabric-react")>] body: obj = jsNative
-    let [<Import("subText","office-ui-fabric-react")>] subText: obj = jsNative
-    let [<Import("closeButton","office-ui-fabric-react")>] closeButton: obj = jsNative
-    let [<Import("footer","office-ui-fabric-react")>] footer: obj = jsNative
-    let [<Import("wideCallout","office-ui-fabric-react")>] wideCallout: obj = jsNative
-    let [<Import("primaryButton","office-ui-fabric-react")>] primaryButton: obj = jsNative
-    let [<Import("secondaryButton","office-ui-fabric-react")>] secondaryButton: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract bounceAnimation: obj
+        abstract opacityFadeIn: obj
+        abstract bodyContent: obj
+        abstract headerIsLarge: obj
+        abstract headerIsSmall: obj
+        abstract headline: obj
+        abstract headerIsCondensed: obj
+        abstract body: obj
+        abstract subText: obj
+        abstract closeButton: obj
+        abstract footer: obj
+        abstract wideCallout: obj
+        abstract primaryButton: obj
+        abstract secondaryButton: obj
 
 module __components_TeachingBubble_TeachingBubble_types =
     type TeachingBubble = __components_TeachingBubble_TeachingBubble.TeachingBubble
@@ -10552,7 +11019,6 @@ module __components_TeachingBubble_TeachingBubble_types =
         abstract hasSmallHeadline: bool option with get, set
 
 module __components_TeachingBubble_TeachingBubbleContent =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/TeachingBubbleContent")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ITeachingBubbleProps = __components_TeachingBubble_TeachingBubble_types.ITeachingBubbleProps
     type ITeachingBubbleState = __components_TeachingBubble_TeachingBubble.ITeachingBubbleState
@@ -10570,7 +11036,6 @@ module __components_TeachingBubble_TeachingBubbleContent =
         [<Emit "new $0($1...)">] abstract Create: props: ITeachingBubbleProps -> TeachingBubbleContent
 
 module __components_TeachingBubble_TeachingBubblePage =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/TeachingBubblePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_TeachingBubble_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -10583,8 +11048,13 @@ module __components_TeachingBubble_TeachingBubblePage =
     type [<AllowNullLiteral>] TeachingBubblePageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TeachingBubblePage
 
+module __components_TextField_TextField_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract TextFieldStatus: obj
+
 module __components_TextField_TextField =
-    let [<Import("","office-ui-fabric-react/components/TextField/TextField")>] : ``.IExports`` = jsNative
     type ITextField = __components_TextField_TextField_types.ITextField
     type ITextFieldProps = __components_TextField_TextField_types.ITextFieldProps
     type BaseComponent = Utilities.BaseComponent
@@ -10657,27 +11127,29 @@ module __components_TextField_TextField =
         [<Emit "new $0($1...)">] abstract Create: props: ITextFieldProps -> TextField
 
 module __components_TextField_TextField_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("screenReaderOnly","office-ui-fabric-react")>] screenReaderOnly: obj = jsNative
-    let [<Import("fieldGroup","office-ui-fabric-react")>] fieldGroup: obj = jsNative
-    let [<Import("fieldGroupIsFocused","office-ui-fabric-react")>] fieldGroupIsFocused: obj = jsNative
-    let [<Import("field","office-ui-fabric-react")>] field: obj = jsNative
-    let [<Import("invalid","office-ui-fabric-react")>] invalid: obj = jsNative
-    let [<Import("rootIsDisabled","office-ui-fabric-react")>] rootIsDisabled: obj = jsNative
-    let [<Import("fieldPrefixSuffix","office-ui-fabric-react")>] fieldPrefixSuffix: obj = jsNative
-    let [<Import("hasIcon","office-ui-fabric-react")>] hasIcon: obj = jsNative
-    let [<Import("rootIsRequiredLabel","office-ui-fabric-react")>] rootIsRequiredLabel: obj = jsNative
-    let [<Import("rootIsRequiredPlaceholderOnly","office-ui-fabric-react")>] rootIsRequiredPlaceholderOnly: obj = jsNative
-    let [<Import("rootIsActive","office-ui-fabric-react")>] rootIsActive: obj = jsNative
-    let [<Import("icon","office-ui-fabric-react")>] icon: obj = jsNative
-    let [<Import("description","office-ui-fabric-react")>] description: obj = jsNative
-    let [<Import("rootIsBorderless","office-ui-fabric-react")>] rootIsBorderless: obj = jsNative
-    let [<Import("rootIsUnderlined","office-ui-fabric-react")>] rootIsUnderlined: obj = jsNative
-    let [<Import("wrapper","office-ui-fabric-react")>] wrapper: obj = jsNative
-    let [<Import("rootIsMultiline","office-ui-fabric-react")>] rootIsMultiline: obj = jsNative
-    let [<Import("errorMessage","office-ui-fabric-react")>] errorMessage: obj = jsNative
-    let [<Import("fieldIsUnresizable","office-ui-fabric-react")>] fieldIsUnresizable: obj = jsNative
-    let [<Import("hidden","office-ui-fabric-react")>] hidden: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract screenReaderOnly: obj
+        abstract fieldGroup: obj
+        abstract fieldGroupIsFocused: obj
+        abstract field: obj
+        abstract invalid: obj
+        abstract rootIsDisabled: obj
+        abstract fieldPrefixSuffix: obj
+        abstract hasIcon: obj
+        abstract rootIsRequiredLabel: obj
+        abstract rootIsRequiredPlaceholderOnly: obj
+        abstract rootIsActive: obj
+        abstract icon: obj
+        abstract description: obj
+        abstract rootIsBorderless: obj
+        abstract rootIsUnderlined: obj
+        abstract wrapper: obj
+        abstract rootIsMultiline: obj
+        abstract errorMessage: obj
+        abstract fieldIsUnresizable: obj
+        abstract hidden: obj
 
 module __components_TextField_TextField_types =
     type IRenderFunction = Utilities.IRenderFunction
@@ -10802,7 +11274,6 @@ module __components_TextField_TextField_types =
         abstract componentId: string option with get, set
 
 module __components_TextField_TextFieldPage =
-    let [<Import("","office-ui-fabric-react/components/TextField/TextFieldPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_TextField_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -10815,8 +11286,13 @@ module __components_TextField_TextFieldPage =
     type [<AllowNullLiteral>] TextFieldPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldPage
 
+module __components_Theme_defaultTheme =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract defaultPalette: ResizeArray<obj>
+        abstract defaultSemanticColors: ResizeArray<obj>
+
 module __components_Theme_ThemePage =
-    let [<Import("","office-ui-fabric-react/components/Theme/ThemePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Theme_@uifabric_example_app_base.IComponentDemoPageProps
     type IThemePageState = __components_Theme_ThemePage_types.IThemePageState
 
@@ -10837,7 +11313,9 @@ module __components_Theme_ThemePage =
 module __components_Theme_ThemePage_styles =
     type IThemePageStyleProps = __components_Theme_ThemePage_types.IThemePageStyleProps
     type IThemePageStyles = __components_Theme_ThemePage_types.IThemePageStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IThemePageStyleProps -> IThemePageStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IThemePageStyleProps -> IThemePageStyles)
 
 module __components_Theme_ThemePage_types =
     type IStyle = Styling.IStyle
@@ -10883,7 +11361,6 @@ module __components_ThemeGenerator_IThemeSlotRule =
         abstract dependentRules: ResizeArray<IThemeSlotRule> with get, set
 
 module __components_ThemeGenerator_ThemeGenerator =
-    let [<Import("","office-ui-fabric-react/components/ThemeGenerator/ThemeGenerator")>] : ``.IExports`` = jsNative
     type IColor = __utilities_color_colors.IColor
     type IThemeSlotRule = __components_ThemeGenerator_IThemeSlotRule.IThemeSlotRule
     type IThemeRules = __components_ThemeGenerator_IThemeRules.IThemeRules
@@ -10904,7 +11381,6 @@ module __components_ThemeGenerator_ThemeGenerator =
         abstract _setSlot: rule: obj * color: obj * isInverted: obj * isCustomization: obj * ?overwriteCustomColor: obj -> unit
 
 module __components_ThemeGenerator_ThemeGeneratorPage =
-    let [<Import("","office-ui-fabric-react/components/ThemeGenerator/ThemeGeneratorPage")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_ThemeGenerator_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IThemeSlotRule = __components_ThemeGenerator_office_ui_fabric_react_lib_ThemeGenerator.IThemeSlotRule
     type IThemeRules = __components_ThemeGenerator_office_ui_fabric_react_lib_ThemeGenerator.IThemeRules
@@ -10941,7 +11417,6 @@ module __components_ThemeGenerator_ThemeGeneratorPage =
         interface end
 
 module __components_ThemeGenerator_ThemeRulesStandard =
-    let [<Import("","office-ui-fabric-react/components/ThemeGenerator/ThemeRulesStandard")>] : ``.IExports`` = jsNative
     type IThemeRules = __components_ThemeGenerator_IThemeRules.IThemeRules
 
     type [<AllowNullLiteral>] IExports =
@@ -10982,10 +11457,18 @@ module __components_ThemeGenerator_ThemeRulesStandard =
         | DisabledBackground = 2
         | DisabledText = 3
 
+module __components_Toggle_Toggle_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ToggleStatus: obj
+
 module __components_Toggle_Toggle_classNames =
     type ITheme = Styling.ITheme
     type IToggleStyles = __components_Toggle_Toggle_types.IToggleStyles
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (ITheme -> IToggleStyles -> string -> bool -> bool -> IToggleClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getClassNames: (ITheme -> IToggleStyles -> string -> bool -> bool -> IToggleClassNames)
 
     type [<AllowNullLiteral>] IToggleClassNames =
         abstract root: string option with get, set
@@ -10996,7 +11479,6 @@ module __components_Toggle_Toggle_classNames =
         abstract text: string option with get, set
 
 module __components_Toggle_Toggle =
-    let [<Import("","office-ui-fabric-react/components/Toggle/Toggle")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IToggleProps = __components_Toggle_Toggle_types.IToggleProps
     type IToggle = __components_Toggle_Toggle_types.IToggle
@@ -11097,7 +11579,6 @@ module __components_Toggle_Toggle_types =
         abstract text: IStyle option with get, set
 
 module __components_Toggle_TogglePage =
-    let [<Import("","office-ui-fabric-react/components/Toggle/TogglePage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Toggle_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -11111,7 +11592,6 @@ module __components_Toggle_TogglePage =
         [<Emit "new $0($1...)">] abstract Create: unit -> TogglePage
 
 module __components_Tooltip_Tooltip_base =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/Tooltip.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ITooltipProps = __components_Tooltip_Tooltip_types.ITooltipProps
 
@@ -11128,10 +11608,24 @@ module __components_Tooltip_Tooltip_base =
     type [<AllowNullLiteral>] TooltipBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TooltipBase
 
+module __components_Tooltip_Tooltip_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract TooltipStatus: obj
+
+module __components_Tooltip_Tooltip =
+    type ITooltipProps = __components_Tooltip_Tooltip_types.ITooltipProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Tooltip: (ITooltipProps -> JSX.Element)
+
 module __components_Tooltip_Tooltip_styles =
     type ITooltipStyleProps = __components_Tooltip_Tooltip_types.ITooltipStyleProps
     type ITooltipStyles = __components_Tooltip_Tooltip_types.ITooltipStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITooltipStyleProps -> ITooltipStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITooltipStyleProps -> ITooltipStyles)
 
 module __components_Tooltip_Tooltip_types =
     type TooltipBase = __components_Tooltip_Tooltip_base.TooltipBase
@@ -11197,7 +11691,6 @@ module __components_Tooltip_Tooltip_types =
         abstract subText: IStyle with get, set
 
 module __components_Tooltip_TooltipHost =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/TooltipHost")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ITooltipHostProps = __components_Tooltip_TooltipHost_types.ITooltipHostProps
     type TooltipDelay = __components_Tooltip_Tooltip_types.TooltipDelay
@@ -11225,7 +11718,9 @@ module __components_Tooltip_TooltipHost =
         [<Emit "new $0($1...)">] abstract Create: props: ITooltipHostProps -> TooltipHost
 
 module __components_Tooltip_TooltipHost_scss =
-    let [<Import("host","office-ui-fabric-react")>] host: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract host: obj
 
 module __components_Tooltip_TooltipHost_types =
     type TooltipHost = __components_Tooltip_TooltipHost.TooltipHost
@@ -11277,7 +11772,6 @@ module __components_Tooltip_TooltipHost_types =
         abstract onTooltipToggle: isTooltipVisible: bool -> unit
 
 module __components_Tooltip_TooltipPage =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/TooltipPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Tooltip_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -11292,13 +11786,14 @@ module __components_Tooltip_TooltipPage =
 
 module __demo_ComponentStatus_AllComponents_checklist =
     type IComponentStatusProps = __demo_ComponentStatus_ComponentStatus_types.IComponentStatusProps
-    let [<Import("AllComponentsStatus","office-ui-fabric-react")>] AllComponentsStatus: IComponentStatusState = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract AllComponentsStatus: IComponentStatusState
 
     type [<AllowNullLiteral>] IComponentStatusState =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> IComponentStatusProps with get, set
 
 module __demo_ComponentStatus_ComponentStatus =
-    let [<Import("","office-ui-fabric-react/demo/ComponentStatus/ComponentStatus")>] : ``.IExports`` = jsNative
     type IComponentStatusProps = __demo_ComponentStatus_ComponentStatus_types.IComponentStatusProps
 
     type [<AllowNullLiteral>] IExports =
@@ -11336,7 +11831,6 @@ module __demo_ComponentStatus_ComponentStatus_types =
         | [<CompiledName "Good">] Good
 
 module __demo_ComponentStatus_ComponentStatusPage =
-    let [<Import("","office-ui-fabric-react/demo/ComponentStatus/ComponentStatusPage")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ComponentStatusPage: ComponentStatusPageStatic
@@ -11355,7 +11849,9 @@ module __demo_ComponentStatus_ComponentStatusPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ComponentStatusPage
 
 module __demo_ComponentStatus_ComponentStatusState =
-    let [<Import("ComponentStatusInfoState","office-ui-fabric-react")>] ComponentStatusInfoState: ResizeArray<IComponentStatusInfoState> = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ComponentStatusInfoState: ResizeArray<IComponentStatusInfoState>
 
     type [<AllowNullLiteral>] IComponentStatusInfoState =
         abstract name: string with get, set
@@ -11368,13 +11864,12 @@ module __demo_ComponentStatus_ComponentStatusState =
         abstract renderedText: string with get, set
 
 module __utilities_color_colors =
-    let [<Import("","office-ui-fabric-react/utilities/color/colors")>] : ``.IExports`` = jsNative
-    let [<Import("MAX_COLOR_SATURATION","office-ui-fabric-react")>] MAX_COLOR_SATURATION: obj = jsNative
-    let [<Import("MAX_COLOR_HUE","office-ui-fabric-react")>] MAX_COLOR_HUE: obj = jsNative
-    let [<Import("MAX_COLOR_VALUE","office-ui-fabric-react")>] MAX_COLOR_VALUE: obj = jsNative
-    let [<Import("MAX_COLOR_RGBA","office-ui-fabric-react")>] MAX_COLOR_RGBA: obj = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract MAX_COLOR_SATURATION: obj
+        abstract MAX_COLOR_HUE: obj
+        abstract MAX_COLOR_VALUE: obj
+        abstract MAX_COLOR_RGBA: obj
         abstract cssColor: color: string -> IRGB option
         abstract rgb2hex: r: float * g: float * b: float -> string
         abstract hsv2hex: h: float * s: float * v: float -> string
@@ -11419,10 +11914,11 @@ module __utilities_color_colors =
         abstract str: string with get, set
 
 module __utilities_color_colorValues =
-    let [<Import("COLOR_VALUES","office-ui-fabric-react")>] COLOR_VALUES: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract COLOR_VALUES: obj
 
 module __utilities_color_shades =
-    let [<Import("","office-ui-fabric-react/utilities/color/shades")>] : ``.IExports`` = jsNative
     type IColor = __utilities_color_colors.IColor
 
     type [<AllowNullLiteral>] IExports =
@@ -11461,7 +11957,6 @@ module __utilities_color_shades =
         | Shade8 = 8
 
 module __utilities_contextualMenu_contextualMenuUtility =
-    let [<Import("","office-ui-fabric-react/utilities/contextualMenu/contextualMenuUtility")>] : ``.IExports`` = jsNative
     type IContextualMenuItem = _.IContextualMenuItem
 
     type [<AllowNullLiteral>] IExports =
@@ -11472,7 +11967,6 @@ module __utilities_contextualMenu_contextualMenuUtility =
         abstract isItemDisabled: item: IContextualMenuItem -> bool
 
 module __utilities_dateMath_DateMath =
-    let [<Import("","office-ui-fabric-react/utilities/dateMath/DateMath")>] : ``.IExports`` = jsNative
     type DayOfWeek = __utilities_dateValues_DateValues.DayOfWeek
     type FirstWeekOfYear = __utilities_dateValues_DateValues.FirstWeekOfYear
     type DateRangeType = __utilities_dateValues_DateValues.DateRangeType
@@ -11580,10 +12074,11 @@ module __utilities_dateValues_DateValues =
         | WorkWeek = 3
 
 module __utilities_dateValues_TimeConstants =
-    let [<Import("TimeConstants","office-ui-fabric-react")>] TimeConstants: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract TimeConstants: obj
 
 module __utilities_decorators_BaseDecorator =
-    let [<Import("","office-ui-fabric-react/utilities/decorators/BaseDecorator")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -11604,13 +12099,11 @@ module __utilities_decorators_BaseDecorator =
         [<Emit "new $0($1...)">] abstract Create: props: 'TProps -> BaseDecorator<'TProps, 'TState>
 
 module __utilities_decorators_withContainsFocus =
-    let [<Import("","office-ui-fabric-react/utilities/decorators/withContainsFocus")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract withContainsFocus: ComposedComponent: obj -> obj option
 
 module __utilities_decorators_withResponsiveMode =
-    let [<Import("","office-ui-fabric-react/utilities/decorators/withResponsiveMode")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         /// Allows a server rendered scenario to provide a default responsive mode.
@@ -11629,7 +12122,6 @@ module __utilities_decorators_withResponsiveMode =
         | XxxLarge = 5
 
 module __utilities_decorators_withViewport =
-    let [<Import("","office-ui-fabric-react/utilities/decorators/withViewport")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract withViewport: ComposedComponent: obj -> obj option
@@ -11645,7 +12137,6 @@ module __utilities_decorators_withViewport =
         abstract skipViewportMeasures: bool option with get, set
 
 module __utilities_dragdrop_DragDropHelper =
-    let [<Import("","office-ui-fabric-react/utilities/dragdrop/DragDropHelper")>] : ``.IExports`` = jsNative
     type EventGroup = Utilities.EventGroup
     type IDragDropHelper = __utilities_dragdrop_interfaces.IDragDropHelper
     type IDragDropOptions = __utilities_dragdrop_interfaces.IDragDropOptions
@@ -11736,7 +12227,6 @@ module __utilities_dragdrop_interfaces =
         abstract isHandled: bool option with get, set
 
 module __utilities_grid_Grid_base =
-    let [<Import("","office-ui-fabric-react/utilities/grid/Grid.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IGrid = __utilities_grid_Grid_types.IGrid
     type IGridProps = __utilities_grid_Grid_types.IGridProps
@@ -11753,10 +12243,18 @@ module __utilities_grid_Grid_base =
     type [<AllowNullLiteral>] GridBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IGridProps -> GridBase
 
+module __utilities_grid_Grid =
+    type IGridProps = __utilities_grid_Grid_types.IGridProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract Grid: (IGridProps -> JSX.Element)
+
 module __utilities_grid_Grid_styles =
     type IGridStyleProps = __utilities_grid_Grid_types.IGridStyleProps
     type IGridStyles = __utilities_grid_Grid_types.IGridStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IGridStyleProps -> IGridStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IGridStyleProps -> IGridStyles)
 
 module __utilities_grid_Grid_types =
     type IStyle = Styling.IStyle
@@ -11809,7 +12307,6 @@ module __utilities_grid_Grid_types =
         abstract focusedContainer: IStyle option with get, set
 
 module __utilities_grid_GridCell =
-    let [<Import("","office-ui-fabric-react/utilities/grid/GridCell")>] : ``.IExports`` = jsNative
     type IGridCellProps = __utilities_grid_GridCell_types.IGridCellProps
 
     type [<AllowNullLiteral>] IExports =
@@ -11878,8 +12375,13 @@ module __utilities_grid_GridCell_types =
         /// Optional, onkeydown handler
         abstract onKeyDown: (React.KeyboardEvent<HTMLButtonElement> -> unit) option with get, set
 
+module __utilities_groupedList_GroupedListUtility =
+    type IGroup = __components_GroupedList_GroupedList_types.IGroup
+
+    type [<AllowNullLiteral>] IExports =
+        abstract GetGroupCount: (ResizeArray<IGroup> option -> float)
+
 module __utilities_keytips_IKeytipTransitionKey =
-    let [<Import("","office-ui-fabric-react/utilities/keytips/IKeytipTransitionKey")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         /// <summary>Tests for equality between two IKeytipTransitionKeys.</summary>
@@ -11902,7 +12404,6 @@ module __utilities_keytips_IKeytipTransitionKey =
         abstract modifierKeys: ResizeArray<KeytipTransitionModifier> option with get, set
 
 module __utilities_keytips_KeytipConfig =
-    let [<Import("","office-ui-fabric-react/utilities/keytips/KeytipConfig")>] : ``.IExports`` = jsNative
     type IKeytipProps = Keytip.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
@@ -11935,13 +12436,15 @@ module __utilities_keytips_KeytipConfig =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: id: string -> IKeytipProps with get, set
 
 module __utilities_keytips_KeytipConstants =
-    let [<Import("KTP_PREFIX","office-ui-fabric-react")>] KTP_PREFIX: obj = jsNative
-    let [<Import("KTP_SEPARATOR","office-ui-fabric-react")>] KTP_SEPARATOR: obj = jsNative
-    let [<Import("KTP_FULL_PREFIX","office-ui-fabric-react")>] KTP_FULL_PREFIX: string = jsNative
-    let [<Import("DATAKTP_TARGET","office-ui-fabric-react")>] DATAKTP_TARGET: obj = jsNative
-    let [<Import("DATAKTP_EXECUTE_TARGET","office-ui-fabric-react")>] DATAKTP_EXECUTE_TARGET: obj = jsNative
-    let [<Import("KTP_LAYER_ID","office-ui-fabric-react")>] KTP_LAYER_ID: obj = jsNative
-    let [<Import("KTP_ARIA_SEPARATOR","office-ui-fabric-react")>] KTP_ARIA_SEPARATOR: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract KTP_PREFIX: obj
+        abstract KTP_SEPARATOR: obj
+        abstract KTP_FULL_PREFIX: string
+        abstract DATAKTP_TARGET: obj
+        abstract DATAKTP_EXECUTE_TARGET: obj
+        abstract KTP_LAYER_ID: obj
+        abstract KTP_ARIA_SEPARATOR: obj
 
     module KeytipEvents =
 
@@ -11956,7 +12459,6 @@ module __utilities_keytips_KeytipConstants =
             abstract EXIT_KEYTIP_MODE: obj
 
 module __utilities_keytips_KeytipManager =
-    let [<Import("","office-ui-fabric-react/utilities/keytips/KeytipManager")>] : ``.IExports`` = jsNative
     type IKeytipProps = Keytip.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12011,7 +12513,6 @@ module __utilities_keytips_KeytipManager =
         abstract getInstance: unit -> KeytipManager
 
 module __utilities_keytips_KeytipUtils =
-    let [<Import("","office-ui-fabric-react/utilities/keytips/KeytipUtils")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         /// <summary>Converts a whole set of KeySequences into one keytip ID, which will be the ID for the last keytip sequence specified
@@ -12033,7 +12534,6 @@ module __utilities_keytips_KeytipUtils =
         abstract getAriaDescribedBy: keySequences: ResizeArray<string> -> string
 
 module __utilities_positioning_positioning =
-    let [<Import("","office-ui-fabric-react/utilities/positioning/positioning")>] : ``.IExports`` = jsNative
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
     type FullRectangle = Utilities.Rectangle
     type IRectangle = Utilities.IRectangle
@@ -12044,10 +12544,10 @@ module __utilities_positioning_positioning =
     type IPositionProps = __utilities_positioning_positioning_types.IPositionProps
     type RectangleEdge = __utilities_positioning_positioning_types.RectangleEdge
     type IRelativePositions = __utilities_positioning_positioning_types.IRelativePositions
-    let [<Import("__positioningTestPackage","office-ui-fabric-react")>] __positioningTestPackage: obj = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Rectangle: RectangleStatic
+        abstract __positioningTestPackage: obj
         /// <param name="props"></param>
         /// <param name="hostElement"></param>
         /// <param name="elementToPosition"></param>
@@ -12184,7 +12684,6 @@ module __utilities_positioning_positioning_types =
         abstract submenuDirection: DirectionalHint with get, set
 
 module __utilities_router_Route =
-    let [<Import("","office-ui-fabric-react/utilities/router/Route")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Route: RouteStatic
@@ -12201,7 +12700,6 @@ module __utilities_router_Route =
         [<Emit "new $0($1...)">] abstract Create: unit -> Route
 
 module __utilities_router_Router =
-    let [<Import("","office-ui-fabric-react/utilities/router/Router")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -12295,7 +12793,9 @@ module __utilities_selectableOption_SelectableOption_types =
         | Header = 2
 
 module __utilities_selection_interfaces =
-    let [<Import("SELECTION_CHANGE","office-ui-fabric-react")>] SELECTION_CHANGE: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SELECTION_CHANGE: obj
 
     type [<AllowNullLiteral>] IObjectWithKey =
         abstract key: U2<string, float> option with get, set
@@ -12336,7 +12836,6 @@ module __utilities_selection_interfaces =
         | Vertical = 1
 
 module __utilities_selection_Selection =
-    let [<Import("","office-ui-fabric-react/utilities/selection/Selection")>] : ``.IExports`` = jsNative
     type IObjectWithKey = __utilities_selection_interfaces.IObjectWithKey
     type ISelection = __utilities_selection_interfaces.ISelection
     type SelectionMode = __utilities_selection_interfaces.SelectionMode
@@ -12404,7 +12903,6 @@ module __utilities_selection_Selection =
         [<Emit "new $0($1...)">] abstract Create: ?options: ISelectionOptions -> Selection
 
 module __utilities_selection_SelectionPage =
-    let [<Import("","office-ui-fabric-react/utilities/selection/SelectionPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __utilities_selection_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12418,7 +12916,6 @@ module __utilities_selection_SelectionPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectionPage
 
 module __utilities_selection_SelectionZone =
-    let [<Import("","office-ui-fabric-react/utilities/selection/SelectionZone")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ISelection = __utilities_selection_interfaces.ISelection
     type SelectionMode = __utilities_selection_interfaces.SelectionMode
@@ -12500,7 +12997,6 @@ module __utilities_selection_SelectionZone =
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectionZone
 
 module __components_ActivityItem_examples_ActivityItem_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ActivityItem/examples/ActivityItem.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityItemBasicExample: ActivityItemBasicExampleStatic
@@ -12513,7 +13009,6 @@ module __components_ActivityItem_examples_ActivityItem_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ActivityItemBasicExample
 
 module __components_ActivityItem_examples_ActivityItem_Compact_Example =
-    let [<Import("","office-ui-fabric-react/components/ActivityItem/examples/ActivityItem.Compact.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityItemCompactExample: ActivityItemCompactExampleStatic
@@ -12527,7 +13022,9 @@ module __components_ActivityItem_examples_ActivityItem_Compact_Example =
 
 module __components_ActivityItem_examples_ActivityItem_Example_styles =
     type IStyle = Styling.IStyle
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IActivityItemExampleStyleProps -> IActivityItemExampleStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IActivityItemExampleStyleProps -> IActivityItemExampleStyles)
 
     type [<AllowNullLiteral>] IActivityItemExampleStyleProps =
         interface end
@@ -12537,7 +13034,6 @@ module __components_ActivityItem_examples_ActivityItem_Example_styles =
         abstract nameText: IStyle option with get, set
 
 module __components_ActivityItem_examples_ActivityItem_Persona_Example =
-    let [<Import("","office-ui-fabric-react/components/ActivityItem/examples/ActivityItem.Persona.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityItemPersonaExample: ActivityItemPersonaExampleStatic
@@ -12550,7 +13046,6 @@ module __components_ActivityItem_examples_ActivityItem_Persona_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ActivityItemPersonaExample
 
 module __components_Breadcrumb_examples_Breadcrumb_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Breadcrumb/examples/Breadcrumb.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract BreadcrumbBasicExample: BreadcrumbBasicExampleStatic
@@ -12568,7 +13063,6 @@ module __components_Breadcrumb_examples_Breadcrumb_Basic_Example =
         interface end
 
 module __components_Breadcrumb_examples_Breadcrumb_Static_Example =
-    let [<Import("","office-ui-fabric-react/components/Breadcrumb/examples/Breadcrumb.Static.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract BreadcrumbExample: BreadcrumbStaticExampleStatic
@@ -12583,7 +13077,6 @@ module __components_Breadcrumb_examples_Breadcrumb_Static_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> BreadcrumbStaticExample
 
 module __components_Button_ActionButton_ActionButton =
-    let [<Import("","office-ui-fabric-react/components/Button/ActionButton/ActionButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12602,10 +13095,11 @@ module __components_Button_ActionButton_ActionButton =
 module __components_Button_ActionButton_ActionButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> IButtonStyles)
 
 module __components_Button_CommandBarButton_CommandBarButton =
-    let [<Import("","office-ui-fabric-react/components/Button/CommandBarButton/CommandBarButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12624,10 +13118,17 @@ module __components_Button_CommandBarButton_CommandBarButton =
 module __components_Button_CommandBarButton_CommandBarButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> string option -> string option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> string option -> string option -> IButtonStyles)
+
+module __components_Button_CommandButton_CommandButton =
+    type ActionButton = __components_Button_ActionButton_ActionButton.ActionButton
+
+    type [<AllowNullLiteral>] IExports =
+        abstract CommandButton: obj
 
 module __components_Button_CompoundButton_CompoundButton =
-    let [<Import("","office-ui-fabric-react/components/Button/CompoundButton/CompoundButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12646,10 +13147,11 @@ module __components_Button_CompoundButton_CompoundButton =
 module __components_Button_CompoundButton_CompoundButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> bool option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> bool option -> IButtonStyles)
 
 module __components_Button_DefaultButton_DefaultButton =
-    let [<Import("","office-ui-fabric-react/components/Button/DefaultButton/DefaultButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12668,10 +13170,11 @@ module __components_Button_DefaultButton_DefaultButton =
 module __components_Button_DefaultButton_DefaultButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> bool option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> bool option -> IButtonStyles)
 
 module __components_Button_examples_Button_Action_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Action.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12688,7 +13191,6 @@ module __components_Button_examples_Button_Action_Example =
         interface end
 
 module __components_Button_examples_Button_Anchor_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Anchor.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12702,7 +13204,6 @@ module __components_Button_examples_Button_Anchor_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonAnchorExample
 
 module __components_Button_examples_Button_Basic_Example_styles =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Basic.Example.styles")>] : ``.IExports`` = jsNative
     type IStyle = Styling.IStyle
 
     type [<AllowNullLiteral>] IExports =
@@ -12716,7 +13217,6 @@ module __components_Button_examples_Button_Basic_Example_styles =
         abstract twoup: IStyle option with get, set
 
 module __components_Button_examples_Button_Command_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Command.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12730,7 +13230,6 @@ module __components_Button_examples_Button_Command_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonCommandExample
 
 module __components_Button_examples_Button_CommandBar_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.CommandBar.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12744,7 +13243,6 @@ module __components_Button_examples_Button_CommandBar_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonCommandBarExample
 
 module __components_Button_examples_Button_Compound_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Compound.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12761,7 +13259,6 @@ module __components_Button_examples_Button_Compound_Example =
         interface end
 
 module __components_Button_examples_Button_ContextualMenu_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.ContextualMenu.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12775,7 +13272,6 @@ module __components_Button_examples_Button_ContextualMenu_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonContextualMenuExample
 
 module __components_Button_examples_Button_Default_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Default.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12790,7 +13286,6 @@ module __components_Button_examples_Button_Default_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonDefaultExample
 
 module __components_Button_examples_Button_Icon_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Icon.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12804,7 +13299,6 @@ module __components_Button_examples_Button_Icon_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonIconExample
 
 module __components_Button_examples_Button_Primary_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Primary.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12818,7 +13312,6 @@ module __components_Button_examples_Button_Primary_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonPrimaryExample
 
 module __components_Button_examples_Button_ScreenReader_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.ScreenReader.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12832,7 +13325,6 @@ module __components_Button_examples_Button_ScreenReader_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonScreenReaderExample
 
 module __components_Button_examples_Button_Split_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Split.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12853,8 +13345,13 @@ module __components_Button_examples_Button_Split_Example =
     type [<AllowNullLiteral>] ButtonSplitCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonSplitCustomExample
 
+module __components_Button_examples_Button_Split_Example_styles =
+    type IButtonStyles = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonStyles
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getCustomSplitButtonStyles: (unit -> IButtonStyles)
+
 module __components_Button_examples_Button_Swap_Example =
-    let [<Import("","office-ui-fabric-react/components/Button/examples/Button.Swap.Example")>] : ``.IExports`` = jsNative
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
@@ -12877,7 +13374,6 @@ module __components_Button_examples_Button_Swap_Example =
         [<Emit "new $0($1...)">] abstract Create: props: IButtonProps -> ButtonSwapExample
 
 module __components_Button_IconButton_IconButton =
-    let [<Import("","office-ui-fabric-react/components/Button/IconButton/IconButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12896,10 +13392,11 @@ module __components_Button_IconButton_IconButton =
 module __components_Button_IconButton_IconButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> IButtonStyles)
 
 module __components_Button_MessageBarButton_MessageBarButton =
-    let [<Import("","office-ui-fabric-react/components/Button/MessageBarButton/MessageBarButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12916,10 +13413,11 @@ module __components_Button_MessageBarButton_MessageBarButton =
 module __components_Button_MessageBarButton_MessageBarButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> string option -> string option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> string option -> string option -> IButtonStyles)
 
 module __components_Button_PrimaryButton_PrimaryButton =
-    let [<Import("","office-ui-fabric-react/components/Button/PrimaryButton/PrimaryButton")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
@@ -12937,7 +13435,9 @@ module __components_Button_PrimaryButton_PrimaryButton =
 
 module __components_Button_SplitButton_SplitButton_classNames =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (IButtonStyles -> bool -> bool -> bool -> ISplitButtonClassNames) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getClassNames: (IButtonStyles -> bool -> bool -> bool -> ISplitButtonClassNames)
 
     type [<AllowNullLiteral>] ISplitButtonClassNames =
         abstract root: string option with get, set
@@ -12949,10 +13449,11 @@ module __components_Button_SplitButton_SplitButton_classNames =
 module __components_Button_SplitButton_SplitButton_styles =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
     type ITheme = Styling.ITheme
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (ITheme -> IButtonStyles option -> IButtonStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (ITheme -> IButtonStyles option -> IButtonStyles)
 
 module __components_Calendar_examples_Calendar_Button_Example =
-    let [<Import("","office-ui-fabric-react/components/Calendar/examples/Calendar.Button.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CalendarButtonExample: CalendarButtonExampleStatic
@@ -12982,7 +13483,6 @@ module __components_Calendar_examples_Calendar_Button_Example =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarButtonExampleProps -> CalendarButtonExample
 
 module __components_Calendar_examples_Calendar_Inline_Example =
-    let [<Import("","office-ui-fabric-react/components/Calendar/examples/Calendar.Inline.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_Calendar_examples_office_ui_fabric_react_lib_Calendar.DayOfWeek
     type DateRangeType = __components_Calendar_examples_office_ui_fabric_react_lib_Calendar.DateRangeType
 
@@ -13022,7 +13522,6 @@ module __components_Calendar_examples_Calendar_Inline_Example =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarInlineExampleProps -> CalendarInlineExample
 
 module __components_Callout_examples_Callout_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Callout/examples/Callout.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CalloutBasicExample: CalloutBasicExampleStatic
@@ -13044,7 +13543,6 @@ module __components_Callout_examples_Callout_Basic_Example =
         interface end
 
 module __components_Callout_examples_Callout_Cover_Example =
-    let [<Import("","office-ui-fabric-react/components/Callout/examples/Callout.Cover.Example")>] : ``.IExports`` = jsNative
     type DirectionalHint = __components_Callout_examples_office_ui_fabric_react_lib_Callout.DirectionalHint
 
     type [<AllowNullLiteral>] IExports =
@@ -13069,7 +13567,6 @@ module __components_Callout_examples_Callout_Cover_Example =
         interface end
 
 module __components_Callout_examples_Callout_Directional_Example =
-    let [<Import("","office-ui-fabric-react/components/Callout/examples/Callout.Directional.Example")>] : ``.IExports`` = jsNative
     type DirectionalHint = __components_Callout_examples_office_ui_fabric_react_lib_Callout.DirectionalHint
 
     type [<AllowNullLiteral>] IExports =
@@ -13100,7 +13597,6 @@ module __components_Callout_examples_Callout_Directional_Example =
         interface end
 
 module __components_Callout_examples_Callout_Nested_Example =
-    let [<Import("","office-ui-fabric-react/components/Callout/examples/Callout.Nested.Example")>] : ``.IExports`` = jsNative
     type ICommandBarItemProps = __components_Callout_examples_office_ui_fabric_react_lib_CommandBar.ICommandBarItemProps
 
     type [<AllowNullLiteral>] IExports =
@@ -13119,7 +13615,6 @@ module __components_Callout_examples_Callout_Nested_Example =
         [<Emit "new $0($1...)">] abstract Create: props: ICalloutNestedExampleProps -> CalloutNestedExample
 
 module __components_Checkbox_examples_Checkbox_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Checkbox/examples/Checkbox.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CheckboxBasicExample: CheckboxBasicExampleStatic
@@ -13139,7 +13634,6 @@ module __components_Checkbox_examples_Checkbox_Basic_Example =
         interface end
 
 module __components_Checkbox_examples_Checkbox_ImplementationExamples =
-    let [<Import("","office-ui-fabric-react/components/Checkbox/examples/Checkbox.ImplementationExamples")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CheckboxImplementationExamples: CheckboxImplementationExamplesStatic
@@ -13161,7 +13655,6 @@ module __components_Checkbox_examples_Checkbox_ImplementationExamples =
         interface end
 
 module __components_ChoiceGroup_examples_ChoiceGroup_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ChoiceGroup/examples/ChoiceGroup.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ChoiceGroupBasicExample: ChoiceGroupBasicExampleStatic
@@ -13182,7 +13675,6 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Basic_Example =
         interface end
 
 module __components_ChoiceGroup_examples_ChoiceGroup_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/ChoiceGroup/examples/ChoiceGroup.Custom.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ChoiceGroupCustomExample: ChoiceGroupCustomExampleStatic
@@ -13195,8 +13687,13 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Custom_Example =
     type [<AllowNullLiteral>] ChoiceGroupCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ChoiceGroupCustomExample
 
+module __components_ChoiceGroup_examples_ChoiceGroup_Custom_Example_scss =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract dropdown: obj
+
 module __components_ChoiceGroup_examples_ChoiceGroup_Icon_Example =
-    let [<Import("","office-ui-fabric-react/components/ChoiceGroup/examples/ChoiceGroup.Icon.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ChoiceGroupIconExample: ChoiceGroupIconExampleStatic
@@ -13209,7 +13706,6 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Icon_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ChoiceGroupIconExample
 
 module __components_ChoiceGroup_examples_ChoiceGroup_Image_Example =
-    let [<Import("","office-ui-fabric-react/components/ChoiceGroup/examples/ChoiceGroup.Image.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ChoiceGroupImageExample: ChoiceGroupImageExampleStatic
@@ -13230,7 +13726,6 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Image_Example =
         interface end
 
 module __components_Coachmark_Beak_Beak =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/Beak/Beak")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IBeakProps = __components_Coachmark_Beak_Beak_types.IBeakProps
 
@@ -13249,7 +13744,6 @@ module __components_Coachmark_Beak_Beak =
         [<Emit "new $0($1...)">] abstract Create: props: IBeakProps -> Beak
 
 module __components_Coachmark_Beak_Beak_styles =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/Beak/Beak.styles")>] : ``.IExports`` = jsNative
     type IStyle = Styling.IStyle
     type IBeakStylesProps = __components_Coachmark_Beak_Beak_types.IBeakStylesProps
 
@@ -13289,7 +13783,6 @@ module __components_Coachmark_Beak_Beak_types =
         abstract height: string option with get, set
 
 module __components_Coachmark_examples_Coachmark_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/examples/Coachmark.Basic.Example")>] : ``.IExports`` = jsNative
     type IStyle = Styling.IStyle
     type BaseComponent = __components_Coachmark_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
@@ -13321,7 +13814,6 @@ module __components_Coachmark_examples_Coachmark_Basic_Example =
         interface end
 
 module __components_Coachmark_PositioningContainer_PositioningContainer =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/PositioningContainer/PositioningContainer")>] : ``.IExports`` = jsNative
     type IPositioningContainerTypes = __components_Coachmark_PositioningContainer_PositioningContainer_types.IPositioningContainerTypes
     type BaseComponent = Utilities.BaseComponent
     type IPositionedData = __components_Coachmark_PositioningContainer_office_ui_fabric_react_lib_utilities_positioning.IPositionedData
@@ -13383,13 +13875,12 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
         [<Emit "new $0($1...)">] abstract Create: props: IPositioningContainerTypes -> PositioningContainer
 
 module __components_Coachmark_PositioningContainer_PositioningContainer_styles =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/PositioningContainer/PositioningContainer.styles")>] : ``.IExports`` = jsNative
     type IStyle = Styling.IStyle
-    let [<Import("getClassNames","office-ui-fabric-react")>] getClassNames: (unit -> IPositioningContainerNames) = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract highContrastActive: styles: IStyle -> obj option
         abstract focusClear: unit -> obj option
+        abstract getClassNames: (unit -> IPositioningContainerNames)
 
     type [<AllowNullLiteral>] IPositioningContainerStyles =
         /// Style for the root element in the default enabled/unchecked state.
@@ -13488,7 +13979,6 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_types =
         abstract positioningContainerMaxHeight: float option with get, set
 
 module __components_Coachmark_PositioningContainer_PositioningContainerPage =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/PositioningContainer/PositioningContainerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_Coachmark_PositioningContainer_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -13502,7 +13992,6 @@ module __components_Coachmark_PositioningContainer_PositioningContainerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> PositioningContainerPage
 
 module __components_ColorPicker_examples_ColorPicker_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ColorPicker/examples/ColorPicker.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ColorPickerBasicExample: ColorPickerBasicExampleStatic
@@ -13518,7 +14007,6 @@ module __components_ColorPicker_examples_ColorPicker_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ColorPickerBasicExample
 
 module __components_ComboBox_examples_ComboBox_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ComboBox/examples/ComboBox.Basic.Example")>] : ``.IExports`` = jsNative
     type IComboBoxOption = __components_ComboBox_examples_office_ui_fabric_react_lib_ComboBox.IComboBoxOption
 
     type [<AllowNullLiteral>] IExports =
@@ -13547,7 +14035,6 @@ module __components_ComboBox_examples_ComboBox_Basic_Example =
         interface end
 
 module __components_ComboBox_examples_ComboBox_CustomStyled_Example =
-    let [<Import("","office-ui-fabric-react/components/ComboBox/examples/ComboBox.CustomStyled.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ComboBoxCustomStyledExample: ComboBoxCustomStyledExampleStatic
@@ -13561,7 +14048,6 @@ module __components_ComboBox_examples_ComboBox_CustomStyled_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ComboBoxCustomStyledExample
 
 module __components_CommandBar_examples_CommandBar_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/CommandBar/examples/CommandBar.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CommandBarBasicExample: CommandBarBasicExampleStatic
@@ -13574,7 +14060,6 @@ module __components_CommandBar_examples_CommandBar_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> CommandBarBasicExample
 
 module __components_CommandBar_examples_CommandBar_Customization_Example =
-    let [<Import("","office-ui-fabric-react/components/CommandBar/examples/CommandBar.Customization.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CommandBarCustomizationExample: CommandBarCustomizationExampleStatic
@@ -13597,16 +14082,17 @@ module __components_CommandBar_examples_CommandBar_Customization_Example =
         interface end
 
 module __components_CommandBar_examples_CommandBar_Example_scss =
-    let [<Import("customButtonContainer","office-ui-fabric-react")>] customButtonContainer: obj = jsNative
-    let [<Import("icon","office-ui-fabric-react")>] icon: obj = jsNative
-    let [<Import("themeDarkAltColor","office-ui-fabric-react")>] themeDarkAltColor: obj = jsNative
-    let [<Import("leftText","office-ui-fabric-react")>] leftText: obj = jsNative
-    let [<Import("splitter","office-ui-fabric-react")>] splitter: obj = jsNative
-    let [<Import("button","office-ui-fabric-react")>] button: obj = jsNative
-    let [<Import("darkerBG","office-ui-fabric-react")>] darkerBG: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract customButtonContainer: obj
+        abstract icon: obj
+        abstract themeDarkAltColor: obj
+        abstract leftText: obj
+        abstract splitter: obj
+        abstract button: obj
+        abstract darkerBG: obj
 
 module __components_CommandBar_examples_CommandBar_NonFocusable_Example =
-    let [<Import("","office-ui-fabric-react/components/CommandBar/examples/CommandBar.NonFocusable.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract CommandBarNonFocusableItemsExample: CommandBarNonFocusableItemsExampleStatic
@@ -13618,15 +14104,22 @@ module __components_CommandBar_examples_CommandBar_NonFocusable_Example =
     type [<AllowNullLiteral>] CommandBarNonFocusableItemsExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CommandBarNonFocusableItemsExample
 
+module __components_CommandBar_examples_data_nonFocusable =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract itemsNonFocusable: ResizeArray<U2<obj, obj>>
+        abstract farItemsNonFocusable: ResizeArray<U2<obj, obj>>
+
 module __components_CommandBar_examples_data =
-    let [<Import("items","office-ui-fabric-react")>] items: ResizeArray<U5<obj, obj, obj, obj, obj>> = jsNative
-    let [<Import("textOnlyItems","office-ui-fabric-react")>] textOnlyItems: ResizeArray<obj> = jsNative
-    let [<Import("iconOnlyItems","office-ui-fabric-react")>] iconOnlyItems: ResizeArray<U2<obj, obj>> = jsNative
-    let [<Import("overflowItems","office-ui-fabric-react")>] overflowItems: ResizeArray<obj> = jsNative
-    let [<Import("farItems","office-ui-fabric-react")>] farItems: ResizeArray<obj> = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract items: ResizeArray<U5<obj, obj, obj, obj, obj>>
+        abstract textOnlyItems: ResizeArray<obj>
+        abstract iconOnlyItems: ResizeArray<U2<obj, obj>>
+        abstract overflowItems: ResizeArray<obj>
+        abstract farItems: ResizeArray<obj>
 
 module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuAnchor =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuAnchor")>] : ``.IExports`` = jsNative
     type ContextualMenuItemWrapper = __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper.ContextualMenuItemWrapper
 
     type [<AllowNullLiteral>] IExports =
@@ -13643,7 +14136,6 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuAncho
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuAnchor
 
 module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuButton =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuButton")>] : ``.IExports`` = jsNative
     type ContextualMenuItemWrapper = __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper.ContextualMenuItemWrapper
 
     type [<AllowNullLiteral>] IExports =
@@ -13659,7 +14151,6 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuButto
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuButton
 
 module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuItemWrapper")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IContextualMenuItemWrapperProps = __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper_types.IContextualMenuItemWrapperProps
     type IContextualMenuItem = __components_ContextualMenu.IContextualMenuItem
@@ -13738,7 +14229,6 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemW
         abstract dismissMenu: (obj option -> bool -> unit) option with get, set
 
 module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuSplitButton =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/ContextualMenuItemWrapper/ContextualMenuSplitButton")>] : ``.IExports`` = jsNative
     type ContextualMenuItemWrapper = __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper.ContextualMenuItemWrapper
 
     type [<AllowNullLiteral>] IExports =
@@ -13773,7 +14263,6 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuSplit
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuSplitButton
 
 module __components_ContextualMenu_examples_ContextualMenu_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuBasicExample: ContextualMenuBasicExampleStatic
@@ -13789,7 +14278,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Basic_Example =
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_Checkmarks_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Checkmarks.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuCheckmarksExample: ContextualMenuCheckmarksExampleStatic
@@ -13809,7 +14297,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Checkmarks_Example =
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_Customization_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Customization.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuCustomizationExample: ContextualMenuCustomizationExampleStatic
@@ -13824,7 +14311,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Customization_Example
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuCustomizationExample
 
 module __components_ContextualMenu_examples_ContextualMenu_CustomizationWithNoWrap_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.CustomizationWithNoWrap.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuCustomizationWithNoWrapExample: ContextualMenuCustomizationWithNoWrapExampleStatic
@@ -13839,7 +14325,6 @@ module __components_ContextualMenu_examples_ContextualMenu_CustomizationWithNoWr
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuCustomizationWithNoWrapExample
 
 module __components_ContextualMenu_examples_ContextualMenu_CustomMenuItem_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.CustomMenuItem.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuWithCustomMenuItemExample: ContextualMenuWithCustomMenuItemExampleStatic
@@ -13855,7 +14340,6 @@ module __components_ContextualMenu_examples_ContextualMenu_CustomMenuItem_Exampl
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_Directional_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Directional.Example")>] : ``.IExports`` = jsNative
     type DirectionalHint = __components_ContextualMenu_examples_office_ui_fabric_react_lib_ContextualMenu.DirectionalHint
 
     type [<AllowNullLiteral>] IExports =
@@ -13885,7 +14369,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Directional_Example =
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_Header_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Header.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuHeaderExample: ContextualMenuHeaderExampleStatic
@@ -13898,7 +14381,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Header_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuHeaderExample
 
 module __components_ContextualMenu_examples_ContextualMenu_Icon_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Icon.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuIconExample: ContextualMenuIconExampleStatic
@@ -13914,7 +14396,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_Example =
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Icon.SecondaryText.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuIconSecondaryTextExample: ContextualMenuIconSecondaryTextExampleStatic
@@ -13930,7 +14411,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Ex
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.ScrollBar.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuWithScrollBarExample: ContextualMenuWithScrollBarExampleStatic
@@ -13946,7 +14426,6 @@ module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
         interface end
 
 module __components_ContextualMenu_examples_ContextualMenu_Section_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Section.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuSectionExample: ContextualMenuSectionExampleStatic
@@ -13959,7 +14438,6 @@ module __components_ContextualMenu_examples_ContextualMenu_Section_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuSectionExample
 
 module __components_ContextualMenu_examples_ContextualMenu_Submenu_Example =
-    let [<Import("","office-ui-fabric-react/components/ContextualMenu/examples/ContextualMenu.Submenu.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuSubmenuExample: ContextualMenuSubmenuExampleStatic
@@ -13976,12 +14454,13 @@ module __components_ContextualMenu_examples_ContextualMenu_Submenu_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> ContextualMenuSubmenuExample
 
 module __components_ContextualMenu_examples_ContextualMenuExample_scss =
-    let [<Import("iconContainer","office-ui-fabric-react")>] iconContainer: obj = jsNative
-    let [<Import("logoFillIcon","office-ui-fabric-react")>] logoFillIcon: obj = jsNative
-    let [<Import("logoIcon","office-ui-fabric-react")>] logoIcon: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract iconContainer: obj
+        abstract logoFillIcon: obj
+        abstract logoIcon: obj
 
 module __components_DatePicker_examples_DatePicker_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/examples/DatePicker.Basic.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_DatePicker_examples_office_ui_fabric_react_lib_DatePicker.DayOfWeek
 
     type [<AllowNullLiteral>] IExports =
@@ -14002,7 +14481,6 @@ module __components_DatePicker_examples_DatePicker_Basic_Example =
         interface end
 
 module __components_DatePicker_examples_DatePicker_Bounded_Example =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/examples/DatePicker.Bounded.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_DatePicker_examples_office_ui_fabric_react_lib_DatePicker.DayOfWeek
 
     type [<AllowNullLiteral>] IExports =
@@ -14022,7 +14500,6 @@ module __components_DatePicker_examples_DatePicker_Bounded_Example =
         interface end
 
 module __components_DatePicker_examples_DatePicker_Format_Example =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/examples/DatePicker.Format.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_DatePicker_examples_office_ui_fabric_react_lib_DatePicker.DayOfWeek
 
     type [<AllowNullLiteral>] IExports =
@@ -14047,7 +14524,6 @@ module __components_DatePicker_examples_DatePicker_Format_Example =
         interface end
 
 module __components_DatePicker_examples_DatePicker_Input_Example =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/examples/DatePicker.Input.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_DatePicker_examples_office_ui_fabric_react_lib_DatePicker.DayOfWeek
 
     type [<AllowNullLiteral>] IExports =
@@ -14070,7 +14546,6 @@ module __components_DatePicker_examples_DatePicker_Input_Example =
         interface end
 
 module __components_DatePicker_examples_DatePicker_Required_Example =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/examples/DatePicker.Required.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_DatePicker_examples_office_ui_fabric_react_lib_DatePicker.DayOfWeek
 
     type [<AllowNullLiteral>] IExports =
@@ -14090,7 +14565,6 @@ module __components_DatePicker_examples_DatePicker_Required_Example =
         interface end
 
 module __components_DatePicker_examples_DatePicker_WeekNumbers_Example =
-    let [<Import("","office-ui-fabric-react/components/DatePicker/examples/DatePicker.WeekNumbers.Example")>] : ``.IExports`` = jsNative
     type DayOfWeek = __components_DatePicker_examples_office_ui_fabric_react_lib_DatePicker.DayOfWeek
 
     type [<AllowNullLiteral>] IExports =
@@ -14111,7 +14585,6 @@ module __components_DatePicker_examples_DatePicker_WeekNumbers_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_Advanced_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.Advanced.Example")>] : ``.IExports`` = jsNative
     type IContextualMenuProps = __components_DetailsList_examples_office_ui_fabric_react_lib_ContextualMenu.IContextualMenuProps
     type CheckboxVisibility = __components_DetailsList_examples_office_ui_fabric_react_lib_DetailsList.CheckboxVisibility
     type ConstrainMode = __components_DetailsList_examples_office_ui_fabric_react_lib_DetailsList.ConstrainMode
@@ -14176,7 +14649,6 @@ module __components_DetailsList_examples_DetailsList_Advanced_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DetailsListBasicExample: DetailsListBasicExampleStatic
@@ -14196,7 +14668,6 @@ module __components_DetailsList_examples_DetailsList_Basic_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_Compact_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.Compact.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DetailsListCompactExample: DetailsListCompactExampleStatic
@@ -14216,7 +14687,6 @@ module __components_DetailsList_examples_DetailsList_Compact_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_CustomColumns_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.CustomColumns.Example")>] : ``.IExports`` = jsNative
     type IColumn = __components_DetailsList_examples_office_ui_fabric_react_lib_DetailsList.IColumn
 
     type [<AllowNullLiteral>] IExports =
@@ -14240,7 +14710,6 @@ module __components_DetailsList_examples_DetailsList_CustomColumns_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_CustomGroupHeaders_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.CustomGroupHeaders.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DetailsListCustomGroupHeadersExample: DetailsListCustomGroupHeadersExampleStatic
@@ -14258,7 +14727,6 @@ module __components_DetailsList_examples_DetailsList_CustomGroupHeaders_Example 
         interface end
 
 module __components_DetailsList_examples_DetailsList_CustomRows_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.CustomRows.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DetailsListCustomRowsExample: DetailsListCustomRowsExampleStatic
@@ -14276,7 +14744,6 @@ module __components_DetailsList_examples_DetailsList_CustomRows_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_Documents_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.Documents.Example")>] : ``.IExports`` = jsNative
     type IColumn = __components_DetailsList_examples_office_ui_fabric_react_lib_DetailsList.IColumn
 
     type [<AllowNullLiteral>] IExports =
@@ -14320,7 +14787,6 @@ module __components_DetailsList_examples_DetailsList_Documents_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> DetailsListDocumentsExample
 
 module __components_DetailsList_examples_DetailsList_DragDrop_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.DragDrop.Example")>] : ``.IExports`` = jsNative
     type IColumn = __components_DetailsList_examples_office_ui_fabric_react_lib_DetailsList.IColumn
 
     type [<AllowNullLiteral>] IExports =
@@ -14348,7 +14814,6 @@ module __components_DetailsList_examples_DetailsList_DragDrop_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_Grouped_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.Grouped.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_DetailsList_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -14368,7 +14833,6 @@ module __components_DetailsList_examples_DetailsList_Grouped_Example =
         interface end
 
 module __components_DetailsList_examples_DetailsList_NavigatingFocus_Example =
-    let [<Import("","office-ui-fabric-react/components/DetailsList/examples/DetailsList.NavigatingFocus.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DetailsListNavigatingFocusExample: DetailsListNavigatingFocusExampleStatic
@@ -14388,7 +14852,6 @@ module __components_DetailsList_examples_DetailsList_NavigatingFocus_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> DetailsListNavigatingFocusExample
 
 module __components_Dialog_examples_Dialog_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Dialog/examples/Dialog.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DialogBasicExample: DialogBasicExampleStatic
@@ -14406,7 +14869,6 @@ module __components_Dialog_examples_Dialog_Basic_Example =
         interface end
 
 module __components_Dialog_examples_Dialog_Blocking_Example =
-    let [<Import("","office-ui-fabric-react/components/Dialog/examples/Dialog.Blocking.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DialogBlockingExample: DialogBlockingExampleStatic
@@ -14424,7 +14886,6 @@ module __components_Dialog_examples_Dialog_Blocking_Example =
         interface end
 
 module __components_Dialog_examples_Dialog_LargeHeader_Example =
-    let [<Import("","office-ui-fabric-react/components/Dialog/examples/Dialog.LargeHeader.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DialogLargeHeaderExample: DialogLargeHeaderExampleStatic
@@ -14443,7 +14904,6 @@ module __components_Dialog_examples_Dialog_LargeHeader_Example =
         interface end
 
 module __components_Divider_examples_VerticalDivider_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Divider/examples/VerticalDivider.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract VerticalDividerBasicExample: VerticalDividerBasicExampleStatic
@@ -14456,7 +14916,6 @@ module __components_Divider_examples_VerticalDivider_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> VerticalDividerBasicExample
 
 module __components_Divider_examples_VerticalDivider_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/Divider/examples/VerticalDivider.Custom.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract VerticalDividerCustomExample: VerticalDividerCustomExampleStatic
@@ -14469,10 +14928,11 @@ module __components_Divider_examples_VerticalDivider_Custom_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> VerticalDividerCustomExample
 
 module __components_DocumentCard_examples_data =
-    let [<Import("completeParts","office-ui-fabric-react")>] completeParts: ResizeArray<obj> = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract completeParts: ResizeArray<obj>
 
 module __components_DocumentCard_examples_DocumentCard_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/examples/DocumentCard.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DocumentCardBasicExample: DocumentCardBasicExampleStatic
@@ -14485,7 +14945,6 @@ module __components_DocumentCard_examples_DocumentCard_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardBasicExample
 
 module __components_DocumentCard_examples_DocumentCard_Compact_Example =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/examples/DocumentCard.Compact.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DocumentCardCompactExample: DocumentCardCompactExampleStatic
@@ -14498,7 +14957,6 @@ module __components_DocumentCard_examples_DocumentCard_Compact_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardCompactExample
 
 module __components_DocumentCard_examples_DocumentCard_Complete_Example =
-    let [<Import("","office-ui-fabric-react/components/DocumentCard/examples/DocumentCard.Complete.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DocumentCardCompleteExample: DocumentCardCompleteExampleStatic
@@ -14512,7 +14970,6 @@ module __components_DocumentCard_examples_DocumentCard_Complete_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardCompleteExample
 
 module __components_Dropdown_examples_Dropdown_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Dropdown/examples/Dropdown.Basic.Example")>] : ``.IExports`` = jsNative
     type IDropdownOption = __components_Dropdown_examples_office_ui_fabric_react_lib_Dropdown.IDropdownOption
     type BaseComponent = Utilities.BaseComponent
 
@@ -14536,7 +14993,6 @@ module __components_Dropdown_examples_Dropdown_Basic_Example =
         interface end
 
 module __components_Dropdown_examples_Dropdown_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/Dropdown/examples/Dropdown.Custom.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract DropdownCustomExample: DropdownCustomExampleStatic
@@ -14556,7 +15012,6 @@ module __components_Dropdown_examples_Dropdown_Custom_Example =
         interface end
 
 module __components_Dropdown_examples_Dropdown_Error_Example =
-    let [<Import("","office-ui-fabric-react/components/Dropdown/examples/Dropdown.Error.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -14573,7 +15028,6 @@ module __components_Dropdown_examples_Dropdown_Error_Example =
         interface end
 
 module __components_ExtendedPicker_examples_ExtendedPeoplePicker_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ExtendedPicker/examples/ExtendedPeoplePicker.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_ExtendedPicker_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IPersonaProps = __components_ExtendedPicker_examples_office_ui_fabric_react_lib_Persona.IPersonaProps
 
@@ -14622,15 +15076,22 @@ module __components_ExtendedPicker_examples_ExtendedPeoplePicker_Basic_Example =
     type [<AllowNullLiteral>] ExtendedPeoplePickerTypesExampleStaticProps =
         interface end
 
+module __components_ExtendedPicker_examples_ExtendedPeoplePicker_Basic_Example_scss =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract headerItem: obj
+        abstract footerItem: obj
+
 module __components_ExtendedPicker_examples_PeopleExampleData =
     type IExtendedPersonaProps = __components_SelectedItemsList.IExtendedPersonaProps
-    let [<Import("people","office-ui-fabric-react")>] people: ResizeArray<obj> = jsNative
-    let [<Import("mru","office-ui-fabric-react")>] mru: ResizeArray<IExtendedPersonaProps> = jsNative
-    let [<Import("groupOne","office-ui-fabric-react")>] groupOne: ResizeArray<IExtendedPersonaProps> = jsNative
-    let [<Import("groupTwo","office-ui-fabric-react")>] groupTwo: ResizeArray<IExtendedPersonaProps> = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract people: ResizeArray<obj>
+        abstract mru: ResizeArray<IExtendedPersonaProps>
+        abstract groupOne: ResizeArray<IExtendedPersonaProps>
+        abstract groupTwo: ResizeArray<IExtendedPersonaProps>
 
 module __components_ExtendedPicker_PeoplePicker_ExtendedPeoplePicker =
-    let [<Import("","office-ui-fabric-react/components/ExtendedPicker/PeoplePicker/ExtendedPeoplePicker")>] : ``.IExports`` = jsNative
     type IPickerItemProps = Pickers.IPickerItemProps
     type IExtendedPersonaProps = SelectedItemsList.IExtendedPersonaProps
     type IPersonaProps = Persona.IPersonaProps
@@ -14660,14 +15121,15 @@ module __components_ExtendedPicker_PeoplePicker_ExtendedPeoplePicker =
         [<Emit "new $0($1...)">] abstract Create: unit -> ExtendedPeoplePicker
 
 module __components_ExtendedPicker_PeoplePicker_ExtendedPeoplePicker_scss =
-    let [<Import("resultContent","office-ui-fabric-react")>] resultContent: obj = jsNative
-    let [<Import("resultItem","office-ui-fabric-react")>] resultItem: obj = jsNative
-    let [<Import("peoplePickerPersona","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
-    let [<Import("peoplePicker","office-ui-fabric-react")>] peoplePicker: obj = jsNative
-    let [<Import("peoplePickerPersonaContent","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract resultContent: obj
+        abstract resultItem: obj
+        abstract peoplePickerPersona: obj
+        abstract peoplePicker: obj
+        abstract peoplePickerPersonaContent: obj
 
 module __components_ExtendedPicker_PeoplePicker_ExtendedPeoplePickerPage =
-    let [<Import("","office-ui-fabric-react/components/ExtendedPicker/PeoplePicker/ExtendedPeoplePickerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_ExtendedPicker_PeoplePicker_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -14681,7 +15143,6 @@ module __components_ExtendedPicker_PeoplePicker_ExtendedPeoplePickerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> ExtendedPeoplePickerPage
 
 module __components_Facepile_examples_Facepile_AddFace_Example =
-    let [<Import("","office-ui-fabric-react/components/Facepile/examples/Facepile.AddFace.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract FacepileAddFaceExample: FacepileAddFaceExampleStatic
@@ -14700,7 +15161,6 @@ module __components_Facepile_examples_Facepile_AddFace_Example =
         interface end
 
 module __components_Facepile_examples_Facepile_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Facepile/examples/Facepile.Basic.Example")>] : ``.IExports`` = jsNative
     type PersonaSize = __components_Facepile_examples_office_ui_fabric_react_lib_Persona.PersonaSize
 
     type [<AllowNullLiteral>] IExports =
@@ -14725,7 +15185,6 @@ module __components_Facepile_examples_Facepile_Basic_Example =
         interface end
 
 module __components_Facepile_examples_Facepile_Overflow_Example =
-    let [<Import("","office-ui-fabric-react/components/Facepile/examples/Facepile.Overflow.Example")>] : ``.IExports`` = jsNative
     type OverflowButtonType = __components_Facepile_examples_office_ui_fabric_react_lib_Facepile.OverflowButtonType
 
     type [<AllowNullLiteral>] IExports =
@@ -14747,8 +15206,13 @@ module __components_Facepile_examples_Facepile_Overflow_Example =
     type [<AllowNullLiteral>] FacepileOverflowExampleStaticProps =
         interface end
 
+module __components_Facepile_examples_FacepileExampleData =
+    type IFacepilePersona = __components_Facepile_examples_office_ui_fabric_react_lib_Facepile.IFacepilePersona
+
+    type [<AllowNullLiteral>] IExports =
+        abstract facepilePersonas: ResizeArray<IFacepilePersona>
+
 module __components_FloatingPicker_PeoplePicker_FloatingPeoplePicker =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/PeoplePicker/FloatingPeoplePicker")>] : ``.IExports`` = jsNative
     type BaseFloatingPicker = __components_FloatingPicker_BaseFloatingPicker.BaseFloatingPicker
     type IBaseFloatingPickerProps = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPickerProps
     type IPersonaProps = Persona.IPersonaProps
@@ -14776,7 +15240,6 @@ module __components_FloatingPicker_PeoplePicker_FloatingPeoplePicker =
         [<Emit "new $0($1...)">] abstract Create: unit -> FloatingPeoplePicker
 
 module __components_FloatingPicker_PeoplePicker_FloatingPeoplePickerPage =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/PeoplePicker/FloatingPeoplePickerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_FloatingPicker_PeoplePicker_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -14790,11 +15253,13 @@ module __components_FloatingPicker_PeoplePicker_FloatingPeoplePickerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> FloatingPeoplePickerPage
 
 module __components_FloatingPicker_PeoplePicker_PeoplePicker_scss =
-    let [<Import("resultContent","office-ui-fabric-react")>] resultContent: obj = jsNative
-    let [<Import("resultItem","office-ui-fabric-react")>] resultItem: obj = jsNative
-    let [<Import("peoplePickerPersona","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
-    let [<Import("peoplePicker","office-ui-fabric-react")>] peoplePicker: obj = jsNative
-    let [<Import("peoplePickerPersonaContent","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract resultContent: obj
+        abstract resultItem: obj
+        abstract peoplePickerPersona: obj
+        abstract peoplePicker: obj
+        abstract peoplePickerPersonaContent: obj
 
 module __components_FloatingPicker_Suggestions_Suggestions_types =
     type ISuggestionModel = Pickers.ISuggestionModel
@@ -14860,7 +15325,6 @@ module __components_FloatingPicker_Suggestions_Suggestions_types =
         abstract className: string option with get, set
 
 module __components_FloatingPicker_Suggestions_SuggestionsControl =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/Suggestions/SuggestionsControl")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButton = Button.IButton
     type ISuggestionModel = Pickers.ISuggestionModel
@@ -14942,15 +15406,16 @@ module __components_FloatingPicker_Suggestions_SuggestionsControl =
         [<Emit "new $0($1...)">] abstract Create: suggestionsProps: ISuggestionsControlProps<'T> -> SuggestionsControl<'T>
 
 module __components_FloatingPicker_Suggestions_SuggestionsControl_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("actionButton","office-ui-fabric-react")>] actionButton: obj = jsNative
-    let [<Import("buttonSelected","office-ui-fabric-react")>] buttonSelected: obj = jsNative
-    let [<Import("suggestionsTitle","office-ui-fabric-react")>] suggestionsTitle: obj = jsNative
-    let [<Import("suggestionsSpinner","office-ui-fabric-react")>] suggestionsSpinner: obj = jsNative
-    let [<Import("itemButton","office-ui-fabric-react")>] itemButton: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract actionButton: obj
+        abstract buttonSelected: obj
+        abstract suggestionsTitle: obj
+        abstract suggestionsSpinner: obj
+        abstract itemButton: obj
 
 module __components_FloatingPicker_Suggestions_SuggestionsCore =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/Suggestions/SuggestionsCore")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ISuggestionModel = Pickers.ISuggestionModel
     type ISuggestionsCoreProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsCoreProps
@@ -14986,10 +15451,11 @@ module __components_FloatingPicker_Suggestions_SuggestionsCore =
         [<Emit "new $0($1...)">] abstract Create: suggestionsProps: ISuggestionsCoreProps<'T> -> SuggestionsCore<'T>
 
 module __components_FloatingPicker_Suggestions_SuggestionsCore_scss =
-    let [<Import("suggestionsContainer","office-ui-fabric-react")>] suggestionsContainer: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract suggestionsContainer: obj
 
 module __components_FloatingPicker_Suggestions_SuggestionsStore =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/Suggestions/SuggestionsStore")>] : ``.IExports`` = jsNative
     type ISuggestionModel = Pickers.ISuggestionModel
 
     type [<AllowNullLiteral>] IExports =
@@ -15009,7 +15475,6 @@ module __components_FloatingPicker_Suggestions_SuggestionsStore =
         [<Emit "new $0($1...)">] abstract Create: unit -> SuggestionsStore<'T>
 
 module __components_FocusTrapZone_examples_FocusTrapZone_Box_Click_Example =
-    let [<Import("","office-ui-fabric-react/components/FocusTrapZone/examples/FocusTrapZone.Box.Click.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract BoxNoClickExample: BoxNoClickExampleStatic
@@ -15031,7 +15496,6 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Box_Click_Example =
         [<Emit "new $0($1...)">] abstract Create: props: React.HTMLAttributes<HTMLDivElement> -> BoxNoClickExample
 
 module __components_FocusTrapZone_examples_FocusTrapZone_Box_Example =
-    let [<Import("","office-ui-fabric-react/components/FocusTrapZone/examples/FocusTrapZone.Box.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract BoxExample: BoxExampleStatic
@@ -15053,7 +15517,6 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Box_Example =
         [<Emit "new $0($1...)">] abstract Create: props: React.HTMLAttributes<HTMLDivElement> -> BoxExample
 
 module __components_FocusTrapZone_examples_FocusTrapZone_Box_FocusOnCustomElement_Example =
-    let [<Import("","office-ui-fabric-react/components/FocusTrapZone/examples/FocusTrapZone.Box.FocusOnCustomElement.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract BoxExample: BoxExampleStatic
@@ -15075,7 +15538,6 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Box_FocusOnCustomElemen
         [<Emit "new $0($1...)">] abstract Create: props: React.HTMLAttributes<HTMLDivElement> -> BoxExample
 
 module __components_FocusTrapZone_examples_FocusTrapZone_Nested_Example =
-    let [<Import("","office-ui-fabric-react/components/FocusTrapZone/examples/FocusTrapZone.Nested.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract FocusTrapZoneNestedExample: FocusTrapZoneNestedExampleStatic
@@ -15096,10 +15558,11 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Nested_Example =
         interface end
 
 module __components_FocusZone_examples_FocusZone_Disabled_Example =
-    let [<Import("FocusZoneDisabledExample","office-ui-fabric-react")>] FocusZoneDisabledExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract FocusZoneDisabledExample: (unit -> JSX.Element)
 
 module __components_FocusZone_examples_FocusZone_List_Example =
-    let [<Import("","office-ui-fabric-react/components/FocusZone/examples/FocusZone.List.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract FocusZoneListExample: FocusZoneListExampleStatic
@@ -15117,13 +15580,16 @@ module __components_FocusZone_examples_FocusZone_List_Example =
         interface end
 
 module __components_FocusZone_examples_FocusZone_Photos_Example =
-    let [<Import("FocusZonePhotosExample","office-ui-fabric-react")>] FocusZonePhotosExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract FocusZonePhotosExample: (unit -> JSX.Element)
 
 module __components_FocusZone_examples_FocusZone_Tabbable_Example =
-    let [<Import("FocusZoneTabbableExample","office-ui-fabric-react")>] FocusZoneTabbableExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract FocusZoneTabbableExample: (unit -> JSX.Element)
 
 module __components_GroupedList_examples_GroupedList_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/examples/GroupedList.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract GroupedListBasicExample: GroupedListBasicExampleStatic
@@ -15141,7 +15607,6 @@ module __components_GroupedList_examples_GroupedList_Basic_Example =
         interface end
 
 module __components_GroupedList_examples_GroupedList_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/GroupedList/examples/GroupedList.Custom.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract GroupedListCustomExample: GroupedListCustomExampleStatic
@@ -15160,7 +15625,6 @@ module __components_GroupedList_examples_GroupedList_Custom_Example =
         interface end
 
 module __components_HoverCard_examples_HoverCard_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/HoverCard/examples/HoverCard.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_HoverCard_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IColumn = __components_HoverCard_examples_office_ui_fabric_react_lib_DetailsList.IColumn
 
@@ -15185,7 +15649,6 @@ module __components_HoverCard_examples_HoverCard_Basic_Example =
         interface end
 
 module __components_HoverCard_examples_HoverCard_Target_Example =
-    let [<Import("","office-ui-fabric-react/components/HoverCard/examples/HoverCard.Target.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_HoverCard_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IColumn = __components_HoverCard_examples_office_ui_fabric_react_lib_DetailsList.IColumn
 
@@ -15210,7 +15673,6 @@ module __components_HoverCard_examples_HoverCard_Target_Example =
         interface end
 
 module __components_Icon_examples_Icon_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Icon/examples/Icon.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract IconBasicExample: IconBasicExampleStatic
@@ -15223,7 +15685,6 @@ module __components_Icon_examples_Icon_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> IconBasicExample
 
 module __components_Icon_examples_Icon_Color_Example =
-    let [<Import("","office-ui-fabric-react/components/Icon/examples/Icon.Color.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract IconColorExample: IconColorExampleStatic
@@ -15236,7 +15697,6 @@ module __components_Icon_examples_Icon_Color_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> IconColorExample
 
 module __components_Icon_examples_Icon_ImageSheet_Example =
-    let [<Import("","office-ui-fabric-react/components/Icon/examples/Icon.ImageSheet.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract IconImageSheetExample: IconImageSheetExampleStatic
@@ -15249,7 +15709,6 @@ module __components_Icon_examples_Icon_ImageSheet_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> IconImageSheetExample
 
 module __components_Icon_examples_Icon_Svg_Example =
-    let [<Import("","office-ui-fabric-react/components/Icon/examples/Icon.Svg.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract IconSvgExample: IconSvgExampleStatic
@@ -15262,7 +15721,6 @@ module __components_Icon_examples_Icon_Svg_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> IconSvgExample
 
 module __components_Image_examples_Image_Center_Example =
-    let [<Import("","office-ui-fabric-react/components/Image/examples/Image.Center.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ImageCenterExample: ImageCenterExampleStatic
@@ -15275,7 +15733,6 @@ module __components_Image_examples_Image_Center_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImageCenterExample
 
 module __components_Image_examples_Image_Contain_Example =
-    let [<Import("","office-ui-fabric-react/components/Image/examples/Image.Contain.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ImageContainExample: ImageContainExampleStatic
@@ -15288,7 +15745,6 @@ module __components_Image_examples_Image_Contain_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImageContainExample
 
 module __components_Image_examples_Image_Cover_Example =
-    let [<Import("","office-ui-fabric-react/components/Image/examples/Image.Cover.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ImageCoverExample: ImageCoverExampleStatic
@@ -15301,7 +15757,6 @@ module __components_Image_examples_Image_Cover_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImageCoverExample
 
 module __components_Image_examples_Image_Default_Example =
-    let [<Import("","office-ui-fabric-react/components/Image/examples/Image.Default.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ImageDefaultExample: ImageDefaultExampleStatic
@@ -15314,7 +15769,6 @@ module __components_Image_examples_Image_Default_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImageDefaultExample
 
 module __components_Image_examples_Image_MaximizeFrame_Example =
-    let [<Import("","office-ui-fabric-react/components/Image/examples/Image.MaximizeFrame.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ImageMaximizeFrameExample: ImageMaximizeFrameExampleStatic
@@ -15327,7 +15781,6 @@ module __components_Image_examples_Image_MaximizeFrame_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImageMaximizeFrameExample
 
 module __components_Image_examples_Image_None_Example =
-    let [<Import("","office-ui-fabric-react/components/Image/examples/Image.None.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ImageNoneExample: ImageNoneExampleStatic
@@ -15340,7 +15793,6 @@ module __components_Image_examples_Image_None_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ImageNoneExample
 
 module __components_Keytip_examples_Keytips_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Keytip/examples/Keytips.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract KeytipsBasicExample: KeytipsBasicExampleStatic
@@ -15354,7 +15806,6 @@ module __components_Keytip_examples_Keytips_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> KeytipsBasicExample
 
 module __components_Keytip_examples_Keytips_Button_Example =
-    let [<Import("","office-ui-fabric-react/components/Keytip/examples/Keytips.Button.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract KeytipsButtonExample: KeytipsButtonExampleStatic
@@ -15374,7 +15825,6 @@ module __components_Keytip_examples_Keytips_Button_Example =
         interface end
 
 module __components_Keytip_examples_Keytips_CommandBar_Example =
-    let [<Import("","office-ui-fabric-react/components/Keytip/examples/Keytips.CommandBar.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract KeytipsCommandBarExample: KeytipsCommandBarExampleStatic
@@ -15398,7 +15848,6 @@ module __components_Keytip_examples_Keytips_CommandBar_Example =
         interface end
 
 module __components_Keytip_examples_Keytips_Overflow_Example =
-    let [<Import("","office-ui-fabric-react/components/Keytip/examples/Keytips.Overflow.Example")>] : ``.IExports`` = jsNative
     type IOverflowSetItemProps = __components_Keytip_examples_office_ui_fabric_react_lib_OverflowSet.IOverflowSetItemProps
 
     type [<AllowNullLiteral>] IExports =
@@ -15423,11 +15872,18 @@ module __components_Keytip_examples_Keytips_Overflow_Example =
     type [<AllowNullLiteral>] KeytipsOverflowExampleStaticProps =
         interface end
 
+module __components_Keytip_examples_KeytipSetup =
+    type IKeytipConfigMap = __utilities_keytips.IKeytipConfigMap
+
+    type [<AllowNullLiteral>] IExports =
+        abstract keytipMap: IKeytipConfigMap
+
 module __components_Label_examples_Label_Basic_Example =
-    let [<Import("LabelBasicExample","office-ui-fabric-react")>] LabelBasicExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract LabelBasicExample: (unit -> JSX.Element)
 
 module __components_Layer_examples_Layer_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Layer/examples/Layer.Basic.Example")>] : ``.IExports`` = jsNative
     module PropTypes = Prop_types
     type BaseComponent = Utilities.BaseComponent
 
@@ -15462,7 +15918,6 @@ module __components_Layer_examples_Layer_Basic_Example =
         interface end
 
 module __components_Layer_examples_Layer_Customized_Example =
-    let [<Import("","office-ui-fabric-react/components/Layer/examples/Layer.Customized.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract LayerCustomizedExample: LayerCustomizedExampleStatic
@@ -15485,7 +15940,6 @@ module __components_Layer_examples_Layer_Customized_Example =
         interface end
 
 module __components_Layer_examples_Layer_Hosted_Example =
-    let [<Import("","office-ui-fabric-react/components/Layer/examples/Layer.Hosted.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract LayerHostedExample: LayerHostedExampleStatic
@@ -15505,7 +15959,6 @@ module __components_Layer_examples_Layer_Hosted_Example =
         interface end
 
 module __components_Link_examples_Link_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Link/examples/Link.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract LinkBasicExample: LinkBasicExampleStatic
@@ -15518,7 +15971,6 @@ module __components_Link_examples_Link_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> LinkBasicExample
 
 module __components_List_examples_List_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/List/examples/List.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ListBasicExample: ListBasicExampleStatic
@@ -15540,7 +15992,6 @@ module __components_List_examples_List_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: props: IListBasicExampleProps -> ListBasicExample
 
 module __components_List_examples_List_Ghosting_Example =
-    let [<Import("","office-ui-fabric-react/components/List/examples/List.Ghosting.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ListGhostingExample: ListGhostingExampleStatic
@@ -15557,7 +16008,6 @@ module __components_List_examples_List_Ghosting_Example =
         [<Emit "new $0($1...)">] abstract Create: props: IListGhostingExampleProps -> ListGhostingExample
 
 module __components_List_examples_List_Grid_Example =
-    let [<Import("","office-ui-fabric-react/components/List/examples/List.Grid.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ListGridExample: ListGridExampleStatic
@@ -15579,7 +16029,6 @@ module __components_List_examples_List_Grid_Example =
         [<Emit "new $0($1...)">] abstract Create: props: IListGridExampleProps -> ListGridExample
 
 module __components_List_examples_List_Scrolling_Example =
-    let [<Import("","office-ui-fabric-react/components/List/examples/List.Scrolling.Example")>] : ``.IExports`` = jsNative
     type ScrollToMode = __components_List_examples_office_ui_fabric_react_lib_List.ScrollToMode
 
     type [<AllowNullLiteral>] IExports =
@@ -15608,7 +16057,6 @@ module __components_List_examples_List_Scrolling_Example =
         [<Emit "new $0($1...)">] abstract Create: props: IListScrollingExampleProps -> ListScrollingExample
 
 module __components_MarqueeSelection_examples_MarqueeSelection_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/MarqueeSelection/examples/MarqueeSelection.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract MarqueeSelectionBasicExample: MarqueeSelectionBasicExampleStatic
@@ -15632,10 +16080,11 @@ module __components_MarqueeSelection_examples_MarqueeSelection_Basic_Example =
         interface end
 
 module __components_MessageBar_examples_MessageBar_Basic_Example =
-    let [<Import("MessageBarBasicExample","office-ui-fabric-react")>] MessageBarBasicExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract MessageBarBasicExample: (unit -> JSX.Element)
 
 module __components_Modal_examples_Modal_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Modal/examples/Modal.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ModalBasicExample: ModalBasicExampleStatic
@@ -15653,7 +16102,6 @@ module __components_Modal_examples_Modal_Basic_Example =
         interface end
 
 module __components_Nav_examples_Nav_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Nav/examples/Nav.Basic.Example")>] : ``.IExports`` = jsNative
     type INavProps = __components_Nav_examples_office_ui_fabric_react_lib_Nav.INavProps
 
     type [<AllowNullLiteral>] IExports =
@@ -15669,7 +16117,6 @@ module __components_Nav_examples_Nav_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: props: INavProps -> NavBasicExample
 
 module __components_Nav_examples_Nav_ByKeys_Example =
-    let [<Import("","office-ui-fabric-react/components/Nav/examples/Nav.ByKeys.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract NavByKeysExample: NavByKeysExampleStatic
@@ -15682,7 +16129,6 @@ module __components_Nav_examples_Nav_ByKeys_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> NavByKeysExample
 
 module __components_Nav_examples_Nav_FabricDemoApp_Example =
-    let [<Import("","office-ui-fabric-react/components/Nav/examples/Nav.FabricDemoApp.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract NavFabricDemoAppExample: NavFabricDemoAppExampleStatic
@@ -15696,7 +16142,6 @@ module __components_Nav_examples_Nav_FabricDemoApp_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> NavFabricDemoAppExample
 
 module __components_Nav_examples_Nav_Nested_Example =
-    let [<Import("","office-ui-fabric-react/components/Nav/examples/Nav.Nested.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract NavNestedExample: NavNestedExampleStatic
@@ -15709,7 +16154,6 @@ module __components_Nav_examples_Nav_Nested_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> NavNestedExample
 
 module __components_OverflowSet_examples_OverflowSet_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/OverflowSet/examples/OverflowSet.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_OverflowSet_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -15725,7 +16169,6 @@ module __components_OverflowSet_examples_OverflowSet_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetBasicExample
 
 module __components_OverflowSet_examples_OverflowSet_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/OverflowSet/examples/OverflowSet.Custom.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_OverflowSet_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -15741,13 +16184,14 @@ module __components_OverflowSet_examples_OverflowSet_Custom_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetCustomExample
 
 module __components_OverflowSet_examples_OverflowSet_Example_scss =
-    let [<Import("overflowLinks","office-ui-fabric-react")>] overflowLinks: obj = jsNative
-    let [<Import("overflowButton","office-ui-fabric-react")>] overflowButton: obj = jsNative
-    let [<Import("isEnabled","office-ui-fabric-react")>] isEnabled: obj = jsNative
-    let [<Import("isOpened","office-ui-fabric-react")>] isOpened: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract overflowLinks: obj
+        abstract overflowButton: obj
+        abstract isEnabled: obj
+        abstract isOpened: obj
 
 module __components_OverflowSet_examples_OverflowSet_Vertical_Example =
-    let [<Import("","office-ui-fabric-react/components/OverflowSet/examples/OverflowSet.Vertical.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_OverflowSet_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -15763,7 +16207,6 @@ module __components_OverflowSet_examples_OverflowSet_Vertical_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetVerticalExample
 
 module __components_Overlay_examples_Overlay_Dark_Example =
-    let [<Import("","office-ui-fabric-react/components/Overlay/examples/Overlay.Dark.Example")>] : ``.IExports`` = jsNative
     type IStyleFunction = Utilities.IStyleFunction
     type IOverlayExampleStyles = __components_Overlay_examples_Overlay_Example_styles.IOverlayExampleStyles
 
@@ -15787,13 +16230,14 @@ module __components_Overlay_examples_Overlay_Dark_Example =
 
 module __components_Overlay_examples_Overlay_Example_styles =
     type IStyle = Styling.IStyle
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (unit -> IOverlayExampleStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (unit -> IOverlayExampleStyles)
 
     type [<AllowNullLiteral>] IOverlayExampleStyles =
         abstract root: IStyle with get, set
 
 module __components_Overlay_examples_Overlay_Light_Example =
-    let [<Import("","office-ui-fabric-react/components/Overlay/examples/Overlay.Light.Example")>] : ``.IExports`` = jsNative
     type IStyleFunction = Utilities.IStyleFunction
     type IOverlayExampleStyles = __components_Overlay_examples_Overlay_Example_styles.IOverlayExampleStyles
 
@@ -15816,7 +16260,6 @@ module __components_Overlay_examples_Overlay_Light_Example =
         interface end
 
 module __components_Panel_examples_Panel_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.Custom.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelCustomExample: PanelCustomExampleStatic
@@ -15834,7 +16277,6 @@ module __components_Panel_examples_Panel_Custom_Example =
         interface end
 
 module __components_Panel_examples_Panel_ExtraLarge_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.ExtraLarge.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelExtraLargeExample: PanelExtraLargeExampleStatic
@@ -15850,7 +16292,6 @@ module __components_Panel_examples_Panel_ExtraLarge_Example =
         interface end
 
 module __components_Panel_examples_Panel_Footer_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.Footer.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelFooterExample: PanelFooterExampleStatic
@@ -15869,7 +16310,6 @@ module __components_Panel_examples_Panel_Footer_Example =
         interface end
 
 module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.HiddenOnDismiss.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelHiddenOnDismissExample: PanelHiddenOnDismissExampleStatic
@@ -15887,7 +16327,6 @@ module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
         interface end
 
 module __components_Panel_examples_Panel_Large_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.Large.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLargeExample: PanelLargeExampleStatic
@@ -15903,7 +16342,6 @@ module __components_Panel_examples_Panel_Large_Example =
         interface end
 
 module __components_Panel_examples_Panel_LargeFixed_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.LargeFixed.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLargeFixedExample: PanelLargeFixedExampleStatic
@@ -15921,7 +16359,6 @@ module __components_Panel_examples_Panel_LargeFixed_Example =
         interface end
 
 module __components_Panel_examples_Panel_LightDismiss_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.LightDismiss.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLightDismissExample: PanelLightDismissExampleStatic
@@ -15939,7 +16376,6 @@ module __components_Panel_examples_Panel_LightDismiss_Example =
         interface end
 
 module __components_Panel_examples_Panel_LightDismissCustom_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.LightDismissCustom.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLightDismissCustomExample: PanelLightDismissCustomExampleStatic
@@ -15960,7 +16396,6 @@ module __components_Panel_examples_Panel_LightDismissCustom_Example =
         interface end
 
 module __components_Panel_examples_Panel_Medium_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.Medium.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelMediumExample: PanelMediumExampleStatic
@@ -15977,7 +16412,6 @@ module __components_Panel_examples_Panel_Medium_Example =
         interface end
 
 module __components_Panel_examples_Panel_NonModal_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.NonModal.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelNonModalExample: PanelNonModalExampleStatic
@@ -15994,7 +16428,6 @@ module __components_Panel_examples_Panel_NonModal_Example =
         interface end
 
 module __components_Panel_examples_Panel_SmallFluid_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.SmallFluid.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelSmallFluidExample: PanelSmallFluidExampleStatic
@@ -16010,7 +16443,6 @@ module __components_Panel_examples_Panel_SmallFluid_Example =
         interface end
 
 module __components_Panel_examples_Panel_SmallLeft_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.SmallLeft.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelSmallLeftExample: PanelSmallLeftExampleStatic
@@ -16026,7 +16458,6 @@ module __components_Panel_examples_Panel_SmallLeft_Example =
         interface end
 
 module __components_Panel_examples_Panel_SmallRight_Example =
-    let [<Import("","office-ui-fabric-react/components/Panel/examples/Panel.SmallRight.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelSmallRightExample: PanelSmallRightExampleStatic
@@ -16045,7 +16476,6 @@ module __components_Panel_examples_Panel_SmallRight_Example =
         interface end
 
 module __components_Persona_examples_Persona_Alternate_Example =
-    let [<Import("","office-ui-fabric-react/components/Persona/examples/Persona.Alternate.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaAlternateExample: PersonaAlternateExampleStatic
@@ -16061,7 +16491,6 @@ module __components_Persona_examples_Persona_Alternate_Example =
         interface end
 
 module __components_Persona_examples_Persona_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Persona/examples/Persona.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaBasicExample: PersonaBasicExampleStatic
@@ -16078,7 +16507,6 @@ module __components_Persona_examples_Persona_Basic_Example =
         interface end
 
 module __components_Persona_examples_Persona_CustomCoinRender_Example =
-    let [<Import("","office-ui-fabric-react/components/Persona/examples/Persona.CustomCoinRender.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaCustomCoinRenderExample: PersonaCustomCoinRenderExampleStatic
@@ -16092,7 +16520,6 @@ module __components_Persona_examples_Persona_CustomCoinRender_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PersonaCustomCoinRenderExample
 
 module __components_Persona_examples_Persona_CustomRender_Example =
-    let [<Import("","office-ui-fabric-react/components/Persona/examples/Persona.CustomRender.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaCustomRenderExample: PersonaCustomRenderExampleStatic
@@ -16106,7 +16533,6 @@ module __components_Persona_examples_Persona_CustomRender_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PersonaCustomRenderExample
 
 module __components_Persona_examples_Persona_Initials_Example =
-    let [<Import("","office-ui-fabric-react/components/Persona/examples/Persona.Initials.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaInitialsExample: PersonaInitialsExampleStatic
@@ -16119,7 +16545,6 @@ module __components_Persona_examples_Persona_Initials_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PersonaInitialsExample
 
 module __components_Persona_examples_Persona_UnknownPersona_Example =
-    let [<Import("","office-ui-fabric-react/components/Persona/examples/Persona.UnknownPersona.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract UnknownPersonaExample: UnknownPersonaExampleStatic
@@ -16132,7 +16557,6 @@ module __components_Persona_examples_Persona_UnknownPersona_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> UnknownPersonaExample
 
 module __components_Persona_PersonaCoin_PersonaCoin_base =
-    let [<Import("","office-ui-fabric-react/components/Persona/PersonaCoin/PersonaCoin.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPersonaCoinProps = __components_Persona_Persona_types.IPersonaCoinProps
 
@@ -16160,13 +16584,20 @@ module __components_Persona_PersonaCoin_PersonaCoin_base =
     type [<AllowNullLiteral>] PersonaCoinBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPersonaCoinProps -> PersonaCoinBase
 
+module __components_Persona_PersonaCoin_PersonaCoin =
+    type IPersonaCoinProps = __components_Persona_Persona_types.IPersonaCoinProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PersonaCoin: (IPersonaCoinProps -> JSX.Element)
+
 module __components_Persona_PersonaCoin_PersonaCoin_styles =
     type IPersonaCoinStyleProps = __components_Persona_Persona_types.IPersonaCoinStyleProps
     type IPersonaCoinStyles = __components_Persona_Persona_types.IPersonaCoinStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IPersonaCoinStyleProps -> IPersonaCoinStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IPersonaCoinStyleProps -> IPersonaCoinStyles)
 
 module __components_Persona_PersonaPresence_PersonaPresence_base =
-    let [<Import("","office-ui-fabric-react/components/Persona/PersonaPresence/PersonaPresence.base")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPersonaPresenceProps = __components_Persona_Persona_types.IPersonaPresenceProps
 
@@ -16186,10 +16617,18 @@ module __components_Persona_PersonaPresence_PersonaPresence_base =
     type [<AllowNullLiteral>] PersonaPresenceBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPersonaPresenceProps -> PersonaPresenceBase
 
+module __components_Persona_PersonaPresence_PersonaPresence =
+    type IPersonaPresenceProps = __components_Persona_Persona_types.IPersonaPresenceProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PersonaPresence: (IPersonaPresenceProps -> JSX.Element)
+
 module __components_Persona_PersonaPresence_PersonaPresence_styles =
     type IPersonaPresenceStyleProps = __components_Persona_Persona_types.IPersonaPresenceStyleProps
     type IPersonaPresenceStyles = __components_Persona_Persona_types.IPersonaPresenceStyles
-    let [<Import("getStyles","office-ui-fabric-react")>] getStyles: (IPersonaPresenceStyleProps -> IPersonaPresenceStyles) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract getStyles: (IPersonaPresenceStyleProps -> IPersonaPresenceStyles)
 
 module __components_pickers_examples_ITagPickerDemoPageState =
 
@@ -16197,7 +16636,6 @@ module __components_pickers_examples_ITagPickerDemoPageState =
         abstract isPickerDisabled: bool option with get, set
 
 module __components_pickers_examples_Picker_CustomResult_Example =
-    let [<Import("","office-ui-fabric-react/components/pickers/examples/Picker.CustomResult.Example")>] : ``.IExports`` = jsNative
     type IDocumentCardActionsProps = __components_pickers_examples_office_ui_fabric_react_lib_DocumentCard.IDocumentCardActionsProps
     type IDocumentCardPreviewProps = __components_pickers_examples_office_ui_fabric_react_lib_DocumentCard.IDocumentCardPreviewProps
     type IDocumentCardProps = __components_pickers_examples_office_ui_fabric_react_lib_DocumentCard.IDocumentCardProps
@@ -16207,11 +16645,11 @@ module __components_pickers_examples_Picker_CustomResult_Example =
     type BasePickerListBelow = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.BasePickerListBelow
     type IPickerItemProps = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.IPickerItemProps
     type ISuggestionItemProps = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.ISuggestionItemProps
-    let [<Import("SuggestedDocumentItem","office-ui-fabric-react")>] SuggestedDocumentItem: (IFullDocumentCardProps -> JSX.Element) = jsNative
-    let [<Import("SuggestedBigItem","office-ui-fabric-react")>] SuggestedBigItem: (IFullDocumentCardProps -> ISuggestionItemProps<obj option> -> JSX.Element) = jsNative
-    let [<Import("SelectedDocumentItem","office-ui-fabric-react")>] SelectedDocumentItem: (IPickerItemProps<IFullDocumentCardProps> -> JSX.Element) = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract SuggestedDocumentItem: (IFullDocumentCardProps -> JSX.Element)
+        abstract SuggestedBigItem: (IFullDocumentCardProps -> ISuggestionItemProps<obj option> -> JSX.Element)
+        abstract SelectedDocumentItem: (IPickerItemProps<IFullDocumentCardProps> -> JSX.Element)
         abstract DocumentPicker: DocumentPickerStatic
         abstract PickerCustomResultExample: PickerCustomResultExampleStatic
 
@@ -16254,7 +16692,6 @@ module __components_pickers_examples_Picker_CustomResult_Example =
         interface end
 
 module __components_pickers_examples_TagPicker_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/pickers/examples/TagPicker.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ITagPickerDemoPageState = __components_pickers_examples_office_ui_fabric_react_lib_components_pickers_examples_ITagPickerDemoPageState.ITagPickerDemoPageState
 
@@ -16278,8 +16715,13 @@ module __components_pickers_examples_TagPicker_Basic_Example =
     type [<AllowNullLiteral>] TagPickerBasicExampleStaticProps =
         interface end
 
+module __components_pickers_PeoplePicker_PeoplePicker_checklist =
+    type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
+
+    type [<AllowNullLiteral>] IExports =
+        abstract PeoplePickerStatus: obj
+
 module __components_pickers_PeoplePicker_PeoplePicker =
-    let [<Import("","office-ui-fabric-react/components/pickers/PeoplePicker/PeoplePicker")>] : ``.IExports`` = jsNative
     type BasePicker = __components_pickers_BasePicker.BasePicker
     type BasePickerListBelow = __components_pickers_BasePicker.BasePickerListBelow
     type IBasePickerProps = __components_pickers_BasePicker_types.IBasePickerProps
@@ -16344,14 +16786,15 @@ module __components_pickers_PeoplePicker_PeoplePicker =
         abstract ValidationState: ValidationState with get, set
 
 module __components_pickers_PeoplePicker_PeoplePicker_scss =
-    let [<Import("resultContent","office-ui-fabric-react")>] resultContent: obj = jsNative
-    let [<Import("resultItem","office-ui-fabric-react")>] resultItem: obj = jsNative
-    let [<Import("peoplePickerPersona","office-ui-fabric-react")>] peoplePickerPersona: obj = jsNative
-    let [<Import("peoplePicker","office-ui-fabric-react")>] peoplePicker: obj = jsNative
-    let [<Import("peoplePickerPersonaContent","office-ui-fabric-react")>] peoplePickerPersonaContent: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract resultContent: obj
+        abstract resultItem: obj
+        abstract peoplePickerPersona: obj
+        abstract peoplePicker: obj
+        abstract peoplePickerPersonaContent: obj
 
 module __components_pickers_PeoplePicker_PeoplePickerPage =
-    let [<Import("","office-ui-fabric-react/components/pickers/PeoplePicker/PeoplePickerPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_pickers_PeoplePicker_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -16365,7 +16808,6 @@ module __components_pickers_PeoplePicker_PeoplePickerPage =
         [<Emit "new $0($1...)">] abstract Create: unit -> PeoplePickerPage
 
 module __components_pickers_Suggestions_Suggestions =
-    let [<Import("","office-ui-fabric-react/components/pickers/Suggestions/Suggestions")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IButton = Button.IButton
     type ISuggestionItemProps = __components_pickers_Suggestions_Suggestions_types.ISuggestionItemProps
@@ -16421,18 +16863,20 @@ module __components_pickers_Suggestions_Suggestions =
         [<Emit "new $0($1...)">] abstract Create: suggestionsProps: ISuggestionsProps<'T> -> Suggestions<'T>
 
 module __components_pickers_Suggestions_Suggestions_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("suggestionsItem","office-ui-fabric-react")>] suggestionsItem: obj = jsNative
-    let [<Import("closeButton","office-ui-fabric-react")>] closeButton: obj = jsNative
-    let [<Import("suggestionsItemIsSuggested","office-ui-fabric-react")>] suggestionsItemIsSuggested: obj = jsNative
-    let [<Import("itemButton","office-ui-fabric-react")>] itemButton: obj = jsNative
-    let [<Import("actionButton","office-ui-fabric-react")>] actionButton: obj = jsNative
-    let [<Import("buttonSelected","office-ui-fabric-react")>] buttonSelected: obj = jsNative
-    let [<Import("suggestionsTitle","office-ui-fabric-react")>] suggestionsTitle: obj = jsNative
-    let [<Import("suggestionsContainer","office-ui-fabric-react")>] suggestionsContainer: obj = jsNative
-    let [<Import("suggestionsNone","office-ui-fabric-react")>] suggestionsNone: obj = jsNative
-    let [<Import("suggestionsSpinner","office-ui-fabric-react")>] suggestionsSpinner: obj = jsNative
-    let [<Import("suggestionsAvailable","office-ui-fabric-react")>] suggestionsAvailable: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract suggestionsItem: obj
+        abstract closeButton: obj
+        abstract suggestionsItemIsSuggested: obj
+        abstract itemButton: obj
+        abstract actionButton: obj
+        abstract buttonSelected: obj
+        abstract suggestionsTitle: obj
+        abstract suggestionsContainer: obj
+        abstract suggestionsNone: obj
+        abstract suggestionsSpinner: obj
+        abstract suggestionsAvailable: obj
 
 module __components_pickers_Suggestions_Suggestions_types =
     type ISuggestionModel = __components_pickers_Suggestions_SuggestionsController.ISuggestionModel
@@ -16522,7 +16966,6 @@ module __components_pickers_Suggestions_Suggestions_types =
         abstract removeButtonAriaLabel: string option with get, set
 
 module __components_pickers_Suggestions_SuggestionsController =
-    let [<Import("","office-ui-fabric-react/components/pickers/Suggestions/SuggestionsController")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestionsController: SuggestionsControllerStatic
@@ -16559,22 +17002,25 @@ module __components_pickers_Suggestions_SuggestionsController =
 module __components_pickers_TagPicker_TagItem =
     type IPickerItemProps = __components_pickers_PickerItem_types.IPickerItemProps
     type ITag = __components_pickers_TagPicker_TagPicker.ITag
-    let [<Import("TagItem","office-ui-fabric-react")>] TagItem: (ITagItemProps -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract TagItem: (ITagItemProps -> JSX.Element)
 
     type [<AllowNullLiteral>] ITagItemProps =
         inherit IPickerItemProps<ITag>
         abstract enableTagFocusInDisabledPicker: bool option with get, set
 
 module __components_pickers_TagPicker_TagItem_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("isSelected","office-ui-fabric-react")>] isSelected: obj = jsNative
-    let [<Import("tagItemText","office-ui-fabric-react")>] tagItemText: obj = jsNative
-    let [<Import("tagItemClose","office-ui-fabric-react")>] tagItemClose: obj = jsNative
-    let [<Import("tagItemButton","office-ui-fabric-react")>] tagItemButton: obj = jsNative
-    let [<Import("tagItemTextOverflow","office-ui-fabric-react")>] tagItemTextOverflow: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract isSelected: obj
+        abstract tagItemText: obj
+        abstract tagItemClose: obj
+        abstract tagItemButton: obj
+        abstract tagItemTextOverflow: obj
 
 module __components_pickers_TagPicker_TagPicker =
-    let [<Import("","office-ui-fabric-react/components/pickers/TagPicker/TagPicker")>] : ``.IExports`` = jsNative
     type BasePicker = __components_pickers_BasePicker.BasePicker
     type IBasePickerProps = __components_pickers_BasePicker_types.IBasePickerProps
     type ITagItemProps = __components_pickers_TagPicker_TagItem.ITagItemProps
@@ -16597,7 +17043,6 @@ module __components_pickers_TagPicker_TagPicker =
         [<Emit "new $0($1...)">] abstract Create: unit -> TagPicker
 
 module __components_Pivot_examples_Pivot_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotBasicExample: PivotBasicExampleStatic
@@ -16610,7 +17055,6 @@ module __components_Pivot_examples_Pivot_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotBasicExample
 
 module __components_Pivot_examples_Pivot_Fabric_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Fabric.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotFabricExample: PivotFabricExampleStatic
@@ -16623,7 +17067,6 @@ module __components_Pivot_examples_Pivot_Fabric_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotFabricExample
 
 module __components_Pivot_examples_Pivot_IconCount_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.IconCount.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotIconCountExample: PivotIconCountExampleStatic
@@ -16637,7 +17080,6 @@ module __components_Pivot_examples_Pivot_IconCount_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotIconCountExample
 
 module __components_Pivot_examples_Pivot_Large_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Large.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotLargeExample: PivotLargeExampleStatic
@@ -16650,7 +17092,6 @@ module __components_Pivot_examples_Pivot_Large_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotLargeExample
 
 module __components_Pivot_examples_Pivot_OnChange_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.OnChange.Example")>] : ``.IExports`` = jsNative
     type PivotItem = __components_Pivot_examples_office_ui_fabric_react_lib_Pivot.PivotItem
 
     type [<AllowNullLiteral>] IExports =
@@ -16665,7 +17106,6 @@ module __components_Pivot_examples_Pivot_OnChange_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotOnChangeExample
 
 module __components_Pivot_examples_Pivot_Override_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Override.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotOverrideExample: PivotOverrideExampleStatic
@@ -16679,7 +17119,6 @@ module __components_Pivot_examples_Pivot_Override_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> PivotOverrideExample
 
 module __components_Pivot_examples_Pivot_Remove_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Remove.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotRemoveExample: PivotRemoveExampleStatic
@@ -16697,7 +17136,6 @@ module __components_Pivot_examples_Pivot_Remove_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> PivotRemoveExample
 
 module __components_Pivot_examples_Pivot_Separate_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Separate.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotSeparateExample: PivotSeparateExampleStatic
@@ -16713,7 +17151,6 @@ module __components_Pivot_examples_Pivot_Separate_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotSeparateExample
 
 module __components_Pivot_examples_Pivot_Tabs_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.Tabs.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotTabsExample: PivotTabsExampleStatic
@@ -16726,7 +17163,6 @@ module __components_Pivot_examples_Pivot_Tabs_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotTabsExample
 
 module __components_Pivot_examples_Pivot_TabsLarge_Example =
-    let [<Import("","office-ui-fabric-react/components/Pivot/examples/Pivot.TabsLarge.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PivotTabsLargeExample: PivotTabsLargeExampleStatic
@@ -16739,7 +17175,6 @@ module __components_Pivot_examples_Pivot_TabsLarge_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotTabsLargeExample
 
 module __components_ProgressIndicator_examples_ProgressIndicator_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/ProgressIndicator/examples/ProgressIndicator.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ProgressIndicatorBasicExample: ProgressIndicatorBasicExampleStatic
@@ -16763,7 +17198,6 @@ module __components_ProgressIndicator_examples_ProgressIndicator_Basic_Example =
         interface end
 
 module __components_ProgressIndicator_examples_ProgressIndicator_Indeterminate_Example =
-    let [<Import("","office-ui-fabric-react/components/ProgressIndicator/examples/ProgressIndicator.Indeterminate.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ProgressIndicatorIndeterminateExample: ProgressIndicatorIndeterminateExampleStatic
@@ -16779,7 +17213,6 @@ module __components_ProgressIndicator_examples_ProgressIndicator_Indeterminate_E
         interface end
 
 module __components_Rating_examples_Rating_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Rating/examples/Rating.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract RatingBasicExample: RatingBasicExampleStatic
@@ -16801,10 +17234,11 @@ module __components_Rating_examples_Rating_Basic_Example =
         interface end
 
 module __components_Rating_examples_Rating_Basic_Example_scss =
-    let [<Import("dummy","office-ui-fabric-react")>] dummy: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract dummy: obj
 
 module __components_Rating_examples_Rating_ButtonControlled_Example =
-    let [<Import("","office-ui-fabric-react/components/Rating/examples/Rating.ButtonControlled.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract RatingButtonControlledExample: RatingButtonControlledExampleStatic
@@ -16820,14 +17254,15 @@ module __components_Rating_examples_Rating_ButtonControlled_Example =
         interface end
 
 module __components_ResizeGroup_examples_ResizeGroup_Example_scss =
-    let [<Import("root","office-ui-fabric-react")>] root: obj = jsNative
-    let [<Import("resizeIsShort","office-ui-fabric-react")>] resizeIsShort: obj = jsNative
-    let [<Import("buttonGroup","office-ui-fabric-react")>] buttonGroup: obj = jsNative
-    let [<Import("settingsGroup","office-ui-fabric-react")>] settingsGroup: obj = jsNative
-    let [<Import("itemCountDropdown","office-ui-fabric-react")>] itemCountDropdown: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract root: obj
+        abstract resizeIsShort: obj
+        abstract buttonGroup: obj
+        abstract settingsGroup: obj
+        abstract itemCountDropdown: obj
 
 module __components_ResizeGroup_examples_ResizeGroup_FlexBox_Example =
-    let [<Import("","office-ui-fabric-react/components/ResizeGroup/examples/ResizeGroup.FlexBox.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_ResizeGroup_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -16841,7 +17276,6 @@ module __components_ResizeGroup_examples_ResizeGroup_FlexBox_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> FlexBoxResizeGroupExample
 
 module __components_ResizeGroup_examples_ResizeGroup_OverflowSet_Example =
-    let [<Import("","office-ui-fabric-react/components/ResizeGroup/examples/ResizeGroup.OverflowSet.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_ResizeGroup_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IContextualMenuItem = __components_ResizeGroup_examples_office_ui_fabric_react_lib_ContextualMenu.IContextualMenuItem
 
@@ -16877,7 +17311,6 @@ module __components_ResizeGroup_examples_ResizeGroup_OverflowSet_Example =
         interface end
 
 module __components_ScrollablePane_examples_ScrollablePane_Default_Example =
-    let [<Import("","office-ui-fabric-react/components/ScrollablePane/examples/ScrollablePane.Default.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollablePaneDefaultExample: ScrollablePaneDefaultExampleStatic
@@ -16891,7 +17324,6 @@ module __components_ScrollablePane_examples_ScrollablePane_Default_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> ScrollablePaneDefaultExample
 
 module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
-    let [<Import("","office-ui-fabric-react/components/ScrollablePane/examples/ScrollablePane.DetailsList.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollablePaneDetailsListExample: ScrollablePaneDetailsListExampleStatic
@@ -16909,7 +17341,6 @@ module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
         interface end
 
 module __components_SearchBox_examples_SearchBox_Disabled_Example =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/examples/SearchBox.Disabled.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SearchBoxDisabledExample: SearchBoxDisabledExampleStatic
@@ -16922,7 +17353,6 @@ module __components_SearchBox_examples_SearchBox_Disabled_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SearchBoxDisabledExample
 
 module __components_SearchBox_examples_SearchBox_FullSize_Example =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/examples/SearchBox.FullSize.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SearchBoxFullSizeExample: SearchBoxFullSizeExampleStatic
@@ -16935,7 +17365,6 @@ module __components_SearchBox_examples_SearchBox_FullSize_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SearchBoxFullSizeExample
 
 module __components_SearchBox_examples_SearchBox_Small_Example =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/examples/SearchBox.Small.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SearchBoxSmallExample: SearchBoxSmallExampleStatic
@@ -16948,7 +17377,6 @@ module __components_SearchBox_examples_SearchBox_Small_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SearchBoxSmallExample
 
 module __components_SearchBox_examples_SearchBox_Underlined_Example =
-    let [<Import("","office-ui-fabric-react/components/SearchBox/examples/SearchBox.Underlined.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SearchBoxUnderlinedExample: SearchBoxUnderlinedExampleStatic
@@ -16961,7 +17389,6 @@ module __components_SearchBox_examples_SearchBox_Underlined_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SearchBoxUnderlinedExample
 
 module __components_SelectedItemsList_examples_SelectedPeopleList_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/examples/SelectedPeopleList.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_SelectedItemsList_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -16987,10 +17414,11 @@ module __components_SelectedItemsList_examples_SelectedPeopleList_Basic_Example 
         [<Emit "new $0($1...)">] abstract Create: unit -> PeopleSelectedItemsListExample
 
 module __components_SelectedItemsList_examples_SelectedPeopleList_Basic_Example_scss =
-    let [<Import("persona","office-ui-fabric-react")>] persona: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract persona: obj
 
 module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/SelectedPeopleList/SelectedPeopleList")>] : ``.IExports`` = jsNative
     type BaseSelectedItemsList = __components_SelectedItemsList_BaseSelectedItemsList.BaseSelectedItemsList
     type IBaseSelectedItemsListProps = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsListProps
     type ISelectedItemProps = __components_SelectedItemsList_BaseSelectedItemsList_types.ISelectedItemProps
@@ -17048,7 +17476,6 @@ module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList =
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectedPeopleList
 
 module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleListPage =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/SelectedPeopleList/SelectedPeopleListPage")>] : ``.IExports`` = jsNative
     type IComponentDemoPageProps = __components_SelectedItemsList_SelectedPeopleList_@uifabric_example_app_base.IComponentDemoPageProps
 
     type [<AllowNullLiteral>] IExports =
@@ -17062,7 +17489,6 @@ module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleListPage 
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectedPeopleListPage
 
 module __components_Slider_examples_Slider_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Slider/examples/Slider.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SliderBasicExample: SliderBasicExampleStatic
@@ -17078,7 +17504,6 @@ module __components_Slider_examples_Slider_Basic_Example =
         interface end
 
 module __components_SpinButton_examples_SpinButton_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonBasicExample: SpinButtonBasicExampleStatic
@@ -17091,7 +17516,6 @@ module __components_SpinButton_examples_SpinButton_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonBasicExample
 
 module __components_SpinButton_examples_SpinButton_BasicDisabled_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.BasicDisabled.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonBasicDisabledExample: SpinButtonBasicDisabledExampleStatic
@@ -17104,7 +17528,6 @@ module __components_SpinButton_examples_SpinButton_BasicDisabled_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonBasicDisabledExample
 
 module __components_SpinButton_examples_SpinButton_BasicWithEndPosition_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.BasicWithEndPosition.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonBasicWithEndPositionExample: SpinButtonBasicWithEndPositionExampleStatic
@@ -17117,7 +17540,6 @@ module __components_SpinButton_examples_SpinButton_BasicWithEndPosition_Example 
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonBasicWithEndPositionExample
 
 module __components_SpinButton_examples_SpinButton_BasicWithIcon_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.BasicWithIcon.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonBasicWithIconExample: SpinButtonBasicWithIconExampleStatic
@@ -17130,7 +17552,6 @@ module __components_SpinButton_examples_SpinButton_BasicWithIcon_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonBasicWithIconExample
 
 module __components_SpinButton_examples_SpinButton_BasicWithIconDisabled_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.BasicWithIconDisabled.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonBasicWithIconDisabledExample: SpinButtonBasicWithIconDisabledExampleStatic
@@ -17143,7 +17564,6 @@ module __components_SpinButton_examples_SpinButton_BasicWithIconDisabled_Example
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonBasicWithIconDisabledExample
 
 module __components_SpinButton_examples_SpinButton_CustomStyled_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.CustomStyled.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonCustomStyledExample: SpinButtonCustomStyledExampleStatic
@@ -17156,7 +17576,6 @@ module __components_SpinButton_examples_SpinButton_CustomStyled_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonCustomStyledExample
 
 module __components_SpinButton_examples_SpinButton_Stateful_Example =
-    let [<Import("","office-ui-fabric-react/components/SpinButton/examples/SpinButton.Stateful.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinButtonStatefulExample: SpinButtonStatefulExampleStatic
@@ -17171,7 +17590,6 @@ module __components_SpinButton_examples_SpinButton_Stateful_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonStatefulExample
 
 module __components_Spinner_examples_Spinner_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Spinner/examples/Spinner.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SpinnerBasicExample: SpinnerBasicExampleStatic
@@ -17184,7 +17602,6 @@ module __components_Spinner_examples_Spinner_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinnerBasicExample
 
 module __components_SwatchColorPicker_examples_SwatchColorPicker_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/SwatchColorPicker/examples/SwatchColorPicker.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract SwatchColorPickerBasicExample: SwatchColorPickerBasicExampleStatic
@@ -17203,7 +17620,6 @@ module __components_SwatchColorPicker_examples_SwatchColorPicker_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> SwatchColorPickerBasicExample
 
 module __components_TeachingBubble_examples_TeachingBubble_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/examples/TeachingBubble.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TeachingBubbleBasicExample: TeachingBubbleBasicExampleStatic
@@ -17224,7 +17640,6 @@ module __components_TeachingBubble_examples_TeachingBubble_Basic_Example =
         interface end
 
 module __components_TeachingBubble_examples_TeachingBubble_Condensed_Example =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/examples/TeachingBubble.Condensed.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TeachingBubbleCondensedExample: TeachingBubbleCondensedExampleStatic
@@ -17245,7 +17660,6 @@ module __components_TeachingBubble_examples_TeachingBubble_Condensed_Example =
         interface end
 
 module __components_TeachingBubble_examples_TeachingBubble_Illustration_Example =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/examples/TeachingBubble.Illustration.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TeachingBubbleIllustrationExample: TeachingBubbleIllustrationExampleStatic
@@ -17266,7 +17680,6 @@ module __components_TeachingBubble_examples_TeachingBubble_Illustration_Example 
         interface end
 
 module __components_TeachingBubble_examples_TeachingBubble_SmallHeadline_Example =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/examples/TeachingBubble.SmallHeadline.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TeachingBubbleSmallHeadlineExample: TeachingBubbleSmallHeadlineExampleStatic
@@ -17287,7 +17700,6 @@ module __components_TeachingBubble_examples_TeachingBubble_SmallHeadline_Example
         interface end
 
 module __components_TeachingBubble_examples_TeachingBubble_WideIllustration_Example =
-    let [<Import("","office-ui-fabric-react/components/TeachingBubble/examples/TeachingBubble.WideIllustration.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TeachingBubbleWideIllustrationExample: TeachingBubbleWideIllustrationExampleStatic
@@ -17308,7 +17720,6 @@ module __components_TeachingBubble_examples_TeachingBubble_WideIllustration_Exam
         interface end
 
 module __components_TextField_examples_NumberTextField =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/NumberTextField")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract NumberTextField: NumberTextFieldStatic
@@ -17331,7 +17742,6 @@ module __components_TextField_examples_NumberTextField =
         [<Emit "new $0($1...)">] abstract Create: props: INumberTextFieldProps -> NumberTextField
 
 module __components_TextField_examples_TextField_AllErrorMessage_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.AllErrorMessage.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldAllErrorMessageExample: TextFieldAllErrorMessageExampleStatic
@@ -17344,7 +17754,6 @@ module __components_TextField_examples_TextField_AllErrorMessage_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldAllErrorMessageExample
 
 module __components_TextField_examples_TextField_AutoComplete_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.AutoComplete.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldAutoCompleteExample: TextFieldAutoCompleteExampleStatic
@@ -17357,7 +17766,6 @@ module __components_TextField_examples_TextField_AutoComplete_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldAutoCompleteExample
 
 module __components_TextField_examples_TextField_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldBasicExample: TextFieldBasicExampleStatic
@@ -17370,7 +17778,6 @@ module __components_TextField_examples_TextField_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldBasicExample
 
 module __components_TextField_examples_TextField_Borderless_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Borderless.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldBorderlessExample: TextFieldBorderlessExampleStatic
@@ -17383,7 +17790,6 @@ module __components_TextField_examples_TextField_Borderless_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldBorderlessExample
 
 module __components_TextField_examples_TextField_CustomRender_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.CustomRender.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldCustomRenderExample: TextFieldCustomRenderExampleStatic
@@ -17403,7 +17809,6 @@ module __components_TextField_examples_TextField_CustomRender_Example =
         interface end
 
 module __components_TextField_examples_TextField_ErrorMessage_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.ErrorMessage.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldErrorMessageExample: TextFieldErrorMessageExampleStatic
@@ -17418,7 +17823,6 @@ module __components_TextField_examples_TextField_ErrorMessage_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> TextFieldErrorMessageExample
 
 module __components_TextField_examples_TextField_Icon_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Icon.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldIconExample: TextFieldIconExampleStatic
@@ -17432,7 +17836,6 @@ module __components_TextField_examples_TextField_Icon_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldIconExample
 
 module __components_TextField_examples_TextField_Multiline_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Multiline.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldMultilineExample: TextFieldMultilineExampleStatic
@@ -17445,7 +17848,6 @@ module __components_TextField_examples_TextField_Multiline_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldMultilineExample
 
 module __components_TextField_examples_TextField_OnRenderDescription_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.OnRenderDescription.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldOnRenderDescriptionExample: TextFieldOnRenderDescriptionExampleStatic
@@ -17460,7 +17862,6 @@ module __components_TextField_examples_TextField_OnRenderDescription_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldOnRenderDescriptionExample
 
 module __components_TextField_examples_TextField_Placeholder_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Placeholder.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldPlaceholderExample: TextFieldPlaceholderExampleStatic
@@ -17473,7 +17874,6 @@ module __components_TextField_examples_TextField_Placeholder_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldPlaceholderExample
 
 module __components_TextField_examples_TextField_Prefix_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Prefix.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldPrefixExample: TextFieldPrefixExampleStatic
@@ -17486,7 +17886,6 @@ module __components_TextField_examples_TextField_Prefix_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldPrefixExample
 
 module __components_TextField_examples_TextField_PrefixAndSuffix_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.PrefixAndSuffix.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldPrefixAndSuffixExample: TextFieldPrefixAndSuffixExampleStatic
@@ -17499,7 +17898,6 @@ module __components_TextField_examples_TextField_PrefixAndSuffix_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldPrefixAndSuffixExample
 
 module __components_TextField_examples_TextField_Suffix_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Suffix.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldSuffixExample: TextFieldSuffixExampleStatic
@@ -17512,7 +17910,6 @@ module __components_TextField_examples_TextField_Suffix_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldSuffixExample
 
 module __components_TextField_examples_TextField_Underlined_Example =
-    let [<Import("","office-ui-fabric-react/components/TextField/examples/TextField.Underlined.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract TextFieldUnderlinedExample: TextFieldUnderlinedExampleStatic
@@ -17525,13 +17922,12 @@ module __components_TextField_examples_TextField_Underlined_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldUnderlinedExample
 
 module __components_TextField_MaskedTextField_MaskedTextField =
-    let [<Import("","office-ui-fabric-react/components/TextField/MaskedTextField/MaskedTextField")>] : ``.IExports`` = jsNative
     type ITextField = __components_TextField_TextField_types.ITextField
     type ITextFieldProps = __components_TextField_TextField_types.ITextFieldProps
     type BaseComponent = Utilities.BaseComponent
-    let [<Import("DEFAULT_MASK_CHAR","office-ui-fabric-react")>] DEFAULT_MASK_CHAR: obj = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract DEFAULT_MASK_CHAR: obj
         abstract MaskedTextField: MaskedTextFieldStatic
 
     /// props.mask:
@@ -17595,13 +17991,16 @@ module __components_TextField_MaskedTextField_MaskedTextField =
         [<Emit "new $0($1...)">] abstract Create: props: ITextFieldProps -> MaskedTextField
 
 module __components_Toggle_examples_Toggle_AriaLabel_Example =
-    let [<Import("ToggleAriaLabelExample","office-ui-fabric-react")>] ToggleAriaLabelExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ToggleAriaLabelExample: (unit -> JSX.Element)
 
 module __components_Toggle_examples_Toggle_Basic_Example =
-    let [<Import("ToggleBasicExample","office-ui-fabric-react")>] ToggleBasicExample: (unit -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract ToggleBasicExample: (unit -> JSX.Element)
 
 module __components_Tooltip_examples_Tooltip_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/examples/Tooltip.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_Tooltip_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -17615,7 +18014,6 @@ module __components_Tooltip_examples_Tooltip_Basic_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TooltipBasicExample
 
 module __components_Tooltip_examples_Tooltip_Custom_Example =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/examples/Tooltip.Custom.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_Tooltip_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -17629,7 +18027,6 @@ module __components_Tooltip_examples_Tooltip_Custom_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TooltipCustomExample
 
 module __components_Tooltip_examples_Tooltip_Interactive_Example =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/examples/Tooltip.Interactive.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_Tooltip_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -17643,7 +18040,6 @@ module __components_Tooltip_examples_Tooltip_Interactive_Example =
         [<Emit "new $0($1...)">] abstract Create: unit -> TooltipInteractiveExample
 
 module __components_Tooltip_examples_Tooltip_Overflow_Example =
-    let [<Import("","office-ui-fabric-react/components/Tooltip/examples/Tooltip.Overflow.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_Tooltip_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
 
     type [<AllowNullLiteral>] IExports =
@@ -17662,7 +18058,6 @@ module __components_Tooltip_examples_Tooltip_Overflow_Example =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> TooltipOverflowExample
 
 module __utilities_selection_examples_Selection_Basic_Example =
-    let [<Import("","office-ui-fabric-react/utilities/selection/examples/Selection.Basic.Example")>] : ``.IExports`` = jsNative
     type ISelection = __utilities_selection_examples_office_ui_fabric_react_lib_Selection.ISelection
     type SelectionMode = __utilities_selection_examples_office_ui_fabric_react_lib_Selection.SelectionMode
 
@@ -17716,7 +18111,6 @@ module __utilities_selection_examples_Selection_Basic_Example =
         interface end
 
 module __components_Coachmark_PositioningContainer_examples_PositioningContainer_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/Coachmark/PositioningContainer/examples/PositioningContainer.Basic.Example")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PositioningContainerBasicExample: PositioningContainerBasicExampleStatic
@@ -17737,7 +18131,6 @@ module __components_Coachmark_PositioningContainer_examples_PositioningContainer
         interface end
 
 module __components_FloatingPicker_PeoplePicker_examples_FloatingPeoplePicker_Basic_Example =
-    let [<Import("","office-ui-fabric-react/components/FloatingPicker/PeoplePicker/examples/FloatingPeoplePicker.Basic.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_FloatingPicker_PeoplePicker_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IPersonaProps = __components_FloatingPicker_PeoplePicker_examples_office_ui_fabric_react_lib_Persona.IPersonaProps
 
@@ -17778,21 +18171,30 @@ module __components_FloatingPicker_PeoplePicker_examples_FloatingPeoplePicker_Ba
         interface end
 
 module __components_FloatingPicker_PeoplePicker_PeoplePickerItems_PickerItemsDefault_scss =
-    let [<Import("personaContainer","office-ui-fabric-react")>] personaContainer: obj = jsNative
-    let [<Import("removeButton","office-ui-fabric-react")>] removeButton: obj = jsNative
-    let [<Import("personaContainerIsSelected","office-ui-fabric-react")>] personaContainerIsSelected: obj = jsNative
-    let [<Import("validationError","office-ui-fabric-react")>] validationError: obj = jsNative
-    let [<Import("itemContent","office-ui-fabric-react")>] itemContent: obj = jsNative
-    let [<Import("personaDetails","office-ui-fabric-react")>] personaDetails: obj = jsNative
-    let [<Import("itemContainer","office-ui-fabric-react")>] itemContainer: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract personaContainer: obj
+        abstract removeButton: obj
+        abstract personaContainerIsSelected: obj
+        abstract validationError: obj
+        abstract itemContent: obj
+        abstract personaDetails: obj
+        abstract itemContainer: obj
+
+module __components_FloatingPicker_PeoplePicker_PeoplePickerItems_SelectedItemDefault =
+    type IPeoplePickerItemProps = ExtendedPicker.IPeoplePickerItemProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SelectedItemDefault: (IPeoplePickerItemProps -> JSX.Element)
 
 module __components_FloatingPicker_PeoplePicker_PeoplePickerItems_SuggestionItemDefault =
     type IPersonaProps = Persona.IPersonaProps
     type IBasePickerSuggestionsProps = Pickers.IBasePickerSuggestionsProps
-    let [<Import("SuggestionItemNormal","office-ui-fabric-react")>] SuggestionItemNormal: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SuggestionItemNormal: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element)
 
 module __components_pickers_PeoplePicker_examples_PeoplePicker_Types_Example =
-    let [<Import("","office-ui-fabric-react/components/pickers/PeoplePicker/examples/PeoplePicker.Types.Example")>] : ``.IExports`` = jsNative
     type BaseComponent = __components_pickers_PeoplePicker_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
     type IPersonaProps = __components_pickers_PeoplePicker_examples_office_ui_fabric_react_lib_Persona.IPersonaProps
 
@@ -17850,8 +18252,10 @@ module __components_pickers_PeoplePicker_examples_PeoplePicker_Types_Example =
 
 module __components_pickers_PeoplePicker_examples_PeoplePickerExampleData =
     type IPersonaProps = __components_pickers_PeoplePicker_examples_office_ui_fabric_react_lib_Persona.IPersonaProps
-    let [<Import("people","office-ui-fabric-react")>] people: ResizeArray<obj> = jsNative
-    let [<Import("mru","office-ui-fabric-react")>] mru: ResizeArray<IPersonaProps> = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract people: ResizeArray<obj>
+        abstract mru: ResizeArray<IPersonaProps>
 
 module __components_pickers_PeoplePicker_PeoplePickerItems_PeoplePickerItem_types =
     type IPersonaProps = Persona.IPersonaProps
@@ -17871,16 +18275,23 @@ module __components_pickers_PeoplePicker_PeoplePickerItems_PeoplePickerItem_type
         abstract menuItems: ResizeArray<IContextualMenuItem> option with get, set
 
 module __components_pickers_PeoplePicker_PeoplePickerItems_PickerItemsDefault_scss =
-    let [<Import("personaContainer","office-ui-fabric-react")>] personaContainer: obj = jsNative
-    let [<Import("removeButton","office-ui-fabric-react")>] removeButton: obj = jsNative
-    let [<Import("personaContainerIsSelected","office-ui-fabric-react")>] personaContainerIsSelected: obj = jsNative
-    let [<Import("validationError","office-ui-fabric-react")>] validationError: obj = jsNative
-    let [<Import("itemContent","office-ui-fabric-react")>] itemContent: obj = jsNative
-    let [<Import("personaDetails","office-ui-fabric-react")>] personaDetails: obj = jsNative
-    let [<Import("itemContainer","office-ui-fabric-react")>] itemContainer: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract personaContainer: obj
+        abstract removeButton: obj
+        abstract personaContainerIsSelected: obj
+        abstract validationError: obj
+        abstract itemContent: obj
+        abstract personaDetails: obj
+        abstract itemContainer: obj
+
+module __components_pickers_PeoplePicker_PeoplePickerItems_SelectedItemDefault =
+    type IPeoplePickerItemProps = __components_pickers_PeoplePicker_PeoplePickerItems_PeoplePickerItem_types.IPeoplePickerItemProps
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SelectedItemDefault: (IPeoplePickerItemProps -> JSX.Element)
 
 module __components_pickers_PeoplePicker_PeoplePickerItems_SelectedItemWithMenu =
-    let [<Import("","office-ui-fabric-react/components/pickers/PeoplePicker/PeoplePickerItems/SelectedItemWithMenu")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IPeoplePickerItemWithMenuProps = __components_pickers_PeoplePicker_PeoplePickerItems_PeoplePickerItem_types.IPeoplePickerItemWithMenuProps
 
@@ -17904,11 +18315,12 @@ module __components_pickers_PeoplePicker_PeoplePickerItems_SelectedItemWithMenu 
 module __components_pickers_PeoplePicker_PeoplePickerItems_SuggestionItemDefault =
     type IPersonaProps = Persona.IPersonaProps
     type IBasePickerSuggestionsProps = __components_pickers_PeoplePicker_PeoplePickerItems_office_ui_fabric_react_lib_Pickers.IBasePickerSuggestionsProps
-    let [<Import("SuggestionItemNormal","office-ui-fabric-react")>] SuggestionItemNormal: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element) = jsNative
-    let [<Import("SuggestionItemSmall","office-ui-fabric-react")>] SuggestionItemSmall: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element) = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract SuggestionItemNormal: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element)
+        abstract SuggestionItemSmall: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element)
 
 module __components_SelectedItemsList_SelectedPeopleList_Items_EditingItem =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/SelectedPeopleList/Items/EditingItem")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type IBaseFloatingPickerProps = FloatingPicker.IBaseFloatingPickerProps
     type ISelectedPeopleItemProps = __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList.ISelectedPeopleItemProps
@@ -17945,8 +18357,13 @@ module __components_SelectedItemsList_SelectedPeopleList_Items_EditingItem =
     type [<AllowNullLiteral>] EditingItemStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IEditingSelectedPeopleItemProps -> EditingItem
 
+module __components_SelectedItemsList_SelectedPeopleList_Items_EditingItem_scss =
+
+    type [<AllowNullLiteral>] IExports =
+        abstract editingInput: obj
+        abstract editingContainer: obj
+
 module __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedItem =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/SelectedPeopleList/Items/ExtendedSelectedItem")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type ISelectedPeopleItemProps = __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList.ISelectedPeopleItemProps
 
@@ -17966,20 +18383,21 @@ module __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedI
         [<Emit "new $0($1...)">] abstract Create: props: ISelectedPeopleItemProps -> ExtendedSelectedItem
 
 module __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedItem_scss =
-    let [<Import("personaContainer","office-ui-fabric-react")>] personaContainer: obj = jsNative
-    let [<Import("hover","office-ui-fabric-react")>] hover: obj = jsNative
-    let [<Import("actionButton","office-ui-fabric-react")>] actionButton: obj = jsNative
-    let [<Import("personaContainerIsSelected","office-ui-fabric-react")>] personaContainerIsSelected: obj = jsNative
-    let [<Import("validationError","office-ui-fabric-react")>] validationError: obj = jsNative
-    let [<Import("itemContent","office-ui-fabric-react")>] itemContent: obj = jsNative
-    let [<Import("removeButton","office-ui-fabric-react")>] removeButton: obj = jsNative
-    let [<Import("expandButton","office-ui-fabric-react")>] expandButton: obj = jsNative
-    let [<Import("personaWrapper","office-ui-fabric-react")>] personaWrapper: obj = jsNative
-    let [<Import("personaDetails","office-ui-fabric-react")>] personaDetails: obj = jsNative
-    let [<Import("itemContainer","office-ui-fabric-react")>] itemContainer: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract personaContainer: obj
+        abstract hover: obj
+        abstract actionButton: obj
+        abstract personaContainerIsSelected: obj
+        abstract validationError: obj
+        abstract itemContent: obj
+        abstract removeButton: obj
+        abstract expandButton: obj
+        abstract personaWrapper: obj
+        abstract personaDetails: obj
+        abstract itemContainer: obj
 
 module __components_SelectedItemsList_SelectedPeopleList_Items_SelectedItemWithContextMenu =
-    let [<Import("","office-ui-fabric-react/components/SelectedItemsList/SelectedPeopleList/Items/SelectedItemWithContextMenu")>] : ``.IExports`` = jsNative
     type BaseComponent = Utilities.BaseComponent
     type RefObject = Utilities.RefObject
     type IBaseProps = Utilities.IBaseProps

@@ -8,12 +8,11 @@ open Fable.Import.Browser
 module ReactXP = __web_ReactXP
 
 module __android_Accessibility =
-    let [<Import("","reactxp/android/Accessibility")>] : ``.IExports`` = jsNative
     type NativeAccessibility = __native_common_Accessibility.Accessibility
-    let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
+        abstract _default: Accessibility
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
@@ -24,12 +23,11 @@ module __android_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __android_AccessibilityUtil =
-    let [<Import("","reactxp/android/AccessibilityUtil")>] : ``.IExports`` = jsNative
     type CommonAccessibilityNativeUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
-    let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityUtil: AccessibilityUtilStatic
+        abstract _default: AccessibilityUtil
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit CommonAccessibilityNativeUtil
@@ -40,7 +38,6 @@ module __android_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __android_GestureView =
-    let [<Import("","reactxp/android/GestureView")>] : ``.IExports`` = jsNative
     type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
@@ -55,7 +52,6 @@ module __android_GestureView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
 
 module __android_Image =
-    let [<Import("","reactxp/android/Image")>] : ``.IExports`` = jsNative
     type CommonImage = __native_common_Image.Image
 
     type [<AllowNullLiteral>] IExports =
@@ -190,11 +186,10 @@ module __android_ReactXP =
             RXInterfaces.WebView
 
 module __android_StatusBar =
-    let [<Import("","reactxp/android/StatusBar")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StatusBar: StatusBarStatic
+        abstract _default: StatusBar
 
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
@@ -209,7 +204,6 @@ module __android_StatusBar =
         [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
 
 module __android_Text =
-    let [<Import("","reactxp/android/Text")>] : ``.IExports`` = jsNative
     type CommonText = __native_common_Text.Text
 
     type [<AllowNullLiteral>] IExports =
@@ -224,7 +218,6 @@ module __android_Text =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
 
 module __common_Accessibility =
-    let [<Import("","reactxp/common/Accessibility")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
@@ -241,10 +234,9 @@ module __common_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __common_AccessibilityUtil =
-    let [<Import("","reactxp/common/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    let [<Import("ImportantForAccessibilityMap","reactxp")>] ImportantForAccessibilityMap: obj = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract ImportantForAccessibilityMap: obj
         abstract AccessibilityPlatformUtil: AccessibilityPlatformUtilStatic
         abstract AccessibilityUtil: AccessibilityUtilStatic
 
@@ -270,11 +262,10 @@ module __common_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __common_AppConfig =
-    let [<Import("","reactxp/common/AppConfig")>] : ``.IExports`` = jsNative
-    let [<Import("instance","reactxp")>] instance: AppConfig = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AppConfig: AppConfigStatic
+        abstract instance: AppConfig
 
     /// AppConfig.tsx
     /// 
@@ -299,7 +290,6 @@ module __common_AppConfig =
         [<Emit "new $0($1...)">] abstract Create: unit -> AppConfig
 
 module __common_Bezier =
-    let [<Import("","reactxp/common/Bezier")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         /// https://github.com/gre/bezier-easing
@@ -308,11 +298,10 @@ module __common_Bezier =
         abstract bezier: mX1: float * mY1: float * mX2: float * mY2: float -> (float -> float)
 
 module __common_Easing =
-    let [<Import("","reactxp/common/Easing")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Easing = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Easing: EasingStatic
+        abstract _default: Easing
 
     type [<AllowNullLiteral>] Easing =
         inherit Types.Animated.Easing
@@ -333,7 +322,6 @@ module __common_Easing =
         [<Emit "new $0($1...)">] abstract Create: unit -> Easing
 
 module __common_Interfaces =
-    let [<Import("","reactxp/common/Interfaces")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityIndicator: ActivityIndicatorStatic
@@ -728,7 +716,6 @@ module __common_Interfaces =
         abstract isRTL: unit -> bool
 
 module __common_Linking =
-    let [<Import("","reactxp/common/Linking")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Linking: LinkingStatic
@@ -747,11 +734,10 @@ module __common_Linking =
         [<Emit "new $0($1...)">] abstract Create: unit -> Linking
 
 module __common_Location =
-    let [<Import("","reactxp/common/Location")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Location = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Location: LocationStatic
+        abstract _default: Location
 
     type [<AllowNullLiteral>] Location =
         inherit RX.Location
@@ -896,7 +882,6 @@ module __common_ModuleInterface =
             Interfaces.Animated
 
 module __common_PopupContainerViewBase =
-    let [<Import("","reactxp/common/PopupContainerViewBase")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PopupContainerViewBase: PopupContainerViewBaseStatic
@@ -928,11 +913,10 @@ module __common_PopupContainerViewBase =
         [<Emit "new $0($1...)">] abstract Create: props: 'P * context: PopupContainerViewContext -> PopupContainerViewBase<'P, 'S>
 
 module __common_StyleLeakDetector =
-    let [<Import("","reactxp/common/StyleLeakDetector")>] : ``.IExports`` = jsNative
-    let [<Import("instance","reactxp")>] instance: StyleLeakDetector = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StyleLeakDetector: StyleLeakDetectorStatic
+        abstract instance: StyleLeakDetector
 
     type [<AllowNullLiteral>] StyleLeakDetector =
         abstract _fingerprintRegistry: obj with get, set
@@ -949,13 +933,12 @@ module __common_StyleLeakDetector =
         [<Emit "new $0($1...)">] abstract Create: unit -> StyleLeakDetector
 
 module __common_Types =
-    let [<Import("","reactxp/common/Types")>] : ``.IExports`` = jsNative
     let [<Import("*","reactxp/common/Types")>] animated: Animated.IExports = jsNative
-    let [<Import("Children","reactxp")>] Children: React.ReactChildren = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AnimatedValue: AnimatedValueStatic
         abstract InterpolatedValue: InterpolatedValueStatic
+        abstract Children: React.ReactChildren
 
     type ReactNode =
         React.ReactNode
@@ -1991,12 +1974,11 @@ module __common_Types =
         | Mobile4G = 5
 
 module __ios_Accessibility =
-    let [<Import("","reactxp/ios/Accessibility")>] : ``.IExports`` = jsNative
     type NativeAccessibility = __native_common_Accessibility.Accessibility
-    let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
+        abstract _default: Accessibility
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
@@ -2011,12 +1993,11 @@ module __ios_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __ios_AccessibilityUtil =
-    let [<Import("","reactxp/ios/AccessibilityUtil")>] : ``.IExports`` = jsNative
     type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
-    let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityUtil: AccessibilityUtilStatic
+        abstract _default: AccessibilityUtil
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit AccessibilityPlatformUtil
@@ -2026,7 +2007,6 @@ module __ios_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __ios_GestureView =
-    let [<Import("","reactxp/ios/GestureView")>] : ``.IExports`` = jsNative
     type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
@@ -2041,12 +2021,11 @@ module __ios_GestureView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
 
 module __ios_Linking =
-    let [<Import("","reactxp/ios/Linking")>] : ``.IExports`` = jsNative
     type CommonLinking = __native_common_Linking.Linking
-    let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Linking: LinkingStatic
+        abstract _default: Linking
 
     type [<AllowNullLiteral>] Linking =
         inherit CommonLinking
@@ -2177,11 +2156,10 @@ module __ios_ReactXP =
             RXInterfaces.WebView
 
 module __ios_StatusBar =
-    let [<Import("","reactxp/ios/StatusBar")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StatusBar: StatusBarStatic
+        abstract _default: StatusBar
 
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
@@ -2196,12 +2174,11 @@ module __ios_StatusBar =
         [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
 
 module __macos_Accessibility =
-    let [<Import("","reactxp/macos/Accessibility")>] : ``.IExports`` = jsNative
     type NativeAccessibility = __native_common_Accessibility.Accessibility
-    let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
+        abstract _default: Accessibility
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
@@ -2216,12 +2193,11 @@ module __macos_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __macos_AccessibilityUtil =
-    let [<Import("","reactxp/macos/AccessibilityUtil")>] : ``.IExports`` = jsNative
     type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
-    let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityUtil: AccessibilityUtilStatic
+        abstract _default: AccessibilityUtil
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit AccessibilityPlatformUtil
@@ -2231,7 +2207,6 @@ module __macos_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __macos_GestureView =
-    let [<Import("","reactxp/macos/GestureView")>] : ``.IExports`` = jsNative
     type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
@@ -2246,11 +2221,10 @@ module __macos_GestureView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
 
 module __macos_Input =
-    let [<Import("","reactxp/macos/Input")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Input = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Input: InputStatic
+        abstract _default: Input
 
     type [<AllowNullLiteral>] Input =
         inherit RX.Input
@@ -2259,12 +2233,11 @@ module __macos_Input =
         [<Emit "new $0($1...)">] abstract Create: unit -> Input
 
 module __macos_Linking =
-    let [<Import("","reactxp/macos/Linking")>] : ``.IExports`` = jsNative
     type CommonLinking = __native_common_Linking.Linking
-    let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Linking: LinkingStatic
+        abstract _default: Linking
 
     type [<AllowNullLiteral>] Linking =
         inherit CommonLinking
@@ -2395,11 +2368,10 @@ module __macos_ReactXP =
             RXInterfaces.WebView
 
 module __macos_StatusBar =
-    let [<Import("","reactxp/macos/StatusBar")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StatusBar: StatusBarStatic
+        abstract _default: StatusBar
 
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
@@ -2414,7 +2386,6 @@ module __macos_StatusBar =
         [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
 
 module __macos_TextInput =
-    let [<Import("","reactxp/macos/TextInput")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -2459,7 +2430,6 @@ module __macos_TextInput =
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
 
 module __macos_View =
-    let [<Import("","reactxp/macos/View")>] : ``.IExports`` = jsNative
     type ViewCommon = __native_common_View.View
 
     type [<AllowNullLiteral>] IExports =
@@ -2473,12 +2443,11 @@ module __macos_View =
         [<Emit "new $0($1...)">] abstract Create: unit -> View
 
 module __native_common_Accessibility =
-    let [<Import("","reactxp/native-common/Accessibility")>] : ``.IExports`` = jsNative
     type CommonAccessibility = __common_Accessibility.Accessibility
-    let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
+        abstract _default: Accessibility
 
     type [<AllowNullLiteral>] Accessibility =
         inherit CommonAccessibility
@@ -2490,13 +2459,12 @@ module __native_common_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __native_common_AccessibilityUtil =
-    let [<Import("","reactxp/native-common/AccessibilityUtil")>] : ``.IExports`` = jsNative
     type CommonAccessibilityUtil = __common_AccessibilityUtil.AccessibilityUtil
     type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
-    let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityUtil: AccessibilityUtilStatic
+        abstract _default: AccessibilityUtil
 
     type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityLiveRegionValue =
         | None
@@ -2522,7 +2490,6 @@ module __native_common_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __native_common_ActivityIndicator =
-    let [<Import("","reactxp/native-common/ActivityIndicator")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityIndicator: ActivityIndicatorStatic
@@ -2541,11 +2508,10 @@ module __native_common_ActivityIndicator =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ActivityIndicatorProps -> ActivityIndicator
 
 module __native_common_Alert =
-    let [<Import("","reactxp/native-common/Alert")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Alert = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Alert: AlertStatic
+        abstract _default: Alert
 
     type [<AllowNullLiteral>] Alert =
         inherit RX.Alert
@@ -2555,12 +2521,11 @@ module __native_common_Alert =
         [<Emit "new $0($1...)">] abstract Create: unit -> Alert
 
 module __native_common_Animated =
-    let [<Import("","reactxp/native-common/Animated")>] : ``.IExports`` = jsNative
-    let [<Import("CommonAnimatedClasses","reactxp")>] CommonAnimatedClasses: AnimatedClasses = jsNative
-    let [<Import("AnimatedCommon","reactxp")>] AnimatedCommon: obj = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract CommonAnimatedClasses: AnimatedClasses
         abstract makeAnimated: nativeAnimatedClasses: AnimatedClasses * ?useFocusRestrictedView: bool -> RX.Animated
+        abstract AnimatedCommon: obj
 
     type [<AllowNullLiteral>] AnimatedClasses =
         abstract Image: obj with get, set
@@ -2569,11 +2534,10 @@ module __native_common_Animated =
         abstract View: obj with get, set
 
 module __native_common_App =
-    let [<Import("","reactxp/native-common/App")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: App = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract App: AppStatic
+        abstract _default: App
 
     type [<AllowNullLiteral>] App =
         inherit RX.App
@@ -2586,7 +2550,6 @@ module __native_common_App =
         [<Emit "new $0($1...)">] abstract Create: unit -> App
 
 module __native_common_Button =
-    let [<Import("","reactxp/native-common/Button")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
     type ButtonBase = __common_Interfaces.Button
 
@@ -2655,11 +2618,10 @@ module __native_common_Button =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
 
 module __native_common_Clipboard =
-    let [<Import("","reactxp/native-common/Clipboard")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Clipboard = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Clipboard: ClipboardStatic
+        abstract _default: Clipboard
 
     type [<AllowNullLiteral>] Clipboard =
         inherit RX.Clipboard
@@ -2670,11 +2632,10 @@ module __native_common_Clipboard =
         [<Emit "new $0($1...)">] abstract Create: unit -> Clipboard
 
 module __native_common_FrontLayerViewManager =
-    let [<Import("","reactxp/native-common/FrontLayerViewManager")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: FrontLayerViewManager = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract FrontLayerViewManager: FrontLayerViewManagerStatic
+        abstract _default: FrontLayerViewManager
 
     type [<AllowNullLiteral>] FrontLayerViewManager =
         abstract _overlayStack: obj with get, set
@@ -2704,7 +2665,6 @@ module __native_common_FrontLayerViewManager =
         [<Emit "new $0($1...)">] abstract Create: unit -> FrontLayerViewManager
 
 module __native_common_GestureView =
-    let [<Import("","reactxp/native-common/GestureView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract GestureView: GestureViewStatic
@@ -2746,7 +2706,6 @@ module __native_common_GestureView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
 
 module __native_common_Image =
-    let [<Import("","reactxp/native-common/Image")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Image: ImageStatic
@@ -2779,11 +2738,10 @@ module __native_common_Image =
         abstract getMetadata: url: string -> SyncTasks.Promise<Types.ImageMetadata>
 
 module __native_common_Input =
-    let [<Import("","reactxp/native-common/Input")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Input = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Input: InputStatic
+        abstract _default: Input
 
     type [<AllowNullLiteral>] Input =
         inherit RX.Input
@@ -2792,11 +2750,10 @@ module __native_common_Input =
         [<Emit "new $0($1...)">] abstract Create: unit -> Input
 
 module __native_common_International =
-    let [<Import("","reactxp/native-common/International")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: International = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract International: InternationalStatic
+        abstract _default: International
 
     type [<AllowNullLiteral>] International =
         inherit RXInterfaces.International
@@ -2808,7 +2765,6 @@ module __native_common_International =
         [<Emit "new $0($1...)">] abstract Create: unit -> International
 
 module __native_common_Link =
-    let [<Import("","reactxp/native-common/Link")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -2847,12 +2803,11 @@ module __native_common_Link =
         [<Emit "new $0($1...)">] abstract Create: unit -> Link
 
 module __native_common_Linking =
-    let [<Import("","reactxp/native-common/Linking")>] : ``.IExports`` = jsNative
     type CommonLinking = __common_Linking.Linking
-    let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Linking: LinkingStatic
+        abstract _default: Linking
 
     type [<AllowNullLiteral>] Linking =
         inherit CommonLinking
@@ -2864,11 +2819,10 @@ module __native_common_Linking =
         [<Emit "new $0($1...)">] abstract Create: unit -> Linking
 
 module __native_common_MainViewStore =
-    let [<Import("","reactxp/native-common/MainViewStore")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: MainViewStore = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract MainViewStore: MainViewStoreStatic
+        abstract _default: MainViewStore
 
     type [<AllowNullLiteral>] MainViewStore =
         inherit SubscribableEvent<(unit -> unit)>
@@ -2880,11 +2834,10 @@ module __native_common_MainViewStore =
         [<Emit "new $0($1...)">] abstract Create: unit -> MainViewStore
 
 module __native_common_Modal =
-    let [<Import("","reactxp/native-common/Modal")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Modal = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Modal: ModalStatic
+        abstract _default: Modal
 
     type [<AllowNullLiteral>] Modal =
         inherit RX.Modal
@@ -2897,7 +2850,6 @@ module __native_common_Modal =
         [<Emit "new $0($1...)">] abstract Create: unit -> Modal
 
 module __native_common_ModalContainer =
-    let [<Import("","reactxp/native-common/ModalContainer")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ModalContainer: ModalContainerStatic
@@ -2914,11 +2866,10 @@ module __native_common_ModalContainer =
         [<Emit "new $0($1...)">] abstract Create: props: ModalContainerProps -> ModalContainer
 
 module __native_common_Network =
-    let [<Import("","reactxp/native-common/Network")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Network = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Network: NetworkStatic
+        abstract _default: Network
 
     type [<AllowNullLiteral>] Network =
         inherit RX.Network
@@ -2932,7 +2883,6 @@ module __native_common_Network =
         [<Emit "new $0($1...)">] abstract Create: unit -> Network
 
 module __native_common_Picker =
-    let [<Import("","reactxp/native-common/Picker")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Picker: PickerStatic
@@ -2946,11 +2896,10 @@ module __native_common_Picker =
         [<Emit "new $0($1...)">] abstract Create: unit -> Picker
 
 module __native_common_Platform =
-    let [<Import("","reactxp/native-common/Platform")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Platform = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Platform: PlatformStatic
+        abstract _default: Platform
 
     type [<AllowNullLiteral>] Platform =
         inherit RX.Platform
@@ -2961,11 +2910,10 @@ module __native_common_Platform =
         [<Emit "new $0($1...)">] abstract Create: unit -> Platform
 
 module __native_common_Popup =
-    let [<Import("","reactxp/native-common/Popup")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Popup = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Popup: PopupStatic
+        abstract _default: Popup
 
     type [<AllowNullLiteral>] Popup =
         inherit RX.Popup
@@ -2979,7 +2927,6 @@ module __native_common_Popup =
         [<Emit "new $0($1...)">] abstract Create: unit -> Popup
 
 module __native_common_PopupContainerView =
-    let [<Import("","reactxp/native-common/PopupContainerView")>] : ``.IExports`` = jsNative
     type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
     type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
     type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
@@ -3027,7 +2974,6 @@ module __native_common_PopupContainerView =
         [<Emit "new $0($1...)">] abstract Create: props: PopupContainerViewProps * context: PopupContainerViewContext -> PopupContainerView
 
 module __native_common_RootView =
-    let [<Import("","reactxp/native-common/RootView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract BaseRootView: BaseRootViewStatic
@@ -3082,7 +3028,6 @@ module __native_common_RootView =
         [<Emit "new $0($1...)">] abstract Create: props: RootViewPropsWithMainViewType -> RootViewUsingProps
 
 module __native_common_ScrollView =
-    let [<Import("","reactxp/native-common/ScrollView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollView: ScrollViewStatic
@@ -3106,11 +3051,10 @@ module __native_common_ScrollView =
         abstract useCustomScrollbars: unit -> unit
 
 module __native_common_Storage =
-    let [<Import("","reactxp/native-common/Storage")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Storage = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Storage: StorageStatic
+        abstract _default: Storage
 
     type [<AllowNullLiteral>] Storage =
         inherit RX.Storage
@@ -3123,12 +3067,11 @@ module __native_common_Storage =
         [<Emit "new $0($1...)">] abstract Create: unit -> Storage
 
 module __native_common_StyleLeakDetector =
-    let [<Import("","reactxp/native-common/StyleLeakDetector")>] : ``.IExports`` = jsNative
     type CommonStyleLeakDetector = __common_StyleLeakDetector.StyleLeakDetector
-    let [<Import("_default","reactxp")>] _default: StyleLeakDetector = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StyleLeakDetector: StyleLeakDetectorStatic
+        abstract _default: StyleLeakDetector
 
     type [<AllowNullLiteral>] StyleLeakDetector =
         inherit CommonStyleLeakDetector
@@ -3138,11 +3081,10 @@ module __native_common_StyleLeakDetector =
         [<Emit "new $0($1...)">] abstract Create: unit -> StyleLeakDetector
 
 module __native_common_Styles =
-    let [<Import("","reactxp/native-common/Styles")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Styles = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Styles: StylesStatic
+        abstract _default: Styles
 
     type [<AllowNullLiteral>] Styles =
         inherit RX.Styles
@@ -3168,7 +3110,6 @@ module __native_common_Styles =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
 
 module __native_common_Text =
-    let [<Import("","reactxp/native-common/Text")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -3201,7 +3142,6 @@ module __native_common_Text =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
 
 module __native_common_TextInput =
-    let [<Import("","reactxp/native-common/TextInput")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -3247,11 +3187,10 @@ module __native_common_TextInput =
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
 
 module __native_common_UserInterface =
-    let [<Import("","reactxp/native-common/UserInterface")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: UserInterface = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract UserInterface: UserInterfaceStatic
+        abstract _default: UserInterface
 
     type [<AllowNullLiteral>] UserInterface =
         inherit RX.UserInterface
@@ -3281,11 +3220,10 @@ module __native_common_UserInterface =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserInterface
 
 module __native_common_UserPresence =
-    let [<Import("","reactxp/native-common/UserPresence")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: UserPresence = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract UserPresence: UserPresenceStatic
+        abstract _default: UserPresence
 
     type [<AllowNullLiteral>] UserPresence =
         inherit RX.UserPresence
@@ -3295,7 +3233,6 @@ module __native_common_UserPresence =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserPresence
 
 module __native_common_View =
-    let [<Import("","reactxp/native-common/View")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -3366,7 +3303,6 @@ module __native_common_View =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
 
 module __native_common_ViewBase =
-    let [<Import("","reactxp/native-common/ViewBase")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ViewBase: ViewBaseStatic
@@ -3388,7 +3324,6 @@ module __native_common_ViewBase =
         abstract getDefaultViewStyle: unit -> RX.Types.StyleRuleSet<RX.Types.ViewStyle>
 
 module __native_common_WebView =
-    let [<Import("","reactxp/native-common/WebView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract WebView: WebViewStatic
@@ -3410,13 +3345,12 @@ module __native_common_WebView =
         [<Emit "new $0($1...)">] abstract Create: unit -> WebView
 
 module __native_desktop_App =
-    let [<Import("","reactxp/native-desktop/App")>] : ``.IExports`` = jsNative
-    type ComponentProvider = react-native.ComponentProvider
+    type ComponentProvider = React_native.ComponentProvider
     type AppCommon = __native_common_App.App
-    let [<Import("_default","reactxp")>] _default: App = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract App: AppStatic
+        abstract _default: App
 
     type [<AllowNullLiteral>] App =
         inherit AppCommon
@@ -3427,12 +3361,11 @@ module __native_desktop_App =
         [<Emit "new $0($1...)">] abstract Create: unit -> App
 
 module __native_desktop_Input =
-    let [<Import("","reactxp/native-desktop/Input")>] : ``.IExports`` = jsNative
     type InputCommon = __native_common_Input.Input
-    let [<Import("_default","reactxp")>] _default: Input = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Input: InputStatic
+        abstract _default: Input
 
     type [<AllowNullLiteral>] Input =
         inherit InputCommon
@@ -3449,14 +3382,15 @@ module __native_desktop_RootView =
     type RootViewPropsWithMainViewType = __native_common_RootView.RootViewPropsWithMainViewType
     type RootViewState = __native_common_RootView.RootViewState
     type BaseRootView = __native_common_RootView.BaseRootView
-    let [<Import("RootViewUsingStore","reactxp")>] RootViewUsingStore: obj = jsNative
-    let [<Import("RootViewUsingProps","reactxp")>] RootViewUsingProps: obj = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract RootViewUsingStore: obj
+        abstract RootViewUsingProps: obj
 
 module __tslint_groupedImportRule =
-    let [<Import("","reactxp/tslint/groupedImportRule")>] : ``.IExports`` = jsNative
     module Ts = Typescript
-    type RuleFailure = tslint.RuleFailure
-    type Rules = tslint.Rules
+    type RuleFailure = Tslint.RuleFailure
+    type Rules = Tslint.Rules
 
     type [<AllowNullLiteral>] IExports =
         abstract Rule: RuleStatic
@@ -3470,10 +3404,9 @@ module __tslint_groupedImportRule =
         [<Emit "new $0($1...)">] abstract Create: unit -> Rule
 
 module __tslint_incorrectThisPropsRule =
-    let [<Import("","reactxp/tslint/incorrectThisPropsRule")>] : ``.IExports`` = jsNative
     module Ts = Typescript
-    type RuleFailure = tslint.RuleFailure
-    type Rules = tslint.Rules
+    type RuleFailure = Tslint.RuleFailure
+    type Rules = Tslint.Rules
 
     type [<AllowNullLiteral>] IExports =
         abstract Rule: RuleStatic
@@ -3486,10 +3419,9 @@ module __tslint_incorrectThisPropsRule =
         [<Emit "new $0($1...)">] abstract Create: unit -> Rule
 
 module __tslint_noUnreferencedStylesRule =
-    let [<Import("","reactxp/tslint/noUnreferencedStylesRule")>] : ``.IExports`` = jsNative
     module Ts = Typescript
-    type RuleFailure = tslint.RuleFailure
-    type Rules = tslint.Rules
+    type RuleFailure = Tslint.RuleFailure
+    type Rules = Tslint.Rules
 
     type [<AllowNullLiteral>] IExports =
         abstract Rule: RuleStatic
@@ -3502,12 +3434,11 @@ module __tslint_noUnreferencedStylesRule =
         [<Emit "new $0($1...)">] abstract Create: unit -> Rule
 
 module __web_Accessibility =
-    let [<Import("","reactxp/web/Accessibility")>] : ``.IExports`` = jsNative
     type CommonAccessibility = __common_Accessibility.Accessibility
-    let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
+        abstract _default: Accessibility
 
     type [<AllowNullLiteral>] Accessibility =
         inherit CommonAccessibility
@@ -3517,7 +3448,6 @@ module __web_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __web_AccessibilityAnnouncer =
-    let [<Import("","reactxp/web/AccessibilityAnnouncer")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityAnnouncer: AccessibilityAnnouncerStatic
@@ -3547,12 +3477,11 @@ module __web_AccessibilityAnnouncer =
         interface end
 
 module __web_AccessibilityUtil =
-    let [<Import("","reactxp/web/AccessibilityUtil")>] : ``.IExports`` = jsNative
     type CommonAccessibiltiyUtil = __common_AccessibilityUtil.AccessibilityUtil
-    let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityUtil: AccessibilityUtilStatic
+        abstract _default: AccessibilityUtil
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit CommonAccessibiltiyUtil
@@ -3566,7 +3495,6 @@ module __web_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __web_ActivityIndicator =
-    let [<Import("","reactxp/web/ActivityIndicator")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityIndicator: ActivityIndicatorStatic
@@ -3587,11 +3515,10 @@ module __web_ActivityIndicator =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ActivityIndicatorProps -> ActivityIndicator
 
 module __web_Alert =
-    let [<Import("","reactxp/web/Alert")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Alert = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Alert: AlertStatic
+        abstract _default: Alert
 
     type [<AllowNullLiteral>] Alert =
         inherit RX.Alert
@@ -3602,7 +3529,6 @@ module __web_Alert =
         [<Emit "new $0($1...)">] abstract Create: unit -> Alert
 
 module __web_AlertModalContent =
-    let [<Import("","reactxp/web/AlertModalContent")>] : ``.IExports`` = jsNative
     type ViewProps = __common_Types.ViewProps
 
     type [<AllowNullLiteral>] IExports =
@@ -3630,20 +3556,19 @@ module __web_AlertModalContent =
         [<Emit "new $0($1...)">] abstract Create: props: AppModalContentProps -> AlertModalContent
 
 module __web_Animated =
-    let [<Import("","reactxp/web/Animated")>] : ``.IExports`` = jsNative
-    let [<Import("timing","reactxp")>] timing: Types.Animated.TimingFunction = jsNative
-    let [<Import("sequence","reactxp")>] sequence: Types.Animated.SequenceFunction = jsNative
-    let [<Import("parallel","reactxp")>] ``parallel``: Types.Animated.ParallelFunction = jsNative
-    let [<Import("Image","reactxp")>] Image: obj = jsNative
-    let [<Import("Text","reactxp")>] Text: obj = jsNative
-    let [<Import("TextInput","reactxp")>] TextInput: obj = jsNative
-    let [<Import("View","reactxp")>] View: obj = jsNative
-    let [<Import("createValue","reactxp")>] createValue: (float -> Value) = jsNative
-    let [<Import("interpolate","reactxp")>] interpolate: (Value -> ResizeArray<float> -> ResizeArray<string> -> Value) = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Animation: AnimationStatic
         abstract Value: ValueStatic
+        abstract timing: Types.Animated.TimingFunction
+        abstract sequence: Types.Animated.SequenceFunction
+        abstract ``parallel``: Types.Animated.ParallelFunction
+        abstract Image: obj
+        abstract Text: obj
+        abstract TextInput: obj
+        abstract View: obj
+        abstract createValue: (float -> Value)
+        abstract interpolate: (Value -> ResizeArray<float> -> ResizeArray<string> -> Value)
 
     type [<AllowNullLiteral>] Animation =
         abstract _id: float option with get, set
@@ -3691,11 +3616,10 @@ module __web_Animated =
         RX.AnimatedView
 
 module __web_App =
-    let [<Import("","reactxp/web/App")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: App = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract App: AppStatic
+        abstract _default: App
 
     type [<AllowNullLiteral>] App =
         inherit RX.App
@@ -3708,7 +3632,6 @@ module __web_App =
         [<Emit "new $0($1...)">] abstract Create: unit -> App
 
 module __web_Button =
-    let [<Import("","reactxp/web/Button")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
     type ButtonBase = __common_Interfaces.Button
 
@@ -3754,11 +3677,10 @@ module __web_Button =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
 
 module __web_Clipboard =
-    let [<Import("","reactxp/web/Clipboard")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Clipboard = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Clipboard: ClipboardStatic
+        abstract _default: Clipboard
 
     type [<AllowNullLiteral>] Clipboard =
         inherit RX.Clipboard
@@ -3771,7 +3693,6 @@ module __web_Clipboard =
         [<Emit "new $0($1...)">] abstract Create: unit -> Clipboard
 
 module __web_CustomScrollbar =
-    let [<Import("","reactxp/web/CustomScrollbar")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Scrollbar: ScrollbarStatic
@@ -3835,11 +3756,10 @@ module __web_CustomScrollbar =
         [<Emit "new $0($1...)">] abstract Create: container: HTMLElement -> Scrollbar
 
 module __web_FrontLayerViewManager =
-    let [<Import("","reactxp/web/FrontLayerViewManager")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: FrontLayerViewManager = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract FrontLayerViewManager: FrontLayerViewManagerStatic
+        abstract _default: FrontLayerViewManager
 
     type [<AllowNullLiteral>] FrontLayerViewManager =
         abstract _mainView: obj with get, set
@@ -3875,7 +3795,6 @@ module __web_FrontLayerViewManager =
         [<Emit "new $0($1...)">] abstract Create: unit -> FrontLayerViewManager
 
 module __web_GestureView =
-    let [<Import("","reactxp/web/GestureView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract GestureView: GestureViewStatic
@@ -3918,7 +3837,6 @@ module __web_GestureView =
         [<Emit "new $0($1...)">] abstract Create: unit -> GestureView
 
 module __web_Image =
-    let [<Import("","reactxp/web/Image")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Image: ImageStatic
@@ -3965,11 +3883,10 @@ module __web_Image =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ImageProps -> Image
 
 module __web_Input =
-    let [<Import("","reactxp/web/Input")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Input = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Input: InputStatic
+        abstract _default: Input
 
     type [<AllowNullLiteral>] Input =
         inherit RX.Input
@@ -3980,11 +3897,10 @@ module __web_Input =
         [<Emit "new $0($1...)">] abstract Create: unit -> Input
 
 module __web_International =
-    let [<Import("","reactxp/web/International")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: International = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract International: InternationalStatic
+        abstract _default: International
 
     type [<AllowNullLiteral>] International =
         inherit RXInterfaces.International
@@ -3996,7 +3912,6 @@ module __web_International =
         [<Emit "new $0($1...)">] abstract Create: unit -> International
 
 module __web_Link =
-    let [<Import("","reactxp/web/Link")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -4027,12 +3942,11 @@ module __web_Link =
         [<Emit "new $0($1...)">] abstract Create: unit -> Link
 
 module __web_Linking =
-    let [<Import("","reactxp/web/Linking")>] : ``.IExports`` = jsNative
     type CommonLinking = __common_Linking.Linking
-    let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Linking: LinkingStatic
+        abstract _default: Linking
 
     type [<AllowNullLiteral>] Linking =
         inherit CommonLinking
@@ -4044,11 +3958,10 @@ module __web_Linking =
         [<Emit "new $0($1...)">] abstract Create: unit -> Linking
 
 module __web_Modal =
-    let [<Import("","reactxp/web/Modal")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Modal = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Modal: ModalStatic
+        abstract _default: Modal
 
     type [<AllowNullLiteral>] Modal =
         inherit RX.Modal
@@ -4061,7 +3974,6 @@ module __web_Modal =
         [<Emit "new $0($1...)">] abstract Create: unit -> Modal
 
 module __web_ModalContainer =
-    let [<Import("","reactxp/web/ModalContainer")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ModalContainer: ModalContainerStatic
@@ -4074,11 +3986,10 @@ module __web_ModalContainer =
         [<Emit "new $0($1...)">] abstract Create: props: Types.CommonProps -> ModalContainer
 
 module __web_Network =
-    let [<Import("","reactxp/web/Network")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Network = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Network: NetworkStatic
+        abstract _default: Network
 
     type [<AllowNullLiteral>] Network =
         inherit RX.Network
@@ -4090,7 +4001,6 @@ module __web_Network =
         [<Emit "new $0($1...)">] abstract Create: unit -> Network
 
 module __web_Picker =
-    let [<Import("","reactxp/web/Picker")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Picker: PickerStatic
@@ -4105,11 +4015,10 @@ module __web_Picker =
         [<Emit "new $0($1...)">] abstract Create: unit -> Picker
 
 module __web_Platform =
-    let [<Import("","reactxp/web/Platform")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Platform = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Platform: PlatformStatic
+        abstract _default: Platform
 
     type [<AllowNullLiteral>] Platform =
         inherit RX.Platform
@@ -4120,11 +4029,10 @@ module __web_Platform =
         [<Emit "new $0($1...)">] abstract Create: unit -> Platform
 
 module __web_Popup =
-    let [<Import("","reactxp/web/Popup")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Popup = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Popup: PopupStatic
+        abstract _default: Popup
 
     type [<AllowNullLiteral>] Popup =
         inherit RX.Popup
@@ -4138,7 +4046,6 @@ module __web_Popup =
         [<Emit "new $0($1...)">] abstract Create: unit -> Popup
 
 module __web_PopupContainerView =
-    let [<Import("","reactxp/web/PopupContainerView")>] : ``.IExports`` = jsNative
     type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
     type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
     type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
@@ -4282,7 +4189,6 @@ module __web_ReactXP =
             RXInterfaces.WebView
 
 module __web_RootView =
-    let [<Import("","reactxp/web/RootView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract PopupDescriptor: PopupDescriptorStatic
@@ -4369,7 +4275,6 @@ module __web_RootView =
         [<Emit "new $0($1...)">] abstract Create: props: RootViewProps -> RootView
 
 module __web_ScrollView =
-    let [<Import("","reactxp/web/ScrollView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollView: ScrollViewStatic
@@ -4408,11 +4313,10 @@ module __web_ScrollView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ScrollViewProps -> ScrollView
 
 module __web_ScrollViewConfig =
-    let [<Import("","reactxp/web/ScrollViewConfig")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: ScrollViewConfig = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollViewConfig: ScrollViewConfigStatic
+        abstract _default: ScrollViewConfig
 
     /// ScrollViewConfig.ts
     /// 
@@ -4437,11 +4341,10 @@ module __web_ScrollViewConfig =
         [<Emit "new $0($1...)">] abstract Create: unit -> ScrollViewConfig
 
 module __web_StatusBar =
-    let [<Import("","reactxp/web/StatusBar")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StatusBar: StatusBarStatic
+        abstract _default: StatusBar
 
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
@@ -4456,11 +4359,10 @@ module __web_StatusBar =
         [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
 
 module __web_Storage =
-    let [<Import("","reactxp/web/Storage")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Storage = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Storage: StorageStatic
+        abstract _default: Storage
 
     type [<AllowNullLiteral>] Storage =
         inherit RX.Storage
@@ -4473,12 +4375,11 @@ module __web_Storage =
         [<Emit "new $0($1...)">] abstract Create: unit -> Storage
 
 module __web_Styles =
-    let [<Import("","reactxp/web/Styles")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: Styles = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Styles: StylesStatic
         abstract memoize: func: 'T * ?resolver: (ResizeArray<obj option> -> obj option) -> 'T
+        abstract _default: Styles
 
     type [<AllowNullLiteral>] CssAliasMap =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: prop: string -> string with get, set
@@ -4512,7 +4413,6 @@ module __web_Styles =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
 
 module __web_Text =
-    let [<Import("","reactxp/web/Text")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
     type TextBase = __common_Interfaces.Text
 
@@ -4542,7 +4442,6 @@ module __web_Text =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
 
 module __web_TextInput =
-    let [<Import("","reactxp/web/TextInput")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
@@ -4591,11 +4490,10 @@ module __web_TextInput =
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
 
 module __web_UserInterface =
-    let [<Import("","reactxp/web/UserInterface")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: UserInterface = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract UserInterface: UserInterfaceStatic
+        abstract _default: UserInterface
 
     type [<AllowNullLiteral>] UserInterface =
         inherit RX.UserInterface
@@ -4621,11 +4519,10 @@ module __web_UserInterface =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserInterface
 
 module __web_UserPresence =
-    let [<Import("","reactxp/web/UserPresence")>] : ``.IExports`` = jsNative
-    let [<Import("instance","reactxp")>] instance: UserPresence = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract UserPresence: UserPresenceStatic
+        abstract instance: UserPresence
 
     type [<AllowNullLiteral>] UserPresence =
         inherit RX.UserPresence
@@ -4641,7 +4538,6 @@ module __web_UserPresence =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserPresence
 
 module __web_View =
-    let [<Import("","reactxp/web/View")>] : ``.IExports`` = jsNative
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
     type FocusManager = __web_utils_FocusManager.FocusManager
 
@@ -4691,7 +4587,6 @@ module __web_View =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
 
 module __web_ViewBase =
-    let [<Import("","reactxp/web/ViewBase")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract ViewBase: ViewBaseStatic
@@ -4729,7 +4624,6 @@ module __web_ViewBase =
         abstract _reportDeferredLayoutChanges: unit -> unit
 
 module __web_WebView =
-    let [<Import("","reactxp/web/WebView")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract WebView: WebViewStatic
@@ -4767,15 +4661,16 @@ module __web_WebView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.WebViewProps -> WebView
 
 module __web_window =
-    let [<Import("_default","reactxp")>] _default: Window = jsNative
+
+    type [<AllowNullLiteral>] IExports =
+        abstract _default: Window
 
 module __windows_Accessibility =
-    let [<Import("","reactxp/windows/Accessibility")>] : ``.IExports`` = jsNative
     type NativeAccessibility = __native_common_Accessibility.Accessibility
-    let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
+        abstract _default: Accessibility
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
@@ -4787,7 +4682,6 @@ module __windows_Accessibility =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
 
 module __windows_AccessibilityAnnouncer =
-    let [<Import("","reactxp/windows/AccessibilityAnnouncer")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityAnnouncer: AccessibilityAnnouncerStatic
@@ -4812,12 +4706,11 @@ module __windows_AccessibilityAnnouncer =
         interface end
 
 module __windows_AccessibilityUtil =
-    let [<Import("","reactxp/windows/AccessibilityUtil")>] : ``.IExports`` = jsNative
     type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
-    let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AccessibilityUtil: AccessibilityUtilStatic
+        abstract _default: AccessibilityUtil
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit AccessibilityPlatformUtil
@@ -4827,13 +4720,12 @@ module __windows_AccessibilityUtil =
         [<Emit "new $0($1...)">] abstract Create: unit -> AccessibilityUtil
 
 module __windows_App =
-    let [<Import("","reactxp/windows/App")>] : ``.IExports`` = jsNative
-    type ComponentProvider = react-native.ComponentProvider
+    type ComponentProvider = React_native.ComponentProvider
     type AppCommon = __native_common_App.App
-    let [<Import("_default","reactxp")>] _default: App = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract App: AppStatic
+        abstract _default: App
 
     type [<AllowNullLiteral>] App =
         inherit AppCommon
@@ -4844,7 +4736,6 @@ module __windows_App =
         [<Emit "new $0($1...)">] abstract Create: unit -> App
 
 module __windows_Button =
-    let [<Import("","reactxp/windows/Button")>] : ``.IExports`` = jsNative
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type ButtonBase = __native_common_Button.Button
     type ButtonContextBase = __native_common_Button.ButtonContext
@@ -4887,7 +4778,6 @@ module __windows_Button =
         [<Emit "new $0($1...)">] abstract Create: unit -> Button
 
 module __windows_GestureView =
-    let [<Import("","reactxp/windows/GestureView")>] : ``.IExports`` = jsNative
     type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
@@ -4902,7 +4792,6 @@ module __windows_GestureView =
         [<Emit "new $0($1...)">] abstract Create: props: Types.GestureViewProps -> GestureView
 
 module __windows_Link =
-    let [<Import("","reactxp/windows/Link")>] : ``.IExports`` = jsNative
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
     type LinkBase = __native_common_Link.LinkBase
@@ -5066,7 +4955,6 @@ module __windows_ReactXP =
             RXInterfaces.WebView
 
 module __windows_RootView =
-    let [<Import("","reactxp/windows/RootView")>] : ``.IExports`` = jsNative
     type RootViewBase = __native_desktop_RootView.RootView
     type RootViewUsingPropsBase = __native_desktop_RootView.RootViewUsingProps
     type BaseRootViewProps = __native_desktop_RootView.BaseRootViewProps
@@ -5095,7 +4983,6 @@ module __windows_RootView =
         [<Emit "new $0($1...)">] abstract Create: unit -> RootViewUsingProps
 
 module __windows_ScrollView =
-    let [<Import("","reactxp/windows/ScrollView")>] : ``.IExports`` = jsNative
     type ScrollViewBase = __native_common_ScrollView.ScrollView
 
     type [<AllowNullLiteral>] IExports =
@@ -5110,11 +4997,10 @@ module __windows_ScrollView =
         [<Emit "new $0($1...)">] abstract Create: unit -> ScrollView
 
 module __windows_StatusBar =
-    let [<Import("","reactxp/windows/StatusBar")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: StatusBar = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract StatusBar: StatusBarStatic
+        abstract _default: StatusBar
 
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
@@ -5129,7 +5015,6 @@ module __windows_StatusBar =
         [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
 
 module __windows_Text =
-    let [<Import("","reactxp/windows/Text")>] : ``.IExports`` = jsNative
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type TextBase = __native_common_Text.Text
     type TextContextBase = __native_common_Text.TextContext
@@ -5160,7 +5045,6 @@ module __windows_Text =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
 
 module __windows_TextInput =
-    let [<Import("","reactxp/windows/TextInput")>] : ``.IExports`` = jsNative
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
     type TextInputBase = __native_common_TextInput.TextInput
@@ -5182,7 +5066,6 @@ module __windows_TextInput =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextInput
 
 module __windows_View =
-    let [<Import("","reactxp/windows/View")>] : ``.IExports`` = jsNative
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type ViewCommon = __native_common_View.View
     type ViewContextCommon = __native_common_View.ViewContext
@@ -5253,7 +5136,6 @@ module __windows_View =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
 
 module __common_utils_AutoFocusHelper =
-    let [<Import("","reactxp/common/utils/AutoFocusHelper")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract setSortAndFilterFunc: sortAndFilter: SortAndFilterFunc -> unit
@@ -5290,7 +5172,6 @@ module __common_utils_AutoFocusHelper =
         abstract requestFocus: ``component``: React.Component<obj option, obj option> * focus: (unit -> unit) * isAvailable: (unit -> bool) * ?``type``: FocusCandidateType -> unit
 
 module __common_utils_FocusManager =
-    let [<Import("","reactxp/common/utils/FocusManager")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract FocusManager: FocusManagerStatic
@@ -5366,7 +5247,6 @@ module __common_utils_FocusManager =
         abstract _callFocusableComponentStateChangeCallbacks: storedComponent: StoredFocusableComponent * restrictedOrLimited: bool -> unit
 
 module __common_utils_Timers =
-    let [<Import("","reactxp/common/utils/Timers")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Timers: TimersStatic
@@ -5402,11 +5282,10 @@ module __common_utils_Timers =
         abstract setTimeout: handler: (unit -> unit) * timeout: float -> float
 
 module __native_common_utils_EventHelpers =
-    let [<Import("","reactxp/native-common/utils/EventHelpers")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: EventHelpers = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract EventHelpers: EventHelpersStatic
+        abstract _default: EventHelpers
 
     type [<AllowNullLiteral>] EventHelpers =
         abstract toKeyboardEvent: e: Types.SyntheticEvent -> Types.KeyboardEvent
@@ -5425,7 +5304,6 @@ module __native_common_utils_EventHelpers =
         [<Emit "new $0($1...)">] abstract Create: unit -> EventHelpers
 
 module __native_desktop_utils_FocusManager =
-    let [<Import("","reactxp/native-desktop/utils/FocusManager")>] : ``.IExports`` = jsNative
     type FocusManagerBase = __common_utils_FocusManager.FocusManager
     type FocusableComponentInternalBase = __common_utils_FocusManager.FocusableComponentInternal
     type StoredFocusableComponentBase = __common_utils_FocusManager.StoredFocusableComponent
@@ -5475,7 +5353,6 @@ module __native_desktop_utils_FocusManager =
         [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
 
 module __web_animated_executeTransition =
-    let [<Import("","reactxp/web/animated/executeTransition")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract executeTransition: element: HTMLElement * transitions: ResizeArray<TransitionSpec> * ``done``: (unit -> unit) -> unit
@@ -5496,7 +5373,6 @@ module __web_animated_executeTransition =
         abstract ``to``: obj option with get, set
 
 module __web_listAnimations_AnimateListEdits =
-    let [<Import("","reactxp/web/listAnimations/AnimateListEdits")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AnimateListEdits: AnimateListEditsStatic
@@ -5515,7 +5391,6 @@ module __web_listAnimations_AnimateListEdits =
         [<Emit "new $0($1...)">] abstract Create: unit -> AnimateListEdits
 
 module __web_listAnimations_MonitorListEdits =
-    let [<Import("","reactxp/web/listAnimations/MonitorListEdits")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract MonitorListEdits: MonitorListEditsStatic
@@ -5566,11 +5441,10 @@ module __web_listAnimations_MonitorListEdits =
         [<Emit "new $0($1...)">] abstract Create: unit -> MonitorListEdits
 
 module __web_utils_AppVisibilityUtils =
-    let [<Import("","reactxp/web/utils/AppVisibilityUtils")>] : ``.IExports`` = jsNative
-    let [<Import("_default","reactxp")>] _default: AppVisibilityUtils = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AppVisibilityUtils: AppVisibilityUtilsStatic
+        abstract _default: AppVisibilityUtils
 
     type [<AllowNullLiteral>] AppVisibilityUtils =
         abstract _isIdle: obj with get, set
@@ -5596,7 +5470,6 @@ module __web_utils_AppVisibilityUtils =
         [<Emit "new $0($1...)">] abstract Create: unit -> AppVisibilityUtils
 
 module __web_utils_FocusManager =
-    let [<Import("","reactxp/web/utils/FocusManager")>] : ``.IExports`` = jsNative
     type FocusManagerBase = __common_utils_FocusManager.FocusManager
     type FocusableComponentInternal = __common_utils_FocusManager.FocusableComponentInternal
     type StoredFocusableComponentBase = __common_utils_FocusManager.StoredFocusableComponent
@@ -5638,7 +5511,6 @@ module __web_utils_FocusManager =
         abstract sortAndFilterAutoFocusCandidates: candidates: ResizeArray<FocusCandidateInternal> -> ResizeArray<FocusCandidateInternal>
 
 module __web_utils_MouseResponder =
-    let [<Import("","reactxp/web/utils/MouseResponder")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract MouseResponder: MouseResponderStatic
@@ -5670,7 +5542,6 @@ module __web_utils_MouseResponder =
         abstract create: config: MouseResponderConfig -> MouseResponderSubscription
 
 module __web_utils_restyleForInlineText =
-    let [<Import("","reactxp/web/utils/restyleForInlineText")>] : ``.IExports`` = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract restyleForInlineText: reactElement: React.ReactElement<obj option> -> React.ReactElement<obj option>
