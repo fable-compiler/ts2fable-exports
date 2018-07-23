@@ -9,7 +9,7 @@ module ReactXP = __web_ReactXP
 
 module __android_Accessibility =
     let [<Import("","reactxp/android/Accessibility")>] : ``.IExports`` = jsNative
-    type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+    type NativeAccessibility = __native_common_Accessibility.Accessibility
     let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -25,7 +25,7 @@ module __android_Accessibility =
 
 module __android_AccessibilityUtil =
     let [<Import("","reactxp/android/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    type AccessibilityPlatformUtil as CommonAccessibilityNativeUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil as CommonAccessibilityNativeUtil
+    type CommonAccessibilityNativeUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
     let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -41,7 +41,7 @@ module __android_AccessibilityUtil =
 
 module __android_GestureView =
     let [<Import("","reactxp/android/GestureView")>] : ``.IExports`` = jsNative
-    type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+    type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
         abstract GestureView: GestureViewStatic
@@ -56,7 +56,7 @@ module __android_GestureView =
 
 module __android_Image =
     let [<Import("","reactxp/android/Image")>] : ``.IExports`` = jsNative
-    type Image as CommonImage = ___native_common_Image.Image as CommonImage
+    type CommonImage = __native_common_Image.Image
 
     type [<AllowNullLiteral>] IExports =
         abstract Image: ImageStatic
@@ -210,7 +210,7 @@ module __android_StatusBar =
 
 module __android_Text =
     let [<Import("","reactxp/android/Text")>] : ``.IExports`` = jsNative
-    type Text as CommonText = ___native_common_Text.Text as CommonText
+    type CommonText = __native_common_Text.Text
 
     type [<AllowNullLiteral>] IExports =
         abstract Text: TextStatic
@@ -1992,7 +1992,7 @@ module __common_Types =
 
 module __ios_Accessibility =
     let [<Import("","reactxp/ios/Accessibility")>] : ``.IExports`` = jsNative
-    type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+    type NativeAccessibility = __native_common_Accessibility.Accessibility
     let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2012,7 +2012,7 @@ module __ios_Accessibility =
 
 module __ios_AccessibilityUtil =
     let [<Import("","reactxp/ios/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+    type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
     let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2027,7 +2027,7 @@ module __ios_AccessibilityUtil =
 
 module __ios_GestureView =
     let [<Import("","reactxp/ios/GestureView")>] : ``.IExports`` = jsNative
-    type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+    type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
         abstract GestureView: GestureViewStatic
@@ -2042,7 +2042,7 @@ module __ios_GestureView =
 
 module __ios_Linking =
     let [<Import("","reactxp/ios/Linking")>] : ``.IExports`` = jsNative
-    type Linking as CommonLinking = ___native_common_Linking.Linking as CommonLinking
+    type CommonLinking = __native_common_Linking.Linking
     let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2197,7 +2197,7 @@ module __ios_StatusBar =
 
 module __macos_Accessibility =
     let [<Import("","reactxp/macos/Accessibility")>] : ``.IExports`` = jsNative
-    type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+    type NativeAccessibility = __native_common_Accessibility.Accessibility
     let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2217,7 +2217,7 @@ module __macos_Accessibility =
 
 module __macos_AccessibilityUtil =
     let [<Import("","reactxp/macos/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+    type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
     let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2232,7 +2232,7 @@ module __macos_AccessibilityUtil =
 
 module __macos_GestureView =
     let [<Import("","reactxp/macos/GestureView")>] : ``.IExports`` = jsNative
-    type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+    type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
         abstract GestureView: GestureViewStatic
@@ -2260,7 +2260,7 @@ module __macos_Input =
 
 module __macos_Linking =
     let [<Import("","reactxp/macos/Linking")>] : ``.IExports`` = jsNative
-    type Linking as CommonLinking = ___native_common_Linking.Linking as CommonLinking
+    type CommonLinking = __native_common_Linking.Linking
     let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2415,7 +2415,7 @@ module __macos_StatusBar =
 
 module __macos_TextInput =
     let [<Import("","reactxp/macos/TextInput")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract TextInput: TextInputStatic
@@ -2460,7 +2460,7 @@ module __macos_TextInput =
 
 module __macos_View =
     let [<Import("","reactxp/macos/View")>] : ``.IExports`` = jsNative
-    type View as ViewCommon = ___native_common_View.View as ViewCommon
+    type ViewCommon = __native_common_View.View
 
     type [<AllowNullLiteral>] IExports =
         abstract View: ViewStatic
@@ -2474,7 +2474,7 @@ module __macos_View =
 
 module __native_common_Accessibility =
     let [<Import("","reactxp/native-common/Accessibility")>] : ``.IExports`` = jsNative
-    type Accessibility as CommonAccessibility = ___common_Accessibility.Accessibility as CommonAccessibility
+    type CommonAccessibility = __common_Accessibility.Accessibility
     let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2491,8 +2491,8 @@ module __native_common_Accessibility =
 
 module __native_common_AccessibilityUtil =
     let [<Import("","reactxp/native-common/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    type AccessibilityUtil as CommonAccessibilityUtil = ___common_AccessibilityUtil.AccessibilityUtil as CommonAccessibilityUtil
-    type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+    type CommonAccessibilityUtil = __common_AccessibilityUtil.AccessibilityUtil
+    type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
     let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2587,8 +2587,8 @@ module __native_common_App =
 
 module __native_common_Button =
     let [<Import("","reactxp/native-common/Button")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
-    type Button as ButtonBase = ___common_Interfaces.Button as ButtonBase
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type ButtonBase = __common_Interfaces.Button
 
     type [<AllowNullLiteral>] IExports =
         abstract Button: ButtonStatic
@@ -2809,7 +2809,7 @@ module __native_common_International =
 
 module __native_common_Link =
     let [<Import("","reactxp/native-common/Link")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract LinkBase: LinkBaseStatic
@@ -2848,7 +2848,7 @@ module __native_common_Link =
 
 module __native_common_Linking =
     let [<Import("","reactxp/native-common/Linking")>] : ``.IExports`` = jsNative
-    type Linking as CommonLinking = ___common_Linking.Linking as CommonLinking
+    type CommonLinking = __common_Linking.Linking
     let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -2980,9 +2980,9 @@ module __native_common_Popup =
 
 module __native_common_PopupContainerView =
     let [<Import("","reactxp/native-common/PopupContainerView")>] : ``.IExports`` = jsNative
-    type PopupContainerViewBase = ___common_PopupContainerViewBase.PopupContainerViewBase
-    type PopupContainerViewBaseProps = ___common_PopupContainerViewBase.PopupContainerViewBaseProps
-    type PopupContainerViewContext = ___common_PopupContainerViewBase.PopupContainerViewContext
+    type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
+    type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
+    type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
 
     type [<AllowNullLiteral>] IExports =
         abstract PopupContainerView: PopupContainerViewStatic
@@ -3124,7 +3124,7 @@ module __native_common_Storage =
 
 module __native_common_StyleLeakDetector =
     let [<Import("","reactxp/native-common/StyleLeakDetector")>] : ``.IExports`` = jsNative
-    type StyleLeakDetector as CommonStyleLeakDetector = ___common_StyleLeakDetector.StyleLeakDetector as CommonStyleLeakDetector
+    type CommonStyleLeakDetector = __common_StyleLeakDetector.StyleLeakDetector
     let [<Import("_default","reactxp")>] _default: StyleLeakDetector = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -3169,7 +3169,7 @@ module __native_common_Styles =
 
 module __native_common_Text =
     let [<Import("","reactxp/native-common/Text")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract Text: TextStatic
@@ -3202,7 +3202,7 @@ module __native_common_Text =
 
 module __native_common_TextInput =
     let [<Import("","reactxp/native-common/TextInput")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract TextInput: TextInputStatic
@@ -3296,7 +3296,7 @@ module __native_common_UserPresence =
 
 module __native_common_View =
     let [<Import("","reactxp/native-common/View")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract View: ViewStatic
@@ -3411,8 +3411,8 @@ module __native_common_WebView =
 
 module __native_desktop_App =
     let [<Import("","reactxp/native-desktop/App")>] : ``.IExports`` = jsNative
-    type ComponentProvider = React_native.ComponentProvider
-    type App as AppCommon = ___native_common_App.App as AppCommon
+    type ComponentProvider = react-native.ComponentProvider
+    type AppCommon = __native_common_App.App
     let [<Import("_default","reactxp")>] _default: App = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -3428,7 +3428,7 @@ module __native_desktop_App =
 
 module __native_desktop_Input =
     let [<Import("","reactxp/native-desktop/Input")>] : ``.IExports`` = jsNative
-    type Input as InputCommon = ___native_common_Input.Input as InputCommon
+    type InputCommon = __native_common_Input.Input
     let [<Import("_default","reactxp")>] _default: Input = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -3443,20 +3443,20 @@ module __native_desktop_Input =
         [<Emit "new $0($1...)">] abstract Create: unit -> Input
 
 module __native_desktop_RootView =
-    type RootView as RootViewBase = ___native_common_RootView.RootView as RootViewBase
-    type RootViewUsingProps as RootViewUsingPropsBase = ___native_common_RootView.RootViewUsingProps as RootViewUsingPropsBase
-    type BaseRootViewProps = ___native_common_RootView.BaseRootViewProps
-    type RootViewPropsWithMainViewType = ___native_common_RootView.RootViewPropsWithMainViewType
-    type RootViewState = ___native_common_RootView.RootViewState
-    type BaseRootView = ___native_common_RootView.BaseRootView
+    type RootViewBase = __native_common_RootView.RootView
+    type RootViewUsingPropsBase = __native_common_RootView.RootViewUsingProps
+    type BaseRootViewProps = __native_common_RootView.BaseRootViewProps
+    type RootViewPropsWithMainViewType = __native_common_RootView.RootViewPropsWithMainViewType
+    type RootViewState = __native_common_RootView.RootViewState
+    type BaseRootView = __native_common_RootView.BaseRootView
     let [<Import("RootViewUsingStore","reactxp")>] RootViewUsingStore: obj = jsNative
     let [<Import("RootViewUsingProps","reactxp")>] RootViewUsingProps: obj = jsNative
 
 module __tslint_groupedImportRule =
     let [<Import("","reactxp/tslint/groupedImportRule")>] : ``.IExports`` = jsNative
     module Ts = Typescript
-    type RuleFailure = Tslint.RuleFailure
-    type Rules = Tslint.Rules
+    type RuleFailure = tslint.RuleFailure
+    type Rules = tslint.Rules
 
     type [<AllowNullLiteral>] IExports =
         abstract Rule: RuleStatic
@@ -3472,8 +3472,8 @@ module __tslint_groupedImportRule =
 module __tslint_incorrectThisPropsRule =
     let [<Import("","reactxp/tslint/incorrectThisPropsRule")>] : ``.IExports`` = jsNative
     module Ts = Typescript
-    type RuleFailure = Tslint.RuleFailure
-    type Rules = Tslint.Rules
+    type RuleFailure = tslint.RuleFailure
+    type Rules = tslint.Rules
 
     type [<AllowNullLiteral>] IExports =
         abstract Rule: RuleStatic
@@ -3488,8 +3488,8 @@ module __tslint_incorrectThisPropsRule =
 module __tslint_noUnreferencedStylesRule =
     let [<Import("","reactxp/tslint/noUnreferencedStylesRule")>] : ``.IExports`` = jsNative
     module Ts = Typescript
-    type RuleFailure = Tslint.RuleFailure
-    type Rules = Tslint.Rules
+    type RuleFailure = tslint.RuleFailure
+    type Rules = tslint.Rules
 
     type [<AllowNullLiteral>] IExports =
         abstract Rule: RuleStatic
@@ -3503,7 +3503,7 @@ module __tslint_noUnreferencedStylesRule =
 
 module __web_Accessibility =
     let [<Import("","reactxp/web/Accessibility")>] : ``.IExports`` = jsNative
-    type Accessibility as CommonAccessibility = ___common_Accessibility.Accessibility as CommonAccessibility
+    type CommonAccessibility = __common_Accessibility.Accessibility
     let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -3548,7 +3548,7 @@ module __web_AccessibilityAnnouncer =
 
 module __web_AccessibilityUtil =
     let [<Import("","reactxp/web/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    type AccessibilityUtil as CommonAccessibiltiyUtil = ___common_AccessibilityUtil.AccessibilityUtil as CommonAccessibiltiyUtil
+    type CommonAccessibiltiyUtil = __common_AccessibilityUtil.AccessibilityUtil
     let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -3603,7 +3603,7 @@ module __web_Alert =
 
 module __web_AlertModalContent =
     let [<Import("","reactxp/web/AlertModalContent")>] : ``.IExports`` = jsNative
-    type ViewProps = ___common_Types.ViewProps
+    type ViewProps = __common_Types.ViewProps
 
     type [<AllowNullLiteral>] IExports =
         abstract AlertModalContent: AlertModalContentStatic
@@ -3709,8 +3709,8 @@ module __web_App =
 
 module __web_Button =
     let [<Import("","reactxp/web/Button")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
-    type Button as ButtonBase = ___common_Interfaces.Button as ButtonBase
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type ButtonBase = __common_Interfaces.Button
 
     type [<AllowNullLiteral>] IExports =
         abstract Button: ButtonStatic
@@ -3997,7 +3997,7 @@ module __web_International =
 
 module __web_Link =
     let [<Import("","reactxp/web/Link")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract Link: LinkStatic
@@ -4028,7 +4028,7 @@ module __web_Link =
 
 module __web_Linking =
     let [<Import("","reactxp/web/Linking")>] : ``.IExports`` = jsNative
-    type Linking as CommonLinking = ___common_Linking.Linking as CommonLinking
+    type CommonLinking = __common_Linking.Linking
     let [<Import("_default","reactxp")>] _default: Linking = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -4139,9 +4139,9 @@ module __web_Popup =
 
 module __web_PopupContainerView =
     let [<Import("","reactxp/web/PopupContainerView")>] : ``.IExports`` = jsNative
-    type PopupContainerViewBase = ___common_PopupContainerViewBase.PopupContainerViewBase
-    type PopupContainerViewBaseProps = ___common_PopupContainerViewBase.PopupContainerViewBaseProps
-    type PopupContainerViewContext = ___common_PopupContainerViewBase.PopupContainerViewContext
+    type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
+    type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
+    type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
 
     type [<AllowNullLiteral>] IExports =
         abstract PopupContainerView: PopupContainerViewStatic
@@ -4513,8 +4513,8 @@ module __web_Styles =
 
 module __web_Text =
     let [<Import("","reactxp/web/Text")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
-    type Text as TextBase = ___common_Interfaces.Text as TextBase
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type TextBase = __common_Interfaces.Text
 
     type [<AllowNullLiteral>] IExports =
         abstract Text: TextStatic
@@ -4543,7 +4543,7 @@ module __web_Text =
 
 module __web_TextInput =
     let [<Import("","reactxp/web/TextInput")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
 
     type [<AllowNullLiteral>] IExports =
         abstract TextInput: TextInputStatic
@@ -4642,8 +4642,8 @@ module __web_UserPresence =
 
 module __web_View =
     let [<Import("","reactxp/web/View")>] : ``.IExports`` = jsNative
-    type FocusArbitratorProvider = ___common_utils_AutoFocusHelper.FocusArbitratorProvider
-    type FocusManager = __utils_FocusManager.FocusManager
+    type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
+    type FocusManager = __web_utils_FocusManager.FocusManager
 
     type [<AllowNullLiteral>] IExports =
         abstract View: ViewStatic
@@ -4771,7 +4771,7 @@ module __web_window =
 
 module __windows_Accessibility =
     let [<Import("","reactxp/windows/Accessibility")>] : ``.IExports`` = jsNative
-    type Accessibility as NativeAccessibility = ___native_common_Accessibility.Accessibility as NativeAccessibility
+    type NativeAccessibility = __native_common_Accessibility.Accessibility
     let [<Import("_default","reactxp")>] _default: Accessibility = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -4813,7 +4813,7 @@ module __windows_AccessibilityAnnouncer =
 
 module __windows_AccessibilityUtil =
     let [<Import("","reactxp/windows/AccessibilityUtil")>] : ``.IExports`` = jsNative
-    type AccessibilityPlatformUtil = ___common_AccessibilityUtil.AccessibilityPlatformUtil
+    type AccessibilityPlatformUtil = __common_AccessibilityUtil.AccessibilityPlatformUtil
     let [<Import("_default","reactxp")>] _default: AccessibilityUtil = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -4828,8 +4828,8 @@ module __windows_AccessibilityUtil =
 
 module __windows_App =
     let [<Import("","reactxp/windows/App")>] : ``.IExports`` = jsNative
-    type ComponentProvider = React_native.ComponentProvider
-    type App as AppCommon = ___native_common_App.App as AppCommon
+    type ComponentProvider = react-native.ComponentProvider
+    type AppCommon = __native_common_App.App
     let [<Import("_default","reactxp")>] _default: App = jsNative
 
     type [<AllowNullLiteral>] IExports =
@@ -4845,10 +4845,10 @@ module __windows_App =
 
 module __windows_Button =
     let [<Import("","reactxp/windows/Button")>] : ``.IExports`` = jsNative
-    type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
-    type Button as ButtonBase = ___native_common_Button.Button as ButtonBase
-    type ButtonContext as ButtonContextBase = ___native_common_Button.ButtonContext as ButtonContextBase
-    type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+    type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
+    type ButtonBase = __native_common_Button.Button
+    type ButtonContextBase = __native_common_Button.ButtonContext
+    type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
 
     type [<AllowNullLiteral>] IExports =
         abstract Button: ButtonStatic
@@ -4888,7 +4888,7 @@ module __windows_Button =
 
 module __windows_GestureView =
     let [<Import("","reactxp/windows/GestureView")>] : ``.IExports`` = jsNative
-    type GestureView as BaseGestureView = ___native_common_GestureView.GestureView as BaseGestureView
+    type BaseGestureView = __native_common_GestureView.GestureView
 
     type [<AllowNullLiteral>] IExports =
         abstract GestureView: GestureViewStatic
@@ -4903,9 +4903,9 @@ module __windows_GestureView =
 
 module __windows_Link =
     let [<Import("","reactxp/windows/Link")>] : ``.IExports`` = jsNative
-    type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
-    type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
-    type LinkBase = ___native_common_Link.LinkBase
+    type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
+    type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+    type LinkBase = __native_common_Link.LinkBase
 
     type [<AllowNullLiteral>] IExports =
         abstract Link: LinkStatic
@@ -5067,12 +5067,12 @@ module __windows_ReactXP =
 
 module __windows_RootView =
     let [<Import("","reactxp/windows/RootView")>] : ``.IExports`` = jsNative
-    type RootView as RootViewBase = ___native_desktop_RootView.RootView as RootViewBase
-    type RootViewUsingProps as RootViewUsingPropsBase = ___native_desktop_RootView.RootViewUsingProps as RootViewUsingPropsBase
-    type BaseRootViewProps = ___native_desktop_RootView.BaseRootViewProps
-    type RootViewPropsWithMainViewType = ___native_desktop_RootView.RootViewPropsWithMainViewType
-    type RootViewState = ___native_desktop_RootView.RootViewState
-    type BaseRootView = ___native_desktop_RootView.BaseRootView
+    type RootViewBase = __native_desktop_RootView.RootView
+    type RootViewUsingPropsBase = __native_desktop_RootView.RootViewUsingProps
+    type BaseRootViewProps = __native_desktop_RootView.BaseRootViewProps
+    type RootViewPropsWithMainViewType = __native_desktop_RootView.RootViewPropsWithMainViewType
+    type RootViewState = __native_desktop_RootView.RootViewState
+    type BaseRootView = __native_desktop_RootView.BaseRootView
 
     type [<AllowNullLiteral>] IExports =
         abstract RootViewUsingStore: RootViewUsingStoreStatic
@@ -5096,7 +5096,7 @@ module __windows_RootView =
 
 module __windows_ScrollView =
     let [<Import("","reactxp/windows/ScrollView")>] : ``.IExports`` = jsNative
-    type ScrollView as ScrollViewBase = ___native_common_ScrollView.ScrollView as ScrollViewBase
+    type ScrollViewBase = __native_common_ScrollView.ScrollView
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollView: ScrollViewStatic
@@ -5130,10 +5130,10 @@ module __windows_StatusBar =
 
 module __windows_Text =
     let [<Import("","reactxp/windows/Text")>] : ``.IExports`` = jsNative
-    type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
-    type Text as TextBase = ___native_common_Text.Text as TextBase
-    type TextContext as TextContextBase = ___native_common_Text.TextContext as TextContextBase
-    type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+    type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
+    type TextBase = __native_common_Text.Text
+    type TextContextBase = __native_common_Text.TextContext
+    type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
 
     type [<AllowNullLiteral>] IExports =
         abstract Text: TextStatic
@@ -5161,9 +5161,9 @@ module __windows_Text =
 
 module __windows_TextInput =
     let [<Import("","reactxp/windows/TextInput")>] : ``.IExports`` = jsNative
-    type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
-    type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
-    type TextInput as TextInputBase = ___native_common_TextInput.TextInput as TextInputBase
+    type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
+    type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+    type TextInputBase = __native_common_TextInput.TextInput
 
     type [<AllowNullLiteral>] IExports =
         abstract TextInput: TextInputStatic
@@ -5183,11 +5183,11 @@ module __windows_TextInput =
 
 module __windows_View =
     let [<Import("","reactxp/windows/View")>] : ``.IExports`` = jsNative
-    type ImportantForAccessibilityValue = ___native_common_AccessibilityUtil.ImportantForAccessibilityValue
-    type View as ViewCommon = ___native_common_View.View as ViewCommon
-    type ViewContext as ViewContextCommon = ___native_common_View.ViewContext as ViewContextCommon
-    type FocusManagerFocusableComponent = ___native_desktop_utils_FocusManager.FocusManagerFocusableComponent
-    type FocusManager = ___native_desktop_utils_FocusManager.FocusManager
+    type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
+    type ViewCommon = __native_common_View.View
+    type ViewContextCommon = __native_common_View.ViewContext
+    type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
+    type FocusManager = __native_desktop_utils_FocusManager.FocusManager
 
     type [<AllowNullLiteral>] IExports =
         abstract View: ViewStatic
@@ -5426,11 +5426,11 @@ module __native_common_utils_EventHelpers =
 
 module __native_desktop_utils_FocusManager =
     let [<Import("","reactxp/native-desktop/utils/FocusManager")>] : ``.IExports`` = jsNative
-    type FocusManager as FocusManagerBase = ______common_utils_FocusManager.FocusManager as FocusManagerBase
-    type FocusableComponentInternal as FocusableComponentInternalBase = ______common_utils_FocusManager.FocusableComponentInternal as FocusableComponentInternalBase
-    type StoredFocusableComponent as StoredFocusableComponentBase = ______common_utils_FocusManager.StoredFocusableComponent as StoredFocusableComponentBase
-    type ImportantForAccessibilityValue = ______native_common_AccessibilityUtil.ImportantForAccessibilityValue
-    type FocusableComponentStateCallback = ______common_utils_FocusManager.FocusableComponentStateCallback
+    type FocusManagerBase = __common_utils_FocusManager.FocusManager
+    type FocusableComponentInternalBase = __common_utils_FocusManager.FocusableComponentInternal
+    type StoredFocusableComponentBase = __common_utils_FocusManager.StoredFocusableComponent
+    type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
+    type FocusableComponentStateCallback = __common_utils_FocusManager.FocusableComponentStateCallback
 
     type [<AllowNullLiteral>] IExports =
         abstract FocusManager: FocusManagerStatic
@@ -5597,11 +5597,11 @@ module __web_utils_AppVisibilityUtils =
 
 module __web_utils_FocusManager =
     let [<Import("","reactxp/web/utils/FocusManager")>] : ``.IExports`` = jsNative
-    type FocusManager as FocusManagerBase = ______common_utils_FocusManager.FocusManager as FocusManagerBase
-    type FocusableComponentInternal = ______common_utils_FocusManager.FocusableComponentInternal
-    type StoredFocusableComponent as StoredFocusableComponentBase = ______common_utils_FocusManager.StoredFocusableComponent as StoredFocusableComponentBase
-    type FocusCandidateInternal = ______common_utils_AutoFocusHelper.FocusCandidateInternal
-    type FocusableComponentStateCallback = ______common_utils_FocusManager.FocusableComponentStateCallback
+    type FocusManagerBase = __common_utils_FocusManager.FocusManager
+    type FocusableComponentInternal = __common_utils_FocusManager.FocusableComponentInternal
+    type StoredFocusableComponentBase = __common_utils_FocusManager.StoredFocusableComponent
+    type FocusCandidateInternal = __common_utils_AutoFocusHelper.FocusCandidateInternal
+    type FocusableComponentStateCallback = __common_utils_FocusManager.FocusableComponentStateCallback
 
     type [<AllowNullLiteral>] IExports =
         abstract FocusManager: FocusManagerStatic
