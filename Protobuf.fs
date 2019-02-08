@@ -130,7 +130,7 @@ type [<AllowNullLiteral>] MessageReadBinaryExtensionExtensions =
 
 type [<AllowNullLiteral>] MessageStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Message
-    abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> option -> unit
+    abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> -> unit
     abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> obj) * ?includeInstance: bool -> Array<obj>
     abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: MessageStaticToObjectExtensionExtensions * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
     abstract getField: msg: Message * fieldNumber: float -> FieldValue option
