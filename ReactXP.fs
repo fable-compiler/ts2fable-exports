@@ -622,7 +622,10 @@ module __common_Interfaces =
         abstract createAnimatedImageStyle: ruleSet: Types.AnimatedImageStyle -> Types.AnimatedImageStyleRuleSet
         abstract createLinkStyle: ruleSet: Types.LinkStyleRuleSet * ?cacheStyle: bool -> Types.LinkStyleRuleSet
         abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
-        abstract getCssPropertyAliasesCssStyle: unit -> obj
+        abstract getCssPropertyAliasesCssStyle: unit -> StylesGetCssPropertyAliasesCssStyleReturn
+
+    type [<AllowNullLiteral>] StylesGetCssPropertyAliasesCssStyleReturn =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] StylesStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
@@ -644,11 +647,15 @@ module __common_Interfaces =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> obj
+        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
         abstract setValue: value: string -> unit
         abstract focus: unit -> unit
         abstract requestFocus: unit -> unit
         abstract blur: unit -> unit
+
+    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
+        abstract start: float with get, set
+        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextInput
@@ -902,12 +909,16 @@ module __common_PopupContainerViewBase =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _popupComponentStack: obj with get, set
-        abstract getChildContext: unit -> obj
+        abstract getChildContext: unit -> PopupContainerViewBaseGetChildContextReturn
         abstract registerPopupComponent: onShow: (unit -> unit) * onHide: (unit -> unit) -> PopupComponent
         abstract unregisterPopupComponent: ``component``: PopupComponent -> unit
         abstract isHidden: unit -> bool
         abstract componentDidUpdate: prevProps: 'P * prevState: 'S -> unit
         abstract render: unit -> JSX.Element
+
+    type [<AllowNullLiteral>] PopupContainerViewBaseGetChildContextReturn =
+        abstract focusManager: obj option with get, set
+        abstract popupContainer: PopupContainerViewBase<'P, 'S> with get, set
 
     type [<AllowNullLiteral>] PopupContainerViewBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: 'P * context: PopupContainerViewContext -> PopupContainerViewBase<'P, 'S>
@@ -2423,8 +2434,12 @@ module __macos_TextInput =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> obj
+        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
         abstract setValue: value: string -> unit
+
+    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
+        abstract start: float with get, set
+        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
@@ -2648,12 +2663,12 @@ module __native_common_FrontLayerViewManager =
         abstract showPopup: popupOptions: Types.PopupOptions * popupId: string * ?delay: float -> bool
         abstract dismissPopup: popupId: string -> unit
         abstract dismissAllPopups: unit -> unit
-        abstract getModalLayerView: ?rootViewId: string -> React.ReactElement<obj option> option
+        abstract getModalLayerView: ?rootViewId: string option -> React.ReactElement<obj option> option
         abstract getActivePopupId: unit -> string option
         abstract releaseCachedPopups: unit -> unit
         abstract modalOptionsMatchesRootViewId: obj with get, set
         abstract _renderPopup: obj with get, set
-        abstract getPopupLayerView: ?rootViewId: string -> JSX.Element option
+        abstract getPopupLayerView: ?rootViewId: string option -> JSX.Element option
         abstract _onBackgroundPressed: obj with get, set
         abstract _dismissActivePopup: obj with get, set
         abstract _findIndexOfModal: obj with get, set
@@ -2724,13 +2739,16 @@ module __native_common_Image =
         abstract render: unit -> JSX.Element
         abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
         abstract setNativeProps: nativeProps: RN.ImageProperties -> unit
-        abstract getChildContext: unit -> obj
+        abstract getChildContext: unit -> ImageGetChildContextReturn
         abstract getStyles: unit -> ResizeArray<Types.StyleRuleSetRecursive<Types.StyleRuleSet<Types.ImageStyle>>>
         abstract _onLoad: obj with get, set
         abstract _onError: obj with get, set
         abstract _buildSource: obj with get, set
         abstract getNativeWidth: unit -> float option
         abstract getNativeHeight: unit -> float option
+
+    type [<AllowNullLiteral>] ImageGetChildContextReturn =
+        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] ImageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Image
@@ -2998,12 +3016,15 @@ module __native_common_RootView =
         abstract _memoryWarningEventSubscription: obj with get, set
         abstract _mainViewProps: obj with get, set
         abstract _rootViewId: string option with get, set
-        abstract _getPropsForMainView: unit -> obj
+        abstract _getPropsForMainView: unit -> BaseRootView_getPropsForMainViewReturn
         abstract componentWillMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
         abstract _renderAnnouncerView: unit -> JSX.Element
         abstract renderTopView: content: JSX.Element -> JSX.Element
+
+    type [<AllowNullLiteral>] BaseRootView_getPropsForMainViewReturn =
+        interface end
 
     type [<AllowNullLiteral>] BaseRootViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: 'P -> BaseRootView<'P>
@@ -3015,14 +3036,20 @@ module __native_common_RootView =
         abstract componentWillUnmount: unit -> unit
         abstract _onChange: obj with get, set
         abstract _getStateFromStore: obj with get, set
-        abstract _getPropsForMainView: unit -> obj
+        abstract _getPropsForMainView: unit -> RootViewUsingStore_getPropsForMainViewReturn
+
+    type [<AllowNullLiteral>] RootViewUsingStore_getPropsForMainViewReturn =
+        interface end
 
     type [<AllowNullLiteral>] RootViewUsingStoreStatic =
         [<Emit "new $0($1...)">] abstract Create: props: BaseRootViewProps -> RootViewUsingStore
 
     type [<AllowNullLiteral>] RootViewUsingProps =
         inherit BaseRootView<RootViewPropsWithMainViewType>
-        abstract _getPropsForMainView: unit -> obj
+        abstract _getPropsForMainView: unit -> RootViewUsingProps_getPropsForMainViewReturn
+
+    type [<AllowNullLiteral>] RootViewUsingProps_getPropsForMainViewReturn =
+        interface end
 
     type [<AllowNullLiteral>] RootViewUsingPropsStatic =
         [<Emit "new $0($1...)">] abstract Create: props: RootViewPropsWithMainViewType -> RootViewUsingProps
@@ -3102,9 +3129,12 @@ module __native_common_Styles =
         abstract createAnimatedImageStyle: ruleSet: Types.AnimatedImageStyle -> Types.AnimatedImageStyleRuleSet
         abstract createLinkStyle: ruleSet: Types.LinkStyle * ?cacheStyle: bool -> Types.LinkStyleRuleSet
         abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
-        abstract getCssPropertyAliasesCssStyle: unit -> obj
+        abstract getCssPropertyAliasesCssStyle: unit -> StylesGetCssPropertyAliasesCssStyleReturn
         abstract _adaptStyles: obj with get, set
         abstract _adaptAnimatedStyles: obj with get, set
+
+    type [<AllowNullLiteral>] StylesGetCssPropertyAliasesCssStyleReturn =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] StylesStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
@@ -3132,11 +3162,14 @@ module __native_common_Text =
         abstract componentDidMount: unit -> unit
         abstract _onMount: (obj option -> unit) with get, set
         abstract _onPress: obj with get, set
-        abstract getChildContext: unit -> obj
+        abstract getChildContext: unit -> TextGetChildContextReturn
         abstract _getStyles: unit -> Types.StyleRuleSetRecursiveArray<Types.TextStyleRuleSet>
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
         abstract blur: unit -> unit
+
+    type [<AllowNullLiteral>] TextGetChildContextReturn =
+        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] TextStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
@@ -3180,8 +3213,12 @@ module __native_common_TextInput =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> obj
+        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
         abstract setValue: value: string -> unit
+
+    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
+        abstract start: float with get, set
+        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
@@ -3289,7 +3326,7 @@ module __native_common_View =
         abstract touchableHandleActivePressIn: e: Types.SyntheticEvent -> unit
         abstract touchableHandleActivePressOut: e: Types.SyntheticEvent -> unit
         abstract touchableGetHighlightDelayMS: unit -> float
-        abstract touchableGetPressRectOffset: unit -> obj
+        abstract touchableGetPressRectOffset: unit -> ViewTouchableGetPressRectOffsetReturn
         abstract setFocusRestricted: restricted: bool -> unit
         abstract setFocusLimited: limited: bool -> unit
         abstract blur: unit -> unit
@@ -3298,6 +3335,12 @@ module __native_common_View =
 
     type [<AllowNullLiteral>] ViewComponentWillUpdateNextState =
         interface end
+
+    type [<AllowNullLiteral>] ViewTouchableGetPressRectOffsetReturn =
+        abstract top: float with get, set
+        abstract left: float with get, set
+        abstract right: float with get, set
+        abstract bottom: float with get, set
 
     type [<AllowNullLiteral>] ViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
@@ -3855,7 +3898,7 @@ module __web_Image =
         abstract context: ImageContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _mountedComponent: obj with get, set
-        abstract getChildContext: unit -> obj
+        abstract getChildContext: unit -> ImageGetChildContextReturn
         abstract _isMounted: obj with get, set
         abstract _nativeImageWidth: obj with get, set
         abstract _nativeImageHeight: obj with get, set
@@ -3876,6 +3919,9 @@ module __web_Image =
         abstract _onMouseUp: obj with get, set
         abstract getNativeWidth: unit -> float option
         abstract getNativeHeight: unit -> float option
+
+    type [<AllowNullLiteral>] ImageGetChildContextReturn =
+        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] ImageStatic =
         abstract prefetch: url: string -> SyncTasks.Promise<bool>
@@ -4241,7 +4287,7 @@ module __web_RootView =
         abstract _applicationIsNotActiveTimer: obj with get, set
         abstract _prevFocusedElement: obj with get, set
         abstract _updateKeyboardNavigationModeOnFocusTimer: obj with get, set
-        abstract getChildContext: unit -> obj
+        abstract getChildContext: unit -> RootViewGetChildContextReturn
         abstract _getInitialState: obj with get, set
         abstract componentWillReceiveProps: prevProps: RootViewProps -> unit
         abstract componentDidUpdate: prevProps: RootViewProps * prevState: RootViewState -> unit
@@ -4270,6 +4316,9 @@ module __web_RootView =
         abstract _stopRepositionPopupTimer: obj with get, set
         abstract _recalcPosition: obj with get, set
         abstract _recalcInnerPosition: obj with get, set
+
+    type [<AllowNullLiteral>] RootViewGetChildContextReturn =
+        abstract focusManager: FocusManager with get, set
 
     type [<AllowNullLiteral>] RootViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: RootViewProps -> RootView
@@ -4405,9 +4454,12 @@ module __web_Styles =
         abstract _getCssPropertyAliasesJsStyle: obj with get, set
         abstract convertJsToCssStyle: prop: string -> string
         abstract _cssPropertyAliasesCssStyle: (unit -> CssAliasMap) with get, set
-        abstract getCssPropertyAliasesCssStyle: unit -> obj
+        abstract getCssPropertyAliasesCssStyle: unit -> StylesGetCssPropertyAliasesCssStyleReturn
         abstract getParentComponentName: ``component``: obj option -> string
         abstract _adaptStyles: obj with get, set
+
+    type [<AllowNullLiteral>] StylesGetCssPropertyAliasesCssStyleReturn =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] StylesStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
@@ -4429,7 +4481,7 @@ module __web_Text =
         abstract context: TextContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _isMounted: obj with get, set
-        abstract getChildContext: unit -> obj
+        abstract getChildContext: unit -> TextGetChildContextReturn
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -4437,6 +4489,9 @@ module __web_Text =
         abstract blur: unit -> unit
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
+
+    type [<AllowNullLiteral>] TextGetChildContextReturn =
+        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] TextStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
@@ -4483,8 +4538,12 @@ module __web_TextInput =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> obj
+        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
         abstract setValue: value: string -> unit
+
+    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
+        abstract start: float with get, set
+        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
@@ -4756,7 +4815,7 @@ module __windows_Button =
         abstract context: ButtonContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _isFocusedWithKeyboard: obj with get, set
-        abstract _getContextMenuOffset: unit -> obj
+        abstract _getContextMenuOffset: unit -> Button_getContextMenuOffsetReturn
         abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
         abstract focus: unit -> unit
         abstract blur: unit -> unit
@@ -4773,6 +4832,10 @@ module __windows_Button =
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
         abstract updateNativeAccessibilityProps: unit -> unit
+
+    type [<AllowNullLiteral>] Button_getContextMenuOffsetReturn =
+        abstract x: float with get, set
+        abstract y: float with get, set
 
     type [<AllowNullLiteral>] ButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Button
@@ -4805,7 +4868,7 @@ module __windows_Link =
     type [<AllowNullLiteral>] Link =
         inherit LinkBase<LinkState>
         inherit FocusManagerFocusableComponent
-        abstract _getContextMenuOffset: unit -> obj
+        abstract _getContextMenuOffset: unit -> Link_getContextMenuOffsetReturn
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract _restrictedOrLimitedCallback: obj with get, set
@@ -4829,6 +4892,10 @@ module __windows_Link =
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
         abstract updateNativeAccessibilityProps: unit -> unit
+
+    type [<AllowNullLiteral>] Link_getContextMenuOffsetReturn =
+        abstract x: float with get, set
+        abstract y: float with get, set
 
     type [<AllowNullLiteral>] LinkStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.LinkProps -> Link
@@ -5090,7 +5157,7 @@ module __windows_View =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ViewContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
-        abstract _getContextMenuOffset: unit -> obj
+        abstract _getContextMenuOffset: unit -> View_getContextMenuOffsetReturn
         abstract _onKeyDown: obj with get, set
         abstract _onMouseEnter: obj with get, set
         abstract _onMouseLeave: obj with get, set
@@ -5131,6 +5198,10 @@ module __windows_View =
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
         abstract updateNativeAccessibilityProps: unit -> unit
+
+    type [<AllowNullLiteral>] View_getContextMenuOffsetReturn =
+        abstract x: float with get, set
+        abstract y: float with get, set
 
     type [<AllowNullLiteral>] ViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View

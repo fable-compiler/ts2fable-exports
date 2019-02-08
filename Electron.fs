@@ -575,7 +575,7 @@ module Electron =
         /// event sequence.
         abstract quitAndInstall: unit -> unit
         /// Sets the url and initialize the auto updater.
-        abstract setFeedURL: url: string * ?requestHeaders: obj -> unit
+        abstract setFeedURL: url: string * ?requestHeaders: obj option -> unit
 
     type [<AllowNullLiteral>] BluetoothDevice =
         abstract deviceId: string with get, set
@@ -1423,7 +1423,7 @@ module Electron =
         abstract detach: unit -> unit
         abstract isAttached: unit -> bool
         /// Send given command to the debugging target.
-        abstract sendCommand: ``method``: string * ?commandParams: obj * ?callback: (obj option -> obj option -> unit) -> unit
+        abstract sendCommand: ``method``: string * ?commandParams: obj option * ?callback: (obj option -> obj option -> unit) -> unit
 
     type [<AllowNullLiteral>] DebuggerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Debugger

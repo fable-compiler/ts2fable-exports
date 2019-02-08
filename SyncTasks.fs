@@ -23,7 +23,7 @@ type [<AllowNullLiteral>] IExports =
     abstract Defer: unit -> Deferred<'T>
     abstract Resolved: unit -> STPromise<'T>
     abstract Resolved: ``val``: 'T -> STPromise<'T>
-    abstract Rejected: ?``val``: obj -> STPromise<'T>
+    abstract Rejected: ?``val``: obj option -> STPromise<'T>
     abstract race: values: Raceable<'T1> * Raceable<'T2> * Raceable<'T3> * Raceable<'T4> * Raceable<'T5> * Raceable<'T6> * Raceable<'T7> * Raceable<'T8> * Raceable<'T9> * Raceable<'T10> -> STPromise<obj>
     abstract race: values: Raceable<'T1> * Raceable<'T2> * Raceable<'T3> * Raceable<'T4> * Raceable<'T5> * Raceable<'T6> * Raceable<'T7> * Raceable<'T8> * Raceable<'T9> -> STPromise<obj>
     abstract race: values: Raceable<'T1> * Raceable<'T2> * Raceable<'T3> * Raceable<'T4> * Raceable<'T5> * Raceable<'T6> * Raceable<'T7> * Raceable<'T8> -> STPromise<U8<'T1, 'T2, 'T3, 'T4, 'T5, 'T6, 'T7, 'T8>>
@@ -51,7 +51,7 @@ type [<AllowNullLiteral>] CancelFunc =
 
 type [<AllowNullLiteral>] Deferred<'T> =
     abstract resolve: obj: 'T -> Deferred<'T>
-    abstract reject: ?obj: obj -> Deferred<'T>
+    abstract reject: ?obj: obj option -> Deferred<'T>
     abstract promise: unit -> STPromise<'T>
     abstract onCancel: callback: CancelFunc -> Deferred<'T>
 
@@ -59,7 +59,7 @@ type [<AllowNullLiteral>] Thenable<'T> =
     abstract ``then``: successFunc: SuccessFunc<'T, 'U> * ?errorFunc: ErrorFunc<'U> -> STPromise<'U>
 
 type [<AllowNullLiteral>] Cancelable =
-    abstract cancel: ?context: obj -> unit
+    abstract cancel: ?context: obj option -> unit
 
 type [<AllowNullLiteral>] STPromise<'T> =
     inherit Thenable<'T>

@@ -23,7 +23,7 @@ module Chai =
 
     type [<AllowNullLiteral>] ExpectStatic =
         inherit AssertionStatic
-        abstract fail: ?actual: obj * ?expected: obj * ?message: string * ?operator: Operator -> unit
+        abstract fail: ?actual: obj option * ?expected: obj option * ?message: string * ?operator: Operator -> unit
 
     type [<AllowNullLiteral>] AssertStatic =
         inherit Assert
@@ -205,7 +205,7 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: value: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Property =
-        [<Emit "$0($1...)">] abstract Invoke: name: string * ?value: obj * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: name: string * ?value: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] OwnProperty =
         [<Emit "$0($1...)">] abstract Invoke: name: string * ?message: string -> Assertion
@@ -999,7 +999,7 @@ module Chai =
         abstract stack: string with get, set
 
     type [<AllowNullLiteral>] AssertionErrorStatic =
-        [<Emit "new $0($1...)">] abstract Create: message: string * ?_props: obj * ?ssf: Function -> AssertionError
+        [<Emit "new $0($1...)">] abstract Create: message: string * ?_props: obj option * ?ssf: Function -> AssertionError
 
 type [<AllowNullLiteral>] Object =
     abstract should: Chai.Assertion with get, set

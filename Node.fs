@@ -62,14 +62,14 @@ type [<AllowNullLiteral>] Console =
     abstract Console: NodeJS.ConsoleConstructor with get, set
     abstract ``assert``: value: obj option * ?message: string * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract dir: obj: obj option * ?options: NodeJS.InspectOptions -> unit
-    abstract debug: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract error: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract info: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract log: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract debug: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract error: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract info: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract log: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract time: label: string -> unit
     abstract timeEnd: label: string -> unit
-    abstract trace: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract warn: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract trace: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract warn: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
 
 type [<AllowNullLiteral>] Error =
     abstract stack: string option with get, set
@@ -97,7 +97,7 @@ type [<AllowNullLiteral>] Iterable<'T> =
     interface end
 
 type [<AllowNullLiteral>] Iterator<'T> =
-    abstract next: ?value: obj -> IteratorResult<'T>
+    abstract next: ?value: obj option -> IteratorResult<'T>
 
 type [<AllowNullLiteral>] IteratorResult<'T> =
     interface end
@@ -480,7 +480,7 @@ module NodeJS =
         abstract uptime: unit -> float
         abstract hrtime: ?time: float * float -> float * float
         abstract domain: Domain with get, set
-        abstract send: message: obj option * ?sendHandle: obj -> unit
+        abstract send: message: obj option * ?sendHandle: obj option -> unit
         abstract disconnect: unit -> unit
         abstract connected: bool with get, set
         /// EventEmitter
@@ -666,7 +666,7 @@ type [<AllowNullLiteral>] NodeBuffer =
     inherit Uint8Array
     abstract write: string: string * ?offset: float * ?length: float * ?encoding: string -> float
     abstract toString: ?encoding: string * ?start: float * ?``end``: float -> string
-    abstract toJSON: unit -> obj
+    abstract toJSON: unit -> NodeBufferToJSONReturn
     abstract equals: otherBuffer: Buffer -> bool
     abstract compare: otherBuffer: Buffer * ?targetStart: float * ?targetEnd: float * ?sourceStart: float * ?sourceEnd: float -> float
     abstract copy: targetBuffer: Buffer * ?targetStart: float * ?sourceStart: float * ?sourceEnd: float -> float
@@ -717,6 +717,10 @@ type [<AllowNullLiteral>] NodeBuffer =
     abstract includes: value: U3<string, float, Buffer> * ?byteOffset: float * ?encoding: string -> bool
     abstract keys: unit -> IterableIterator<float>
     abstract values: unit -> IterableIterator<float>
+
+type [<AllowNullLiteral>] NodeBufferToJSONReturn =
+    abstract ``type``: string with get, set
+    abstract data: ResizeArray<obj option> with get, set
 
 module Buffer =
 
@@ -996,7 +1000,7 @@ module Cluster =
     type [<AllowNullLiteral>] IExports =
         abstract Worker: WorkerStatic
         abstract disconnect: ?callback: Function -> unit
-        abstract fork: ?env: obj -> Worker
+        abstract fork: ?env: obj option -> Worker
         abstract isMaster: bool
         abstract isWorker: bool
         abstract settings: ClusterSettings
@@ -1087,7 +1091,7 @@ module Cluster =
         abstract id: float with get, set
         abstract ``process``: Child.ChildProcess with get, set
         abstract suicide: bool with get, set
-        abstract send: message: obj option * ?sendHandle: obj * ?callback: (Error -> unit) -> bool
+        abstract send: message: obj option * ?sendHandle: obj option * ?callback: (Error -> unit) -> bool
         abstract kill: ?signal: string -> unit
         abstract destroy: ?signal: string -> unit
         abstract disconnect: unit -> unit
@@ -1151,7 +1155,7 @@ module Cluster =
         inherit Events.EventEmitter
         abstract Worker: Worker with get, set
         abstract disconnect: ?callback: Function -> unit
-        abstract fork: ?env: obj -> Worker
+        abstract fork: ?env: obj option -> Worker
         abstract isMaster: bool with get, set
         abstract isWorker: bool with get, set
         abstract settings: ClusterSettings with get, set
@@ -1388,9 +1392,9 @@ module Os =
         abstract cpus: unit -> ResizeArray<CpuInfo>
         abstract ``type``: unit -> string
         abstract release: unit -> string
-        abstract networkInterfaces: unit -> obj
+        abstract networkInterfaces: unit -> NetworkInterfacesReturn
         abstract homedir: unit -> string
-        abstract userInfo: ?options: UserInfoOptions -> obj
+        abstract userInfo: ?options: UserInfoOptions -> UserInfoReturn
         abstract constants: obj
         abstract arch: unit -> string
         abstract platform: unit -> NodeJS.Platform
@@ -1398,8 +1402,18 @@ module Os =
         abstract EOL: string
         abstract endianness: unit -> U2<string, string>
 
+    type [<AllowNullLiteral>] NetworkInterfacesReturn =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> ResizeArray<NetworkInterfaceInfo> with get, set
+
     type [<AllowNullLiteral>] UserInfoOptions =
         abstract encoding: string with get, set
+
+    type [<AllowNullLiteral>] UserInfoReturn =
+        abstract username: string with get, set
+        abstract uid: float with get, set
+        abstract gid: float with get, set
+        abstract shell: obj option with get, set
+        abstract homedir: string with get, set
 
     type [<AllowNullLiteral>] CpuInfo =
         abstract model: string with get, set
@@ -1841,7 +1855,7 @@ module Child_process =
             abstract __promisify__: command: string -> Promise<obj>
             abstract __promisify__: command: string * options: obj -> Promise<obj>
             abstract __promisify__: command: string * options: ExecOptions -> Promise<obj>
-            abstract __promisify__: command: string * ?options: obj -> Promise<obj>
+            abstract __promisify__: command: string * ?options: obj option -> Promise<obj>
 
     type [<AllowNullLiteral>] ExecFileOptions =
         abstract cwd: string option with get, set
@@ -2287,13 +2301,13 @@ module Net =
         abstract connect: path: string * ?connectionListener: Function -> Socket
         abstract bufferSize: float with get, set
         abstract setEncoding: ?encoding: string -> Socket
-        abstract destroy: ?err: obj -> unit
+        abstract destroy: ?err: obj option -> unit
         abstract pause: unit -> Socket
         abstract resume: unit -> Socket
         abstract setTimeout: timeout: float * ?callback: Function -> Socket
         abstract setNoDelay: ?noDelay: bool -> Socket
         abstract setKeepAlive: ?enable: bool * ?initialDelay: float -> Socket
-        abstract address: unit -> obj
+        abstract address: unit -> SocketAddressReturn
         abstract unref: unit -> unit
         abstract ref: unit -> unit
         abstract remoteAddress: string option with get, set
@@ -2309,7 +2323,7 @@ module Net =
         abstract ``end``: buffer: Buffer * ?cb: Function -> unit
         abstract ``end``: str: string * ?cb: Function -> unit
         abstract ``end``: str: string * ?encoding: string * ?cb: Function -> unit
-        abstract ``end``: ?data: obj * ?encoding: string -> unit
+        abstract ``end``: ?data: obj option * ?encoding: string -> unit
         /// events.EventEmitter
         ///    1. close
         ///    2. connect
@@ -2374,6 +2388,11 @@ module Net =
         [<Emit "$0.prependOnceListener('lookup',$1)">] abstract prependOnceListener_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.prependOnceListener('timeout',$1)">] abstract prependOnceListener_timeout: listener: (unit -> unit) -> Socket
 
+    type [<AllowNullLiteral>] SocketAddressReturn =
+        abstract port: float with get, set
+        abstract family: string with get, set
+        abstract address: string with get, set
+
     type [<AllowNullLiteral>] SocketStatic =
         [<Emit "new $0($1...)">] abstract Create: ?options: SocketConstructorOpts -> Socket
 
@@ -2396,7 +2415,7 @@ module Net =
         abstract listen: handle: obj option * ?backlog: float * ?listeningListener: Function -> Server
         abstract listen: handle: obj option * ?listeningListener: Function -> Server
         abstract close: ?callback: Function -> Server
-        abstract address: unit -> obj
+        abstract address: unit -> ServerAddressReturn
         abstract getConnections: cb: (Error option -> float -> unit) -> unit
         abstract ref: unit -> Server
         abstract unref: unit -> Server
@@ -2438,6 +2457,11 @@ module Net =
         [<Emit "$0.prependOnceListener('connection',$1)">] abstract prependOnceListener_connection: listener: (Socket -> unit) -> Server
         [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Server
         [<Emit "$0.prependOnceListener('listening',$1)">] abstract prependOnceListener_listening: listener: (unit -> unit) -> Server
+
+    type [<AllowNullLiteral>] ServerAddressReturn =
+        abstract port: float with get, set
+        abstract family: string with get, set
+        abstract address: string with get, set
 
     type [<AllowNullLiteral>] ServerStatic =
         [<Emit "new $0($1...)">] abstract Create: ?connectionListener: (Socket -> unit) -> Server
@@ -2630,7 +2654,7 @@ module Fs =
         /// <summary>Synchronous truncate(2) - Truncate a file to a specified length.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="len">If not specified, defaults to `0`.</param>
-        abstract truncateSync: path: PathLike * ?len: float -> unit
+        abstract truncateSync: path: PathLike * ?len: float option -> unit
         /// <summary>Asynchronous ftruncate(2) - Truncate a file to a specified length.</summary>
         /// <param name="fd">A file descriptor.</param>
         /// <param name="len">If not specified, defaults to `0`.</param>
@@ -2641,7 +2665,7 @@ module Fs =
         /// <summary>Synchronous ftruncate(2) - Truncate a file to a specified length.</summary>
         /// <param name="fd">A file descriptor.</param>
         /// <param name="len">If not specified, defaults to `0`.</param>
-        abstract ftruncateSync: fd: float * ?len: float -> unit
+        abstract ftruncateSync: fd: float * ?len: float option -> unit
         /// <summary>Asynchronous chown(2) - Change ownership of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         abstract chown: path: PathLike * uid: float * gid: float * callback: (NodeJS.ErrnoException -> unit) -> unit
@@ -2725,7 +2749,7 @@ module Fs =
         /// <param name="path">A path to the new symlink. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="type">May be set to `'dir'`, `'file'`, or `'junction'` (default is `'file'`) and is only available on Windows (ignored on other platforms).
         /// When using `'junction'`, the `target` argument will automatically be normalized to an absolute path.</param>
-        abstract symlinkSync: target: PathLike * path: PathLike * ?``type``: Symlink.Type -> unit
+        abstract symlinkSync: target: PathLike * path: PathLike * ?``type``: Symlink.Type option -> unit
         /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2744,7 +2768,7 @@ module Fs =
         /// <summary>Synchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlinkSync: path: PathLike * ?options: U2<obj, BufferEncoding> -> string
+        abstract readlinkSync: path: PathLike * ?options: U2<obj, BufferEncoding> option -> string
         /// <summary>Synchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2752,7 +2776,7 @@ module Fs =
         /// <summary>Synchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlinkSync: path: PathLike * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract readlinkSync: path: PathLike * ?options: U2<obj, string> option -> U2<string, Buffer>
         /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2771,7 +2795,7 @@ module Fs =
         /// <summary>Synchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpathSync: path: PathLike * ?options: U2<obj, BufferEncoding> -> string
+        abstract realpathSync: path: PathLike * ?options: U2<obj, BufferEncoding> option -> string
         /// <summary>Synchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2779,7 +2803,7 @@ module Fs =
         /// <summary>Synchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpathSync: path: PathLike * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract realpathSync: path: PathLike * ?options: U2<obj, string> option -> U2<string, Buffer>
         /// <summary>Asynchronous unlink(2) - delete a name and possibly the file it refers to.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         abstract unlink: path: PathLike * callback: (NodeJS.ErrnoException -> unit) -> unit
@@ -2802,7 +2826,7 @@ module Fs =
         /// <summary>Synchronous mkdir(2) - create a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="mode">A file mode. If a string is passed, it is parsed as an octal integer. If not specified, defaults to `0o777`.</param>
-        abstract mkdirSync: path: PathLike * ?mode: U2<float, string> -> unit
+        abstract mkdirSync: path: PathLike * ?mode: U2<float, string> option -> unit
         /// <summary>Asynchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2821,7 +2845,7 @@ module Fs =
         /// <summary>Synchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtempSync: prefix: string * ?options: U2<obj, BufferEncoding> -> string
+        abstract mkdtempSync: prefix: string * ?options: U2<obj, BufferEncoding> option -> string
         /// <summary>Synchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2829,7 +2853,7 @@ module Fs =
         /// <summary>Synchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtempSync: prefix: string * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract mkdtempSync: prefix: string * ?options: U2<obj, string> option -> U2<string, Buffer>
         /// <summary>Asynchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2848,7 +2872,7 @@ module Fs =
         /// <summary>Synchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdirSync: path: PathLike * ?options: U2<obj, BufferEncoding> -> ResizeArray<string>
+        abstract readdirSync: path: PathLike * ?options: U2<obj, BufferEncoding> option -> ResizeArray<string>
         /// <summary>Synchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -2856,7 +2880,7 @@ module Fs =
         /// <summary>Synchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdirSync: path: PathLike * ?options: U2<obj, string> -> U2<ResizeArray<string>, ResizeArray<Buffer>>
+        abstract readdirSync: path: PathLike * ?options: U2<obj, string> option -> U2<ResizeArray<string>, ResizeArray<Buffer>>
         /// <summary>Asynchronous close(2) - close a file descriptor.</summary>
         /// <param name="fd">A file descriptor.</param>
         abstract close: fd: float * callback: (NodeJS.ErrnoException -> unit) -> unit
@@ -2873,7 +2897,7 @@ module Fs =
         /// <summary>Synchronous open(2) - open and possibly create a file, returning a file descriptor..</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="mode">A file mode. If a string is passed, it is parsed as an octal integer. If not supplied, defaults to `0o666`.</param>
-        abstract openSync: path: PathLike * flags: U2<string, float> * ?mode: U2<string, float> -> float
+        abstract openSync: path: PathLike * flags: U2<string, float> * ?mode: U2<string, float> option -> float
         /// <summary>Asynchronously change file timestamps of the file referenced by the supplied path.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="atime">The last access time. If a string is provided, it will be coerced to number.</param>
@@ -2938,13 +2962,13 @@ module Fs =
         /// <param name="offset">The part of the buffer to be written. If not supplied, defaults to `0`.</param>
         /// <param name="length">The number of bytes to write. If not supplied, defaults to `buffer.length - offset`.</param>
         /// <param name="position">The offset from the beginning of the file where this data should be written. If not supplied, defaults to the current position.</param>
-        abstract writeSync: fd: float * buffer: U2<Buffer, Uint8Array> * ?offset: float * ?length: float * ?position: float -> float
+        abstract writeSync: fd: float * buffer: U2<Buffer, Uint8Array> * ?offset: float option * ?length: float option * ?position: float option -> float
         /// <summary>Synchronously writes `string` to the file referenced by the supplied file descriptor, returning the number of bytes written.</summary>
         /// <param name="fd">A file descriptor.</param>
         /// <param name="string">A string to write. If something other than a string is supplied it will be coerced to a string.</param>
         /// <param name="position">The offset from the beginning of the file where this data should be written. If not supplied, defaults to the current position.</param>
         /// <param name="encoding">The expected string encoding.</param>
-        abstract writeSync: fd: float * string: obj option * ?position: float * ?encoding: string -> float
+        abstract writeSync: fd: float * string: obj option * ?position: float option * ?encoding: string option -> float
         /// <summary>Asynchronously reads data from the file referenced by the supplied file descriptor.</summary>
         /// <param name="fd">A file descriptor.</param>
         /// <param name="buffer">The buffer that the data will be written to.</param>
@@ -2988,7 +3012,7 @@ module Fs =
         /// URL support is _experimental_.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">An object that may contain an optional flag. If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFileSync: path: U2<PathLike, float> * ?options: obj -> Buffer
+        abstract readFileSync: path: U2<PathLike, float> * ?options: obj option -> Buffer
         /// <summary>Synchronously reads the entire contents of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3002,7 +3026,7 @@ module Fs =
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
         /// If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFileSync: path: U2<PathLike, float> * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract readFileSync: path: U2<PathLike, float> * ?options: U2<obj, string> option -> U2<string, Buffer>
         /// <summary>Asynchronously writes data to a file, replacing the file if it already exists.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3030,7 +3054,7 @@ module Fs =
         /// If `mode` is not supplied, the default of `0o666` is used.
         /// If `mode` is a string, it is parsed as an octal integer.
         /// If `flag` is not supplied, the default of `'w'` is used.</param>
-        abstract writeFileSync: path: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> unit
+        abstract writeFileSync: path: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> option -> unit
         /// <summary>Asynchronously append data to a file, creating the file if it does not exist.</summary>
         /// <param name="file">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3058,7 +3082,7 @@ module Fs =
         /// If `mode` is not supplied, the default of `0o666` is used.
         /// If `mode` is a string, it is parsed as an octal integer.
         /// If `flag` is not supplied, the default of `'a'` is used.</param>
-        abstract appendFileSync: file: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> unit
+        abstract appendFileSync: file: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> option -> unit
         /// Watch for changes on `filename`. The callback `listener` will be called each time the file is accessed.
         abstract watchFile: filename: PathLike * options: obj option * listener: (Stats -> Stats -> unit) -> unit
         /// <summary>Watch for changes on `filename`. The callback `listener` will be called each time the file is accessed.</summary>
@@ -3295,7 +3319,7 @@ module Fs =
             /// <summary>Asynchronous truncate(2) - Truncate a file to a specified length.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="len">If not specified, defaults to `0`.</param>
-            abstract __promisify__: path: PathLike * ?len: float -> Promise<unit>
+            abstract __promisify__: path: PathLike * ?len: float option -> Promise<unit>
 
     module Ftruncate =
 
@@ -3303,7 +3327,7 @@ module Fs =
             /// <summary>Asynchronous ftruncate(2) - Truncate a file to a specified length.</summary>
             /// <param name="fd">A file descriptor.</param>
             /// <param name="len">If not specified, defaults to `0`.</param>
-            abstract __promisify__: fd: float * ?len: float -> Promise<unit>
+            abstract __promisify__: fd: float * ?len: float option -> Promise<unit>
 
     module Chown =
 
@@ -3387,7 +3411,7 @@ module Fs =
             /// <param name="path">A path to the new symlink. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="type">May be set to `'dir'`, `'file'`, or `'junction'` (default is `'file'`) and is only available on Windows (ignored on other platforms).
             /// When using `'junction'`, the `target` argument will automatically be normalized to an absolute path.</param>
-            abstract __promisify__: target: PathLike * path: PathLike * ?``type``: string -> Promise<unit>
+            abstract __promisify__: target: PathLike * path: PathLike * ?``type``: string option -> Promise<unit>
 
         type [<StringEnum>] [<RequireQualifiedAccess>] Type =
             | Dir
@@ -3400,7 +3424,7 @@ module Fs =
             /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> -> Promise<string>
+            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> option -> Promise<string>
             /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -3408,7 +3432,7 @@ module Fs =
             /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: path: PathLike * ?options: U2<obj, string> option -> Promise<U2<string, Buffer>>
 
     module Realpath =
 
@@ -3416,7 +3440,7 @@ module Fs =
             /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> -> Promise<string>
+            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> option -> Promise<string>
             /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -3424,7 +3448,7 @@ module Fs =
             /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: path: PathLike * ?options: U2<obj, string> option -> Promise<U2<string, Buffer>>
 
     module Unlink =
 
@@ -3446,7 +3470,7 @@ module Fs =
             /// <summary>Asynchronous mkdir(2) - create a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="mode">A file mode. If a string is passed, it is parsed as an octal integer. If not specified, defaults to `0o777`.</param>
-            abstract __promisify__: path: PathLike * ?mode: U2<float, string> -> Promise<unit>
+            abstract __promisify__: path: PathLike * ?mode: U2<float, string> option -> Promise<unit>
 
     module Mkdtemp =
 
@@ -3454,7 +3478,7 @@ module Fs =
             /// <summary>Asynchronously creates a unique temporary directory.
             /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: prefix: string * ?options: U2<obj, BufferEncoding> -> Promise<string>
+            abstract __promisify__: prefix: string * ?options: U2<obj, BufferEncoding> option -> Promise<string>
             /// <summary>Asynchronously creates a unique temporary directory.
             /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -3462,7 +3486,7 @@ module Fs =
             /// <summary>Asynchronously creates a unique temporary directory.
             /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: prefix: string * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: prefix: string * ?options: U2<obj, string> option -> Promise<U2<string, Buffer>>
 
     module Readdir =
 
@@ -3470,7 +3494,7 @@ module Fs =
             /// <summary>Asynchronous readdir(3) - read a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> -> Promise<ResizeArray<string>>
+            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> option -> Promise<ResizeArray<string>>
             /// <summary>Asynchronous readdir(3) - read a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
@@ -3478,7 +3502,7 @@ module Fs =
             /// <summary>Asynchronous readdir(3) - read a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, string> -> Promise<U2<ResizeArray<string>, ResizeArray<Buffer>>>
+            abstract __promisify__: path: PathLike * ?options: U2<obj, string> option -> Promise<U2<ResizeArray<string>, ResizeArray<Buffer>>>
 
     module Close =
 
@@ -3493,7 +3517,7 @@ module Fs =
             /// <summary>Asynchronous open(2) - open and possibly create a file.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="mode">A file mode. If a string is passed, it is parsed as an octal integer. If not supplied, defaults to `0o666`.</param>
-            abstract __promisify__: path: PathLike * flags: U2<string, float> * ?mode: U2<string, float> -> Promise<float>
+            abstract __promisify__: path: PathLike * flags: U2<string, float> * ?mode: U2<string, float> option -> Promise<float>
 
     module Utimes =
 
@@ -3528,13 +3552,13 @@ module Fs =
             /// <param name="offset">The part of the buffer to be written. If not supplied, defaults to `0`.</param>
             /// <param name="length">The number of bytes to write. If not supplied, defaults to `buffer.length - offset`.</param>
             /// <param name="position">The offset from the beginning of the file where this data should be written. If not supplied, defaults to the current position.</param>
-            abstract __promisify__: fd: float * ?buffer: 'TBuffer * ?offset: float * ?length: float * ?position: float -> Promise<obj>
+            abstract __promisify__: fd: float * ?buffer: 'TBuffer * ?offset: float * ?length: float * ?position: float option -> Promise<obj>
             /// <summary>Asynchronously writes `string` to the file referenced by the supplied file descriptor.</summary>
             /// <param name="fd">A file descriptor.</param>
             /// <param name="string">A string to write. If something other than a string is supplied it will be coerced to a string.</param>
             /// <param name="position">The offset from the beginning of the file where this data should be written. If not supplied, defaults to the current position.</param>
             /// <param name="encoding">The expected string encoding.</param>
-            abstract __promisify__: fd: float * string: obj option * ?position: float * ?encoding: string -> Promise<obj>
+            abstract __promisify__: fd: float * string: obj option * ?position: float option * ?encoding: string option -> Promise<obj>
 
     module Read =
 
@@ -3554,7 +3578,7 @@ module Fs =
             /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
             /// <param name="options">An object that may contain an optional flag.
             /// If a flag is not provided, it defaults to `'r'`.</param>
-            abstract __promisify__: path: U2<PathLike, float> * ?options: obj -> Promise<Buffer>
+            abstract __promisify__: path: U2<PathLike, float> * ?options: obj option -> Promise<Buffer>
             /// <summary>Asynchronously reads the entire contents of a file.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
             /// URL support is _experimental_.
@@ -3568,7 +3592,7 @@ module Fs =
             /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
             /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
             /// If a flag is not provided, it defaults to `'r'`.</param>
-            abstract __promisify__: path: U2<PathLike, float> * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: path: U2<PathLike, float> * ?options: U2<obj, string> option -> Promise<U2<string, Buffer>>
 
     module WriteFile =
 
@@ -3583,7 +3607,7 @@ module Fs =
             /// If `mode` is not supplied, the default of `0o666` is used.
             /// If `mode` is a string, it is parsed as an octal integer.
             /// If `flag` is not supplied, the default of `'w'` is used.</param>
-            abstract __promisify__: path: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> Promise<unit>
+            abstract __promisify__: path: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> option -> Promise<unit>
 
     module AppendFile =
 
@@ -3598,7 +3622,7 @@ module Fs =
             /// If `mode` is not supplied, the default of `0o666` is used.
             /// If `mode` is a string, it is parsed as an octal integer.
             /// If `flag` is not supplied, the default of `'a'` is used.</param>
-            abstract __promisify__: file: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> Promise<unit>
+            abstract __promisify__: file: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> option -> Promise<unit>
 
     module Exists =
 

@@ -739,7 +739,7 @@ module Vscode =
         /// <param name="listener">The listener function will be called when the event happens.</param>
         /// <param name="thisArgs">The `this`-argument which will be used when calling the event listener.</param>
         /// <param name="disposables">An array to which a [disposable](#Disposable) will be added.</param>
-        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArgs: obj * ?disposables: ResizeArray<Disposable> -> Disposable
+        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArgs: obj option * ?disposables: ResizeArray<Disposable> -> Disposable
 
     /// An event emitter can be used to create and manage an [event](#Event) for others
     /// to subscribe to. One emitter always owns one event.
@@ -2060,7 +2060,7 @@ module Vscode =
         /// <summary>Iterate over each entry in this collection.</summary>
         /// <param name="callback">Function to execute for each entry.</param>
         /// <param name="thisArg">The `this` context used when invoking the handler function.</param>
-        abstract forEach: callback: (Uri -> ResizeArray<Diagnostic> -> DiagnosticCollection -> obj option) * ?thisArg: obj -> unit
+        abstract forEach: callback: (Uri -> ResizeArray<Diagnostic> -> DiagnosticCollection -> obj option) * ?thisArg: obj option -> unit
         /// <summary>Get the diagnostics for a given resource. *Note* that you cannot
         /// modify the diagnostics-array returned from this call.</summary>
         /// <param name="uri">A resource identifier.</param>
@@ -2434,7 +2434,7 @@ module Vscode =
             /// <param name="command">A unique identifier for the command.</param>
             /// <param name="callback">A command handler function.</param>
             /// <param name="thisArg">The `this` context used when invoking the handler function.</param>
-            abstract registerCommand: command: string * callback: (ResizeArray<obj option> -> obj option) * ?thisArg: obj -> Disposable
+            abstract registerCommand: command: string * callback: (ResizeArray<obj option> -> obj option) * ?thisArg: obj option -> Disposable
             /// <summary>Registers a text editor command that can be invoked via a keyboard shortcut,
             /// a menu item, an action, or directly.
             /// 
@@ -2445,7 +2445,7 @@ module Vscode =
             /// <param name="command">A unique identifier for the command.</param>
             /// <param name="callback">A command handler function with access to an [editor](#TextEditor) and an [edit](#TextEditorEdit).</param>
             /// <param name="thisArg">The `this` context used when invoking the handler function.</param>
-            abstract registerTextEditorCommand: command: string * callback: (TextEditor -> TextEditorEdit -> ResizeArray<obj option> -> unit) * ?thisArg: obj -> Disposable
+            abstract registerTextEditorCommand: command: string * callback: (TextEditor -> TextEditorEdit -> ResizeArray<obj option> -> unit) * ?thisArg: obj option -> Disposable
             /// <summary>Executes the command denoted by the given command identifier.
             /// 
             /// * *Note 1:* When executing an editor command not all types are allowed to
@@ -3229,7 +3229,7 @@ module Vscode =
         /// The debug session's name from the [debug configuration](#DebugConfiguration).
         abstract name: string
         /// Send a custom request to the debug adapter.
-        abstract customRequest: command: string * ?args: obj -> Thenable<obj option>
+        abstract customRequest: command: string * ?args: obj option -> Thenable<obj option>
 
     /// A custom Debug Adapter Protocol event received from a [debug session](#DebugSession).
     type [<AllowNullLiteral>] DebugSessionCustomEvent =

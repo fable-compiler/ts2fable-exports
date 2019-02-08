@@ -33,7 +33,7 @@ module Monaco =
         abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] IEvent<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArg: obj -> IDisposable
+        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArg: obj option -> IDisposable
 
     /// A helper that allows to emit and listen to typed events
     type [<AllowNullLiteral>] Emitter<'T> =
@@ -77,7 +77,7 @@ module Monaco =
 
     /// A Promise implementation that supports progress and cancelation.
     type [<AllowNullLiteral>] PromiseStatic =
-        [<Emit "new $0($1...)">] abstract Create: init: (TValueCallback<'V> -> (obj option -> unit) -> ProgressCallback -> unit) * ?oncancel: obj -> Promise<'V>
+        [<Emit "new $0($1...)">] abstract Create: init: (TValueCallback<'V> -> (obj option -> unit) -> ProgressCallback -> unit) * ?oncancel: obj option -> Promise<'V>
         abstract ``as``: value: obj -> Promise<obj>
         abstract ``as``: value: obj -> Promise<obj>
         abstract ``as``: value: Promise<'ValueType> -> Promise<'ValueType>
@@ -2317,9 +2317,14 @@ module Monaco =
             /// Explanation 1: the results of this method will change for the same `position` if the user scrolls the editor.
             /// Explanation 2: the results of this method will not change if the container of the editor gets repositioned.
             /// Warning: the results of this method are innacurate for positions that are outside the current editor viewport.
-            abstract getScrolledVisiblePosition: position: IPosition -> obj
+            abstract getScrolledVisiblePosition: position: IPosition -> ICodeEditorGetScrolledVisiblePositionReturn
             /// Apply the same font settings as the editor to `target`.
             abstract applyFontInfo: target: HTMLElement -> unit
+
+        type [<AllowNullLiteral>] ICodeEditorGetScrolledVisiblePositionReturn =
+            abstract top: float with get, set
+            abstract left: float with get, set
+            abstract height: float with get, set
 
         /// A rich diff editor.
         type [<AllowNullLiteral>] IDiffEditor =

@@ -44,7 +44,7 @@ type [<AllowNullLiteral>] MochaSetupOptions =
     abstract require: ResizeArray<string> option with get, set
 
 type [<AllowNullLiteral>] MochaDone =
-    [<Emit "$0($1...)">] abstract Invoke: ?error: obj -> obj option
+    [<Emit "$0($1...)">] abstract Invoke: ?error: obj option -> obj option
 
 type [<AllowNullLiteral>] ReporterConstructor =
     interface end
@@ -59,9 +59,9 @@ type [<AllowNullLiteral>] Mocha =
     abstract bail: ?value: bool -> Mocha
     abstract addFile: file: string -> Mocha
     /// Sets reporter by name, defaults to "spec". 
-    abstract reporter: name: string * ?reporterOptions: obj -> Mocha
+    abstract reporter: name: string * ?reporterOptions: obj option -> Mocha
     /// Sets reporter constructor, defaults to mocha.reporters.Spec. 
-    abstract reporter: reporter: ReporterConstructor * ?reporterOptions: obj -> Mocha
+    abstract reporter: reporter: ReporterConstructor * ?reporterOptions: obj option -> Mocha
     abstract ui: value: string -> Mocha
     abstract grep: value: string -> Mocha
     abstract grep: value: RegExp -> Mocha
@@ -309,4 +309,4 @@ module Mocha =
             inherit Base
 
         type [<AllowNullLiteral>] XUnitStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: obj -> XUnit
+            [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: obj option -> XUnit

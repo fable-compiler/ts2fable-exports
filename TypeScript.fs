@@ -756,11 +756,11 @@ module Ts =
         abstract parseCommandLine: commandLine: ResizeArray<string> * ?readFile: (string -> string option) -> ParsedCommandLine
         /// <summary>Read tsconfig.json file</summary>
         /// <param name="fileName">The path to the config file</param>
-        abstract readConfigFile: fileName: string * readFile: (string -> string option) -> obj
+        abstract readConfigFile: fileName: string * readFile: (string -> string option) -> ReadConfigFileReturn
         /// <summary>Parse the text of the tsconfig.json file</summary>
         /// <param name="fileName">The path to the config file</param>
         /// <param name="jsonText">The text of the config file</param>
-        abstract parseConfigFileTextToJson: fileName: string * jsonText: string -> obj
+        abstract parseConfigFileTextToJson: fileName: string * jsonText: string -> ParseConfigFileTextToJsonReturn
         /// <summary>Read tsconfig.json file</summary>
         /// <param name="fileName">The path to the config file</param>
         abstract readJsonConfigFile: fileName: string * readFile: (string -> string option) -> JsonSourceFile
@@ -777,8 +777,8 @@ module Ts =
         /// <param name="basePath">A root directory to resolve relative path entries in the config
         /// file to. e.g. outDir</param>
         abstract parseJsonSourceFileConfigFileContent: sourceFile: JsonSourceFile * host: ParseConfigHost * basePath: string * ?existingOptions: CompilerOptions * ?configFileName: string * ?resolutionStack: ResizeArray<Path> * ?extraFileExtensions: ResizeArray<JsFileExtensionInfo> -> ParsedCommandLine
-        abstract convertCompilerOptionsFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> obj
-        abstract convertTypeAcquisitionFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> obj
+        abstract convertCompilerOptionsFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> ConvertCompilerOptionsFromJsonReturn
+        abstract convertTypeAcquisitionFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> ConvertTypeAcquisitionFromJsonReturn
         abstract TextChange: TextChangeStatic
         abstract createClassifier: unit -> Classifier
         abstract createDocumentRegistry: ?useCaseSensitiveFileNames: bool * ?currentDirectory: string -> DocumentRegistry
@@ -809,6 +809,22 @@ module Ts =
         abstract resolvePath: path: string -> string
         abstract fileExists: fileName: string -> bool
         abstract readFile: fileName: string -> string option
+
+    type [<AllowNullLiteral>] ReadConfigFileReturn =
+        abstract config: obj option with get, set
+        abstract error: Diagnostic option with get, set
+
+    type [<AllowNullLiteral>] ParseConfigFileTextToJsonReturn =
+        abstract config: obj option with get, set
+        abstract error: Diagnostic option with get, set
+
+    type [<AllowNullLiteral>] ConvertCompilerOptionsFromJsonReturn =
+        abstract options: CompilerOptions with get, set
+        abstract errors: ResizeArray<Diagnostic> with get, set
+
+    type [<AllowNullLiteral>] ConvertTypeAcquisitionFromJsonReturn =
+        abstract options: TypeAcquisition with get, set
+        abstract errors: ResizeArray<Diagnostic> with get, set
 
     /// Type of objects whose values are all of the same type.
     /// The `in` and `for-in` operators can *not* be safely used,

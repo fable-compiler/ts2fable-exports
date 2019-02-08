@@ -191,18 +191,18 @@ module React =
         CFactory<'P, ClassicComponent<'P, ComponentState>>
 
     type [<AllowNullLiteral>] DOMFactory<'P, 'T> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
 
     type [<AllowNullLiteral>] HTMLFactory<'T> =
         inherit DetailedHTMLFactory<AllHTMLAttributes<'T>, 'T>
 
     type [<AllowNullLiteral>] DetailedHTMLFactory<'P, 'T> =
         inherit DOMFactory<'P, 'T>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
 
     type [<AllowNullLiteral>] SVGFactory =
         inherit DOMFactory<SVGAttributes<SVGElement>, SVGElement>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj option * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
 
     type ReactText =
         U2<string, float>
@@ -279,7 +279,7 @@ module React =
         abstract refs: obj with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
+        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> Component<'P, 'S>
 
     type PureComponent<'S> =
         PureComponent<obj, 'S>
@@ -318,7 +318,7 @@ module React =
         StatelessComponent<obj>
 
     type [<AllowNullLiteral>] StatelessComponent<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: props: obj * ?context: obj -> ReactElement<obj option> option
+        [<Emit "$0($1...)">] abstract Invoke: props: obj * ?context: obj option -> ReactElement<obj option> option
         abstract propTypes: ValidationMap<'P> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
         abstract defaultProps: obj option with get, set
@@ -335,7 +335,7 @@ module React =
         abstract displayName: string option with get, set
 
     type [<AllowNullLiteral>] ComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> ComponentClass<'P>
+        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ComponentClass<'P>
 
     type ClassicComponentClass =
         ClassicComponentClass<obj>
@@ -345,7 +345,7 @@ module React =
         abstract getDefaultProps: unit -> 'P
 
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> ClassicComponentClass<'P>
+        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj option -> ClassicComponentClass<'P>
 
     type [<AllowNullLiteral>] ClassType<'P, 'T, 'C> =
         interface end
