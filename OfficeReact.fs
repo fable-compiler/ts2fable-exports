@@ -96,6 +96,7 @@ module __demo_GettingStartedPage =
     type [<AllowNullLiteral>] GettingStartedPage =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _getEditButton: unit -> unit
 
     type [<AllowNullLiteral>] GettingStartedPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GettingStartedPage
@@ -134,6 +135,12 @@ module __components_ActivityItem_ActivityItem =
     type [<AllowNullLiteral>] ActivityItem =
         inherit BaseComponent<IActivityItemProps, obj>
         abstract render: unit -> JSX.Element
+        abstract _onRenderIcon: obj with get, set
+        abstract _onRenderActivityDescription: obj with get, set
+        abstract _onRenderComments: obj with get, set
+        abstract _onRenderTimeStamp: obj with get, set
+        abstract _onRenderPersonaArray: obj with get, set
+        abstract _getClassNames: props: obj -> unit
 
     type [<AllowNullLiteral>] ActivityItemStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IActivityItemProps -> ActivityItem
@@ -253,6 +260,9 @@ module __components_Autofill_Autofill =
         inherit BaseComponent<IAutofillProps, IAutofillState>
         inherit IAutofill
         abstract defaultProps: obj with get, set
+        abstract _inputElement: obj with get, set
+        abstract _autoFillEnabled: obj with get, set
+        abstract _value: obj with get, set
         abstract cursorLocation: float option
         abstract isValueSelected: bool
         abstract value: string
@@ -264,6 +274,33 @@ module __components_Autofill_Autofill =
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
         abstract clear: unit -> unit
+        abstract _onCompositionStart: obj with get, set
+        abstract _onCompositionEnd: obj with get, set
+        abstract _onClick: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onInputChanged: obj with get, set
+        abstract _onChanged: obj with get, set
+        abstract _getCurrentInputValue: ?ev: obj -> unit
+        /// <summary>Attempts to enable autofill. Whether or not autofill is enabled depends on the input value,
+        /// whether or not any text is selected, and only if the new input value is longer than the old input value.
+        /// Autofill should never be set to true if the value is composing. Once compositionEnd is called, then
+        /// it should be completed.
+        /// See https://developer.mozilla.org/en-US/docs/Web/API/CompositionEvent for more information on composition.</summary>
+        /// <param name="newValue"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="isComposing">if true then the text is actively being composed and it has not completed.</param>
+        /// <param name="isComposed">if the text is a composed text value.</param>
+        abstract _tryEnableAutofill: newValue: obj * oldValue: obj * ?isComposing: obj * ?isComposed: obj -> unit
+        abstract _notifyInputChange: newValue: obj -> unit
+        /// Updates the current input value as well as getting a new display value.
+        abstract _updateValue: obj with get, set
+        /// <summary>Returns a string that should be used as the display value.
+        /// It evaluates this based on whether or not the suggested value starts with the input value
+        /// and whether or not autofill is enabled.</summary>
+        /// <param name="inputValue">the value that the input currently has.</param>
+        /// <param name="suggestedDisplayValue">the possible full value</param>
+        abstract _getDisplayValue: inputValue: obj * ?suggestedDisplayValue: obj -> unit
+        abstract _doesTextStartWith: text: obj * startWith: obj -> unit
 
     type [<AllowNullLiteral>] AutofillStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IAutofillProps -> Autofill
@@ -350,10 +387,19 @@ module __components_Breadcrumb_Breadcrumb_base =
     type [<AllowNullLiteral>] BreadcrumbBase =
         inherit BaseComponent<IBreadcrumbProps, obj option>
         abstract defaultProps: IBreadcrumbProps with get, set
+        abstract _classNames: obj with get, set
+        abstract _focusZone: obj with get, set
         /// Sets focus to the first breadcrumb link.
         abstract focus: unit -> unit
         abstract render: unit -> JSX.Element
         abstract componentWillReceiveProps: nextProps: IBreadcrumbProps -> unit
+        abstract _onReduceData: obj with get, set
+        abstract _onRenderBreadcrumb: obj with get, set
+        abstract _onRenderItem: obj with get, set
+        abstract _onBreadcrumbClicked: obj with get, set
+        /// <summary>Validate incoming props</summary>
+        /// <param name="props">Props to validate</param>
+        abstract _validateProps: props: obj -> unit
 
     type [<AllowNullLiteral>] BreadcrumbBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IBreadcrumbProps -> BreadcrumbBase
@@ -501,13 +547,50 @@ module __components_Button_BaseButton =
     type [<AllowNullLiteral>] BaseButton =
         inherit BaseComponent<IBaseButtonProps, IBaseButtonState>
         inherit IButton
+        abstract _isSplitButton: obj
+        abstract _isExpanded: obj
         abstract defaultProps: obj with get, set
+        abstract _buttonElement: obj with get, set
+        abstract _splitButtonContainer: obj with get, set
+        abstract _labelId: obj with get, set
+        abstract _descriptionId: obj with get, set
+        abstract _ariaDescriptionId: obj with get, set
+        abstract _classNames: obj with get, set
+        abstract _processingTouch: obj with get, set
+        abstract _lastTouchTimeoutId: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: IBaseButtonProps * prevState: IBaseButtonState -> unit
         abstract focus: unit -> unit
         abstract dismissMenu: unit -> unit
         abstract openMenu: unit -> unit
+        abstract _onRenderContent: tag: obj * buttonProps: obj -> unit
+        abstract _onRenderIcon: obj with get, set
+        abstract _onRenderTextContents: obj with get, set
+        abstract _onRenderText: obj with get, set
+        abstract _hasText: unit -> unit
+        abstract _onRenderChildren: obj with get, set
+        abstract _onRenderDescription: obj with get, set
+        abstract _onRenderAriaDescription: obj with get, set
+        abstract _onRenderMenuIcon: obj with get, set
+        abstract _onRenderMenu: obj with get, set
+        abstract _dismissMenu: obj with get, set
+        abstract _openMenu: obj with get, set
+        abstract _onToggleMenu: obj with get, set
+        abstract _onRenderSplitButtonContent: tag: obj * buttonProps: obj -> unit
+        abstract _onSplitButtonPrimaryClick: obj with get, set
+        abstract _onRenderSplitButtonDivider: classNames: obj -> unit
+        abstract _onRenderSplitButtonMenuButton: classNames: obj * keytipAttributes: obj -> unit
+        abstract _onMouseDown: obj with get, set
+        abstract _onSplitButtonContainerKeyDown: obj with get, set
+        abstract _onMenuKeyDown: obj with get, set
+        abstract _onTouchStart: obj with get, set
+        abstract _onPointerDown: ev: obj -> unit
+        abstract _handleTouchAndPointerEvent: unit -> unit
+        /// <summary>Returns if the user hits a valid keyboard key to open the menu</summary>
+        /// <param name="ev">- the keyboard event</param>
+        abstract _isValidMenuOpenKey: ev: obj -> unit
+        abstract _onMenuClick: obj with get, set
 
     type [<AllowNullLiteral>] BaseButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IBaseButtonProps * rootClassName: string -> BaseButton
@@ -791,6 +874,8 @@ module __components_Button_ButtonPage =
     type [<AllowNullLiteral>] ButtonPage =
         inherit React.Component<IComponentDemoPageProps, IButtonDemoPageState>
         abstract render: unit -> JSX.Element
+        abstract _onDisabledChanged: ev: obj * disabled: obj -> unit
+        abstract _onToggledChanged: ev: obj * toggled: obj -> unit
 
     type [<AllowNullLiteral>] ButtonPageStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IComponentDemoPageProps -> ButtonPage
@@ -833,10 +918,23 @@ module __components_Calendar_Calendar =
         inherit BaseComponent<ICalendarProps, ICalendarState>
         inherit ICalendar
         abstract defaultProps: ICalendarProps with get, set
+        abstract _dayPicker: obj with get, set
+        abstract _monthPicker: obj with get, set
+        abstract _focusOnUpdate: obj with get, set
         abstract componentWillReceiveProps: nextProps: ICalendarProps -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _navigateDayPickerDay: obj with get, set
+        abstract _navigateMonthPickerDay: obj with get, set
+        abstract _onNavigateDayDate: obj with get, set
+        abstract _onNavigateMonthDate: obj with get, set
+        abstract _onSelectDate: obj with get, set
+        abstract _onHeaderSelect: obj with get, set
+        abstract _onGotoToday: obj with get, set
+        abstract _onGotoTodayKeyDown: obj with get, set
+        abstract _onDatePickerPopupKeyDown: obj with get, set
+        abstract _handleEscKey: obj with get, set
 
     type [<AllowNullLiteral>] CalendarStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarProps -> Calendar
@@ -1082,9 +1180,34 @@ module __components_Calendar_CalendarDay =
 
     type [<AllowNullLiteral>] CalendarDay =
         inherit BaseComponent<ICalendarDayProps, ICalendarDayState>
+        abstract navigatedDay: obj with get, set
+        abstract days: obj with get, set
         abstract componentWillReceiveProps: nextProps: ICalendarDayProps -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _setDayRef: element: obj * day: obj * isNavigatedDate: obj -> unit
+        abstract _setDayCellRef: element: obj * day: obj * isNavigatedDate: obj -> unit
+        abstract _getWeekCornerStyles: weeks: obj * dateRangeType: obj -> unit
+        abstract _getHighlightedCornerStyle: weekCorners: obj * dayIndex: obj * weekIndex: obj -> unit
+        abstract _navigateMonthEdge: ev: obj * date: obj * weekIndex: obj * dayIndex: obj -> unit
+        abstract _onKeyDown: obj with get, set
+        abstract _onDayKeyDown: obj with get, set
+        abstract _onDayMouseDown: obj with get, set
+        abstract _onDayMouseUp: obj with get, set
+        abstract _onDayMouseOver: obj with get, set
+        abstract _onDayMouseLeave: obj with get, set
+        abstract _onTableMouseLeave: obj with get, set
+        abstract _onTableMouseUp: obj with get, set
+        abstract _applyFunctionToDayRefs: func: obj -> unit
+        abstract _onSelectDate: obj with get, set
+        abstract _onSelectNextMonth: obj with get, set
+        abstract _onSelectPrevMonth: obj with get, set
+        abstract _onHeaderSelect: obj with get, set
+        abstract _onHeaderKeyDown: obj with get, set
+        abstract _onPrevMonthKeyDown: obj with get, set
+        abstract _onNextMonthKeyDown: obj with get, set
+        abstract _getWeeks: propsToUse: obj -> unit
+        abstract _getBoundedDateRange: dateRange: obj * ?minDate: obj * ?maxDate: obj -> unit
 
     type [<AllowNullLiteral>] CalendarDayStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarDayProps -> CalendarDay
@@ -1120,8 +1243,19 @@ module __components_Calendar_CalendarMonth =
     type [<AllowNullLiteral>] CalendarMonth =
         inherit BaseComponent<ICalendarMonthProps, obj>
         abstract refs: obj with get, set
+        abstract _selectMonthCallbacks: obj with get, set
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _isCurrentMonth: month: obj * year: obj * today: obj -> unit
+        abstract _onKeyDown: obj with get, set
+        abstract _onSelectNextYear: obj with get, set
+        abstract _onSelectNextYearKeyDown: obj with get, set
+        abstract _onSelectPrevYear: obj with get, set
+        abstract _onSelectPrevYearKeyDown: obj with get, set
+        abstract _onSelectMonthKeyDown: obj with get, set
+        abstract _onSelectMonth: obj with get, set
+        abstract _onHeaderSelect: obj with get, set
+        abstract _onHeaderKeyDown: obj with get, set
 
     type [<AllowNullLiteral>] CalendarMonthStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarMonthProps -> CalendarMonth
@@ -1307,6 +1441,17 @@ module __components_Callout_CalloutContent_base =
     type [<AllowNullLiteral>] CalloutContentBase =
         inherit BaseComponent<ICalloutProps, ICalloutState>
         abstract defaultProps: obj with get, set
+        abstract _classNames: obj with get, set
+        abstract _didSetInitialFocus: obj with get, set
+        abstract _hostElement: obj with get, set
+        abstract _calloutElement: obj with get, set
+        abstract _targetWindow: obj with get, set
+        abstract _bounds: obj with get, set
+        abstract _positionAttempts: obj with get, set
+        abstract _target: obj with get, set
+        abstract _setHeightOffsetTimer: obj with get, set
+        abstract _hasListeners: obj with get, set
+        abstract _maxHeight: obj with get, set
         abstract componentDidUpdate: unit -> unit
         abstract componentWillMount: unit -> unit
         abstract componentWillUpdate: newProps: ICalloutProps -> unit
@@ -1317,6 +1462,18 @@ module __components_Callout_CalloutContent_base =
         abstract _dismissOnLostFocus: ev: Event -> unit
         abstract _setInitialFocus: (unit -> unit) with get, set
         abstract _onComponentDidMount: (unit -> unit) with get, set
+        abstract _addListeners: unit -> unit
+        abstract _removeListeners: unit -> unit
+        abstract _updateAsyncPosition: unit -> unit
+        abstract _getBeakPosition: unit -> unit
+        abstract _updatePosition: unit -> unit
+        abstract _getBounds: unit -> unit
+        abstract _getMaxHeight: unit -> unit
+        abstract _arePositionsEqual: positions: obj * newPosition: obj -> unit
+        abstract _comparePositions: oldPositions: obj * newPositions: obj -> unit
+        abstract _setTargetWindowAndElement: target: obj -> unit
+        abstract _setHeightOffsetEveryFrame: unit -> unit
+        abstract _getTarget: ?props: obj -> unit
 
     type [<AllowNullLiteral>] CalloutContentBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalloutProps -> CalloutContentBase
@@ -1439,11 +1596,18 @@ module __components_Checkbox_Checkbox_base =
         inherit BaseComponent<ICheckboxProps, ICheckboxState>
         inherit ICheckbox
         abstract defaultProps: ICheckboxProps with get, set
+        abstract _checkBox: obj with get, set
+        abstract _id: obj with get, set
+        abstract _classNames: obj with get, set
         abstract componentWillReceiveProps: newProps: ICheckboxProps -> unit
         /// Render the Checkbox based on passed props
         abstract render: unit -> JSX.Element
         abstract ``checked``: bool
         abstract focus: unit -> unit
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _onClick: obj with get, set
+        abstract _onRenderLabel: obj with get, set
 
     type [<AllowNullLiteral>] CheckboxStatic =
         /// <summary>Initialize a new instance of the TopHeaderV2</summary>
@@ -1619,9 +1783,20 @@ module __components_ChoiceGroup_ChoiceGroup =
     type [<AllowNullLiteral>] ChoiceGroup =
         inherit BaseComponent<IChoiceGroupProps, IChoiceGroupState>
         abstract defaultProps: IChoiceGroupProps with get, set
+        abstract _id: obj with get, set
+        abstract _labelId: obj with get, set
+        abstract _inputElement: obj with get, set
         abstract componentWillReceiveProps: newProps: IChoiceGroupProps -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _onFocus: option: obj * ev: obj -> unit
+        abstract _onBlur: option: obj * ev: obj -> unit
+        abstract _onRenderField: option: obj -> unit
+        abstract _onRenderLabel: option: obj -> unit
+        abstract _onChange: option: obj * evt: obj -> unit
+        /// If all the isChecked property of options are falsy values, return undefined;
+        /// Else return the key of the first option with the truthy isChecked property.
+        abstract _getKeyChecked: props: obj -> unit
 
     type [<AllowNullLiteral>] ChoiceGroupStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IChoiceGroupProps -> ChoiceGroup
@@ -1753,9 +1928,18 @@ module __components_Coachmark_Coachmark =
     type [<AllowNullLiteral>] Coachmark =
         inherit BaseComponent<ICoachmarkTypes, ICoachmarkState>
         abstract defaultProps: obj with get, set
+        /// The cached HTMLElement reference to the Entity Inner Host
+        /// element.
+        abstract _entityInnerHostElement: obj with get, set
+        abstract _translateAnimationContainer: obj with get, set
+        abstract _positioningContainer: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentWillReceiveProps: newProps: ICoachmarkTypes -> unit
         abstract componentDidMount: unit -> unit
+        abstract _onFocusHandler: obj with get, set
+        abstract _openCoachmark: obj with get, set
+        abstract _addProximityHandler: ?mouseProximityOffset: obj -> unit
+        abstract _isInsideElement: mouseX: obj * mouseY: obj * elementRect: obj * ?mouseProximityOffset: obj -> unit
 
     type [<AllowNullLiteral>] CoachmarkStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICoachmarkTypes -> Coachmark
@@ -1895,8 +2079,19 @@ module __components_ColorPicker_ColorPicker =
     type [<AllowNullLiteral>] ColorPicker =
         inherit BaseComponent<IColorPickerProps, IColorPickerState>
         abstract defaultProps: obj with get, set
+        abstract hexText: obj with get, set
+        abstract rText: obj with get, set
+        abstract gText: obj with get, set
+        abstract bText: obj with get, set
+        abstract aText: obj with get, set
         abstract componentWillReceiveProps: newProps: IColorPickerProps -> unit
         abstract render: unit -> JSX.Element
+        abstract _onSVChanged: obj with get, set
+        abstract _onHChanged: obj with get, set
+        abstract _onAChanged: obj with get, set
+        abstract _onHexChanged: obj with get, set
+        abstract _onRGBAChanged: obj with get, set
+        abstract _updateColor: ?newColor: obj -> unit
 
     type [<AllowNullLiteral>] ColorPickerStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IColorPickerProps -> ColorPicker
@@ -1979,9 +2174,13 @@ module __components_ColorPicker_ColorRectangle =
     type [<AllowNullLiteral>] ColorRectangle =
         inherit BaseComponent<IColorRectangleProps, IColorPickerState>
         abstract defaultProps: obj with get, set
+        abstract _root: obj with get, set
         abstract componentWillUnmount: unit -> unit
         abstract componentWillReceiveProps: newProps: IColorRectangleProps -> unit
         abstract render: unit -> JSX.Element
+        abstract _onMouseDown: obj with get, set
+        abstract _onMouseMove: obj with get, set
+        abstract _onMouseUp: obj with get, set
 
     type [<AllowNullLiteral>] ColorRectangleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IColorRectangleProps -> ColorRectangle
@@ -2011,8 +2210,12 @@ module __components_ColorPicker_ColorSlider =
     type [<AllowNullLiteral>] ColorSlider =
         inherit BaseComponent<IColorSliderProps, IColorSliderState>
         abstract defaultProps: obj with get, set
+        abstract _root: obj with get, set
         abstract componentWillReceiveProps: newProps: IColorSliderProps -> unit
         abstract render: unit -> JSX.Element
+        abstract _onMouseDown: obj with get, set
+        abstract _onMouseMove: obj with get, set
+        abstract _onMouseUp: obj with get, set
 
     type [<AllowNullLiteral>] ColorSliderStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IColorSliderProps -> ColorSlider
@@ -2068,6 +2271,22 @@ module __components_ComboBox_ComboBox =
     type [<AllowNullLiteral>] ComboBox =
         inherit BaseComponent<IComboBoxProps, IComboBoxState>
         abstract defaultProps: IComboBoxProps with get, set
+        abstract _root: obj with get, set
+        abstract _autofill: obj with get, set
+        abstract _comboBoxWrapper: obj with get, set
+        abstract _comboBoxMenu: obj with get, set
+        abstract _selectedElement: obj with get, set
+        abstract _id: obj with get, set
+        abstract _lastReadOnlyAutoCompleteChangeTimeoutId: obj with get, set
+        abstract _currentPromise: obj with get, set
+        abstract _currentVisibleValue: obj with get, set
+        abstract _classNames: obj with get, set
+        abstract _isScrollIdle: obj with get, set
+        abstract _hasPendingValue: obj with get, set
+        abstract _scrollIdleTimeoutId: obj with get, set
+        abstract _processingTouch: obj with get, set
+        abstract _lastTouchTimeoutId: obj with get, set
+        abstract _focusInputAfterClose: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: newProps: IComboBoxProps -> unit
         abstract componentDidUpdate: prevProps: IComboBoxProps * prevState: IComboBoxState -> unit
@@ -2077,6 +2296,144 @@ module __components_ComboBox_ComboBox =
         abstract focus: (bool option -> unit) with get, set
         /// Close menu callout if it is open
         abstract dismissMenu: (unit -> unit) with get, set
+        /// componentWillReceiveProps handler for the auto fill component
+        /// Checks/updates the iput value to set, if needed
+        abstract _onUpdateValueInAutofillWillReceiveProps: obj with get, set
+        /// componentDidUpdate handler for the auto fill component
+        abstract _onShouldSelectFullInputValueInAutofillComponentDidUpdate: obj with get, set
+        /// Get the correct value to pass to the input
+        /// to show to the user based off of the current props and state
+        abstract _getVisibleValue: obj with get, set
+        /// <summary>Is the index within the bounds of the array?</summary>
+        /// <param name="options">- options to check if the index is valid for</param>
+        /// <param name="index">- the index to check</param>
+        abstract _indexWithinBounds: options: obj * index: obj -> unit
+        /// Handler for typing changes on the input
+        abstract _onInputChange: obj with get, set
+        /// <summary>Process the new input's new value when the comboBox
+        /// allows freeform entry</summary>
+        /// <param name="updatedValue">- the input's newly changed value</param>
+        abstract _processInputChangeWithFreeform: updatedValue: obj -> unit
+        /// <summary>Process the new input's new value when the comboBox
+        /// does not allow freeform entry</summary>
+        /// <param name="updatedValue">- the input's newly changed value</param>
+        abstract _processInputChangeWithoutFreeform: updatedValue: obj -> unit
+        abstract _getFirstSelectedIndex: unit -> unit
+        /// <summary>Walk along the options starting at the index, stepping by the delta (positive or negative)
+        /// looking for the next valid selectable index (e.g. skipping headings and dividers)</summary>
+        /// <param name="index">- the index to get the next selectable index from</param>
+        abstract _getNextSelectableIndex: index: obj * searchDirection: obj -> unit
+        /// <summary>Set the selected index. Note, this is
+        /// the "real" selected index, not the pending selected index</summary>
+        /// <param name="index">- the index to set (or the index to set from if a search direction is provided)</param>
+        /// <param name="searchDirection">- the direction to search along the options from the given index</param>
+        abstract _setSelectedIndex: index: obj * submitPendingValueEvent: obj * ?searchDirection: obj -> unit
+        /// Focus (and select) the content of the input
+        /// and set the focused state
+        abstract _select: obj with get, set
+        /// Callback issued when the options should be resolved, if they have been updated or
+        /// if they need to be passed in the first time. This only does work if an onResolveOptions
+        /// callback was passed in
+        abstract _onResolveOptions: obj with get, set
+        /// OnBlur handler. Set the focused state to false
+        /// and submit any pending value
+        abstract _onBlur: obj with get, set
+        /// Submit a pending value if there is one
+        abstract _submitPendingValue: submitPendingValueEvent: obj -> unit
+        abstract _onRenderContainer: obj with get, set
+        abstract _onRenderList: obj with get, set
+        abstract _onRenderItem: obj with get, set
+        abstract _onRenderLowerContent: obj with get, set
+        abstract _renderSeparator: item: obj -> unit
+        abstract _renderHeader: item: obj -> unit
+        abstract _renderOption: obj with get, set
+        /// If we are coming from a mouseOut:
+        /// there is no visible selected option.
+        /// 
+        /// Else if We are hovering over an item:
+        /// that gets the selected look.
+        /// 
+        /// Else:
+        /// Use the current valid pending index if it exists OR
+        /// we do not have a valid index and we currently have a pending input value,
+        /// otherwise use the selected index
+        abstract _isOptionSelected: index: obj -> unit
+        /// <summary>Gets the pending selected index taking into account hover, valueValidIndex, and selectedIndex</summary>
+        /// <param name="includeCurrentPendingValue">- Should we include the currentPendingValue when
+        /// finding the index</param>
+        abstract _getPendingSelectedIndex: includeCurrentPendingValue: obj -> unit
+        /// Scroll handler for the callout to make sure the mouse events
+        /// for updating focus are not interacting during scroll
+        abstract _onScroll: obj with get, set
+        /// Scroll the selected element into view
+        abstract _scrollIntoView: unit -> unit
+        abstract _onRenderOptionContent: obj with get, set
+        /// <summary>Click handler for the menu items
+        /// to select the item and also close the menu</summary>
+        /// <param name="index">- the index of the item that was clicked</param>
+        abstract _onItemClick: index: obj -> unit
+        /// Handles dismissing (cancelling) the menu
+        abstract _onDismiss: obj with get, set
+        /// <summary>Get the index of the option that is marked as selected</summary>
+        /// <param name="options">- the comboBox options</param>
+        /// <param name="selectedKeys">- the known selected key to find</param>
+        abstract _getSelectedIndices: options: obj * selectedKeys: obj -> unit
+        /// Reset the selected index by clearing the
+        /// input (of any pending text), clearing the pending state,
+        /// and setting the suggested display value to the last
+        /// selected state text
+        abstract _resetSelectedIndex: unit -> unit
+        /// Clears the pending info state
+        abstract _clearPendingInfo: unit -> unit
+        /// <summary>Set the pending info</summary>
+        /// <param name="currentPendingValue">- new pending value to set</param>
+        /// <param name="currentPendingValueValidIndex">- new pending value index to set</param>
+        /// <param name="suggestedDisplayValue">- new suggest display value to set</param>
+        abstract _setPendingInfo: currentPendingValue: obj * currentPendingValueValidIndex: obj * suggestedDisplayValue: obj -> unit
+        /// <summary>Set the pending info from the given index</summary>
+        /// <param name="index">- the index to set the pending info from</param>
+        abstract _setPendingInfoFromIndex: index: obj -> unit
+        /// <summary>Sets the pending info for the comboBox</summary>
+        /// <param name="index">- the index to search from</param>
+        /// <param name="searchDirection">- the direction to search</param>
+        abstract _setPendingInfoFromIndexAndDirection: index: obj * searchDirection: obj -> unit
+        abstract _notifyPendingValueChanged: prevState: obj -> unit
+        /// Sets the isOpen state and updates focusInputAfterClose
+        abstract _setOpenStateAndFocusOnClose: isOpen: obj * focusInputAfterClose: obj -> unit
+        /// Handle keydown on the input
+        abstract _onInputKeyDown: obj with get, set
+        /// Handle keyup on the input
+        abstract _onInputKeyUp: obj with get, set
+        abstract _onOptionMouseEnter: index: obj -> unit
+        abstract _onOptionMouseMove: index: obj -> unit
+        abstract _onOptionMouseLeave: obj with get, set
+        /// <summary>Handle dismissing the menu and
+        /// eating the required key event when disabled</summary>
+        /// <param name="ev">- the keyboard event that was fired</param>
+        abstract _handleInputWhenDisabled: ev: obj -> unit
+        /// Click handler for the button of the comboBox
+        /// and the input when not allowing freeform. This
+        /// toggles the expand/collapse state of the comboBox (if enbled)
+        abstract _onComboBoxClick: obj with get, set
+        /// Click handler for the autofill.
+        abstract _onAutofillClick: obj with get, set
+        abstract _onTouchStart: obj with get, set
+        abstract _onPointerDown: obj with get, set
+        abstract _handleTouchAndPointerEvent: unit -> unit
+        /// Get the styles for the current option.
+        abstract _getCaretButtonStyles: unit -> unit
+        /// <summary>Get the styles for the current option.</summary>
+        /// <param name="item">Item props for the current option</param>
+        abstract _getCurrentOptionStyles: item: obj -> unit
+        /// Get the aria-activedescendant value for the comboxbox.
+        abstract _getAriaActiveDescentValue: unit -> unit
+        /// Get the aria autocomplete value for the Combobox
+        abstract _getAriaAutoCompleteValue: unit -> unit
+        abstract _isPendingOption: item: obj -> unit
+        /// Given default selected key(s) and selected key(s), return the selected keys(s).
+        /// When default selected key(s) are available, they take precedence and return them instead of selected key(s).
+        abstract _getSelectedKeys: defaultSelectedKey: obj * selectedKey: obj -> unit
+        abstract _getPreviewText: item: obj -> unit
 
     type [<AllowNullLiteral>] ComboBoxStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IComboBoxProps -> ComboBox
@@ -2256,6 +2613,10 @@ module __components_ComboBox_VirtualizedComboBox =
     type [<AllowNullLiteral>] VirtualizedComboBox =
         inherit BaseComponent<IComboBoxProps, obj>
         inherit IComboBox
+        /// The combo box element 
+        abstract _comboBox: obj with get, set
+        /// The virtualized list element 
+        abstract _list: obj with get, set
         abstract dismissMenu: unit -> unit
         abstract focus: unit -> bool
         abstract render: unit -> JSX.Element
@@ -2295,11 +2656,31 @@ module __components_CommandBar_CommandBar =
         inherit ICommandBar
         abstract defaultProps: ICommandBarProps with get, set
         abstract refs: obj with get, set
+        abstract _searchSurface: obj with get, set
+        abstract _commandSurface: obj with get, set
+        abstract _commandBarRegion: obj with get, set
+        abstract _farCommandSurface: obj with get, set
+        abstract _focusZone: obj with get, set
+        abstract _overflow: obj with get, set
+        abstract _id: obj with get, set
+        abstract _overflowWidth: obj with get, set
+        abstract _commandItemWidths: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: nextProps: ICommandBarProps -> unit
         abstract componentDidUpdate: prevProps: ICommandBarProps * prevStates: ICommandBarState -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _renderItemInCommandBar: item: obj * posInSet: obj * setSize: obj * expandedMenuItemKey: obj * ?isFarItem: obj -> unit
+        abstract _renderIcon: item: obj -> unit
+        abstract _asyncMeasure: unit -> unit
+        abstract _updateItemMeasurements: unit -> unit
+        abstract _updateRenderedItems: unit -> unit
+        abstract _onItemClick: item: obj -> unit
+        abstract _onOverflowClick: obj with get, set
+        abstract _onContextMenuDismiss: obj with get, set
+        abstract _getStateFromProps: nextProps: obj -> unit
+        abstract _getContextualMenuPropsAfterUpdate: renderedItems: obj * overflowItems: obj * overflowMenuProps: obj -> unit
+        abstract _getContextualMenuPropsFromItem: item: obj -> unit
 
     type [<AllowNullLiteral>] CommandBarStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICommandBarProps -> CommandBar
@@ -2441,12 +2822,70 @@ module __components_ContextualMenu_ContextualMenu =
     type [<AllowNullLiteral>] ContextualMenu =
         inherit BaseComponent<IContextualMenuProps, IContextualMenuState>
         abstract defaultProps: IContextualMenuProps with get, set
+        abstract _host: obj with get, set
+        abstract _previousActiveElement: obj with get, set
+        abstract _isFocusingPreviousElement: obj with get, set
+        abstract _enterTimerId: obj with get, set
+        abstract _targetWindow: obj with get, set
+        abstract _target: obj with get, set
+        abstract _classNames: obj with get, set
+        abstract _isScrollIdle: obj with get, set
+        abstract _scrollIdleTimeoutId: obj with get, set
+        abstract _adjustedFocusZoneProps: obj with get, set
         abstract dismiss: (obj option -> bool option -> unit) with get, set
         abstract componentWillUpdate: newProps: IContextualMenuProps -> unit
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element option
+        abstract _onMenuOpened: unit -> unit
+        abstract _onMenuClosed: unit -> unit
+        /// Gets the focusZoneDirection by using the arrowDirection if specified,
+        /// the direction specificed in the focusZoneProps, or defaults to FocusZoneDirection.vertical
+        abstract _getFocusZoneDirection: unit -> unit
+        abstract _onRenderSubMenu: subMenuProps: obj -> unit
+        abstract _renderMenuItem: item: obj * index: obj * focusableElementIndex: obj * totalItemCount: obj * hasCheckmarks: obj * hasIcons: obj -> unit
+        abstract _renderSectionItem: item: obj * menuClassNames: obj * index: obj * hasCheckmarks: obj * hasIcons: obj -> unit
+        abstract _renderListItem: content: obj * key: obj * classNames: obj * ?title: obj -> unit
+        abstract _renderSeparator: index: obj * classNames: obj * ?top: obj * ?fromSection: obj -> unit
+        abstract _renderNormalItem: item: obj * classNames: obj * index: obj * focusableElementIndex: obj * totalItemCount: obj * hasCheckmarks: obj * hasIcons: obj -> unit
+        abstract _renderHeaderMenuItem: item: obj * classNames: obj * index: obj * hasCheckmarks: obj * hasIcons: obj -> unit
+        abstract _renderAnchorMenuItem: item: obj * classNames: obj * index: obj * focusableElementIndex: obj * totalItemCount: obj * hasCheckmarks: obj * hasIcons: obj -> unit
+        abstract _renderButtonItem: item: obj * classNames: obj * index: obj * focusableElementIndex: obj * totalItemCount: obj * ?hasCheckmarks: obj * ?hasIcons: obj -> unit
+        abstract _renderSplitButton: item: obj * classNames: obj * index: obj * focusableElementIndex: obj * totalItemCount: obj * ?hasCheckmarks: obj * ?hasIcons: obj -> unit
+        abstract _getIconProps: item: obj -> unit
+        abstract _onKeyDown: obj with get, set
+        /// Checks if the submenu should be closed
+        abstract _shouldCloseSubMenu: obj with get, set
+        abstract _onMenuKeyDown: obj with get, set
+        /// Scroll handler for the callout to make sure the mouse events
+        /// for updating focus are not interacting during scroll
+        abstract _onScroll: obj with get, set
+        abstract _onItemMouseEnterBase: obj with get, set
+        abstract _onItemMouseMoveBase: obj with get, set
+        abstract _onMouseItemLeave: obj with get, set
+        /// Handles updating focus when mouseEnter or mouseMove fire.
+        /// As part of updating focus, This function will also update
+        /// the expand/collapse state accordingly.
+        abstract _updateFocusOnMouseEvent: item: obj * ev: obj * ?target: obj -> unit
+        abstract _onItemMouseDown: obj with get, set
+        abstract _onItemClick: obj with get, set
+        abstract _onItemClickBase: obj with get, set
+        abstract _onAnchorClick: obj with get, set
+        abstract _executeItemClick: obj with get, set
+        abstract _onItemKeyDown: obj with get, set
+        abstract _cancelSubMenuTimer: obj with get, set
+        abstract _onItemSubMenuExpand: obj with get, set
+        abstract _getSubmenuProps: unit -> unit
+        abstract _findItemByKey: key: obj -> unit
+        /// <summary>Returns the item that mathes a given key if any.</summary>
+        /// <param name="key">The key of the item to match</param>
+        /// <param name="items">The items to look for the key</param>
+        abstract _findItemByKeyFromItems: key: obj * items: obj -> unit
+        abstract _onSubMenuDismiss: obj with get, set
+        abstract _setTargetWindowAndElement: target: obj -> unit
+        abstract _getSubMenuId: obj with get, set
+        abstract _onPointerAndTouchEvent: obj with get, set
 
     type [<AllowNullLiteral>] ContextualMenuStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IContextualMenuProps -> ContextualMenu
@@ -2818,11 +3257,31 @@ module __components_DatePicker_DatePicker =
         inherit BaseComponent<IDatePickerProps, IDatePickerState>
         inherit IDatePicker
         abstract defaultProps: IDatePickerProps with get, set
+        abstract _calendar: obj with get, set
+        abstract _datePickerDiv: obj with get, set
+        abstract _textField: obj with get, set
+        abstract _preventFocusOpeningPicker: obj with get, set
         abstract componentWillReceiveProps: nextProps: IDatePickerProps -> unit
         abstract componentDidUpdate: prevProps: IDatePickerProps * prevState: IDatePickerState -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
         abstract reset: unit -> unit
+        abstract _onSelectDate: obj with get, set
+        abstract _onCalloutPositioned: obj with get, set
+        abstract _onTextFieldFocus: obj with get, set
+        abstract _onTextFieldBlur: obj with get, set
+        abstract _onTextFieldChanged: obj with get, set
+        abstract _onTextFieldKeyDown: obj with get, set
+        abstract _onTextFieldClick: obj with get, set
+        abstract _onIconClick: obj with get, set
+        abstract _showDatePickerPopup: unit -> unit
+        abstract _dismissDatePickerPopup: obj with get, set
+        /// Callback for closing the calendar callout
+        abstract _calendarDismissed: obj with get, set
+        abstract _handleEscKey: obj with get, set
+        abstract _validateTextInput: obj with get, set
+        abstract _getDefaultState: ?props: obj -> unit
+        abstract _isDateOutOfBounds: date: obj * ?minDate: obj * ?maxDate: obj -> unit
 
     type [<AllowNullLiteral>] DatePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDatePickerProps -> DatePicker
@@ -2985,10 +3444,19 @@ module __components_DetailsList_DetailsColumn =
 
     type [<AllowNullLiteral>] DetailsColumn =
         inherit BaseComponent<IDetailsColumnProps>
+        abstract _root: obj with get, set
+        abstract _dragDropSubscription: obj with get, set
         abstract render: unit -> ResizeArray<JSX.Element option>
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract componentDidUpdate: unit -> unit
+        abstract _onRenderColumnHeaderTooltip: obj with get, set
+        abstract _onColumnClick: column: obj * ev: obj -> unit
+        abstract _getColumnDragDropOptions: unit -> unit
+        abstract _onDragStart: ?item: obj * ?itemIndex: obj * ?selectedItems: obj * ?``event``: obj -> unit
+        abstract _onDragEnd: ?item: obj * ?``event``: obj -> unit
+        abstract _onColumnContextMenu: column: obj * ev: obj -> unit
+        abstract _onRootMouseDown: ev: obj -> unit
 
     type [<AllowNullLiteral>] DetailsColumnStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsColumnProps -> DetailsColumn
@@ -3063,6 +3531,15 @@ module __components_DetailsList_DetailsHeader =
         inherit BaseComponent<IDetailsHeaderProps, IDetailsHeaderState>
         inherit IDetailsHeader
         abstract defaultProps: obj with get, set
+        abstract _rootElement: obj with get, set
+        abstract _rootComponent: obj with get, set
+        abstract _id: obj with get, set
+        abstract _draggedColumnIndex: obj with get, set
+        abstract _dropHintDetails: obj with get, set
+        abstract _dragDropHelper: obj with get, set
+        abstract _currentDropHintIndex: obj with get, set
+        abstract _subscriptionObject: obj with get, set
+        abstract _onDropIndexInfo: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: IDetailsHeaderProps -> unit
         abstract componentWillReceiveProps: newProps: IDetailsHeaderProps -> unit
@@ -3070,6 +3547,41 @@ module __components_DetailsList_DetailsHeader =
         abstract render: unit -> JSX.Element
         /// Set focus to the active thing in the focus area. 
         abstract focus: unit -> bool
+        abstract _getHeaderDragDropOptions: unit -> unit
+        abstract _updateDroppingState: newValue: obj * ``event``: obj -> unit
+        abstract _isValidCurrentDropHintIndex: unit -> unit
+        abstract _onDragOver: item: obj * ``event``: obj -> unit
+        abstract _onDrop: ?item: obj * ?``event``: obj -> unit
+        abstract _setDraggedItemIndex: itemIndex: obj -> unit
+        abstract _resetDropHints: unit -> unit
+        abstract _updateDropHintElement: element: obj * property: obj -> unit
+        abstract _getDropHintPositions: unit -> unit
+        /// Based on the given cursor position, finds the nearest drop hint and updates the state to make it visible
+        abstract _computeDropHintToBeShown: clientX: obj -> unit
+        abstract _renderColumnSizer: columnIndex: obj -> unit
+        abstract _renderDropHint: dropHintIndex: obj -> unit
+        abstract _onRenderColumnHeaderTooltip: obj with get, set
+        /// <summary>double click on the column sizer will auto ajust column width
+        /// to fit the longest content among current rendered rows.</summary>
+        /// <param name="columnIndex">(index of the column user double clicked)</param>
+        /// <param name="ev">(mouse double click event)</param>
+        abstract _onSizerDoubleClick: columnIndex: obj * ev: obj -> unit
+        /// Called when the select all toggle is clicked.
+        abstract _onSelectAllClicked: obj with get, set
+        abstract _onRootMouseDown: obj with get, set
+        abstract _onRootMouseMove: obj with get, set
+        abstract _onRootRef: obj with get, set
+        abstract _onRootKeyDown: obj with get, set
+        /// mouse move event handler in the header
+        /// it will set isSizing state to true when user clicked on the sizer and move the mouse.
+        abstract _onSizerMouseMove: obj with get, set
+        abstract _onSizerBlur: obj with get, set
+        /// mouse up event handler in the header
+        /// clear the resize related state.
+        /// This is to ensure we can catch double click event
+        abstract _onSizerMouseUp: obj with get, set
+        abstract _onSelectionChanged: unit -> unit
+        abstract _onToggleCollapseAll: unit -> unit
 
     type [<AllowNullLiteral>] DetailsHeaderStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsHeaderProps -> DetailsHeader
@@ -3144,6 +3656,18 @@ module __components_DetailsList_DetailsList =
         inherit BaseComponent<IDetailsListProps, IDetailsListState>
         inherit IDetailsList
         abstract defaultProps: obj with get, set
+        abstract _root: obj with get, set
+        abstract _header: obj with get, set
+        abstract _groupedList: obj with get, set
+        abstract _list: obj with get, set
+        abstract _focusZone: obj with get, set
+        abstract _selectionZone: obj with get, set
+        abstract _selection: obj with get, set
+        abstract _activeRows: obj with get, set
+        abstract _dragDropHelper: obj with get, set
+        abstract _initialFocusedIndex: obj with get, set
+        abstract _pendingForceUpdate: obj with get, set
+        abstract _columnOverrides: obj with get, set
         abstract scrollToIndex: index: float * ?measureItem: (float -> float) * ?scrollToMode: ScrollToMode -> unit
         abstract focusIndex: index: float * ?forceIntoFirstElement: bool * ?measureItem: (float -> float) * ?scrollToMode: ScrollToMode -> unit
         abstract componentWillUnmount: unit -> unit
@@ -3153,6 +3677,42 @@ module __components_DetailsList_DetailsList =
         abstract render: unit -> JSX.Element
         abstract forceUpdate: unit -> unit
         abstract _onRenderRow: (IDetailsRowProps -> obj option -> JSX.Element) with get, set
+        abstract _onRenderDetailsHeader: obj with get, set
+        abstract _onRenderListCell: obj with get, set
+        abstract _onRenderCell: nestingDepth: obj * item: obj * index: obj -> unit
+        abstract _onGroupExpandStateChanged: isSomeGroupExpanded: obj -> unit
+        abstract _onColumnIsSizingChanged: column: obj * isSizing: obj -> unit
+        abstract _onHeaderKeyDown: ev: obj -> unit
+        abstract _onContentKeyDown: ev: obj -> unit
+        abstract _getGroupNestingDepth: unit -> unit
+        abstract _onRowDidMount: row: obj -> unit
+        abstract _setFocusToRowIfPending: row: obj -> unit
+        abstract _setFocusToRow: row: obj * ?forceIntoFirstElement: obj -> unit
+        abstract _onRowWillUnmount: row: obj -> unit
+        abstract _onToggleCollapse: collapsed: obj -> unit
+        abstract _forceListUpdates: unit -> unit
+        abstract _adjustColumns: newProps: obj * ?forceUpdate: obj * ?resizingColumnIndex: obj -> unit
+        /// Returns adjusted columns, given the viewport size and layout mode. 
+        abstract _getAdjustedColumns: newProps: obj * ?forceUpdate: obj * ?resizingColumnIndex: obj -> unit
+        /// Builds a set of columns based on the given columns mixed with the current overrides. 
+        abstract _getFixedColumns: newColumns: obj -> unit
+        abstract _getJustifiedColumnsAfterResize: newColumns: obj * viewportWidth: obj * props: obj * resizingColumnIndex: obj -> unit
+        /// Builds a set of columns to fix within the viewport width. 
+        abstract _getJustifiedColumns: newColumns: obj * viewportWidth: obj * props: obj * firstIndex: obj -> unit
+        abstract _onColumnResized: resizingColumn: obj * newWidth: obj * resizingColumnIndex: obj -> unit
+        abstract _rememberCalculatedWidth: column: obj * newCalculatedWidth: obj -> unit
+        abstract _getColumnOverride: key: obj -> unit
+        /// <summary>Callback function when double clicked on the details header column resizer
+        /// which will measure the column cells of all the active rows and resize the
+        /// column to the max cell width.</summary>
+        /// <param name="column">(double clicked column definition)</param>
+        /// <param name="columnIndex">(double clicked column index)</param>
+        abstract _onColumnAutoResized: column: obj * columnIndex: obj -> unit
+        /// Call back function when an element in FocusZone becomes active. It will transalate it into item
+        /// and call onActiveItemChanged callback if specified.
+        abstract _onActiveRowChanged: ?el: obj * ?ev: obj -> unit
+        abstract _onBlur: ``event``: obj -> unit
+        abstract _getItemKey: item: obj * itemIndex: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsListProps -> DetailsList
@@ -3463,6 +4023,12 @@ module __components_DetailsList_DetailsRow =
 
     type [<AllowNullLiteral>] DetailsRow =
         inherit BaseComponent<IDetailsRowProps, IDetailsRowState>
+        abstract _root: obj with get, set
+        abstract _cellMeasurer: obj with get, set
+        abstract _focusZone: obj with get, set
+        abstract _droppingClassNames: obj with get, set
+        abstract _hasMounted: obj with get, set
+        abstract _dragDropSubscription: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: previousProps: IDetailsRowProps -> unit
         abstract componentWillUnmount: unit -> unit
@@ -3474,6 +4040,20 @@ module __components_DetailsList_DetailsRow =
         abstract measureCell: index: float * onMeasureDone: (float -> unit) -> unit
         abstract focus: ?forceIntoFirstElement: bool -> bool
         abstract _onRenderCheck: props: IDetailsRowCheckProps -> JSX.Element
+        abstract _getSelectionState: props: obj -> unit
+        abstract _onSelectionChanged: unit -> unit
+        abstract _onToggleSelection: unit -> unit
+        abstract _onRootRef: obj with get, set
+        abstract _getRowDragDropOptions: unit -> unit
+        /// <summary>update isDropping state based on the input value, which is used to change style during drag and drop
+        /// 
+        /// when change to true, that means drag enter. we will add default dropping class name
+        /// or the custom dropping class name (return result from onDragEnter) to the root elemet.
+        /// 
+        /// when change to false, that means drag leave. we will remove the dropping class name from root element.</summary>
+        /// <param name="newValue">(new isDropping state value)</param>
+        /// <param name="event">(the event trigger dropping state change which can be dragenter, dragleave etc)</param>
+        abstract _updateDroppingState: newValue: obj * ``event``: obj -> unit
 
     type [<AllowNullLiteral>] DetailsRowStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsRowProps -> DetailsRow
@@ -3548,6 +4128,8 @@ module __components_DetailsList_DetailsRowFields =
         inherit BaseComponent<IDetailsRowFieldsProps, IDetailsRowFieldsState>
         abstract componentWillReceiveProps: newProps: IDetailsRowFieldsProps -> unit
         abstract render: unit -> JSX.Element
+        abstract _getState: props: obj -> unit
+        abstract _getCellText: item: obj * column: obj -> unit
 
     type [<AllowNullLiteral>] DetailsRowFieldsStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsRowFieldsProps -> DetailsRowFields
@@ -3562,7 +4144,12 @@ module __components_Dialog_Dialog_base =
     type [<AllowNullLiteral>] DialogBase =
         inherit BaseComponent<IDialogProps, obj>
         abstract defaultProps: IDialogProps with get, set
+        abstract _id: obj with get, set
+        abstract _defaultTitleTextId: obj with get, set
+        abstract _defaultSubTextId: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getSubTextId: obj with get, set
+        abstract _getTitleTextId: obj with get, set
 
     type [<AllowNullLiteral>] DialogBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDialogProps -> DialogBase
@@ -3683,6 +4270,7 @@ module __components_Dialog_DialogContent_base =
         inherit BaseComponent<IDialogContentProps, obj>
         abstract defaultProps: IDialogContentProps with get, set
         abstract render: unit -> JSX.Element
+        abstract _groupChildren: unit -> unit
 
     type [<AllowNullLiteral>] DialogContentBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDialogContentProps -> DialogContentBase
@@ -3781,7 +4369,9 @@ module __components_Dialog_DialogFooter_base =
 
     type [<AllowNullLiteral>] DialogFooterBase =
         inherit BaseComponent<IDialogFooterProps, obj>
+        abstract _classNames: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _renderChildrenAsActions: unit -> unit
 
     type [<AllowNullLiteral>] DialogFooterBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DialogFooterBase
@@ -3901,6 +4491,9 @@ module __components_DocumentCard_DocumentCard =
         inherit BaseComponent<IDocumentCardProps, obj option>
         abstract defaultProps: IDocumentCardProps with get, set
         abstract render: unit -> JSX.Element
+        abstract _onClick: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onAction: obj with get, set
 
     type [<AllowNullLiteral>] DocumentCardStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDocumentCardProps -> DocumentCard
@@ -4113,6 +4706,9 @@ module __components_DocumentCard_DocumentCardActivity =
     type [<AllowNullLiteral>] DocumentCardActivity =
         inherit BaseComponent<IDocumentCardActivityProps, obj option>
         abstract render: unit -> JSX.Element option
+        abstract _renderAvatars: people: obj -> unit
+        abstract _renderAvatar: person: obj -> unit
+        abstract _getNameString: people: obj -> unit
 
     type [<AllowNullLiteral>] DocumentCardActivityStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardActivity
@@ -4168,6 +4764,8 @@ module __components_DocumentCard_DocumentCardPreview =
     type [<AllowNullLiteral>] DocumentCardPreview =
         inherit BaseComponent<IDocumentCardPreviewProps, obj option>
         abstract render: unit -> JSX.Element
+        abstract _renderPreviewImage: previewImage: obj -> unit
+        abstract _renderPreviewList: obj with get, set
 
     type [<AllowNullLiteral>] DocumentCardPreviewStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardPreview
@@ -4199,10 +4797,18 @@ module __components_DocumentCard_DocumentCardTitle =
 
     type [<AllowNullLiteral>] DocumentCardTitle =
         inherit BaseComponent<IDocumentCardTitleProps, IDocumentCardTitleState>
+        abstract _titleElement: obj with get, set
+        abstract _scrollTimerId: obj with get, set
+        abstract _truncatedTitleAtWidth: obj with get, set
+        abstract _isTruncated: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: newProps: IDocumentCardTitleProps -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _startTruncation: obj with get, set
+        abstract _shrinkTitle: unit -> unit
+        abstract _doesTitleOverflow: unit -> unit
+        abstract _updateTruncation: unit -> unit
 
     type [<AllowNullLiteral>] DocumentCardTitleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDocumentCardTitleProps -> DocumentCardTitle
@@ -4232,11 +4838,54 @@ module __components_Dropdown_Dropdown =
     type [<AllowNullLiteral>] Dropdown =
         inherit BaseComponent<IDropdownInternalProps, IDropdownState>
         abstract defaultProps: obj with get, set
+        abstract Option: obj with get, set
+        abstract _host: obj with get, set
+        abstract _focusZone: obj with get, set
+        abstract _dropDown: obj with get, set
+        abstract _id: obj with get, set
+        abstract _isScrollIdle: obj with get, set
+        abstract _scrollIdleDelay: obj
+        abstract _scrollIdleTimeoutId: obj with get, set
         abstract componentWillReceiveProps: newProps: IDropdownProps -> unit
         abstract componentDidUpdate: prevProps: IDropdownProps * prevState: IDropdownState -> unit
         abstract render: unit -> JSX.Element
         abstract focus: ?shouldOpenOnFocus: bool -> unit
         abstract setSelectedIndex: index: float -> unit
+        abstract _copyArray: array: obj -> unit
+        /// <summary>Finds the next valid Dropdown option and sets the selected index to it.</summary>
+        /// <param name="stepValue">Value of how many items the function should traverse.  Should be -1 or 1.</param>
+        /// <param name="index">Index of where the search should start</param>
+        /// <param name="selectedIndex">The selectedIndex Dropdown's state</param>
+        abstract _moveIndex: stepValue: obj * index: obj * selectedIndex: obj -> unit
+        abstract _onRenderTitle: obj with get, set
+        abstract _onRenderPlaceHolder: obj with get, set
+        abstract _onRenderContainer: obj with get, set
+        abstract _onRenderCaretDown: obj with get, set
+        abstract _onRenderList: obj with get, set
+        abstract _onRenderItem: obj with get, set
+        abstract _renderSeparator: item: obj -> unit
+        abstract _renderHeader: item: obj -> unit
+        abstract _renderOption: obj with get, set
+        abstract _onRenderOption: obj with get, set
+        abstract _onRenderLabel: obj with get, set
+        abstract _onPositioned: obj with get, set
+        abstract _onItemClick: obj with get, set
+        /// Scroll handler for the callout to make sure the mouse events
+        /// for updating focus are not interacting during scroll
+        abstract _onScroll: obj with get, set
+        abstract _onItemMouseEnter: item: obj * ev: obj -> unit
+        abstract _onItemMouseMove: item: obj * ev: obj -> unit
+        abstract _onMouseItemLeave: obj with get, set
+        abstract _onDismiss: obj with get, set
+        abstract _getSelectedIndexes: options: obj * selectedKey: obj -> unit
+        abstract _getAllSelectedOptions: options: obj * selectedIndices: obj -> unit
+        abstract _getAllSelectedIndices: options: obj -> unit
+        abstract _getSelectedIndex: options: obj * selectedKey: obj -> unit
+        abstract _onDropdownBlur: obj with get, set
+        abstract _onDropdownKeyDown: obj with get, set
+        abstract _onDropdownKeyUp: obj with get, set
+        abstract _onZoneKeyDown: obj with get, set
+        abstract _onDropdownClick: obj with get, set
 
     type [<AllowNullLiteral>] DropdownStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IDropdownProps -> Dropdown
@@ -4457,8 +5106,11 @@ module __components_Fabric_Fabric =
 
     type [<AllowNullLiteral>] Fabric =
         inherit BaseComponent<IFabricProps, obj>
+        abstract _rootElement: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
+        abstract _onMouseDown: obj with get, set
+        abstract _onKeyDown: obj with get, set
 
     type [<AllowNullLiteral>] FabricStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IFabricProps -> Fabric
@@ -4500,8 +5152,24 @@ module __components_Facepile_Facepile_base =
     type [<AllowNullLiteral>] FacepileBase =
         inherit BaseComponent<IFacepileProps, obj>
         abstract defaultProps: IFacepileProps with get, set
+        abstract _ariaDescriptionId: obj with get, set
         abstract render: unit -> JSX.Element
         abstract onRenderAriaDescription: unit -> U2<string, JSX.Element> option
+        abstract _onRenderVisiblePersonas: personas: obj * singlePersona: obj -> unit
+        abstract _getPersonaControl: persona: obj -> unit
+        abstract _getPersonaCoinControl: persona: obj -> unit
+        abstract _getElementWithOnClickEvent: personaControl: obj * persona: obj * index: obj -> unit
+        abstract _getElementWithoutOnClickEvent: personaControl: obj * persona: obj * index: obj -> unit
+        abstract _getElementProps: persona: obj * index: obj -> unit
+        abstract _getOverflowElement: personasOverflow: obj -> unit
+        abstract _getDescriptiveOverflowElement: personasOverflow: obj -> unit
+        abstract _getIconElement: icon: obj -> unit
+        abstract _getAddNewElement: unit -> unit
+        abstract _onPersonaClick: persona: obj * ?ev: obj -> unit
+        abstract _onPersonaMouseMove: persona: obj * ?ev: obj -> unit
+        abstract _onPersonaMouseOut: persona: obj * ?ev: obj -> unit
+        abstract _renderInitials: iconName: obj * ?overflowButton: obj -> unit
+        abstract _renderInitialsNotPictured: numPersonasNotPictured: obj -> unit
 
     type [<AllowNullLiteral>] FacepileBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IFacepileProps -> FacepileBase
@@ -4708,6 +5376,12 @@ module __components_FloatingPicker_BaseFloatingPicker =
         abstract onSuggestionClick: (React.MouseEvent<HTMLElement> -> 'T -> float -> unit) with get, set
         abstract onSuggestionRemove: (React.MouseEvent<HTMLElement> -> 'T -> float -> unit) with get, set
         abstract onKeyDown: (MouseEvent -> unit) with get, set
+        abstract _onResolveSuggestions: updatedValue: obj -> unit
+        abstract _onValidateInput: obj with get, set
+        abstract _getTextFromItem: item: obj * ?currentValue: obj -> unit
+        abstract _updateSuggestionsVisible: shouldShow: obj -> unit
+        abstract _bindToInputElement: unit -> unit
+        abstract _unbindFromInputElement: unit -> unit
 
     type [<AllowNullLiteral>] BaseFloatingPickerStatic =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseFloatingPicker<'T, 'P>
@@ -4805,6 +5479,12 @@ module __components_FocusTrapZone_FocusTrapZone =
     type [<AllowNullLiteral>] FocusTrapZone =
         inherit BaseComponent<IFocusTrapZoneProps, obj>
         inherit IFocusTrapZone
+        abstract _focusStack: obj with get, set
+        abstract _clickStack: obj with get, set
+        abstract _root: obj with get, set
+        abstract _previouslyFocusedElement: obj with get, set
+        abstract _isInFocusStack: obj with get, set
+        abstract _isInClickStack: obj with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: nextProps: IFocusTrapZoneProps -> unit
@@ -4812,6 +5492,9 @@ module __components_FocusTrapZone_FocusTrapZone =
         abstract render: unit -> JSX.Element
         /// Need to expose this method in case of popups since focus needs to be set when popup is opened
         abstract focus: unit -> unit
+        abstract _onKeyboardHandler: obj with get, set
+        abstract _forceFocusInTrap: ev: obj -> unit
+        abstract _forceClickInTrap: ev: obj -> unit
 
     type [<AllowNullLiteral>] FocusTrapZoneStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> FocusTrapZone
@@ -4869,6 +5552,16 @@ module __components_FocusZone_FocusZone =
         inherit BaseComponent<IFocusZoneProps, obj>
         inherit IFocusZone
         abstract defaultProps: IFocusZoneProps with get, set
+        abstract _root: obj with get, set
+        abstract _id: obj with get, set
+        /// The most recently focused child element. 
+        abstract _activeElement: obj with get, set
+        /// The child element with tabindex=0. 
+        abstract _defaultFocusElement: obj with get, set
+        abstract _focusAlignment: obj with get, set
+        abstract _isInnerZone: obj with get, set
+        /// Used to allow us to move to next focusable element even when we're focusing on a input element when pressing tab 
+        abstract _processingTabKey: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
@@ -4880,6 +5573,29 @@ module __components_FocusZone_FocusZone =
         /// location and then focus.)</summary>
         /// <param name="element">The child element within the zone to focus.</param>
         abstract focusElement: element: HTMLElement -> bool
+        abstract _onFocus: obj with get, set
+        /// Handle global tab presses so that we can patch tabindexes on the fly.
+        abstract _onKeyDownCapture: ev: obj -> unit
+        abstract _onMouseDown: obj with get, set
+        abstract _setActiveElement: element: obj * ?forceAlignemnt: obj -> unit
+        /// Handle the keystrokes.
+        abstract _onKeyDown: obj with get, set
+        /// Walk up the dom try to find a focusable element.
+        abstract _tryInvokeClickForFocusable: target: obj -> unit
+        /// Traverse to find first child zone.
+        abstract _getFirstInnerZone: ?rootElement: obj -> unit
+        abstract _moveFocus: isForward: obj * getDistanceFromCenter: obj * ?ev: obj * ?useDefaultWrap: obj -> unit
+        abstract _moveFocusDown: unit -> unit
+        abstract _moveFocusUp: unit -> unit
+        abstract _moveFocusLeft: unit -> unit
+        abstract _moveFocusRight: unit -> unit
+        abstract _setFocusAlignment: element: obj * ?isHorizontal: obj * ?isVertical: obj -> unit
+        abstract _isImmediateDescendantOfZone: ?element: obj -> unit
+        abstract _getOwnerZone: ?element: obj -> unit
+        abstract _updateTabIndexes: ?element: obj -> unit
+        abstract _isElementInput: element: obj -> unit
+        abstract _shouldInputLoseFocus: element: obj * ?isForward: obj -> unit
+        abstract _shouldWrapFocus: element: obj * noWrapDataAttribute: obj -> unit
 
     type [<AllowNullLiteral>] FocusZoneStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IFocusZoneProps -> FocusZone
@@ -5003,11 +5719,24 @@ module __components_GroupedList_GroupedList =
         inherit IGroupedList
         abstract defaultProps: obj with get, set
         abstract refs: obj with get, set
+        abstract _list: obj with get, set
+        abstract _isSomeGroupExpanded: obj with get, set
         abstract scrollToIndex: index: float * ?measureItem: (float -> float) * ?scrollToMode: ScrollToMode -> unit
         abstract componentWillReceiveProps: newProps: IGroupedListProps -> unit
         abstract render: unit -> JSX.Element
         abstract forceUpdate: unit -> unit
         abstract toggleCollapseAll: allCollapsed: bool -> unit
+        abstract _renderGroup: obj with get, set
+        abstract _returnOne: unit -> unit
+        abstract _getGroupKey: group: obj * index: obj -> unit
+        abstract _getGroupNestingDepth: unit -> unit
+        abstract _onToggleCollapse: obj with get, set
+        abstract _onToggleSelectGroup: obj with get, set
+        abstract _forceListUpdates: ?groups: obj -> unit
+        abstract _onToggleSummarize: obj with get, set
+        abstract _getPageSpecification: obj with get, set
+        abstract _computeIsSomeGroupExpanded: groups: obj -> unit
+        abstract _updateIsSomeGroupExpanded: unit -> unit
 
     type [<AllowNullLiteral>] GroupedListStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IGroupedListProps -> GroupedList
@@ -5256,12 +5985,33 @@ module __components_GroupedList_GroupedListSection =
 
     type [<AllowNullLiteral>] GroupedListSection =
         inherit BaseComponent<IGroupedListSectionProps, IGroupedListSectionState>
+        abstract _root: obj with get, set
+        abstract _list: obj with get, set
+        abstract _dragDropSubscription: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract componentDidUpdate: previousProps: IGroupedListSectionProps -> unit
         abstract render: unit -> JSX.Element
         abstract forceUpdate: unit -> unit
         abstract forceListUpdate: unit -> unit
+        abstract _onRenderGroupHeader: obj with get, set
+        abstract _onRenderGroupShowAll: obj with get, set
+        abstract _onRenderGroupFooter: obj with get, set
+        abstract _onSelectionChange: unit -> unit
+        abstract _onRenderGroupCell: onRenderCell: obj * groupNestingDepth: obj -> unit
+        abstract _onRenderGroup: renderCount: obj -> unit
+        abstract _renderSubGroup: obj with get, set
+        abstract _returnOne: unit -> unit
+        abstract _getGroupKey: group: obj * index: obj -> unit
+        /// collect all the data we need to enable drag/drop for a group
+        abstract _getGroupDragDropOptions: obj with get, set
+        /// update groupIsDropping state based on the input value, which is used to change style during drag and drop
+        abstract _updateDroppingState: obj with get, set
+        /// get the correct css class to reflect the dropping state for a given group
+        /// 
+        /// If the group is the current drop target, return the default dropping class name
+        /// Otherwise, return '';
+        abstract _getDroppingClassName: unit -> unit
 
     type [<AllowNullLiteral>] GroupedListSectionStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IGroupedListSectionProps -> GroupedListSection
@@ -5300,6 +6050,9 @@ module __components_GroupedList_GroupHeader =
         inherit BaseComponent<IGroupDividerProps, IGroupHeaderState>
         abstract componentWillReceiveProps: newProps: obj option -> unit
         abstract render: unit -> JSX.Element option
+        abstract _onToggleCollapse: obj with get, set
+        abstract _onToggleSelectGroupClick: obj with get, set
+        abstract _onHeaderClick: obj with get, set
 
     type [<AllowNullLiteral>] GroupHeaderStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IGroupDividerProps -> GroupHeader
@@ -5332,6 +6085,7 @@ module __components_GroupedList_GroupShowAll =
         inherit BaseComponent<IGroupDividerProps, obj>
         abstract defaultProps: IGroupDividerProps with get, set
         abstract render: unit -> JSX.Element option
+        abstract _onSummarizeClick: obj with get, set
 
     type [<AllowNullLiteral>] GroupShowAllStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GroupShowAll
@@ -5369,9 +6123,16 @@ module __components_HoverCard_ExpandingCard =
     type [<AllowNullLiteral>] ExpandingCard =
         inherit BaseComponent<IExpandingCardProps, IExpandingCardState>
         abstract defaultProps: obj with get, set
+        abstract _styles: obj with get, set
+        abstract _callout: obj with get, set
+        abstract _expandedElem: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _onKeyDown: obj with get, set
+        abstract _onRenderCompactCard: obj with get, set
+        abstract _onRenderExpandedCard: obj with get, set
+        abstract _checkNeedsScroll: obj with get, set
 
     type [<AllowNullLiteral>] ExpandingCardStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IExpandingCardProps -> ExpandingCard
@@ -5473,9 +6234,21 @@ module __components_HoverCard_HoverCard =
     type [<AllowNullLiteral>] HoverCard =
         inherit BaseComponent<IHoverCardProps, IHoverCardState>
         abstract defaultProps: obj with get, set
+        abstract _hoverCard: obj with get, set
+        abstract _dismissTimerId: obj with get, set
+        abstract _openTimerId: obj with get, set
+        abstract _currentMouseTarget: obj with get, set
+        abstract _styles: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: IHoverCardProps * prevState: IHoverCardState -> unit
         abstract render: unit -> JSX.Element
+        abstract _getTargetElement: unit -> unit
+        abstract _shouldBlockHoverCard: unit -> unit
+        abstract _cardOpen: obj with get, set
+        abstract _executeCardOpen: obj with get, set
+        abstract _cardDismiss: obj with get, set
+        abstract _executeCardDimiss: obj with get, set
+        abstract _instantOpenAsExpanded: obj with get, set
 
     type [<AllowNullLiteral>] HoverCardStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IHoverCardProps -> HoverCard
@@ -5558,6 +6331,8 @@ module __components_Icon_Icon_base =
     type [<AllowNullLiteral>] IconBase =
         inherit BaseComponent<IIconProps, IIconState>
         abstract render: unit -> JSX.Element
+        abstract onImageLoadingStateChange: obj with get, set
+        abstract _getIconContent: ?name: obj -> unit
 
     type [<AllowNullLiteral>] IconBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IIconProps -> IconBase
@@ -5650,9 +6425,17 @@ module __components_Image_Image_base =
     type [<AllowNullLiteral>] ImageBase =
         inherit BaseComponent<IImageProps, IImageState>
         abstract defaultProps: obj with get, set
+        abstract _svgRegex: obj with get, set
+        abstract _coverStyle: obj with get, set
+        abstract _imageElement: obj with get, set
+        abstract _frameElement: obj with get, set
         abstract componentWillReceiveProps: nextProps: IImageProps -> unit
         abstract componentDidUpdate: prevProps: IImageProps * prevState: IImageState -> unit
         abstract render: unit -> JSX.Element
+        abstract _onImageLoaded: obj with get, set
+        abstract _checkImageLoaded: unit -> unit
+        abstract _computeCoverStyle: props: obj -> unit
+        abstract _onImageError: obj with get, set
 
     type [<AllowNullLiteral>] ImageBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IImageProps -> ImageBase
@@ -5925,10 +6708,17 @@ module __components_KeytipData_KeytipData =
     /// A small element to help the target component correctly read out its aria-describedby for its Keytip
     type [<AllowNullLiteral>] KeytipData =
         inherit BaseComponent<obj, obj>
+        abstract _uniqueId: obj with get, set
+        abstract _keytipManager: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _getKtpProps: unit -> unit
+        /// <summary>Gets the aria- and data- attributes to attach to the component</summary>
+        /// <param name="keytipProps"></param>
+        /// <param name="describedByPrepend"></param>
+        abstract _getKtpAttrs: keytipProps: obj * ?describedByPrepend: obj -> unit
 
     /// A small element to help the target component correctly read out its aria-describedby for its Keytip
     type [<AllowNullLiteral>] KeytipDataStatic =
@@ -5994,6 +6784,14 @@ module __components_KeytipLayer_KeytipLayer_base =
     type [<AllowNullLiteral>] KeytipLayerBase =
         inherit BaseComponent<IKeytipLayerProps, IKeytipLayerState>
         abstract defaultProps: IKeytipLayerProps with get, set
+        abstract _keytipTree: obj with get, set
+        abstract _keytipManager: obj with get, set
+        abstract _classNames: obj with get, set
+        abstract _currentSequence: obj with get, set
+        abstract _newCurrentKeytipSequences: obj option with get, set
+        abstract _delayedKeytipQueue: obj with get, set
+        abstract _delayedQueueTimeout: obj with get, set
+        abstract _keyHandled: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -6008,6 +6806,46 @@ module __components_KeytipLayer_KeytipLayer_base =
         /// <summary>Show the given keytips and hide all others</summary>
         /// <param name="ids">- Keytip IDs to show</param>
         abstract showKeytips: ids: ResizeArray<string> -> unit
+        /// Enters keytip mode for this layer
+        abstract _enterKeytipMode: unit -> unit
+        /// Exits keytip mode for this layer
+        abstract _exitKeytipMode: unit -> unit
+        /// <summary>Sets the keytips state property</summary>
+        /// <param name="keytipProps">- Keytips to set in this layer</param>
+        abstract _setKeytips: ?keytipProps: obj -> unit
+        /// <summary>Callback function to use for persisted keytips</summary>
+        /// <param name="overflowButtonSequences">- The overflow button sequence to execute</param>
+        /// <param name="keytipSequences">- The keytip that should become the 'currentKeytip' when it is registered</param>
+        abstract _persistedKeytipExecute: overflowButtonSequences: obj * keytipSequences: obj -> unit
+        abstract _getVisibleKeytips: keytips: obj -> unit
+        abstract _onDismiss: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        /// <summary>Gets the ModifierKeyCodes based on the keyboard event</summary>
+        /// <param name="ev">- React.KeyboardEvent</param>
+        abstract _getModifierKey: key: obj * ev: obj -> unit
+        abstract _onKeyPress: obj with get, set
+        abstract _onKeytipAdded: obj with get, set
+        abstract _onKeytipUpdated: obj with get, set
+        abstract _onKeytipRemoved: obj with get, set
+        abstract _onPersistedKeytipAdded: obj with get, set
+        abstract _onPersistedKeytipRemoved: obj with get, set
+        abstract _onPersistedKeytipExecute: obj with get, set
+        /// <summary>Trigger a keytip immediately and set it as the current keytip</summary>
+        /// <param name="keytipProps">- Keytip to trigger immediately</param>
+        abstract _triggerKeytipImmediately: keytipProps: obj -> unit
+        abstract _addKeytipToQueue: keytipID: obj -> unit
+        abstract _removeKeytipFromQueue: keytipID: obj -> unit
+        /// <summary>Gets the DOM element for the specified keytip</summary>
+        /// <param name="keytipId">- ID of the keytip to query for</param>
+        abstract _getKeytipDOMElement: keytipId: obj -> unit
+        /// <summary>Returns T/F if the keytipProps keySequences match the currentKeytip, and the currentKeytip is in an overflow well
+        /// This will make 'keytipProps' the new currentKeytip</summary>
+        /// <param name="keytipProps">- Keytip props to check</param>
+        abstract _isCurrentKeytipAnAlias: keytipProps: obj -> unit
+        /// Sets if we are in keytip mode.
+        /// Note, this sets both the state for the layer as well as
+        /// the value that the manager will expose externally.
+        abstract _setInKeytipMode: obj with get, set
 
     /// A layer that holds all keytip items
     type [<AllowNullLiteral>] KeytipLayerBaseStatic =
@@ -6110,6 +6948,10 @@ module __components_KeytipLayer_KeytipTree =
         /// <summary>Tests if the currentKeytip in this.keytipTree is the parent of 'keytipProps'</summary>
         /// <param name="keytipProps">- Keytip to test the parent for</param>
         abstract isCurrentKeytipParent: keytipProps: IKeytipProps -> bool
+        abstract _getParentID: fullSequence: obj -> unit
+        abstract _getFullSequence: keytipProps: obj -> unit
+        abstract _getNodeSequence: node: obj -> unit
+        abstract _createNode: id: obj * keySequences: obj * parentId: obj * children: obj * ?hasDynamicChildren: obj * ?overflowSetSequence: obj * ?hasMenu: obj * ?onExecute: obj * ?onReturn: obj * ?disabled: obj * ?persisted: obj -> unit
 
     /// This class is responsible for handling the parent/child relationships between keytips
     type [<AllowNullLiteral>] KeytipTreeStatic =
@@ -6186,10 +7028,16 @@ module __components_Layer_Layer_base =
     type [<AllowNullLiteral>] LayerBase =
         inherit BaseComponent<ILayerProps, obj>
         abstract defaultProps: ILayerProps with get, set
+        abstract _rootElement: obj with get, set
+        abstract _host: obj with get, set
+        abstract _layerElement: obj with get, set
+        abstract _hasMounted: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _removeLayerElement: unit -> unit
+        abstract _getHost: unit -> unit
 
     type [<AllowNullLiteral>] LayerBaseStatic =
         /// Used for notifying applicable Layers that a host is available/unavailable and to re-evaluate Layers that
@@ -6323,8 +7171,10 @@ module __components_Link_Link_base =
     type [<AllowNullLiteral>] LinkBase =
         inherit BaseComponent<ILinkProps, obj option>
         inherit ILink
+        abstract _link: obj with get, set
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _onClick: obj with get, set
 
     type [<AllowNullLiteral>] LinkBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> LinkBase
@@ -6443,6 +7293,24 @@ module __components_List_List =
         inherit IList
         abstract defaultProps: obj with get, set
         abstract refs: obj with get, set
+        abstract _root: obj with get, set
+        abstract _surface: obj with get, set
+        abstract _estimatedPageHeight: obj with get, set
+        abstract _totalEstimates: obj with get, set
+        abstract _cachedPageHeights: obj with get, set
+        abstract _focusedIndex: obj with get, set
+        abstract _scrollElement: obj with get, set
+        abstract _hasCompletedFirstRender: obj with get, set
+        abstract _surfaceRect: obj with get, set
+        abstract _requiredRect: obj with get, set
+        abstract _allowedRect: obj with get, set
+        abstract _materializedRect: obj with get, set
+        abstract _requiredWindowsAhead: obj with get, set
+        abstract _requiredWindowsBehind: obj with get, set
+        abstract _measureVersion: obj with get, set
+        abstract _scrollHeight: obj with get, set
+        abstract _scrollTop: obj with get, set
+        abstract _pageCache: obj with get, set
         /// <summary>Scroll to the given index. By default will bring the page the specified item is on into the view. If a callback
         /// to measure the height of an individual item is specified, will only scroll to bring the specific item into view.
         /// 
@@ -6457,6 +7325,52 @@ module __components_List_List =
         abstract shouldComponentUpdate: newProps: IListProps * newState: IListState -> bool
         abstract forceUpdate: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _shouldVirtualize: ?props: obj -> unit
+        /// when props.items change or forceUpdate called, throw away cached pages
+        abstract _invalidatePageCache: unit -> unit
+        abstract _renderPage: page: obj -> unit
+        /// Generate the style object for the page. 
+        abstract _getPageStyle: page: obj -> unit
+        abstract _onRenderPage: obj with get, set
+        /// Track the last item index focused so that we ensure we keep it rendered. 
+        abstract _onFocus: ev: obj -> unit
+        /// Called synchronously to reset the required render range to 0 on scrolling. After async scroll has executed,
+        /// we will call onAsyncIdle which will reset it back to it's correct value.
+        abstract _onScroll: unit -> unit
+        abstract _resetRequiredWindows: unit -> unit
+        /// Debounced method to asynchronously update the visible region on a scroll event.
+        abstract _onAsyncScroll: unit -> unit
+        /// This is an async debounced method that will try and increment the windows we render. If we can increment
+        /// either, we increase the amount we render and re-evaluate.
+        abstract _onAsyncIdle: unit -> unit
+        /// Function to call when the list is done scrolling.
+        /// This function is debounced.
+        abstract _onScrollingDone: unit -> unit
+        abstract _onAsyncResize: unit -> unit
+        abstract _updatePages: ?props: obj -> unit
+        /// <summary>Notify consumers that the rendered pages have changed</summary>
+        /// <param name="oldPages">The old pages</param>
+        /// <param name="newPages">The new pages</param>
+        /// <param name="props">The props to use</param>
+        abstract _notifyPageChanges: oldPages: obj * newPages: obj * ?props: obj -> unit
+        abstract _updatePageMeasurements: pages: obj -> unit
+        /// Given a page, measure its dimensions, update cache.
+        abstract _measurePage: page: obj -> unit
+        /// Called when a page has been added to the DOM. 
+        abstract _onPageAdded: page: obj -> unit
+        /// Called when a page has been removed from the DOM. 
+        abstract _onPageRemoved: page: obj -> unit
+        /// Build up the pages that should be rendered. 
+        abstract _buildPages: props: obj -> unit
+        abstract _getPageSpecification: itemIndex: obj * visibleRect: obj -> unit
+        /// Get the pixel height of a give page. Will use the props getPageHeight first, and if not provided, fallback to
+        /// cached height, or estimated page height, or default page height.
+        abstract _getPageHeight: itemIndex: obj * itemsPerPage: obj * visibleRect: obj -> unit
+        abstract _getItemCountForPage: itemIndex: obj * visibileRect: obj -> unit
+        abstract _createPage: pageKey: obj * items: obj * ?startIndex: obj * ?count: obj * ?style: obj * ?data: obj -> unit
+        abstract _getRenderCount: ?props: obj -> unit
+        /// Calculate the visible rect within the list where top: 0 and left: 0 is the top/left of the list. 
+        abstract _updateRenderRects: ?props: obj * ?forceUpdate: obj -> unit
 
     /// The List renders virtualized pages of items. Each page's item count is determined by the getItemCountForPage callback if
     /// provided by the caller, or 10 as default. Each page's height is determined by the getPageHeight callback if provided by
@@ -6621,9 +7535,36 @@ module __components_MarqueeSelection_MarqueeSelection_base =
     type [<AllowNullLiteral>] MarqueeSelectionBase =
         inherit BaseComponent<IMarqueeSelectionProps, IMarqueeSelectionState>
         abstract defaultProps: obj with get, set
+        abstract _root: obj with get, set
+        abstract _dragOrigin: obj with get, set
+        abstract _rootRect: obj with get, set
+        abstract _lastMouseEvent: obj with get, set
+        abstract _autoScroll: obj with get, set
+        abstract _selectedIndicies: obj with get, set
+        abstract _preservedIndicies: obj with get, set
+        abstract _itemRectCache: obj with get, set
+        abstract _scrollableParent: obj with get, set
+        abstract _scrollableSurface: obj with get, set
+        abstract _scrollTop: obj with get, set
+        abstract _isTouch: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        /// Determine if the mouse event occured on a scrollbar of the target element. 
+        abstract _isMouseEventOnScrollbar: ev: obj -> unit
+        abstract _onMouseDown: obj with get, set
+        abstract _onTouchStart: obj with get, set
+        abstract _onPointerDown: obj with get, set
+        abstract _getRootRect: unit -> unit
+        abstract _onAsyncMouseMove: ev: obj -> unit
+        abstract _onMouseMove: ev: obj -> unit
+        abstract _onMouseUp: ev: obj -> unit
+        abstract _isPointInRectangle: rectangle: obj * point: obj -> unit
+        /// We do not want to start the marquee if we're trying to marquee
+        /// from within an existing marquee selection.
+        abstract _isDragStartInSelection: ev: obj -> unit
+        abstract _isInSelectionToggle: ev: obj -> unit
+        abstract _evaluateSelection: dragRect: obj * rootRect: obj -> unit
 
     /// MarqueeSelection component abstracts managing a draggable rectangle which sets items selected/not selected.
     /// Elements which have data-selectable-index attributes are queried and measured once to determine if they
@@ -6733,7 +7674,19 @@ module __components_MessageBar_MessageBar =
     type [<AllowNullLiteral>] MessageBar =
         inherit BaseComponent<IMessageBarProps, IMessageBarState>
         abstract defaultProps: IMessageBarProps with get, set
+        abstract ICON_MAP: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getActionsDiv: unit -> unit
+        abstract _getClassName: unit -> unit
+        abstract _getDismissDiv: unit -> unit
+        abstract _getDismissSingleLine: unit -> unit
+        abstract _getExpandSingleLine: unit -> unit
+        abstract _getIconSpan: unit -> unit
+        abstract _renderMultiLine: unit -> unit
+        abstract _renderSingleLine: unit -> unit
+        abstract _renderInnerText: unit -> unit
+        abstract _getAnnouncementPriority: unit -> unit
+        abstract _onClick: obj with get, set
 
     type [<AllowNullLiteral>] MessageBarStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IMessageBarProps -> MessageBar
@@ -6842,10 +7795,13 @@ module __components_Modal_Modal =
         inherit BaseComponent<IModalProps, IDialogState>
         inherit IModal
         abstract defaultProps: IModalProps with get, set
+        abstract _onModalCloseTimer: obj with get, set
+        abstract _focusTrapZone: obj with get, set
         abstract componentWillReceiveProps: newProps: IModalProps -> unit
         abstract componentDidUpdate: prevProps: IModalProps * prevState: IDialogState -> unit
         abstract render: unit -> JSX.Element option
         abstract focus: unit -> unit
+        abstract _onModalClose: unit -> unit
 
     type [<AllowNullLiteral>] ModalStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IModalProps -> Modal
@@ -6929,6 +7885,17 @@ module __components_Nav_Nav_base =
         abstract componentWillReceiveProps: newProps: INavProps -> unit
         abstract render: unit -> JSX.Element option
         abstract selectedKey: string option
+        abstract _onRenderLink: obj with get, set
+        abstract _renderNavLink: link: obj * linkIndex: obj * nestingLevel: obj -> unit
+        abstract _renderCompositeLink: link: obj * linkIndex: obj * nestingLevel: obj -> unit
+        abstract _renderLink: link: obj * linkIndex: obj * nestingLevel: obj -> unit
+        abstract _renderLinks: links: obj * nestingLevel: obj -> unit
+        abstract _renderGroup: obj with get, set
+        abstract _onGroupHeaderClicked: group: obj * ev: obj -> unit
+        abstract _onLinkExpandClicked: link: obj * ev: obj -> unit
+        abstract _onNavAnchorLinkClicked: link: obj * ev: obj -> unit
+        abstract _onNavButtonLinkClicked: link: obj * ev: obj -> unit
+        abstract _isLinkSelected: link: obj -> unit
 
     type [<AllowNullLiteral>] NavBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: INavProps -> NavBase
@@ -7141,6 +8108,10 @@ module __components_OverflowSet_OverflowSet =
     type [<AllowNullLiteral>] OverflowSet =
         inherit BaseComponent<IOverflowSetProps, obj>
         inherit IOverflowSet
+        abstract _focusZone: obj with get, set
+        abstract _persistedKeytips: obj with get, set
+        abstract _keytipManager: obj with get, set
+        abstract _divContainer: obj with get, set
         abstract render: unit -> JSX.Element
         /// <summary>Sets focus to the first tabbable item in the OverflowSet.</summary>
         /// <param name="forceIntoFirstElement">If true, focus will be forced into the first element,
@@ -7153,6 +8124,13 @@ module __components_OverflowSet_OverflowSet =
         abstract componentWillUnmount: unit -> unit
         abstract componentWillUpdate: unit -> unit
         abstract componentDidUpdate: unit -> unit
+        abstract _registerPersistedKeytips: unit -> unit
+        abstract _unregisterPersistedKeytips: unit -> unit
+        abstract _onRenderItems: obj with get, set
+        abstract _onRenderOverflowButtonWrapper: obj with get, set
+        /// Gets the subMenu for an overflow item
+        /// Checks if itemSubMenuProvider has been defined, if not defaults to subMenuProps
+        abstract _getSubMenuForItem: item: obj -> unit
 
     type [<AllowNullLiteral>] OverflowSetStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IOverflowSetProps -> OverflowSet
@@ -7344,11 +8322,21 @@ module __components_Panel_Panel =
         inherit BaseComponent<IPanelProps, IPanelState>
         inherit IPanel
         abstract defaultProps: IPanelProps with get, set
+        abstract _panel: obj with get, set
+        abstract _content: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: newProps: IPanelProps -> unit
         abstract render: unit -> JSX.Element option
         abstract ``open``: unit -> unit
         abstract dismiss: (unit -> unit) with get, set
+        abstract _onRenderNavigation: obj with get, set
+        abstract _onRenderHeader: obj with get, set
+        abstract _onRenderBody: obj with get, set
+        abstract _onRenderFooter: obj with get, set
+        abstract _updateFooterPosition: unit -> unit
+        abstract _dismissOnOuterClick: ev: obj -> unit
+        abstract _onPanelClick: obj with get, set
+        abstract _onTransitionComplete: obj with get, set
 
     type [<AllowNullLiteral>] PanelStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPanelProps -> Panel
@@ -7506,6 +8494,9 @@ module __components_Persona_Persona_base =
         inherit BaseComponent<IPersonaProps, obj>
         abstract defaultProps: IPersonaProps with get, set
         abstract render: unit -> JSX.Element
+        /// Deprecation helper for getting text.
+        abstract _getText: unit -> unit
+        abstract _renderElement: obj with get, set
 
     /// Persona with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
@@ -7854,6 +8845,13 @@ module __components_pickers_BasePicker =
         abstract removeItems: (ResizeArray<obj option> -> unit) with get, set
         abstract onBackspace: ev: React.KeyboardEvent<HTMLElement> -> unit
         abstract _isFocusZoneInnerKeystroke: (React.KeyboardEvent<HTMLElement> -> bool) with get, set
+        /// Controls what happens whenever there is an action that impacts the selected items.
+        /// If selectedItems is provided as a property then this will act as a controlled component and it will not update it's own state.
+        abstract _updateSelectedItems: items: obj * ?focusIndex: obj -> unit
+        abstract _onSelectedItemsUpdated: ?items: obj * ?focusIndex: obj -> unit
+        abstract _onResolveSuggestions: updatedValue: obj -> unit
+        abstract _onValidateInput: unit -> unit
+        abstract _getTextFromItem: item: obj * ?currentValue: obj -> unit
 
     type [<AllowNullLiteral>] BasePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BasePicker<'T, 'P>
@@ -8064,10 +9062,33 @@ module __components_Pivot_Pivot_base =
 
     type [<AllowNullLiteral>] PivotBase =
         inherit BaseComponent<IPivotProps, IPivotState>
+        abstract _keyToIndexMapping: obj with get, set
+        abstract _keyToTabIds: obj with get, set
+        abstract _pivotId: obj with get, set
+        abstract focusZone: obj with get, set
         abstract componentWillReceiveProps: nextProps: IPivotProps -> unit
         /// Sets focus to the first pivot tab.
         abstract focus: unit -> unit
         abstract render: unit -> JSX.Element
+        /// Renders the set of links to route between pivots
+        abstract _renderPivotLinks: unit -> unit
+        abstract _renderPivotLink: obj with get, set
+        abstract _renderLinkContent: obj with get, set
+        /// Renders the current Pivot Item
+        abstract _renderPivotItem: unit -> unit
+        /// Gets the set of PivotLinks as arrary of IPivotItemProps
+        /// The set of Links is determined by child components of type PivotItem
+        abstract _getPivotLinks: props: obj -> unit
+        /// Generates the Id for the tab button.
+        abstract _getTabId: itemKey: obj * index: obj -> unit
+        /// whether the key exists in the pivot items.
+        abstract _isKeyValid: itemKey: obj -> unit
+        /// Handles the onClick event on PivotLinks
+        abstract _onLinkClick: itemKey: obj * ev: obj -> unit
+        /// Handle the onKeyPress eventon the PivotLinks
+        abstract _onKeyPress: itemKey: obj * ev: obj -> unit
+        /// Updates the state with the new selected index
+        abstract _updateSelectedItem: itemKey: obj * ?ev: obj -> unit
 
     type [<AllowNullLiteral>] PivotBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPivotProps -> PivotBase
@@ -8259,11 +9280,18 @@ module __components_Popup_Popup =
         inherit BaseComponent<IPopupProps, IPopupState>
         abstract defaultProps: IPopupProps with get, set
         abstract _root: obj with get, set
+        abstract _originalFocusedElement: obj with get, set
+        abstract _containsFocus: obj with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _onKeyDown: obj with get, set
+        abstract _updateScrollBarAsync: unit -> unit
+        abstract _getScrollBar: unit -> unit
+        abstract _onFocus: unit -> unit
+        abstract _onBlur: ev: obj -> unit
 
     /// This adds accessibility to Dialog and Panel controls
     type [<AllowNullLiteral>] PopupStatic =
@@ -8309,6 +9337,7 @@ module __components_ProgressIndicator_ProgressIndicator_base =
         inherit BaseComponent<IProgressIndicatorProps, obj>
         abstract defaultProps: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onRenderProgress: obj with get, set
 
     /// ProgressIndicator with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
@@ -8414,8 +9443,18 @@ module __components_Rating_Rating_base =
     type [<AllowNullLiteral>] RatingBase =
         inherit BaseComponent<IRatingProps, IRatingState>
         abstract defaultProps: IRatingProps with get, set
+        abstract _id: obj with get, set
+        abstract _min: obj with get, set
+        abstract _labelId: obj with get, set
+        abstract _classNames: obj with get, set
         abstract componentWillReceiveProps: nextProps: IRatingProps -> unit
         abstract render: unit -> JSX.Element
+        abstract _getStarId: index: obj -> unit
+        abstract _onFocus: value: obj * ev: obj -> unit
+        abstract _getLabel: rating: obj -> unit
+        abstract _getInitialValue: props: obj -> unit
+        abstract _getClampedRating: rating: obj -> unit
+        abstract _getFillingPercentage: starPosition: obj -> unit
 
     type [<AllowNullLiteral>] RatingBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IRatingProps -> RatingBase
@@ -8542,11 +9581,16 @@ module __components_ResizeGroup_ResizeGroup_base =
 
     type [<AllowNullLiteral>] ResizeGroupBase =
         inherit BaseComponent<IResizeGroupProps, IResizeGroupState>
+        abstract _nextResizeGroupStateProvider: obj with get, set
+        abstract _root: obj with get, set
+        abstract _measured: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: nextProps: IResizeGroupProps -> unit
         abstract componentDidUpdate: prevProps: IResizeGroupProps -> unit
         abstract remeasure: unit -> unit
+        abstract _afterComponentRendered: unit -> unit
+        abstract _onResize: unit -> unit
 
     type [<AllowNullLiteral>] ResizeGroupBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IResizeGroupProps -> ResizeGroupBase
@@ -8657,6 +9701,13 @@ module __components_ScrollablePane_ScrollablePane_base =
         inherit BaseComponent<IScrollablePaneProps, IScrollablePaneState>
         inherit IScrollablePane
         abstract childContextTypes: React.ValidationMap<IScrollablePaneContext> with get, set
+        abstract _root: obj with get, set
+        abstract _stickyAboveRef: obj with get, set
+        abstract _stickyBelowRef: obj with get, set
+        abstract _contentContainer: obj with get, set
+        abstract _subscribers: obj with get, set
+        abstract _stickies: obj with get, set
+        abstract _mutationObserver: obj with get, set
         abstract root: HTMLDivElement option
         abstract stickyAbove: HTMLDivElement option
         abstract stickyBelow: HTMLDivElement option
@@ -8677,6 +9728,11 @@ module __components_ScrollablePane_ScrollablePane_base =
         abstract updateStickyRefHeights: (unit -> unit) with get, set
         abstract notifySubscribers: (unit -> unit) with get, set
         abstract getScrollPosition: (unit -> float) with get, set
+        abstract _checkStickyStatus: sticky: obj -> unit
+        abstract _addToStickyContainer: obj with get, set
+        abstract _removeStickyFromContainers: obj with get, set
+        abstract _onWindowResize: obj with get, set
+        abstract _getStickyContainerStyle: obj with get, set
 
     type [<AllowNullLiteral>] ScrollablePaneBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IScrollablePaneProps -> ScrollablePaneBase
@@ -8779,12 +9835,23 @@ module __components_SearchBox_SearchBox_base =
     type [<AllowNullLiteral>] SearchBoxBase =
         inherit BaseComponent<ISearchBoxProps, ISearchBoxState>
         abstract defaultProps: ISearchBoxProps with get, set
+        abstract _rootElement: obj with get, set
+        abstract _inputElement: obj with get, set
+        abstract _latestValue: obj with get, set
         abstract componentWillReceiveProps: newProps: ISearchBoxProps -> unit
         abstract render: unit -> JSX.Element
         /// Sets focus to the search box input field
         abstract focus: unit -> unit
         /// Returns whether or not the SearchBox has focus
         abstract hasFocus: unit -> bool
+        abstract _onClear: ev: obj -> unit
+        abstract _onClickFocus: obj with get, set
+        abstract _onFocusCapture: obj with get, set
+        abstract _onClearClick: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _onInputChange: obj with get, set
+        abstract _callOnChange: newValue: obj -> unit
 
     type [<AllowNullLiteral>] SearchBoxBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISearchBoxProps -> SearchBoxBase
@@ -8936,6 +10003,7 @@ module __components_SelectedItemsList_BaseSelectedItemsList =
         abstract onBackspace: ev: React.KeyboardEvent<HTMLElement> -> unit
         abstract copyItems: items: ResizeArray<'T> -> unit
         abstract _isFocusZoneInnerKeystroke: ev: React.KeyboardEvent<HTMLElement> -> bool
+        abstract _onSelectedItemsUpdated: ?items: obj * ?focusIndex: obj -> unit
 
     type [<AllowNullLiteral>] BaseSelectedItemsListStatic =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseSelectedItemsList<'T, 'P>
@@ -9002,11 +10070,22 @@ module __components_Slider_Slider_base =
         inherit BaseComponent<ISliderProps, ISliderState>
         inherit ISlider
         abstract defaultProps: ISliderProps with get, set
+        abstract _sliderLine: obj with get, set
+        abstract _thumb: obj with get, set
+        abstract _id: obj with get, set
         /// Invoked when a component is receiving new props. This method is not called for the initial render.
         abstract componentWillReceiveProps: newProps: ISliderProps -> unit
         abstract render: unit -> React.ReactElement<obj>
         abstract focus: unit -> unit
         abstract value: float option
+        abstract _getAriaValueText: obj with get, set
+        abstract _getThumbStyle: vertical: obj * thumbOffsetPercent: obj -> unit
+        abstract _onMouseDownOrTouchStart: obj with get, set
+        abstract _onMouseMoveOrTouchMove: obj with get, set
+        abstract _getPosition: ``event``: obj * vertical: obj -> unit
+        abstract _updateValue: value: obj * renderedValue: obj -> unit
+        abstract _onMouseUpOrTouchEnd: obj with get, set
+        abstract _onKeyDown: obj with get, set
 
     type [<AllowNullLiteral>] SliderBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISliderProps -> SliderBase
@@ -9186,12 +10265,50 @@ module __components_SpinButton_SpinButton =
         inherit BaseComponent<ISpinButtonProps, ISpinButtonState>
         inherit ISpinButton
         abstract defaultProps: ISpinButtonProps with get, set
+        abstract _input: obj with get, set
+        abstract _inputId: obj with get, set
+        abstract _labelId: obj with get, set
+        abstract _lastValidValue: obj with get, set
+        abstract _spinningByMouse: obj with get, set
+        abstract _onValidate: obj option with get, set
+        abstract _onIncrement: obj option with get, set
+        abstract _onDecrement: obj option with get, set
+        abstract _currentStepFunctionHandle: obj with get, set
+        abstract _initialStepDelay: obj with get, set
+        abstract _stepDelay: obj with get, set
         /// Invoked when a component is receiving new props. This method is not called for the initial render.
         abstract componentWillReceiveProps: newProps: ISpinButtonProps -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
         /// Gets the value of the spin button.
         abstract value: string option
+        /// Validate function to use if one is not passed in
+        abstract _defaultOnValidate: obj with get, set
+        /// Increment function to use if one is not passed in
+        abstract _defaultOnIncrement: obj with get, set
+        /// Increment function to use if one is not passed in
+        abstract _defaultOnDecrement: obj with get, set
+        abstract _onChange: unit -> unit
+        /// This is used when validating text entry
+        /// in the input (not when changed via the buttons)
+        abstract _validate: obj with get, set
+        /// The method is needed to ensure we are updating the actual input value.
+        /// without this our value will never change (and validation will not have the correct number)
+        abstract _onInputChange: obj with get, set
+        /// Update the value with the given stepFunction
+        abstract _updateValue: obj with get, set
+        /// Stop spinning (clear any currently pending update and set spinning to false)
+        abstract _stop: obj with get, set
+        /// Handle keydown on the text field. We need to update
+        /// the value when up or down arrow are depressed
+        abstract _handleKeyDown: obj with get, set
+        /// Make sure that we have stopped spinning on keyUp
+        /// if the up or down arrow fired this event
+        abstract _handleKeyUp: obj with get, set
+        abstract _onIncrementMouseDown: obj with get, set
+        abstract _onDecrementMouseDown: obj with get, set
 
     type [<AllowNullLiteral>] SpinButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISpinButtonProps -> SpinButton
@@ -9489,6 +10606,10 @@ module __components_Sticky_Sticky =
         abstract contextTypes: IStickyContext with get, set
         abstract context: obj with get, set
         abstract distanceFromTop: float with get, set
+        abstract _root: obj with get, set
+        abstract _stickyContentTop: obj with get, set
+        abstract _stickyContentBottom: obj with get, set
+        abstract _nonStickyContent: obj with get, set
         abstract root: HTMLDivElement option
         abstract stickyContentTop: HTMLDivElement option
         abstract stickyContentBottom: HTMLDivElement option
@@ -9503,6 +10624,14 @@ module __components_Sticky_Sticky =
         abstract addSticky: stickyContent: HTMLDivElement -> unit
         abstract resetSticky: unit -> unit
         abstract setDistanceFromTop: container: HTMLDivElement -> unit
+        abstract _getContentStyles: isSticky: obj -> unit
+        abstract _getStickyPlaceholderHeight: isSticky: obj -> unit
+        abstract _getNonStickyPlaceholderHeight: unit -> unit
+        abstract _onScrollEvent: obj with get, set
+        abstract _getStickyDistanceFromTop: obj with get, set
+        abstract _getStickyDistanceFromTopForFooter: obj with get, set
+        abstract _getNonStickyDistanceFromTop: obj with get, set
+        abstract _getBackground: unit -> unit
 
     type [<AllowNullLiteral>] StickyStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IStickyProps -> Sticky
@@ -9535,7 +10664,15 @@ module __components_SwatchColorPicker_ColorPickerGridCell_base =
     type [<AllowNullLiteral>] ColorPickerGridCellBase =
         inherit React.Component<IColorPickerGridCellProps, obj>
         abstract defaultProps: IColorPickerGridCellProps with get, set
+        abstract _classNames: obj with get, set
         abstract render: unit -> JSX.Element
+        /// Render the core of a color cell
+        abstract _onRenderColorOption: obj with get, set
+        /// <summary>Validate if the cell's color is white or not to apply whiteCell style</summary>
+        /// <param name="inputColor">- The color of the current cell</param>
+        abstract _isWhiteCell: inputColor: obj -> unit
+        /// Method to override the getClassNames func in a button.
+        abstract _getClassNames: obj with get, set
 
     type [<AllowNullLiteral>] ColorPickerGridCellBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ColorPickerGridCellBase
@@ -9645,9 +10782,44 @@ module __components_SwatchColorPicker_SwatchColorPicker_base =
         inherit BaseComponent<ISwatchColorPickerProps, ISwatchColorPickerState>
         inherit ISwatchColorPicker
         abstract defaultProps: ISwatchColorPickerProps with get, set
+        abstract _id: obj with get, set
+        abstract _cellFocused: obj with get, set
+        abstract navigationIdleTimeoutId: obj with get, set
+        abstract isNavigationIdle: obj with get, set
+        abstract navigationIdleDelay: obj
+        abstract async: obj with get, set
         abstract componentWillReceiveProps: newProps: ISwatchColorPickerProps -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element option
+        /// When the whole swatchColorPicker is blurred,
+        /// make sure to clear the pending focused stated
+        abstract _onSwatchColorPickerBlur: obj with get, set
+        /// <summary>Get the selected item's index</summary>
+        /// <param name="items">- The items to search</param>
+        /// <param name="selectedId">- The selected item's id to find</param>
+        abstract _getSelectedIndex: items: obj * selectedId: obj -> unit
+        /// Render a color cell
+        abstract _renderOption: obj with get, set
+        /// Callback passed to the GridCell that will manage triggering the onCellHovered callback for mouseEnter
+        abstract _onMouseEnter: obj with get, set
+        /// Callback passed to the GridCell that will manage Hover/Focus updates
+        abstract _onMouseMove: obj with get, set
+        /// Callback passed to the GridCell that will manage Hover/Focus updates
+        abstract _onMouseLeave: obj with get, set
+        /// Callback to make sure we don't update the hovered element during mouse wheel
+        abstract _onWheel: obj with get, set
+        /// Callback that
+        abstract _onKeyDown: obj with get, set
+        /// Sets a timeout so we won't process any mouse "hover" events
+        /// while navigating (via mouseWheel or arrowKeys)
+        abstract setNavigationTimeout: obj with get, set
+        /// Callback passed to the GridCell class that will trigger the onCellHovered callback of the SwatchColorPicker
+        /// NOTE: This will not be triggered if shouldFocusOnHover === true
+        abstract _onGridCellHovered: obj with get, set
+        /// Callback passed to the GridCell class that will trigger the onCellFocus callback of the SwatchColorPicker
+        abstract _onGridCellFocused: obj with get, set
+        /// Handle the click on a cell
+        abstract _onCellClick: obj with get, set
 
     type [<AllowNullLiteral>] SwatchColorPickerBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISwatchColorPickerProps -> SwatchColorPickerBase
@@ -9780,6 +10952,7 @@ module __components_TeachingBubble_TeachingBubble =
     type [<AllowNullLiteral>] TeachingBubble =
         inherit BaseComponent<ITeachingBubbleProps, ITeachingBubbleState>
         abstract defaultProps: obj with get, set
+        abstract _defaultCalloutProps: obj with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TeachingBubbleStatic =
@@ -9903,6 +11076,15 @@ module __components_TextField_TextField =
         inherit BaseComponent<ITextFieldProps, ITextFieldState>
         inherit ITextField
         abstract defaultProps: ITextFieldProps with get, set
+        abstract _id: obj with get, set
+        abstract _descriptionId: obj with get, set
+        abstract _delayedValidate: obj with get, set
+        abstract _isMounted: obj with get, set
+        abstract _lastValidation: obj with get, set
+        abstract _latestValue: obj with get, set
+        abstract _latestValidateValue: obj with get, set
+        abstract _isDescriptionAvailable: obj with get, set
+        abstract _textElement: obj with get, set
         /// Gets the current value of the text field.
         abstract value: string option
         abstract componentDidMount: unit -> unit
@@ -9925,6 +11107,21 @@ module __components_TextField_TextField =
         /// <param name="start">Index of the start of the selection.</param>
         /// <param name="end">Index of the end of the selection.</param>
         abstract setSelectionRange: start: float * ``end``: float -> unit
+        abstract _onFocus: ev: obj -> unit
+        abstract _onBlur: ev: obj -> unit
+        abstract _onRenderLabel: obj with get, set
+        abstract _onRenderDescription: obj with get, set
+        abstract _onRenderAddon: props: obj -> unit
+        abstract _onRenderPrefix: props: obj -> unit
+        abstract _onRenderSuffix: props: obj -> unit
+        abstract _getTextElementClassName: unit -> unit
+        abstract _errorMessage: obj
+        abstract _renderTextArea: unit -> unit
+        abstract _renderInput: unit -> unit
+        abstract _onInputChange: ``event``: obj -> unit
+        abstract _validate: value: obj -> unit
+        abstract _notifyAfterValidate: value: obj * errorMessage: obj -> unit
+        abstract _adjustInputHeight: unit -> unit
 
     type [<AllowNullLiteral>] TextFieldStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ITextFieldProps -> TextField
@@ -10105,6 +11302,10 @@ module __components_Theme_ThemePage =
     type [<AllowNullLiteral>] ThemePage =
         inherit React.Component<IComponentDemoPageProps, IThemePageState>
         abstract render: unit -> JSX.Element
+        abstract _colorList: obj with get, set
+        abstract _onSwatchClicked: item: obj * index: obj * list: obj * ev: obj -> unit
+        abstract _onColorChanged: index: obj * newColor: obj -> unit
+        abstract _onPickerDismiss: unit -> unit
 
     type [<AllowNullLiteral>] ThemePageStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IComponentDemoPageProps -> ThemePage
@@ -10177,6 +11378,7 @@ module __components_ThemeGenerator_ThemeGenerator =
         abstract getThemeAsJson: slotRules: IThemeRules -> obj option
         abstract getThemeAsSass: slotRules: IThemeRules -> obj option
         abstract getThemeForPowerShell: slotRules: IThemeRules -> obj option
+        abstract _setSlot: rule: obj * color: obj * isInverted: obj * isCustomization: obj * ?overwriteCustomColor: obj -> unit
 
 module __components_ThemeGenerator_ThemeGeneratorPage =
     type BaseComponent = __components_ThemeGenerator_office_ui_fabric_react_lib_Utilities.BaseComponent
@@ -10194,8 +11396,19 @@ module __components_ThemeGenerator_ThemeGeneratorPage =
 
     type [<AllowNullLiteral>] ThemeGeneratorPage =
         inherit BaseComponent<obj, IThemeGeneratorPageState>
+        abstract _semanticSlotColorChangeTimeout: obj with get, set
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _colorPickerOnDismiss: obj with get, set
+        abstract _semanticSlotRuleChanged: obj with get, set
+        abstract _onSwatchClick: obj with get, set
+        abstract _slotWidget: obj with get, set
+        abstract _fabricSlotWidget: obj with get, set
+        abstract _colorSquareSwatchWidget: slotRule: obj -> unit
+        abstract _accessibilityRow: obj with get, set
+        abstract _outputSection: obj with get, set
+        abstract _makeNewTheme: obj with get, set
+        abstract _baseColorSlotPicker: obj with get, set
 
     type [<AllowNullLiteral>] ThemeGeneratorPageStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ThemeGeneratorPageStaticProps -> ThemeGeneratorPage
@@ -10279,11 +11492,15 @@ module __components_Toggle_Toggle =
     type [<AllowNullLiteral>] Toggle =
         inherit BaseComponent<IToggleProps, IToggleState>
         inherit IToggle
+        abstract _id: obj with get, set
+        abstract _toggleButton: obj with get, set
         /// Gets the current checked state of the toggle.
         abstract ``checked``: bool
         abstract componentWillReceiveProps: newProps: IToggleProps -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
+        abstract _onClick: obj with get, set
+        abstract _noop: unit -> unit
 
     type [<AllowNullLiteral>] ToggleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IToggleProps -> Toggle
@@ -10384,7 +11601,9 @@ module __components_Tooltip_Tooltip_base =
     type [<AllowNullLiteral>] TooltipBase =
         inherit BaseComponent<ITooltipProps, obj option>
         abstract defaultProps: obj with get, set
+        abstract _classNames: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onRenderContent: obj with get, set
 
     type [<AllowNullLiteral>] TooltipBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TooltipBase
@@ -10485,7 +11704,15 @@ module __components_Tooltip_TooltipHost =
     type [<AllowNullLiteral>] TooltipHost =
         inherit BaseComponent<ITooltipHostProps, ITooltipHostState>
         abstract defaultProps: obj with get, set
+        abstract _tooltipHost: obj with get, set
+        abstract _closingTimer: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getTargetElement: unit -> unit
+        abstract _onTooltipMouseEnter: obj with get, set
+        abstract _onTooltipMouseLeave: obj with get, set
+        abstract _clearDismissTimer: obj with get, set
+        abstract _hideTooltip: obj with get, set
+        abstract _toggleTooltip: isTooltipVisible: obj -> unit
 
     type [<AllowNullLiteral>] TooltipHostStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ITooltipHostProps -> TooltipHost
@@ -10576,6 +11803,10 @@ module __demo_ComponentStatus_ComponentStatus =
         inherit React.Component<IComponentStatusProps, obj>
         abstract defaultProps: IComponentStatusProps with get, set
         abstract render: unit -> JSX.Element
+        abstract _definebadgeAnchor: subject: obj * state: obj -> unit
+        abstract _badgeAnchor: ariaLabel: obj * color: obj * subject: obj * status: obj -> unit
+        abstract _badgeURL: color: obj * subject: obj * status: obj -> unit
+        abstract _colorForComponentStateStatus: testCoverageStatus: obj -> unit
 
     type [<AllowNullLiteral>] ComponentStatusStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ComponentStatus
@@ -10607,6 +11838,12 @@ module __demo_ComponentStatus_ComponentStatusPage =
     type [<AllowNullLiteral>] ComponentStatusPage =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _renderOverView: unit -> unit
+        abstract _renderComponents: unit -> unit
+        abstract _renderComponent: componentName: obj -> unit
+        abstract _renderStatusesInfo: unit -> unit
+        abstract _renderStatusInfo: statusInfo: obj -> unit
+        abstract _createLink: information: obj -> unit
 
     type [<AllowNullLiteral>] ComponentStatusPageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ComponentStatusPage
@@ -10851,6 +12088,7 @@ module __utilities_decorators_BaseDecorator =
         inherit BaseComponent<'TProps, 'TState>
         abstract _shouldUpdateComponentRef: bool with get, set
         abstract _composedComponentInstance: React.Component<'TProps, 'TState> with get, set
+        abstract _hoisted: obj with get, set
         /// Updates the ref to the component composed by the decorator, which will also take care of hoisting
         /// (and unhoisting as appropriate) methods from said component.
         /// 
@@ -10913,9 +12151,34 @@ module __utilities_dragdrop_DragDropHelper =
 
     type [<AllowNullLiteral>] DragDropHelper =
         inherit IDragDropHelper
+        abstract _dragEnterCounts: obj with get, set
+        abstract _distanceSquaredForDrag: obj
+        abstract _isDragging: obj with get, set
+        abstract _dragData: obj with get, set
+        abstract _selection: obj with get, set
+        abstract _activeTargets: obj with get, set
+        abstract _events: obj with get, set
+        abstract _lastId: obj with get, set
         abstract dispose: unit -> unit
         abstract subscribe: root: HTMLElement * events: EventGroup * dragDropOptions: IDragDropOptions -> obj
         abstract unsubscribe: root: HTMLElement * key: string -> unit
+        abstract _onDragEnd: target: obj * ``event``: obj -> unit
+        /// clear drag data when mouse up on body
+        abstract _onMouseUp: ``event``: obj -> unit
+        /// clear drag data when mouse up outside of the document
+        abstract _onDocumentMouseUp: ``event``: obj -> unit
+        /// when mouse move over a new drop target while dragging some items,
+        /// fire dragleave on the old target and fire dragenter to the new target
+        /// The target will handle style change on dragenter and dragleave events.
+        abstract _onMouseMove: target: obj * ``event``: obj -> unit
+        /// when mouse leave a target while dragging some items, fire dragleave to the target
+        abstract _onMouseLeave: target: obj * ``event``: obj -> unit
+        /// when mouse down on a draggable item, we start to track dragdata.
+        abstract _onMouseDown: target: obj * ``event``: obj -> unit
+        /// determine whether the child target is a descendant of the parent
+        abstract _isChild: parent: obj * child: obj -> unit
+        abstract _isDraggable: target: obj -> unit
+        abstract _isDroppable: target: obj -> unit
 
     type [<AllowNullLiteral>] DragDropHelperStatic =
         [<Emit "new $0($1...)">] abstract Create: ``params``: IDragDropHelperParams -> DragDropHelper
@@ -10974,6 +12237,7 @@ module __utilities_grid_Grid_base =
     type [<AllowNullLiteral>] GridBase =
         inherit BaseComponent<IGridProps, obj>
         inherit IGrid
+        abstract _id: obj with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] GridBaseStatic =
@@ -11052,6 +12316,11 @@ module __utilities_grid_GridCell =
         inherit React.Component<'P, obj>
         abstract defaultProps: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onClick: obj with get, set
+        abstract _onMouseEnter: obj with get, set
+        abstract _onMouseMove: obj with get, set
+        abstract _onMouseLeave: obj with get, set
+        abstract _onFocus: obj with get, set
 
     type [<AllowNullLiteral>] GridCellStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GridCell<'T, 'P>
@@ -11201,6 +12470,7 @@ module __utilities_keytips_KeytipManager =
 
     /// This class is responsible for handling registering, updating, and unregistering of keytips
     type [<AllowNullLiteral>] KeytipManager =
+        abstract _instance: obj with get, set
         abstract keytips: ResizeArray<IUniqueKeytip> with get, set
         abstract persistedKeytips: ResizeArray<IUniqueKeytip> with get, set
         abstract inKeytipMode: bool with get, set
@@ -11231,6 +12501,10 @@ module __utilities_keytips_KeytipManager =
         /// <param name="overflowButtonSequences"></param>
         /// <param name="keytipSequences"></param>
         abstract menuExecute: overflowButtonSequences: ResizeArray<string> * keytipSequences: ResizeArray<string> -> unit
+        /// <summary>Creates an IUniqueKeytip object</summary>
+        /// <param name="keytipProps">- IKeytipProps</param>
+        /// <param name="uniqueID">- Unique ID, will default to the next unique ID if not passed</param>
+        abstract _getUniqueKtp: keytipProps: obj * ?uniqueID: obj -> unit
 
     /// This class is responsible for handling registering, updating, and unregistering of keytips
     type [<AllowNullLiteral>] KeytipManagerStatic =
@@ -11442,6 +12716,8 @@ module __utilities_router_Router =
         inherit BaseComponent<IRouterProps, obj>
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element option
+        abstract _getPath: unit -> unit
+        abstract _resolveRoute: ?path: obj * ?children: obj -> unit
 
     type [<AllowNullLiteral>] RouterStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Router
@@ -11577,6 +12853,22 @@ module __utilities_selection_Selection =
         inherit ISelection
         abstract count: float with get, set
         abstract mode: SelectionMode
+        abstract _getKey: obj with get, set
+        abstract _canSelectItem: obj with get, set
+        abstract _changeEventSuppressionCount: obj with get, set
+        abstract _items: obj with get, set
+        abstract _selectedItems: obj with get, set
+        abstract _selectedIndices: obj with get, set
+        abstract _isAllSelected: obj with get, set
+        abstract _exemptedIndices: obj with get, set
+        abstract _exemptedCount: obj with get, set
+        abstract _keyToIndexMap: obj with get, set
+        abstract _anchoredIndex: obj with get, set
+        abstract _onSelectionChanged: obj with get, set
+        abstract _hasChanged: obj with get, set
+        abstract _unselectableIndices: obj with get, set
+        abstract _unselectableCount: obj with get, set
+        abstract _isModal: obj with get, set
         abstract canSelectItem: item: IObjectWithKey -> bool
         abstract getKey: item: IObjectWithKey * ?index: float -> string
         abstract setChangeEvents: isEnabled: bool * ?suppressChange: bool -> unit
@@ -11604,6 +12896,8 @@ module __utilities_selection_Selection =
         abstract toggleKeySelected: key: string -> unit
         abstract toggleIndexSelected: index: float -> unit
         abstract toggleRangeSelected: fromIndex: float * count: float -> unit
+        abstract _updateCount: unit -> unit
+        abstract _change: unit -> unit
 
     type [<AllowNullLiteral>] SelectionStatic =
         [<Emit "new $0($1...)">] abstract Create: ?options: ISelectionOptions -> Selection
@@ -11649,6 +12943,14 @@ module __utilities_selection_SelectionZone =
     type [<AllowNullLiteral>] SelectionZone =
         inherit BaseComponent<ISelectionZoneProps, obj>
         abstract defaultProps: obj with get, set
+        abstract _root: obj with get, set
+        abstract _isCtrlPressed: obj with get, set
+        abstract _isShiftPressed: obj with get, set
+        abstract _isMetaPressed: obj with get, set
+        abstract _shouldHandleFocus: obj with get, set
+        abstract _shouldHandleFocusTimeoutId: obj with get, set
+        abstract _isTouch: obj with get, set
+        abstract _isTouchTimeoutId: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
         /// In some cases, the consuming scenario requires to set focus on a row without having SelectionZone
@@ -11656,6 +12958,40 @@ module __utilities_selection_SelectionZone =
         /// been called on an element, so we need a flag to store the idea that we will bypass the "next"
         /// focus event that occurs. This method does that.
         abstract ignoreNextFocus: (unit -> unit) with get, set
+        abstract _onMouseDownCapture: obj with get, set
+        /// When we focus an item, for single/multi select scenarios, we should try to select it immediately
+        /// as long as the focus did not originate from a mouse down/touch event. For those cases, we handle them
+        /// specially.
+        abstract _onFocus: obj with get, set
+        abstract _onMouseDown: obj with get, set
+        abstract _onTouchStartCapture: obj with get, set
+        abstract _onClick: obj with get, set
+        abstract _onContextMenu: obj with get, set
+        abstract _isSelectionDisabled: target: obj -> unit
+        /// In multi selection, if you double click within an item's root (but not within the invoke element or input elements),
+        /// we should execute the invoke handler.
+        abstract _onDoubleClick: obj with get, set
+        abstract _onKeyDownCapture: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onToggleAllClick: ev: obj -> unit
+        abstract _onToggleClick: ev: obj * index: obj -> unit
+        abstract _onInvokeClick: ev: obj * index: obj -> unit
+        abstract _onItemSurfaceClick: ev: obj * index: obj -> unit
+        abstract _onInvokeMouseDown: ev: obj * index: obj -> unit
+        abstract _tryClearOnEmptyClick: ev: obj -> unit
+        abstract _clearAndSelectIndex: index: obj -> unit
+        /// We need to track the modifier key states so that when focus events occur, which do not contain
+        /// modifier states in the Event object, we know how to behave.
+        abstract _updateModifiers: ev: obj -> unit
+        abstract _findItemRoot: target: obj -> unit
+        abstract _getItemIndex: itemRoot: obj -> unit
+        abstract _shouldAutoSelect: element: obj -> unit
+        abstract _hasAttribute: element: obj * attributeName: obj -> unit
+        abstract _isInputElement: element: obj -> unit
+        abstract _isNonHandledClick: element: obj -> unit
+        abstract _handleNextFocus: handleFocus: obj -> unit
+        abstract _setIsTouch: isTouch: obj -> unit
+        abstract _getSelectionMode: unit -> unit
 
     type [<AllowNullLiteral>] SelectionZoneStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectionZone
@@ -11717,6 +13053,8 @@ module __components_Breadcrumb_examples_Breadcrumb_Basic_Example =
     type [<AllowNullLiteral>] BreadcrumbBasicExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onBreadcrumbItemClicked: obj with get, set
+        abstract _getCustomDivider: obj with get, set
 
     type [<AllowNullLiteral>] BreadcrumbBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: BreadcrumbBasicExampleStaticProps -> BreadcrumbBasicExample
@@ -11732,6 +13070,8 @@ module __components_Breadcrumb_examples_Breadcrumb_Static_Example =
     type [<AllowNullLiteral>] BreadcrumbStaticExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onBreadcrumbItemClicked: obj with get, set
+        abstract _returnUndefined: unit -> unit
 
     type [<AllowNullLiteral>] BreadcrumbStaticExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> BreadcrumbStaticExample
@@ -11940,6 +13280,7 @@ module __components_Button_examples_Button_Default_Example =
     type [<AllowNullLiteral>] ButtonDefaultExample =
         inherit React.Component<IButtonProps, obj>
         abstract render: unit -> JSX.Element
+        abstract _alertClicked: unit -> unit
 
     type [<AllowNullLiteral>] ButtonDefaultExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ButtonDefaultExample
@@ -12021,9 +13362,13 @@ module __components_Button_examples_Button_Swap_Example =
 
     type [<AllowNullLiteral>] ButtonSwapExample =
         inherit React.Component<IButtonProps, IButtonSwapExampleState>
+        abstract buttonRef: obj with get, set
+        abstract hasFocus: obj with get, set
         abstract componentWillUpdate: nextProps: IButtonProps * nextState: IButtonSwapExampleState -> unit
         abstract componentDidUpdate: prevProps: IButtonProps * prevState: IButtonSwapExampleState -> unit
         abstract render: unit -> JSX.Element
+        abstract _setButtonRef: obj with get, set
+        abstract _onClick: obj with get, set
 
     type [<AllowNullLiteral>] ButtonSwapExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IButtonProps -> ButtonSwapExample
@@ -12128,7 +13473,11 @@ module __components_Calendar_examples_Calendar_Button_Example =
     type [<AllowNullLiteral>] CalendarButtonExample =
         inherit React.Component<ICalendarButtonExampleProps, ICalendarButtonExampleState>
         abstract defaultProps: ICalendarButtonExampleProps with get, set
+        abstract _calendarButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onClick: ``event``: obj -> unit
+        abstract _onDismiss: unit -> unit
+        abstract _onSelectDate: date: obj -> unit
 
     type [<AllowNullLiteral>] CalendarButtonExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarButtonExampleProps -> CalendarButtonExample
@@ -12164,6 +13513,10 @@ module __components_Calendar_examples_Calendar_Inline_Example =
     type [<AllowNullLiteral>] CalendarInlineExample =
         inherit React.Component<ICalendarInlineExampleProps, ICalendarInlineExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: unit -> unit
+        abstract _goPrevious: unit -> unit
+        abstract _goNext: unit -> unit
+        abstract _onSelectDate: date: obj * dateRangeArray: obj -> unit
 
     type [<AllowNullLiteral>] CalendarInlineExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarInlineExampleProps -> CalendarInlineExample
@@ -12178,7 +13531,10 @@ module __components_Callout_examples_Callout_Basic_Example =
 
     type [<AllowNullLiteral>] CalloutBasicExample =
         inherit React.Component<obj, ICalloutBasicExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onShowMenuClicked: obj with get, set
+        abstract _onCalloutDismiss: obj with get, set
 
     type [<AllowNullLiteral>] CalloutBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CalloutBasicExampleStaticProps -> CalloutBasicExample
@@ -12198,7 +13554,11 @@ module __components_Callout_examples_Callout_Cover_Example =
 
     type [<AllowNullLiteral>] CalloutCoverExample =
         inherit React.Component<obj, ICalloutCoverExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: unit -> unit
+        abstract _onShowMenuClicked: unit -> unit
+        abstract _onDirectionalChanged: option: obj -> unit
 
     type [<AllowNullLiteral>] CalloutCoverExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CalloutCoverExampleStaticProps -> CalloutCoverExample
@@ -12221,7 +13581,14 @@ module __components_Callout_examples_Callout_Directional_Example =
 
     type [<AllowNullLiteral>] CalloutDirectionalExample =
         inherit React.Component<obj, ICalloutDirectionalExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onCalloutDismiss: obj with get, set
+        abstract _onShowMenuClicked: obj with get, set
+        abstract _onShowBeakChange: obj with get, set
+        abstract _onDirectionalChanged: obj with get, set
+        abstract _onGapSlider: obj with get, set
+        abstract _onBeakWidthSlider: obj with get, set
 
     type [<AllowNullLiteral>] CalloutDirectionalExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CalloutDirectionalExampleStaticProps -> CalloutDirectionalExample
@@ -12240,7 +13607,9 @@ module __components_Callout_examples_Callout_Nested_Example =
 
     type [<AllowNullLiteral>] CalloutNestedExample =
         inherit React.Component<ICalloutNestedExampleProps, obj>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: ev: obj -> unit
 
     type [<AllowNullLiteral>] CalloutNestedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ICalloutNestedExampleProps -> CalloutNestedExample
@@ -12256,6 +13625,7 @@ module __components_Checkbox_examples_Checkbox_Basic_Example =
     type [<AllowNullLiteral>] CheckboxBasicExample =
         inherit React.Component<obj, ICheckboxBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onCheckboxChange: ev: obj * isChecked: obj -> unit
 
     type [<AllowNullLiteral>] CheckboxBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CheckboxBasicExampleStaticProps -> CheckboxBasicExample
@@ -12274,6 +13644,9 @@ module __components_Checkbox_examples_Checkbox_ImplementationExamples =
     type [<AllowNullLiteral>] CheckboxImplementationExamples =
         inherit React.Component<obj, ICheckboxBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onCheckboxChange: ev: obj * isChecked: obj -> unit
+        abstract _onControlledCheckboxChange: obj with get, set
+        abstract _renderPersonaLabel: props: obj -> unit
 
     type [<AllowNullLiteral>] CheckboxImplementationExamplesStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CheckboxImplementationExamplesStaticProps -> CheckboxImplementationExamples
@@ -12293,6 +13666,7 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Basic_Example =
     type [<AllowNullLiteral>] ChoiceGroupBasicExample =
         inherit React.Component<obj, IChoiceGroupBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onChange: obj with get, set
 
     type [<AllowNullLiteral>] ChoiceGroupBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ChoiceGroupBasicExampleStaticProps -> ChoiceGroupBasicExample
@@ -12308,6 +13682,7 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Custom_Example =
     type [<AllowNullLiteral>] ChoiceGroupCustomExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onChange: obj with get, set
 
     type [<AllowNullLiteral>] ChoiceGroupCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ChoiceGroupCustomExample
@@ -12342,6 +13717,7 @@ module __components_ChoiceGroup_examples_ChoiceGroup_Image_Example =
     type [<AllowNullLiteral>] ChoiceGroupImageExample =
         inherit React.Component<obj, IChoiceGroupImageExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onImageChoiceGroupChange: ev: obj * option: obj -> unit
 
     type [<AllowNullLiteral>] ChoiceGroupImageExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ChoiceGroupImageExampleStaticProps -> ChoiceGroupImageExample
@@ -12426,7 +13802,10 @@ module __components_Coachmark_examples_Coachmark_Basic_Example =
 
     type [<AllowNullLiteral>] CoachmarkBasicExample =
         inherit BaseComponent<obj, ICoachmarkBasicExampleState>
+        abstract _targetButton: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onShowMenuClicked: unit -> unit
+        abstract _onCalloutDismiss: unit -> unit
 
     type [<AllowNullLiteral>] CoachmarkBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CoachmarkBasicExampleStaticProps -> CoachmarkBasicExample
@@ -12453,6 +13832,22 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
         inherit BaseComponent<IPositioningContainerTypes, IPositioningContainerState>
         inherit PositioningContainer
         abstract defaultProps: IPositioningContainerTypes with get, set
+        abstract _didSetInitialFocus: obj with get, set
+        /// The primary positioned div.
+        abstract _positionedHost: obj with get, set
+        abstract _contentHost: obj with get, set
+        /// Stores an instance of Window, used to check
+        /// for server side rendering and if focus was lost.
+        abstract _targetWindow: obj with get, set
+        /// The bounds used when determing if and where the
+        /// PositioningContainer should be placed.
+        abstract _positioningBounds: obj with get, set
+        /// The maximum height the PositioningContainer can grow to
+        /// without going being the window or target bounds
+        abstract _maxHeight: obj with get, set
+        abstract _positionAttempts: obj with get, set
+        abstract _target: obj with get, set
+        abstract _setHeightOffsetTimer: obj with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
@@ -12463,6 +13858,18 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
         abstract _dismissOnLostFocus: ev: Event -> unit
         abstract _setInitialFocus: (unit -> unit) with get, set
         abstract _onComponentDidMount: (unit -> unit) with get, set
+        abstract _updateAsyncPosition: unit -> unit
+        abstract _updatePosition: unit -> unit
+        abstract _getBounds: unit -> unit
+        /// Return the maximum height the container can grow to
+        /// without going out of the specified bounds
+        abstract _getMaxHeight: unit -> unit
+        abstract _arePositionsEqual: positions: obj * newPosition: obj -> unit
+        abstract _comparePositions: oldPositions: obj * newPositions: obj -> unit
+        abstract _setTargetWindowAndElement: target: obj -> unit
+        /// Animates the height if finalHeight was given.
+        abstract _setHeightOffsetEveryFrame: unit -> unit
+        abstract _getTarget: ?props: obj -> unit
 
     type [<AllowNullLiteral>] PositioningContainerStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPositioningContainerTypes -> PositioningContainer
@@ -12607,7 +14014,19 @@ module __components_ComboBox_examples_ComboBox_Basic_Example =
 
     type [<AllowNullLiteral>] ComboBoxBasicExample =
         inherit React.Component<obj, obj>
+        abstract _testOptions: obj with get, set
+        abstract _fontMapping: obj with get, set
+        abstract scaleOptions: obj with get, set
+        abstract _basicCombobox: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onRenderFontOption: obj with get, set
+        abstract _getOptions: obj with get, set
+        abstract _getOptionsMulti: obj with get, set
+        abstract _onChanged: obj with get, set
+        abstract _onChangedMulti: obj with get, set
+        abstract _updateSelectedOptionKeys: obj with get, set
+        abstract _basicComboBoxOnClick: obj with get, set
+        abstract _basicComboBoxComponentRef: obj with get, set
 
     type [<AllowNullLiteral>] ComboBoxBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ComboBoxBasicExampleStaticProps -> ComboBoxBasicExample
@@ -12622,6 +14041,7 @@ module __components_ComboBox_examples_ComboBox_CustomStyled_Example =
 
     type [<AllowNullLiteral>] ComboBoxCustomStyledExample =
         inherit React.Component<obj option, obj option>
+        abstract _testOptionsWithCustomStyling: obj with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ComboBoxCustomStyledExampleStatic =
@@ -12649,7 +14069,11 @@ module __components_CommandBar_examples_CommandBar_Customization_Example =
 
     type [<AllowNullLiteral>] CommandBarCustomizationExample =
         inherit React.Component<obj, ISplitDropDownButtonState>
+        abstract container: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _renderSplitButtonMenuItem: obj with get, set
+        abstract _onClickChevron: obj with get, set
+        abstract _toggleDropDownMenuShown: obj with get, set
 
     type [<AllowNullLiteral>] CommandBarCustomizationExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: CommandBarCustomizationExampleStaticProps -> CommandBarCustomizationExample
@@ -12703,6 +14127,7 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuAncho
 
     type [<AllowNullLiteral>] ContextualMenuAnchor =
         inherit ContextualMenuItemWrapper
+        abstract _anchor: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _getSubmenuTarget: (unit -> HTMLElement option) with get, set
         abstract _onItemClick: (React.MouseEvent<HTMLElement> -> unit) with get, set
@@ -12718,6 +14143,7 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuButto
 
     type [<AllowNullLiteral>] ContextualMenuButton =
         inherit ContextualMenuItemWrapper
+        abstract _btn: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _getSubmenuTarget: (unit -> HTMLElement option) with get, set
 
@@ -12813,10 +14239,25 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuSplit
 
     type [<AllowNullLiteral>] ContextualMenuSplitButton =
         inherit ContextualMenuItemWrapper
+        abstract _splitButton: obj with get, set
+        abstract _lastTouchTimeoutId: obj with get, set
+        abstract _processingTouch: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element option
         abstract _onItemKeyDown: (React.KeyboardEvent<HTMLElement> -> unit) with get, set
         abstract _getSubmenuTarget: (unit -> HTMLElement option) with get, set
+        abstract _renderSplitPrimaryButton: item: obj * classNames: obj * index: obj * hasCheckmarks: obj * hasIcons: obj -> unit
+        abstract _renderSplitDivider: item: obj -> unit
+        abstract _renderSplitIconButton: item: obj * classNames: obj * index: obj * keytipAttributes: obj -> unit
+        abstract _onItemMouseEnterPrimary: obj with get, set
+        abstract _onItemMouseEnterIcon: obj with get, set
+        abstract _onItemMouseMovePrimary: obj with get, set
+        abstract _onItemMouseMoveIcon: obj with get, set
+        abstract _onIconItemClick: obj with get, set
+        abstract _executeItemClick: obj with get, set
+        abstract _onTouchStart: obj with get, set
+        abstract _onPointerDown: obj with get, set
+        abstract _handleTouchAndPointerEvent: ev: obj -> unit
 
     type [<AllowNullLiteral>] ContextualMenuSplitButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuSplitButton
@@ -12847,6 +14288,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Checkmarks_Example =
     type [<AllowNullLiteral>] ContextualMenuCheckmarksExample =
         inherit React.Component<obj, IContextualMenuMultiselectExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onToggleSelect: ?ev: obj * ?item: obj -> unit
 
     type [<AllowNullLiteral>] ContextualMenuCheckmarksExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ContextualMenuCheckmarksExampleStaticProps -> ContextualMenuCheckmarksExample
@@ -12862,6 +14304,8 @@ module __components_ContextualMenu_examples_ContextualMenu_Customization_Example
     type [<AllowNullLiteral>] ContextualMenuCustomizationExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _renderCharmMenuItem: obj with get, set
+        abstract _renderCategoriesList: item: obj -> unit
 
     type [<AllowNullLiteral>] ContextualMenuCustomizationExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuCustomizationExample
@@ -12874,6 +14318,8 @@ module __components_ContextualMenu_examples_ContextualMenu_CustomizationWithNoWr
     type [<AllowNullLiteral>] ContextualMenuCustomizationWithNoWrapExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _renderCharmMenuItem: obj with get, set
+        abstract _renderCategoriesList: item: obj -> unit
 
     type [<AllowNullLiteral>] ContextualMenuCustomizationWithNoWrapExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ContextualMenuCustomizationWithNoWrapExample
@@ -12911,6 +14357,10 @@ module __components_ContextualMenu_examples_ContextualMenu_Directional_Example =
     type [<AllowNullLiteral>] ContextualMenuDirectionalExample =
         inherit React.Component<obj, IContextualMenuDirectionalExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onShowBeakChange: obj with get, set
+        abstract _onUseRtlHintChange: obj with get, set
+        abstract _onDirectionalChanged: obj with get, set
+        abstract _onDirectionalRtlChanged: obj with get, set
 
     type [<AllowNullLiteral>] ContextualMenuDirectionalExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ContextualMenuDirectionalExampleStaticProps -> ContextualMenuDirectionalExample
@@ -12998,6 +14448,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Submenu_Example =
     type [<AllowNullLiteral>] ContextualMenuSubmenuExample =
         inherit React.Component<obj option, IContextualMenuSubmenuExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onHoverDelayChanged: obj with get, set
 
     type [<AllowNullLiteral>] ContextualMenuSubmenuExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> ContextualMenuSubmenuExample
@@ -13021,6 +14472,7 @@ module __components_DatePicker_examples_DatePicker_Basic_Example =
     type [<AllowNullLiteral>] DatePickerBasicExample =
         inherit React.Component<obj, IDatePickerBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onDropdownChanged: obj with get, set
 
     type [<AllowNullLiteral>] DatePickerBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DatePickerBasicExampleStaticProps -> DatePickerBasicExample
@@ -13060,6 +14512,10 @@ module __components_DatePicker_examples_DatePicker_Format_Example =
     type [<AllowNullLiteral>] DatePickerFormatExample =
         inherit React.Component<obj, IDatePickerFormatExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onSelectDate: obj with get, set
+        abstract _onClick: obj with get, set
+        abstract _onFormatDate: obj with get, set
+        abstract _onParseDateFromString: obj with get, set
 
     type [<AllowNullLiteral>] DatePickerFormatExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DatePickerFormatExampleStaticProps -> DatePickerFormatExample
@@ -13080,6 +14536,8 @@ module __components_DatePicker_examples_DatePicker_Input_Example =
     type [<AllowNullLiteral>] DatePickerInputExample =
         inherit React.Component<obj, IDatePickerInputExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onSelectDate: obj with get, set
+        abstract _onClick: obj with get, set
 
     type [<AllowNullLiteral>] DatePickerInputExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DatePickerInputExampleStaticProps -> DatePickerInputExample
@@ -13118,6 +14576,7 @@ module __components_DatePicker_examples_DatePicker_WeekNumbers_Example =
     type [<AllowNullLiteral>] DatePickerWeekNumbersExample =
         inherit React.Component<obj, IDatePickerBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onDropdownChanged: obj with get, set
 
     type [<AllowNullLiteral>] DatePickerWeekNumbersExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DatePickerWeekNumbersExampleStaticProps -> DatePickerWeekNumbersExample
@@ -13155,7 +14614,33 @@ module __components_DetailsList_examples_DetailsList_Advanced_Example =
 
     type [<AllowNullLiteral>] DetailsListAdvancedExample =
         inherit React.Component<obj, IDetailsListAdvancedExampleState>
+        abstract _isFetchingItems: obj with get, set
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDataMiss: index: obj -> unit
+        abstract _onRenderMissingItem: obj with get, set
+        abstract _onToggleLazyLoad: obj with get, set
+        abstract _onToggleResizing: obj with get, set
+        abstract _onLayoutChanged: obj with get, set
+        abstract _onConstrainModeChanged: obj with get, set
+        abstract _onSelectionChanged: obj with get, set
+        abstract _onItemLimitChanged: obj with get, set
+        abstract _getCommandItems: obj with get, set
+        abstract _getContextualMenuProps: ev: obj * column: obj -> unit
+        abstract _onItemInvoked: obj with get, set
+        abstract _onItemContextMenu: obj with get, set
+        abstract _onColumnClick: obj with get, set
+        abstract _onColumnContextMenu: obj with get, set
+        abstract _onContextualMenuDismissed: obj with get, set
+        abstract _onSortColumn: obj with get, set
+        abstract _onGroupByColumn: obj with get, set
+        abstract _groupByKey: groups: obj * items: obj * key: obj -> unit
+        abstract _groupItems: items: obj * columnKey: obj -> unit
+        abstract _getGroups: groupedItems: obj * key: obj * ?parentGroup: obj -> unit
+        abstract _getLeafGroupKey: key: obj * separator: obj -> unit
+        abstract _onAddRow: obj with get, set
+        abstract _onDeleteRow: obj with get, set
+        abstract _buildColumns: items: obj * ?canResizeColumns: obj * ?onColumnClick: obj * ?sortedColumnKey: obj * ?isSortedDescending: obj * ?groupedColumnKey: obj * ?onColumnContextMenu: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListAdvancedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListAdvancedExampleStaticProps -> DetailsListAdvancedExample
@@ -13170,7 +14655,11 @@ module __components_DetailsList_examples_DetailsList_Basic_Example =
 
     type [<AllowNullLiteral>] DetailsListBasicExample =
         inherit React.Component<obj, obj>
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getSelectionDetails: unit -> unit
+        abstract _onChanged: obj with get, set
+        abstract _onItemInvoked: item: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListBasicExampleStaticProps -> DetailsListBasicExample
@@ -13185,7 +14674,11 @@ module __components_DetailsList_examples_DetailsList_Compact_Example =
 
     type [<AllowNullLiteral>] DetailsListCompactExample =
         inherit React.Component<obj, obj>
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getSelectionDetails: unit -> unit
+        abstract _onChanged: obj with get, set
+        abstract _onItemInvoked: item: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListCompactExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListCompactExampleStaticProps -> DetailsListCompactExample
@@ -13206,6 +14699,9 @@ module __components_DetailsList_examples_DetailsList_CustomColumns_Example =
     type [<AllowNullLiteral>] DetailsListCustomColumnsExample =
         inherit React.Component<obj, IDetailsListCustomColumnsExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onColumnClick: obj with get, set
+        abstract _onColumnHeaderContextMenu: column: obj * ev: obj -> unit
+        abstract _onItemInvoked: item: obj * index: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListCustomColumnsExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListCustomColumnsExampleStaticProps -> DetailsListCustomColumnsExample
@@ -13221,6 +14717,8 @@ module __components_DetailsList_examples_DetailsList_CustomGroupHeaders_Example 
     type [<AllowNullLiteral>] DetailsListCustomGroupHeadersExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onToggleSelectGroup: props: obj -> unit
+        abstract _onToggleCollapse: props: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListCustomGroupHeadersExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListCustomGroupHeadersExampleStaticProps -> DetailsListCustomGroupHeadersExample
@@ -13236,6 +14734,8 @@ module __components_DetailsList_examples_DetailsList_CustomRows_Example =
     type [<AllowNullLiteral>] DetailsListCustomRowsExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onRenderRow: obj with get, set
+        abstract _onRenderCheck: obj with get, set
 
     type [<AllowNullLiteral>] DetailsListCustomRowsExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListCustomRowsExampleStaticProps -> DetailsListCustomRowsExample
@@ -13269,8 +14769,19 @@ module __components_DetailsList_examples_DetailsList_Documents_Example =
 
     type [<AllowNullLiteral>] DetailsListDocumentsExample =
         inherit React.Component<obj option, IDetailsListDocumentsExampleState>
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidUpdate: previousProps: obj option * previousState: IDetailsListDocumentsExampleState -> unit
+        abstract _onChangeCompactMode: obj with get, set
+        abstract _onChangeModalSelection: obj with get, set
+        abstract _onChangeText: obj with get, set
+        abstract _onItemInvoked: item: obj -> unit
+        abstract _randomDate: start: obj * ``end``: obj -> unit
+        abstract _randomFileIcon: unit -> unit
+        abstract _randomFileSize: unit -> unit
+        abstract _getSelectionDetails: unit -> unit
+        abstract _onColumnClick: obj with get, set
+        abstract _sortItems: obj with get, set
 
     type [<AllowNullLiteral>] DetailsListDocumentsExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> DetailsListDocumentsExample
@@ -13283,7 +14794,18 @@ module __components_DetailsList_examples_DetailsList_DragDrop_Example =
 
     type [<AllowNullLiteral>] DetailsListDragDropExample =
         inherit React.Component<obj, obj>
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _handleColumnReorder: draggedIndex: obj * targetIndex: obj -> unit
+        abstract _getColumnReorderOptions: unit -> unit
+        abstract _validateNumber: value: obj -> unit
+        abstract _onChangeStartCountText: text: obj -> unit
+        abstract _onChangeEndCountText: text: obj -> unit
+        abstract _onChangeColumnReorderEnabled: ``checked``: obj -> unit
+        abstract _getDragDropEvents: unit -> unit
+        abstract _onItemInvoked: item: obj -> unit
+        abstract _onRenderItemColumn: item: obj * index: obj * column: obj -> unit
+        abstract _insertBeforeItem: item: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListDragDropExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListDragDropExampleStaticProps -> DetailsListDragDropExample
@@ -13299,7 +14821,10 @@ module __components_DetailsList_examples_DetailsList_Grouped_Example =
 
     type [<AllowNullLiteral>] DetailsListGroupedExample =
         inherit BaseComponent<obj, obj>
+        abstract _root: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _addItem: obj with get, set
+        abstract _onRenderColumn: item: obj * index: obj * column: obj -> unit
 
     type [<AllowNullLiteral>] DetailsListGroupedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DetailsListGroupedExampleStaticProps -> DetailsListGroupedExample
@@ -13319,7 +14844,9 @@ module __components_DetailsList_examples_DetailsList_NavigatingFocus_Example =
     type [<AllowNullLiteral>] DetailsListNavigatingFocusExample =
         inherit React.Component<obj, IDetailsListNavigatingFocusExampleState>
         abstract state: IDetailsListNavigatingFocusExampleState with get, set
+        abstract _columns: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _navigate: obj with get, set
 
     type [<AllowNullLiteral>] DetailsListNavigatingFocusExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DetailsListNavigatingFocusExample
@@ -13332,6 +14859,8 @@ module __components_Dialog_examples_Dialog_Basic_Example =
     type [<AllowNullLiteral>] DialogBasicExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showDialog: obj with get, set
+        abstract _closeDialog: obj with get, set
 
     type [<AllowNullLiteral>] DialogBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DialogBasicExampleStaticProps -> DialogBasicExample
@@ -13347,6 +14876,8 @@ module __components_Dialog_examples_Dialog_Blocking_Example =
     type [<AllowNullLiteral>] DialogBlockingExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showDialog: obj with get, set
+        abstract _closeDialog: obj with get, set
 
     type [<AllowNullLiteral>] DialogBlockingExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DialogBlockingExampleStaticProps -> DialogBlockingExample
@@ -13362,6 +14893,9 @@ module __components_Dialog_examples_Dialog_LargeHeader_Example =
     type [<AllowNullLiteral>] DialogLargeHeaderExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showDialog: obj with get, set
+        abstract _closeDialog: obj with get, set
+        abstract _onChoiceChanged: unit -> unit
 
     type [<AllowNullLiteral>] DialogLargeHeaderExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DialogLargeHeaderExampleStaticProps -> DialogLargeHeaderExample
@@ -13430,6 +14964,7 @@ module __components_DocumentCard_examples_DocumentCard_Complete_Example =
     type [<AllowNullLiteral>] DocumentCardCompleteExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onClick: unit -> unit
 
     type [<AllowNullLiteral>] DocumentCardCompleteExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DocumentCardCompleteExample
@@ -13443,10 +14978,13 @@ module __components_Dropdown_examples_Dropdown_Basic_Example =
 
     type [<AllowNullLiteral>] DropdownBasicExample =
         inherit BaseComponent<obj, obj>
+        abstract _basicDropdown: obj with get, set
         abstract render: unit -> JSX.Element
         abstract changeState: (IDropdownOption -> unit) with get, set
         abstract onChangeMultiSelect: (IDropdownOption -> unit) with get, set
         abstract copyArray: (ResizeArray<obj option> -> ResizeArray<obj option>) with get, set
+        abstract _onSetFocusButtonClicked: obj with get, set
+        abstract _log: str: obj -> unit
 
     type [<AllowNullLiteral>] DropdownBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DropdownBasicExampleStaticProps -> DropdownBasicExample
@@ -13462,6 +15000,10 @@ module __components_Dropdown_examples_Dropdown_Custom_Example =
     type [<AllowNullLiteral>] DropdownCustomExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onRenderOption: obj with get, set
+        abstract _onRenderTitle: obj with get, set
+        abstract _onRenderPlaceHolder: obj with get, set
+        abstract _onRenderCaretDown: obj with get, set
 
     type [<AllowNullLiteral>] DropdownCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: DropdownCustomExampleStaticProps -> DropdownCustomExample
@@ -13499,7 +15041,34 @@ module __components_ExtendedPicker_examples_ExtendedPeoplePicker_Basic_Example =
 
     type [<AllowNullLiteral>] ExtendedPeoplePickerTypesExample =
         inherit BaseComponent<obj, IPeoplePickerExampleState>
+        abstract _picker: obj with get, set
+        abstract _floatingPickerProps: obj with get, set
+        abstract _selectedItemsListProps: obj with get, set
+        abstract _suggestionProps: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _renderExtendedPicker: unit -> unit
+        abstract _renderHeader: unit -> unit
+        abstract _onRenderFloatingPicker: props: obj -> unit
+        abstract _onRenderSelectedItems: props: obj -> unit
+        abstract _getEditingItemText: item: obj -> unit
+        abstract _setComponentRef: obj with get, set
+        abstract _onSetFocusButtonClicked: obj with get, set
+        abstract _onExpandItem: obj with get, set
+        abstract _onRemoveSuggestion: obj with get, set
+        abstract _onFilterChanged: obj with get, set
+        abstract _returnMostRecentlyUsed: obj with get, set
+        abstract _onCopyItems: items: obj -> unit
+        abstract _shouldShowForceResolve: obj with get, set
+        abstract _shouldShowSuggestedContacts: obj with get, set
+        abstract _listContainsPersona: persona: obj * personas: obj -> unit
+        abstract _filterPersonasByText: filterText: obj -> unit
+        abstract _doesTextStartWith: text: obj * filterText: obj -> unit
+        abstract _removeDuplicates: personas: obj * possibleDupes: obj -> unit
+        abstract _onInputChanged: obj with get, set
+        abstract _getTextFromItem: persona: obj -> unit
+        abstract _convertResultsToPromise: results: obj -> unit
+        abstract _validateInput: obj with get, set
+        abstract _getExpandedGroupItems: item: obj -> unit
 
     type [<AllowNullLiteral>] ExtendedPeoplePickerTypesExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ExtendedPeoplePickerTypesExampleStaticProps -> ExtendedPeoplePickerTypesExample
@@ -13605,6 +15174,9 @@ module __components_Facepile_examples_Facepile_Basic_Example =
     type [<AllowNullLiteral>] FacepileBasicExample =
         inherit React.Component<obj, IFacepileBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onChangeFadeIn: obj with get, set
+        abstract _onChangePersonaNumber: obj with get, set
+        abstract _onChangePersonaSize: obj with get, set
 
     type [<AllowNullLiteral>] FacepileBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: FacepileBasicExampleStaticProps -> FacepileBasicExample
@@ -13625,6 +15197,8 @@ module __components_Facepile_examples_Facepile_Overflow_Example =
     type [<AllowNullLiteral>] FacepileOverflowExample =
         inherit React.Component<obj, IFacepileOverflowExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onChangePersonaNumber: obj with get, set
+        abstract _onChangeType: obj with get, set
 
     type [<AllowNullLiteral>] FacepileOverflowExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: FacepileOverflowExampleStaticProps -> FacepileOverflowExample
@@ -13785,6 +15359,7 @@ module __components_FloatingPicker_Suggestions_SuggestionsControl =
         abstract _searchForMoreButton: IButton with get, set
         abstract _selectedElement: HTMLDivElement with get, set
         abstract _suggestions: SuggestionsCore<'T> with get, set
+        abstract SuggestionsOfProperType: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract componentWillReceiveProps: unit -> unit
@@ -13812,6 +15387,19 @@ module __components_FloatingPicker_Suggestions_SuggestionsControl =
         abstract selectFirstItem: unit -> unit
         /// Selects the last item
         abstract selectLastItem: unit -> unit
+        /// <summary>Selects the next item in the suggestion item type group, given the current index
+        /// If none is able to be selected, returns false, otherwise returns true</summary>
+        /// <param name="itemType">The suggestion item type</param>
+        /// <param name="currentIndex">The current index, default is -1</param>
+        abstract _selectNextItemOfItemType: itemType: obj * ?currentIndex: obj -> unit
+        /// <summary>Selects the previous item in the suggestion item type group, given the current index
+        /// If none is able to be selected, returns false, otherwise returns true</summary>
+        /// <param name="itemType">The suggestion item type</param>
+        /// <param name="currentIndex">The current index. If none is provided, the default is the items length of specified type</param>
+        abstract _selectPreviousItemOfItemType: itemType: obj * ?currentIndex: obj -> unit
+        abstract _getCurrentIndexForType: itemType: obj -> unit
+        abstract _getNextItemSectionType: itemType: obj -> unit
+        abstract _getPreviousItemSectionType: itemType: obj -> unit
 
     /// Class when used with SuggestionsStore, renders a suggestions control with customizable headers and footers
     type [<AllowNullLiteral>] SuggestionsControlStatic =
@@ -13841,6 +15429,7 @@ module __components_FloatingPicker_Suggestions_SuggestionsCore =
         abstract currentIndex: float with get, set
         abstract currentSuggestion: ISuggestionModel<'T> option with get, set
         abstract _selectedElement: HTMLDivElement with get, set
+        abstract SuggestionsItemOfProperType: obj with get, set
         /// Increments the selected suggestion index
         abstract nextSuggestion: unit -> bool
         /// Decrements the selected suggestion index
@@ -13854,6 +15443,8 @@ module __components_FloatingPicker_Suggestions_SuggestionsCore =
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
         abstract scrollSelected: unit -> unit
+        abstract _onClickTypedSuggestionsItem: item: obj * index: obj -> unit
+        abstract _onRemoveTypedSuggestionsItem: item: obj * index: obj -> unit
 
     /// Class when used with SuggestionsStore, renders a basic suggestions control
     type [<AllowNullLiteral>] SuggestionsCoreStatic =
@@ -13877,6 +15468,8 @@ module __components_FloatingPicker_Suggestions_SuggestionsStore =
         abstract getSuggestionAtIndex: index: float -> ISuggestionModel<'T>
         abstract removeSuggestion: index: float -> unit
         abstract convertSuggestionsToSuggestionItems: suggestions: Array<U2<ISuggestionModel<'T>, 'T>> -> ResizeArray<ISuggestionModel<'T>>
+        abstract _isSuggestionModel: value: obj -> unit
+        abstract _ensureSuggestionModel: suggestion: obj -> unit
 
     type [<AllowNullLiteral>] SuggestionsStoreStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SuggestionsStore<'T>
@@ -13891,7 +15484,13 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Box_Click_Example =
 
     type [<AllowNullLiteral>] BoxNoClickExample =
         inherit React.Component<React.HTMLAttributes<HTMLDivElement>, IBoxNoClickExampleExampleState>
+        abstract _toggle: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _internalContents: unit -> unit
+        abstract _onButtonClickHandler: obj with get, set
+        abstract _onExitButtonClickHandler: obj with get, set
+        abstract _onFocusTrapZoneToggleChanged: obj with get, set
+        abstract _setRef: obj with get, set
 
     type [<AllowNullLiteral>] BoxNoClickExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: React.HTMLAttributes<HTMLDivElement> -> BoxNoClickExample
@@ -13906,7 +15505,13 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Box_Example =
 
     type [<AllowNullLiteral>] BoxExample =
         inherit React.Component<React.HTMLAttributes<HTMLDivElement>, IBoxExampleExampleState>
+        abstract _toggle: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _internalContents: unit -> unit
+        abstract _onButtonClickHandler: obj with get, set
+        abstract _onExitButtonClickHandler: obj with get, set
+        abstract _onFocusTrapZoneToggleChanged: obj with get, set
+        abstract _setRef: obj with get, set
 
     type [<AllowNullLiteral>] BoxExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: React.HTMLAttributes<HTMLDivElement> -> BoxExample
@@ -13921,7 +15526,13 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Box_FocusOnCustomElemen
 
     type [<AllowNullLiteral>] BoxExample =
         inherit React.Component<React.HTMLAttributes<HTMLDivElement>, IBoxExampleExampleState>
+        abstract _toggle: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _internalContents: unit -> unit
+        abstract _onButtonClickHandler: obj with get, set
+        abstract _onExitButtonClickHandler: obj with get, set
+        abstract _onFocusTrapZoneToggleChanged: obj with get, set
+        abstract _setRef: obj with get, set
 
     type [<AllowNullLiteral>] BoxExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: React.HTMLAttributes<HTMLDivElement> -> BoxExample
@@ -13937,6 +15548,8 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Nested_Example =
     type [<AllowNullLiteral>] FocusTrapZoneNestedExample =
         inherit React.Component<obj, IFocusTrapZoneNestedExampleState>
         abstract render: unit -> JSX.Element
+        abstract _setIsActive: obj with get, set
+        abstract _randomize: obj with get, set
 
     type [<AllowNullLiteral>] FocusTrapZoneNestedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: FocusTrapZoneNestedExampleStaticProps -> FocusTrapZoneNestedExample
@@ -13956,7 +15569,9 @@ module __components_FocusZone_examples_FocusZone_List_Example =
 
     type [<AllowNullLiteral>] FocusZoneListExample =
         inherit React.Component
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _isInnerZoneKeystroke: ev: obj -> unit
 
     type [<AllowNullLiteral>] FocusZoneListExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: FocusZoneListExampleStaticProps -> FocusZoneListExample
@@ -13981,7 +15596,9 @@ module __components_GroupedList_examples_GroupedList_Basic_Example =
 
     type [<AllowNullLiteral>] GroupedListBasicExample =
         inherit React.Component
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onRenderCell: nestingDepth: obj * item: obj * itemIndex: obj -> unit
 
     type [<AllowNullLiteral>] GroupedListBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: GroupedListBasicExampleStaticProps -> GroupedListBasicExample
@@ -13997,6 +15614,9 @@ module __components_GroupedList_examples_GroupedList_Custom_Example =
     type [<AllowNullLiteral>] GroupedListCustomExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onRenderCell: nestingDepth: obj * item: obj * itemIndex: obj -> unit
+        abstract _onRenderHeader: props: obj -> unit
+        abstract _onRenderFooter: props: obj -> unit
 
     type [<AllowNullLiteral>] GroupedListCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: GroupedListCustomExampleStaticProps -> GroupedListCustomExample
@@ -14018,6 +15638,9 @@ module __components_HoverCard_examples_HoverCard_Basic_Example =
     type [<AllowNullLiteral>] HoverCardBasicExample =
         inherit BaseComponent<obj, IHoverCardExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onRenderItemColumn: obj with get, set
+        abstract _onRenderCompactCard: obj with get, set
+        abstract _onRenderExpandedCard: obj with get, set
 
     type [<AllowNullLiteral>] HoverCardBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: HoverCardBasicExampleStaticProps -> HoverCardBasicExample
@@ -14039,6 +15662,9 @@ module __components_HoverCard_examples_HoverCard_Target_Example =
     type [<AllowNullLiteral>] HoverCardTargetExample =
         inherit BaseComponent<obj, IHoverCardExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onRenderItemColumn: obj with get, set
+        abstract _onRenderCompactCard: obj with get, set
+        abstract _onRenderExpandedCard: obj with get, set
 
     type [<AllowNullLiteral>] HoverCardTargetExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: HoverCardTargetExampleStaticProps -> HoverCardTargetExample
@@ -14173,6 +15799,7 @@ module __components_Keytip_examples_Keytips_Basic_Example =
 
     type [<AllowNullLiteral>] KeytipsBasicExample =
         inherit React.Component<obj>
+        abstract _sampleOptions: obj with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] KeytipsBasicExampleStatic =
@@ -14189,6 +15816,7 @@ module __components_Keytip_examples_Keytips_Button_Example =
     type [<AllowNullLiteral>] KeytipsButtonExample =
         inherit React.Component<obj, IKeytipsButtonExampleState>
         abstract render: unit -> JSX.Element
+        abstract _toggleDisabled: obj with get, set
 
     type [<AllowNullLiteral>] KeytipsButtonExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: KeytipsButtonExampleStaticProps -> KeytipsButtonExample
@@ -14208,6 +15836,10 @@ module __components_Keytip_examples_Keytips_CommandBar_Example =
     type [<AllowNullLiteral>] KeytipsCommandBarExample =
         inherit React.Component<obj, IKeytipsCommandBarExampleState>
         abstract render: unit -> JSX.Element
+        abstract _showModal: obj with get, set
+        abstract _hideModal: obj with get, set
+        abstract _showMessageBar: obj with get, set
+        abstract _hideMessageBar: obj with get, set
 
     type [<AllowNullLiteral>] KeytipsCommandBarExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: KeytipsCommandBarExampleStaticProps -> KeytipsCommandBarExample
@@ -14227,7 +15859,12 @@ module __components_Keytip_examples_Keytips_Overflow_Example =
 
     type [<AllowNullLiteral>] KeytipsOverflowExample =
         inherit React.Component<obj, IKeytipsOverflowExampleState>
+        abstract _initialItems: obj with get, set
+        abstract _initialOverflowItems: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onRenderItem: item: obj -> unit
+        abstract _onRenderOverflowButton: obj with get, set
+        abstract _toggleOverflowItems: obj with get, set
 
     type [<AllowNullLiteral>] KeytipsOverflowExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: KeytipsOverflowExampleStaticProps -> KeytipsOverflowExample
@@ -14272,6 +15909,7 @@ module __components_Layer_examples_Layer_Basic_Example =
         abstract childContextTypes: obj with get, set
         abstract getChildContext: unit -> obj
         abstract render: unit -> JSX.Element
+        abstract _onChange: ev: obj * ``checked``: obj -> unit
 
     type [<AllowNullLiteral>] LayerBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: LayerBasicExampleStaticProps -> LayerBasicExample
@@ -14291,6 +15929,9 @@ module __components_Layer_examples_Layer_Customized_Example =
     type [<AllowNullLiteral>] LayerCustomizedExample =
         inherit React.Component<obj, ILayerCustomizedExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onDismissPanel: obj with get, set
+        abstract _onShowPanelChange: obj with get, set
+        abstract _onTrapPanelChange: obj with get, set
 
     type [<AllowNullLiteral>] LayerCustomizedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: LayerCustomizedExampleStaticProps -> LayerCustomizedExample
@@ -14306,6 +15947,10 @@ module __components_Layer_examples_Layer_Hosted_Example =
     type [<AllowNullLiteral>] LayerHostedExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _log: text: obj -> unit
+        abstract _onChangeCheckbox: obj with get, set
+        abstract _onChangeCheckboxNoId: obj with get, set
+        abstract _onChangeToggle: obj with get, set
 
     type [<AllowNullLiteral>] LayerHostedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: LayerHostedExampleStaticProps -> LayerHostedExample
@@ -14340,6 +15985,8 @@ module __components_List_examples_List_Basic_Example =
     type [<AllowNullLiteral>] ListBasicExample =
         inherit React.Component<IListBasicExampleProps, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onFilterChanged: text: obj -> unit
+        abstract _onRenderCell: item: obj * index: obj -> unit
 
     type [<AllowNullLiteral>] ListBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IListBasicExampleProps -> ListBasicExample
@@ -14355,6 +16002,7 @@ module __components_List_examples_List_Ghosting_Example =
     type [<AllowNullLiteral>] ListGhostingExample =
         inherit React.Component<IListGhostingExampleProps, obj>
         abstract render: unit -> JSX.Element
+        abstract _onRenderCell: item: obj * index: obj * isScrolling: obj -> unit
 
     type [<AllowNullLiteral>] ListGhostingExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IListGhostingExampleProps -> ListGhostingExample
@@ -14369,7 +16017,13 @@ module __components_List_examples_List_Grid_Example =
 
     type [<AllowNullLiteral>] ListGridExample =
         inherit React.Component<IListGridExampleProps>
+        abstract _columnCount: obj with get, set
+        abstract _columnWidth: obj with get, set
+        abstract _rowHeight: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getItemCountForPage: itemIndex: obj * surfaceRect: obj -> unit
+        abstract _getPageHeight: itemIndex: obj * surfaceRect: obj -> unit
+        abstract _onRenderCell: obj with get, set
 
     type [<AllowNullLiteral>] ListGridExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IListGridExampleProps -> ListGridExample
@@ -14389,7 +16043,15 @@ module __components_List_examples_List_Scrolling_Example =
 
     type [<AllowNullLiteral>] ListScrollingExample =
         inherit React.Component<IListScrollingExampleProps, IListScrollingExampleState>
+        abstract _list: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getPageHeight: idx: obj -> unit
+        abstract _onChangeText: obj with get, set
+        abstract _onDropdownChanged: obj with get, set
+        abstract _onRenderCell: obj with get, set
+        abstract _scrollRelative: obj with get, set
+        abstract _scroll: obj with get, set
+        abstract _resolveList: obj with get, set
 
     type [<AllowNullLiteral>] ListScrollingExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IListScrollingExampleProps -> ListScrollingExample
@@ -14404,8 +16066,12 @@ module __components_MarqueeSelection_examples_MarqueeSelection_Basic_Example =
 
     type [<AllowNullLiteral>] MarqueeSelectionBasicExample =
         inherit React.Component<obj, IMarqueeSelectionBasicExampleState>
+        abstract _selection: obj with get, set
+        abstract _isMounted: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _log: text: obj -> unit
+        abstract _onChange: obj with get, set
 
     type [<AllowNullLiteral>] MarqueeSelectionBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: MarqueeSelectionBasicExampleStaticProps -> MarqueeSelectionBasicExample
@@ -14426,6 +16092,8 @@ module __components_Modal_examples_Modal_Basic_Example =
     type [<AllowNullLiteral>] ModalBasicExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showModal: obj with get, set
+        abstract _closeModal: obj with get, set
 
     type [<AllowNullLiteral>] ModalBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ModalBasicExampleStaticProps -> ModalBasicExample
@@ -14442,6 +16110,8 @@ module __components_Nav_examples_Nav_Basic_Example =
     type [<AllowNullLiteral>] NavBasicExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onClickHandler: e: obj -> unit
+        abstract _onClickHandler2: e: obj -> unit
 
     type [<AllowNullLiteral>] NavBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: INavProps -> NavBasicExample
@@ -14466,6 +16136,7 @@ module __components_Nav_examples_Nav_FabricDemoApp_Example =
     type [<AllowNullLiteral>] NavFabricDemoAppExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onRenderLink: obj with get, set
 
     type [<AllowNullLiteral>] NavFabricDemoAppExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> NavFabricDemoAppExample
@@ -14491,6 +16162,8 @@ module __components_OverflowSet_examples_OverflowSet_Basic_Example =
     type [<AllowNullLiteral>] OverflowSetBasicExample =
         inherit BaseComponent<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onRenderItem: item: obj -> unit
+        abstract _onRenderOverflowButton: overflowItems: obj -> unit
 
     type [<AllowNullLiteral>] OverflowSetBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetBasicExample
@@ -14504,6 +16177,8 @@ module __components_OverflowSet_examples_OverflowSet_Custom_Example =
     type [<AllowNullLiteral>] OverflowSetCustomExample =
         inherit BaseComponent<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onRenderItem: item: obj -> unit
+        abstract _onRenderOverflowButton: overflowItems: obj -> unit
 
     type [<AllowNullLiteral>] OverflowSetCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetCustomExample
@@ -14525,6 +16200,8 @@ module __components_OverflowSet_examples_OverflowSet_Vertical_Example =
     type [<AllowNullLiteral>] OverflowSetVerticalExample =
         inherit BaseComponent<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onRenderItem: item: obj -> unit
+        abstract _onRenderOverflowButton: overflowItems: obj -> unit
 
     type [<AllowNullLiteral>] OverflowSetVerticalExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> OverflowSetVerticalExample
@@ -14542,6 +16219,8 @@ module __components_Overlay_examples_Overlay_Dark_Example =
     type [<AllowNullLiteral>] OverlayDarkExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _setVisibilityFalse: obj with get, set
+        abstract _toggleOverlay: obj with get, set
 
     type [<AllowNullLiteral>] OverlayDarkExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: OverlayDarkExampleStaticProps -> OverlayDarkExample
@@ -14571,6 +16250,8 @@ module __components_Overlay_examples_Overlay_Light_Example =
     type [<AllowNullLiteral>] OverlayLightExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _setVisibilityFalse: obj with get, set
+        abstract _toggleOverlay: obj with get, set
 
     type [<AllowNullLiteral>] OverlayLightExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: OverlayLightExampleStaticProps -> OverlayLightExample
@@ -14586,6 +16267,8 @@ module __components_Panel_examples_Panel_Custom_Example =
     type [<AllowNullLiteral>] PanelCustomExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showPanel: obj with get, set
+        abstract _closePanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelCustomExampleStaticProps -> PanelCustomExample
@@ -14616,6 +16299,9 @@ module __components_Panel_examples_Panel_Footer_Example =
     type [<AllowNullLiteral>] PanelFooterExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _onClosePanel: obj with get, set
+        abstract _onRenderFooterContent: obj with get, set
+        abstract _onShowPanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelFooterExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelFooterExampleStaticProps -> PanelFooterExample
@@ -14631,6 +16317,8 @@ module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
     type [<AllowNullLiteral>] PanelHiddenOnDismissExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showPanel: obj with get, set
+        abstract _hidePanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelHiddenOnDismissExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelHiddenOnDismissExampleStaticProps -> PanelHiddenOnDismissExample
@@ -14661,6 +16349,8 @@ module __components_Panel_examples_Panel_LargeFixed_Example =
     type [<AllowNullLiteral>] PanelLargeFixedExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showPanel: obj with get, set
+        abstract _closePanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelLargeFixedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelLargeFixedExampleStaticProps -> PanelLargeFixedExample
@@ -14676,6 +16366,8 @@ module __components_Panel_examples_Panel_LightDismiss_Example =
     type [<AllowNullLiteral>] PanelLightDismissExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showPanel: obj with get, set
+        abstract _hidePanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelLightDismissExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelLightDismissExampleStaticProps -> PanelLightDismissExample
@@ -14691,6 +16383,11 @@ module __components_Panel_examples_Panel_LightDismissCustom_Example =
     type [<AllowNullLiteral>] PanelLightDismissCustomExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _showPanel: obj with get, set
+        abstract _hidePanel: obj with get, set
+        abstract _showDialog: obj with get, set
+        abstract _closeDialog: obj with get, set
+        abstract _closeDialogAndHidePanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelLightDismissCustomExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelLightDismissCustomExampleStaticProps -> PanelLightDismissCustomExample
@@ -14706,6 +16403,7 @@ module __components_Panel_examples_Panel_Medium_Example =
     type [<AllowNullLiteral>] PanelMediumExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _setShowPanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelMediumExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelMediumExampleStaticProps -> PanelMediumExample
@@ -14721,6 +16419,7 @@ module __components_Panel_examples_Panel_NonModal_Example =
     type [<AllowNullLiteral>] PanelNonModalExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _setShowPanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelNonModalExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelNonModalExampleStaticProps -> PanelNonModalExample
@@ -14766,6 +16465,9 @@ module __components_Panel_examples_Panel_SmallRight_Example =
     type [<AllowNullLiteral>] PanelSmallRightExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _onClosePanel: obj with get, set
+        abstract _onRenderFooterContent: obj with get, set
+        abstract _onShowPanel: obj with get, set
 
     type [<AllowNullLiteral>] PanelSmallRightExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PanelSmallRightExampleStaticProps -> PanelSmallRightExample
@@ -14796,6 +16498,7 @@ module __components_Persona_examples_Persona_Basic_Example =
     type [<AllowNullLiteral>] PersonaBasicExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _onChange: obj with get, set
 
     type [<AllowNullLiteral>] PersonaBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PersonaBasicExampleStaticProps -> PersonaBasicExample
@@ -14811,6 +16514,7 @@ module __components_Persona_examples_Persona_CustomCoinRender_Example =
     type [<AllowNullLiteral>] PersonaCustomCoinRenderExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onRenderCoin: obj with get, set
 
     type [<AllowNullLiteral>] PersonaCustomCoinRenderExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PersonaCustomCoinRenderExample
@@ -14823,6 +16527,7 @@ module __components_Persona_examples_Persona_CustomRender_Example =
     type [<AllowNullLiteral>] PersonaCustomRenderExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _onRenderSecondaryText: obj with get, set
 
     type [<AllowNullLiteral>] PersonaCustomRenderExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PersonaCustomRenderExample
@@ -14868,6 +16573,11 @@ module __components_Persona_PersonaCoin_PersonaCoin_base =
         inherit BaseComponent<IPersonaCoinProps, IPersonaState>
         abstract defaultProps: IPersonaCoinProps with get, set
         abstract render: unit -> JSX.Element option
+        abstract _onRenderCoin: obj with get, set
+        /// Deprecation helper for getting text.
+        abstract _getText: unit -> unit
+        abstract _onRenderInitials: obj with get, set
+        abstract _onPhotoLoadingStateChange: obj with get, set
 
     /// PersonaCoin with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
@@ -14899,6 +16609,8 @@ module __components_Persona_PersonaPresence_PersonaPresence_base =
     type [<AllowNullLiteral>] PersonaPresenceBase =
         inherit BaseComponent<IPersonaPresenceProps, obj>
         abstract render: unit -> JSX.Element option
+        abstract _onRenderIcon: obj with get, set
+        abstract _determineIcon: obj with get, set
 
     /// PersonaPresence with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
@@ -14968,6 +16680,10 @@ module __components_pickers_examples_Picker_CustomResult_Example =
     type [<AllowNullLiteral>] PickerCustomResultExample =
         inherit React.Component<obj, IPeoplePickerExampleState>
         abstract render: unit -> JSX.Element
+        abstract _getTextFromItem: props: obj -> unit
+        abstract _onDisabledButtonClick: obj with get, set
+        abstract _onFilterChanged: filterText: obj * items: obj -> unit
+        abstract _listContainsDocument: document: obj * items: obj -> unit
 
     type [<AllowNullLiteral>] PickerCustomResultExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PickerCustomResultExampleStaticProps -> PickerCustomResultExample
@@ -14984,7 +16700,14 @@ module __components_pickers_examples_TagPicker_Basic_Example =
 
     type [<AllowNullLiteral>] TagPickerBasicExample =
         inherit BaseComponent<obj, ITagPickerDemoPageState>
+        abstract _picker: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getTextFromItem: item: obj -> unit
+        abstract _onDisabledButtonClick: obj with get, set
+        abstract _onFilterChanged: obj with get, set
+        abstract _onFilterChangedNoFilter: obj with get, set
+        abstract _onItemSelected: obj with get, set
+        abstract _listContainsDocument: tag: obj * tagList: obj -> unit
 
     type [<AllowNullLiteral>] TagPickerBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TagPickerBasicExampleStaticProps -> TagPickerBasicExample
@@ -15114,6 +16837,8 @@ module __components_pickers_Suggestions_Suggestions =
         abstract _forceResolveButton: obj with get, set
         abstract _searchForMoreButton: obj with get, set
         abstract _selectedElement: obj with get, set
+        abstract SuggestionsItemOfProperType: obj with get, set
+        abstract activeSelectedElement: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
@@ -15126,6 +16851,13 @@ module __components_pickers_Suggestions_Suggestions =
         abstract focusBelowSuggestions: unit -> unit
         abstract focusSearchForMoreButton: unit -> unit
         abstract scrollSelected: unit -> unit
+        abstract _renderSuggestions: unit -> unit
+        abstract _getMoreResults: obj with get, set
+        abstract _forceResolve: obj with get, set
+        abstract _shouldShowForceResolve: obj with get, set
+        abstract _onClickTypedSuggestionsItem: obj with get, set
+        abstract _refocusOnSuggestions: obj with get, set
+        abstract _onRemoveTypedSuggestionsItem: obj with get, set
 
     type [<AllowNullLiteral>] SuggestionsStatic =
         [<Emit "new $0($1...)">] abstract Create: suggestionsProps: ISuggestionsProps<'T> -> Suggestions<'T>
@@ -15261,6 +16993,8 @@ module __components_pickers_Suggestions_SuggestionsController =
         abstract convertSuggestionsToSuggestionItems: suggestions: Array<U2<ISuggestionModel<'T>, 'T>> -> ResizeArray<ISuggestionModel<'T>>
         abstract deselectAllSuggestions: unit -> unit
         abstract setSelectedSuggestion: index: float -> unit
+        abstract _isSuggestionModel: obj with get, set
+        abstract _ensureSuggestionModel: obj with get, set
 
     type [<AllowNullLiteral>] SuggestionsControllerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SuggestionsController<'T>
@@ -15340,6 +17074,7 @@ module __components_Pivot_examples_Pivot_IconCount_Example =
     type [<AllowNullLiteral>] PivotIconCountExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _customRenderer: link: obj * defaultRenderer: obj -> unit
 
     type [<AllowNullLiteral>] PivotIconCountExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotIconCountExample
@@ -15378,6 +17113,7 @@ module __components_Pivot_examples_Pivot_Override_Example =
     type [<AllowNullLiteral>] PivotOverrideExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _handleClick: unit -> unit
 
     type [<AllowNullLiteral>] PivotOverrideExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> PivotOverrideExample
@@ -15392,7 +17128,9 @@ module __components_Pivot_examples_Pivot_Remove_Example =
 
     type [<AllowNullLiteral>] PivotRemoveExample =
         inherit React.Component<obj option, IPivotOnChangeExampleState>
+        abstract _shouldShowFirstPivotItem: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _handleClick: unit -> unit
 
     type [<AllowNullLiteral>] PivotRemoveExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> PivotRemoveExample
@@ -15406,6 +17144,8 @@ module __components_Pivot_examples_Pivot_Separate_Example =
         inherit React.Component<obj option, obj option>
         abstract state: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _handleLinkClick: obj with get, set
+        abstract _getTabId: obj with get, set
 
     type [<AllowNullLiteral>] PivotSeparateExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PivotSeparateExample
@@ -15444,9 +17184,12 @@ module __components_ProgressIndicator_examples_ProgressIndicator_Basic_Example =
 
     type [<AllowNullLiteral>] ProgressIndicatorBasicExample =
         inherit React.Component<obj, IProgressIndicatorBasicExampleState>
+        abstract _interval: obj with get, set
+        abstract _async: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _startProgressDemo: unit -> unit
 
     type [<AllowNullLiteral>] ProgressIndicatorBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ProgressIndicatorBasicExampleStaticProps -> ProgressIndicatorBasicExample
@@ -15476,7 +17219,13 @@ module __components_Rating_examples_Rating_Basic_Example =
 
     type [<AllowNullLiteral>] RatingBasicExample =
         inherit React.Component<obj, obj>
+        abstract _customTheme: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onLargeStarChanged: obj with get, set
+        abstract _onSmallStarChanged: obj with get, set
+        abstract _onTenStarChanged: obj with get, set
+        abstract _onThemedStarChanged: obj with get, set
+        abstract _getRatingComponentAriaLabel: rating: obj * maxRating: obj -> unit
 
     type [<AllowNullLiteral>] RatingBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: RatingBasicExampleStaticProps -> RatingBasicExample
@@ -15548,6 +17297,12 @@ module __components_ResizeGroup_examples_ResizeGroup_OverflowSet_Example =
     type [<AllowNullLiteral>] ResizeGroupOverflowSetExample =
         inherit BaseComponent<obj, IResizeGroupOverflowSetExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onReduceData: obj with get, set
+        abstract _onGrowData: obj with get, set
+        abstract _onCachingEnabledChanged: obj with get, set
+        abstract _onGrowDataEnabledChanged: obj with get, set
+        abstract _onButtonsCheckedChanged: obj with get, set
+        abstract _onNumberOfItemsChanged: obj with get, set
 
     type [<AllowNullLiteral>] ResizeGroupOverflowSetExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ResizeGroupOverflowSetExampleStaticProps -> ResizeGroupOverflowSetExample
@@ -15563,6 +17318,7 @@ module __components_ScrollablePane_examples_ScrollablePane_Default_Example =
     type [<AllowNullLiteral>] ScrollablePaneDefaultExample =
         inherit React.Component
         abstract render: unit -> JSX.Element
+        abstract _createContentArea: index: obj -> unit
 
     type [<AllowNullLiteral>] ScrollablePaneDefaultExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ScrollablePaneDefaultExample
@@ -15574,7 +17330,9 @@ module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExample =
         inherit React.Component<obj, obj>
+        abstract _selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getSelectionDetails: unit -> unit
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ScrollablePaneDetailsListExampleStaticProps -> ScrollablePaneDetailsListExample
@@ -15638,7 +17396,19 @@ module __components_SelectedItemsList_examples_SelectedPeopleList_Basic_Example 
 
     type [<AllowNullLiteral>] PeopleSelectedItemsListExample =
         inherit BaseComponent<obj, obj>
+        abstract _selectionList: obj with get, set
+        abstract index: obj with get, set
+        abstract selection: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _renderExtendedPicker: unit -> unit
+        abstract _onRenderItem: obj with get, set
+        abstract _renderPersonaElement: props: obj * defaultRender: obj -> unit
+        abstract _setComponentRef: obj with get, set
+        abstract _onAddItemButtonClicked: obj with get, set
+        abstract _onExpandItem: obj with get, set
+        abstract _onSelectionChange: unit -> unit
+        abstract _onCopyItems: items: obj -> unit
+        abstract _getExpandedGroupItems: item: obj -> unit
 
     type [<AllowNullLiteral>] PeopleSelectedItemsListExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PeopleSelectedItemsListExample
@@ -15696,6 +17466,10 @@ module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList =
         abstract defaultProps: obj option with get, set
         abstract replaceItem: (IExtendedPersonaProps -> ResizeArray<IExtendedPersonaProps> -> unit) with get, set
         abstract renderItems: (unit -> ResizeArray<JSX.Element>) with get, set
+        abstract _renderItem: item: obj * index: obj -> unit
+        abstract _beginEditing: obj with get, set
+        abstract _completeEditing: obj with get, set
+        abstract _createMenuItems: item: obj -> unit
 
     /// Standard People Picker.
     type [<AllowNullLiteral>] SelectedPeopleListStatic =
@@ -15809,6 +17583,8 @@ module __components_SpinButton_examples_SpinButton_Stateful_Example =
     type [<AllowNullLiteral>] SpinButtonStatefulExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _hasSuffix: value: obj * suffix: obj -> unit
+        abstract _removeSuffix: value: obj * suffix: obj -> unit
 
     type [<AllowNullLiteral>] SpinButtonStatefulExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinButtonStatefulExample
@@ -15853,7 +17629,9 @@ module __components_TeachingBubble_examples_TeachingBubble_Basic_Example =
 
     type [<AllowNullLiteral>] TeachingBubbleBasicExample =
         inherit React.Component<obj, ITeachingBubbleBasicExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: ev: obj -> unit
 
     type [<AllowNullLiteral>] TeachingBubbleBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TeachingBubbleBasicExampleStaticProps -> TeachingBubbleBasicExample
@@ -15871,7 +17649,9 @@ module __components_TeachingBubble_examples_TeachingBubble_Condensed_Example =
 
     type [<AllowNullLiteral>] TeachingBubbleCondensedExample =
         inherit React.Component<obj, ITeachingBubbleCondensedExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: ev: obj -> unit
 
     type [<AllowNullLiteral>] TeachingBubbleCondensedExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TeachingBubbleCondensedExampleStaticProps -> TeachingBubbleCondensedExample
@@ -15889,7 +17669,9 @@ module __components_TeachingBubble_examples_TeachingBubble_Illustration_Example 
 
     type [<AllowNullLiteral>] TeachingBubbleIllustrationExample =
         inherit React.Component<obj, ITeachingBubbleIllustrationExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: ev: obj -> unit
 
     type [<AllowNullLiteral>] TeachingBubbleIllustrationExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TeachingBubbleIllustrationExampleStaticProps -> TeachingBubbleIllustrationExample
@@ -15907,7 +17689,9 @@ module __components_TeachingBubble_examples_TeachingBubble_SmallHeadline_Example
 
     type [<AllowNullLiteral>] TeachingBubbleSmallHeadlineExample =
         inherit React.Component<obj, ITeachingBubbleSmallHeadlineExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: ev: obj -> unit
 
     type [<AllowNullLiteral>] TeachingBubbleSmallHeadlineExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TeachingBubbleSmallHeadlineExampleStaticProps -> TeachingBubbleSmallHeadlineExample
@@ -15925,7 +17709,9 @@ module __components_TeachingBubble_examples_TeachingBubble_WideIllustration_Exam
 
     type [<AllowNullLiteral>] TeachingBubbleWideIllustrationExample =
         inherit React.Component<obj, ITeachingBubbleWideIllustrationExampleState>
+        abstract _menuButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onDismiss: ev: obj -> unit
 
     type [<AllowNullLiteral>] TeachingBubbleWideIllustrationExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TeachingBubbleWideIllustrationExampleStaticProps -> TeachingBubbleWideIllustrationExample
@@ -15948,6 +17734,9 @@ module __components_TextField_examples_NumberTextField =
     type [<AllowNullLiteral>] NumberTextField =
         inherit React.Component<INumberTextFieldProps, INumberTextFieldState>
         abstract render: unit -> JSX.Element
+        abstract _validateNumber: value: obj -> unit
+        abstract _onChanged: value: obj -> unit
+        abstract _restore: unit -> unit
 
     type [<AllowNullLiteral>] NumberTextFieldStatic =
         [<Emit "new $0($1...)">] abstract Create: props: INumberTextFieldProps -> NumberTextField
@@ -16007,7 +17796,11 @@ module __components_TextField_examples_TextField_CustomRender_Example =
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExample =
         inherit React.Component<obj, obj>
+        abstract _iconButtonElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onRenderLabel: obj with get, set
+        abstract _onClick: obj with get, set
+        abstract _onDismiss: obj with get, set
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: TextFieldCustomRenderExampleStaticProps -> TextFieldCustomRenderExample
@@ -16023,6 +17816,8 @@ module __components_TextField_examples_TextField_ErrorMessage_Example =
     type [<AllowNullLiteral>] TextFieldErrorMessageExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _getErrorMessage: value: obj -> unit
+        abstract _getErrorMessagePromise: value: obj -> unit
 
     type [<AllowNullLiteral>] TextFieldErrorMessageExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: obj option -> TextFieldErrorMessageExample
@@ -16035,6 +17830,7 @@ module __components_TextField_examples_TextField_Icon_Example =
     type [<AllowNullLiteral>] TextFieldIconExample =
         inherit React.Component<obj option, obj option>
         abstract render: unit -> JSX.Element
+        abstract _onChanged: obj with get, set
 
     type [<AllowNullLiteral>] TextFieldIconExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldIconExample
@@ -16059,6 +17855,8 @@ module __components_TextField_examples_TextField_OnRenderDescription_Example =
     type [<AllowNullLiteral>] TextFieldOnRenderDescriptionExample =
         inherit React.Component<obj, obj>
         abstract render: unit -> JSX.Element
+        abstract _onRenderDescription: obj with get, set
+        abstract _onLinkClick: obj with get, set
 
     type [<AllowNullLiteral>] TextFieldOnRenderDescriptionExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextFieldOnRenderDescriptionExample
@@ -16163,6 +17961,11 @@ module __components_TextField_MaskedTextField_MaskedTextField =
         abstract defaultProps: ITextFieldProps with get, set
         /// Tell BaseComponent to bypass resolution of componentRef.
         abstract _shouldUpdateComponentRef: bool with get, set
+        abstract _textField: obj with get, set
+        abstract _maskCharData: obj with get, set
+        abstract _isFocused: obj with get, set
+        abstract _moveCursorOnMouseUp: obj with get, set
+        abstract _changeSelectionData: obj with get, set
         abstract componentWillReceiveProps: newProps: ITextFieldProps -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
@@ -16175,6 +17978,14 @@ module __components_TextField_MaskedTextField_MaskedTextField =
         abstract setSelectionRange: start: float * ``end``: float -> unit
         abstract selectionStart: float option
         abstract selectionEnd: float option
+        abstract _onFocus: ``event``: obj -> unit
+        abstract _onBlur: ``event``: obj -> unit
+        abstract _onMouseDown: ``event``: obj -> unit
+        abstract _onMouseUp: ``event``: obj -> unit
+        abstract _onBeforeChange: value: obj -> unit
+        abstract _onInputChange: value: obj -> unit
+        abstract _onKeyDown: ``event``: obj -> unit
+        abstract _onPaste: ``event``: obj -> unit
 
     type [<AllowNullLiteral>] MaskedTextFieldStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ITextFieldProps -> MaskedTextField
@@ -16240,6 +18051,7 @@ module __components_Tooltip_examples_Tooltip_Overflow_Example =
 
     type [<AllowNullLiteral>] TooltipOverflowExample =
         inherit BaseComponent<obj, ITooltipOverflowExampleState>
+        abstract tooltipId: obj
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TooltipOverflowExampleStatic =
@@ -16280,8 +18092,16 @@ module __utilities_selection_examples_Selection_Basic_Example =
     /// The SelectionBasicExample controls the selection state of all items
     type [<AllowNullLiteral>] SelectionBasicExample =
         inherit React.Component<obj, ISelectionBasicExampleState>
+        abstract _hasMounted: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _alertItem: obj with get, set
+        abstract _onSelectionChanged: unit -> unit
+        abstract _onToggleSelectAll: unit -> unit
+        abstract _onSelectionModeChanged: ev: obj * menuItem: obj -> unit
+        abstract _onCanSelectChanged: ev: obj * menuItem: obj -> unit
+        abstract _canSelectItem: item: obj -> unit
+        abstract _getCommandItems: unit -> unit
 
     /// The SelectionBasicExample controls the selection state of all items
     type [<AllowNullLiteral>] SelectionBasicExampleStatic =
@@ -16301,6 +18121,8 @@ module __components_Coachmark_PositioningContainer_examples_PositioningContainer
     type [<AllowNullLiteral>] PositioningContainerBasicExample =
         inherit React.Component<obj, IPositioningContainerBasicExampleState>
         abstract render: unit -> JSX.Element
+        abstract _onShowMenuClicked: unit -> unit
+        abstract _onDismiss: unit -> unit
 
     type [<AllowNullLiteral>] PositioningContainerBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PositioningContainerBasicExampleStaticProps -> PositioningContainerBasicExample
@@ -16324,7 +18146,23 @@ module __components_FloatingPicker_PeoplePicker_examples_FloatingPeoplePicker_Ba
 
     type [<AllowNullLiteral>] FloatingPeoplePickerTypesExample =
         inherit BaseComponent<obj, IPeoplePickerExampleState>
+        abstract _picker: obj with get, set
+        abstract _inputElement: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onFocus: obj with get, set
+        abstract _setInputElementRef: obj with get, set
+        abstract _renderFloatingPicker: unit -> unit
+        abstract _setComponentRef: obj with get, set
+        abstract _onSearchChange: obj with get, set
+        abstract _onPickerChange: obj with get, set
+        abstract _onRemoveSuggestion: obj with get, set
+        abstract _onFilterChanged: obj with get, set
+        abstract _getTextFromItem: persona: obj -> unit
+        abstract _listContainsPersona: persona: obj * personas: obj -> unit
+        abstract _filterPersonasByText: filterText: obj -> unit
+        abstract _doesTextStartWith: text: obj * filterText: obj -> unit
+        abstract _removeDuplicates: personas: obj * possibleDupes: obj -> unit
+        abstract _validateInput: obj with get, set
 
     type [<AllowNullLiteral>] FloatingPeoplePickerTypesExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: FloatingPeoplePickerTypesExampleStaticProps -> FloatingPeoplePickerTypesExample
@@ -16372,7 +18210,39 @@ module __components_pickers_PeoplePicker_examples_PeoplePicker_Types_Example =
 
     type [<AllowNullLiteral>] PeoplePickerTypesExample =
         inherit BaseComponent<obj option, IPeoplePickerExampleState>
+        abstract _picker: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _getTextFromItem: persona: obj -> unit
+        abstract _renderListPicker: unit -> unit
+        abstract _renderNormalPicker: unit -> unit
+        abstract _renderCompactPicker: unit -> unit
+        abstract _renderPreselectedItemsPicker: unit -> unit
+        abstract _renderLimitedSearch: unit -> unit
+        abstract _renderProcessSelectionPicker: unit -> unit
+        abstract _renderControlledPicker: unit -> unit
+        abstract _onItemsChange: obj with get, set
+        abstract _onSetFocusButtonClicked: obj with get, set
+        abstract _renderFooterText: obj with get, set
+        abstract _onRemoveSuggestion: obj with get, set
+        abstract _onItemSelected: obj with get, set
+        abstract _onFilterChanged: obj with get, set
+        abstract _returnMostRecentlyUsed: obj with get, set
+        abstract _returnMostRecentlyUsedWithLimit: obj with get, set
+        abstract _onFilterChangedWithLimit: obj with get, set
+        abstract _filterPromise: personasToReturn: obj -> unit
+        abstract _listContainsPersona: persona: obj * personas: obj -> unit
+        abstract _filterPersonasByText: filterText: obj -> unit
+        abstract _doesTextStartWith: text: obj * filterText: obj -> unit
+        abstract _convertResultsToPromise: results: obj -> unit
+        abstract _removeDuplicates: personas: obj * possibleDupes: obj -> unit
+        abstract _toggleDelayResultsChange: obj with get, set
+        abstract _dropDownSelected: obj with get, set
+        abstract _validateInput: obj with get, set
+        /// <summary>Takes in the picker input and modifies it in whichever way
+        /// the caller wants, i.e. parsing entries copied from Outlook (sample
+        /// input: "Aaron Reid <aaron>").</summary>
+        /// <param name="input">The text entered into the picker.</param>
+        abstract _onInputChange: input: obj -> unit
 
     type [<AllowNullLiteral>] PeoplePickerTypesExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PeoplePickerTypesExampleStaticProps -> PeoplePickerTypesExample
@@ -16434,7 +18304,10 @@ module __components_pickers_PeoplePicker_PeoplePickerItems_SelectedItemWithMenu 
     type [<AllowNullLiteral>] SelectedItemWithMenu =
         inherit BaseComponent<IPeoplePickerItemWithMenuProps, IPeoplePickerItemState>
         abstract refs: obj with get, set
+        abstract _ellipsisRef: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onContextualMenu: obj with get, set
+        abstract _onCloseContextualMenu: obj with get, set
 
     type [<AllowNullLiteral>] SelectedItemWithMenuStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IPeoplePickerItemWithMenuProps -> SelectedItemWithMenu
@@ -16467,8 +18340,19 @@ module __components_SelectedItemsList_SelectedPeopleList_Items_EditingItem =
 
     type [<AllowNullLiteral>] EditingItem =
         inherit BaseComponent<IEditingSelectedPeopleItemProps, IPeoplePickerItemState>
+        abstract _editingInput: obj with get, set
+        abstract _editingFloatingPicker: obj with get, set
+        abstract _onRenderFloatingPicker: obj with get, set
+        abstract _floatingPickerProps: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _renderEditingSuggestions: obj with get, set
+        abstract _resolveInputRef: obj with get, set
+        abstract _onInputClick: obj with get, set
+        abstract _onInputBlur: obj with get, set
+        abstract _onInputChange: obj with get, set
+        abstract _onInputKeyDown: ev: obj -> unit
+        abstract _onSuggestionSelected: obj with get, set
 
     type [<AllowNullLiteral>] EditingItemStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IEditingSelectedPeopleItemProps -> EditingItem
@@ -16493,6 +18377,7 @@ module __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedI
         inherit BaseComponent<ISelectedPeopleItemProps, IPeoplePickerItemState>
         abstract persona: obj with get, set
         abstract render: unit -> JSX.Element
+        abstract _onClickIconButton: action: obj -> unit
 
     type [<AllowNullLiteral>] ExtendedSelectedItemStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISelectedPeopleItemProps -> ExtendedSelectedItem
@@ -16536,6 +18421,8 @@ module __components_SelectedItemsList_SelectedPeopleList_Items_SelectedItemWithC
         inherit BaseComponent<ISelectedItemWithContextMenuProps, IPeoplePickerItemState>
         abstract itemElement: RefObject<HTMLDivElement> with get, set
         abstract render: unit -> JSX.Element
+        abstract _onClick: obj with get, set
+        abstract _onCloseContextualMenu: obj with get, set
 
     type [<AllowNullLiteral>] SelectedItemWithContextMenuStatic =
         [<Emit "new $0($1...)">] abstract Create: props: ISelectedItemWithContextMenuProps -> SelectedItemWithContextMenu

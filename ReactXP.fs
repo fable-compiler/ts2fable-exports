@@ -16,6 +16,7 @@ module __android_Accessibility =
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
+        abstract _lastAnnouncement: obj with get, set
         abstract announceForAccessibility: announcement: string -> unit
 
     type [<AllowNullLiteral>] AccessibilityStatic =
@@ -30,6 +31,7 @@ module __android_AccessibilityUtil =
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit CommonAccessibilityNativeUtil
+        abstract _sendAccessibilityEvent: obj with get, set
         abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
 
     type [<AllowNullLiteral>] AccessibilityUtilStatic =
@@ -272,6 +274,8 @@ module __common_AppConfig =
     /// 
     /// A simple class to store application config.
     type [<AllowNullLiteral>] AppConfig =
+        abstract _isDebug: obj with get, set
+        abstract _isDevelopment: obj with get, set
         abstract setAppConfig: isDebug: bool * isDevelopment: bool -> unit
         abstract isDebugMode: unit -> bool
         abstract isDevelopmentMode: unit -> bool
@@ -723,6 +727,8 @@ module __common_Linking =
         abstract openUrl: url: string -> SyncTasks.Promise<unit>
         abstract _createEmailUrl: emailInfo: Types.EmailInfo -> string
         abstract _createSmsUrl: smsInfo: Types.SmsInfo -> string
+        abstract _isEmailValid: obj with get, set
+        abstract _filterValidEmails: obj with get, set
 
     type [<AllowNullLiteral>] LinkingStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Linking
@@ -895,6 +901,7 @@ module __common_PopupContainerViewBase =
         inherit React.Component<'P, 'S>
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _popupComponentStack: obj with get, set
         abstract getChildContext: unit -> obj
         abstract registerPopupComponent: onShow: (unit -> unit) * onHide: (unit -> unit) -> PopupComponent
         abstract unregisterPopupComponent: ``component``: PopupComponent -> unit
@@ -912,6 +919,13 @@ module __common_StyleLeakDetector =
         abstract instance: StyleLeakDetector
 
     type [<AllowNullLiteral>] StyleLeakDetector =
+        abstract _fingerprintRegistry: obj with get, set
+        abstract _getFingerprint: obj with get, set
+        /// We need to sort objects before using JSON.stringify as otherwise objects
+        /// {a: 1, b: 2} and {b: 2, a: 1} would have a different fingerprints
+        abstract _sortAny: obj with get, set
+        abstract _sortObject: obj with get, set
+        abstract _sortArray: obj with get, set
         abstract isDisabled: unit -> bool
         abstract detectLeaks: style: 'T -> unit
 
@@ -1968,8 +1982,12 @@ module __ios_Accessibility =
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
+        abstract _announcementQueue: obj with get, set
+        abstract _retryTimestamp: obj with get, set
         abstract _updateScreenReaderStatus: isEnabled: bool -> unit
         abstract announceForAccessibility: announcement: string -> unit
+        abstract _postAnnouncement: obj with get, set
+        abstract _recalcAnnouncement: obj with get, set
 
     type [<AllowNullLiteral>] AccessibilityStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
@@ -2164,8 +2182,12 @@ module __macos_Accessibility =
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
+        abstract _announcementQueue: obj with get, set
+        abstract _retryTimestamp: obj with get, set
         abstract _updateScreenReaderStatus: isEnabled: bool -> unit
         abstract announceForAccessibility: announcement: string -> unit
+        abstract _postAnnouncement: obj with get, set
+        abstract _recalcAnnouncement: obj with get, set
 
     type [<AllowNullLiteral>] AccessibilityStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Accessibility
@@ -2380,10 +2402,20 @@ module __macos_TextInput =
         inherit React.Component<Types.TextInputProps, TextInputState>
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextInputContext with get, set
+        abstract _selectionStart: obj with get, set
+        abstract _selectionEnd: obj with get, set
+        abstract _mountedComponent: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
         abstract render: unit -> JSX.Element
         abstract _onMount: (obj option -> unit) with get, set
+        abstract _onPaste: obj with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _onChangeText: obj with get, set
+        abstract _onSelectionChange: obj with get, set
+        abstract _onKeyPress: obj with get, set
+        abstract _onScroll: obj with get, set
         abstract blur: unit -> unit
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
@@ -2447,6 +2479,7 @@ module __native_common_AccessibilityUtil =
 
     type [<AllowNullLiteral>] AccessibilityUtil =
         inherit CommonAccessibilityUtil
+        abstract _instance: obj with get, set
         abstract setAccessibilityPlatformUtil: instance: AccessibilityPlatformUtil -> unit
         abstract accessibilityTraitToString: overrideTraits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option * ?defaultTrait: Types.AccessibilityTrait * ?ensureDefaultTrait: bool -> ResizeArray<RN.AccessibilityTraits>
         abstract accessibilityComponentTypeToString: overrideTraits: U2<Types.AccessibilityTrait, ResizeArray<Types.AccessibilityTrait>> option * ?defaultTrait: Types.AccessibilityTrait -> AccessibilityComponentTypeValue option
@@ -2466,6 +2499,7 @@ module __native_common_ActivityIndicator =
 
     type [<AllowNullLiteral>] ActivityIndicator =
         inherit React.Component<Types.ActivityIndicatorProps, ActivityIndicatorState>
+        abstract _isMounted: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
@@ -2531,6 +2565,8 @@ module __native_common_Button =
         abstract contextTypes: obj with get, set
         abstract context: ButtonContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _mixin_componentDidMount: obj with get, set
+        abstract _mixin_componentWillUnmount: obj with get, set
         abstract touchableGetInitialState: (unit -> RN.Touchable.State) with get, set
         abstract touchableHandleStartShouldSetResponder: (unit -> bool) with get, set
         abstract touchableHandleResponderTerminationRequest: (unit -> bool) with get, set
@@ -2542,6 +2578,10 @@ module __native_common_Button =
         abstract _isMouseOver: bool with get, set
         abstract _isHoverStarted: bool with get, set
         abstract _buttonElement: obj option with get, set
+        abstract _hideTimeout: obj with get, set
+        abstract _defaultOpacityValue: obj with get, set
+        abstract _opacityAnimatedValue: obj with get, set
+        abstract _opacityAnimatedStyle: obj with get, set
         abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
@@ -2558,12 +2598,21 @@ module __native_common_Button =
         abstract requestFocus: unit -> unit
         abstract blur: unit -> unit
         abstract focus: unit -> unit
+        abstract _setOpacityStyles: obj with get, set
+        abstract _onMount: obj with get, set
+        abstract _isTouchFeedbackApplicable: obj with get, set
+        abstract _opacityActive: obj with get, set
+        abstract _opacityInactive: obj with get, set
+        abstract _getDefaultOpacityValue: obj with get, set
         abstract _onMouseEnter: (Types.SyntheticEvent -> unit) with get, set
         abstract _onMouseLeave: (Types.SyntheticEvent -> unit) with get, set
         abstract _onHoverStart: (Types.SyntheticEvent -> unit) with get, set
         abstract _onHoverEnd: (Types.SyntheticEvent -> unit) with get, set
         /// Animate the touchable to a new opacity.
         abstract setOpacityTo: value: float * duration: float -> unit
+        abstract _hasPressHandler: obj with get, set
+        abstract _showUnderlay: obj with get, set
+        abstract _hideUnderlay: obj with get, set
 
     type [<AllowNullLiteral>] ButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
@@ -2589,6 +2638,8 @@ module __native_common_FrontLayerViewManager =
         abstract _default: FrontLayerViewManager
 
     type [<AllowNullLiteral>] FrontLayerViewManager =
+        abstract _overlayStack: obj with get, set
+        abstract _cachedPopups: obj with get, set
         abstract event_changed: SubscribableEvent<(unit -> unit)> with get, set
         abstract showModal: modal: React.ReactElement<Types.ViewProps> * modalId: string * ?options: Types.ModalOptions -> unit
         abstract isModalDisplayed: ?modalId: string -> bool
@@ -2600,7 +2651,14 @@ module __native_common_FrontLayerViewManager =
         abstract getModalLayerView: ?rootViewId: string option -> React.ReactElement<obj option> option
         abstract getActivePopupId: unit -> string option
         abstract releaseCachedPopups: unit -> unit
+        abstract modalOptionsMatchesRootViewId: obj with get, set
+        abstract _renderPopup: obj with get, set
         abstract getPopupLayerView: ?rootViewId: string option -> JSX.Element option
+        abstract _onBackgroundPressed: obj with get, set
+        abstract _dismissActivePopup: obj with get, set
+        abstract _findIndexOfModal: obj with get, set
+        abstract _findIndexOfPopup: obj with get, set
+        abstract _getActiveOverlay: obj with get, set
         abstract isPopupDisplayed: ?popupId: string -> bool
 
     type [<AllowNullLiteral>] FrontLayerViewManagerStatic =
@@ -2613,9 +2671,35 @@ module __native_common_GestureView =
 
     type [<AllowNullLiteral>] GestureView =
         inherit React.Component<Types.GestureViewProps, Types.Stateless>
+        abstract _panResponder: obj with get, set
+        abstract _doubleTapTimer: obj with get, set
+        abstract _pendingGestureType: obj with get, set
+        abstract _pendingGestureState: obj with get, set
+        abstract _lastTapEvent: obj with get, set
+        abstract _lastGestureStartEvent: obj with get, set
         abstract componentWillUnmount: unit -> unit
         abstract _getPreferredPanRatio: unit -> float
         abstract _getEventTimestamp: e: Types.TouchEvent -> float
+        abstract _onPanResponderEnd: obj with get, set
+        abstract _setPendingGestureState: obj with get, set
+        abstract _detectMoveGesture: obj with get, set
+        abstract _isTap: obj with get, set
+        abstract _isDoubleTap: obj with get, set
+        abstract _startDoubleTapTimer: obj with get, set
+        abstract _cancelDoubleTapTimer: obj with get, set
+        abstract _reportDelayedTap: obj with get, set
+        abstract _shouldRespondToPinchZoom: obj with get, set
+        abstract _shouldRespondToRotate: obj with get, set
+        abstract _shouldRespondToPan: obj with get, set
+        abstract _shouldRespondToPanVertical: obj with get, set
+        abstract _shouldRespondToPanHorizontal: obj with get, set
+        abstract _calcDistance: obj with get, set
+        abstract _calcAngle: obj with get, set
+        abstract _radiansToDegrees: obj with get, set
+        abstract _sendMultiTouchEvents: obj with get, set
+        abstract _sendPanEvent: obj with get, set
+        abstract _sendTapEvent: obj with get, set
+        abstract _sendDoubleTapEvent: obj with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] GestureViewStatic =
@@ -2634,12 +2718,17 @@ module __native_common_Image =
         inherit React.ChildContextProvider<ImageContext>
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
+        abstract _nativeImageWidth: obj with get, set
+        abstract _nativeImageHeight: obj with get, set
         abstract _getAdditionalProps: unit -> U2<RN.ImageProperties, obj>
         abstract render: unit -> JSX.Element
         abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
         abstract setNativeProps: nativeProps: RN.ImageProperties -> unit
         abstract getChildContext: unit -> obj
         abstract getStyles: unit -> ResizeArray<Types.StyleRuleSetRecursive<Types.StyleRuleSet<Types.ImageStyle>>>
+        abstract _onLoad: obj with get, set
+        abstract _onError: obj with get, set
+        abstract _buildSource: obj with get, set
         abstract getNativeWidth: unit -> float option
         abstract getNativeHeight: unit -> float option
 
@@ -2737,6 +2826,7 @@ module __native_common_MainViewStore =
 
     type [<AllowNullLiteral>] MainViewStore =
         inherit SubscribableEvent<(unit -> unit)>
+        abstract _mainView: obj with get, set
         abstract getMainView: unit -> React.ReactElement<obj option> option
         abstract setMainView: view: React.ReactElement<obj option> -> unit
 
@@ -2785,6 +2875,9 @@ module __native_common_Network =
         inherit RX.Network
         abstract isConnected: unit -> SyncTasks.Promise<bool>
         abstract getType: unit -> SyncTasks.Promise<Types.DeviceNetworkType>
+        abstract _onEventOccured: obj with get, set
+        abstract _getNetworkTypeFromNetInfo: obj with get, set
+        abstract _getNetworkTypeFromConnectionInfo: obj with get, set
 
     type [<AllowNullLiteral>] NetworkStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Network
@@ -2860,12 +2953,22 @@ module __native_common_PopupContainerView =
 
     type [<AllowNullLiteral>] PopupContainerView =
         inherit PopupContainerViewBase<PopupContainerViewProps, PopupContainerViewState>
+        abstract _mountedComponent: obj with get, set
+        abstract _viewHandle: obj with get, set
+        abstract _respositionPopupTimer: obj with get, set
+        abstract _getInitialState: obj with get, set
         abstract componentWillReceiveProps: prevProps: PopupContainerViewProps -> unit
         abstract componentDidUpdate: prevProps: PopupContainerViewProps * prevState: PopupContainerViewState -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
         abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
+        abstract _recalcPosition: obj with get, set
+        abstract _recalcPositionFromLayoutData: obj with get, set
+        abstract _recalcInnerPosition: obj with get, set
+        abstract _dismissPopup: obj with get, set
+        abstract _startRepositionPopupTimer: obj with get, set
+        abstract _stopRepositionPopupTimer: obj with get, set
 
     type [<AllowNullLiteral>] PopupContainerViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: PopupContainerViewProps * context: PopupContainerViewContext -> PopupContainerView
@@ -2890,6 +2993,9 @@ module __native_common_RootView =
 
     type [<AllowNullLiteral>] BaseRootView<'P> =
         inherit React.Component<'P, RootViewState>
+        abstract _frontLayerViewChangedSubscription: obj with get, set
+        abstract _newAnnouncementEventChangedSubscription: obj with get, set
+        abstract _memoryWarningEventSubscription: obj with get, set
         abstract _mainViewProps: obj with get, set
         abstract _rootViewId: string option with get, set
         abstract _getPropsForMainView: unit -> obj
@@ -2904,8 +3010,11 @@ module __native_common_RootView =
 
     type [<AllowNullLiteral>] RootViewUsingStore =
         inherit BaseRootView<BaseRootViewProps>
+        abstract _changeListener: obj with get, set
         abstract componentWillMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract _onChange: obj with get, set
+        abstract _getStateFromStore: obj with get, set
         abstract _getPropsForMainView: unit -> obj
 
     type [<AllowNullLiteral>] RootViewUsingStoreStatic =
@@ -2926,9 +3035,12 @@ module __native_common_ScrollView =
     type [<AllowNullLiteral>] ScrollView =
         inherit ViewBase<Types.ScrollViewProps, Types.Stateless>
         inherit RX.ScrollView
+        abstract _scrollTop: obj with get, set
+        abstract _scrollLeft: obj with get, set
         abstract _nativeView: obj option with get, set
         abstract _render: props: Types.ScrollViewProps -> JSX.Element
         abstract render: unit -> JSX.Element
+        abstract _onScroll: obj with get, set
         abstract setScrollTop: scrollTop: float * ?animate: bool -> unit
         abstract setScrollLeft: scrollLeft: float * ?animate: bool -> unit
         abstract addToScrollTop: deltaTop: float * ?animate: bool -> unit
@@ -2991,6 +3103,8 @@ module __native_common_Styles =
         abstract createLinkStyle: ruleSet: Types.LinkStyle * ?cacheStyle: bool -> Types.LinkStyleRuleSet
         abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
         abstract getCssPropertyAliasesCssStyle: unit -> obj
+        abstract _adaptStyles: obj with get, set
+        abstract _adaptAnimatedStyles: obj with get, set
 
     type [<AllowNullLiteral>] StylesStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
@@ -3017,6 +3131,7 @@ module __native_common_Text =
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract _onMount: (obj option -> unit) with get, set
+        abstract _onPress: obj with get, set
         abstract getChildContext: unit -> obj
         abstract _getStyles: unit -> Types.StyleRuleSetRecursiveArray<Types.TextStyleRuleSet>
         abstract requestFocus: unit -> unit
@@ -3043,12 +3158,21 @@ module __native_common_TextInput =
         inherit React.Component<Types.TextInputProps, TextInputState>
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextInputContext with get, set
+        abstract _selectionToSet: obj with get, set
+        abstract _selection: obj with get, set
         abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
         abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
         abstract componentDidMount: unit -> unit
         abstract _render: props: RN.TextInputProps * onMount: (obj option -> unit) -> JSX.Element
         abstract render: unit -> JSX.Element
         abstract _onMount: (RN.ReactNativeBaseComponent<obj option, obj option> option -> unit) with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _onChangeText: obj with get, set
+        abstract _onSelectionChange: obj with get, set
+        abstract _onKeyPress: obj with get, set
+        abstract _onPaste: obj with get, set
+        abstract _onScroll: obj with get, set
         abstract blur: unit -> unit
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
@@ -3070,6 +3194,9 @@ module __native_common_UserInterface =
 
     type [<AllowNullLiteral>] UserInterface =
         inherit RX.UserInterface
+        abstract _touchLatencyThresholhdMs: obj with get, set
+        abstract _isNavigatingWithKeyboard: obj with get, set
+        abstract _rootViewUsingPropsFactory: obj with get, set
         abstract measureLayoutRelativeToWindow: ``component``: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
         abstract measureLayoutRelativeToAncestor: ``component``: React.Component<obj option, obj option> * ancestor: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
         abstract measureWindow: ?rootViewId: string -> Types.LayoutInfo
@@ -3087,6 +3214,7 @@ module __native_common_UserInterface =
         abstract enableTouchLatencyEvents: latencyThresholdMs: float -> unit
         abstract evaluateTouchLatency: e: Types.SyntheticEvent -> unit
         abstract isNavigatingWithKeyboard: unit -> bool
+        abstract _keyboardNavigationStateChanged: obj with get, set
 
     type [<AllowNullLiteral>] UserInterfaceStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserInterface
@@ -3126,17 +3254,35 @@ module __native_common_View =
         abstract touchableHandleResponderMove: (React.SyntheticEvent<obj option> -> unit) with get, set
         abstract touchableHandleResponderRelease: (React.SyntheticEvent<obj option> -> unit) with get, set
         abstract touchableHandleResponderTerminate: (React.SyntheticEvent<obj option> -> unit) with get, set
+        abstract _mixinIsApplied: obj with get, set
+        abstract _childrenKeys: obj with get, set
+        abstract _mixin_componentDidMount: obj option with get, set
+        abstract _mixin_componentWillUnmount: obj option with get, set
         abstract _isMounted: bool with get, set
+        abstract _hideTimeout: obj with get, set
+        abstract _defaultOpacityValue: obj with get, set
+        abstract _opacityAnimatedValue: obj with get, set
+        abstract _opacityAnimatedStyle: obj with get, set
+        abstract _focusArbitratorProvider: obj with get, set
         abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
         abstract componentWillUpdate: nextProps: Types.ViewProps * nextState: ViewComponentWillUpdateNextState -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract _updateMixin: obj with get, set
         abstract getChildContext: unit -> ViewContext
         /// Attention:
         /// be careful with setting any non layout properties unconditionally in this method to any value
         /// as on android that would lead to extra layers of Views.
         abstract _buildInternalProps: props: Types.ViewProps -> unit
+        abstract _isTouchFeedbackApplicable: obj with get, set
+        abstract _opacityActive: obj with get, set
+        abstract _opacityInactive: obj with get, set
+        abstract _getDefaultOpacityValue: obj with get, set
+        abstract _setOpacityTo: obj with get, set
+        abstract _showUnderlay: obj with get, set
+        abstract _hideUnderlay: obj with get, set
         abstract _isButton: viewProps: Types.ViewProps -> bool
+        abstract _updateFocusArbitratorProvider: obj with get, set
         abstract render: unit -> JSX.Element
         abstract touchableHandlePress: e: Types.SyntheticEvent -> unit
         abstract touchableHandleLongPress: e: Types.SyntheticEvent -> unit
@@ -3163,6 +3309,8 @@ module __native_common_ViewBase =
 
     type [<AllowNullLiteral>] ViewBase<'P, 'S> =
         inherit RX.ViewBase<'P, 'S>
+        abstract _defaultViewStyle: obj with get, set
+        abstract _layoutEventValues: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _nativeView: RN.View option with get, set
         abstract setNativeProps: nativeProps: RN.ViewProps -> unit
@@ -3183,9 +3331,11 @@ module __native_common_WebView =
     type [<AllowNullLiteral>] WebView =
         inherit React.Component<Types.WebViewProps, Types.Stateless>
         inherit RX.WebView
+        abstract _mountedComponent: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _onMount: (obj option -> unit) with get, set
         abstract _onMessage: (RN.NativeSyntheticEvent<RN.WebViewMessageEventData> -> unit) with get, set
+        abstract _buildSource: obj with get, set
         abstract postMessage: message: string * ?targetOrigin: string -> unit
         abstract reload: unit -> unit
         abstract goBack: unit -> unit
@@ -3308,9 +3458,14 @@ module __web_AccessibilityAnnouncer =
 
     type [<AllowNullLiteral>] AccessibilityAnnouncer =
         inherit React.Component<obj, AccessibilityAnnouncerState>
+        abstract _clearAnnouncementTimer: obj with get, set
+        abstract _newAnnouncementEventChangedSubscription: obj with get, set
+        abstract _getInitialState: obj with get, set
         abstract componentDidUpdate: prevProps: AccessibilityAnnouncerComponentDidUpdatePrevProps * prevState: AccessibilityAnnouncerState -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _cancelClearAnnouncementTimer: obj with get, set
+        abstract _startClearAnnouncementTimer: obj with get, set
 
     type [<AllowNullLiteral>] AccessibilityAnnouncerComponentDidUpdatePrevProps =
         interface end
@@ -3349,6 +3504,9 @@ module __web_ActivityIndicator =
 
     type [<AllowNullLiteral>] ActivityIndicator =
         inherit React.Component<Types.ActivityIndicatorProps, ActivityIndicatorState>
+        abstract _isStyleSheetInstalled: obj with get, set
+        abstract _isMounted: obj with get, set
+        abstract _installStyleSheet: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
@@ -3364,6 +3522,7 @@ module __web_Alert =
 
     type [<AllowNullLiteral>] Alert =
         inherit RX.Alert
+        abstract _modalId: obj with get, set
         abstract show: title: string * ?message: string * ?buttons: ResizeArray<Types.AlertButtonSpec> * ?options: Types.AlertOptions -> unit
 
     type [<AllowNullLiteral>] AlertStatic =
@@ -3389,6 +3548,9 @@ module __web_AlertModalContent =
     type [<AllowNullLiteral>] AlertModalContent =
         inherit RX.Component<AppModalContentProps, AppModalContentState>
         abstract render: unit -> JSX.Element
+        abstract _onPressButton: obj with get, set
+        abstract _onPressBody: obj with get, set
+        abstract _onPressBackground: obj with get, set
 
     type [<AllowNullLiteral>] AlertModalContentStatic =
         [<Emit "new $0($1...)">] abstract Create: props: AppModalContentProps -> AlertModalContent
@@ -3423,6 +3585,9 @@ module __web_Animated =
 
     type [<AllowNullLiteral>] Value =
         inherit Types.AnimatedValue
+        abstract _value: obj with get, set
+        abstract _listeners: obj with get, set
+        abstract _interpolationConfig: obj with get, set
         abstract _getValue: unit -> U2<float, string>
         abstract _isInterpolated: unit -> bool
         abstract _getInterpolatedValue: key: float -> U2<string, float>
@@ -3458,8 +3623,10 @@ module __web_App =
 
     type [<AllowNullLiteral>] App =
         inherit RX.App
+        abstract _activationState: obj with get, set
         abstract initialize: debug: bool * development: bool -> unit
         abstract getActivationState: unit -> Types.AppActivationState
+        abstract _setActivationState: obj with get, set
 
     type [<AllowNullLiteral>] AppStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> App
@@ -3480,6 +3647,13 @@ module __web_Button =
         abstract contextTypes: obj with get, set
         abstract context: ButtonContext with get, set
         abstract childContextTypes: obj with get, set
+        abstract _isMounted: obj with get, set
+        abstract _lastMouseDownEvent: obj with get, set
+        abstract _ignoreClick: obj with get, set
+        abstract _longPressTimer: obj with get, set
+        abstract _isMouseOver: obj with get, set
+        abstract _isFocusedWithKeyboard: obj with get, set
+        abstract _isHoverStarted: obj with get, set
         abstract getChildContext: unit -> ButtonContext
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
@@ -3488,6 +3662,16 @@ module __web_Button =
         abstract focus: unit -> unit
         abstract blur: unit -> unit
         abstract onClick: (Types.MouseEvent -> unit) with get, set
+        abstract _getStyles: obj with get, set
+        abstract _onContextMenu: obj with get, set
+        abstract _onMouseDown: obj with get, set
+        abstract _onMouseUp: obj with get, set
+        abstract _onMouseEnter: obj with get, set
+        abstract _onMouseLeave: obj with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _onHoverStart: obj with get, set
+        abstract _onHoverEnd: obj with get, set
 
     type [<AllowNullLiteral>] ButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
@@ -3502,6 +3686,8 @@ module __web_Clipboard =
         inherit RX.Clipboard
         abstract setText: text: string -> unit
         abstract getText: unit -> SyncTasks.Promise<string>
+        abstract _createInvisibleNode: obj with get, set
+        abstract _copyNode: obj with get, set
 
     type [<AllowNullLiteral>] ClipboardStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Clipboard
@@ -3523,6 +3709,41 @@ module __web_CustomScrollbar =
         abstract hiddenScrollbar: bool option with get, set
 
     type [<AllowNullLiteral>] Scrollbar =
+        abstract _container: obj with get, set
+        abstract _verticalBar: obj with get, set
+        abstract _horizontalBar: obj with get, set
+        abstract _viewport: obj with get, set
+        abstract _dragging: obj with get, set
+        abstract _dragIsVertical: obj with get, set
+        abstract _scrollingVisible: obj with get, set
+        abstract _hasHorizontal: obj with get, set
+        abstract _hasVertical: obj with get, set
+        abstract _hasHiddenScrollbar: obj with get, set
+        abstract _stopDragCallback: obj with get, set
+        abstract _startDragVCallback: obj with get, set
+        abstract _startDragHCallback: obj with get, set
+        abstract _handleDragCallback: obj with get, set
+        abstract _handleWheelCallback: obj with get, set
+        abstract _handleMouseDownCallback: obj with get, set
+        abstract _updateCallback: obj with get, set
+        abstract _asyncInitTimer: obj with get, set
+        abstract _tryLtrOverride: obj with get, set
+        abstract _prevent: obj with get, set
+        abstract _updateSliders: obj with get, set
+        abstract _handleDrag: obj with get, set
+        abstract _startDrag: obj with get, set
+        abstract _stopDrag: obj with get, set
+        abstract _handleWheel: obj with get, set
+        abstract _handleMouseDown: obj with get, set
+        abstract _normalizeDelta: obj with get, set
+        abstract _addListeners: obj with get, set
+        abstract _removeListeners: obj with get, set
+        abstract _createDivWithClass: obj with get, set
+        abstract _addScrollBar: obj with get, set
+        abstract _addScrollbars: obj with get, set
+        abstract _removeScrollbars: obj with get, set
+        abstract _calcNewBarSize: obj with get, set
+        abstract _resize: obj with get, set
         abstract update: unit -> unit
         abstract show: unit -> unit
         abstract hide: unit -> unit
@@ -3541,15 +3762,30 @@ module __web_FrontLayerViewManager =
         abstract _default: FrontLayerViewManager
 
     type [<AllowNullLiteral>] FrontLayerViewManager =
+        abstract _mainView: obj with get, set
+        abstract _modalStack: obj with get, set
+        abstract _activePopupOptions: obj with get, set
+        abstract _activePopupId: obj with get, set
+        abstract _activePopupAutoDismiss: obj with get, set
+        abstract _activePopupAutoDismissDelay: obj with get, set
+        abstract _activePopupShowDelay: obj with get, set
+        abstract _popupShowDelayTimer: obj with get, set
+        abstract _cachedPopups: obj with get, set
+        abstract _isRtlDefault: obj with get, set
+        abstract _isRtlAllowed: obj with get, set
+        abstract _isRtlForced: obj with get, set
         abstract setMainView: element: React.ReactElement<obj option> -> unit
         abstract isModalDisplayed: ?modalId: string -> bool
         abstract showModal: modal: React.ReactElement<Types.ViewProps> * modalId: string * ?options: Types.ModalOptions -> unit
         abstract dismissModal: modalId: string -> unit
         abstract dismissAllModals: unit -> unit
+        abstract _shouldPopupBeDismissed: obj with get, set
         abstract showPopup: options: Types.PopupOptions * popupId: string * ?showDelay: float -> bool
+        abstract _showPopup: obj with get, set
         abstract autoDismissPopup: popupId: string * ?dismissDelay: float -> unit
         abstract dismissPopup: popupId: string -> unit
         abstract dismissAllPopups: unit -> unit
+        abstract _renderRootView: obj with get, set
         abstract isPopupDisplayed: ?popupId: string -> bool
         abstract allowRTL: allow: bool -> unit
         abstract forceRTL: force: bool -> unit
@@ -3565,8 +3801,37 @@ module __web_GestureView =
 
     type [<AllowNullLiteral>] GestureView =
         inherit React.Component<Types.GestureViewProps, Types.Stateless>
+        abstract _id: obj with get, set
+        abstract _container: obj with get, set
+        abstract _doubleTapTimer: obj with get, set
+        abstract _lastTapEvent: obj with get, set
+        abstract _responder: obj with get, set
+        abstract _pendingGestureType: obj with get, set
+        abstract _gestureTypeLocked: obj with get, set
+        abstract _skipNextTap: obj with get, set
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _createMouseResponder: obj with get, set
+        abstract _disposeMouseResponder: obj with get, set
+        abstract _setContainerRef: obj with get, set
+        abstract _getStyles: obj with get, set
+        abstract _onClick: obj with get, set
+        abstract _sendContextMenuEvent: obj with get, set
+        abstract _detectGestureType: obj with get, set
+        abstract _getPanPixelThreshold: obj with get, set
+        abstract _shouldRespondToPan: obj with get, set
+        abstract _shouldRespondToPanVertical: obj with get, set
+        abstract _shouldRespondToPanHorizontal: obj with get, set
+        abstract _onWheel: obj with get, set
+        abstract _calcDistance: obj with get, set
+        abstract _isDoubleTap: obj with get, set
+        abstract _startDoubleTapTimer: obj with get, set
+        abstract _cancelDoubleTapTimer: obj with get, set
+        abstract _reportDelayedTap: obj with get, set
+        abstract _sendTapEvent: obj with get, set
+        abstract _sendDoubleTapEvent: obj with get, set
+        abstract _sendPanEvent: obj with get, set
+        abstract _getGestureViewClientRect: obj with get, set
 
     type [<AllowNullLiteral>] GestureViewStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GestureView
@@ -3589,12 +3854,26 @@ module __web_Image =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ImageContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _mountedComponent: obj with get, set
         abstract getChildContext: unit -> obj
+        abstract _isMounted: obj with get, set
+        abstract _nativeImageWidth: obj with get, set
+        abstract _nativeImageHeight: obj with get, set
         abstract componentWillReceiveProps: nextProps: Types.ImageProps -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract _initializeAndSetState: obj with get, set
+        abstract _handleXhrBlob: obj with get, set
+        abstract _startXhrImageFetch: obj with get, set
+        abstract _actuallyStartXhrImageFetch: obj with get, set
         abstract render: unit -> React.ReactElement<obj option>
         abstract _onMount: (HTMLImageElement option -> unit) with get, set
+        abstract _getStyles: obj with get, set
+        abstract _buildBackgroundSize: obj with get, set
+        abstract _onLoad: obj with get, set
+        abstract _imgOnError: obj with get, set
+        abstract _onError: obj with get, set
+        abstract _onMouseUp: obj with get, set
         abstract getNativeWidth: unit -> float option
         abstract getNativeHeight: unit -> float option
 
@@ -3645,6 +3924,8 @@ module __web_Link =
         inherit React.Component<Types.LinkProps, Types.Stateless>
         abstract contextTypes: obj with get, set
         abstract context: LinkContext with get, set
+        abstract _isMounted: obj with get, set
+        abstract _longPressTimer: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -3652,6 +3933,10 @@ module __web_Link =
         abstract focus: unit -> unit
         abstract blur: unit -> unit
         abstract _getStyles: unit -> Types.LinkStyleRuleSet
+        abstract _onClick: obj with get, set
+        abstract _onMouseDown: obj with get, set
+        abstract _onMouseUp: obj with get, set
+        abstract _onContextMenu: obj with get, set
 
     type [<AllowNullLiteral>] LinkStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Link
@@ -3710,6 +3995,7 @@ module __web_Network =
         inherit RX.Network
         abstract isConnected: unit -> SyncTasks.Promise<bool>
         abstract getType: unit -> SyncTasks.Promise<Types.DeviceNetworkType>
+        abstract _onEventOccured: obj with get, set
 
     type [<AllowNullLiteral>] NetworkStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Network
@@ -3722,6 +4008,8 @@ module __web_Picker =
     type [<AllowNullLiteral>] Picker =
         inherit RX.Picker
         abstract render: unit -> JSX.Element
+        abstract _getStyles: obj with get, set
+        abstract _onValueChange: obj with get, set
 
     type [<AllowNullLiteral>] PickerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Picker
@@ -3941,13 +4229,47 @@ module __web_RootView =
     type [<AllowNullLiteral>] RootView =
         inherit React.Component<RootViewProps, RootViewState>
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _mountedComponent: obj with get, set
+        abstract _hidePopupTimer: obj with get, set
+        abstract _respositionPopupTimer: obj with get, set
+        abstract _clickHandlerInstalled: obj with get, set
+        abstract _keyboardHandlerInstalled: obj with get, set
+        abstract _focusManager: obj with get, set
+        abstract _isNavigatingWithKeyboardUpateTimer: obj with get, set
+        abstract _shouldEnableKeyboardNavigationModeOnFocus: obj with get, set
+        abstract _applicationIsNotActive: obj with get, set
+        abstract _applicationIsNotActiveTimer: obj with get, set
+        abstract _prevFocusedElement: obj with get, set
+        abstract _updateKeyboardNavigationModeOnFocusTimer: obj with get, set
         abstract getChildContext: unit -> obj
+        abstract _getInitialState: obj with get, set
         abstract componentWillReceiveProps: prevProps: RootViewProps -> unit
         abstract componentDidUpdate: prevProps: RootViewProps * prevState: RootViewState -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract _renderPopup: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _onMount: (PopupContainerView option -> unit) with get, set
+        abstract _tryClosePopup: obj with get, set
+        abstract _determineIfClickOnElement: obj with get, set
+        abstract _onMouseDownCapture: obj with get, set
+        abstract _onKeyDownCapture: obj with get, set
+        abstract _onFocusIn: obj with get, set
+        abstract _onFocusOut: obj with get, set
+        abstract _requestApplicationIsNotActive: obj with get, set
+        abstract _cancelApplicationIsNotActive: obj with get, set
+        abstract _updateKeyboardNavigationState: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onKeyUp: obj with get, set
+        abstract _onMouseEnter: obj with get, set
+        abstract _onMouseLeave: obj with get, set
+        abstract _startHidePopupTimer: obj with get, set
+        abstract _stopHidePopupTimer: obj with get, set
+        abstract _dismissPopup: obj with get, set
+        abstract _startRepositionPopupTimer: obj with get, set
+        abstract _stopRepositionPopupTimer: obj with get, set
+        abstract _recalcPosition: obj with get, set
+        abstract _recalcInnerPosition: obj with get, set
 
     type [<AllowNullLiteral>] RootViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: RootViewProps -> RootView
@@ -3960,6 +4282,11 @@ module __web_ScrollView =
     type [<AllowNullLiteral>] ScrollView =
         inherit ViewBase<Types.ScrollViewProps, Types.Stateless>
         inherit RX.ScrollView
+        abstract _mountedComponent: obj with get, set
+        abstract _mounted: obj with get, set
+        abstract _customScrollbar: obj with get, set
+        abstract _customScrollbarEnabled: obj with get, set
+        abstract _dragging: obj with get, set
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
         abstract componentWillMount: unit -> unit
@@ -3967,11 +4294,20 @@ module __web_ScrollView =
         abstract componentWillReceiveProps: newProps: Types.ScrollViewProps -> unit
         abstract componentWillUnmount: unit -> unit
         abstract _getContainer: unit -> HTMLElement option
+        abstract _onScroll: obj with get, set
+        abstract _onPropsChange: obj with get, set
+        abstract createCustomScrollbarsIfNeeded: obj with get, set
+        abstract _getContainerStyle: obj with get, set
+        abstract _renderNormal: obj with get, set
+        abstract _renderWithCustomScrollbar: obj with get, set
         abstract _onMount: (HTMLElement option -> unit) with get, set
         abstract setScrollTop: scrollTop: float * ?animate: bool -> unit
         abstract setScrollLeft: scrollLeft: float * ?animate: bool -> unit
         abstract addToScrollTop: deltaTop: float * animate: bool -> unit
         abstract addToScrollLeft: deltaLeft: float * animate: bool -> unit
+        abstract _easeInOut: obj with get, set
+        abstract _onTouchStart: obj with get, set
+        abstract _onTouchEnd: obj with get, set
 
     type [<AllowNullLiteral>] ScrollViewStatic =
         [<Emit "new $0($1...)">] abstract Create: props: Types.ScrollViewProps -> ScrollView
@@ -3990,6 +4326,7 @@ module __web_ScrollViewConfig =
     /// Web-specific scroll view configuration, required to avoid circular
     /// dependency between application and ScrollView.
     type [<AllowNullLiteral>] ScrollViewConfig =
+        abstract _useCustomScrollbars: obj with get, set
         abstract setUseCustomScrollbars: value: bool -> unit
         abstract useCustomScrollbars: unit -> bool
 
@@ -4063,10 +4400,14 @@ module __web_Styles =
         abstract createImageStyle: ruleSet: Types.ImageStyle * ?cacheStyle: bool -> Types.ImageStyleRuleSet
         abstract createAnimatedImageStyle: ruleSet: Types.AnimatedImageStyle -> Types.AnimatedImageStyleRuleSet
         abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
+        abstract _getCssPropertyAlias: obj with get, set
+        abstract _createDummyElement: obj with get, set
+        abstract _getCssPropertyAliasesJsStyle: obj with get, set
         abstract convertJsToCssStyle: prop: string -> string
         abstract _cssPropertyAliasesCssStyle: (unit -> CssAliasMap) with get, set
         abstract getCssPropertyAliasesCssStyle: unit -> obj
         abstract getParentComponentName: ``component``: obj option -> string
+        abstract _adaptStyles: obj with get, set
 
     type [<AllowNullLiteral>] StylesStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Styles
@@ -4087,6 +4428,7 @@ module __web_Text =
         abstract contextTypes: obj with get, set
         abstract context: TextContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _isMounted: obj with get, set
         abstract getChildContext: unit -> obj
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
@@ -4115,9 +4457,25 @@ module __web_TextInput =
         inherit React.Component<Types.TextInputProps, TextInputState>
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextInputContext with get, set
+        abstract _mountedComponent: obj with get, set
+        abstract _selectionStart: obj with get, set
+        abstract _selectionEnd: obj with get, set
+        abstract _isFocused: obj with get, set
+        abstract _ariaLiveEnabled: obj with get, set
         abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _onMount: obj with get, set
+        abstract _onInput: obj with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _getKeyboardType: obj with get, set
+        abstract _onPaste: obj with get, set
+        abstract _onInputChanged: obj with get, set
+        abstract _checkSelectionChanged: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onScroll: obj with get, set
+        abstract _focus: obj with get, set
         abstract blur: unit -> unit
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
@@ -4139,6 +4497,7 @@ module __web_UserInterface =
 
     type [<AllowNullLiteral>] UserInterface =
         inherit RX.UserInterface
+        abstract _isNavigatingWithKeyboard: obj with get, set
         abstract measureLayoutRelativeToWindow: ``component``: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
         abstract measureLayoutRelativeToAncestor: ``component``: React.Component<obj option, obj option> * ancestor: React.Component<obj option, obj option> -> SyncTasks.Promise<Types.LayoutInfo>
         abstract measureWindow: ?rootViewId: string -> Types.LayoutInfo
@@ -4154,6 +4513,7 @@ module __web_UserInterface =
         abstract enableTouchLatencyEvents: latencyThresholdMs: float -> unit
         abstract evaluateTouchLatency: e: Types.MouseEvent -> unit
         abstract isNavigatingWithKeyboard: unit -> bool
+        abstract _keyboardNavigationStateChanged: obj with get, set
 
     type [<AllowNullLiteral>] UserInterfaceStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserInterface
@@ -4166,7 +4526,13 @@ module __web_UserPresence =
 
     type [<AllowNullLiteral>] UserPresence =
         inherit RX.UserPresence
+        abstract _isPresent: obj with get, set
         abstract isUserPresent: unit -> bool
+        abstract _setUserPresent: obj with get, set
+        abstract _handleWakeup: obj with get, set
+        abstract _handleIdle: obj with get, set
+        abstract _handleFocus: obj with get, set
+        abstract _handleBlur: obj with get, set
 
     type [<AllowNullLiteral>] UserPresenceStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserPresence
@@ -4189,8 +4555,22 @@ module __web_View =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ViewContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _focusManager: obj with get, set
+        abstract _limitFocusWithin: obj with get, set
+        abstract _isFocusLimited: obj with get, set
+        abstract _isFocusRestricted: obj with get, set
+        abstract _focusArbitratorProvider: obj with get, set
+        abstract _resizeDetectorAnimationFrame: obj with get, set
+        abstract _resizeDetectorNodes: obj with get, set
+        abstract _popupContainer: obj with get, set
+        abstract _popupToken: obj with get, set
+        abstract _renderResizeDetectorIfNeeded: obj with get, set
+        abstract _resizeDetectorReset: obj with get, set
+        abstract _resizeDetectorOnScroll: obj with get, set
         abstract getChildContext: unit -> ViewContext
         abstract _getContainer: unit -> HTMLElement option
+        abstract _isHidden: obj with get, set
+        abstract _updateFocusArbitratorProvider: obj with get, set
         abstract setFocusRestricted: restricted: bool -> unit
         abstract setFocusLimited: limited: bool -> unit
         abstract render: unit -> React.ReactElement<obj option>
@@ -4213,17 +4593,28 @@ module __web_ViewBase =
 
     type [<AllowNullLiteral>] ViewBase<'P, 'S> =
         inherit RX.ViewBase<'P, 'S>
+        abstract _viewCheckingTimer: obj with get, set
+        abstract _isResizeHandlerInstalled: obj with get, set
+        abstract _viewCheckingList: obj with get, set
+        abstract _appActivationState: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _getContainer: unit -> HTMLElement option
         abstract _isMounted: bool with get, set
+        abstract _isPopupDisplayed: obj with get, set
         abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
+        abstract _layoutReportList: obj with get, set
+        abstract _layoutReportingTimer: obj with get, set
+        abstract _reportLayoutChange: obj with get, set
         abstract _lastX: float with get, set
         abstract _lastY: float with get, set
         abstract _lastWidth: float with get, set
         abstract _lastHeight: float with get, set
         abstract _checkAndReportLayout: unit -> SyncTasks.Promise<unit>
+        abstract _checkViewCheckerBuild: obj with get, set
+        abstract _checkViewCheckerUnbuild: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
+        abstract _onResize: obj with get, set
         abstract componentWillUnmount: unit -> unit
 
     type [<AllowNullLiteral>] ViewBaseStatic =
@@ -4245,11 +4636,22 @@ module __web_WebView =
     type [<AllowNullLiteral>] WebView =
         inherit React.Component<Types.WebViewProps, WebViewState>
         inherit RX.WebView
+        abstract _webFrameNumber: obj with get, set
+        abstract _onMessageReceived: obj with get, set
+        abstract _messageListenerInstalled: obj with get, set
+        abstract _mountedComponent: obj with get, set
+        abstract _onMessageReceivedToken: obj with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: Types.WebViewProps * prevState: WebViewState -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract _getCustomHtml: obj with get, set
+        abstract _setContents: obj with get, set
+        abstract _installMessageListener: obj with get, set
+        abstract _postRender: obj with get, set
         abstract render: unit -> JSX.Element
         abstract _onMount: (HTMLIFrameElement option -> unit) with get, set
+        abstract _onLoad: obj with get, set
+        abstract _sandboxToStringValue: obj with get, set
         abstract postMessage: message: string * ?targetOrigin: string -> unit
         abstract reload: unit -> unit
         abstract goBack: unit -> unit
@@ -4272,6 +4674,8 @@ module __windows_Accessibility =
 
     type [<AllowNullLiteral>] Accessibility =
         inherit NativeAccessibility
+        abstract _isHighContrast: obj with get, set
+        abstract _updateIsHighContrast: obj with get, set
         abstract isHighContrastEnabled: unit -> bool
 
     type [<AllowNullLiteral>] AccessibilityStatic =
@@ -4284,8 +4688,16 @@ module __windows_AccessibilityAnnouncer =
 
     type [<AllowNullLiteral>] AccessibilityAnnouncer =
         inherit React.Component<obj, obj>
+        abstract _viewElement: obj with get, set
+        abstract _announcementQueue: obj with get, set
+        abstract _announcementQueueTimer: obj with get, set
+        abstract _newAnnouncementEventChangedSubscription: obj with get, set
+        abstract _lastAnnouncement: obj with get, set
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
+        abstract _onViewRef: obj with get, set
+        abstract _tryDequeueAndAnnounce: obj with get, set
+        abstract _dequeueAndPostAnnouncement: obj with get, set
 
     type [<AllowNullLiteral>] AccessibilityAnnouncerStatic =
         [<Emit "new $0($1...)">] abstract Create: props: AccessibilityAnnouncerStaticProps -> AccessibilityAnnouncer
@@ -4343,12 +4755,18 @@ module __windows_Button =
         inherit FocusManagerFocusableComponent
         abstract context: ButtonContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
+        abstract _isFocusedWithKeyboard: obj with get, set
         abstract _getContextMenuOffset: unit -> obj
         abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
         abstract focus: unit -> unit
         abstract blur: unit -> unit
         abstract setNativeProps: nativeProps: RN.ViewProps -> unit
         abstract getChildContext: unit -> ButtonContext
+        abstract _onAccessibilityTap: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onKeyUp: obj with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
         abstract _onHoverStart: (React.SyntheticEvent<obj option> -> unit) with get, set
         abstract _onHoverEnd: (React.SyntheticEvent<obj option> -> unit) with get, set
         abstract onFocus: unit -> unit
@@ -4390,11 +4808,23 @@ module __windows_Link =
         abstract _getContextMenuOffset: unit -> obj
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract _restrictedOrLimitedCallback: obj with get, set
         abstract _render: internalProps: RN.TextProps * onMount: (obj option -> unit) -> JSX.Element
+        abstract _renderLinkAsFocusableText: obj with get, set
+        abstract _focusableElement: obj with get, set
+        abstract _onFocusableRef: obj with get, set
+        abstract _createFocusableTextProps: obj with get, set
+        abstract _nativeHyperlinkElement: obj with get, set
+        abstract _onNativeHyperlinkRef: obj with get, set
+        abstract _renderLinkAsNativeHyperlink: obj with get, set
         abstract focus: unit -> unit
         abstract blur: unit -> unit
         abstract setNativeProps: nativeProps: RN.TextProps -> unit
         abstract requestFocus: unit -> unit
+        abstract _isAvailableToFocus: obj with get, set
+        abstract _onKeyDown: obj with get, set
+        abstract _onKeyUp: obj with get, set
+        abstract _onFocus: obj with get, set
         abstract onFocus: unit -> unit
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
@@ -4561,6 +4991,7 @@ module __windows_ScrollView =
     type [<AllowNullLiteral>] ScrollView =
         inherit ScrollViewBase
         abstract _render: props: Types.ScrollViewProps -> JSX.Element
+        abstract _onKeyDown: obj with get, set
 
     type [<AllowNullLiteral>] ScrollViewStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ScrollView
@@ -4625,6 +5056,7 @@ module __windows_TextInput =
         inherit TextInputBase
         inherit FocusManagerFocusableComponent
         abstract _render: props: RN.TextInputProps * onMount: (obj option -> unit) -> JSX.Element
+        abstract _onFocusEx: obj with get, set
         abstract onFocus: unit -> unit
         abstract getTabIndex: unit -> float
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
@@ -4659,21 +5091,42 @@ module __windows_View =
         abstract context: ViewContext with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _getContextMenuOffset: unit -> obj
+        abstract _onKeyDown: obj with get, set
+        abstract _onMouseEnter: obj with get, set
+        abstract _onMouseLeave: obj with get, set
+        abstract _onMouseOver: obj with get, set
+        abstract _onMouseMove: obj with get, set
+        abstract _focusableElement: obj with get, set
+        abstract _focusManager: obj with get, set
+        abstract _limitFocusWithin: obj with get, set
+        abstract _isFocusLimited: obj with get, set
+        abstract _isFocusRestricted: obj with get, set
+        abstract _popupContainer: obj with get, set
+        abstract _popupToken: obj with get, set
         abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
         abstract enableFocusManager: unit -> unit
         abstract disableFocusManager: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
+        abstract hasTrait: obj with get, set
+        abstract _showContextMenu: obj with get, set
         abstract _buildInternalProps: props: Types.ViewProps -> unit
         abstract render: unit -> JSX.Element
+        abstract _onFocusableRef: obj with get, set
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
         abstract blur: unit -> unit
         abstract getChildContext: unit -> ViewContext
+        abstract _isHidden: obj with get, set
         abstract setFocusRestricted: restricted: bool -> unit
         abstract setFocusLimited: limited: bool -> unit
+        abstract _focusRestrictionCallback: obj with get, set
         abstract setNativeProps: nativeProps: RN.ViewProps -> unit
         abstract _isButton: viewProps: Types.ViewProps -> bool
+        abstract _onFocusableKeyDown: obj with get, set
+        abstract _onFocusableKeyUp: obj with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
         abstract onFocus: unit -> unit
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
@@ -4703,6 +5156,15 @@ module __common_utils_AutoFocusHelper =
         [<Emit "$0($1...)">] abstract Invoke: candidates: ResizeArray<FocusCandidateInternal> -> ResizeArray<FocusCandidateInternal>
 
     type [<AllowNullLiteral>] FocusArbitratorProvider =
+        abstract _id: obj with get, set
+        abstract _parentArbitratorProvider: obj with get, set
+        abstract _arbitratorCallback: obj with get, set
+        abstract _candidates: obj with get, set
+        abstract _pendingChildren: obj with get, set
+        abstract _notifyParent: obj with get, set
+        abstract _arbitrate: obj with get, set
+        abstract _requestFocus: obj with get, set
+        abstract _arbitrate: obj with get, set
         abstract setCallback: ?arbitrator: Types.FocusArbitrator -> unit
 
     type [<AllowNullLiteral>] FocusArbitratorProviderStatic =
@@ -4745,12 +5207,20 @@ module __common_utils_FocusManager =
         [<Emit "$0($1...)">] abstract Invoke: restricted: RestrictFocusType -> unit
 
     type [<AllowNullLiteral>] FocusManager =
+        abstract _restrictionStack: obj with get, set
         abstract _currentRestrictionOwner: FocusManager option with get, set
+        abstract _restoreRestrictionTimer: obj with get, set
+        abstract _pendingPrevFocusedComponent: obj with get, set
         abstract _currentFocusedComponent: StoredFocusableComponent option with get, set
         abstract _allFocusableComponents: obj with get, set
         abstract _skipFocusCheck: bool with get, set
         abstract _resetFocusTimer: float option with get, set
+        abstract _parent: obj with get, set
+        abstract _isFocusLimited: obj with get, set
+        abstract _currentRestrictType: obj with get, set
+        abstract _prevFocusedComponent: obj with get, set
         abstract _myFocusableComponentIds: obj with get, set
+        abstract _restrictionStateCallback: obj with get, set
         abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract focusComponent: ``component``: FocusableComponentInternal -> bool
@@ -4764,6 +5234,9 @@ module __common_utils_FocusManager =
         abstract removeFocusLimitation: unit -> unit
         abstract release: unit -> unit
         abstract setRestrictionStateCallback: callback: FocusManagerRestrictionStateCallback option -> unit
+        abstract _getStoredComponent: obj with get, set
+        abstract _removeFocusRestriction: obj with get, set
+        abstract _clearRestoreRestrictionTimeout: obj with get, set
 
     type [<AllowNullLiteral>] FocusManagerStatic =
         [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
@@ -4871,8 +5344,10 @@ module __native_desktop_utils_FocusManager =
         abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract focusComponent: ``component``: FocusableComponentInternal -> bool
+        abstract focusFirst: obj with get, set
         abstract resetFocus: focusFirstWhenNavigatingWithKeyboard: bool -> unit
         abstract _updateComponentFocusRestriction: storedComponent: StoredFocusableComponent -> unit
+        abstract _updateComponentTabIndexAndIFAOverrides: obj with get, set
 
     type [<AllowNullLiteral>] FocusManagerStatic =
         [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
@@ -4945,6 +5420,14 @@ module __web_listAnimations_MonitorListEdits =
 
     type [<AllowNullLiteral>] MonitorListEdits =
         inherit React.Component<MonitorListEditsProps, Types.Stateless>
+        abstract _itemRefs: obj with get, set
+        abstract _refReplacementCache: obj with get, set
+        abstract _isMounted: obj with get, set
+        abstract _childrenKeys: obj with get, set
+        abstract _childrenMap: obj with get, set
+        abstract _childrenToRender: obj with get, set
+        abstract _phase: obj with get, set
+        abstract _willAnimatePhaseInfo: obj with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -4952,6 +5435,7 @@ module __web_listAnimations_MonitorListEdits =
         abstract componentWillUpdate: nextProps: MonitorListEditsProps -> unit
         abstract render: unit -> JSX.Element
         abstract componentDidUpdate: prevProps: MonitorListEditsProps -> unit
+        abstract _saveRef: obj with get, set
 
     type [<AllowNullLiteral>] MonitorListEditsStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> MonitorListEdits
@@ -4963,6 +5447,8 @@ module __web_utils_AppVisibilityUtils =
         abstract _default: AppVisibilityUtils
 
     type [<AllowNullLiteral>] AppVisibilityUtils =
+        abstract _isIdle: obj with get, set
+        abstract _timer: obj with get, set
         abstract onFocusedEvent: SubscribableEvent<(unit -> unit)>
         abstract onBlurredEvent: SubscribableEvent<(unit -> unit)>
         abstract onAppForegroundedEvent: SubscribableEvent<(unit -> unit)>
@@ -4972,6 +5458,13 @@ module __web_utils_AppVisibilityUtils =
         abstract hasFocusAndActive: unit -> bool
         abstract hasFocus: unit -> bool
         abstract isAppInForeground: unit -> bool
+        abstract _trackIdleStatus: obj with get, set
+        abstract _wakeUpAndSetTimerForIdle: obj with get, set
+        abstract _onFocus: obj with get, set
+        abstract _onBlur: obj with get, set
+        abstract _onAppVisibilityChanged: obj with get, set
+        abstract _onWakeUp: obj with get, set
+        abstract _onIdle: obj with get, set
 
     type [<AllowNullLiteral>] AppVisibilityUtilsStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> AppVisibilityUtils
@@ -4996,11 +5489,18 @@ module __web_utils_FocusManager =
 
     type [<AllowNullLiteral>] FocusManager =
         inherit FocusManagerBase
+        abstract _setTabIndexTimer: obj with get, set
+        abstract _setTabIndexElement: obj with get, set
+        abstract _lastFocusedProgrammatically: obj with get, set
         abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract focusComponent: ``component``: FocusableComponentInternal -> bool
+        abstract _isComponentAvailable: obj with get, set
+        abstract _getFirstFocusable: obj with get, set
         abstract resetFocus: focusFirstWhenNavigatingWithKeyboard: bool -> unit
         abstract _updateComponentFocusRestriction: storedComponent: StoredFocusableComponent -> unit
+        abstract _setTabIndex: obj with get, set
+        abstract _setAriaHidden: obj with get, set
 
     type [<AllowNullLiteral>] FocusManagerStatic =
         [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
@@ -5026,7 +5526,16 @@ module __web_utils_MouseResponder =
         abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] MouseResponder =
-        interface end
+        abstract _currentResponder: obj with get, set
+        abstract _pendingGestureState: obj with get, set
+        abstract _initialized: obj with get, set
+        abstract _responders: obj with get, set
+        abstract _initializeEventHandlers: obj with get, set
+        abstract _removeEventHandlers: obj with get, set
+        abstract _onMouseDown: obj with get, set
+        abstract _onMouseMove: obj with get, set
+        abstract _onMouseUp: obj with get, set
+        abstract _calcVelocity: obj with get, set
 
     type [<AllowNullLiteral>] MouseResponderStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> MouseResponder

@@ -674,7 +674,6 @@ module Vscode =
     /// A universal resource identifier representing either a file on disk
     /// or another resource, like untitled resources.
     type [<AllowNullLiteral>] UriStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Uri
         /// <summary>Create an URI from a file system path. The [scheme](#Uri.scheme)
         /// will be `file`.</summary>
         /// <param name="path">A file system or UNC path.</param>
@@ -683,6 +682,8 @@ module Vscode =
         /// valid.</summary>
         /// <param name="value">The string value of an Uri.</param>
         abstract parse: value: string -> Uri
+        /// Use the `file` and `parse` factory functions to create new `Uri` objects.
+        [<Emit "new $0($1...)">] abstract Create: scheme: string * authority: string * path: string * query: string * fragment: string -> Uri
 
     /// A cancellation token is passed to an asynchronous or long running
     /// operation to request cancellation, like cancelling a request
@@ -2269,7 +2270,7 @@ module Vscode =
     /// A grouping for tasks. The editor by default supports the
     /// 'Clean', 'Build', 'RebuildAll' and 'Test' group.
     type [<AllowNullLiteral>] TaskGroupStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> TaskGroup
+        [<Emit "new $0($1...)">] abstract Create: id: string * label: string -> TaskGroup
 
     /// A structure that defines a task kind in the system.
     /// The value must be JSON-stringifyable.
