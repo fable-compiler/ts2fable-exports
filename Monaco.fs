@@ -33,7 +33,7 @@ module Monaco =
         abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] IEvent<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArg: obj option -> IDisposable
+        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArg: obj -> IDisposable
 
     /// A helper that allows to emit and listen to typed events
     type [<AllowNullLiteral>] Emitter<'T> =
@@ -77,7 +77,7 @@ module Monaco =
 
     /// A Promise implementation that supports progress and cancelation.
     type [<AllowNullLiteral>] PromiseStatic =
-        [<Emit "new $0($1...)">] abstract Create: init: (TValueCallback<'V> -> (obj option -> unit) -> ProgressCallback -> unit) * ?oncancel: obj option -> Promise<'V>
+        [<Emit "new $0($1...)">] abstract Create: init: (TValueCallback<'V> -> (obj option -> unit) -> ProgressCallback -> unit) * ?oncancel: obj -> Promise<'V>
         abstract ``as``: value: obj -> Promise<obj>
         abstract ``as``: value: obj -> Promise<obj>
         abstract ``as``: value: Promise<'ValueType> -> Promise<'ValueType>
