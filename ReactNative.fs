@@ -4287,7 +4287,7 @@ type [<AllowNullLiteral>] InteractionManagerStatic =
     abstract Events: obj with get, set
     /// Schedule a function to run after all interactions have completed.
     /// Returns a cancellable
-    abstract runAfterInteractions: ?task: U3<(unit -> obj option), SimpleTask, PromiseTask> -> obj
+    abstract runAfterInteractions: ?task: U3<(unit -> obj option), SimpleTask, PromiseTask> -> InteractionManagerStaticRunAfterInteractionsReturn
     /// Notify manager that an interaction has started.
     abstract createInteractionHandle: unit -> Handle
     /// Notify manager that an interaction has completed.
@@ -4296,6 +4296,11 @@ type [<AllowNullLiteral>] InteractionManagerStatic =
     /// the eventLoopRunningTime hits the deadline value, otherwise all
     /// tasks will be executed in one setImmediate batch (default).
     abstract setDeadline: deadline: float -> unit
+
+type [<AllowNullLiteral>] InteractionManagerStaticRunAfterInteractionsReturn =
+    abstract ``then``: ((unit -> obj option) -> (unit -> obj option) -> Promise<obj option>) with get, set
+    abstract ``done``: (ResizeArray<obj option> -> obj option) with get, set
+    abstract cancel: (unit -> unit) with get, set
 
 type [<AllowNullLiteral>] ScrollResponderEvent =
     inherit NativeSyntheticEvent<NativeTouchEvent>
@@ -6155,7 +6160,7 @@ module Animated =
         /// ```javascript
         ///   style={this.state.anim.getLayout()}
         /// ```
-        abstract getLayout: unit -> obj
+        abstract getLayout: unit -> ValueXYGetLayoutReturn
         /// Converts `{x, y}` into a useable translation transform, e.g.
         /// 
         /// ```javascript
@@ -6172,6 +6177,9 @@ module Animated =
     type [<AllowNullLiteral>] ValueXYSetOffsetOffset =
         abstract x: float with get, set
         abstract y: float with get, set
+
+    type [<AllowNullLiteral>] ValueXYGetLayoutReturn =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> AnimatedValue with get, set
 
     /// 2D Value for driving 2D animations, such as pan gestures.  Almost identical
     /// API to normal `Animated.Value`, but multiplexed.  Contains two regular
