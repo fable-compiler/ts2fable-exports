@@ -2663,12 +2663,12 @@ module __native_common_FrontLayerViewManager =
         abstract showPopup: popupOptions: Types.PopupOptions * popupId: string * ?delay: float -> bool
         abstract dismissPopup: popupId: string -> unit
         abstract dismissAllPopups: unit -> unit
-        abstract getModalLayerView: ?rootViewId: string option -> React.ReactElement<obj option> option
+        abstract getModalLayerView: ?rootViewId: string -> React.ReactElement<obj option> option
         abstract getActivePopupId: unit -> string option
         abstract releaseCachedPopups: unit -> unit
         abstract modalOptionsMatchesRootViewId: obj with get, set
         abstract _renderPopup: obj with get, set
-        abstract getPopupLayerView: ?rootViewId: string option -> JSX.Element option
+        abstract getPopupLayerView: ?rootViewId: string -> JSX.Element option
         abstract _onBackgroundPressed: obj with get, set
         abstract _dismissActivePopup: obj with get, set
         abstract _findIndexOfModal: obj with get, set

@@ -291,7 +291,7 @@ type [<AllowNullLiteral>] EventEmitterListener =
     /// emitted</param>
     /// <param name="context">- Optional context object to use when invoking the
     /// listener</param>
-    abstract addListener: eventType: string * listener: (ResizeArray<obj option> -> obj option) * ?context: obj option -> EmitterSubscription
+    abstract addListener: eventType: string * listener: (ResizeArray<obj option> -> obj option) * ?context: obj -> EmitterSubscription
 
 type [<AllowNullLiteral>] EventEmitter =
     inherit EventEmitterListener
@@ -3987,21 +3987,21 @@ module StyleSheet =
         abstract bottom: obj with get, set
 
 type [<AllowNullLiteral>] RelayProfiler =
-    abstract attachProfileHandler: name: string * handler: (string -> obj option -> (unit -> unit)) -> unit
+    abstract attachProfileHandler: name: string * handler: (string -> obj -> (unit -> unit)) -> unit
     abstract attachAggregateHandler: name: string * handler: (string -> (unit -> unit) -> unit) -> unit
 
 type [<AllowNullLiteral>] SystraceStatic =
     abstract setEnabled: enabled: bool -> unit
     /// beginEvent/endEvent for starting and then ending a profile within the same call stack frame
-    abstract beginEvent: ?profileName: obj option * ?args: obj option -> unit
+    abstract beginEvent: ?profileName: obj * ?args: obj -> unit
     abstract endEvent: unit -> unit
     /// beginAsyncEvent/endAsyncEvent for starting and then ending a profile where the end can either
     /// occur on another thread or out of the current stack frame, eg await
     /// the returned cookie variable should be used as input into the endAsyncEvent call to end the profile
-    abstract beginAsyncEvent: ?profileName: obj option -> obj option
-    abstract endAsyncEvent: ?profileName: obj option * ?cookie: obj option -> unit
+    abstract beginAsyncEvent: ?profileName: obj -> obj option
+    abstract endAsyncEvent: ?profileName: obj * ?cookie: obj -> unit
     /// counterEvent registers the value to the profileName on the systrace timeline
-    abstract counterEvent: ?profileName: obj option * ?value: obj option -> unit
+    abstract counterEvent: ?profileName: obj * ?value: obj -> unit
     /// Relay profiles use await calls, so likely occur out of current stack frame
     /// therefore async variant of profiling is used
     abstract attachToRelayProfiler: relayProfiler: RelayProfiler -> unit
@@ -4222,7 +4222,7 @@ type [<AllowNullLiteral>] PlatformIOSStatic =
 type [<AllowNullLiteral>] DeviceEventEmitterStatic =
     inherit EventEmitter
     abstract sharedSubscriber: EventSubscriptionVendor with get, set
-    abstract addListener: ``type``: string * listener: (obj option -> unit) * ?context: obj option -> EmitterSubscription
+    abstract addListener: ``type``: string * listener: (obj option -> unit) * ?context: obj -> EmitterSubscription
 
 /// Deprecated - subclass NativeEventEmitter to create granular event modules instead of
 /// adding all event listeners directly to RCTDeviceEventEmitter.
@@ -6641,7 +6641,7 @@ module Addons =
         abstract TestModule: TestModuleStatic
 
     type [<AllowNullLiteral>] TestModuleStatic =
-        abstract verifySnapshot: ((obj option -> unit) -> unit) with get, set
+        abstract verifySnapshot: ((obj -> unit) -> unit) with get, set
         abstract markTestPassed: (obj option -> unit) with get, set
         abstract markTestCompleted: (unit -> unit) with get, set
 
@@ -6650,12 +6650,12 @@ module Addons =
 
 /// Console polyfill
 type [<AllowNullLiteral>] Console =
-    abstract error: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract info: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract log: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract warn: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract trace: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract debug: ?message: obj option * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract error: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract info: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract log: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract warn: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract trace: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
+    abstract debug: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
     abstract table: [<ParamArray>] data: ResizeArray<obj option> -> unit
     abstract disableYellowBox: bool with get, set
     abstract ignoredYellowBox: ResizeArray<string> with get, set
