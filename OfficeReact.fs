@@ -9712,7 +9712,7 @@ module __components_ScrollablePane_ScrollablePane_base =
         abstract stickyAbove: HTMLDivElement option
         abstract stickyBelow: HTMLDivElement option
         abstract contentContainer: HTMLDivElement option
-        abstract getChildContext: unit -> ScrollablePaneBaseGetChildContextReturn
+        abstract getChildContext: unit -> obj
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract shouldComponentUpdate: nextProps: IScrollablePaneProps * nextState: IScrollablePaneState -> bool
@@ -9733,9 +9733,6 @@ module __components_ScrollablePane_ScrollablePane_base =
         abstract _removeStickyFromContainers: obj with get, set
         abstract _onWindowResize: obj with get, set
         abstract _getStickyContainerStyle: obj with get, set
-
-    type [<AllowNullLiteral>] ScrollablePaneBaseGetChildContextReturn =
-        abstract scrollablePane: obj with get, set
 
     type [<AllowNullLiteral>] ScrollablePaneBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: props: IScrollablePaneProps -> ScrollablePaneBase
@@ -11878,7 +11875,7 @@ module __utilities_color_colors =
         abstract hsv2hex: h: float * s: float * v: float -> string
         abstract rgb2hsv: r: float * g: float * b: float -> IHSV
         abstract hsl2hsv: h: float * s: float * l: float -> IHSV
-        abstract hsv2hsl: h: float * s: float * v: float -> Hsv2hslReturn
+        abstract hsv2hsl: h: float * s: float * v: float -> obj
         abstract hsl2rgb: h: float * s: float * l: float -> IRGB
         abstract hsv2rgb: h: float * s: float * v: float -> IRGB
         abstract getColorFromString: inputColor: string -> IColor option
@@ -11887,11 +11884,6 @@ module __utilities_color_colors =
         abstract updateSV: color: IColor * s: float * v: float -> IColor
         abstract updateH: color: IColor * h: float -> IColor
         abstract updateA: color: IColor * a: float -> IColor
-
-    type [<AllowNullLiteral>] Hsv2hslReturn =
-        abstract h: float with get, set
-        abstract s: float with get, set
-        abstract l: float with get, set
 
     type [<AllowNullLiteral>] GetColorFromRGBARgba =
         abstract r: float with get, set
@@ -12168,7 +12160,7 @@ module __utilities_dragdrop_DragDropHelper =
         abstract _events: obj with get, set
         abstract _lastId: obj with get, set
         abstract dispose: unit -> unit
-        abstract subscribe: root: HTMLElement * events: EventGroup * dragDropOptions: IDragDropOptions -> DragDropHelperSubscribeReturn
+        abstract subscribe: root: HTMLElement * events: EventGroup * dragDropOptions: IDragDropOptions -> obj
         abstract unsubscribe: root: HTMLElement * key: string -> unit
         abstract _onDragEnd: target: obj * ``event``: obj -> unit
         /// clear drag data when mouse up on body
@@ -12187,10 +12179,6 @@ module __utilities_dragdrop_DragDropHelper =
         abstract _isChild: parent: obj * child: obj -> unit
         abstract _isDraggable: target: obj -> unit
         abstract _isDroppable: target: obj -> unit
-
-    type [<AllowNullLiteral>] DragDropHelperSubscribeReturn =
-        abstract key: string with get, set
-        abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] DragDropHelperStatic =
         [<Emit "new $0($1...)">] abstract Create: ``params``: IDragDropHelperParams -> DragDropHelper
@@ -15919,12 +15907,9 @@ module __components_Layer_examples_Layer_Basic_Example =
     type [<AllowNullLiteral>] LayerBasicExample =
         inherit BaseComponent<obj, obj>
         abstract childContextTypes: obj with get, set
-        abstract getChildContext: unit -> LayerBasicExampleGetChildContextReturn
+        abstract getChildContext: unit -> obj
         abstract render: unit -> JSX.Element
         abstract _onChange: ev: obj * ``checked``: obj -> unit
-
-    type [<AllowNullLiteral>] LayerBasicExampleGetChildContextReturn =
-        abstract message: string with get, set
 
     type [<AllowNullLiteral>] LayerBasicExampleStatic =
         [<Emit "new $0($1...)">] abstract Create: props: LayerBasicExampleStaticProps -> LayerBasicExample

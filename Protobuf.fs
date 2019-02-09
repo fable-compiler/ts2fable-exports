@@ -118,7 +118,7 @@ type [<AllowNullLiteral>] Message =
     abstract cloneMessage: unit -> Message
     abstract clone: unit -> Message
     abstract serializeBinary: unit -> Uint8Array
-    abstract toObject: ?includeInstance: bool -> MessageToObjectReturn
+    abstract toObject: ?includeInstance: bool -> obj
     abstract extensions: obj with get, set
     abstract extensionsBinary: obj with get, set
 
@@ -127,9 +127,6 @@ type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
 
 type [<AllowNullLiteral>] MessageReadBinaryExtensionExtensions =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
-
-type [<AllowNullLiteral>] MessageToObjectReturn =
-    interface end
 
 type [<AllowNullLiteral>] MessageStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Message
@@ -167,7 +164,7 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract deserializeBinary: bytes: Uint8Array -> Message
     abstract deserializeBinaryFromReader: message: Message * reader: BinaryReader -> Message
     abstract serializeBinaryToWriter: message: Message * writer: BinaryWriter -> unit
-    abstract toObject: includeInstance: bool * msg: Message -> MessageStaticToObjectReturn
+    abstract toObject: includeInstance: bool * msg: Message -> obj
 
 type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
     interface end
@@ -190,19 +187,13 @@ type [<AllowNullLiteral>] MessageStaticCompareExtensionsExtension1 =
 type [<AllowNullLiteral>] MessageStaticCompareExtensionsExtension2 =
     interface end
 
-type [<AllowNullLiteral>] MessageStaticToObjectReturn =
-    interface end
-
 module Message =
 
     type MessageArray =
         ResizeArray<obj option>
 
     type [<AllowNullLiteral>] StaticToObject =
-        [<Emit "$0($1...)">] abstract Invoke: includeInstance: bool * msg: Message -> StaticToObjectInvokeReturn
-
-    type [<AllowNullLiteral>] StaticToObjectInvokeReturn =
-        interface end
+        [<Emit "$0($1...)">] abstract Invoke: includeInstance: bool * msg: Message -> obj
 
 type [<AllowNullLiteral>] ExtensionFieldInfo<'T> =
     abstract fieldIndex: float with get, set

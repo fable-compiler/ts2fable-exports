@@ -2317,14 +2317,9 @@ module Monaco =
             /// Explanation 1: the results of this method will change for the same `position` if the user scrolls the editor.
             /// Explanation 2: the results of this method will not change if the container of the editor gets repositioned.
             /// Warning: the results of this method are innacurate for positions that are outside the current editor viewport.
-            abstract getScrolledVisiblePosition: position: IPosition -> ICodeEditorGetScrolledVisiblePositionReturn
+            abstract getScrolledVisiblePosition: position: IPosition -> obj
             /// Apply the same font settings as the editor to `target`.
             abstract applyFontInfo: target: HTMLElement -> unit
-
-        type [<AllowNullLiteral>] ICodeEditorGetScrolledVisiblePositionReturn =
-            abstract top: float with get, set
-            abstract left: float with get, set
-            abstract height: float with get, set
 
         /// A rich diff editor.
         type [<AllowNullLiteral>] IDiffEditor =
