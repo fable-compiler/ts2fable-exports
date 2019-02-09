@@ -546,8 +546,8 @@ type [<AllowNullLiteral>] EntityManager =
     abstract hasChanges: entityTypeNames: ResizeArray<string> -> bool
     abstract hasChanges: entityType: EntityType -> bool
     abstract hasChanges: entityTypes: ResizeArray<EntityType> -> bool
-    abstract importEntities: exportedString: string * ?config: EntityManagerImportEntitiesConfig -> obj
-    abstract importEntities: exportedData: Object * ?config: EntityManagerImportEntitiesConfig_ -> obj
+    abstract importEntities: exportedString: string * ?config: EntityManagerImportEntitiesConfig -> EntityManagerImportEntitiesReturn
+    abstract importEntities: exportedData: Object * ?config: EntityManagerImportEntitiesConfig_ -> EntityManagerImportEntitiesReturn_
     abstract rejectChanges: unit -> ResizeArray<Entity>
     abstract saveChanges: ?entities: ResizeArray<Entity> * ?saveOptions: SaveOptions * ?callback: SaveChangesSuccessCallback * ?errorCallback: SaveChangesErrorCallback -> Promise<SaveResult>
     abstract setProperties: config: EntityManagerProperties -> unit
@@ -563,10 +563,18 @@ type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig =
     abstract mergeStrategy: MergeStrategySymbol option with get, set
     abstract metadataVersionFn: (obj option -> unit) option with get, set
 
+type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn =
+    abstract entities: ResizeArray<Entity> with get, set
+    abstract tempKeyMapping: obj with get, set
+
 type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig_ =
     abstract mergeAdds: bool option with get, set
     abstract mergeStrategy: MergeStrategySymbol option with get, set
     abstract metadataVersionFn: (obj option -> unit) option with get, set
+
+type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn_ =
+    abstract entities: ResizeArray<Entity> with get, set
+    abstract tempKeyMapping: obj with get, set
 
 type [<AllowNullLiteral>] EntityManagerStatic =
     [<Emit "new $0($1...)">] abstract Create: ?config: EntityManagerOptions -> EntityManager

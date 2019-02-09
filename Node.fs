@@ -666,7 +666,7 @@ type [<AllowNullLiteral>] NodeBuffer =
     inherit Uint8Array
     abstract write: string: string * ?offset: float * ?length: float * ?encoding: string -> float
     abstract toString: ?encoding: string * ?start: float * ?``end``: float -> string
-    abstract toJSON: unit -> obj
+    abstract toJSON: unit -> NodeBufferToJSONReturn
     abstract equals: otherBuffer: Buffer -> bool
     abstract compare: otherBuffer: Buffer * ?targetStart: float * ?targetEnd: float * ?sourceStart: float * ?sourceEnd: float -> float
     abstract copy: targetBuffer: Buffer * ?targetStart: float * ?sourceStart: float * ?sourceEnd: float -> float
@@ -717,6 +717,10 @@ type [<AllowNullLiteral>] NodeBuffer =
     abstract includes: value: U3<string, float, Buffer> * ?byteOffset: float * ?encoding: string -> bool
     abstract keys: unit -> IterableIterator<float>
     abstract values: unit -> IterableIterator<float>
+
+type [<AllowNullLiteral>] NodeBufferToJSONReturn =
+    abstract ``type``: string with get, set
+    abstract data: ResizeArray<obj option> with get, set
 
 module Buffer =
 
@@ -1388,9 +1392,9 @@ module Os =
         abstract cpus: unit -> ResizeArray<CpuInfo>
         abstract ``type``: unit -> string
         abstract release: unit -> string
-        abstract networkInterfaces: unit -> obj
+        abstract networkInterfaces: unit -> NetworkInterfacesReturn
         abstract homedir: unit -> string
-        abstract userInfo: ?options: UserInfoOptions -> obj
+        abstract userInfo: ?options: UserInfoOptions -> UserInfoReturn
         abstract constants: obj
         abstract arch: unit -> string
         abstract platform: unit -> NodeJS.Platform
@@ -1398,8 +1402,18 @@ module Os =
         abstract EOL: string
         abstract endianness: unit -> U2<string, string>
 
+    type [<AllowNullLiteral>] NetworkInterfacesReturn =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> ResizeArray<NetworkInterfaceInfo> with get, set
+
     type [<AllowNullLiteral>] UserInfoOptions =
         abstract encoding: string with get, set
+
+    type [<AllowNullLiteral>] UserInfoReturn =
+        abstract username: string with get, set
+        abstract uid: float with get, set
+        abstract gid: float with get, set
+        abstract shell: obj option with get, set
+        abstract homedir: string with get, set
 
     type [<AllowNullLiteral>] CpuInfo =
         abstract model: string with get, set
@@ -2293,7 +2307,7 @@ module Net =
         abstract setTimeout: timeout: float * ?callback: Function -> Socket
         abstract setNoDelay: ?noDelay: bool -> Socket
         abstract setKeepAlive: ?enable: bool * ?initialDelay: float -> Socket
-        abstract address: unit -> obj
+        abstract address: unit -> SocketAddressReturn
         abstract unref: unit -> unit
         abstract ref: unit -> unit
         abstract remoteAddress: string option with get, set
@@ -2374,6 +2388,11 @@ module Net =
         [<Emit "$0.prependOnceListener('lookup',$1)">] abstract prependOnceListener_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.prependOnceListener('timeout',$1)">] abstract prependOnceListener_timeout: listener: (unit -> unit) -> Socket
 
+    type [<AllowNullLiteral>] SocketAddressReturn =
+        abstract port: float with get, set
+        abstract family: string with get, set
+        abstract address: string with get, set
+
     type [<AllowNullLiteral>] SocketStatic =
         [<Emit "new $0($1...)">] abstract Create: ?options: SocketConstructorOpts -> Socket
 
@@ -2396,7 +2415,7 @@ module Net =
         abstract listen: handle: obj option * ?backlog: float * ?listeningListener: Function -> Server
         abstract listen: handle: obj option * ?listeningListener: Function -> Server
         abstract close: ?callback: Function -> Server
-        abstract address: unit -> obj
+        abstract address: unit -> ServerAddressReturn
         abstract getConnections: cb: (Error option -> float -> unit) -> unit
         abstract ref: unit -> Server
         abstract unref: unit -> Server
@@ -2438,6 +2457,11 @@ module Net =
         [<Emit "$0.prependOnceListener('connection',$1)">] abstract prependOnceListener_connection: listener: (Socket -> unit) -> Server
         [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Server
         [<Emit "$0.prependOnceListener('listening',$1)">] abstract prependOnceListener_listening: listener: (unit -> unit) -> Server
+
+    type [<AllowNullLiteral>] ServerAddressReturn =
+        abstract port: float with get, set
+        abstract family: string with get, set
+        abstract address: string with get, set
 
     type [<AllowNullLiteral>] ServerStatic =
         [<Emit "new $0($1...)">] abstract Create: ?connectionListener: (Socket -> unit) -> Server
