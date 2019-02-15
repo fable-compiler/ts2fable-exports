@@ -802,7 +802,6 @@ type [<AllowNullLiteral>] EntityTypeProperties =
 
 type [<AllowNullLiteral>] FetchStrategySymbol =
     inherit Core.EnumSymbol
-    abstract foo: obj with get, set
 
 type [<AllowNullLiteral>] FetchStrategySymbolStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> FetchStrategySymbol
