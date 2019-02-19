@@ -119,8 +119,8 @@ type [<AllowNullLiteral>] Message =
     abstract clone: unit -> Message
     abstract serializeBinary: unit -> Uint8Array
     abstract toObject: ?includeInstance: bool -> MessageToObjectReturn
-    abstract extensions: TypeLiteral_01 with get, set
-    abstract extensionsBinary: TypeLiteral_02 with get, set
+    abstract extensions: obj with get, set
+    abstract extensionsBinary: obj with get, set
 
 type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
@@ -134,7 +134,7 @@ type [<AllowNullLiteral>] MessageToObjectReturn =
 type [<AllowNullLiteral>] MessageStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Message
     abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> -> unit
-    abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> TypeLiteral_03) * ?includeInstance: bool -> Array<TypeLiteral_03>
+    abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> obj) * ?includeInstance: bool -> Array<obj>
     abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: MessageStaticToObjectExtensionExtensions * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
     abstract getField: msg: Message * fieldNumber: float -> FieldValue option
     abstract getOptionalFloatingPointField: msg: Message * fieldNumber: float -> float option
@@ -633,15 +633,6 @@ module Arith =
     type [<AllowNullLiteral>] Int64Static =
         [<Emit "new $0($1...)">] abstract Create: lo: float * hi: float -> Int64
         abstract fromString: str: string -> Int64
-
-type [<AllowNullLiteral>] TypeLiteral_03 =
-    interface end
-
-type [<AllowNullLiteral>] TypeLiteral_02 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_01 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
 module Jspb = ______index
 
 type [<AllowNullLiteral>] IExports =
@@ -651,8 +642,8 @@ type [<AllowNullLiteral>] Empty =
     inherit Jspb.Message
     abstract serializeBinary: unit -> Uint8Array
     abstract toObject: ?includeInstance: bool -> Empty.AsObject
-    abstract extensions: TypeLiteral_01 with get, set
-    abstract extensionsBinary: TypeLiteral_02 with get, set
+    abstract extensions: obj with get, set
+    abstract extensionsBinary: obj with get, set
 
 type [<AllowNullLiteral>] EmptyStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Empty
@@ -665,9 +656,3 @@ module Empty =
 
     type [<AllowNullLiteral>] AsObject =
         interface end
-
-type [<AllowNullLiteral>] TypeLiteral_02 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldBinaryInfo<Jspb.Message> with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_01 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldInfo<Jspb.Message> with get, set

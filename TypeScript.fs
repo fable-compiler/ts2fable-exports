@@ -851,7 +851,7 @@ module Ts =
 
     /// ES6 Iterator type. 
     type [<AllowNullLiteral>] Iterator<'T> =
-        abstract next: unit -> U2<TypeLiteral_01<'T>, TypeLiteral_02>
+        abstract next: unit -> U2<obj, obj>
 
     /// Array that is only intended to be pushed to, never read. 
     type [<AllowNullLiteral>] Push<'T> =
@@ -5425,11 +5425,3 @@ module Ts =
     type [<AllowNullLiteral>] DisplayPartsSymbolWriter =
         inherit SymbolWriter
         abstract displayParts: unit -> ResizeArray<SymbolDisplayPart>
-
-    type [<AllowNullLiteral>] TypeLiteral_02 =
-        abstract value: obj with get, set
-        abstract ``done``: obj with get, set
-
-    type [<AllowNullLiteral>] TypeLiteral_01<'T> =
-        abstract value: 'T with get, set
-        abstract ``done``: obj with get, set
