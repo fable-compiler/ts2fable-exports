@@ -720,7 +720,7 @@ module Vscode =
         /// when having objects with a dispose function which are not
         /// instances of Disposable.</summary>
         /// <param name="disposableLikes">Objects that have at least a `dispose`-function member.</param>
-        abstract from: [<ParamArray>] disposableLikes: ResizeArray<obj> -> Disposable
+        abstract from: [<ParamArray>] disposableLikes: ResizeArray<TypeLiteral_02> -> Disposable
         /// <summary>Creates a new Disposable calling the provided function
         /// on dispose.</summary>
         /// <param name="callOnDispose">Function that disposes something.</param>
@@ -860,7 +860,7 @@ module Vscode =
         ///  	'TypeScript': ['ts', 'tsx']
         /// }
         /// ```
-        abstract filters: obj option with get, set
+        abstract filters: TypeLiteral_03 option with get, set
 
     /// Options to configure the behaviour of a file save dialog.
     type [<AllowNullLiteral>] SaveDialogOptions =
@@ -876,7 +876,7 @@ module Vscode =
         ///  	'TypeScript': ['ts', 'tsx']
         /// }
         /// ```
-        abstract filters: obj option with get, set
+        abstract filters: TypeLiteral_03 option with get, set
 
     /// Represents an action that is shown with an information, warning, or
     /// error message.
@@ -1880,9 +1880,9 @@ module Vscode =
         /// The language's rules to be evaluated when pressing Enter.
         abstract onEnterRules: ResizeArray<OnEnterRule> option with get, set
         /// **Deprecated** Do not use.
-        abstract __electricCharacterSupport: obj option with get, set
+        abstract __electricCharacterSupport: TypeLiteral_05 option with get, set
         /// **Deprecated** Do not use.
-        abstract __characterPairSupport: obj option with get, set
+        abstract __characterPairSupport: TypeLiteral_07 option with get, set
 
     type [<RequireQualifiedAccess>] ConfigurationTarget =
         | Global = 1
@@ -1939,7 +1939,7 @@ module Vscode =
         /// *Note:* The configuration name must denote a leaf in the configuration tree
         /// (`editor.fontSize` vs `editor`) otherwise no result is returned.</summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
-        abstract inspect: section: string -> obj option
+        abstract inspect: section: string -> TypeLiteral_08<'T> option
         /// <summary>Update a configuration value. The updated configuration values are persisted.
         /// 
         /// A value can be changed in
@@ -2191,7 +2191,7 @@ module Vscode =
     type [<AllowNullLiteral>] ExtensionContext =
         /// An array to which disposables can be added. When this
         /// extension is deactivated the disposables will be disposed.
-        abstract subscriptions: ResizeArray<obj> with get, set
+        abstract subscriptions: ResizeArray<TypeLiteral_09> with get, set
         /// A memento object that stores state in the context
         /// of the currently opened [workspace](#workspace.workspaceFolders).
         abstract workspaceState: Memento with get, set
@@ -2289,7 +2289,7 @@ module Vscode =
         /// The additional environment of the executed program or shell. If omitted
         /// the parent process' environment is used. If provided it is merged with
         /// the parent process' environment.
-        abstract env: obj option with get, set
+        abstract env: TypeLiteral_10 option with get, set
 
     /// The execution of a task happens as an external process
     /// without shell interaction.
@@ -2327,7 +2327,7 @@ module Vscode =
         /// The additional environment of the executed shell. If omitted
         /// the parent process' environment is used. If provided it is merged with
         /// the parent process' environment.
-        abstract env: obj option with get, set
+        abstract env: TypeLiteral_10 option with get, set
 
     type [<AllowNullLiteral>] ShellExecution =
         /// The shell command line
@@ -2607,7 +2607,7 @@ module Vscode =
             /// progress should show (and other details) is defined via the passed [`ProgressOptions`](#ProgressOptions).</summary>
             /// <param name="task">A callback returning a promise. Progress state can be reported with
             /// the provided [progress](#Progress)-object.</param>
-            abstract withProgress: options: ProgressOptions * task: (Progress<obj> -> Thenable<'R>) -> Thenable<'R>
+            abstract withProgress: options: ProgressOptions * task: (Progress<TypeLiteral_01> -> Thenable<'R>) -> Thenable<'R>
             /// <summary>Creates a status bar [item](#StatusBarItem).</summary>
             /// <param name="alignment">The alignment of the item.</param>
             /// <param name="priority">The priority of the item. Higher values mean the item should be shown more to the left.</param>
@@ -2627,6 +2627,9 @@ module Vscode =
             /// <param name="treeDataProvider">A [TreeDataProvider](#TreeDataProvider) that provides tree data for the view</param>
             abstract registerTreeDataProvider: viewId: string * treeDataProvider: TreeDataProvider<'T> -> Disposable
 
+        type [<AllowNullLiteral>] TypeLiteral_01 =
+            abstract message: string option with get, set
+
     /// A data provider that provides tree data
     type [<AllowNullLiteral>] TreeDataProvider<'T> =
         /// An optional event to signal that an element or root has changed.
@@ -2643,7 +2646,7 @@ module Vscode =
         /// A human-readable string describing this item
         abstract label: string with get, set
         /// The icon path for the tree item
-        abstract iconPath: U3<string, Uri, obj> option with get, set
+        abstract iconPath: U3<string, Uri, TypeLiteral_11> option with get, set
         /// The [command](#Command) which should be run when the tree item is selected.
         abstract command: Command option with get, set
         /// [TreeItemCollapsibleState](#TreeItemCollapsibleState) of the tree item.
@@ -2685,7 +2688,7 @@ module Vscode =
         /// Args for the custom shell executable, this does not work on Windows (see #8429)
         abstract shellArgs: ResizeArray<string> option with get, set
         /// Object with environment variables that will be added to the VS Code process.
-        abstract env: obj option with get, set
+        abstract env: TypeLiteral_12 option with get, set
 
     type [<RequireQualifiedAccess>] ProgressLocation =
         | SourceControl = 1
@@ -3281,6 +3284,55 @@ module Vscode =
             /// <param name="extensionId">An extension identifier.</param>
             abstract getExtension: extensionId: string -> Extension<'T> option
             abstract all: ResizeArray<Extension<obj option>>
+
+    type [<AllowNullLiteral>] TypeLiteral_06 =
+        abstract ``open``: string with get, set
+        abstract close: string with get, set
+        abstract notIn: ResizeArray<string> option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_07 =
+        abstract autoClosingPairs: ResizeArray<TypeLiteral_06> with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_02 =
+        abstract dispose: (unit -> obj option) with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_08<'T> =
+        abstract key: string with get, set
+        abstract defaultValue: 'T option with get, set
+        abstract globalValue: 'T option with get, set
+        abstract workspaceValue: 'T option with get, set
+        abstract workspaceFolderValue: 'T option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_11 =
+        abstract light: U2<string, Uri> with get, set
+        abstract dark: U2<string, Uri> with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_04 =
+        abstract scope: string with get, set
+        abstract ``open``: string with get, set
+        abstract lineStart: string with get, set
+        abstract close: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_10 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_12 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_03 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> ResizeArray<string> with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_05 =
+        /// This property is deprecated and will be **ignored** from
+        /// the editor.
+        abstract brackets: obj option with get, set
+        /// This property is deprecated and not fully supported anymore by
+        /// the editor (scope and lineStart are ignored).
+        /// Use the the autoClosingPairs property in the language configuration file instead.
+        abstract docComment: TypeLiteral_04 option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_09 =
+        abstract dispose: unit -> obj option
 
 /// Thenable is a common denominator between ES6 promises, Q, jquery.Deferred, WinJS.Promise,
 /// and others. This API makes no assumption about what promise libary is being used which

@@ -46,8 +46,8 @@ let [<Global>] __dirname: string = jsNative
 let [<Global>] require: NodeRequire = jsNative
 let [<Global>] ``module``: NodeModule = jsNative
 let [<Global>] exports: obj option = jsNative
-let [<Global>] SlowBuffer: obj = jsNative
-let [<Global>] Buffer: obj = jsNative
+let [<Global>] SlowBuffer: TypeLiteral_69 = jsNative
+let [<Global>] Buffer: TypeLiteral_70 = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract setTimeout: callback: (ResizeArray<obj option> -> unit) * ms: float * [<ParamArray>] args: ResizeArray<obj option> -> NodeJS.Timer
@@ -466,7 +466,7 @@ module NodeJS =
         abstract setgroups: groups: Array<U2<string, float>> -> unit
         abstract version: string with get, set
         abstract versions: ProcessVersions with get, set
-        abstract config: obj with get, set
+        abstract config: TypeLiteral_03 with get, set
         abstract kill: pid: float * ?signal: U2<string, float> -> unit
         abstract pid: float with get, set
         abstract title: string with get, set
@@ -659,6 +659,34 @@ module NodeJS =
         abstract wrap: code: string -> string
         [<Emit "new $0($1...)">] abstract Create: id: string * ?parent: Module -> Module
 
+    type [<AllowNullLiteral>] TypeLiteral_01 =
+        abstract cflags: ResizeArray<obj option> with get, set
+        abstract default_configuration: string with get, set
+        abstract defines: ResizeArray<string> with get, set
+        abstract include_dirs: ResizeArray<string> with get, set
+        abstract libraries: ResizeArray<string> with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_02 =
+        abstract clang: float with get, set
+        abstract host_arch: string with get, set
+        abstract node_install_npm: bool with get, set
+        abstract node_install_waf: bool with get, set
+        abstract node_prefix: string with get, set
+        abstract node_shared_openssl: bool with get, set
+        abstract node_shared_v8: bool with get, set
+        abstract node_shared_zlib: bool with get, set
+        abstract node_use_dtrace: bool with get, set
+        abstract node_use_etw: bool with get, set
+        abstract node_use_openssl: bool with get, set
+        abstract target_arch: string with get, set
+        abstract v8_no_strict_aliasing: float with get, set
+        abstract v8_use_snapshot: bool with get, set
+        abstract visibility: string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_03 =
+        abstract target_defaults: TypeLiteral_01 with get, set
+        abstract variables: TypeLiteral_02 with get, set
+
 type [<AllowNullLiteral>] IterableIterator<'T> =
     interface end
 
@@ -794,7 +822,7 @@ module Http =
         abstract ClientResponse: ClientResponseStatic
         abstract Agent: AgentStatic
         abstract METHODS: ResizeArray<string>
-        abstract STATUS_CODES: obj
+        abstract STATUS_CODES: TypeLiteral_04
         abstract createServer: ?requestListener: (IncomingMessage -> ServerResponse -> unit) -> Server
         abstract createClient: ?port: float * ?host: string -> obj option
         abstract request: options: U3<RequestOptions, string, URL> * ?callback: (IncomingMessage -> unit) -> ClientRequest
@@ -943,7 +971,7 @@ module Http =
         abstract connection: Net.Socket with get, set
         abstract headers: IncomingHttpHeaders with get, set
         abstract rawHeaders: ResizeArray<string> with get, set
-        abstract trailers: obj with get, set
+        abstract trailers: TypeLiteral_05 with get, set
         abstract rawTrailers: ResizeArray<string> with get, set
         abstract setTimeout: msecs: float * callback: (unit -> unit) -> IncomingMessage
         /// Only valid for request obtained from http.Server.
@@ -994,6 +1022,13 @@ module Http =
     type [<AllowNullLiteral>] RequestOptions =
         inherit ClientRequestArgs
 
+    type [<AllowNullLiteral>] TypeLiteral_04 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: errorCode: float -> string option with get, set
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: errorCode: string -> string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_05 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string option with get, set
+
 module Cluster =
     module Child = Child_process
 
@@ -1006,7 +1041,7 @@ module Cluster =
         abstract settings: ClusterSettings
         abstract setupMaster: ?settings: ClusterSettings -> unit
         abstract worker: Worker
-        abstract workers: obj
+        abstract workers: TypeLiteral_06
         /// events.EventEmitter
         ///    1. disconnect
         ///    2. exit
@@ -1161,7 +1196,7 @@ module Cluster =
         abstract settings: ClusterSettings with get, set
         abstract setupMaster: ?settings: ClusterSettings -> unit
         abstract worker: Worker option with get, set
-        abstract workers: obj option with get, set
+        abstract workers: TypeLiteral_06 option with get, set
         /// events.EventEmitter
         ///    1. disconnect
         ///    2. exit
@@ -1218,6 +1253,9 @@ module Cluster =
         [<Emit "$0.prependOnceListener('message',$1)">] abstract prependOnceListener_message: listener: (Worker -> obj option -> U2<Net.Socket, Net.Server> -> unit) -> Cluster
         [<Emit "$0.prependOnceListener('online',$1)">] abstract prependOnceListener_online: listener: (Worker -> unit) -> Cluster
         [<Emit "$0.prependOnceListener('setup',$1)">] abstract prependOnceListener_setup: listener: (obj option -> unit) -> Cluster
+
+    type [<AllowNullLiteral>] TypeLiteral_06 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> Worker option with get, set
 
 module Zlib =
     let [<Import("constants","zlib")>] constants: Constants.IExports = jsNative
@@ -1395,7 +1433,7 @@ module Os =
         abstract networkInterfaces: unit -> NetworkInterfacesReturn
         abstract homedir: unit -> string
         abstract userInfo: ?options: UserInfoOptions -> UserInfoReturn
-        abstract constants: obj
+        abstract constants: TypeLiteral_09
         abstract arch: unit -> string
         abstract platform: unit -> NodeJS.Platform
         abstract tmpdir: unit -> string
@@ -1418,7 +1456,7 @@ module Os =
     type [<AllowNullLiteral>] CpuInfo =
         abstract model: string with get, set
         abstract speed: float with get, set
-        abstract times: obj with get, set
+        abstract times: TypeLiteral_10 with get, set
 
     type [<AllowNullLiteral>] NetworkInterfaceBase =
         abstract address: string with get, set
@@ -1446,6 +1484,135 @@ module Os =
         let ofNetworkInterfaceInfoIPv6 v: NetworkInterfaceInfo = v |> U2.Case2
         let isNetworkInterfaceInfoIPv6 (v: NetworkInterfaceInfo) = match v with U2.Case2 _ -> true | _ -> false
         let asNetworkInterfaceInfoIPv6 (v: NetworkInterfaceInfo) = match v with U2.Case2 o -> Some o | _ -> None
+
+    type [<AllowNullLiteral>] TypeLiteral_08 =
+        abstract E2BIG: float with get, set
+        abstract EACCES: float with get, set
+        abstract EADDRINUSE: float with get, set
+        abstract EADDRNOTAVAIL: float with get, set
+        abstract EAFNOSUPPORT: float with get, set
+        abstract EAGAIN: float with get, set
+        abstract EALREADY: float with get, set
+        abstract EBADF: float with get, set
+        abstract EBADMSG: float with get, set
+        abstract EBUSY: float with get, set
+        abstract ECANCELED: float with get, set
+        abstract ECHILD: float with get, set
+        abstract ECONNABORTED: float with get, set
+        abstract ECONNREFUSED: float with get, set
+        abstract ECONNRESET: float with get, set
+        abstract EDEADLK: float with get, set
+        abstract EDESTADDRREQ: float with get, set
+        abstract EDOM: float with get, set
+        abstract EDQUOT: float with get, set
+        abstract EEXIST: float with get, set
+        abstract EFAULT: float with get, set
+        abstract EFBIG: float with get, set
+        abstract EHOSTUNREACH: float with get, set
+        abstract EIDRM: float with get, set
+        abstract EILSEQ: float with get, set
+        abstract EINPROGRESS: float with get, set
+        abstract EINTR: float with get, set
+        abstract EINVAL: float with get, set
+        abstract EIO: float with get, set
+        abstract EISCONN: float with get, set
+        abstract EISDIR: float with get, set
+        abstract ELOOP: float with get, set
+        abstract EMFILE: float with get, set
+        abstract EMLINK: float with get, set
+        abstract EMSGSIZE: float with get, set
+        abstract EMULTIHOP: float with get, set
+        abstract ENAMETOOLONG: float with get, set
+        abstract ENETDOWN: float with get, set
+        abstract ENETRESET: float with get, set
+        abstract ENETUNREACH: float with get, set
+        abstract ENFILE: float with get, set
+        abstract ENOBUFS: float with get, set
+        abstract ENODATA: float with get, set
+        abstract ENODEV: float with get, set
+        abstract ENOENT: float with get, set
+        abstract ENOEXEC: float with get, set
+        abstract ENOLCK: float with get, set
+        abstract ENOLINK: float with get, set
+        abstract ENOMEM: float with get, set
+        abstract ENOMSG: float with get, set
+        abstract ENOPROTOOPT: float with get, set
+        abstract ENOSPC: float with get, set
+        abstract ENOSR: float with get, set
+        abstract ENOSTR: float with get, set
+        abstract ENOSYS: float with get, set
+        abstract ENOTCONN: float with get, set
+        abstract ENOTDIR: float with get, set
+        abstract ENOTEMPTY: float with get, set
+        abstract ENOTSOCK: float with get, set
+        abstract ENOTSUP: float with get, set
+        abstract ENOTTY: float with get, set
+        abstract ENXIO: float with get, set
+        abstract EOPNOTSUPP: float with get, set
+        abstract EOVERFLOW: float with get, set
+        abstract EPERM: float with get, set
+        abstract EPIPE: float with get, set
+        abstract EPROTO: float with get, set
+        abstract EPROTONOSUPPORT: float with get, set
+        abstract EPROTOTYPE: float with get, set
+        abstract ERANGE: float with get, set
+        abstract EROFS: float with get, set
+        abstract ESPIPE: float with get, set
+        abstract ESRCH: float with get, set
+        abstract ESTALE: float with get, set
+        abstract ETIME: float with get, set
+        abstract ETIMEDOUT: float with get, set
+        abstract ETXTBSY: float with get, set
+        abstract EWOULDBLOCK: float with get, set
+        abstract EXDEV: float with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_07 =
+        abstract SIGHUP: float with get, set
+        abstract SIGINT: float with get, set
+        abstract SIGQUIT: float with get, set
+        abstract SIGILL: float with get, set
+        abstract SIGTRAP: float with get, set
+        abstract SIGABRT: float with get, set
+        abstract SIGIOT: float with get, set
+        abstract SIGBUS: float with get, set
+        abstract SIGFPE: float with get, set
+        abstract SIGKILL: float with get, set
+        abstract SIGUSR1: float with get, set
+        abstract SIGSEGV: float with get, set
+        abstract SIGUSR2: float with get, set
+        abstract SIGPIPE: float with get, set
+        abstract SIGALRM: float with get, set
+        abstract SIGTERM: float with get, set
+        abstract SIGCHLD: float with get, set
+        abstract SIGSTKFLT: float with get, set
+        abstract SIGCONT: float with get, set
+        abstract SIGSTOP: float with get, set
+        abstract SIGTSTP: float with get, set
+        abstract SIGTTIN: float with get, set
+        abstract SIGTTOU: float with get, set
+        abstract SIGURG: float with get, set
+        abstract SIGXCPU: float with get, set
+        abstract SIGXFSZ: float with get, set
+        abstract SIGVTALRM: float with get, set
+        abstract SIGPROF: float with get, set
+        abstract SIGWINCH: float with get, set
+        abstract SIGIO: float with get, set
+        abstract SIGPOLL: float with get, set
+        abstract SIGPWR: float with get, set
+        abstract SIGSYS: float with get, set
+        abstract SIGUNUSED: float with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_09 =
+        abstract UV_UDP_REUSEADDR: float with get, set
+        abstract signals: TypeLiteral_07 with get, set
+        abstract errno: TypeLiteral_08 with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_10 =
+        abstract user: float with get, set
+        abstract nice: float with get, set
+        abstract sys: float with get, set
+        abstract idle: float with get, set
+        abstract irq: float with get, set
 
 module Https =
     type URL = Url.URL
@@ -1537,7 +1704,7 @@ module Repl =
         abstract context: obj option with get, set
         abstract inputStream: NodeJS.ReadableStream with get, set
         abstract outputStream: NodeJS.WritableStream with get, set
-        abstract defineCommand: keyword: string * cmd: U2<Function, obj> -> unit
+        abstract defineCommand: keyword: string * cmd: U2<Function, TypeLiteral_11> -> unit
         abstract displayPrompt: ?preserveCursor: bool -> unit
         /// events.EventEmitter
         /// 1. exit
@@ -1567,6 +1734,10 @@ module Repl =
 
     type [<AllowNullLiteral>] RecoverableStatic =
         [<Emit "new $0($1...)">] abstract Create: err: Error -> Recoverable
+
+    type [<AllowNullLiteral>] TypeLiteral_11 =
+        abstract help: string with get, set
+        abstract action: Function with get, set
 
 module Readline =
 
@@ -1852,10 +2023,22 @@ module Child_process =
     module Exec =
 
         type [<AllowNullLiteral>] IExports =
-            abstract __promisify__: command: string -> Promise<obj>
-            abstract __promisify__: command: string * options: obj -> Promise<obj>
-            abstract __promisify__: command: string * options: ExecOptions -> Promise<obj>
-            abstract __promisify__: command: string * ?options: obj -> Promise<obj>
+            abstract __promisify__: command: string -> Promise<TypeLiteral_12>
+            abstract __promisify__: command: string * options: obj -> Promise<TypeLiteral_13>
+            abstract __promisify__: command: string * options: ExecOptions -> Promise<TypeLiteral_12>
+            abstract __promisify__: command: string * ?options: obj -> Promise<TypeLiteral_14>
+
+        type [<AllowNullLiteral>] TypeLiteral_13 =
+            abstract stdout: Buffer with get, set
+            abstract stderr: Buffer with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_12 =
+            abstract stdout: string with get, set
+            abstract stderr: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_14 =
+            abstract stdout: U2<string, Buffer> with get, set
+            abstract stderr: U2<string, Buffer> with get, set
 
     type [<AllowNullLiteral>] ExecFileOptions =
         abstract cwd: string option with get, set
@@ -1883,18 +2066,30 @@ module Child_process =
     module ExecFile =
 
         type [<AllowNullLiteral>] IExports =
-            abstract __promisify__: file: string -> Promise<obj>
-            abstract __promisify__: file: string * args: ResizeArray<string> option -> Promise<obj>
-            abstract __promisify__: file: string * options: ExecFileOptionsWithBufferEncoding -> Promise<obj>
-            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithBufferEncoding -> Promise<obj>
-            abstract __promisify__: file: string * options: ExecFileOptionsWithStringEncoding -> Promise<obj>
-            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithStringEncoding -> Promise<obj>
-            abstract __promisify__: file: string * options: ExecFileOptionsWithOtherEncoding -> Promise<obj>
-            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithOtherEncoding -> Promise<obj>
-            abstract __promisify__: file: string * options: ExecFileOptions -> Promise<obj>
-            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptions -> Promise<obj>
-            abstract __promisify__: file: string * options: obj option -> Promise<obj>
-            abstract __promisify__: file: string * args: ResizeArray<string> option * options: obj option -> Promise<obj>
+            abstract __promisify__: file: string -> Promise<TypeLiteral_15>
+            abstract __promisify__: file: string * args: ResizeArray<string> option -> Promise<TypeLiteral_15>
+            abstract __promisify__: file: string * options: ExecFileOptionsWithBufferEncoding -> Promise<TypeLiteral_16>
+            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithBufferEncoding -> Promise<TypeLiteral_16>
+            abstract __promisify__: file: string * options: ExecFileOptionsWithStringEncoding -> Promise<TypeLiteral_15>
+            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithStringEncoding -> Promise<TypeLiteral_15>
+            abstract __promisify__: file: string * options: ExecFileOptionsWithOtherEncoding -> Promise<TypeLiteral_17>
+            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithOtherEncoding -> Promise<TypeLiteral_17>
+            abstract __promisify__: file: string * options: ExecFileOptions -> Promise<TypeLiteral_15>
+            abstract __promisify__: file: string * args: ResizeArray<string> option * options: ExecFileOptions -> Promise<TypeLiteral_15>
+            abstract __promisify__: file: string * options: obj option -> Promise<TypeLiteral_17>
+            abstract __promisify__: file: string * args: ResizeArray<string> option * options: obj option -> Promise<TypeLiteral_17>
+
+        type [<AllowNullLiteral>] TypeLiteral_16 =
+            abstract stdout: Buffer with get, set
+            abstract stderr: Buffer with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_15 =
+            abstract stdout: string with get, set
+            abstract stderr: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_17 =
+            abstract stdout: U2<string, Buffer> with get, set
+            abstract stderr: U2<string, Buffer> with get, set
 
     type [<AllowNullLiteral>] ForkOptions =
         abstract cwd: string option with get, set
@@ -2013,7 +2208,7 @@ module Url =
     type [<AllowNullLiteral>] UrlObject =
         inherit UrlObjectCommon
         abstract port: U2<string, float> option with get, set
-        abstract query: U2<string, obj> option with get, set
+        abstract query: U2<string, TypeLiteral_18> option with get, set
 
     type [<AllowNullLiteral>] Url =
         inherit UrlObjectCommon
@@ -2051,7 +2246,7 @@ module Url =
         abstract ``[Symbol.iterator]``: unit -> IterableIterator<string * string>
 
     type [<AllowNullLiteral>] URLSearchParamsStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?init: U5<URLSearchParams, string, obj, Iterable<string * string>, Array<string * string>> -> URLSearchParams
+        [<Emit "new $0($1...)">] abstract Create: ?init: U5<URLSearchParams, string, TypeLiteral_19, Iterable<string * string>, Array<string * string>> -> URLSearchParams
 
     type [<AllowNullLiteral>] URL =
         abstract hash: string with get, set
@@ -2071,6 +2266,12 @@ module Url =
 
     type [<AllowNullLiteral>] URLStatic =
         [<Emit "new $0($1...)">] abstract Create: input: string * ?``base``: U2<string, URL> -> URL
+
+    type [<AllowNullLiteral>] TypeLiteral_18 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_19 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> option with get, set
 
 module Dns =
     let [<Import("lookup","dns")>] lookup: Lookup.IExports = jsNative
@@ -2161,14 +2362,29 @@ module Dns =
     module Lookup =
 
         type [<AllowNullLiteral>] IExports =
-            abstract __promisify__: hostname: string * options: LookupAllOptions -> Promise<obj>
-            abstract __promisify__: hostname: string * ?options: U2<LookupOneOptions, float> -> Promise<obj>
-            abstract __promisify__: hostname: string * ?options: U2<LookupOptions, float> -> Promise<obj>
+            abstract __promisify__: hostname: string * options: LookupAllOptions -> Promise<TypeLiteral_20>
+            abstract __promisify__: hostname: string * ?options: U2<LookupOneOptions, float> -> Promise<TypeLiteral_21>
+            abstract __promisify__: hostname: string * ?options: U2<LookupOptions, float> -> Promise<TypeLiteral_22>
+
+        type [<AllowNullLiteral>] TypeLiteral_20 =
+            abstract address: ResizeArray<LookupAddress> with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_21 =
+            abstract address: string with get, set
+            abstract family: float with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_22 =
+            abstract address: U2<string, ResizeArray<LookupAddress>> with get, set
+            abstract family: float option with get, set
 
     module LookupService =
 
         type [<AllowNullLiteral>] IExports =
-            abstract __promisify__: address: string * port: float -> Promise<obj>
+            abstract __promisify__: address: string * port: float -> Promise<TypeLiteral_23>
+
+        type [<AllowNullLiteral>] TypeLiteral_23 =
+            abstract hostname: string with get, set
+            abstract service: string with get, set
 
     type [<AllowNullLiteral>] ResolveOptions =
         abstract ttl: bool with get, set
@@ -2753,57 +2969,57 @@ module Fs =
         /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlink: path: PathLike * options: U2<obj, BufferEncoding> option * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
+        abstract readlink: path: PathLike * options: U2<TypeLiteral_44, BufferEncoding> option * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlink: path: PathLike * options: U2<obj, string> * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
+        abstract readlink: path: PathLike * options: U2<TypeLiteral_45, string> * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
         /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlink: path: PathLike * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
+        abstract readlink: path: PathLike * options: U2<TypeLiteral_46, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
         /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         abstract readlink: path: PathLike * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Synchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlinkSync: path: PathLike * ?options: U2<obj, BufferEncoding> -> string
+        abstract readlinkSync: path: PathLike * ?options: U2<TypeLiteral_44, BufferEncoding> -> string
         /// <summary>Synchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlinkSync: path: PathLike * options: U2<obj, string> -> Buffer
+        abstract readlinkSync: path: PathLike * options: U2<TypeLiteral_45, string> -> Buffer
         /// <summary>Synchronous readlink(2) - read value of a symbolic link.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readlinkSync: path: PathLike * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract readlinkSync: path: PathLike * ?options: U2<TypeLiteral_46, string> -> U2<string, Buffer>
         /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpath: path: PathLike * options: U2<obj, BufferEncoding> option * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
+        abstract realpath: path: PathLike * options: U2<TypeLiteral_44, BufferEncoding> option * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpath: path: PathLike * options: U2<obj, string> * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
+        abstract realpath: path: PathLike * options: U2<TypeLiteral_45, string> * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
         /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpath: path: PathLike * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
+        abstract realpath: path: PathLike * options: U2<TypeLiteral_46, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
         /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         abstract realpath: path: PathLike * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Synchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpathSync: path: PathLike * ?options: U2<obj, BufferEncoding> -> string
+        abstract realpathSync: path: PathLike * ?options: U2<TypeLiteral_44, BufferEncoding> -> string
         /// <summary>Synchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpathSync: path: PathLike * options: U2<obj, string> -> Buffer
+        abstract realpathSync: path: PathLike * options: U2<TypeLiteral_45, string> -> Buffer
         /// <summary>Synchronous realpath(3) - return the canonicalized absolute pathname.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract realpathSync: path: PathLike * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract realpathSync: path: PathLike * ?options: U2<TypeLiteral_46, string> -> U2<string, Buffer>
         /// <summary>Asynchronous unlink(2) - delete a name and possibly the file it refers to.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         abstract unlink: path: PathLike * callback: (NodeJS.ErrnoException -> unit) -> unit
@@ -2830,57 +3046,57 @@ module Fs =
         /// <summary>Asynchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtemp: prefix: string * options: U2<obj, BufferEncoding> option * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
+        abstract mkdtemp: prefix: string * options: U2<TypeLiteral_44, BufferEncoding> option * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Asynchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtemp: prefix: string * options: U2<string, obj> * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
+        abstract mkdtemp: prefix: string * options: U2<string, TypeLiteral_45> * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
         /// <summary>Asynchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtemp: prefix: string * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
+        abstract mkdtemp: prefix: string * options: U2<TypeLiteral_46, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
         /// Asynchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.
         abstract mkdtemp: prefix: string * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Synchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtempSync: prefix: string * ?options: U2<obj, BufferEncoding> -> string
+        abstract mkdtempSync: prefix: string * ?options: U2<TypeLiteral_44, BufferEncoding> -> string
         /// <summary>Synchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtempSync: prefix: string * options: U2<obj, string> -> Buffer
+        abstract mkdtempSync: prefix: string * options: U2<TypeLiteral_45, string> -> Buffer
         /// <summary>Synchronously creates a unique temporary directory.
         /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract mkdtempSync: prefix: string * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract mkdtempSync: prefix: string * ?options: U2<TypeLiteral_46, string> -> U2<string, Buffer>
         /// <summary>Asynchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdir: path: PathLike * options: U2<obj, BufferEncoding> option * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
+        abstract readdir: path: PathLike * options: U2<TypeLiteral_47, BufferEncoding> option * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
         /// <summary>Asynchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdir: path: PathLike * options: U2<obj, string> * callback: (NodeJS.ErrnoException -> ResizeArray<Buffer> -> unit) -> unit
+        abstract readdir: path: PathLike * options: U2<TypeLiteral_45, string> * callback: (NodeJS.ErrnoException -> ResizeArray<Buffer> -> unit) -> unit
         /// <summary>Asynchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdir: path: PathLike * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> U2<ResizeArray<string>, ResizeArray<Buffer>> -> unit) -> unit
+        abstract readdir: path: PathLike * options: U2<TypeLiteral_46, string> option * callback: (NodeJS.ErrnoException -> U2<ResizeArray<string>, ResizeArray<Buffer>> -> unit) -> unit
         /// <summary>Asynchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         abstract readdir: path: PathLike * callback: (NodeJS.ErrnoException -> ResizeArray<string> -> unit) -> unit
         /// <summary>Synchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdirSync: path: PathLike * ?options: U2<obj, BufferEncoding> -> ResizeArray<string>
+        abstract readdirSync: path: PathLike * ?options: U2<TypeLiteral_47, BufferEncoding> -> ResizeArray<string>
         /// <summary>Synchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdirSync: path: PathLike * options: U2<obj, string> -> ResizeArray<Buffer>
+        abstract readdirSync: path: PathLike * options: U2<TypeLiteral_45, string> -> ResizeArray<Buffer>
         /// <summary>Synchronous readdir(3) - read a directory.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
         /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-        abstract readdirSync: path: PathLike * ?options: U2<obj, string> -> U2<ResizeArray<string>, ResizeArray<Buffer>>
+        abstract readdirSync: path: PathLike * ?options: U2<TypeLiteral_46, string> -> U2<ResizeArray<string>, ResizeArray<Buffer>>
         /// <summary>Asynchronous close(2) - close a file descriptor.</summary>
         /// <param name="fd">A file descriptor.</param>
         abstract close: fd: float * callback: (NodeJS.ErrnoException -> unit) -> unit
@@ -2988,21 +3204,21 @@ module Fs =
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">An object that may contain an optional flag.
         /// If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFile: path: U2<PathLike, float> * options: obj option * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
+        abstract readFile: path: U2<PathLike, float> * options: TypeLiteral_48 option * callback: (NodeJS.ErrnoException -> Buffer -> unit) -> unit
         /// <summary>Asynchronously reads the entire contents of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
         /// If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFile: path: U2<PathLike, float> * options: U2<obj, string> * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
+        abstract readFile: path: U2<PathLike, float> * options: U2<TypeLiteral_49, string> * callback: (NodeJS.ErrnoException -> string -> unit) -> unit
         /// <summary>Asynchronously reads the entire contents of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
         /// If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFile: path: U2<PathLike, float> * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
+        abstract readFile: path: U2<PathLike, float> * options: U2<TypeLiteral_50, string> option * callback: (NodeJS.ErrnoException -> U2<string, Buffer> -> unit) -> unit
         /// <summary>Asynchronously reads the entire contents of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
@@ -3012,21 +3228,21 @@ module Fs =
         /// URL support is _experimental_.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">An object that may contain an optional flag. If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFileSync: path: U2<PathLike, float> * ?options: obj -> Buffer
+        abstract readFileSync: path: U2<PathLike, float> * ?options: TypeLiteral_48 -> Buffer
         /// <summary>Synchronously reads the entire contents of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
         /// If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFileSync: path: U2<PathLike, float> * options: U2<obj, string> -> string
+        abstract readFileSync: path: U2<PathLike, float> * options: U2<TypeLiteral_49, string> -> string
         /// <summary>Synchronously reads the entire contents of a file.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
         /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
         /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
         /// If a flag is not provided, it defaults to `'r'`.</param>
-        abstract readFileSync: path: U2<PathLike, float> * ?options: U2<obj, string> -> U2<string, Buffer>
+        abstract readFileSync: path: U2<PathLike, float> * ?options: U2<TypeLiteral_50, string> -> U2<string, Buffer>
         /// <summary>Asynchronously writes data to a file, replacing the file if it already exists.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3037,7 +3253,7 @@ module Fs =
         /// If `mode` is not supplied, the default of `0o666` is used.
         /// If `mode` is a string, it is parsed as an octal integer.
         /// If `flag` is not supplied, the default of `'w'` is used.</param>
-        abstract writeFile: path: U2<PathLike, float> * data: obj option * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> unit) -> unit
+        abstract writeFile: path: U2<PathLike, float> * data: obj option * options: U2<TypeLiteral_51, string> option * callback: (NodeJS.ErrnoException -> unit) -> unit
         /// <summary>Asynchronously writes data to a file, replacing the file if it already exists.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3054,7 +3270,7 @@ module Fs =
         /// If `mode` is not supplied, the default of `0o666` is used.
         /// If `mode` is a string, it is parsed as an octal integer.
         /// If `flag` is not supplied, the default of `'w'` is used.</param>
-        abstract writeFileSync: path: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> unit
+        abstract writeFileSync: path: U2<PathLike, float> * data: obj option * ?options: U2<TypeLiteral_51, string> -> unit
         /// <summary>Asynchronously append data to a file, creating the file if it does not exist.</summary>
         /// <param name="file">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3065,7 +3281,7 @@ module Fs =
         /// If `mode` is not supplied, the default of `0o666` is used.
         /// If `mode` is a string, it is parsed as an octal integer.
         /// If `flag` is not supplied, the default of `'a'` is used.</param>
-        abstract appendFile: file: U2<PathLike, float> * data: obj option * options: U2<obj, string> option * callback: (NodeJS.ErrnoException -> unit) -> unit
+        abstract appendFile: file: U2<PathLike, float> * data: obj option * options: U2<TypeLiteral_52, string> option * callback: (NodeJS.ErrnoException -> unit) -> unit
         /// <summary>Asynchronously append data to a file, creating the file if it does not exist.</summary>
         /// <param name="file">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.
@@ -3082,9 +3298,9 @@ module Fs =
         /// If `mode` is not supplied, the default of `0o666` is used.
         /// If `mode` is a string, it is parsed as an octal integer.
         /// If `flag` is not supplied, the default of `'a'` is used.</param>
-        abstract appendFileSync: file: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> unit
+        abstract appendFileSync: file: U2<PathLike, float> * data: obj option * ?options: U2<TypeLiteral_51, string> -> unit
         /// Watch for changes on `filename`. The callback `listener` will be called each time the file is accessed.
-        abstract watchFile: filename: PathLike * options: obj option * listener: (Stats -> Stats -> unit) -> unit
+        abstract watchFile: filename: PathLike * options: TypeLiteral_53 option * listener: (Stats -> Stats -> unit) -> unit
         /// <summary>Watch for changes on `filename`. The callback `listener` will be called each time the file is accessed.</summary>
         /// <param name="filename">A path to a file or directory. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.</param>
@@ -3100,7 +3316,7 @@ module Fs =
         /// If `encoding` is not supplied, the default of `'utf8'` is used.
         /// If `persistent` is not supplied, the default of `true` is used.
         /// If `recursive` is not supplied, the default of `false` is used.</param>
-        abstract watch: filename: PathLike * options: U2<obj, BufferEncoding> option * ?listener: (string -> string -> unit) -> FSWatcher
+        abstract watch: filename: PathLike * options: U2<TypeLiteral_54, BufferEncoding> option * ?listener: (string -> string -> unit) -> FSWatcher
         /// <summary>Watch for changes on `filename`, where `filename` is either a file or a directory, returning an `FSWatcher`.</summary>
         /// <param name="filename">A path to a file or directory. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.</param>
@@ -3108,7 +3324,7 @@ module Fs =
         /// If `encoding` is not supplied, the default of `'utf8'` is used.
         /// If `persistent` is not supplied, the default of `true` is used.
         /// If `recursive` is not supplied, the default of `false` is used.</param>
-        abstract watch: filename: PathLike * options: U2<obj, string> * ?listener: (string -> Buffer -> unit) -> FSWatcher
+        abstract watch: filename: PathLike * options: U2<TypeLiteral_55, string> * ?listener: (string -> Buffer -> unit) -> FSWatcher
         /// <summary>Watch for changes on `filename`, where `filename` is either a file or a directory, returning an `FSWatcher`.</summary>
         /// <param name="filename">A path to a file or directory. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.</param>
@@ -3116,7 +3332,7 @@ module Fs =
         /// If `encoding` is not supplied, the default of `'utf8'` is used.
         /// If `persistent` is not supplied, the default of `true` is used.
         /// If `recursive` is not supplied, the default of `false` is used.</param>
-        abstract watch: filename: PathLike * options: U2<obj, string> option * ?listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
+        abstract watch: filename: PathLike * options: U2<TypeLiteral_56, string> option * ?listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
         /// <summary>Watch for changes on `filename`, where `filename` is either a file or a directory, returning an `FSWatcher`.</summary>
         /// <param name="filename">A path to a file or directory. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.</param>
@@ -3144,11 +3360,11 @@ module Fs =
         /// <summary>Returns a new `ReadStream` object.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.</param>
-        abstract createReadStream: path: PathLike * ?options: U2<string, obj> -> ReadStream
+        abstract createReadStream: path: PathLike * ?options: U2<string, TypeLiteral_57> -> ReadStream
         /// <summary>Returns a new `WriteStream` object.</summary>
         /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
         /// URL support is _experimental_.</param>
-        abstract createWriteStream: path: PathLike * ?options: U2<string, obj> -> WriteStream
+        abstract createWriteStream: path: PathLike * ?options: U2<string, TypeLiteral_58> -> WriteStream
         /// <summary>Asynchronous fdatasync(2) - synchronize a file's in-core state with storage device.</summary>
         /// <param name="fd">A file descriptor.</param>
         abstract fdatasync: fd: float * callback: (NodeJS.ErrnoException -> unit) -> unit
@@ -3424,15 +3640,24 @@ module Fs =
             /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> -> Promise<string>
+            abstract __promisify__: path: PathLike * ?options: U2<TypeLiteral_24, BufferEncoding> -> Promise<string>
             /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * options: U2<obj, string> -> Promise<Buffer>
+            abstract __promisify__: path: PathLike * options: U2<TypeLiteral_25, string> -> Promise<Buffer>
             /// <summary>Asynchronous readlink(2) - read value of a symbolic link.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: path: PathLike * ?options: U2<TypeLiteral_26, string> -> Promise<U2<string, Buffer>>
+
+        type [<AllowNullLiteral>] TypeLiteral_25 =
+            abstract encoding: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_24 =
+            abstract encoding: BufferEncoding option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_26 =
+            abstract encoding: string option with get, set
 
     module Realpath =
 
@@ -3440,15 +3665,24 @@ module Fs =
             /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> -> Promise<string>
+            abstract __promisify__: path: PathLike * ?options: U2<TypeLiteral_27, BufferEncoding> -> Promise<string>
             /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * options: U2<obj, string> -> Promise<Buffer>
+            abstract __promisify__: path: PathLike * options: U2<TypeLiteral_28, string> -> Promise<Buffer>
             /// <summary>Asynchronous realpath(3) - return the canonicalized absolute pathname.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: path: PathLike * ?options: U2<TypeLiteral_29, string> -> Promise<U2<string, Buffer>>
+
+        type [<AllowNullLiteral>] TypeLiteral_28 =
+            abstract encoding: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_27 =
+            abstract encoding: BufferEncoding option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_29 =
+            abstract encoding: string option with get, set
 
     module Unlink =
 
@@ -3478,15 +3712,24 @@ module Fs =
             /// <summary>Asynchronously creates a unique temporary directory.
             /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: prefix: string * ?options: U2<obj, BufferEncoding> -> Promise<string>
+            abstract __promisify__: prefix: string * ?options: U2<TypeLiteral_30, BufferEncoding> -> Promise<string>
             /// <summary>Asynchronously creates a unique temporary directory.
             /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: prefix: string * options: U2<obj, string> -> Promise<Buffer>
+            abstract __promisify__: prefix: string * options: U2<TypeLiteral_31, string> -> Promise<Buffer>
             /// <summary>Asynchronously creates a unique temporary directory.
             /// Generates six random characters to be appended behind a required prefix to create a unique temporary directory.</summary>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: prefix: string * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: prefix: string * ?options: U2<TypeLiteral_32, string> -> Promise<U2<string, Buffer>>
+
+        type [<AllowNullLiteral>] TypeLiteral_31 =
+            abstract encoding: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_30 =
+            abstract encoding: BufferEncoding option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_32 =
+            abstract encoding: string option with get, set
 
     module Readdir =
 
@@ -3494,15 +3737,24 @@ module Fs =
             /// <summary>Asynchronous readdir(3) - read a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, BufferEncoding> -> Promise<ResizeArray<string>>
+            abstract __promisify__: path: PathLike * ?options: U2<TypeLiteral_33, BufferEncoding> -> Promise<ResizeArray<string>>
             /// <summary>Asynchronous readdir(3) - read a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * options: U2<string, obj> -> Promise<ResizeArray<Buffer>>
+            abstract __promisify__: path: PathLike * options: U2<string, TypeLiteral_34> -> Promise<ResizeArray<Buffer>>
             /// <summary>Asynchronous readdir(3) - read a directory.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.</param>
             /// <param name="options">The encoding (or an object specifying the encoding), used as the encoding of the result. If not provided, `'utf8'` is used.</param>
-            abstract __promisify__: path: PathLike * ?options: U2<obj, string> -> Promise<U2<ResizeArray<string>, ResizeArray<Buffer>>>
+            abstract __promisify__: path: PathLike * ?options: U2<TypeLiteral_35, string> -> Promise<U2<ResizeArray<string>, ResizeArray<Buffer>>>
+
+        type [<AllowNullLiteral>] TypeLiteral_33 =
+            abstract encoding: BufferEncoding option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_34 =
+            abstract encoding: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_35 =
+            abstract encoding: string option with get, set
 
     module Close =
 
@@ -3552,13 +3804,21 @@ module Fs =
             /// <param name="offset">The part of the buffer to be written. If not supplied, defaults to `0`.</param>
             /// <param name="length">The number of bytes to write. If not supplied, defaults to `buffer.length - offset`.</param>
             /// <param name="position">The offset from the beginning of the file where this data should be written. If not supplied, defaults to the current position.</param>
-            abstract __promisify__: fd: float * ?buffer: 'TBuffer * ?offset: float * ?length: float * ?position: float -> Promise<obj>
+            abstract __promisify__: fd: float * ?buffer: 'TBuffer * ?offset: float * ?length: float * ?position: float -> Promise<TypeLiteral_36<'TBuffer>>
             /// <summary>Asynchronously writes `string` to the file referenced by the supplied file descriptor.</summary>
             /// <param name="fd">A file descriptor.</param>
             /// <param name="string">A string to write. If something other than a string is supplied it will be coerced to a string.</param>
             /// <param name="position">The offset from the beginning of the file where this data should be written. If not supplied, defaults to the current position.</param>
             /// <param name="encoding">The expected string encoding.</param>
-            abstract __promisify__: fd: float * string: obj option * ?position: float * ?encoding: string -> Promise<obj>
+            abstract __promisify__: fd: float * string: obj option * ?position: float * ?encoding: string -> Promise<TypeLiteral_37>
+
+        type [<AllowNullLiteral>] TypeLiteral_36<'TBuffer> =
+            abstract bytesWritten: float with get, set
+            abstract buffer: 'TBuffer with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_37 =
+            abstract bytesWritten: float with get, set
+            abstract buffer: string with get, set
 
     module Read =
 
@@ -3568,7 +3828,11 @@ module Fs =
             /// <param name="offset">The offset in the buffer at which to start writing.</param>
             /// <param name="length">The number of bytes to read.</param>
             /// <param name="position">The offset from the beginning of the file from which data should be read. If `null`, data will be read from the current position.</param>
-            abstract __promisify__: fd: float * buffer: 'TBuffer * offset: float * length: float * position: float option -> Promise<obj>
+            abstract __promisify__: fd: float * buffer: 'TBuffer * offset: float * length: float * position: float option -> Promise<TypeLiteral_38<'TBuffer>>
+
+        type [<AllowNullLiteral>] TypeLiteral_38<'TBuffer> =
+            abstract bytesRead: float with get, set
+            abstract buffer: 'TBuffer with get, set
 
     module ReadFile =
 
@@ -3578,21 +3842,33 @@ module Fs =
             /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
             /// <param name="options">An object that may contain an optional flag.
             /// If a flag is not provided, it defaults to `'r'`.</param>
-            abstract __promisify__: path: U2<PathLike, float> * ?options: obj -> Promise<Buffer>
+            abstract __promisify__: path: U2<PathLike, float> * ?options: TypeLiteral_39 -> Promise<Buffer>
             /// <summary>Asynchronously reads the entire contents of a file.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
             /// URL support is _experimental_.
             /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
             /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
             /// If a flag is not provided, it defaults to `'r'`.</param>
-            abstract __promisify__: path: U2<PathLike, float> * options: U2<obj, string> -> Promise<string>
+            abstract __promisify__: path: U2<PathLike, float> * options: U2<TypeLiteral_40, string> -> Promise<string>
             /// <summary>Asynchronously reads the entire contents of a file.</summary>
             /// <param name="path">A path to a file. If a URL is provided, it must use the `file:` protocol.
             /// URL support is _experimental_.
             /// If a file descriptor is provided, the underlying file will _not_ be closed automatically.</param>
             /// <param name="options">Either the encoding for the result, or an object that contains the encoding and an optional flag.
             /// If a flag is not provided, it defaults to `'r'`.</param>
-            abstract __promisify__: path: U2<PathLike, float> * ?options: U2<obj, string> -> Promise<U2<string, Buffer>>
+            abstract __promisify__: path: U2<PathLike, float> * ?options: U2<TypeLiteral_41, string> -> Promise<U2<string, Buffer>>
+
+        type [<AllowNullLiteral>] TypeLiteral_40 =
+            abstract encoding: string with get, set
+            abstract flag: string option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_39 =
+            abstract encoding: obj option with get, set
+            abstract flag: string option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_41 =
+            abstract encoding: string option with get, set
+            abstract flag: string option with get, set
 
     module WriteFile =
 
@@ -3607,7 +3883,12 @@ module Fs =
             /// If `mode` is not supplied, the default of `0o666` is used.
             /// If `mode` is a string, it is parsed as an octal integer.
             /// If `flag` is not supplied, the default of `'w'` is used.</param>
-            abstract __promisify__: path: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> Promise<unit>
+            abstract __promisify__: path: U2<PathLike, float> * data: obj option * ?options: U2<TypeLiteral_42, string> -> Promise<unit>
+
+        type [<AllowNullLiteral>] TypeLiteral_42 =
+            abstract encoding: string option with get, set
+            abstract mode: U2<float, string> option with get, set
+            abstract flag: string option with get, set
 
     module AppendFile =
 
@@ -3622,7 +3903,12 @@ module Fs =
             /// If `mode` is not supplied, the default of `0o666` is used.
             /// If `mode` is a string, it is parsed as an octal integer.
             /// If `flag` is not supplied, the default of `'a'` is used.</param>
-            abstract __promisify__: file: U2<PathLike, float> * data: obj option * ?options: U2<obj, string> -> Promise<unit>
+            abstract __promisify__: file: U2<PathLike, float> * data: obj option * ?options: U2<TypeLiteral_43, string> -> Promise<unit>
+
+        type [<AllowNullLiteral>] TypeLiteral_43 =
+            abstract encoding: string option with get, set
+            abstract mode: U2<string, float> option with get, set
+            abstract flag: string option with get, set
 
     module Exists =
 
@@ -3702,6 +3988,77 @@ module Fs =
             /// <param name="src">A path to the source file.</param>
             /// <param name="flags">An optional integer that specifies the behavior of the copy operation. The only supported flag is fs.constants.COPYFILE_EXCL, which causes the copy operation to fail if dest already exists.</param>
             abstract __promisify__: src: PathLike * dst: PathLike * ?flags: float -> Promise<unit>
+
+    type [<AllowNullLiteral>] TypeLiteral_49 =
+        abstract encoding: string with get, set
+        abstract flag: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_47 =
+        abstract encoding: BufferEncoding option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_45 =
+        abstract encoding: string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_55 =
+        abstract encoding: string with get, set
+        abstract persistent: bool option with get, set
+        abstract recursive: bool option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_48 =
+        abstract encoding: obj option with get, set
+        abstract flag: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_44 =
+        abstract encoding: BufferEncoding option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_54 =
+        abstract encoding: BufferEncoding option with get, set
+        abstract persistent: bool option with get, set
+        abstract recursive: bool option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_46 =
+        abstract encoding: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_50 =
+        abstract encoding: string option with get, set
+        abstract flag: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_51 =
+        abstract encoding: string option with get, set
+        abstract mode: U2<float, string> option with get, set
+        abstract flag: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_52 =
+        abstract encoding: string option with get, set
+        abstract mode: U2<string, float> option with get, set
+        abstract flag: string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_56 =
+        abstract encoding: string option with get, set
+        abstract persistent: bool option with get, set
+        abstract recursive: bool option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_58 =
+        abstract flags: string option with get, set
+        abstract encoding: string option with get, set
+        abstract fd: float option with get, set
+        abstract mode: float option with get, set
+        abstract autoClose: bool option with get, set
+        abstract start: float option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_57 =
+        abstract flags: string option with get, set
+        abstract encoding: string option with get, set
+        abstract fd: float option with get, set
+        abstract mode: float option with get, set
+        abstract autoClose: bool option with get, set
+        abstract start: float option with get, set
+        abstract ``end``: float option with get, set
+        abstract highWaterMark: float option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_53 =
+        abstract persistent: bool option with get, set
+        abstract interval: float option with get, set
 
 module Path =
     let [<Import("posix","path")>] posix: Posix.IExports = jsNative
@@ -3809,11 +4166,14 @@ module Path =
 module String_decoder =
 
     type [<AllowNullLiteral>] IExports =
-        abstract StringDecoder: obj
+        abstract StringDecoder: TypeLiteral_59
 
     type [<AllowNullLiteral>] NodeStringDecoder =
         abstract write: buffer: Buffer -> string
         abstract ``end``: ?buffer: Buffer -> string
+
+    type [<AllowNullLiteral>] TypeLiteral_59 =
+        [<Emit "new $0($1...)">] abstract Create: ?encoding: string -> obj
 
 module Tls =
 
@@ -3850,7 +4210,7 @@ module Tls =
         abstract subject: Certificate with get, set
         abstract issuer: Certificate with get, set
         abstract subjectaltname: string with get, set
-        abstract infoAccess: obj with get, set
+        abstract infoAccess: TypeLiteral_60 with get, set
         abstract modulus: string with get, set
         abstract exponent: string with get, set
         abstract valid_from: string with get, set
@@ -4074,8 +4434,8 @@ module Tls =
         abstract authorized: bool with get, set
         abstract authorizationError: Error with get, set
         abstract getPeerCertificate: unit -> obj option
-        abstract getCipher: obj with get, set
-        abstract address: obj with get, set
+        abstract getCipher: TypeLiteral_61 with get, set
+        abstract address: TypeLiteral_62 with get, set
         abstract remoteAddress: string with get, set
         abstract remotePort: float with get, set
 
@@ -4101,10 +4461,22 @@ module Tls =
     type [<AllowNullLiteral>] SecureContext =
         abstract context: obj option with get, set
 
+    type [<AllowNullLiteral>] TypeLiteral_61 =
+        abstract name: string with get, set
+        abstract version: string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_62 =
+        abstract port: float with get, set
+        abstract family: string with get, set
+        abstract address: string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_60 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> ResizeArray<string> option with get, set
+
 module Crypto =
 
     type [<AllowNullLiteral>] IExports =
-        abstract Certificate: obj
+        abstract Certificate: TypeLiteral_63
         abstract fips: bool
         abstract createCredentials: details: CredentialDetails -> Credentials
         abstract createHash: algorithm: string -> Hash
@@ -4229,8 +4601,8 @@ module Crypto =
         inherit NodeJS.WritableStream
         abstract update: data: U3<string, Buffer, DataView> -> Signer
         abstract update: data: U3<string, Buffer, DataView> * input_encoding: Utf8AsciiLatin1Encoding -> Signer
-        abstract sign: private_key: U2<string, obj> -> Buffer
-        abstract sign: private_key: U2<string, obj> * output_format: HexBase64Latin1Encoding -> string
+        abstract sign: private_key: U2<string, TypeLiteral_64> -> Buffer
+        abstract sign: private_key: U2<string, TypeLiteral_64> * output_format: HexBase64Latin1Encoding -> string
 
     type [<AllowNullLiteral>] Verify =
         inherit NodeJS.WritableStream
@@ -4282,6 +4654,14 @@ module Crypto =
         abstract getPublicKey: encoding: HexBase64Latin1Encoding * format: ECDHKeyFormat -> string
         abstract setPrivateKey: private_key: Buffer -> unit
         abstract setPrivateKey: private_key: string * encoding: HexBase64Latin1Encoding -> unit
+
+    type [<AllowNullLiteral>] TypeLiteral_64 =
+        abstract key: string with get, set
+        abstract passphrase: string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_63 =
+        [<Emit "new $0($1...)">] abstract Create: unit -> obj
+        [<Emit "$0($1...)">] abstract Invoke: unit -> Certificate
 
 module Stream =
 
@@ -4392,7 +4772,7 @@ module Stream =
         abstract decodeStrings: bool option with get, set
         abstract objectMode: bool option with get, set
         abstract write: (obj option -> string -> Function -> obj option) option with get, set
-        abstract writev: (Array<obj> -> Function -> obj option) option with get, set
+        abstract writev: (Array<TypeLiteral_65> -> Function -> obj option) option with get, set
         abstract destroy: (Error -> obj option) option with get, set
         abstract final: ((Error -> unit) -> unit) option with get, set
 
@@ -4402,7 +4782,7 @@ module Stream =
         abstract writable: bool with get, set
         abstract writableHighWaterMark: float
         abstract _write: chunk: obj option * encoding: string * callback: (Error -> unit) -> unit
-        abstract _writev: chunks: Array<obj> * callback: (Error -> unit) -> unit
+        abstract _writev: chunks: Array<TypeLiteral_65> * callback: (Error -> unit) -> unit
         abstract _destroy: err: Error * callback: Function -> unit
         abstract _final: callback: Function -> unit
         abstract write: chunk: obj option * ?cb: Function -> bool
@@ -4488,7 +4868,7 @@ module Stream =
         abstract writable: bool with get, set
         abstract writableHighWaterMark: float
         abstract _write: chunk: obj option * encoding: string * callback: (Error -> unit) -> unit
-        abstract _writev: chunks: Array<obj> * callback: (Error -> unit) -> unit
+        abstract _writev: chunks: Array<TypeLiteral_65> * callback: (Error -> unit) -> unit
         abstract _destroy: err: Error * callback: Function -> unit
         abstract _final: callback: Function -> unit
         abstract write: chunk: obj option * ?cb: Function -> bool
@@ -4522,6 +4902,10 @@ module Stream =
     type [<AllowNullLiteral>] PassThroughStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PassThrough
 
+    type [<AllowNullLiteral>] TypeLiteral_65 =
+        abstract chunk: obj option with get, set
+        abstract encoding: string with get, set
+
 module Util =
     let [<Import("promisify","util")>] promisify: Promisify.IExports = jsNative
 
@@ -4532,7 +4916,7 @@ module Util =
         abstract puts: [<ParamArray>] param: ResizeArray<obj option> -> unit
         abstract print: [<ParamArray>] param: ResizeArray<obj option> -> unit
         abstract log: string: string -> unit
-        abstract inspect: obj
+        abstract inspect: TypeLiteral_68
         abstract isArray: ``object``: obj option -> bool
         abstract isRegExp: ``object``: obj option -> bool
         abstract isDate: ``object``: obj option -> bool
@@ -4616,6 +5000,20 @@ module Util =
 
     type [<AllowNullLiteral>] TextEncoderStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TextEncoder
+
+    type [<AllowNullLiteral>] TypeLiteral_66 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: color: string -> float * float option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_67 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: style: string -> string option with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_68 =
+        [<Emit "$0($1...)">] abstract Invoke: ``object``: obj option * ?showHidden: bool * ?depth: float * ?color: bool -> string
+        [<Emit "$0($1...)">] abstract Invoke: ``object``: obj option * options: InspectOptions -> string
+        abstract colors: TypeLiteral_66 with get, set
+        abstract styles: TypeLiteral_67 with get, set
+        abstract defaultOptions: InspectOptions with get, set
+        abstract custom: Symbol with get, set
 
 module Assert =
 
@@ -6001,3 +6399,88 @@ module Perf_hooks =
             abstract NODE_PERFORMANCE_GC_MINOR: float
             abstract NODE_PERFORMANCE_GC_INCREMENTAL: float
             abstract NODE_PERFORMANCE_GC_WEAKCB: float
+
+type [<AllowNullLiteral>] TypeLiteral_69 =
+    [<Emit "new $0($1...)">] abstract Create: str: string * ?encoding: string -> obj
+    [<Emit "new $0($1...)">] abstract Create: size: float -> obj
+    [<Emit "new $0($1...)">] abstract Create: size: Uint8Array -> obj
+    [<Emit "new $0($1...)">] abstract Create: array: ResizeArray<obj option> -> obj
+    abstract prototype: Buffer with get, set
+    abstract isBuffer: obj: obj option -> bool
+    abstract byteLength: string: string * ?encoding: string -> float
+    abstract concat: list: ResizeArray<Buffer> * ?totalLength: float -> Buffer
+
+type [<AllowNullLiteral>] TypeLiteral_70 =
+    /// <summary>Allocates a new buffer containing the given {str}.</summary>
+    /// <param name="str">String to store in buffer.</param>
+    /// <param name="encoding">encoding to use, optional.  Default is 'utf8'</param>
+    [<Emit "new $0($1...)">] abstract Create: str: string * ?encoding: string -> obj
+    /// <summary>Allocates a new buffer of {size} octets.</summary>
+    /// <param name="size">count of octets to allocate.</param>
+    [<Emit "new $0($1...)">] abstract Create: size: float -> obj
+    /// <summary>Allocates a new buffer containing the given {array} of octets.</summary>
+    /// <param name="array">The octets to store.</param>
+    [<Emit "new $0($1...)">] abstract Create: array: Uint8Array -> obj
+    /// <summary>Produces a Buffer backed by the same allocated memory as
+    /// the given {ArrayBuffer}.</summary>
+    /// <param name="arrayBuffer">The ArrayBuffer with which to share memory.</param>
+    [<Emit "new $0($1...)">] abstract Create: arrayBuffer: ArrayBuffer -> obj
+    /// <summary>Allocates a new buffer containing the given {array} of octets.</summary>
+    /// <param name="array">The octets to store.</param>
+    [<Emit "new $0($1...)">] abstract Create: array: ResizeArray<obj option> -> obj
+    /// <summary>Copies the passed {buffer} data onto a new {Buffer} instance.</summary>
+    /// <param name="buffer">The buffer to copy.</param>
+    [<Emit "new $0($1...)">] abstract Create: buffer: Buffer -> obj
+    abstract prototype: Buffer with get, set
+    /// <summary>When passed a reference to the .buffer property of a TypedArray instance,
+    /// the newly created Buffer will share the same allocated memory as the TypedArray.
+    /// The optional {byteOffset} and {length} arguments specify a memory range
+    /// within the {arrayBuffer} that will be shared by the Buffer.</summary>
+    /// <param name="arrayBuffer">The .buffer property of a TypedArray or a new ArrayBuffer()</param>
+    abstract from: arrayBuffer: ArrayBuffer * ?byteOffset: float * ?length: float -> Buffer
+    /// <summary>Creates a new Buffer using the passed {data}</summary>
+    /// <param name="data">data to create a new Buffer</param>
+    abstract from: data: U4<ResizeArray<obj option>, string, Buffer, ArrayBuffer> -> Buffer
+    /// Creates a new Buffer containing the given JavaScript string {str}.
+    /// If provided, the {encoding} parameter identifies the character encoding.
+    /// If not provided, {encoding} defaults to 'utf8'.
+    abstract from: str: string * ?encoding: string -> Buffer
+    /// <summary>Returns true if {obj} is a Buffer</summary>
+    /// <param name="obj">object to test.</param>
+    abstract isBuffer: obj: obj option -> bool
+    /// <summary>Returns true if {encoding} is a valid encoding argument.
+    /// Valid string encodings in Node 0.12: 'ascii'|'utf8'|'utf16le'|'ucs2'(alias of 'utf16le')|'base64'|'binary'(deprecated)|'hex'</summary>
+    /// <param name="encoding">string to test.</param>
+    abstract isEncoding: encoding: string -> bool
+    /// <summary>Gives the actual byte length of a string. encoding defaults to 'utf8'.
+    /// This is not the same as String.prototype.length since that returns the number of characters in a string.</summary>
+    /// <param name="string">string to test. (TypedArray is also allowed, but it is only available starting ES2017)</param>
+    /// <param name="encoding">encoding used to evaluate (defaults to 'utf8')</param>
+    abstract byteLength: string: U4<string, Buffer, DataView, ArrayBuffer> * ?encoding: string -> float
+    /// <summary>Returns a buffer which is the result of concatenating all the buffers in the list together.
+    /// 
+    /// If the list has no items, or if the totalLength is 0, then it returns a zero-length buffer.
+    /// If the list has exactly one item, then the first item of the list is returned.
+    /// If the list has more than one item, then a new Buffer is created.</summary>
+    /// <param name="list">An array of Buffer objects to concatenate</param>
+    /// <param name="totalLength">Total length of the buffers when concatenated.
+    /// If totalLength is not provided, it is read from the buffers in the list. However, this adds an additional loop to the function, so it is faster to provide the length explicitly.</param>
+    abstract concat: list: ResizeArray<Buffer> * ?totalLength: float -> Buffer
+    /// The same as buf1.compare(buf2).
+    abstract compare: buf1: Buffer * buf2: Buffer -> float
+    /// <summary>Allocates a new buffer of {size} octets.</summary>
+    /// <param name="size">count of octets to allocate.</param>
+    /// <param name="fill">if specified, buffer will be initialized by calling buf.fill(fill).
+    /// If parameter is omitted, buffer will be filled with zeros.</param>
+    /// <param name="encoding">encoding used for call to buf.fill while initalizing</param>
+    abstract alloc: size: float * ?fill: U3<string, Buffer, float> * ?encoding: string -> Buffer
+    /// <summary>Allocates a new buffer of {size} octets, leaving memory not initialized, so the contents
+    /// of the newly created Buffer are unknown and may contain sensitive data.</summary>
+    /// <param name="size">count of octets to allocate</param>
+    abstract allocUnsafe: size: float -> Buffer
+    /// <summary>Allocates a new non-pooled buffer of {size} octets, leaving memory not initialized, so the contents
+    /// of the newly created Buffer are unknown and may contain sensitive data.</summary>
+    /// <param name="size">count of octets to allocate</param>
+    abstract allocUnsafeSlow: size: float -> Buffer
+    /// This is the number of bytes used to determine the size of pre-allocated, internal Buffer instances used for pooling. This value may be modified.
+    abstract poolSize: float with get, set

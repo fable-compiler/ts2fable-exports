@@ -87,8 +87,8 @@ module Monaco =
         abstract timeout: delay: float -> Promise<unit>
         abstract join: promises: ResizeArray<Promise<'ValueType>> -> Promise<ResizeArray<'ValueType>>
         abstract join: promises: ResizeArray<Thenable<'ValueType>> -> Thenable<ResizeArray<'ValueType>>
-        abstract join: promises: PromiseStaticJoinPromises -> Promise<obj>
-        abstract any: promises: ResizeArray<Promise<'ValueType>> -> Promise<obj>
+        abstract join: promises: PromiseStaticJoinPromises -> Promise<TypeLiteral_09<'ValueType>>
+        abstract any: promises: ResizeArray<Promise<'ValueType>> -> Promise<TypeLiteral_10<'ValueType>>
         abstract wrap: value: Thenable<'ValueType> -> Promise<'ValueType>
         abstract wrap: value: 'ValueType -> Promise<'ValueType>
         abstract wrapError: error: Error -> Promise<'ValueType>
@@ -589,7 +589,7 @@ module Monaco =
             /// Emitted right before a model is disposed.
             abstract onWillDisposeModel: listener: (IModel -> unit) -> IDisposable
             /// Emitted when a different language is set to a model.
-            abstract onDidChangeModelLanguage: listener: (obj -> unit) -> IDisposable
+            abstract onDidChangeModelLanguage: listener: (TypeLiteral_01 -> unit) -> IDisposable
             /// Create a new web worker that has model syncing capabilities built in.
             /// Specify an AMD module to load that will `create` an object that will be proxied.
             abstract createWebWorker: opts: IWebWorkerOptions -> MonacoWebWorker<'T>
@@ -607,7 +607,7 @@ module Monaco =
             abstract setTheme: themeName: string -> unit
             abstract TextModelResolvedOptions: TextModelResolvedOptionsStatic
             abstract FindMatch: FindMatchStatic
-            abstract EditorType: obj
+            abstract EditorType: TypeLiteral_02
             abstract InternalEditorOptions: InternalEditorOptionsStatic
             abstract FontInfo: FontInfoStatic
             abstract BareFontInfo: BareFontInfoStatic
@@ -1288,7 +1288,7 @@ module Monaco =
         type [<AllowNullLiteral>] ICodeEditorViewState =
             abstract cursorState: ResizeArray<ICursorState> with get, set
             abstract viewState: IViewState with get, set
-            abstract contributionsState: obj with get, set
+            abstract contributionsState: TypeLiteral_03 with get, set
 
         /// (Serializable) View state for the diff editor.
         type [<AllowNullLiteral>] IDiffEditorViewState =
@@ -1567,7 +1567,7 @@ module Monaco =
 
         /// An event describing that some ranges of lines have been tokenized (their tokens have changed).
         type [<AllowNullLiteral>] IModelTokensChangedEvent =
-            abstract ranges: ResizeArray<obj>
+            abstract ranges: ResizeArray<TypeLiteral_04>
 
         type [<AllowNullLiteral>] IModelOptionsChangedEvent =
             abstract tabSize: bool
@@ -1807,7 +1807,7 @@ module Monaco =
             abstract accessibilitySupport: U3<string, string, string> option with get, set
             /// Enable quick suggestions (shadow suggestions)
             /// Defaults to true.
-            abstract quickSuggestions: U2<bool, obj> option with get, set
+            abstract quickSuggestions: U2<bool, TypeLiteral_05> option with get, set
             /// Quick suggestions show delay (in ms)
             /// Defaults to 500 (ms)
             abstract quickSuggestionsDelay: float option with get, set
@@ -2011,7 +2011,7 @@ module Monaco =
             abstract hover: bool
             abstract links: bool
             abstract contextmenu: bool
-            abstract quickSuggestions: U2<bool, obj>
+            abstract quickSuggestions: U2<bool, TypeLiteral_05>
             abstract quickSuggestionsDelay: float
             abstract parameterHints: bool
             abstract iconsInSuggestions: bool
@@ -2355,6 +2355,28 @@ module Monaco =
 
         type [<AllowNullLiteral>] BareFontInfoStatic =
             [<Emit "new $0($1...)">] abstract Create: unit -> BareFontInfo
+
+        type [<AllowNullLiteral>] TypeLiteral_02 =
+            abstract ICodeEditor: string with get, set
+            abstract IDiffEditor: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_01 =
+            abstract model: IModel
+            abstract oldLanguage: string
+
+        type [<AllowNullLiteral>] TypeLiteral_05 =
+            abstract other: bool with get, set
+            abstract comments: bool with get, set
+            abstract strings: bool with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_03 =
+            [<Emit "$0[$1]{{=$2}}">] abstract Item: id: string -> obj option with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_04 =
+            /// The start of the range (inclusive)
+            abstract fromLineNumber: float
+            /// The end of the range (inclusive)
+            abstract toLineNumber: float
 
     module Languages =
 
@@ -2901,7 +2923,7 @@ module Monaco =
         /// A Monarch language definition
         type [<AllowNullLiteral>] IMonarchLanguage =
             /// map from string to ILanguageRule[]
-            abstract tokenizer: obj with get, set
+            abstract tokenizer: TypeLiteral_06 with get, set
             /// is the language case insensitive?
             abstract ignoreCase: bool option with get, set
             /// if no match in the tokenizer assign this token class (default 'source')
@@ -2954,6 +2976,9 @@ module Monaco =
             abstract close: string with get, set
             /// token class
             abstract token: string with get, set
+
+        type [<AllowNullLiteral>] TypeLiteral_06 =
+            [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> ResizeArray<IMonarchLanguageRule> with get, set
 
     module Worker =
 
@@ -3128,12 +3153,32 @@ module Monaco =
 
             type [<AllowNullLiteral>] DiagnosticsOptions =
                 abstract validate: bool option
-                abstract lint: obj option
+                abstract lint: TypeLiteral_07 option
 
             type [<AllowNullLiteral>] LanguageServiceDefaults =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
+
+            type [<AllowNullLiteral>] TypeLiteral_07 =
+                abstract compatibleVendorPrefixes: U3<string, string, string> option
+                abstract vendorPrefix: U3<string, string, string> option
+                abstract duplicateProperties: U3<string, string, string> option
+                abstract emptyRules: U3<string, string, string> option
+                abstract importStatement: U3<string, string, string> option
+                abstract boxModel: U3<string, string, string> option
+                abstract universalSelector: U3<string, string, string> option
+                abstract zeroUnits: U3<string, string, string> option
+                abstract fontFaceProperties: U3<string, string, string> option
+                abstract hexColorLength: U3<string, string, string> option
+                abstract argumentsInColorFunction: U3<string, string, string> option
+                abstract unknownProperties: U3<string, string, string> option
+                abstract ieHack: U3<string, string, string> option
+                abstract unknownVendorSpecificProperties: U3<string, string, string> option
+                abstract propertyIgnoredDueToDisplay: U3<string, string, string> option
+                abstract important: U3<string, string, string> option
+                abstract float: U3<string, string, string> option
+                abstract idSelector: U3<string, string, string> option
 
     module Languages =
         let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
@@ -3149,12 +3194,20 @@ module Monaco =
                 /// If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
                 abstract allowComments: bool option
                 /// A list of known schemas and/or associations of schemas to file names.
-                abstract schemas: ResizeArray<obj> option
+                abstract schemas: ResizeArray<TypeLiteral_08> option
 
             type [<AllowNullLiteral>] LanguageServiceDefaults =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
+
+            type [<AllowNullLiteral>] TypeLiteral_08 =
+                /// The URI of the schema, which is also the identifier of the schema.
+                abstract uri: string
+                /// A list of file names that are associated to the schema. The '*' wildcard can be used. For example '*.schema.json', 'package.json'
+                abstract fileMatch: ResizeArray<string> option
+                /// The schema for the given URI.
+                abstract schema: obj option
 
     module Languages =
         let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
@@ -3193,3 +3246,10 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract options: Options
                 abstract setOptions: options: Options -> unit
+
+    type [<AllowNullLiteral>] TypeLiteral_10<'ValueType> =
+        abstract key: string with get, set
+        abstract value: Promise<'ValueType> with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_09<'ValueType> =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: n: string -> 'ValueType with get, set
