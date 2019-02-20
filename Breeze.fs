@@ -304,22 +304,22 @@ type [<AllowNullLiteral>] DeletedEntityKeyStatic =
 
 type [<AllowNullLiteral>] JsonResultsAdapter =
     abstract name: string with get, set
-    abstract extractResults: (obj -> obj) with get, set
-    abstract extractSaveResults: (obj -> ResizeArray<obj option>) with get, set
-    abstract extractKeyMappings: (obj -> ResizeArray<KeyMapping>) with get, set
-    abstract extractDeletedKeys: (obj -> ResizeArray<DeletedEntityKey>) with get, set
-    abstract visitNode: (obj -> QueryContext -> NodeContext -> obj) with get, set
+    abstract extractResults: (TypeLiteral_01 -> TypeLiteral_01) with get, set
+    abstract extractSaveResults: (TypeLiteral_01 -> ResizeArray<obj option>) with get, set
+    abstract extractKeyMappings: (TypeLiteral_01 -> ResizeArray<KeyMapping>) with get, set
+    abstract extractDeletedKeys: (TypeLiteral_01 -> ResizeArray<DeletedEntityKey>) with get, set
+    abstract visitNode: (TypeLiteral_01 -> QueryContext -> NodeContext -> TypeLiteral_02) with get, set
 
 type [<AllowNullLiteral>] JsonResultsAdapterStatic =
     [<Emit "new $0($1...)">] abstract Create: config: JsonResultsAdapterStaticConfig -> JsonResultsAdapter
 
 type [<AllowNullLiteral>] JsonResultsAdapterStaticConfig =
     abstract name: string with get, set
-    abstract extractResults: (obj -> obj) option with get, set
-    abstract extractSaveResults: (obj -> ResizeArray<obj option>) option with get, set
-    abstract extractKeyMappings: (obj -> ResizeArray<KeyMapping>) option with get, set
-    abstract extractDeletedKeys: (obj -> ResizeArray<DeletedEntityKey>) option with get, set
-    abstract visitNode: (obj -> QueryContext -> NodeContext -> obj) with get, set
+    abstract extractResults: (TypeLiteral_01 -> TypeLiteral_01) option with get, set
+    abstract extractSaveResults: (TypeLiteral_01 -> ResizeArray<obj option>) option with get, set
+    abstract extractKeyMappings: (TypeLiteral_01 -> ResizeArray<KeyMapping>) option with get, set
+    abstract extractDeletedKeys: (TypeLiteral_01 -> ResizeArray<DeletedEntityKey>) option with get, set
+    abstract visitNode: (TypeLiteral_01 -> QueryContext -> NodeContext -> TypeLiteral_02) with get, set
 
 type [<AllowNullLiteral>] QueryContext =
     abstract url: string with get, set
@@ -374,7 +374,7 @@ type [<AllowNullLiteral>] DataType =
     abstract String: DataTypeSymbol with get, set
     abstract Time: DataTypeSymbol with get, set
     abstract Undefined: DataTypeSymbol with get, set
-    abstract constants: obj with get, set
+    abstract constants: TypeLiteral_03 with get, set
     abstract fromEdmDataType: typeName: string -> DataTypeSymbol
     abstract fromValue: ``val``: obj option -> DataTypeSymbol
     abstract getComparableFn: dataType: DataTypeSymbol -> (obj option -> obj option)
@@ -565,7 +565,7 @@ type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig =
 
 type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn =
     abstract entities: ResizeArray<Entity> with get, set
-    abstract tempKeyMapping: obj with get, set
+    abstract tempKeyMapping: TypeLiteral_04 with get, set
 
 type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig_ =
     abstract mergeAdds: bool option with get, set
@@ -574,7 +574,7 @@ type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig_ =
 
 type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn_ =
     abstract entities: ResizeArray<Entity> with get, set
-    abstract tempKeyMapping: obj with get, set
+    abstract tempKeyMapping: TypeLiteral_04 with get, set
 
 type [<AllowNullLiteral>] EntityManagerStatic =
     [<Emit "new $0($1...)">] abstract Create: ?config: EntityManagerOptions -> EntityManager
@@ -1277,3 +1277,20 @@ module Promises =
         abstract reject: ?reason: obj -> Promise<obj option>
         abstract resolve: ``object``: 'T -> Promise<'T>
         abstract resolve: ``object``: Promise<'T> -> Promise<'T>
+
+type [<AllowNullLiteral>] TypeLiteral_01 =
+    interface end
+
+type [<AllowNullLiteral>] TypeLiteral_02 =
+    abstract entityType: EntityType option with get, set
+    abstract nodeId: obj option with get, set
+    abstract nodeRefId: obj option with get, set
+    abstract ignore: bool option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_03 =
+    abstract nextNumber: float with get, set
+    abstract nextNumberIncrement: float with get, set
+    abstract stringPrefix: string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_04 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> EntityKey with get, set

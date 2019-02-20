@@ -4,7 +4,7 @@ open System
 open Fable.Core
 open Fable.Import.JS
 
-let [<Import("config","synctasks")>] config: obj = jsNative
+let [<Import("config","synctasks")>] config: TypeLiteral_01 = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract fromThenable: thenable: Es6Thenable<'T> -> STPromise<'T>
@@ -90,3 +90,10 @@ module Raceable =
 type [<AllowNullLiteral>] RaceTimerResponse<'T> =
     abstract timedOut: bool with get, set
     abstract result: 'T option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_01 =
+    abstract exceptionsToConsole: bool with get, set
+    abstract catchExceptions: bool with get, set
+    abstract traceEnabled: bool with get, set
+    abstract exceptionHandler: (Error -> unit) option with get, set
+    abstract unhandledErrorHandler: (obj option -> unit) with get, set

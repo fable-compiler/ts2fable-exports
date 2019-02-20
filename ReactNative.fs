@@ -392,7 +392,7 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     abstract focus: unit -> unit
     /// Removes focus from an input or view. This is the opposite of `focus()`.
     abstract blur: unit -> unit
-    abstract refs: obj with get, set
+    abstract refs: TypeLiteral_03 with get, set
 
 type [<AllowNullLiteral>] Runnable =
     [<Emit "$0($1...)">] abstract Invoke: appParameters: obj option -> unit
@@ -519,8 +519,8 @@ type [<AllowNullLiteral>] LayoutAnimationStatic =
     abstract create: (float -> string -> string -> LayoutAnimationConfig) with get, set
     abstract Types: LayoutAnimationTypes with get, set
     abstract Properties: LayoutAnimationProperties with get, set
-    abstract configChecker: (obj -> obj option) with get, set
-    abstract Presets: obj with get, set
+    abstract configChecker: (TypeLiteral_04 -> obj option) with get, set
+    abstract Presets: TypeLiteral_05 with get, set
     abstract easeInEaseOut: ((unit -> unit) -> unit) with get, set
     abstract linear: ((unit -> unit) -> unit) with get, set
     abstract spring: ((unit -> unit) -> unit) with get, set
@@ -592,7 +592,7 @@ type [<AllowNullLiteral>] ShadowPropTypesIOSStatic =
     /// Sets the drop shadow color
     abstract shadowColor: string with get, set
     /// Sets the drop shadow offset
-    abstract shadowOffset: obj with get, set
+    abstract shadowOffset: TypeLiteral_06 with get, set
     /// Sets the drop shadow opacity (multiplied by the color's alpha component)
     abstract shadowOpacity: float with get, set
     /// Sets the drop shadow blur radius
@@ -609,7 +609,7 @@ type [<AllowNullLiteral>] GeoOptions =
     abstract useSignificantChanges: bool option with get, set
 
 type [<AllowNullLiteral>] GeolocationReturnType =
-    abstract coords: obj with get, set
+    abstract coords: TypeLiteral_07 with get, set
     abstract timestamp: float with get, set
 
 type [<AllowNullLiteral>] GeolocationError =
@@ -675,7 +675,7 @@ type [<AllowNullLiteral>] LayoutRectangle =
     abstract height: float with get, set
 
 type [<AllowNullLiteral>] LayoutChangeEvent =
-    abstract nativeEvent: obj with get, set
+    abstract nativeEvent: TypeLiteral_08 with get, set
 
 type [<AllowNullLiteral>] TextStyleIOS =
     inherit ViewStyle
@@ -709,7 +709,7 @@ type [<AllowNullLiteral>] TextStyle =
     abstract textDecorationStyle: U4<string, string, string, string> option with get, set
     abstract textDecorationColor: string option with get, set
     abstract textShadowColor: string option with get, set
-    abstract textShadowOffset: obj option with get, set
+    abstract textShadowOffset: TypeLiteral_06 option with get, set
     abstract textShadowRadius: float option with get, set
     abstract testID: string option with get, set
 
@@ -971,10 +971,10 @@ type [<AllowNullLiteral>] TextInputFocusEventData =
     abstract eventCount: float with get, set
 
 type [<AllowNullLiteral>] TextInputScrollEventData =
-    abstract contentOffset: obj with get, set
+    abstract contentOffset: TypeLiteral_09 with get, set
 
 type [<AllowNullLiteral>] TextInputSelectionChangeEventData =
-    abstract selection: obj with get, set
+    abstract selection: TypeLiteral_10 with get, set
     abstract target: float with get, set
 
 type [<AllowNullLiteral>] TextInputKeyPressEventData =
@@ -986,7 +986,7 @@ type [<AllowNullLiteral>] TextInputChangeEventData =
     abstract text: string with get, set
 
 type [<AllowNullLiteral>] TextInputContentSizeChangeEventData =
-    abstract contentSize: obj with get, set
+    abstract contentSize: TypeLiteral_06 with get, set
 
 type [<AllowNullLiteral>] TextInputEndEditingEventData =
     abstract text: string with get, set
@@ -1087,7 +1087,7 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract selectTextOnFocus: bool option with get, set
     /// The start and end of the text input's selection. Set start and end to
     /// the same value to position the cursor.
-    abstract selection: obj option with get, set
+    abstract selection: TypeLiteral_11 option with get, set
     /// The highlight (and cursor on ios) color of the text input
     abstract selectionColor: string option with get, set
     /// Styles
@@ -2099,7 +2099,7 @@ type [<AllowNullLiteral>] ActivityIndicatorIOSProps =
     /// Whether the indicator should hide when not animating (true by default).
     abstract hidesWhenStopped: bool option with get, set
     /// Invoked on mount and layout changes with
-    abstract onLayout: (obj -> unit) option with get, set
+    abstract onLayout: (TypeLiteral_14 -> unit) option with get, set
     /// Size of the indicator.
     /// Small has a height of 20, large has a height of 36.
     /// 
@@ -2550,7 +2550,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     /// Note: The weird argument signature is due to the fact that, for historical reasons,
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
-    abstract scrollTo: ?y: U2<float, obj> * ?x: float * ?animated: bool -> unit
+    abstract scrollTo: ?y: U2<float, TypeLiteral_15> * ?x: float * ?animated: bool -> unit
     /// Returns a reference to the underlying scroll responder, which supports
     /// operations like `scrollTo`. All ScrollView-like components should
     /// implement this method so that they can be composed while providing access
@@ -2704,7 +2704,7 @@ type [<AllowNullLiteral>] ImageResizeModeStatic =
 
 type [<AllowNullLiteral>] ShadowStyleIOS =
     abstract shadowColor: string option with get, set
-    abstract shadowOffset: obj option with get, set
+    abstract shadowOffset: TypeLiteral_06 option with get, set
     abstract shadowOpacity: float option with get, set
     abstract shadowRadius: float option with get, set
 
@@ -2741,7 +2741,7 @@ type [<AllowNullLiteral>] ImageURISource =
     abstract ``method``: string option with get, set
     /// `headers` is an object representing the HTTP headers to send along with the
     /// request for a remote image.
-    abstract headers: obj option with get, set
+    abstract headers: TypeLiteral_16 option with get, set
     /// `cache` determines how the requests handles potentially cached
     /// responses.
     /// 
@@ -2829,7 +2829,7 @@ type [<AllowNullLiteral>] ImageLoadEventDataAndroid =
 
 type [<AllowNullLiteral>] ImageLoadEventData =
     inherit ImageLoadEventDataAndroid
-    abstract source: obj with get, set
+    abstract source: TypeLiteral_17 with get, set
 
 type [<AllowNullLiteral>] ImageErrorEventData =
     abstract error: obj option with get, set
@@ -3011,7 +3011,7 @@ type [<AllowNullLiteral>] ViewabilityConfig =
 
 type [<AllowNullLiteral>] ViewabilityConfigCallbackPair =
     abstract viewabilityConfig: ViewabilityConfig with get, set
-    abstract onViewableItemsChanged: (obj -> unit) option with get, set
+    abstract onViewableItemsChanged: (TypeLiteral_18 -> unit) option with get, set
 
 type ViewabilityConfigCallbackPairs =
     ResizeArray<ViewabilityConfigCallbackPair>
@@ -3019,7 +3019,7 @@ type ViewabilityConfigCallbackPairs =
 type [<AllowNullLiteral>] ListRenderItemInfo<'ItemT> =
     abstract item: 'ItemT with get, set
     abstract index: float with get, set
-    abstract separators: obj with get, set
+    abstract separators: TypeLiteral_19 with get, set
 
 type [<AllowNullLiteral>] ListRenderItem<'ItemT> =
     [<Emit "$0($1...)">] abstract Invoke: info: ListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
@@ -3058,7 +3058,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// ```
     /// Remember to include separator length (height or width) in your offset calculation if you specify
     /// `ItemSeparatorComponent`.
-    abstract getItemLayout: (Array<'ItemT> option -> float -> obj) option with get, set
+    abstract getItemLayout: (Array<'ItemT> option -> float -> TypeLiteral_20) option with get, set
     /// If true, renders items next to each other horizontally instead of stacked vertically.
     abstract horizontal: bool option with get, set
     /// How many items to render in the initial batch
@@ -3074,7 +3074,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// Items should all be the same height - masonry layouts are not supported.
     abstract numColumns: float option with get, set
     /// Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
-    abstract onEndReached: (obj -> unit) option with get, set
+    abstract onEndReached: (TypeLiteral_21 -> unit) option with get, set
     /// How far from the end (in units of visible length of the list) the bottom edge of the
     /// list must be from the end of the content to trigger the `onEndReached` callback.
     /// Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
@@ -3084,7 +3084,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// Make sure to also set the refreshing prop correctly.
     abstract onRefresh: (unit -> unit) option with get, set
     /// Called when the viewability of rows changes, as defined by the `viewablePercentThreshold` prop.
-    abstract onViewableItemsChanged: (obj -> unit) option with get, set
+    abstract onViewableItemsChanged: (TypeLiteral_18 -> unit) option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
     /// Takes an item from data and renders it into the list. Typical usage:
@@ -3109,18 +3109,18 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
 type [<AllowNullLiteral>] FlatList<'ItemT> =
     inherit React.Component<FlatListProps<'ItemT>>
     /// Exports some data, e.g. for perf investigations or analytics.
-    abstract getMetrics: (unit -> obj) with get, set
+    abstract getMetrics: (unit -> TypeLiteral_22) with get, set
     /// Scrolls to the end of the content. May be janky without `getItemLayout` prop.
-    abstract scrollToEnd: (obj -> unit) with get, set
+    abstract scrollToEnd: (TypeLiteral_23 -> unit) with get, set
     /// Scrolls to the item at the specified index such that it is positioned in the viewable area
     /// such that viewPosition 0 places it at the top, 1 at the bottom, and 0.5 centered in the middle.
     /// Cannot scroll to locations outside the render window without specifying the getItemLayout prop.
-    abstract scrollToIndex: (obj -> unit) with get, set
+    abstract scrollToIndex: (TypeLiteral_24 -> unit) with get, set
     /// Requires linear scan through data - use `scrollToIndex` instead if possible.
     /// May be janky without `getItemLayout` prop.
-    abstract scrollToItem: (obj -> unit) with get, set
+    abstract scrollToItem: (TypeLiteral_25<'ItemT> -> unit) with get, set
     /// Scroll to a specific content pixel offset, like a normal `ScrollView`.
-    abstract scrollToOffset: (obj -> unit) with get, set
+    abstract scrollToOffset: (TypeLiteral_26 -> unit) with get, set
     /// Tells the list an interaction has occured, which should trigger viewability calculations,
     /// e.g. if waitForInteractions is true and the user has not scrolled. This is typically called
     /// by taps on items or by navigation actions.
@@ -3168,7 +3168,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
     /// ```
-    abstract getItemLayout: (ResizeArray<SectionListData<'ItemT>> option -> float -> obj) option with get, set
+    abstract getItemLayout: (ResizeArray<SectionListData<'ItemT>> option -> float -> TypeLiteral_20) option with get, set
     /// How many items to render in the initial batch
     abstract initialNumToRender: float option with get, set
     /// Reverses the direction of scroll. Uses scale transforms of -1.
@@ -3178,7 +3178,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     /// falls back to using the index, like React does.
     abstract keyExtractor: ('ItemT -> float -> string) option with get, set
     /// Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
-    abstract onEndReached: (obj -> unit) option with get, set
+    abstract onEndReached: (TypeLiteral_21 -> unit) option with get, set
     /// How far from the end (in units of visible length of the list) the bottom edge of the
     /// list must be from the end of the content to trigger the `onEndReached` callback.
     /// Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
@@ -3190,15 +3190,15 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     /// Used to handle failures when scrolling to an index that has not been measured yet.
     /// Recommended action is to either compute your own offset and `scrollTo` it, or scroll as far
     /// as possible and then try again after more items have been rendered.
-    abstract onScrollToIndexFailed: (obj -> unit) option with get, set
+    abstract onScrollToIndexFailed: (TypeLiteral_27 -> unit) option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
     /// Default renderer for every item in every section. Can be over-ridden on a per-section basis.
     abstract renderItem: ListRenderItem<'ItemT> option with get, set
     /// Rendered at the top of each section. Sticky headers are not yet supported.
-    abstract renderSectionHeader: (obj -> React.ReactElement<obj option> option) option with get, set
+    abstract renderSectionHeader: (TypeLiteral_28<'ItemT> -> React.ReactElement<obj option> option) option with get, set
     /// Rendered at the bottom of each section.
-    abstract renderSectionFooter: (obj -> React.ReactElement<obj option> option) option with get, set
+    abstract renderSectionFooter: (TypeLiteral_28<'ItemT> -> React.ReactElement<obj option> option) option with get, set
     /// An array of objects with data for each section.
     abstract sections: ResizeArray<SectionListData<'ItemT>> with get, set
     /// Render a custom scroll component, e.g. with a differently styled `RefreshControl`.
@@ -3254,7 +3254,7 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     abstract getItem: (obj option -> float -> 'ItemT) option with get, set
     /// Determines how many items are in the data blob.
     abstract getItemCount: (obj option -> float) option with get, set
-    abstract getItemLayout: (obj option -> float -> obj) option with get, set
+    abstract getItemLayout: (obj option -> float -> TypeLiteral_20) option with get, set
     abstract horizontal: bool option with get, set
     /// How many items to render in the initial batch. This should be enough to fill the screen but not
     /// much more. Note these items will never be unmounted as part of the windowed rendering in order
@@ -3273,7 +3273,7 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     /// once, the better the fill rate, but responsiveness my suffer because rendering content may
     /// interfere with responding to button taps or other interactions.
     abstract maxToRenderPerBatch: float option with get, set
-    abstract onEndReached: (obj -> unit) option with get, set
+    abstract onEndReached: (TypeLiteral_21 -> unit) option with get, set
     abstract onEndReachedThreshold: float option with get, set
     abstract onLayout: (LayoutChangeEvent -> unit) option with get, set
     /// If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make
@@ -3282,10 +3282,10 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     /// Used to handle failures when scrolling to an index that has not been measured yet.
     /// Recommended action is to either compute your own offset and `scrollTo` it, or scroll as far
     /// as possible and then try again after more items have been rendered.
-    abstract onScrollToIndexFailed: (obj -> unit) option with get, set
+    abstract onScrollToIndexFailed: (TypeLiteral_27 -> unit) option with get, set
     /// Called when the viewability of rows changes, as defined by the
     /// `viewabilityConfig` prop.
-    abstract onViewableItemsChanged: (obj -> unit) option with get, set
+    abstract onViewableItemsChanged: (TypeLiteral_18 -> unit) option with get, set
     /// Set this when offset is needed for the loading indicator to show correctly.
     abstract progressViewOffset: float option with get, set
     /// Set this true while waiting for new data from a refresh.
@@ -3330,7 +3330,7 @@ type [<AllowNullLiteral>] ListViewProps =
     /// `changedRows` maps { sectionID: { rowID: true | false }} for the rows
     /// that have changed their visibility, with true indicating visible, and
     /// false indicating the view has moved out of view.
-    abstract onChangeVisibleRows: (Array<obj> -> Array<obj> -> unit) option with get, set
+    abstract onChangeVisibleRows: (Array<TypeLiteral_30> -> Array<TypeLiteral_30> -> unit) option with get, set
     /// Called when all rows have been rendered and the list has been scrolled
     /// to within onEndReachedThreshold of the bottom.  The native scroll
     /// event is provided.
@@ -3419,13 +3419,13 @@ type [<AllowNullLiteral>] ListView =
     inherit ListViewBase
     abstract DataSource: ListViewDataSource with get, set
     /// Exports some data, e.g. for perf investigations or analytics.
-    abstract getMetrics: (unit -> obj) with get, set
+    abstract getMetrics: (unit -> TypeLiteral_22) with get, set
     /// Provides a handle to the underlying scroll responder.
     abstract getScrollResponder: (unit -> obj option) with get, set
     /// Scrolls to a given x, y offset, either immediately or with a smooth animation.
     /// 
     /// See `ScrollView#scrollTo`.
-    abstract scrollTo: (U2<float, obj> -> float -> bool -> unit) with get, set
+    abstract scrollTo: (U2<float, TypeLiteral_15> -> float -> bool -> unit) with get, set
 
 type [<AllowNullLiteral>] ListViewStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: ListViewStaticValueIn -> ListView
@@ -3463,7 +3463,7 @@ type [<AllowNullLiteral>] MapViewRegion =
     abstract longitudeDelta: float option with get, set
 
 type [<AllowNullLiteral>] MapViewOverlay =
-    abstract coordinates: ResizeArray<obj> with get, set
+    abstract coordinates: ResizeArray<TypeLiteral_31> with get, set
     abstract lineWidth: float option with get, set
     abstract strokeColor: string option with get, set
     abstract fillColor: string option with get, set
@@ -3547,7 +3547,7 @@ type [<AllowNullLiteral>] MapViewComponentStaticValueIn =
 
 type [<AllowNullLiteral>] MapView =
     inherit MapViewBase
-    abstract PinColors: obj with get, set
+    abstract PinColors: TypeLiteral_32 with get, set
 
 type [<AllowNullLiteral>] MapViewStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: MapViewStaticValueIn -> MapView
@@ -4047,7 +4047,7 @@ type [<AllowNullLiteral>] ListViewDataSource =
     /// the data specified. If you wish to maintain the existing data you must
     /// handle merging of old and new data separately and then pass that into
     /// this function as the `dataBlob`.
-    abstract cloneWithRows: dataBlob: U2<Array<obj option>, obj> * ?rowIdentities: Array<U2<string, float>> -> ListViewDataSource
+    abstract cloneWithRows: dataBlob: U2<Array<obj option>, TypeLiteral_04> * ?rowIdentities: Array<U2<string, float>> -> ListViewDataSource
     /// This performs the same function as the `cloneWithRows` function but here
     /// you also specify what your `sectionIdentities` are. If you don't care
     /// about sections you should safely be able to use `cloneWithRows`.
@@ -4057,7 +4057,7 @@ type [<AllowNullLiteral>] ListViewDataSource =
     /// keys of dataBlob are the section identities.
     /// 
     /// Note: this returns a new object!
-    abstract cloneWithRowsAndSections: dataBlob: U2<Array<obj option>, obj> * ?sectionIdentities: Array<U2<string, float>> * ?rowIdentities: Array<Array<U2<string, float>>> -> ListViewDataSource
+    abstract cloneWithRowsAndSections: dataBlob: U2<Array<obj option>, TypeLiteral_04> * ?sectionIdentities: Array<U2<string, float>> * ?rowIdentities: Array<Array<U2<string, float>>> -> ListViewDataSource
     abstract getRowCount: unit -> float
     abstract getRowAndSectionCount: unit -> float
     /// Returns if the row is dirtied and needs to be rerendered
@@ -4263,10 +4263,10 @@ type [<AllowNullLiteral>] Dimensions =
     abstract set: dims: DimensionsSetDims -> unit
     /// <summary>Add an event listener for dimension changes</summary>
     /// <param name="handler">the event handler</param>
-    [<Emit "$0.addEventListener('change',$1)">] abstract addEventListener_change: handler: (obj -> unit) -> unit
+    [<Emit "$0.addEventListener('change',$1)">] abstract addEventListener_change: handler: (TypeLiteral_33 -> unit) -> unit
     /// <summary>Remove an event listener</summary>
     /// <param name="handler">the event handler</param>
-    [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: (obj -> unit) -> unit
+    [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: (TypeLiteral_33 -> unit) -> unit
 
 type [<AllowNullLiteral>] DimensionsSetDims =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
@@ -4284,7 +4284,7 @@ type Handle =
 
 type [<AllowNullLiteral>] InteractionManagerStatic =
     inherit EventEmitterListener
-    abstract Events: obj with get, set
+    abstract Events: TypeLiteral_34 with get, set
     /// Schedule a function to run after all interactions have completed.
     /// Returns a cancellable
     abstract runAfterInteractions: ?task: U3<(unit -> obj option), SimpleTask, PromiseTask> -> InteractionManagerStaticRunAfterInteractionsReturn
@@ -4420,7 +4420,7 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// Note: The weird argument signature is due to the fact that, for historical reasons,
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
-    abstract scrollResponderScrollTo: ?x: U2<float, obj> * ?y: float * ?animated: bool -> unit
+    abstract scrollResponderScrollTo: ?x: U2<float, TypeLiteral_15> * ?y: float * ?animated: bool -> unit
     /// A helper function to zoom to a specific rect in the scrollview. The argument has the shape
     /// {x: number; y: number; width: number; height: number; animated: boolean = true}
     abstract scrollResponderZoomTo: rect: ScrollResponderMixinScrollResponderZoomToRect * ?animated: bool -> unit
@@ -4686,7 +4686,7 @@ type [<AllowNullLiteral>] ScrollView =
     /// Note: The weird argument signature is due to the fact that, for historical reasons,
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
-    abstract scrollTo: ?y: U2<float, obj> * ?x: float * ?animated: bool -> unit
+    abstract scrollTo: ?y: U2<float, TypeLiteral_15> * ?x: float * ?animated: bool -> unit
     /// A helper function that scrolls to the end of the scrollview;
     /// If this is a vertical ScrollView, it scrolls to the bottom.
     /// If this is a horizontal ScrollView scrolls to the right.
@@ -5173,7 +5173,7 @@ type [<AllowNullLiteral>] CameraRollEdgeInfo =
 
 type [<AllowNullLiteral>] CameraRollAssetInfo =
     abstract edges: ResizeArray<CameraRollEdgeInfo> with get, set
-    abstract page_info: obj with get, set
+    abstract page_info: TypeLiteral_35 with get, set
 
 type [<AllowNullLiteral>] GetPhotosParamType =
     abstract first: float with get, set
@@ -5184,8 +5184,8 @@ type [<AllowNullLiteral>] GetPhotosParamType =
     abstract mimeTypes: ResizeArray<string> option with get, set
 
 type [<AllowNullLiteral>] GetPhotosReturnType =
-    abstract edges: ResizeArray<obj> with get, set
-    abstract page_info: obj with get, set
+    abstract edges: ResizeArray<TypeLiteral_39> with get, set
+    abstract page_info: TypeLiteral_40 with get, set
 
 /// CameraRoll provides access to the local camera roll / gallery.
 /// Before using this you must link the RCTCameraRoll library.
@@ -5284,9 +5284,9 @@ type [<AllowNullLiteral>] LinkingStatic =
     inherit NativeEventEmitter
     /// Add a handler to Linking changes by listening to the `url` event type
     /// and providing the handler
-    abstract addEventListener: ``type``: string * handler: (obj -> unit) -> unit
+    abstract addEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
     /// Remove a handler by passing the `url` event type and the handler
-    abstract removeEventListener: ``type``: string * handler: (obj -> unit) -> unit
+    abstract removeEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
     /// Try to open the given url with any of the installed apps.
     /// You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with the installed apps.
     /// NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
@@ -5302,9 +5302,9 @@ type [<AllowNullLiteral>] LinkingStatic =
 
 type [<AllowNullLiteral>] LinkingIOSStatic =
     /// Add a handler to LinkingIOS changes by listening to the url event type and providing the handler
-    abstract addEventListener: ``type``: string * handler: (obj -> unit) -> unit
+    abstract addEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
     /// Remove a handler by passing the url event type and the handler
-    abstract removeEventListener: ``type``: string * handler: (obj -> unit) -> unit
+    abstract removeEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
     /// Try to open the given url with any of the installed apps.
     abstract openURL: url: string -> unit
     /// Determine whether or not an installed app can handle a given URL. The callback function will be called with bool supported as the only argument
@@ -5373,7 +5373,7 @@ type [<AllowNullLiteral>] NetInfoStatic =
     /// boolean which represents the internet connectivity.
     /// Use this if you are only interested with whether the device has internet
     /// connectivity.
-    abstract isConnected: obj with get, set
+    abstract isConnected: TypeLiteral_42 with get, set
     /// Detect if the current active connection is
     /// metered or not. A network is classified as metered when the user is
     /// sensitive to heavy data usage on that connection due to monetary
@@ -5497,9 +5497,9 @@ type [<StringEnum>] [<RequireQualifiedAccess>] PermissionStatus =
 
 type [<AllowNullLiteral>] PermissionsAndroidStatic =
     /// A list of permission results that are returned
-    abstract RESULTS: obj with get, set
+    abstract RESULTS: TypeLiteral_43 with get, set
     /// A list of specified "dangerous" permissions that require prompting the user
-    abstract PERMISSIONS: obj with get, set
+    abstract PERMISSIONS: TypeLiteral_44 with get, set
     /// Deprecated
     abstract checkPermission: permission: Permission -> Promise<bool>
     /// Returns a promise resolving to a boolean value as to whether the specified
@@ -5519,7 +5519,7 @@ type [<AllowNullLiteral>] PermissionsAndroidStatic =
     /// Prompts the user to enable multiple permissions in the same dialog and
     /// returns an object with the permissions as keys and strings as values
     /// indicating whether the user allowed or denied the request
-    abstract requestMultiple: permissions: Array<string> -> Promise<obj>
+    abstract requestMultiple: permissions: Array<string> -> Promise<TypeLiteral_45>
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> PermissionsAndroidStatic
@@ -5623,10 +5623,10 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// The handler will be invoked with {message: string, code: number, details: any}.
     /// 
     /// The type MUST be 'registrationError'
-    [<Emit "$0.addEventListener('registrationError',$1)">] abstract addEventListener_registrationError: handler: (obj -> unit) -> unit
+    [<Emit "$0.addEventListener('registrationError',$1)">] abstract addEventListener_registrationError: handler: (TypeLiteral_46 -> unit) -> unit
     /// Removes the event listener. Do this in `componentWillUnmount` to prevent
     /// memory leaks
-    abstract removeEventListener: ``type``: PushNotificationEventName * handler: U3<(PushNotification -> unit), (string -> unit), (obj -> unit)> -> unit
+    abstract removeEventListener: ``type``: PushNotificationEventName * handler: U3<(PushNotification -> unit), (string -> unit), (TypeLiteral_46 -> unit)> -> unit
     /// Requests all notification permissions from iOS, prompting the user's
     /// dialog box.
     abstract requestPermissions: ?permissions: ResizeArray<PushNotificationPermissions> -> unit
@@ -5762,7 +5762,7 @@ type [<AllowNullLiteral>] TimePickerAndroidStatic =
     /// `minute` (0-59) if the user picked a time. If the user dismissed the dialog, the Promise will
     /// still be resolved with action being `TimePickerAndroid.dismissedAction` and all the other keys
     /// being undefined. **Always** check whether the `action` before reading the values.
-    abstract ``open``: options: TimePickerAndroidOpenOptions -> Promise<obj>
+    abstract ``open``: options: TimePickerAndroidOpenOptions -> Promise<TypeLiteral_47>
     /// A time has been selected.
     abstract timeSetAction: string with get, set
     /// The dialog has been dismissed.
@@ -5804,7 +5804,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// - quality (number) - the quality when using jpeg. 0.0 - 1.0 (default).
     /// 
     /// Returns a Promise<string> (tempFilePath)
-    abstract takeSnapshot: (U3<string, React.ReactElement<obj option>, float> -> obj -> Promise<string>) with get, set
+    abstract takeSnapshot: (U3<string, React.ReactElement<obj option>, float> -> TypeLiteral_48 -> Promise<string>) with get, set
     /// Determines the location on screen, width, and height of the given view and
     /// returns the values via an async callback. If successful, the callback will
     /// be called with the following arguments:
@@ -6152,7 +6152,7 @@ module Animated =
         abstract setOffset: offset: ValueXYSetOffsetOffset -> unit
         abstract flattenOffset: unit -> unit
         abstract extractOffset: unit -> unit
-        abstract stopAnimation: ?callback: (obj -> unit) -> unit
+        abstract stopAnimation: ?callback: (TypeLiteral_01 -> unit) -> unit
         abstract addListener: callback: ValueXYListenerCallback -> string
         abstract removeListener: id: string -> unit
         /// Converts `{x, y}` into `{left, top}` for use in style, e.g.
@@ -6168,7 +6168,7 @@ module Animated =
         ///     transform: this.state.anim.getTranslateTransform()
         ///   }}
         /// ```
-        abstract getTranslateTransform: unit -> ResizeArray<obj>
+        abstract getTranslateTransform: unit -> ResizeArray<TypeLiteral_02>
 
     type [<AllowNullLiteral>] ValueXYSetValueValue =
         abstract x: float with get, set
@@ -6207,23 +6207,23 @@ module Animated =
 
     type [<AllowNullLiteral>] DecayAnimationConfig =
         inherit AnimationConfig
-        abstract velocity: U2<float, obj> with get, set
+        abstract velocity: U2<float, TypeLiteral_01> with get, set
         abstract deceleration: float option with get, set
 
     type [<AllowNullLiteral>] TimingAnimationConfig =
         inherit AnimationConfig
-        abstract toValue: U4<float, AnimatedValue, obj, AnimatedValueXY> with get, set
+        abstract toValue: U4<float, AnimatedValue, TypeLiteral_01, AnimatedValueXY> with get, set
         abstract easing: (float -> float) option with get, set
         abstract duration: float option with get, set
         abstract delay: float option with get, set
 
     type [<AllowNullLiteral>] SpringAnimationConfig =
         inherit AnimationConfig
-        abstract toValue: U4<float, AnimatedValue, obj, AnimatedValueXY> with get, set
+        abstract toValue: U4<float, AnimatedValue, TypeLiteral_01, AnimatedValueXY> with get, set
         abstract overshootClamping: bool option with get, set
         abstract restDisplacementThreshold: float option with get, set
         abstract restSpeedThreshold: float option with get, set
-        abstract velocity: U2<float, obj> option with get, set
+        abstract velocity: U2<float, TypeLiteral_01> option with get, set
         abstract bounciness: float option with get, set
         abstract speed: float option with get, set
         abstract tension: float option with get, set
@@ -6284,10 +6284,17 @@ module Animated =
         abstract listener: ValueListenerCallback option with get, set
         abstract useNativeDriver: bool option with get, set
 
+    type [<AllowNullLiteral>] TypeLiteral_01 =
+        abstract x: float with get, set
+        abstract y: float with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_02 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> AnimatedValue with get, set
+
 type [<AllowNullLiteral>] I18nManagerStatic =
     abstract isRTL: bool with get, set
-    abstract allowRTL: (bool -> obj) with get, set
-    abstract forceRTL: (bool -> obj) with get, set
+    abstract allowRTL: (bool -> TypeLiteral_49) with get, set
+    abstract forceRTL: (bool -> TypeLiteral_49) with get, set
 
 type [<AllowNullLiteral>] GeolocationStatic =
     /// Invokes the success callback once with the latest location info.  Supported
@@ -6361,12 +6368,12 @@ type RCTNativeAppEventEmitter =
 type [<AllowNullLiteral>] ImageCropData =
     /// The top-left corner of the cropped image, specified in the original
     /// image's coordinate space.
-    abstract offset: obj with get, set
+    abstract offset: TypeLiteral_09 with get, set
     /// The size (dimensions) of the cropped image, specified in the original
     /// image's coordinate space.
-    abstract size: obj with get, set
+    abstract size: TypeLiteral_06 with get, set
     /// (Optional) size to scale the cropped image to.
-    abstract displaySize: obj option with get, set
+    abstract displaySize: TypeLiteral_06 option with get, set
     /// (Optional) the resizing mode to use when scaling the image. If the
     /// `displaySize` param is not specified, this has no effect.
     abstract resizeMode: U3<string, string, string> option with get, set
@@ -6664,3 +6671,209 @@ type [<AllowNullLiteral>] Console =
 type [<AllowNullLiteral>] Navigator =
     abstract product: string
     abstract geolocation: Geolocation
+
+type [<AllowNullLiteral>] TypeLiteral_49 =
+    interface end
+
+type [<AllowNullLiteral>] TypeLiteral_32 =
+    abstract RED: string with get, set
+    abstract GREEN: string with get, set
+    abstract PURPLE: string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_38 =
+    abstract ``type``: string with get, set
+    abstract group_name: string with get, set
+    abstract image: TypeLiteral_36 with get, set
+    abstract timestamp: float with get, set
+    abstract location: TypeLiteral_37 with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_47 =
+    abstract action: string with get, set
+    abstract hour: float with get, set
+    abstract minute: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_23 =
+    abstract animated: bool option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_24 =
+    abstract animated: bool option with get, set
+    abstract index: float with get, set
+    abstract viewOffset: float option with get, set
+    abstract viewPosition: float option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_25<'ItemT> =
+    abstract animated: bool option with get, set
+    abstract item: 'ItemT with get, set
+    abstract viewPosition: float option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_26 =
+    abstract animated: bool option with get, set
+    abstract offset: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_22 =
+    abstract contentLength: float with get, set
+    abstract totalRows: float with get, set
+    abstract renderedRows: float with get, set
+    abstract visibleRows: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_21 =
+    abstract distanceFromEnd: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_05 =
+    abstract easeInEaseOut: LayoutAnimationConfig with get, set
+    abstract linear: LayoutAnimationConfig with get, set
+    abstract spring: LayoutAnimationConfig with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_42 =
+    abstract fetch: (unit -> Promise<bool>) with get, set
+    /// eventName is expected to be `change`(deprecated) or `connectionChange`
+    abstract addEventListener: (string -> (bool -> unit) -> unit) with get, set
+    /// eventName is expected to be `change`(deprecated) or `connectionChange`
+    abstract removeEventListener: (string -> (bool -> unit) -> unit) with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_35 =
+    abstract has_next_page: bool with get, set
+    abstract end_cursor: string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_40 =
+    abstract has_next_page: bool with get, set
+    abstract start_cursor: string option with get, set
+    abstract end_cursor: string option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_17 =
+    abstract height: float with get, set
+    abstract width: float with get, set
+    abstract url: string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_19 =
+    abstract highlight: (unit -> unit) with get, set
+    abstract unhighlight: (unit -> unit) with get, set
+    abstract updateProps: (U2<string, string> -> obj option -> unit) with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_27 =
+    abstract index: float with get, set
+    abstract highestMeasuredFrameIndex: float with get, set
+    abstract averageItemLength: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_34 =
+    abstract interactionStart: string with get, set
+    abstract interactionComplete: string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_31 =
+    abstract latitude: float with get, set
+    abstract longitude: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_37 =
+    abstract latitude: float with get, set
+    abstract longitude: float with get, set
+    abstract altitude: float with get, set
+    abstract heading: float with get, set
+    abstract speed: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_07 =
+    abstract latitude: float with get, set
+    abstract longitude: float with get, set
+    abstract altitude: float option with get, set
+    abstract accuracy: float with get, set
+    abstract altitudeAccuracy: float option with get, set
+    abstract heading: float option with get, set
+    abstract speed: float option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_08 =
+    abstract layout: LayoutRectangle with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_13 =
+    abstract layout: TypeLiteral_12 with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_20 =
+    abstract length: float with get, set
+    abstract offset: float with get, set
+    abstract index: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_46 =
+    abstract message: string with get, set
+    abstract code: float with get, set
+    abstract details: obj option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_14 =
+    abstract nativeEvent: TypeLiteral_13 with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_39 =
+    abstract node: TypeLiteral_38 with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_28<'ItemT> =
+    abstract section: SectionListData<'ItemT> with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_10 =
+    abstract start: float with get, set
+    abstract ``end``: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_11 =
+    abstract start: float with get, set
+    abstract ``end``: float option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_36 =
+    abstract uri: string with get, set
+    abstract height: float with get, set
+    abstract width: float with get, set
+    abstract isStored: bool option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_41 =
+    abstract url: string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_18 =
+    abstract viewableItems: Array<ViewToken> with get, set
+    abstract changed: Array<ViewToken> with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_06 =
+    abstract width: float with get, set
+    abstract height: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_48 =
+    abstract width: float option with get, set
+    abstract height: float option with get, set
+    abstract format: U2<string, string> option with get, set
+    abstract quality: float option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_33 =
+    abstract window: ScaledSize with get, set
+    abstract screen: ScaledSize with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_09 =
+    abstract x: float with get, set
+    abstract y: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_12 =
+    abstract x: float with get, set
+    abstract y: float with get, set
+    abstract width: float with get, set
+    abstract height: float with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_15 =
+    abstract x: float option with get, set
+    abstract y: float option with get, set
+    abstract animated: bool option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_44 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> Permission with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_43 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> PermissionStatus with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_16 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_04 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_03 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> React.Component<obj option, obj option> with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_45 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: permission: string -> PermissionStatus with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_29 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: rowID: string -> bool with get, set
+
+type [<AllowNullLiteral>] TypeLiteral_30 =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: sectionId: string -> TypeLiteral_29 with get, set

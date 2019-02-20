@@ -71,7 +71,7 @@ module Yargs =
         abstract completion: cmd: string * ?description: string * ?fn: AsyncCompletionFunction -> Argv
         abstract completion: cmd: string * ?description: string * ?fn: SyncCompletionFunction -> Argv
         abstract example: command: string * description: string -> Argv
-        abstract check: func: (Arguments -> obj -> obj option) * ?``global``: bool -> Argv
+        abstract check: func: (Arguments -> TypeLiteral_01 -> obj option) * ?``global``: bool -> Argv
         abstract boolean: key: string -> Argv
         abstract boolean: keys: ResizeArray<string> -> Argv
         abstract string: key: string -> Argv
@@ -265,3 +265,6 @@ module Yargs =
 
     type Choices =
         ResizeArray<Choice>
+
+    type [<AllowNullLiteral>] TypeLiteral_01 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: alias: string -> string with get, set
