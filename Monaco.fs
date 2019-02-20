@@ -2357,6 +2357,10 @@ module Monaco =
             [<Emit "new $0($1...)">] abstract Create: unit -> BareFontInfo
 
     module Languages =
+        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
+        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
+        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
+        let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
 
         type [<AllowNullLiteral>] IExports =
             /// Register information about a new language.
@@ -2955,20 +2959,6 @@ module Monaco =
             /// token class
             abstract token: string with get, set
 
-    module Worker =
-
-        type [<AllowNullLiteral>] IMirrorModel =
-            abstract uri: Uri
-            abstract version: float
-            abstract getValue: unit -> string
-
-        type [<AllowNullLiteral>] IWorkerContext =
-            /// Get all available mirror models in this worker.
-            abstract getMirrorModels: unit -> ResizeArray<IMirrorModel>
-
-    module Languages =
-        let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
-
         module Typescript =
 
             type [<AllowNullLiteral>] IExports =
@@ -3116,9 +3106,6 @@ module Monaco =
                 /// to the worker on start or restart.
                 abstract setEagerModelSync: value: bool -> unit
 
-    module Languages =
-        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
-
         module Css =
 
             type [<AllowNullLiteral>] IExports =
@@ -3134,9 +3121,6 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
-
-    module Languages =
-        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
 
         module Json =
 
@@ -3155,9 +3139,6 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
-
-    module Languages =
-        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
 
         module Html =
 
@@ -3193,3 +3174,14 @@ module Monaco =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract options: Options
                 abstract setOptions: options: Options -> unit
+
+    module Worker =
+
+        type [<AllowNullLiteral>] IMirrorModel =
+            abstract uri: Uri
+            abstract version: float
+            abstract getValue: unit -> string
+
+        type [<AllowNullLiteral>] IWorkerContext =
+            /// Get all available mirror models in this worker.
+            abstract getMirrorModels: unit -> ResizeArray<IMirrorModel>
