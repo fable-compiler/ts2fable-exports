@@ -51,7 +51,7 @@ module React =
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<obj, HTMLInputElement>
+        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<TypeLiteral_01, HTMLInputElement>
         abstract createElement: ``type``: obj * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
         abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
         abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
@@ -276,7 +276,7 @@ module React =
         abstract props: obj with get, set
         abstract state: obj with get, set
         abstract context: obj option with get, set
-        abstract refs: obj with get, set
+        abstract refs: TypeLiteral_02 with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
         [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
@@ -387,7 +387,7 @@ module React =
     type [<AllowNullLiteral>] Mixin<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
         abstract mixins: Array<Mixin<'P, 'S>> option with get, set
-        abstract statics: obj option with get, set
+        abstract statics: TypeLiteral_03 option with get, set
         abstract displayName: string option with get, set
         abstract propTypes: ValidationMap<obj option> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
@@ -585,7 +585,7 @@ module React =
 
     type [<AllowNullLiteral>] DOMAttributes<'T> =
         abstract children: ReactNode option with get, set
-        abstract dangerouslySetInnerHTML: obj option with get, set
+        abstract dangerouslySetInnerHTML: TypeLiteral_04 option with get, set
         abstract onCopy: ClipboardEventHandler<'T> option with get, set
         abstract onCopyCapture: ClipboardEventHandler<'T> option with get, set
         abstract onCut: ClipboardEventHandler<'T> option with get, set
@@ -2533,6 +2533,18 @@ module React =
         /// Captures which component contained the exception, and it's ancestors.
         abstract componentStack: string with get, set
 
+    type [<AllowNullLiteral>] TypeLiteral_01 =
+        interface end
+
+    type [<AllowNullLiteral>] TypeLiteral_04 =
+        abstract __html: string with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_02 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> ReactInstance with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_03 =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+
 module JSX =
 
     type [<AllowNullLiteral>] Element =
@@ -2543,10 +2555,10 @@ module JSX =
         abstract render: unit -> U2<Element, obj> option
 
     type [<AllowNullLiteral>] ElementAttributesProperty =
-        abstract props: obj with get, set
+        abstract props: TypeLiteral_05 with get, set
 
     type [<AllowNullLiteral>] ElementChildrenAttribute =
-        abstract children: obj with get, set
+        abstract children: TypeLiteral_05 with get, set
 
     type [<AllowNullLiteral>] IntrinsicAttributes =
         inherit React.Attributes
@@ -2724,3 +2736,6 @@ module JSX =
         abstract tspan: React.SVGProps<SVGTSpanElement> with get, set
         abstract ``use``: React.SVGProps<SVGUseElement> with get, set
         abstract view: React.SVGProps<SVGViewElement> with get, set
+
+    type [<AllowNullLiteral>] TypeLiteral_05 =
+        interface end
