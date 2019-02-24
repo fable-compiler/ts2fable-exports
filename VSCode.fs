@@ -46,6 +46,7 @@ module Vscode =
         abstract ColorPresentation: ColorPresentationStatic
         abstract Location: LocationStatic
         abstract Diagnostic: DiagnosticStatic
+        abstract TaskGroup: TaskGroupStatic
         abstract ProcessExecution: ProcessExecutionStatic
         abstract ShellExecution: ShellExecutionStatic
         abstract Task: TaskStatic
@@ -2255,6 +2256,11 @@ module Vscode =
     /// A grouping for tasks. The editor by default supports the
     /// 'Clean', 'Build', 'RebuildAll' and 'Test' group.
     type [<AllowNullLiteral>] TaskGroup =
+        interface end
+
+    /// A grouping for tasks. The editor by default supports the
+    /// 'Clean', 'Build', 'RebuildAll' and 'Test' group.
+    type [<AllowNullLiteral>] TaskGroupStatic =
         /// The clean task group;
         abstract Clean: TaskGroup with get, set
         /// The build task group;
