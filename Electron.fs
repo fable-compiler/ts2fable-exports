@@ -2162,8 +2162,6 @@ module Electron =
 
     type [<AllowNullLiteral>] Session =
         inherit EventEmitter
-        /// A Session object, the default session object of the app.
-        abstract defaultSession: Session option with get, set
         /// Emitted when Electron is about to download item in webContents. Calling
         /// event.preventDefault() will cancel the download and item will not be available
         /// from next tick of the process.
@@ -2239,6 +2237,8 @@ module Electron =
         /// options, you have to ensure the Session with the partition has never been used
         /// before. There is no way to change the options of an existing Session object.
         abstract fromPartition: partition: string * ?options: FromPartitionOptions -> Session
+        /// A Session object, the default session object of the app.
+        abstract defaultSession: Session option with get, set
 
     type [<AllowNullLiteral>] Shell =
         /// Play the beep sound.
@@ -2450,6 +2450,9 @@ module Electron =
     type [<AllowNullLiteral>] TouchBar =
         inherit EventEmitter
         abstract escapeItem: obj option with get, set
+
+    type [<AllowNullLiteral>] TouchBarStatic =
+        [<Emit "new $0($1...)">] abstract Create: options: TouchBarConstructorOptions -> TouchBar
         abstract TouchBarButton: obj with get, set
         abstract TouchBarColorPicker: obj with get, set
         abstract TouchBarGroup: obj with get, set
@@ -2459,9 +2462,6 @@ module Electron =
         abstract TouchBarSegmentedControl: obj with get, set
         abstract TouchBarSlider: obj with get, set
         abstract TouchBarSpacer: obj with get, set
-
-    type [<AllowNullLiteral>] TouchBarStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarConstructorOptions -> TouchBar
 
     type [<AllowNullLiteral>] Tray =
         inherit EventEmitter

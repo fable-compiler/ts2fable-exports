@@ -278,7 +278,6 @@ module __components_Autofill_Autofill =
     type [<AllowNullLiteral>] Autofill =
         inherit BaseComponent<IAutofillProps, IAutofillState>
         inherit IAutofill
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract cursorLocation: float option
         abstract isValueSelected: bool
         abstract value: string
@@ -292,6 +291,7 @@ module __components_Autofill_Autofill =
         abstract clear: unit -> unit
 
     type [<AllowNullLiteral>] AutofillStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IAutofillProps -> Autofill
 
     /// Legacy, @deprecated, do not use.
@@ -378,13 +378,13 @@ module __components_Breadcrumb_Breadcrumb_base =
 
     type [<AllowNullLiteral>] BreadcrumbBase =
         inherit BaseComponent<IBreadcrumbProps, obj option>
-        abstract defaultProps: IBreadcrumbProps with get, set
         /// Sets focus to the first breadcrumb link.
         abstract focus: unit -> unit
         abstract render: unit -> JSX.Element
         abstract componentWillReceiveProps: nextProps: IBreadcrumbProps -> unit
 
     type [<AllowNullLiteral>] BreadcrumbBaseStatic =
+        abstract defaultProps: IBreadcrumbProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IBreadcrumbProps -> BreadcrumbBase
 
 module __components_Breadcrumb_Breadcrumb_checklist =
@@ -537,7 +537,6 @@ module __components_Button_BaseButton =
     type [<AllowNullLiteral>] BaseButton =
         inherit BaseComponent<IBaseButtonProps, IBaseButtonState>
         inherit IButton
-        abstract defaultProps: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: IBaseButtonProps * prevState: IBaseButtonState -> unit
@@ -546,6 +545,7 @@ module __components_Button_BaseButton =
         abstract openMenu: unit -> unit
 
     type [<AllowNullLiteral>] BaseButtonStatic =
+        abstract defaultProps: obj with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IBaseButtonProps * rootClassName: string -> BaseButton
 
 module __components_Button_BaseButton_styles =
@@ -885,13 +885,13 @@ module __components_Calendar_Calendar =
     type [<AllowNullLiteral>] Calendar =
         inherit BaseComponent<ICalendarProps, ICalendarState>
         inherit ICalendar
-        abstract defaultProps: ICalendarProps with get, set
         abstract componentWillReceiveProps: nextProps: ICalendarProps -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
 
     type [<AllowNullLiteral>] CalendarStatic =
+        abstract defaultProps: ICalendarProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarProps -> Calendar
 
 module __components_Calendar_Calendar_scss =
@@ -1373,7 +1373,6 @@ module __components_Callout_CalloutContent_base =
 
     type [<AllowNullLiteral>] CalloutContentBase =
         inherit BaseComponent<ICalloutProps, ICalloutState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentDidUpdate: unit -> unit
         abstract componentWillMount: unit -> unit
         abstract componentWillUpdate: newProps: ICalloutProps -> unit
@@ -1386,6 +1385,7 @@ module __components_Callout_CalloutContent_base =
         abstract _onComponentDidMount: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] CalloutContentBaseStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ICalloutProps -> CalloutContentBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -1431,12 +1431,12 @@ module __components_Check_Check_base =
 
     type [<AllowNullLiteral>] CheckBase =
         inherit BaseComponent<ICheckProps, TypeLiteral_01>
-        abstract defaultProps: ICheckProps with get, set
         abstract shouldComponentUpdate: newProps: ICheckProps -> bool
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] CheckBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CheckBase
+        abstract defaultProps: ICheckProps with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
@@ -1516,7 +1516,6 @@ module __components_Checkbox_Checkbox_base =
     type [<AllowNullLiteral>] Checkbox =
         inherit BaseComponent<ICheckboxProps, ICheckboxState>
         inherit ICheckbox
-        abstract defaultProps: ICheckboxProps with get, set
         abstract componentWillReceiveProps: newProps: ICheckboxProps -> unit
         /// Render the Checkbox based on passed props
         abstract render: unit -> JSX.Element
@@ -1524,6 +1523,7 @@ module __components_Checkbox_Checkbox_base =
         abstract focus: unit -> unit
 
     type [<AllowNullLiteral>] CheckboxStatic =
+        abstract defaultProps: ICheckboxProps with get, set
         /// <summary>Initialize a new instance of the TopHeaderV2</summary>
         /// <param name="props">Props for the component</param>
         /// <param name="context">Context or initial state for the base component.</param>
@@ -1710,12 +1710,12 @@ module __components_ChoiceGroup_ChoiceGroup =
 
     type [<AllowNullLiteral>] ChoiceGroup =
         inherit BaseComponent<IChoiceGroupProps, IChoiceGroupState>
-        abstract defaultProps: IChoiceGroupProps with get, set
         abstract componentWillReceiveProps: newProps: IChoiceGroupProps -> unit
         abstract render: unit -> JSX.Element
         abstract focus: unit -> unit
 
     type [<AllowNullLiteral>] ChoiceGroupStatic =
+        abstract defaultProps: IChoiceGroupProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IChoiceGroupProps -> ChoiceGroup
 
 module __components_ChoiceGroup_ChoiceGroup_scss =
@@ -1851,12 +1851,12 @@ module __components_Coachmark_Coachmark =
 
     type [<AllowNullLiteral>] Coachmark =
         inherit BaseComponent<ICoachmarkTypes, ICoachmarkState>
-        abstract defaultProps: obj with get, set
         abstract render: unit -> JSX.Element
         abstract componentWillReceiveProps: newProps: ICoachmarkTypes -> unit
         abstract componentDidMount: unit -> unit
 
     type [<AllowNullLiteral>] CoachmarkStatic =
+        abstract defaultProps: obj with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ICoachmarkTypes -> Coachmark
 
 module __components_Coachmark_Coachmark_styles =
@@ -2003,11 +2003,11 @@ module __components_ColorPicker_ColorPicker =
 
     type [<AllowNullLiteral>] ColorPicker =
         inherit BaseComponent<IColorPickerProps, IColorPickerState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentWillReceiveProps: newProps: IColorPickerProps -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ColorPickerStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IColorPickerProps -> ColorPicker
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -2097,12 +2097,12 @@ module __components_ColorPicker_ColorRectangle =
 
     type [<AllowNullLiteral>] ColorRectangle =
         inherit BaseComponent<IColorRectangleProps, IColorPickerState>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract componentWillUnmount: unit -> unit
         abstract componentWillReceiveProps: newProps: IColorRectangleProps -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ColorRectangleStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IColorRectangleProps -> ColorRectangle
 
     type [<AllowNullLiteral>] TypeLiteral_02 =
@@ -2137,11 +2137,11 @@ module __components_ColorPicker_ColorSlider =
 
     type [<AllowNullLiteral>] ColorSlider =
         inherit BaseComponent<IColorSliderProps, IColorSliderState>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract componentWillReceiveProps: newProps: IColorSliderProps -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ColorSliderStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IColorSliderProps -> ColorSlider
 
     type [<AllowNullLiteral>] TypeLiteral_02 =
@@ -2211,7 +2211,6 @@ module __components_ComboBox_ComboBox =
 
     type [<AllowNullLiteral>] ComboBox =
         inherit BaseComponent<IComboBoxProps, IComboBoxState>
-        abstract defaultProps: IComboBoxProps with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: newProps: IComboBoxProps -> unit
         abstract componentDidUpdate: prevProps: IComboBoxProps * prevState: IComboBoxState -> unit
@@ -2223,6 +2222,7 @@ module __components_ComboBox_ComboBox =
         abstract dismissMenu: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] ComboBoxStatic =
+        abstract defaultProps: IComboBoxProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IComboBoxProps -> ComboBox
 
 module __components_ComboBox_ComboBox_styles =
@@ -2450,7 +2450,6 @@ module __components_CommandBar_CommandBar =
     type [<AllowNullLiteral>] CommandBar =
         inherit BaseComponent<ICommandBarProps, ICommandBarState>
         inherit ICommandBar
-        abstract defaultProps: ICommandBarProps with get, set
         abstract refs: TypeLiteral_01 with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: nextProps: ICommandBarProps -> unit
@@ -2459,6 +2458,7 @@ module __components_CommandBar_CommandBar =
         abstract focus: unit -> unit
 
     type [<AllowNullLiteral>] CommandBarStatic =
+        abstract defaultProps: ICommandBarProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ICommandBarProps -> CommandBar
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -2610,7 +2610,6 @@ module __components_ContextualMenu_ContextualMenu =
 
     type [<AllowNullLiteral>] ContextualMenu =
         inherit BaseComponent<IContextualMenuProps, IContextualMenuState>
-        abstract defaultProps: IContextualMenuProps with get, set
         abstract dismiss: (obj -> bool -> unit) with get, set
         abstract componentWillUpdate: newProps: IContextualMenuProps -> unit
         abstract componentWillMount: unit -> unit
@@ -2619,6 +2618,7 @@ module __components_ContextualMenu_ContextualMenu =
         abstract render: unit -> JSX.Element option
 
     type [<AllowNullLiteral>] ContextualMenuStatic =
+        abstract defaultProps: IContextualMenuProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IContextualMenuProps -> ContextualMenu
 
 module __components_ContextualMenu_ContextualMenu_styles =
@@ -3000,7 +3000,6 @@ module __components_DatePicker_DatePicker =
     type [<AllowNullLiteral>] DatePicker =
         inherit BaseComponent<IDatePickerProps, IDatePickerState>
         inherit IDatePicker
-        abstract defaultProps: IDatePickerProps with get, set
         abstract componentWillReceiveProps: nextProps: IDatePickerProps -> unit
         abstract componentDidUpdate: prevProps: IDatePickerProps * prevState: IDatePickerState -> unit
         abstract render: unit -> JSX.Element
@@ -3008,6 +3007,7 @@ module __components_DatePicker_DatePicker =
         abstract reset: unit -> unit
 
     type [<AllowNullLiteral>] DatePickerStatic =
+        abstract defaultProps: IDatePickerProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDatePickerProps -> DatePicker
 
 module __components_DatePicker_DatePicker_scss =
@@ -3248,7 +3248,6 @@ module __components_DetailsList_DetailsHeader =
     type [<AllowNullLiteral>] DetailsHeader =
         inherit BaseComponent<IDetailsHeaderProps, IDetailsHeaderState>
         inherit IDetailsHeader
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: IDetailsHeaderProps -> unit
         abstract componentWillReceiveProps: newProps: IDetailsHeaderProps -> unit
@@ -3258,6 +3257,7 @@ module __components_DetailsList_DetailsHeader =
         abstract focus: unit -> bool
 
     type [<AllowNullLiteral>] DetailsHeaderStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsHeaderProps -> DetailsHeader
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -3340,7 +3340,6 @@ module __components_DetailsList_DetailsList =
     type [<AllowNullLiteral>] DetailsList =
         inherit BaseComponent<IDetailsListProps, IDetailsListState>
         inherit IDetailsList
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract scrollToIndex: index: float * ?measureItem: (float -> float) * ?scrollToMode: ScrollToMode -> unit
         abstract focusIndex: index: float * ?forceIntoFirstElement: bool * ?measureItem: (float -> float) * ?scrollToMode: ScrollToMode -> unit
         abstract componentWillUnmount: unit -> unit
@@ -3352,6 +3351,7 @@ module __components_DetailsList_DetailsList =
         abstract _onRenderRow: (IDetailsRowProps -> obj -> JSX.Element) with get, set
 
     type [<AllowNullLiteral>] DetailsListStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDetailsListProps -> DetailsList
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -3782,10 +3782,10 @@ module __components_Dialog_Dialog_base =
 
     type [<AllowNullLiteral>] DialogBase =
         inherit BaseComponent<IDialogProps, TypeLiteral_01>
-        abstract defaultProps: IDialogProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogBaseStatic =
+        abstract defaultProps: IDialogProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDialogProps -> DialogBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -3912,10 +3912,10 @@ module __components_Dialog_DialogContent_base =
 
     type [<AllowNullLiteral>] DialogContentBase =
         inherit BaseComponent<IDialogContentProps, TypeLiteral_01>
-        abstract defaultProps: IDialogContentProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogContentBaseStatic =
+        abstract defaultProps: IDialogContentProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDialogContentProps -> DialogContentBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -4156,10 +4156,10 @@ module __components_DocumentCard_DocumentCard =
 
     type [<AllowNullLiteral>] DocumentCard =
         inherit BaseComponent<IDocumentCardProps, obj option>
-        abstract defaultProps: IDocumentCardProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DocumentCardStatic =
+        abstract defaultProps: IDocumentCardProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDocumentCardProps -> DocumentCard
 
 module __components_DocumentCard_DocumentCard_scss =
@@ -4498,7 +4498,6 @@ module __components_Dropdown_Dropdown =
 
     type [<AllowNullLiteral>] Dropdown =
         inherit BaseComponent<IDropdownInternalProps, IDropdownState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentWillReceiveProps: newProps: IDropdownProps -> unit
         abstract componentDidUpdate: prevProps: IDropdownProps * prevState: IDropdownState -> unit
         abstract render: unit -> JSX.Element
@@ -4506,6 +4505,7 @@ module __components_Dropdown_Dropdown =
         abstract setSelectedIndex: index: float -> unit
 
     type [<AllowNullLiteral>] DropdownStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IDropdownProps -> Dropdown
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -4795,11 +4795,11 @@ module __components_Facepile_Facepile_base =
 
     type [<AllowNullLiteral>] FacepileBase =
         inherit BaseComponent<IFacepileProps, TypeLiteral_01>
-        abstract defaultProps: IFacepileProps with get, set
         abstract render: unit -> JSX.Element
         abstract onRenderAriaDescription: unit -> U2<string, JSX.Element> option
 
     type [<AllowNullLiteral>] FacepileBaseStatic =
+        abstract defaultProps: IFacepileProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IFacepileProps -> FacepileBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -5194,7 +5194,6 @@ module __components_FocusZone_FocusZone =
     type [<AllowNullLiteral>] FocusZone =
         inherit BaseComponent<IFocusZoneProps, TypeLiteral_01>
         inherit IFocusZone
-        abstract defaultProps: IFocusZoneProps with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
@@ -5208,6 +5207,7 @@ module __components_FocusZone_FocusZone =
         abstract focusElement: element: HTMLElement -> bool
 
     type [<AllowNullLiteral>] FocusZoneStatic =
+        abstract defaultProps: IFocusZoneProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IFocusZoneProps -> FocusZone
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -5340,8 +5340,7 @@ module __components_GroupedList_GroupedList =
     type [<AllowNullLiteral>] GroupedList =
         inherit BaseComponent<IGroupedListProps, IGroupedListState>
         inherit IGroupedList
-        abstract defaultProps: TypeLiteral_02 with get, set
-        abstract refs: TypeLiteral_03 with get, set
+        abstract refs: TypeLiteral_01 with get, set
         abstract scrollToIndex: index: float * ?measureItem: (float -> float) * ?scrollToMode: ScrollToMode -> unit
         abstract componentWillReceiveProps: newProps: IGroupedListProps -> unit
         abstract render: unit -> JSX.Element
@@ -5349,17 +5348,18 @@ module __components_GroupedList_GroupedList =
         abstract toggleCollapseAll: allCollapsed: bool -> unit
 
     type [<AllowNullLiteral>] GroupedListStatic =
+        abstract defaultProps: TypeLiteral_03 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IGroupedListProps -> GroupedList
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] TypeLiteral_02 =
         interface end
 
-    type [<AllowNullLiteral>] TypeLiteral_02 =
+    type [<AllowNullLiteral>] TypeLiteral_03 =
         abstract selectionMode: SelectionMode with get, set
         abstract isHeaderVisible: bool with get, set
-        abstract groupProps: TypeLiteral_01 with get, set
+        abstract groupProps: TypeLiteral_02 with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_03 =
+    type [<AllowNullLiteral>] TypeLiteral_01 =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> React.ReactInstance with get, set
 
 module __components_GroupedList_GroupedList_scss =
@@ -5694,11 +5694,11 @@ module __components_GroupedList_GroupShowAll =
 
     type [<AllowNullLiteral>] GroupShowAll =
         inherit BaseComponent<IGroupDividerProps, TypeLiteral_01>
-        abstract defaultProps: IGroupDividerProps with get, set
         abstract render: unit -> JSX.Element option
 
     type [<AllowNullLiteral>] GroupShowAllStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GroupShowAll
+        abstract defaultProps: IGroupDividerProps with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
@@ -5735,12 +5735,12 @@ module __components_HoverCard_ExpandingCard =
 
     type [<AllowNullLiteral>] ExpandingCard =
         inherit BaseComponent<IExpandingCardProps, IExpandingCardState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ExpandingCardStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IExpandingCardProps -> ExpandingCard
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -5853,12 +5853,12 @@ module __components_HoverCard_HoverCard =
 
     type [<AllowNullLiteral>] HoverCard =
         inherit BaseComponent<IHoverCardProps, IHoverCardState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: prevProps: IHoverCardProps * prevState: IHoverCardState -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] HoverCardStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IHoverCardProps -> HoverCard
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -6046,12 +6046,12 @@ module __components_Image_Image_base =
 
     type [<AllowNullLiteral>] ImageBase =
         inherit BaseComponent<IImageProps, IImageState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract componentWillReceiveProps: nextProps: IImageProps -> unit
         abstract componentDidUpdate: prevProps: IImageProps * prevState: IImageState -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ImageBaseStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IImageProps -> ImageBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -6422,7 +6422,6 @@ module __components_KeytipLayer_KeytipLayer_base =
     /// A layer that holds all keytip items
     type [<AllowNullLiteral>] KeytipLayerBase =
         inherit BaseComponent<IKeytipLayerProps, IKeytipLayerState>
-        abstract defaultProps: IKeytipLayerProps with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -6440,6 +6439,7 @@ module __components_KeytipLayer_KeytipLayer_base =
 
     /// A layer that holds all keytip items
     type [<AllowNullLiteral>] KeytipLayerBaseStatic =
+        abstract defaultProps: IKeytipLayerProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IKeytipLayerProps * context: obj option -> KeytipLayerBase
 
 module __components_KeytipLayer_KeytipLayer =
@@ -6627,13 +6627,13 @@ module __components_Layer_Layer_base =
 
     type [<AllowNullLiteral>] LayerBase =
         inherit BaseComponent<ILayerProps, TypeLiteral_01>
-        abstract defaultProps: ILayerProps with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] LayerBaseStatic =
+        abstract defaultProps: ILayerProps with get, set
         /// Used for notifying applicable Layers that a host is available/unavailable and to re-evaluate Layers that
         /// care about the specific host.
         abstract notifyHostChanged: id: string -> unit
@@ -6916,8 +6916,7 @@ module __components_List_List =
     type [<AllowNullLiteral>] List =
         inherit BaseComponent<IListProps, IListState>
         inherit IList
-        abstract defaultProps: TypeLiteral_01 with get, set
-        abstract refs: TypeLiteral_02 with get, set
+        abstract refs: TypeLiteral_01 with get, set
         /// <summary>Scroll to the given index. By default will bring the page the specified item is on into the view. If a callback
         /// to measure the height of an individual item is specified, will only scroll to bring the specific item into view.
         /// 
@@ -6955,15 +6954,16 @@ module __components_List_List =
     /// or forcing an update change cause pages to shrink/grow. When these operations occur, we increment a measureVersion
     /// number, which we associate with cached measurements and use to determine if a remeasure should occur.
     type [<AllowNullLiteral>] ListStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IListProps -> List
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] TypeLiteral_02 =
         abstract startIndex: float with get, set
         abstract onRenderCell: (obj option -> float -> bool -> JSX.Element) with get, set
         abstract renderedWindowsAhead: float with get, set
         abstract renderedWindowsBehind: float with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_02 =
+    type [<AllowNullLiteral>] TypeLiteral_01 =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> React.ReactInstance with get, set
 
 module __components_List_List_types =
@@ -7107,7 +7107,6 @@ module __components_MarqueeSelection_MarqueeSelection_base =
     /// so if the items change sizes while dragging, that could cause incorrect results.
     type [<AllowNullLiteral>] MarqueeSelectionBase =
         inherit BaseComponent<IMarqueeSelectionProps, IMarqueeSelectionState>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
@@ -7117,6 +7116,7 @@ module __components_MarqueeSelection_MarqueeSelection_base =
     /// fall within the bounds of the rectangle. The measure is memoized during the drag as a performance optimization
     /// so if the items change sizes while dragging, that could cause incorrect results.
     type [<AllowNullLiteral>] MarqueeSelectionBaseStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IMarqueeSelectionProps -> MarqueeSelectionBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -7234,10 +7234,10 @@ module __components_MessageBar_MessageBar =
 
     type [<AllowNullLiteral>] MessageBar =
         inherit BaseComponent<IMessageBarProps, IMessageBarState>
-        abstract defaultProps: IMessageBarProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] MessageBarStatic =
+        abstract defaultProps: IMessageBarProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IMessageBarProps -> MessageBar
 
 module __components_MessageBar_MessageBar_scss =
@@ -7353,13 +7353,13 @@ module __components_Modal_Modal =
     type [<AllowNullLiteral>] Modal =
         inherit BaseComponent<IModalProps, IDialogState>
         inherit IModal
-        abstract defaultProps: IModalProps with get, set
         abstract componentWillReceiveProps: newProps: IModalProps -> unit
         abstract componentDidUpdate: prevProps: IModalProps * prevState: IDialogState -> unit
         abstract render: unit -> JSX.Element option
         abstract focus: unit -> unit
 
     type [<AllowNullLiteral>] ModalStatic =
+        abstract defaultProps: IModalProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IModalProps -> Modal
 
 module __components_Modal_Modal_scss =
@@ -7440,12 +7440,12 @@ module __components_Nav_Nav_base =
     type [<AllowNullLiteral>] NavBase =
         inherit BaseComponent<INavProps, INavState>
         inherit INav
-        abstract defaultProps: INavProps with get, set
         abstract componentWillReceiveProps: newProps: INavProps -> unit
         abstract render: unit -> JSX.Element option
         abstract selectedKey: string option
 
     type [<AllowNullLiteral>] NavBaseStatic =
+        abstract defaultProps: INavProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: INavProps -> NavBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -7901,7 +7901,6 @@ module __components_Panel_Panel =
     type [<AllowNullLiteral>] Panel =
         inherit BaseComponent<IPanelProps, IPanelState>
         inherit IPanel
-        abstract defaultProps: IPanelProps with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: newProps: IPanelProps -> unit
         abstract render: unit -> JSX.Element option
@@ -7909,6 +7908,7 @@ module __components_Panel_Panel =
         abstract dismiss: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] PanelStatic =
+        abstract defaultProps: IPanelProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IPanelProps -> Panel
 
 module __components_Panel_Panel_scss =
@@ -8065,12 +8065,12 @@ module __components_Persona_Persona_base =
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
     type [<AllowNullLiteral>] PersonaBase =
         inherit BaseComponent<IPersonaProps, TypeLiteral_01>
-        abstract defaultProps: IPersonaProps with get, set
         abstract render: unit -> JSX.Element
 
     /// Persona with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
     type [<AllowNullLiteral>] PersonaBaseStatic =
+        abstract defaultProps: IPersonaProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IPersonaProps -> PersonaBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -8899,7 +8899,6 @@ module __components_Popup_Popup =
     /// This adds accessibility to Dialog and Panel controls
     type [<AllowNullLiteral>] Popup =
         inherit BaseComponent<IPopupProps, IPopupState>
-        abstract defaultProps: IPopupProps with get, set
         abstract _root: TypeLiteral_01 with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
@@ -8909,6 +8908,7 @@ module __components_Popup_Popup =
 
     /// This adds accessibility to Dialog and Panel controls
     type [<AllowNullLiteral>] PopupStatic =
+        abstract defaultProps: IPopupProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IPopupProps -> Popup
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -8954,12 +8954,12 @@ module __components_ProgressIndicator_ProgressIndicator_base =
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
     type [<AllowNullLiteral>] ProgressIndicatorBase =
         inherit BaseComponent<IProgressIndicatorProps, TypeLiteral_01>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract render: unit -> JSX.Element
 
     /// ProgressIndicator with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
     type [<AllowNullLiteral>] ProgressIndicatorBaseStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IProgressIndicatorProps -> ProgressIndicatorBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -9078,11 +9078,11 @@ module __components_Rating_Rating_base =
 
     type [<AllowNullLiteral>] RatingBase =
         inherit BaseComponent<IRatingProps, IRatingState>
-        abstract defaultProps: IRatingProps with get, set
         abstract componentWillReceiveProps: nextProps: IRatingProps -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] RatingBaseStatic =
+        abstract defaultProps: IRatingProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IRatingProps -> RatingBase
 
 module __components_Rating_Rating_checklist =
@@ -9346,7 +9346,6 @@ module __components_ScrollablePane_ScrollablePane_base =
     type [<AllowNullLiteral>] ScrollablePaneBase =
         inherit BaseComponent<IScrollablePaneProps, IScrollablePaneState>
         inherit IScrollablePane
-        abstract childContextTypes: React.ValidationMap<IScrollablePaneContext> with get, set
         abstract root: HTMLDivElement option
         abstract stickyAbove: HTMLDivElement option
         abstract stickyBelow: HTMLDivElement option
@@ -9372,6 +9371,7 @@ module __components_ScrollablePane_ScrollablePane_base =
         abstract scrollablePane: TypeLiteral_01 with get, set
 
     type [<AllowNullLiteral>] ScrollablePaneBaseStatic =
+        abstract childContextTypes: React.ValidationMap<IScrollablePaneContext> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IScrollablePaneProps -> ScrollablePaneBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -9487,7 +9487,6 @@ module __components_SearchBox_SearchBox_base =
 
     type [<AllowNullLiteral>] SearchBoxBase =
         inherit BaseComponent<ISearchBoxProps, ISearchBoxState>
-        abstract defaultProps: ISearchBoxProps with get, set
         abstract componentWillReceiveProps: newProps: ISearchBoxProps -> unit
         abstract render: unit -> JSX.Element
         /// Sets focus to the search box input field
@@ -9496,6 +9495,7 @@ module __components_SearchBox_SearchBox_base =
         abstract hasFocus: unit -> bool
 
     type [<AllowNullLiteral>] SearchBoxBaseStatic =
+        abstract defaultProps: ISearchBoxProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ISearchBoxProps -> SearchBoxBase
 
 module __components_SearchBox_SearchBox_checklist =
@@ -9720,7 +9720,6 @@ module __components_Slider_Slider_base =
     type [<AllowNullLiteral>] SliderBase =
         inherit BaseComponent<ISliderProps, ISliderState>
         inherit ISlider
-        abstract defaultProps: ISliderProps with get, set
         /// Invoked when a component is receiving new props. This method is not called for the initial render.
         abstract componentWillReceiveProps: newProps: ISliderProps -> unit
         abstract render: unit -> React.ReactElement<TypeLiteral_01>
@@ -9728,6 +9727,7 @@ module __components_Slider_Slider_base =
         abstract value: float option
 
     type [<AllowNullLiteral>] SliderBaseStatic =
+        abstract defaultProps: ISliderProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ISliderProps -> SliderBase
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -9924,7 +9924,6 @@ module __components_SpinButton_SpinButton =
     type [<AllowNullLiteral>] SpinButton =
         inherit BaseComponent<ISpinButtonProps, ISpinButtonState>
         inherit ISpinButton
-        abstract defaultProps: ISpinButtonProps with get, set
         /// Invoked when a component is receiving new props. This method is not called for the initial render.
         abstract componentWillReceiveProps: newProps: ISpinButtonProps -> unit
         abstract render: unit -> JSX.Element
@@ -9933,6 +9932,7 @@ module __components_SpinButton_SpinButton =
         abstract value: string option
 
     type [<AllowNullLiteral>] SpinButtonStatic =
+        abstract defaultProps: ISpinButtonProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ISpinButtonProps -> SpinButton
 
 module __components_SpinButton_SpinButton_styles =
@@ -10120,11 +10120,11 @@ module __components_Spinner_Spinner_base =
 
     type [<AllowNullLiteral>] SpinnerBase =
         inherit BaseComponent<ISpinnerProps, obj option>
-        abstract defaultProps: ISpinnerProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] SpinnerBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SpinnerBase
+        abstract defaultProps: ISpinnerProps with get, set
 
 module __components_Spinner_Spinner_checklist =
     type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
@@ -10237,8 +10237,6 @@ module __components_Sticky_Sticky =
 
     type [<AllowNullLiteral>] Sticky =
         inherit BaseComponent<IStickyProps, IStickyState>
-        abstract defaultProps: IStickyProps with get, set
-        abstract contextTypes: IStickyContext with get, set
         abstract context: TypeLiteral_02 with get, set
         abstract distanceFromTop: float with get, set
         abstract root: HTMLDivElement option
@@ -10257,6 +10255,8 @@ module __components_Sticky_Sticky =
         abstract setDistanceFromTop: container: HTMLDivElement -> unit
 
     type [<AllowNullLiteral>] StickyStatic =
+        abstract defaultProps: IStickyProps with get, set
+        abstract contextTypes: IStickyContext with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IStickyProps -> Sticky
 
     type [<AllowNullLiteral>] TypeLiteral_02 =
@@ -10298,11 +10298,11 @@ module __components_SwatchColorPicker_ColorPickerGridCell_base =
 
     type [<AllowNullLiteral>] ColorPickerGridCellBase =
         inherit React.Component<IColorPickerGridCellProps, TypeLiteral_01>
-        abstract defaultProps: IColorPickerGridCellProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ColorPickerGridCellBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ColorPickerGridCellBase
+        abstract defaultProps: IColorPickerGridCellProps with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
@@ -10411,12 +10411,12 @@ module __components_SwatchColorPicker_SwatchColorPicker_base =
     type [<AllowNullLiteral>] SwatchColorPickerBase =
         inherit BaseComponent<ISwatchColorPickerProps, ISwatchColorPickerState>
         inherit ISwatchColorPicker
-        abstract defaultProps: ISwatchColorPickerProps with get, set
         abstract componentWillReceiveProps: newProps: ISwatchColorPickerProps -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element option
 
     type [<AllowNullLiteral>] SwatchColorPickerBaseStatic =
+        abstract defaultProps: ISwatchColorPickerProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ISwatchColorPickerProps -> SwatchColorPickerBase
 
 module __components_SwatchColorPicker_SwatchColorPicker_checklist =
@@ -10563,10 +10563,10 @@ module __components_TeachingBubble_TeachingBubble =
 
     type [<AllowNullLiteral>] TeachingBubble =
         inherit BaseComponent<ITeachingBubbleProps, ITeachingBubbleState>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TeachingBubbleStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ITeachingBubbleProps -> TeachingBubble
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -10650,10 +10650,10 @@ module __components_TeachingBubble_TeachingBubbleContent =
 
     type [<AllowNullLiteral>] TeachingBubbleContent =
         inherit BaseComponent<ITeachingBubbleProps, ITeachingBubbleState>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TeachingBubbleContentStatic =
+        abstract defaultProps: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ITeachingBubbleProps -> TeachingBubbleContent
 
     type [<AllowNullLiteral>] TypeLiteral_02 =
@@ -10712,7 +10712,6 @@ module __components_TextField_TextField =
     type [<AllowNullLiteral>] TextField =
         inherit BaseComponent<ITextFieldProps, ITextFieldState>
         inherit ITextField
-        abstract defaultProps: ITextFieldProps with get, set
         /// Gets the current value of the text field.
         abstract value: string option
         abstract componentDidMount: unit -> unit
@@ -10737,6 +10736,7 @@ module __components_TextField_TextField =
         abstract setSelectionRange: start: float * ``end``: float -> unit
 
     type [<AllowNullLiteral>] TextFieldStatic =
+        abstract defaultProps: ITextFieldProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ITextFieldProps -> TextField
 
 module __components_TextField_TextField_scss =
@@ -11223,11 +11223,11 @@ module __components_Tooltip_Tooltip_base =
 
     type [<AllowNullLiteral>] TooltipBase =
         inherit BaseComponent<ITooltipProps, obj option>
-        abstract defaultProps: obj with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TooltipBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TooltipBase
+        abstract defaultProps: obj with get, set
 
 module __components_Tooltip_Tooltip_checklist =
     type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
@@ -11331,10 +11331,10 @@ module __components_Tooltip_TooltipHost =
 
     type [<AllowNullLiteral>] TooltipHost =
         inherit BaseComponent<ITooltipHostProps, ITooltipHostState>
-        abstract defaultProps: TypeLiteral_01 with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TooltipHostStatic =
+        abstract defaultProps: TypeLiteral_01 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ITooltipHostProps -> TooltipHost
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -11424,11 +11424,11 @@ module __demo_ComponentStatus_ComponentStatus =
 
     type [<AllowNullLiteral>] ComponentStatus =
         inherit React.Component<IComponentStatusProps, TypeLiteral_01>
-        abstract defaultProps: IComponentStatusProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ComponentStatusStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ComponentStatus
+        abstract defaultProps: IComponentStatusProps with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
@@ -12087,11 +12087,11 @@ module __utilities_grid_GridCell =
 
     type [<AllowNullLiteral>] GridCell<'T, 'P> =
         inherit React.Component<'P, TypeLiteral_01>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] GridCellStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> GridCell<'T, 'P>
+        abstract defaultProps: TypeLiteral_02 with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
@@ -12710,7 +12710,6 @@ module __utilities_selection_SelectionZone =
 
     type [<AllowNullLiteral>] SelectionZone =
         inherit BaseComponent<ISelectionZoneProps, TypeLiteral_01>
-        abstract defaultProps: TypeLiteral_02 with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
         /// In some cases, the consuming scenario requires to set focus on a row without having SelectionZone
@@ -12721,6 +12720,7 @@ module __utilities_selection_SelectionZone =
 
     type [<AllowNullLiteral>] SelectionZoneStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectionZone
+        abstract defaultProps: TypeLiteral_02 with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
@@ -13242,10 +13242,10 @@ module __components_Calendar_examples_Calendar_Button_Example =
 
     type [<AllowNullLiteral>] CalendarButtonExample =
         inherit React.Component<ICalendarButtonExampleProps, ICalendarButtonExampleState>
-        abstract defaultProps: ICalendarButtonExampleProps with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] CalendarButtonExampleStatic =
+        abstract defaultProps: ICalendarButtonExampleProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ICalendarButtonExampleProps -> CalendarButtonExample
 
 module __components_Calendar_examples_Calendar_Inline_Example =
@@ -13594,7 +13594,6 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
     type [<AllowNullLiteral>] PositioningContainer =
         inherit BaseComponent<IPositioningContainerTypes, IPositioningContainerState>
         inherit PositioningContainer
-        abstract defaultProps: IPositioningContainerTypes with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
@@ -13607,6 +13606,7 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
         abstract _onComponentDidMount: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] PositioningContainerStatic =
+        abstract defaultProps: IPositioningContainerTypes with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IPositioningContainerTypes -> PositioningContainer
 
 module __components_Coachmark_PositioningContainer_PositioningContainer_styles =
@@ -15103,10 +15103,10 @@ module __components_FloatingPicker_PeoplePicker_FloatingPeoplePicker =
 
     type [<AllowNullLiteral>] FloatingPeoplePicker =
         inherit BaseFloatingPeoplePicker
-        abstract defaultProps: obj option with get, set
 
     type [<AllowNullLiteral>] FloatingPeoplePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> FloatingPeoplePicker
+        abstract defaultProps: obj option with get, set
 
 module __components_FloatingPicker_PeoplePicker_FloatingPeoplePickerPage =
     type IComponentDemoPageProps = __components_FloatingPicker_PeoplePicker_@uifabric_example_app_base.IComponentDemoPageProps
@@ -15732,12 +15732,12 @@ module __components_Layer_examples_Layer_Basic_Example =
 
     type [<AllowNullLiteral>] LayerContentExample =
         inherit BaseComponent<TypeLiteral_01, TypeLiteral_02>
-        abstract contextTypes: TypeLiteral_03 with get, set
-        abstract context: TypeLiteral_04 with get, set
+        abstract context: TypeLiteral_03 with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] LayerContentExampleStatic =
+        abstract contextTypes: TypeLiteral_04 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: LayerContentExampleStaticProps -> LayerContentExample
 
     type [<AllowNullLiteral>] LayerContentExampleStaticProps =
@@ -15745,7 +15745,6 @@ module __components_Layer_examples_Layer_Basic_Example =
 
     type [<AllowNullLiteral>] LayerBasicExample =
         inherit BaseComponent<TypeLiteral_01, TypeLiteral_05>
-        abstract childContextTypes: TypeLiteral_03 with get, set
         abstract getChildContext: unit -> LayerBasicExampleGetChildContextReturn
         abstract render: unit -> JSX.Element
 
@@ -15753,6 +15752,7 @@ module __components_Layer_examples_Layer_Basic_Example =
         abstract message: string with get, set
 
     type [<AllowNullLiteral>] LayerBasicExampleStatic =
+        abstract childContextTypes: TypeLiteral_04 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: LayerBasicExampleStaticProps -> LayerBasicExample
 
     type [<AllowNullLiteral>] LayerBasicExampleStaticProps =
@@ -15761,10 +15761,10 @@ module __components_Layer_examples_Layer_Basic_Example =
     type [<AllowNullLiteral>] TypeLiteral_01 =
         interface end
 
-    type [<AllowNullLiteral>] TypeLiteral_04 =
+    type [<AllowNullLiteral>] TypeLiteral_03 =
         abstract message: string with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_03 =
+    type [<AllowNullLiteral>] TypeLiteral_04 =
         abstract message: PropTypes.Requireable<obj option> with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_05 =
@@ -16486,12 +16486,12 @@ module __components_Persona_PersonaCoin_PersonaCoin_base =
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
     type [<AllowNullLiteral>] PersonaCoinBase =
         inherit BaseComponent<IPersonaCoinProps, IPersonaState>
-        abstract defaultProps: IPersonaCoinProps with get, set
         abstract render: unit -> JSX.Element option
 
     /// PersonaCoin with no default styles.
     /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
     type [<AllowNullLiteral>] PersonaCoinBaseStatic =
+        abstract defaultProps: IPersonaCoinProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: IPersonaCoinProps -> PersonaCoinBase
 
 module __components_Persona_PersonaCoin_PersonaCoin =
@@ -16669,29 +16669,29 @@ module __components_pickers_PeoplePicker_PeoplePicker =
     /// Standard People Picker.
     type [<AllowNullLiteral>] NormalPeoplePicker =
         inherit BasePeoplePicker
-        abstract defaultProps: TypeLiteral_01 with get, set
 
     /// Standard People Picker.
     type [<AllowNullLiteral>] NormalPeoplePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> NormalPeoplePicker
+        abstract defaultProps: TypeLiteral_01 with get, set
 
     /// Compact layout. It uses small personas when displaying search results.
     type [<AllowNullLiteral>] CompactPeoplePicker =
         inherit BasePeoplePicker
-        abstract defaultProps: TypeLiteral_01 with get, set
 
     /// Compact layout. It uses small personas when displaying search results.
     type [<AllowNullLiteral>] CompactPeoplePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> CompactPeoplePicker
+        abstract defaultProps: TypeLiteral_01 with get, set
 
     /// MemberList layout. The selected people show up below the search box.
     type [<AllowNullLiteral>] ListPeoplePicker =
         inherit MemberListPeoplePicker
-        abstract defaultProps: TypeLiteral_01 with get, set
 
     /// MemberList layout. The selected people show up below the search box.
     type [<AllowNullLiteral>] ListPeoplePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> ListPeoplePicker
+        abstract defaultProps: TypeLiteral_01 with get, set
 
     type [<AllowNullLiteral>] IGenericItem =
         abstract primaryText: string with get, set
@@ -16960,10 +16960,10 @@ module __components_pickers_TagPicker_TagPicker =
 
     type [<AllowNullLiteral>] TagPicker =
         inherit BasePicker<ITag, ITagPickerProps>
-        abstract defaultProps: TypeLiteral_01 with get, set
 
     type [<AllowNullLiteral>] TagPickerStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> TagPicker
+        abstract defaultProps: TypeLiteral_01 with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         abstract onRenderItem: (ITagItemProps -> JSX.Element) with get, set
@@ -17395,13 +17395,13 @@ module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList =
     /// Standard People Picker.
     type [<AllowNullLiteral>] SelectedPeopleList =
         inherit BasePeopleSelectedItemsList
-        abstract defaultProps: obj option with get, set
         abstract replaceItem: (IExtendedPersonaProps -> ResizeArray<IExtendedPersonaProps> -> unit) with get, set
         abstract renderItems: (unit -> ResizeArray<JSX.Element>) with get, set
 
     /// Standard People Picker.
     type [<AllowNullLiteral>] SelectedPeopleListStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> SelectedPeopleList
+        abstract defaultProps: obj option with get, set
 
 module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleListPage =
     type IComponentDemoPageProps = __components_SelectedItemsList_SelectedPeopleList_@uifabric_example_app_base.IComponentDemoPageProps
@@ -17898,7 +17898,6 @@ module __components_TextField_MaskedTextField_MaskedTextField =
     type [<AllowNullLiteral>] MaskedTextField =
         inherit BaseComponent<ITextFieldProps, IMaskedTextFieldState>
         inherit ITextField
-        abstract defaultProps: ITextFieldProps with get, set
         /// Tell BaseComponent to bypass resolution of componentRef.
         abstract _shouldUpdateComponentRef: bool with get, set
         abstract componentWillReceiveProps: newProps: ITextFieldProps -> unit
@@ -17915,6 +17914,7 @@ module __components_TextField_MaskedTextField_MaskedTextField =
         abstract selectionEnd: float option
 
     type [<AllowNullLiteral>] MaskedTextFieldStatic =
+        abstract defaultProps: ITextFieldProps with get, set
         [<Emit "new $0($1...)">] abstract Create: props: ITextFieldProps -> MaskedTextField
 
 module __components_Toggle_examples_Toggle_AriaLabel_Example =

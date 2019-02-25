@@ -906,8 +906,6 @@ module __common_PopupContainerViewBase =
 
     type [<AllowNullLiteral>] PopupContainerViewBase<'P, 'S> =
         inherit React.Component<'P, 'S>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract getChildContext: unit -> PopupContainerViewBaseGetChildContextReturn
         abstract registerPopupComponent: onShow: (unit -> unit) * onHide: (unit -> unit) -> PopupComponent
         abstract unregisterPopupComponent: ``component``: PopupComponent -> unit
@@ -920,6 +918,8 @@ module __common_PopupContainerViewBase =
         abstract popupContainer: PopupContainerViewBase<'P, 'S> with get, set
 
     type [<AllowNullLiteral>] PopupContainerViewBaseStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: 'P * context: PopupContainerViewContext -> PopupContainerViewBase<'P, 'S>
 
 module __common_StyleLeakDetector =
@@ -2425,7 +2425,6 @@ module __macos_TextInput =
 
     type [<AllowNullLiteral>] TextInput =
         inherit React.Component<Types.TextInputProps, TextInputState>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextInputContext with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
@@ -2446,6 +2445,7 @@ module __macos_TextInput =
         abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
 
 module __macos_View =
@@ -2589,9 +2589,7 @@ module __native_common_Button =
 
     type [<AllowNullLiteral>] Button =
         inherit ButtonBase
-        abstract contextTypes: TypeLiteral_01 with get, set
         abstract context: ButtonContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract touchableGetInitialState: (unit -> RN.Touchable.State) with get, set
         abstract touchableHandleStartShouldSetResponder: (unit -> bool) with get, set
         abstract touchableHandleResponderTerminationRequest: (unit -> bool) with get, set
@@ -2615,7 +2613,7 @@ module __native_common_Button =
         abstract touchableHandlePress: (Types.SyntheticEvent -> unit) with get, set
         abstract touchableHandleLongPress: (Types.SyntheticEvent -> unit) with get, set
         abstract touchableGetHighlightDelayMS: (unit -> float) with get, set
-        abstract touchableGetPressRectOffset: (unit -> TypeLiteral_02) with get, set
+        abstract touchableGetPressRectOffset: (unit -> TypeLiteral_01) with get, set
         abstract requestFocus: unit -> unit
         abstract blur: unit -> unit
         abstract focus: unit -> unit
@@ -2627,13 +2625,15 @@ module __native_common_Button =
         abstract setOpacityTo: value: float * duration: float -> unit
 
     type [<AllowNullLiteral>] ButtonStatic =
+        abstract contextTypes: TypeLiteral_02 with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] TypeLiteral_02 =
         abstract hasRxButtonAscendant: obj with get, set
         abstract focusArbitrator: obj with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_02 =
+    type [<AllowNullLiteral>] TypeLiteral_01 =
         abstract top: float with get, set
         abstract left: float with get, set
         abstract right: float with get, set
@@ -2703,7 +2703,6 @@ module __native_common_Image =
     type [<AllowNullLiteral>] Image =
         inherit React.Component<Types.ImageProps, Types.Stateless>
         inherit React.ChildContextProvider<ImageContext>
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
         abstract _getAdditionalProps: unit -> U2<RN.ImageProperties, TypeLiteral_01>
         abstract render: unit -> JSX.Element
@@ -2719,6 +2718,7 @@ module __native_common_Image =
 
     type [<AllowNullLiteral>] ImageStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Image
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract prefetch: url: string -> SyncTasks.Promise<bool>
         abstract getMetadata: url: string -> SyncTasks.Promise<Types.ImageMetadata>
 
@@ -2765,7 +2765,6 @@ module __native_common_Link =
 
     type [<AllowNullLiteral>] LinkBase<'S> =
         inherit React.Component<Types.LinkProps, 'S>
-        abstract contextTypes: TypeLiteral_01 with get, set
         abstract context: LinkContext with get, set
         abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
         abstract _isMounted: bool with get, set
@@ -2783,6 +2782,7 @@ module __native_common_Link =
 
     type [<AllowNullLiteral>] LinkBaseStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> LinkBase<'S>
+        abstract contextTypes: TypeLiteral_01 with get, set
 
     type [<AllowNullLiteral>] Link =
         inherit LinkBase<TypeLiteral_02>
@@ -3108,9 +3108,7 @@ module __native_common_Text =
     type [<AllowNullLiteral>] Text =
         inherit React.Component<Types.TextProps, Types.Stateless>
         inherit React.ChildContextProvider<TextContext>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
         abstract setNativeProps: nativeProps: RN.TextProps -> unit
         abstract render: unit -> JSX.Element
@@ -3127,6 +3125,8 @@ module __native_common_Text =
 
     type [<AllowNullLiteral>] TextStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
 
 module __native_common_TextInput =
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
@@ -3143,7 +3143,6 @@ module __native_common_TextInput =
 
     type [<AllowNullLiteral>] TextInput =
         inherit React.Component<Types.TextInputProps, TextInputState>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextInputContext with get, set
         abstract _mountedComponent: RN.ReactNativeBaseComponent<obj option, obj option> option with get, set
         abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
@@ -3166,6 +3165,7 @@ module __native_common_TextInput =
         abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
 
 module __native_common_UserInterface =
@@ -3221,9 +3221,7 @@ module __native_common_View =
 
     type [<AllowNullLiteral>] View =
         inherit ViewBase<Types.ViewProps, Types.Stateless>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ViewContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _internalProps: obj option with get, set
         abstract touchableGetInitialState: (unit -> RN.Touchable.State) with get, set
         abstract touchableHandleStartShouldSetResponder: (unit -> bool) with get, set
@@ -3266,6 +3264,8 @@ module __native_common_View =
         abstract bottom: float with get, set
 
     type [<AllowNullLiteral>] ViewStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
 
 module __native_common_ViewBase =
@@ -3359,11 +3359,11 @@ module __tslint_groupedImportRule =
 
     type [<AllowNullLiteral>] Rule =
         inherit Rules.AbstractRule
-        abstract FAILURE_STRING_PART: string with get, set
         abstract apply: sourceFile: Ts.SourceFile -> ResizeArray<RuleFailure>
 
     type [<AllowNullLiteral>] RuleStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Rule
+        abstract FAILURE_STRING_PART: string with get, set
 
 module __tslint_incorrectThisPropsRule =
     module Ts = Typescript
@@ -3592,9 +3592,7 @@ module __web_Button =
 
     type [<AllowNullLiteral>] Button =
         inherit ButtonBase
-        abstract contextTypes: TypeLiteral_01 with get, set
         abstract context: ButtonContext with get, set
-        abstract childContextTypes: TypeLiteral_02 with get, set
         abstract getChildContext: unit -> ButtonContext
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
@@ -3605,6 +3603,8 @@ module __web_Button =
         abstract onClick: (Types.MouseEvent -> unit) with get, set
 
     type [<AllowNullLiteral>] ButtonStatic =
+        abstract contextTypes: TypeLiteral_01 with get, set
+        abstract childContextTypes: TypeLiteral_02 with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.ButtonProps * context: ButtonContext -> Button
 
     type [<AllowNullLiteral>] TypeLiteral_02 =
@@ -3708,9 +3708,7 @@ module __web_Image =
 
     type [<AllowNullLiteral>] Image =
         inherit React.Component<Types.ImageProps, ImageState>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ImageContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract getChildContext: unit -> ImageGetChildContextReturn
         abstract componentWillReceiveProps: nextProps: Types.ImageProps -> unit
         abstract componentDidMount: unit -> unit
@@ -3724,6 +3722,8 @@ module __web_Image =
         abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] ImageStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract prefetch: url: string -> SyncTasks.Promise<bool>
         abstract getMetadata: url: string -> SyncTasks.Promise<Types.ImageMetadata>
         [<Emit "new $0($1...)">] abstract Create: props: Types.ImageProps -> Image
@@ -3768,7 +3768,6 @@ module __web_Link =
 
     type [<AllowNullLiteral>] Link =
         inherit React.Component<Types.LinkProps, Types.Stateless>
-        abstract contextTypes: TypeLiteral_01 with get, set
         abstract context: LinkContext with get, set
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
@@ -3780,6 +3779,7 @@ module __web_Link =
 
     type [<AllowNullLiteral>] LinkStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Link
+        abstract contextTypes: TypeLiteral_01 with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         abstract focusArbitrator: obj with get, set
@@ -4068,7 +4068,6 @@ module __web_RootView =
 
     type [<AllowNullLiteral>] RootView =
         inherit React.Component<RootViewProps, RootViewState>
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract getChildContext: unit -> RootViewGetChildContextReturn
         abstract componentWillReceiveProps: prevProps: RootViewProps -> unit
         abstract componentDidUpdate: prevProps: RootViewProps * prevState: RootViewState -> unit
@@ -4081,6 +4080,7 @@ module __web_RootView =
         abstract focusManager: FocusManager with get, set
 
     type [<AllowNullLiteral>] RootViewStatic =
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: RootViewProps -> RootView
 
 module __web_ScrollView =
@@ -4218,9 +4218,7 @@ module __web_Text =
 
     type [<AllowNullLiteral>] Text =
         inherit TextBase
-        abstract contextTypes: TypeLiteral_01 with get, set
         abstract context: TextContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract getChildContext: unit -> TextGetChildContextReturn
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
@@ -4235,6 +4233,8 @@ module __web_Text =
 
     type [<AllowNullLiteral>] TextStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
+        abstract contextTypes: TypeLiteral_01 with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
         abstract focusArbitrator: obj with get, set
@@ -4253,7 +4253,6 @@ module __web_TextInput =
 
     type [<AllowNullLiteral>] TextInput =
         inherit React.Component<Types.TextInputProps, TextInputState>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextInputContext with get, set
         abstract componentWillReceiveProps: nextProps: Types.TextInputProps -> unit
         abstract componentDidMount: unit -> unit
@@ -4273,6 +4272,7 @@ module __web_TextInput =
         abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.TextInputProps * context: TextInputContext -> TextInput
 
 module __web_UserInterface =
@@ -4330,9 +4330,7 @@ module __web_View =
 
     type [<AllowNullLiteral>] View =
         inherit ViewBase<Types.ViewProps, Types.Stateless>
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ViewContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract getChildContext: unit -> ViewContext
         abstract _getContainer: unit -> HTMLElement option
         abstract setFocusRestricted: restricted: bool -> unit
@@ -4348,6 +4346,8 @@ module __web_View =
         abstract focus: unit -> unit
 
     type [<AllowNullLiteral>] ViewStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
 
 module __web_ViewBase =
@@ -4489,7 +4489,6 @@ module __windows_Button =
         inherit React.ChildContextProvider<ButtonContext>
         inherit FocusManagerFocusableComponent
         abstract context: ButtonContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _getContextMenuOffset: unit -> Button_getContextMenuOffsetReturn
         abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
         abstract focus: unit -> unit
@@ -4509,6 +4508,7 @@ module __windows_Button =
 
     type [<AllowNullLiteral>] ButtonStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Button
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
 
 module __windows_GestureView =
     type BaseGestureView = __native_common_GestureView.GestureView
@@ -4755,9 +4755,7 @@ module __windows_Text =
         inherit TextBase
         inherit React.ChildContextProvider<TextContext>
         inherit FocusManagerFocusableComponent
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: TextContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract requestFocus: unit -> unit
         abstract getChildContext: unit -> TextContext
         abstract onFocus: unit -> unit
@@ -4767,6 +4765,8 @@ module __windows_Text =
 
     type [<AllowNullLiteral>] TextStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
 
 module __windows_TextInput =
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
@@ -4810,9 +4810,7 @@ module __windows_View =
         inherit ViewCommon
         inherit React.ChildContextProvider<ViewContext>
         inherit FocusManagerFocusableComponent
-        abstract contextTypes: React.ValidationMap<obj option> with get, set
         abstract context: ViewContext with get, set
-        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         abstract _getContextMenuOffset: unit -> View_getContextMenuOffsetReturn
         abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
         abstract enableFocusManager: unit -> unit
@@ -4839,6 +4837,8 @@ module __windows_View =
         abstract y: float with get, set
 
     type [<AllowNullLiteral>] ViewStatic =
+        abstract contextTypes: React.ValidationMap<obj option> with get, set
+        abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<Emit "new $0($1...)">] abstract Create: props: Types.ViewProps * context: ViewContext -> View
 
 module __common_utils_AutoFocusHelper =
@@ -4904,12 +4904,7 @@ module __common_utils_FocusManager =
         [<Emit "$0($1...)">] abstract Invoke: restricted: RestrictFocusType -> unit
 
     type [<AllowNullLiteral>] FocusManager =
-        abstract _currentRestrictionOwner: FocusManager option with get, set
-        abstract _currentFocusedComponent: StoredFocusableComponent option with get, set
-        abstract _allFocusableComponents: TypeLiteral_01 with get, set
-        abstract _skipFocusCheck: bool with get, set
-        abstract _resetFocusTimer: float option with get, set
-        abstract _myFocusableComponentIds: TypeLiteral_02 with get, set
+        abstract _myFocusableComponentIds: TypeLiteral_01 with get, set
         abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract focusComponent: ``component``: FocusableComponentInternal -> bool
@@ -4925,6 +4920,11 @@ module __common_utils_FocusManager =
         abstract setRestrictionStateCallback: callback: FocusManagerRestrictionStateCallback option -> unit
 
     type [<AllowNullLiteral>] FocusManagerStatic =
+        abstract _currentRestrictionOwner: FocusManager option with get, set
+        abstract _currentFocusedComponent: StoredFocusableComponent option with get, set
+        abstract _allFocusableComponents: TypeLiteral_02 with get, set
+        abstract _skipFocusCheck: bool with get, set
+        abstract _resetFocusTimer: float option with get, set
         [<Emit "new $0($1...)">] abstract Create: parent: FocusManager option -> FocusManager
         abstract subscribe: ``component``: FocusableComponentInternal * callback: FocusableComponentStateCallback -> unit
         abstract unsubscribe: ``component``: FocusableComponentInternal * callback: FocusableComponentStateCallback -> unit
@@ -4932,10 +4932,10 @@ module __common_utils_FocusManager =
         abstract getCurrentFocusedComponent: unit -> string option
         abstract _callFocusableComponentStateChangeCallbacks: storedComponent: StoredFocusableComponent * restrictedOrLimited: bool -> unit
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] TypeLiteral_02 =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: id: string -> StoredFocusableComponent with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_02 =
+    type [<AllowNullLiteral>] TypeLiteral_01 =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: id: string -> bool with get, set
 
 module __common_utils_Timers =

@@ -294,13 +294,14 @@ module Monaco =
         | MAX_VALUE = 112
 
     type [<AllowNullLiteral>] KeyMod =
+        interface end
+
+    type [<AllowNullLiteral>] KeyModStatic =
+        [<Emit "new $0($1...)">] abstract Create: unit -> KeyMod
         abstract CtrlCmd: float
         abstract Shift: float
         abstract Alt: float
         abstract WinCtrl: float
-
-    type [<AllowNullLiteral>] KeyModStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> KeyMod
         abstract chord: firstPart: float * secondPart: float -> float
 
     type MarkedString =

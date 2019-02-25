@@ -1130,8 +1130,6 @@ type [<AllowNullLiteral>] TextInputComponentStaticValueIn =
 
 type [<AllowNullLiteral>] TextInput =
     inherit TextInputBase
-    /// Access the current focus state.
-    abstract State: TextInputState with get, set
     /// Returns if the input is currently focused.
     abstract isFocused: (unit -> bool) with get, set
     /// Removes all text from the input.
@@ -1139,6 +1137,8 @@ type [<AllowNullLiteral>] TextInput =
 
 type [<AllowNullLiteral>] TextInputStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: TextInputStaticValueIn -> TextInput
+    /// Access the current focus state.
+    abstract State: TextInputState with get, set
 
 type [<AllowNullLiteral>] TextInputStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -1570,11 +1570,11 @@ type [<AllowNullLiteral>] ViewComponentStaticValueIn =
 
 type [<AllowNullLiteral>] View =
     inherit ViewBase
-    /// Is 3D Touch / Force Touch available (i.e. will touch events include `force`)
-    abstract forceTouchAvailable: bool with get, set
 
 type [<AllowNullLiteral>] ViewStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: ViewStaticValueIn -> View
+    /// Is 3D Touch / Force Touch available (i.e. will touch events include `force`)
+    abstract forceTouchAvailable: bool with get, set
 
 type [<AllowNullLiteral>] ViewStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -2319,14 +2319,14 @@ type [<AllowNullLiteral>] PickerProps =
 
 type [<AllowNullLiteral>] Picker =
     inherit React.Component<PickerProps>
+
+type [<AllowNullLiteral>] PickerStatic =
+    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerStaticValueIn -> Picker
     /// On Android, display the options in a dialog.
     abstract MODE_DIALOG: string with get, set
     /// On Android, display the options in a dropdown (this is the default).
     abstract MODE_DROPDOWN: string with get, set
     abstract Item: obj with get, set
-
-type [<AllowNullLiteral>] PickerStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerStaticValueIn -> Picker
 
 type [<AllowNullLiteral>] PickerStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -2350,10 +2350,10 @@ type [<AllowNullLiteral>] PickerIOSComponentStaticValueIn =
 
 type [<AllowNullLiteral>] PickerIOS =
     inherit PickerIOSBase
-    abstract Item: obj with get, set
 
 type [<AllowNullLiteral>] PickerIOSStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerIOSStaticValueIn -> PickerIOS
+    abstract Item: obj with get, set
 
 type [<AllowNullLiteral>] PickerIOSStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -2493,10 +2493,10 @@ type [<AllowNullLiteral>] RefreshControlComponentStaticValueIn =
 
 type [<AllowNullLiteral>] RefreshControl =
     inherit RefreshControlBase
-    abstract SIZE: Object with get, set
 
 type [<AllowNullLiteral>] RefreshControlStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: RefreshControlStaticValueIn -> RefreshControl
+    abstract SIZE: Object with get, set
 
 type [<AllowNullLiteral>] RefreshControlStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -3417,7 +3417,6 @@ type [<AllowNullLiteral>] ListViewComponentStaticValueIn =
 
 type [<AllowNullLiteral>] ListView =
     inherit ListViewBase
-    abstract DataSource: ListViewDataSource with get, set
     /// Exports some data, e.g. for perf investigations or analytics.
     abstract getMetrics: (unit -> TypeLiteral_22) with get, set
     /// Provides a handle to the underlying scroll responder.
@@ -3429,6 +3428,7 @@ type [<AllowNullLiteral>] ListView =
 
 type [<AllowNullLiteral>] ListViewStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: ListViewStaticValueIn -> ListView
+    abstract DataSource: ListViewDataSource with get, set
 
 type [<AllowNullLiteral>] ListViewStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -3547,10 +3547,10 @@ type [<AllowNullLiteral>] MapViewComponentStaticValueIn =
 
 type [<AllowNullLiteral>] MapView =
     inherit MapViewBase
-    abstract PinColors: TypeLiteral_32 with get, set
 
 type [<AllowNullLiteral>] MapViewStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: MapViewStaticValueIn -> MapView
+    abstract PinColors: TypeLiteral_32 with get, set
 
 type [<AllowNullLiteral>] MapViewStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -4176,10 +4176,10 @@ type [<AllowNullLiteral>] TabBarIOSProps =
 
 type [<AllowNullLiteral>] TabBarIOS =
     inherit React.Component<TabBarIOSProps>
-    abstract Item: obj with get, set
 
 type [<AllowNullLiteral>] TabBarIOSStatic =
     [<Emit "new $0($1...)">] abstract Create: ?valueIn: TabBarIOSStaticValueIn -> TabBarIOS
+    abstract Item: obj with get, set
 
 type [<AllowNullLiteral>] TabBarIOSStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set
@@ -5700,6 +5700,9 @@ type [<AllowNullLiteral>] StatusBarProps =
 
 type [<AllowNullLiteral>] StatusBar =
     inherit React.Component<StatusBarProps>
+
+type [<AllowNullLiteral>] StatusBarStatic =
+    [<Emit "new $0($1...)">] abstract Create: ?valueIn: StatusBarStaticValueIn -> StatusBar
     /// The current height of the status bar on the device.
     abstract currentHeight: float option with get, set
     /// Show or hide the status bar
@@ -5712,9 +5715,6 @@ type [<AllowNullLiteral>] StatusBar =
     abstract setBackgroundColor: (string -> bool -> unit) with get, set
     /// Control the translucency of the status bar
     abstract setTranslucent: (bool -> unit) with get, set
-
-type [<AllowNullLiteral>] StatusBarStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: StatusBarStaticValueIn -> StatusBar
 
 type [<AllowNullLiteral>] StatusBarStaticValueIn =
     abstract x: U2<float, AnimatedValue> with get, set

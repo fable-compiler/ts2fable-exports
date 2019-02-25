@@ -643,8 +643,6 @@ module NodeJS =
         abstract unref: unit -> unit
 
     type [<AllowNullLiteral>] Module =
-        abstract builtinModules: ResizeArray<string> with get, set
-        abstract Module: obj with get, set
         abstract exports: obj option with get, set
         abstract require: NodeRequireFunction with get, set
         abstract id: string with get, set
@@ -657,6 +655,8 @@ module NodeJS =
     type [<AllowNullLiteral>] ModuleStatic =
         abstract runMain: unit -> unit
         abstract wrap: code: string -> string
+        abstract builtinModules: ResizeArray<string> with get, set
+        abstract Module: obj with get, set
         [<Emit "new $0($1...)">] abstract Create: id: string * ?parent: Module -> Module
 
     type [<AllowNullLiteral>] TypeLiteral_01 =
@@ -790,7 +790,6 @@ module Events =
 
     type [<AllowNullLiteral>] EventEmitter =
         inherit ``internal``
-        abstract defaultMaxListeners: float with get, set
         abstract addListener: ``event``: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> EventEmitter
         abstract on: ``event``: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> EventEmitter
         abstract once: ``event``: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> EventEmitter
@@ -808,6 +807,7 @@ module Events =
     type [<AllowNullLiteral>] EventEmitterStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> EventEmitter
         abstract listenerCount: emitter: EventEmitter * ``event``: U2<string, Symbol> -> float
+        abstract defaultMaxListeners: float with get, set
 
 module Http =
     type URL = Url.URL
