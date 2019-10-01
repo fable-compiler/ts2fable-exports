@@ -91,7 +91,7 @@ module Monaco =
         abstract any: promises: ResizeArray<Promise<'ValueType>> -> Promise<TypeLiteral_10<'ValueType>>
         abstract wrap: value: Thenable<'ValueType> -> Promise<'ValueType>
         abstract wrap: value: 'ValueType -> Promise<'ValueType>
-        abstract wrapError: error: Error -> Promise<'ValueType>
+        abstract wrapError: error: System.Exception -> Promise<'ValueType>
 
     type [<AllowNullLiteral>] PromiseStaticJoinPromises =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: n: string -> Promise<'ValueType> with get, set

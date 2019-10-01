@@ -366,10 +366,10 @@ module Electron =
         abstract getCurrentActivityType: unit -> string
         /// Fetches a path's associated icon. On Windows, there a 2 kinds of icons: On Linux
         /// and macOS, icons depend on the application associated with file mime type.
-        abstract getFileIcon: path: string * callback: (Error -> NativeImage -> unit) -> unit
+        abstract getFileIcon: path: string * callback: (System.Exception -> NativeImage -> unit) -> unit
         /// Fetches a path's associated icon. On Windows, there a 2 kinds of icons: On Linux
         /// and macOS, icons depend on the application associated with file mime type.
-        abstract getFileIcon: path: string * options: FileIconOptions * callback: (Error -> NativeImage -> unit) -> unit
+        abstract getFileIcon: path: string * options: FileIconOptions * callback: (System.Exception -> NativeImage -> unit) -> unit
         abstract getGPUFeatureStatus: unit -> GPUFeatureStatus
         abstract getJumpListSettings: unit -> JumpListSettings
         /// Note: When distributing your packaged app, you have to also ship the locales
@@ -543,10 +543,10 @@ module Electron =
         [<Emit "$0.addListener('checking-for-update',$1)">] abstract ``addListener_checking-for-update``: listener: Function -> AutoUpdater
         [<Emit "$0.removeListener('checking-for-update',$1)">] abstract ``removeListener_checking-for-update``: listener: Function -> AutoUpdater
         /// Emitted when there is an error while updating.
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> AutoUpdater
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> AutoUpdater
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> AutoUpdater
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (Error -> unit) -> AutoUpdater
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> AutoUpdater
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> AutoUpdater
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> AutoUpdater
+        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (System.Exception -> unit) -> AutoUpdater
         /// Emitted when there is an available update. The update is downloaded
         /// automatically.
         [<Emit "$0.on('update-available',$1)">] abstract ``on_update-available``: listener: Function -> AutoUpdater
@@ -1148,10 +1148,10 @@ module Electron =
         /// Emitted when the net module fails to issue a network request. Typically when the
         /// request object emits an error event, a close event will subsequently follow and
         /// no response object will be provided.
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> ClientRequest
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> ClientRequest
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> ClientRequest
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (Error -> unit) -> ClientRequest
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> ClientRequest
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> ClientRequest
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> ClientRequest
+        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (System.Exception -> unit) -> ClientRequest
         /// Emitted just after the last chunk of the request's data has been written into
         /// the request object.
         [<Emit "$0.on('finish',$1)">] abstract on_finish: listener: Function -> ClientRequest
@@ -1333,13 +1333,13 @@ module Electron =
         abstract flushStore: callback: Function -> unit
         /// Sends a request to get all cookies matching details, callback will be called
         /// with callback(error, cookies) on complete.
-        abstract get: filter: Filter * callback: (Error -> ResizeArray<Cookie> -> unit) -> unit
+        abstract get: filter: Filter * callback: (System.Exception -> ResizeArray<Cookie> -> unit) -> unit
         /// Removes the cookies matching url and name, callback will called with callback()
         /// on complete.
         abstract remove: url: string * name: string * callback: Function -> unit
         /// Sets a cookie with details, callback will be called with callback(error) on
         /// complete.
-        abstract set: details: Details * callback: (Error -> unit) -> unit
+        abstract set: details: Details * callback: (System.Exception -> unit) -> unit
 
     type [<AllowNullLiteral>] CookiesStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Cookies
@@ -1434,7 +1434,7 @@ module Electron =
         /// calls callback(error, sources) when finished. sources is an array of
         /// DesktopCapturerSource objects, each DesktopCapturerSource represents a screen or
         /// an individual window that can be captured.
-        abstract getSources: options: SourcesOptions * callback: (Error -> ResizeArray<DesktopCapturerSource> -> unit) -> unit
+        abstract getSources: options: SourcesOptions * callback: (System.Exception -> ResizeArray<DesktopCapturerSource> -> unit) -> unit
 
     type [<AllowNullLiteral>] DesktopCapturerSource =
         /// The identifier of a window or screen that can be used as a chromeMediaSourceId
@@ -2000,27 +2000,27 @@ module Electron =
         inherit EventEmitter
         /// Intercepts scheme protocol and uses handler as the protocol's new handler which
         /// sends a Buffer as a response.
-        abstract interceptBufferProtocol: scheme: string * handler: (InterceptBufferProtocolRequest -> (Buffer -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptBufferProtocol: scheme: string * handler: (InterceptBufferProtocolRequest -> (Buffer -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Intercepts scheme protocol and uses handler as the protocol's new handler which
         /// sends a file as a response.
-        abstract interceptFileProtocol: scheme: string * handler: (InterceptFileProtocolRequest -> (string -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptFileProtocol: scheme: string * handler: (InterceptFileProtocolRequest -> (string -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Intercepts scheme protocol and uses handler as the protocol's new handler which
         /// sends a new HTTP request as a response.
-        abstract interceptHttpProtocol: scheme: string * handler: (InterceptHttpProtocolRequest -> (RedirectRequest -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptHttpProtocol: scheme: string * handler: (InterceptHttpProtocolRequest -> (RedirectRequest -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Same as protocol.registerStreamProtocol, except that it replaces an existing
         /// protocol handler.
-        abstract interceptStreamProtocol: scheme: string * handler: (InterceptStreamProtocolRequest -> (U2<ReadableStream, StreamProtocolResponse> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptStreamProtocol: scheme: string * handler: (InterceptStreamProtocolRequest -> (U2<ReadableStream, StreamProtocolResponse> -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Intercepts scheme protocol and uses handler as the protocol's new handler which
         /// sends a String as a response.
-        abstract interceptStringProtocol: scheme: string * handler: (InterceptStringProtocolRequest -> (string -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptStringProtocol: scheme: string * handler: (InterceptStringProtocolRequest -> (string -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// The callback will be called with a boolean that indicates whether there is
         /// already a handler for scheme.
-        abstract isProtocolHandled: scheme: string * callback: (Error -> unit) -> unit
+        abstract isProtocolHandled: scheme: string * callback: (System.Exception -> unit) -> unit
         /// Registers a protocol of scheme that will send a Buffer as a response. The usage
         /// is the same with registerFileProtocol, except that the callback should be called
         /// with either a Buffer object or an object that has the data, mimeType, and
         /// charset properties. Example:
-        abstract registerBufferProtocol: scheme: string * handler: (RegisterBufferProtocolRequest -> (U2<Buffer, MimeTypedBuffer> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerBufferProtocol: scheme: string * handler: (RegisterBufferProtocolRequest -> (U2<Buffer, MimeTypedBuffer> -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Registers a protocol of scheme that will send the file as a response. The
         /// handler will be called with handler(request, callback) when a request is going
         /// to be created with scheme. completion will be called with completion(null) when
@@ -2034,14 +2034,14 @@ module Electron =
         /// than protocols that follow the "generic URI syntax" like file:, so you probably
         /// want to call protocol.registerStandardSchemes to have your scheme treated as a
         /// standard scheme.
-        abstract registerFileProtocol: scheme: string * handler: (RegisterFileProtocolRequest -> (string -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerFileProtocol: scheme: string * handler: (RegisterFileProtocolRequest -> (string -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Registers a protocol of scheme that will send an HTTP request as a response. The
         /// usage is the same with registerFileProtocol, except that the callback should be
         /// called with a redirectRequest object that has the url, method, referrer,
         /// uploadData and session properties. By default the HTTP request will reuse the
         /// current session. If you want the request to have a different session you should
         /// set session to null. For POST requests the uploadData object must be provided.
-        abstract registerHttpProtocol: scheme: string * handler: (RegisterHttpProtocolRequest -> (RedirectRequest -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerHttpProtocol: scheme: string * handler: (RegisterHttpProtocolRequest -> (RedirectRequest -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         abstract registerServiceWorkerSchemes: schemes: ResizeArray<string> -> unit
         /// A standard scheme adheres to what RFC 3986 calls generic URI syntax. For example
         /// http and https are standard schemes, while file is not. Registering a scheme as
@@ -2064,16 +2064,16 @@ module Electron =
         /// statusCode, and headers properties. Example: It is possible to pass any object
         /// that implements the readable stream API (emits data/end/error events). For
         /// example, here's how a file could be returned:
-        abstract registerStreamProtocol: scheme: string * handler: (RegisterStreamProtocolRequest -> (U2<ReadableStream, StreamProtocolResponse> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerStreamProtocol: scheme: string * handler: (RegisterStreamProtocolRequest -> (U2<ReadableStream, StreamProtocolResponse> -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Registers a protocol of scheme that will send a String as a response. The usage
         /// is the same with registerFileProtocol, except that the callback should be called
         /// with either a String or an object that has the data, mimeType, and charset
         /// properties.
-        abstract registerStringProtocol: scheme: string * handler: (RegisterStringProtocolRequest -> (string -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerStringProtocol: scheme: string * handler: (RegisterStringProtocolRequest -> (string -> unit) -> unit) * ?completion: (System.Exception -> unit) -> unit
         /// Remove the interceptor installed for scheme and restore its original handler.
-        abstract uninterceptProtocol: scheme: string * ?completion: (Error -> unit) -> unit
+        abstract uninterceptProtocol: scheme: string * ?completion: (System.Exception -> unit) -> unit
         /// Unregisters the custom protocol of scheme.
-        abstract unregisterProtocol: scheme: string * ?completion: (Error -> unit) -> unit
+        abstract unregisterProtocol: scheme: string * ?completion: (System.Exception -> unit) -> unit
 
     type [<AllowNullLiteral>] Rectangle =
         /// The height of the rectangle (must be an integer)
@@ -2247,7 +2247,7 @@ module Electron =
         abstract moveItemToTrash: fullPath: string -> bool
         /// Open the given external protocol URL in the desktop's default manner. (For
         /// example, mailto: URLs in the user's default mail agent).
-        abstract openExternal: url: string * ?options: OpenExternalOptions * ?callback: (Error -> unit) -> bool
+        abstract openExternal: url: string * ?options: OpenExternalOptions * ?callback: (System.Exception -> unit) -> bool
         /// Open the given file in the desktop's default manner.
         abstract openItem: fullPath: string -> bool
         /// Resolves the shortcut link at shortcutPath. An exception will be thrown when any
@@ -2990,7 +2990,7 @@ module Electron =
         /// ignored if @page CSS at-rule is used in the web page. By default, an empty
         /// options will be regarded as: Use page-break-before: always; CSS style to force
         /// to print to a new page. An example of webContents.printToPDF:
-        abstract printToPDF: options: PrintToPDFOptions * callback: (Error -> Buffer -> unit) -> unit
+        abstract printToPDF: options: PrintToPDFOptions * callback: (System.Exception -> Buffer -> unit) -> unit
         /// Executes the editing command redo in web page.
         abstract redo: unit -> unit
         /// Reloads the current web page.
@@ -3003,7 +3003,7 @@ module Electron =
         abstract replace: text: string -> unit
         /// Executes the editing command replaceMisspelling in web page.
         abstract replaceMisspelling: text: string -> unit
-        abstract savePage: fullPath: string * saveType: U3<string, string, string> * callback: (Error -> unit) -> bool
+        abstract savePage: fullPath: string * saveType: U3<string, string, string> * callback: (System.Exception -> unit) -> bool
         /// Executes the editing command selectAll in web page.
         abstract selectAll: unit -> unit
         /// Send an asynchronous message to renderer process via channel, you can also send
@@ -3386,7 +3386,7 @@ module Electron =
         abstract print: ?options: PrintOptions -> unit
         /// Prints webview's web page as PDF, Same as webContents.printToPDF(options,
         /// callback).
-        abstract printToPDF: options: PrintToPDFOptions * callback: (Error -> Buffer -> unit) -> unit
+        abstract printToPDF: options: PrintToPDFOptions * callback: (System.Exception -> Buffer -> unit) -> unit
         /// Executes editing command redo in page.
         abstract redo: unit -> unit
         /// Reloads the guest page.
