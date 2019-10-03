@@ -1364,7 +1364,7 @@ module __common_Types =
         abstract resizeMethod: U3<string, string, string> option with get, set
         abstract title: string option with get, set
         abstract onLoad: (Dimensions -> unit) option with get, set
-        abstract onError: (System.Exception -> unit) option with get, set
+        abstract onError: (Error -> unit) option with get, set
 
     type [<AllowNullLiteral>] ImageProps =
         inherit ImagePropsShared

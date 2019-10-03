@@ -71,7 +71,7 @@ type [<AllowNullLiteral>] Mocha =
     /// Function to allow assertion libraries to throw errors directly into mocha.
     /// This is useful when running tests in a browser because window.onerror will
     /// only receive the 'message' attribute of the Error.
-    abstract throwError: error: System.Exception -> unit
+    abstract throwError: error: Error -> unit
     /// Enables growl support. 
     abstract growl: unit -> Mocha
     abstract globals: value: string -> Mocha

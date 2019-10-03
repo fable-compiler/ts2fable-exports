@@ -78,7 +78,7 @@ type [<AllowNullLiteral>] ErrorConstructor =
     /// Create .stack property on a target object 
     abstract captureStackTrace: targetObject: Object * ?constructorOpt: Function -> unit
     /// Optional override for formatting stack traces
-    abstract prepareStackTrace: (System.Exception -> ResizeArray<NodeJS.CallSite> -> obj option) option with get, set
+    abstract prepareStackTrace: (Error -> ResizeArray<NodeJS.CallSite> -> obj option) option with get, set
     abstract stackTraceLimit: float with get, set
 
 type [<AllowNullLiteral>] MapConstructor =
@@ -229,8 +229,13 @@ module NodeJS =
         /// Is this a constructor call?
         abstract isConstructor: unit -> bool
 
-    type ErrnoException =
-        System.Exception
+    type [<AllowNullLiteral>] ErrnoException =
+        inherit Error
+        abstract errno: float option with get, set
+        abstract code: string option with get, set
+        abstract path: string option with get, set
+        abstract syscall: string option with get, set
+        abstract stack: string option with get, set
 
     type [<AllowNullLiteral>] EventEmitter =
         abstract addListener: ``event``: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> EventEmitter
@@ -289,7 +294,7 @@ module NodeJS =
         abstract run: fn: Function -> unit
         abstract add: emitter: Events -> unit
         abstract remove: emitter: Events -> unit
-        abstract bind: cb: (System.Exception -> obj option -> obj option) -> obj option
+        abstract bind: cb: (Error -> obj option -> obj option) -> obj option
         abstract intercept: cb: (obj option -> obj option) -> obj option
         abstract dispose: unit -> unit
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Domain
@@ -381,13 +386,13 @@ module NodeJS =
         [<Emit "$0($1...)">] abstract Invoke: promise: Promise<obj option> -> unit
 
     type [<AllowNullLiteral>] UncaughtExceptionListener =
-        [<Emit "$0($1...)">] abstract Invoke: error: System.Exception -> unit
+        [<Emit "$0($1...)">] abstract Invoke: error: Error -> unit
 
     type [<AllowNullLiteral>] UnhandledRejectionListener =
         [<Emit "$0($1...)">] abstract Invoke: reason: obj option * promise: Promise<obj option> -> unit
 
     type [<AllowNullLiteral>] WarningListener =
-        [<Emit "$0($1...)">] abstract Invoke: warning: System.Exception -> unit
+        [<Emit "$0($1...)">] abstract Invoke: warning: Error -> unit
 
     type [<AllowNullLiteral>] MessageListener =
         [<Emit "$0($1...)">] abstract Invoke: message: obj option * sendHandle: obj option -> unit
@@ -414,12 +419,12 @@ module NodeJS =
         abstract columns: float option with get, set
         abstract rows: float option with get, set
         abstract _write: chunk: obj option * encoding: string * callback: Function -> unit
-        abstract _destroy: err: System.Exception * callback: Function -> unit
+        abstract _destroy: err: Error * callback: Function -> unit
         abstract _final: callback: Function -> unit
         abstract setDefaultEncoding: encoding: string -> WriteStream
         abstract cork: unit -> unit
         abstract uncork: unit -> unit
-        abstract destroy: ?error: System.Exception -> unit
+        abstract destroy: ?error: Error -> unit
 
     type [<AllowNullLiteral>] ReadStream =
         inherit Socket
@@ -427,9 +432,9 @@ module NodeJS =
         abstract isRaw: bool option with get, set
         abstract setRawMode: mode: bool -> unit
         abstract _read: size: float -> unit
-        abstract _destroy: err: System.Exception * callback: Function -> unit
+        abstract _destroy: err: Error * callback: Function -> unit
         abstract push: chunk: obj option * ?encoding: string -> bool
-        abstract destroy: ?error: System.Exception -> unit
+        abstract destroy: ?error: Error -> unit
 
     type [<AllowNullLiteral>] Process =
         inherit EventEmitter
@@ -445,7 +450,7 @@ module NodeJS =
         abstract chdir: directory: string -> unit
         abstract cwd: unit -> string
         abstract debugPort: float with get, set
-        abstract emitWarning: warning: U2<string, System.Exception> * ?name: string * ?ctor: Function -> unit
+        abstract emitWarning: warning: U2<string, Error> * ?name: string * ?ctor: Function -> unit
         abstract env: ProcessEnv with get, set
         abstract exit: ?code: float -> obj
         abstract exitCode: float with get, set
@@ -505,9 +510,9 @@ module NodeJS =
         [<Emit "$0.emit('disconnect')">] abstract emit_disconnect: unit -> bool
         [<Emit "$0.emit('exit',$1)">] abstract emit_exit: code: float -> bool
         [<Emit "$0.emit('rejectionHandled',$1)">] abstract emit_rejectionHandled: promise: Promise<obj option> -> bool
-        [<Emit "$0.emit('uncaughtException',$1)">] abstract emit_uncaughtException: error: System.Exception -> bool
+        [<Emit "$0.emit('uncaughtException',$1)">] abstract emit_uncaughtException: error: Error -> bool
         [<Emit "$0.emit('unhandledRejection',$1,$2)">] abstract emit_unhandledRejection: reason: obj option * promise: Promise<obj option> -> bool
-        [<Emit "$0.emit('warning',$1)">] abstract emit_warning: warning: System.Exception -> bool
+        [<Emit "$0.emit('warning',$1)">] abstract emit_warning: warning: Error -> bool
         [<Emit "$0.emit('message',$1,$2)">] abstract emit_message: message: obj option * sendHandle: obj option -> Process
         abstract emit: ``event``: Signals -> bool
         [<Emit "$0.emit('newListener',$1,$2)">] abstract emit_newListener: eventName: U2<string, Symbol> * listener: (ResizeArray<obj option> -> unit) -> Process
@@ -887,7 +892,7 @@ module Http =
         abstract agent: U2<Agent, bool> option with get, set
         abstract _defaultAgent: Agent option with get, set
         abstract timeout: float option with get, set
-        abstract createConnection: (ClientRequestArgs -> (System.Exception -> Net.Socket -> unit) -> Net.Socket) option with get, set
+        abstract createConnection: (ClientRequestArgs -> (Error -> Net.Socket -> unit) -> Net.Socket) option with get, set
 
     type [<AllowNullLiteral>] Server =
         inherit Net.Server
@@ -918,7 +923,7 @@ module Http =
         abstract headersSent: bool with get, set
         abstract connection: Net.Socket with get, set
         abstract setTimeout: msecs: float * ?callback: (unit -> unit) -> OutgoingMessage
-        abstract destroy: error: System.Exception -> unit
+        abstract destroy: error: Error -> unit
         abstract setHeader: name: string * value: U3<float, string, ResizeArray<string>> -> unit
         abstract getHeader: name: string -> U3<float, string, ResizeArray<string>> option
         abstract getHeaders: unit -> OutgoingHttpHeaders
@@ -978,7 +983,7 @@ module Http =
         /// Only valid for response obtained from http.ClientRequest.
         abstract statusMessage: string option with get, set
         abstract socket: Net.Socket with get, set
-        abstract destroy: ?error: System.Exception -> unit
+        abstract destroy: ?error: Error -> unit
 
     type [<AllowNullLiteral>] IncomingMessageStatic =
         [<Emit "new $0($1...)">] abstract Create: socket: Net.Socket -> IncomingMessage
@@ -1121,7 +1126,7 @@ module Cluster =
         abstract id: float with get, set
         abstract ``process``: Child.ChildProcess with get, set
         abstract suicide: bool with get, set
-        abstract send: message: obj option * ?sendHandle: obj * ?callback: (System.Exception -> unit) -> bool
+        abstract send: message: obj option * ?sendHandle: obj * ?callback: (Error -> unit) -> bool
         abstract kill: ?signal: string -> unit
         abstract destroy: ?signal: string -> unit
         abstract disconnect: unit -> unit
@@ -1137,42 +1142,42 @@ module Cluster =
         ///    6. online
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Worker
         [<Emit "$0.addListener('disconnect',$1)">] abstract addListener_disconnect: listener: (unit -> unit) -> Worker
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Worker
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Worker
         [<Emit "$0.addListener('exit',$1)">] abstract addListener_exit: listener: (float -> string -> unit) -> Worker
         [<Emit "$0.addListener('listening',$1)">] abstract addListener_listening: listener: (Address -> unit) -> Worker
         [<Emit "$0.addListener('message',$1)">] abstract addListener_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> Worker
         [<Emit "$0.addListener('online',$1)">] abstract addListener_online: listener: (unit -> unit) -> Worker
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('disconnect')">] abstract emit_disconnect: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: error: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: error: Error -> bool
         [<Emit "$0.emit('exit',$1,$2)">] abstract emit_exit: code: float * signal: string -> bool
         [<Emit "$0.emit('listening',$1)">] abstract emit_listening: address: Address -> bool
         [<Emit "$0.emit('message',$1,$2)">] abstract emit_message: message: obj option * handle: U2<Net.Socket, Net.Server> -> bool
         [<Emit "$0.emit('online')">] abstract emit_online: unit -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Worker
         [<Emit "$0.on('disconnect',$1)">] abstract on_disconnect: listener: (unit -> unit) -> Worker
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Worker
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Worker
         [<Emit "$0.on('exit',$1)">] abstract on_exit: listener: (float -> string -> unit) -> Worker
         [<Emit "$0.on('listening',$1)">] abstract on_listening: listener: (Address -> unit) -> Worker
         [<Emit "$0.on('message',$1)">] abstract on_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> Worker
         [<Emit "$0.on('online',$1)">] abstract on_online: listener: (unit -> unit) -> Worker
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Worker
         [<Emit "$0.once('disconnect',$1)">] abstract once_disconnect: listener: (unit -> unit) -> Worker
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Worker
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Worker
         [<Emit "$0.once('exit',$1)">] abstract once_exit: listener: (float -> string -> unit) -> Worker
         [<Emit "$0.once('listening',$1)">] abstract once_listening: listener: (Address -> unit) -> Worker
         [<Emit "$0.once('message',$1)">] abstract once_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> Worker
         [<Emit "$0.once('online',$1)">] abstract once_online: listener: (unit -> unit) -> Worker
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Worker
         [<Emit "$0.prependListener('disconnect',$1)">] abstract prependListener_disconnect: listener: (unit -> unit) -> Worker
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Worker
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Worker
         [<Emit "$0.prependListener('exit',$1)">] abstract prependListener_exit: listener: (float -> string -> unit) -> Worker
         [<Emit "$0.prependListener('listening',$1)">] abstract prependListener_listening: listener: (Address -> unit) -> Worker
         [<Emit "$0.prependListener('message',$1)">] abstract prependListener_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> Worker
         [<Emit "$0.prependListener('online',$1)">] abstract prependListener_online: listener: (unit -> unit) -> Worker
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Worker
         [<Emit "$0.prependOnceListener('disconnect',$1)">] abstract prependOnceListener_disconnect: listener: (unit -> unit) -> Worker
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Worker
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Worker
         [<Emit "$0.prependOnceListener('exit',$1)">] abstract prependOnceListener_exit: listener: (float -> string -> unit) -> Worker
         [<Emit "$0.prependOnceListener('listening',$1)">] abstract prependOnceListener_listening: listener: (Address -> unit) -> Worker
         [<Emit "$0.prependOnceListener('message',$1)">] abstract prependOnceListener_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> Worker
@@ -1263,26 +1268,26 @@ module Zlib =
         abstract createDeflateRaw: ?options: ZlibOptions -> DeflateRaw
         abstract createInflateRaw: ?options: ZlibOptions -> InflateRaw
         abstract createUnzip: ?options: ZlibOptions -> Unzip
-        abstract deflate: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract deflate: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract deflate: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract deflate: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract deflateSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract deflateRaw: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract deflateRaw: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract deflateRaw: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract deflateRaw: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract deflateRawSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract gzip: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract gzip: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract gzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract gzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract gzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract gunzip: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract gunzip: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract gunzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract gunzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract gunzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract inflate: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract inflate: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract inflate: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract inflate: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract inflateSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract inflateRaw: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract inflateRaw: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract inflateRaw: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract inflateRaw: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract inflateRawSync: buf: InputType * ?options: ZlibOptions -> Buffer
-        abstract unzip: buf: InputType * callback: (System.Exception option -> Buffer -> unit) -> unit
-        abstract unzip: buf: InputType * options: ZlibOptions * callback: (System.Exception option -> Buffer -> unit) -> unit
+        abstract unzip: buf: InputType * callback: (Error option -> Buffer -> unit) -> unit
+        abstract unzip: buf: InputType * options: ZlibOptions * callback: (Error option -> Buffer -> unit) -> unit
         abstract unzipSync: buf: InputType * ?options: ZlibOptions -> Buffer
         abstract Z_NO_FLUSH: float
         abstract Z_PARTIAL_FLUSH: float
@@ -1725,10 +1730,10 @@ module Repl =
 
     type [<AllowNullLiteral>] Recoverable =
         inherit SyntaxError
-        abstract err: System.Exception with get, set
+        abstract err: Error with get, set
 
     type [<AllowNullLiteral>] RecoverableStatic =
-        [<Emit "new $0($1...)">] abstract Create: err: System.Exception -> Recoverable
+        [<Emit "new $0($1...)">] abstract Create: err: Error -> Recoverable
 
     type [<AllowNullLiteral>] TypeLiteral_11 =
         abstract help: string with get, set
@@ -1881,28 +1886,28 @@ module Child_process =
 
     type [<AllowNullLiteral>] IExports =
         abstract spawn: command: string * ?args: ResizeArray<string> * ?options: SpawnOptions -> ChildProcess
-        abstract exec: command: string * ?callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract exec: command: string * options: obj * ?callback: (System.Exception option -> Buffer -> Buffer -> unit) -> ChildProcess
-        abstract exec: command: string * options: obj * ?callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract exec: command: string * options: obj * ?callback: (System.Exception option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
-        abstract exec: command: string * options: ExecOptions * ?callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract exec: command: string * options: obj option * ?callback: (System.Exception option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
+        abstract exec: command: string * ?callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract exec: command: string * options: obj * ?callback: (Error option -> Buffer -> Buffer -> unit) -> ChildProcess
+        abstract exec: command: string * options: obj * ?callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract exec: command: string * options: obj * ?callback: (Error option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
+        abstract exec: command: string * options: ExecOptions * ?callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract exec: command: string * options: obj option * ?callback: (Error option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
         abstract execFile: file: string -> ChildProcess
         abstract execFile: file: string * options: obj option -> ChildProcess
         abstract execFile: file: string * args: ResizeArray<string> option -> ChildProcess
         abstract execFile: file: string * args: ResizeArray<string> option * options: obj option -> ChildProcess
-        abstract execFile: file: string * callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract execFile: file: string * args: ResizeArray<string> option * callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract execFile: file: string * options: ExecFileOptionsWithBufferEncoding * callback: (System.Exception option -> Buffer -> Buffer -> unit) -> ChildProcess
-        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithBufferEncoding * callback: (System.Exception option -> Buffer -> Buffer -> unit) -> ChildProcess
-        abstract execFile: file: string * options: ExecFileOptionsWithStringEncoding * callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithStringEncoding * callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract execFile: file: string * options: ExecFileOptionsWithOtherEncoding * callback: (System.Exception option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
-        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithOtherEncoding * callback: (System.Exception option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
-        abstract execFile: file: string * options: ExecFileOptions * callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptions * callback: (System.Exception option -> string -> string -> unit) -> ChildProcess
-        abstract execFile: file: string * options: obj option * callback: (System.Exception option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) option -> ChildProcess
-        abstract execFile: file: string * args: ResizeArray<string> option * options: obj option * callback: (System.Exception option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) option -> ChildProcess
+        abstract execFile: file: string * callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract execFile: file: string * args: ResizeArray<string> option * callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract execFile: file: string * options: ExecFileOptionsWithBufferEncoding * callback: (Error option -> Buffer -> Buffer -> unit) -> ChildProcess
+        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithBufferEncoding * callback: (Error option -> Buffer -> Buffer -> unit) -> ChildProcess
+        abstract execFile: file: string * options: ExecFileOptionsWithStringEncoding * callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithStringEncoding * callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract execFile: file: string * options: ExecFileOptionsWithOtherEncoding * callback: (Error option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
+        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptionsWithOtherEncoding * callback: (Error option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) -> ChildProcess
+        abstract execFile: file: string * options: ExecFileOptions * callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract execFile: file: string * args: ResizeArray<string> option * options: ExecFileOptions * callback: (Error option -> string -> string -> unit) -> ChildProcess
+        abstract execFile: file: string * options: obj option * callback: (Error option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) option -> ChildProcess
+        abstract execFile: file: string * args: ResizeArray<string> option * options: obj option * callback: (Error option -> U2<string, Buffer> -> U2<string, Buffer> -> unit) option -> ChildProcess
         abstract fork: modulePath: string * ?args: ResizeArray<string> * ?options: ForkOptions -> ChildProcess
         abstract spawnSync: command: string -> SpawnSyncReturns<Buffer>
         abstract spawnSync: command: string * ?options: SpawnSyncOptionsWithStringEncoding -> SpawnSyncReturns<string>
@@ -1932,9 +1937,9 @@ module Child_process =
         abstract killed: bool with get, set
         abstract pid: float with get, set
         abstract kill: ?signal: string -> unit
-        abstract send: message: obj option * ?callback: (System.Exception -> unit) -> bool
-        abstract send: message: obj option * ?sendHandle: U2<Net.Socket, Net.Server> * ?callback: (System.Exception -> unit) -> bool
-        abstract send: message: obj option * ?sendHandle: U2<Net.Socket, Net.Server> * ?options: MessageOptions * ?callback: (System.Exception -> unit) -> bool
+        abstract send: message: obj option * ?callback: (Error -> unit) -> bool
+        abstract send: message: obj option * ?sendHandle: U2<Net.Socket, Net.Server> * ?callback: (Error -> unit) -> bool
+        abstract send: message: obj option * ?sendHandle: U2<Net.Socket, Net.Server> * ?options: MessageOptions * ?callback: (Error -> unit) -> bool
         abstract connected: bool with get, set
         abstract disconnect: unit -> unit
         abstract unref: unit -> unit
@@ -1948,37 +1953,37 @@ module Child_process =
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> ChildProcess
         [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.addListener('disconnect',$1)">] abstract addListener_disconnect: listener: (unit -> unit) -> ChildProcess
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> ChildProcess
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> ChildProcess
         [<Emit "$0.addListener('exit',$1)">] abstract addListener_exit: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.addListener('message',$1)">] abstract addListener_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> ChildProcess
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close',$1,$2)">] abstract emit_close: code: float * signal: string -> bool
         [<Emit "$0.emit('disconnect')">] abstract emit_disconnect: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         [<Emit "$0.emit('exit',$1,$2)">] abstract emit_exit: code: float * signal: string -> bool
         [<Emit "$0.emit('message',$1,$2)">] abstract emit_message: message: obj option * sendHandle: U2<Net.Socket, Net.Server> -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> ChildProcess
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.on('disconnect',$1)">] abstract on_disconnect: listener: (unit -> unit) -> ChildProcess
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> ChildProcess
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> ChildProcess
         [<Emit "$0.on('exit',$1)">] abstract on_exit: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.on('message',$1)">] abstract on_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> ChildProcess
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> ChildProcess
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.once('disconnect',$1)">] abstract once_disconnect: listener: (unit -> unit) -> ChildProcess
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> ChildProcess
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> ChildProcess
         [<Emit "$0.once('exit',$1)">] abstract once_exit: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.once('message',$1)">] abstract once_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> ChildProcess
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> ChildProcess
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.prependListener('disconnect',$1)">] abstract prependListener_disconnect: listener: (unit -> unit) -> ChildProcess
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> ChildProcess
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> ChildProcess
         [<Emit "$0.prependListener('exit',$1)">] abstract prependListener_exit: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.prependListener('message',$1)">] abstract prependListener_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> ChildProcess
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> ChildProcess
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.prependOnceListener('disconnect',$1)">] abstract prependOnceListener_disconnect: listener: (unit -> unit) -> ChildProcess
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> ChildProcess
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> ChildProcess
         [<Emit "$0.prependOnceListener('exit',$1)">] abstract prependOnceListener_exit: listener: (float -> string -> unit) -> ChildProcess
         [<Emit "$0.prependOnceListener('message',$1)">] abstract prependOnceListener_message: listener: (obj option -> U2<Net.Socket, Net.Server> -> unit) -> ChildProcess
 
@@ -2127,7 +2132,7 @@ module Child_process =
         abstract stderr: 'T with get, set
         abstract status: float with get, set
         abstract signal: string with get, set
-        abstract error: System.Exception with get, set
+        abstract error: Error with get, set
 
     type [<AllowNullLiteral>] ExecSyncOptions =
         abstract cwd: string option with get, set
@@ -2550,8 +2555,8 @@ module Net =
         [<Emit "$0.addListener('data',$1)">] abstract addListener_data: listener: (Buffer -> unit) -> Socket
         [<Emit "$0.addListener('drain',$1)">] abstract addListener_drain: listener: (unit -> unit) -> Socket
         [<Emit "$0.addListener('end',$1)">] abstract addListener_end: listener: (unit -> unit) -> Socket
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Socket
-        [<Emit "$0.addListener('lookup',$1)">] abstract addListener_lookup: listener: (System.Exception -> string -> U2<string, float> -> string -> unit) -> Socket
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Socket
+        [<Emit "$0.addListener('lookup',$1)">] abstract addListener_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.addListener('timeout',$1)">] abstract addListener_timeout: listener: (unit -> unit) -> Socket
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close',$1)">] abstract emit_close: had_error: bool -> bool
@@ -2559,8 +2564,8 @@ module Net =
         [<Emit "$0.emit('data',$1)">] abstract emit_data: data: Buffer -> bool
         [<Emit "$0.emit('drain')">] abstract emit_drain: unit -> bool
         [<Emit "$0.emit('end')">] abstract emit_end: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
-        [<Emit "$0.emit('lookup',$1,$2,$3,$4)">] abstract emit_lookup: err: System.Exception * address: string * family: U2<string, float> * host: string -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
+        [<Emit "$0.emit('lookup',$1,$2,$3,$4)">] abstract emit_lookup: err: Error * address: string * family: U2<string, float> * host: string -> bool
         [<Emit "$0.emit('timeout')">] abstract emit_timeout: unit -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (bool -> unit) -> Socket
@@ -2568,8 +2573,8 @@ module Net =
         [<Emit "$0.on('data',$1)">] abstract on_data: listener: (Buffer -> unit) -> Socket
         [<Emit "$0.on('drain',$1)">] abstract on_drain: listener: (unit -> unit) -> Socket
         [<Emit "$0.on('end',$1)">] abstract on_end: listener: (unit -> unit) -> Socket
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Socket
-        [<Emit "$0.on('lookup',$1)">] abstract on_lookup: listener: (System.Exception -> string -> U2<string, float> -> string -> unit) -> Socket
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Socket
+        [<Emit "$0.on('lookup',$1)">] abstract on_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.on('timeout',$1)">] abstract on_timeout: listener: (unit -> unit) -> Socket
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (bool -> unit) -> Socket
@@ -2577,8 +2582,8 @@ module Net =
         [<Emit "$0.once('data',$1)">] abstract once_data: listener: (Buffer -> unit) -> Socket
         [<Emit "$0.once('drain',$1)">] abstract once_drain: listener: (unit -> unit) -> Socket
         [<Emit "$0.once('end',$1)">] abstract once_end: listener: (unit -> unit) -> Socket
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Socket
-        [<Emit "$0.once('lookup',$1)">] abstract once_lookup: listener: (System.Exception -> string -> U2<string, float> -> string -> unit) -> Socket
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Socket
+        [<Emit "$0.once('lookup',$1)">] abstract once_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.once('timeout',$1)">] abstract once_timeout: listener: (unit -> unit) -> Socket
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (bool -> unit) -> Socket
@@ -2586,8 +2591,8 @@ module Net =
         [<Emit "$0.prependListener('data',$1)">] abstract prependListener_data: listener: (Buffer -> unit) -> Socket
         [<Emit "$0.prependListener('drain',$1)">] abstract prependListener_drain: listener: (unit -> unit) -> Socket
         [<Emit "$0.prependListener('end',$1)">] abstract prependListener_end: listener: (unit -> unit) -> Socket
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Socket
-        [<Emit "$0.prependListener('lookup',$1)">] abstract prependListener_lookup: listener: (System.Exception -> string -> U2<string, float> -> string -> unit) -> Socket
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Socket
+        [<Emit "$0.prependListener('lookup',$1)">] abstract prependListener_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.prependListener('timeout',$1)">] abstract prependListener_timeout: listener: (unit -> unit) -> Socket
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (bool -> unit) -> Socket
@@ -2595,8 +2600,8 @@ module Net =
         [<Emit "$0.prependOnceListener('data',$1)">] abstract prependOnceListener_data: listener: (Buffer -> unit) -> Socket
         [<Emit "$0.prependOnceListener('drain',$1)">] abstract prependOnceListener_drain: listener: (unit -> unit) -> Socket
         [<Emit "$0.prependOnceListener('end',$1)">] abstract prependOnceListener_end: listener: (unit -> unit) -> Socket
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Socket
-        [<Emit "$0.prependOnceListener('lookup',$1)">] abstract prependOnceListener_lookup: listener: (System.Exception -> string -> U2<string, float> -> string -> unit) -> Socket
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Socket
+        [<Emit "$0.prependOnceListener('lookup',$1)">] abstract prependOnceListener_lookup: listener: (Error -> string -> U2<string, float> -> string -> unit) -> Socket
         [<Emit "$0.prependOnceListener('timeout',$1)">] abstract prependOnceListener_timeout: listener: (unit -> unit) -> Socket
 
     type [<AllowNullLiteral>] SocketAddressReturn =
@@ -2627,7 +2632,7 @@ module Net =
         abstract listen: handle: obj option * ?listeningListener: Function -> Server
         abstract close: ?callback: Function -> Server
         abstract address: unit -> ServerAddressReturn
-        abstract getConnections: cb: (System.Exception option -> float -> unit) -> unit
+        abstract getConnections: cb: (Error option -> float -> unit) -> unit
         abstract ref: unit -> Server
         abstract unref: unit -> Server
         abstract maxConnections: float with get, set
@@ -2641,32 +2646,32 @@ module Net =
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
         [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (unit -> unit) -> Server
         [<Emit "$0.addListener('connection',$1)">] abstract addListener_connection: listener: (Socket -> unit) -> Server
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Server
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Server
         [<Emit "$0.addListener('listening',$1)">] abstract addListener_listening: listener: (unit -> unit) -> Server
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close')">] abstract emit_close: unit -> bool
         [<Emit "$0.emit('connection',$1)">] abstract emit_connection: socket: Socket -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         [<Emit "$0.emit('listening')">] abstract emit_listening: unit -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (unit -> unit) -> Server
         [<Emit "$0.on('connection',$1)">] abstract on_connection: listener: (Socket -> unit) -> Server
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Server
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Server
         [<Emit "$0.on('listening',$1)">] abstract on_listening: listener: (unit -> unit) -> Server
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (unit -> unit) -> Server
         [<Emit "$0.once('connection',$1)">] abstract once_connection: listener: (Socket -> unit) -> Server
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Server
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Server
         [<Emit "$0.once('listening',$1)">] abstract once_listening: listener: (unit -> unit) -> Server
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (unit -> unit) -> Server
         [<Emit "$0.prependListener('connection',$1)">] abstract prependListener_connection: listener: (Socket -> unit) -> Server
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Server
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Server
         [<Emit "$0.prependListener('listening',$1)">] abstract prependListener_listening: listener: (unit -> unit) -> Server
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (unit -> unit) -> Server
         [<Emit "$0.prependOnceListener('connection',$1)">] abstract prependOnceListener_connection: listener: (Socket -> unit) -> Server
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Server
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Server
         [<Emit "$0.prependOnceListener('listening',$1)">] abstract prependOnceListener_listening: listener: (unit -> unit) -> Server
 
     type [<AllowNullLiteral>] ServerAddressReturn =
@@ -2739,8 +2744,8 @@ module Dgram =
 
     type [<AllowNullLiteral>] Socket =
         inherit Events.EventEmitter
-        abstract send: msg: U4<Buffer, string, Uint8Array, ResizeArray<obj option>> * port: float * ?address: string * ?callback: (System.Exception option -> float -> unit) -> unit
-        abstract send: msg: U3<Buffer, string, Uint8Array> * offset: float * length: float * port: float * ?address: string * ?callback: (System.Exception option -> float -> unit) -> unit
+        abstract send: msg: U4<Buffer, string, Uint8Array, ResizeArray<obj option>> * port: float * ?address: string * ?callback: (Error option -> float -> unit) -> unit
+        abstract send: msg: U3<Buffer, string, Uint8Array> * offset: float * length: float * port: float * ?address: string * ?callback: (Error option -> float -> unit) -> unit
         abstract bind: ?port: float * ?address: string * ?callback: (unit -> unit) -> unit
         abstract bind: ?port: float * ?callback: (unit -> unit) -> unit
         abstract bind: ?callback: (unit -> unit) -> unit
@@ -2767,32 +2772,32 @@ module Dgram =
         /// 4. message
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (unit -> unit) -> Socket
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Socket
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Socket
         [<Emit "$0.addListener('listening',$1)">] abstract addListener_listening: listener: (unit -> unit) -> Socket
         [<Emit "$0.addListener('message',$1)">] abstract addListener_message: listener: (Buffer -> AddressInfo -> unit) -> Socket
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close')">] abstract emit_close: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         [<Emit "$0.emit('listening')">] abstract emit_listening: unit -> bool
         [<Emit "$0.emit('message',$1,$2)">] abstract emit_message: msg: Buffer * rinfo: AddressInfo -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (unit -> unit) -> Socket
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Socket
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Socket
         [<Emit "$0.on('listening',$1)">] abstract on_listening: listener: (unit -> unit) -> Socket
         [<Emit "$0.on('message',$1)">] abstract on_message: listener: (Buffer -> AddressInfo -> unit) -> Socket
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (unit -> unit) -> Socket
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Socket
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Socket
         [<Emit "$0.once('listening',$1)">] abstract once_listening: listener: (unit -> unit) -> Socket
         [<Emit "$0.once('message',$1)">] abstract once_message: listener: (Buffer -> AddressInfo -> unit) -> Socket
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (unit -> unit) -> Socket
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Socket
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Socket
         [<Emit "$0.prependListener('listening',$1)">] abstract prependListener_listening: listener: (unit -> unit) -> Socket
         [<Emit "$0.prependListener('message',$1)">] abstract prependListener_message: listener: (Buffer -> AddressInfo -> unit) -> Socket
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Socket
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (unit -> unit) -> Socket
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Socket
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Socket
         [<Emit "$0.prependOnceListener('listening',$1)">] abstract prependOnceListener_listening: listener: (unit -> unit) -> Socket
         [<Emit "$0.prependOnceListener('message',$1)">] abstract prependOnceListener_message: listener: (Buffer -> AddressInfo -> unit) -> Socket
 
@@ -3445,19 +3450,19 @@ module Fs =
         ///    2. error
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> FSWatcher
         [<Emit "$0.addListener('change',$1)">] abstract addListener_change: listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> FSWatcher
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> FSWatcher
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> FSWatcher
         [<Emit "$0.on('change',$1)">] abstract on_change: listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> FSWatcher
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> FSWatcher
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> FSWatcher
         [<Emit "$0.once('change',$1)">] abstract once_change: listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> FSWatcher
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> FSWatcher
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> FSWatcher
         [<Emit "$0.prependListener('change',$1)">] abstract prependListener_change: listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> FSWatcher
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> FSWatcher
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> FSWatcher
         [<Emit "$0.prependOnceListener('change',$1)">] abstract prependOnceListener_change: listener: (string -> U2<string, Buffer> -> unit) -> FSWatcher
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> FSWatcher
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> FSWatcher
 
     type [<AllowNullLiteral>] ReadStream =
         inherit Stream.Readable
@@ -4177,7 +4182,7 @@ module Tls =
         abstract CLIENT_RENEG_WINDOW: float
         abstract TLSSocket: TLSSocketStatic
         abstract Server: ServerStatic
-        abstract checkServerIdentity: host: string * cert: PeerCertificate -> System.Exception option
+        abstract checkServerIdentity: host: string * cert: PeerCertificate -> Error option
         abstract createServer: options: TlsOptions * ?secureConnectionListener: (TLSSocket -> unit) -> Server
         abstract connect: options: ConnectionOptions * ?secureConnectionListener: (unit -> unit) -> TLSSocket
         abstract connect: port: float * ?host: string * ?options: ConnectionOptions * ?secureConnectListener: (unit -> unit) -> TLSSocket
@@ -4231,7 +4236,7 @@ module Tls =
         abstract authorized: bool with get, set
         /// The reason why the peer's certificate has not been verified.
         /// This property becomes available only when tlsSocket.authorized === false.
-        abstract authorizationError: System.Exception with get, set
+        abstract authorizationError: Error with get, set
         /// Static boolean value, always true.
         /// May be used to distinguish TLS sockets from regular ones.
         abstract encrypted: bool with get, set
@@ -4264,7 +4269,7 @@ module Tls =
         /// requestCert (See tls.createServer() for details).</param>
         /// <param name="callback">- callback(err) will be executed with null as err, once the renegotiation
         /// is successfully completed.</param>
-        abstract renegotiate: options: TLSSocketRenegotiateOptions * callback: (System.Exception option -> unit) -> obj option
+        abstract renegotiate: options: TLSSocketRenegotiateOptions * callback: (Error option -> unit) -> obj option
         /// <summary>Set maximum TLS fragment size (default and maximum value is: 16384, minimum is: 512).
         /// Smaller fragment size decreases buffering latency on the client: large fragments are buffered by
         /// the TLS layer until the entire fragment is received and its integrity is verified;
@@ -4335,7 +4340,7 @@ module Tls =
         /// (tls.createSecureContext(...) can be used to get a proper
         /// SecureContext.) If SNICallback wasn't provided the default callback
         /// with high-level API will be used (see below).
-        abstract SNICallback: (string -> (System.Exception option -> SecureContext -> unit) -> unit) option with get, set
+        abstract SNICallback: (string -> (Error option -> SecureContext -> unit) -> unit) option with get, set
         /// An optional Buffer instance containing a TLS session.
         abstract session: Buffer option with get, set
         /// If true, specifies that the OCSP status request extension will be
@@ -4350,7 +4355,7 @@ module Tls =
         abstract rejectUnauthorized: bool option with get, set
         abstract NPNProtocols: U5<ResizeArray<string>, ResizeArray<Buffer>, ResizeArray<Uint8Array>, Buffer, Uint8Array> option with get, set
         abstract ALPNProtocols: U5<ResizeArray<string>, ResizeArray<Buffer>, ResizeArray<Uint8Array>, Buffer, Uint8Array> option with get, set
-        abstract SNICallback: (string -> (System.Exception option -> SecureContext -> unit) -> unit) option with get, set
+        abstract SNICallback: (string -> (Error option -> SecureContext -> unit) -> unit) option with get, set
         abstract sessionTimeout: float option with get, set
         abstract ticketKeys: Buffer option with get, set
 
@@ -4380,40 +4385,40 @@ module Tls =
         /// 4. resumeSession
         /// 5. secureConnection
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
-        [<Emit "$0.addListener('tlsClientError',$1)">] abstract addListener_tlsClientError: listener: (System.Exception -> TLSSocket -> unit) -> Server
-        [<Emit "$0.addListener('newSession',$1)">] abstract addListener_newSession: listener: (obj option -> obj option -> (System.Exception -> Buffer -> unit) -> unit) -> Server
+        [<Emit "$0.addListener('tlsClientError',$1)">] abstract addListener_tlsClientError: listener: (Error -> TLSSocket -> unit) -> Server
+        [<Emit "$0.addListener('newSession',$1)">] abstract addListener_newSession: listener: (obj option -> obj option -> (Error -> Buffer -> unit) -> unit) -> Server
         [<Emit "$0.addListener('OCSPRequest',$1)">] abstract addListener_OCSPRequest: listener: (Buffer -> Buffer -> Function -> unit) -> Server
-        [<Emit "$0.addListener('resumeSession',$1)">] abstract addListener_resumeSession: listener: (obj option -> (System.Exception -> obj option -> unit) -> unit) -> Server
+        [<Emit "$0.addListener('resumeSession',$1)">] abstract addListener_resumeSession: listener: (obj option -> (Error -> obj option -> unit) -> unit) -> Server
         [<Emit "$0.addListener('secureConnection',$1)">] abstract addListener_secureConnection: listener: (TLSSocket -> unit) -> Server
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
-        [<Emit "$0.emit('tlsClientError',$1,$2)">] abstract emit_tlsClientError: err: System.Exception * tlsSocket: TLSSocket -> bool
-        [<Emit "$0.emit('newSession',$1,$2,$3)">] abstract emit_newSession: sessionId: obj option * sessionData: obj option * callback: (System.Exception -> Buffer -> unit) -> bool
+        [<Emit "$0.emit('tlsClientError',$1,$2)">] abstract emit_tlsClientError: err: Error * tlsSocket: TLSSocket -> bool
+        [<Emit "$0.emit('newSession',$1,$2,$3)">] abstract emit_newSession: sessionId: obj option * sessionData: obj option * callback: (Error -> Buffer -> unit) -> bool
         [<Emit "$0.emit('OCSPRequest',$1,$2,$3)">] abstract emit_OCSPRequest: certificate: Buffer * issuer: Buffer * callback: Function -> bool
-        [<Emit "$0.emit('resumeSession',$1,$2)">] abstract emit_resumeSession: sessionId: obj option * callback: (System.Exception -> obj option -> unit) -> bool
+        [<Emit "$0.emit('resumeSession',$1,$2)">] abstract emit_resumeSession: sessionId: obj option * callback: (Error -> obj option -> unit) -> bool
         [<Emit "$0.emit('secureConnection',$1)">] abstract emit_secureConnection: tlsSocket: TLSSocket -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
-        [<Emit "$0.on('tlsClientError',$1)">] abstract on_tlsClientError: listener: (System.Exception -> TLSSocket -> unit) -> Server
-        [<Emit "$0.on('newSession',$1)">] abstract on_newSession: listener: (obj option -> obj option -> (System.Exception -> Buffer -> unit) -> unit) -> Server
+        [<Emit "$0.on('tlsClientError',$1)">] abstract on_tlsClientError: listener: (Error -> TLSSocket -> unit) -> Server
+        [<Emit "$0.on('newSession',$1)">] abstract on_newSession: listener: (obj option -> obj option -> (Error -> Buffer -> unit) -> unit) -> Server
         [<Emit "$0.on('OCSPRequest',$1)">] abstract on_OCSPRequest: listener: (Buffer -> Buffer -> Function -> unit) -> Server
-        [<Emit "$0.on('resumeSession',$1)">] abstract on_resumeSession: listener: (obj option -> (System.Exception -> obj option -> unit) -> unit) -> Server
+        [<Emit "$0.on('resumeSession',$1)">] abstract on_resumeSession: listener: (obj option -> (Error -> obj option -> unit) -> unit) -> Server
         [<Emit "$0.on('secureConnection',$1)">] abstract on_secureConnection: listener: (TLSSocket -> unit) -> Server
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
-        [<Emit "$0.once('tlsClientError',$1)">] abstract once_tlsClientError: listener: (System.Exception -> TLSSocket -> unit) -> Server
-        [<Emit "$0.once('newSession',$1)">] abstract once_newSession: listener: (obj option -> obj option -> (System.Exception -> Buffer -> unit) -> unit) -> Server
+        [<Emit "$0.once('tlsClientError',$1)">] abstract once_tlsClientError: listener: (Error -> TLSSocket -> unit) -> Server
+        [<Emit "$0.once('newSession',$1)">] abstract once_newSession: listener: (obj option -> obj option -> (Error -> Buffer -> unit) -> unit) -> Server
         [<Emit "$0.once('OCSPRequest',$1)">] abstract once_OCSPRequest: listener: (Buffer -> Buffer -> Function -> unit) -> Server
-        [<Emit "$0.once('resumeSession',$1)">] abstract once_resumeSession: listener: (obj option -> (System.Exception -> obj option -> unit) -> unit) -> Server
+        [<Emit "$0.once('resumeSession',$1)">] abstract once_resumeSession: listener: (obj option -> (Error -> obj option -> unit) -> unit) -> Server
         [<Emit "$0.once('secureConnection',$1)">] abstract once_secureConnection: listener: (TLSSocket -> unit) -> Server
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
-        [<Emit "$0.prependListener('tlsClientError',$1)">] abstract prependListener_tlsClientError: listener: (System.Exception -> TLSSocket -> unit) -> Server
-        [<Emit "$0.prependListener('newSession',$1)">] abstract prependListener_newSession: listener: (obj option -> obj option -> (System.Exception -> Buffer -> unit) -> unit) -> Server
+        [<Emit "$0.prependListener('tlsClientError',$1)">] abstract prependListener_tlsClientError: listener: (Error -> TLSSocket -> unit) -> Server
+        [<Emit "$0.prependListener('newSession',$1)">] abstract prependListener_newSession: listener: (obj option -> obj option -> (Error -> Buffer -> unit) -> unit) -> Server
         [<Emit "$0.prependListener('OCSPRequest',$1)">] abstract prependListener_OCSPRequest: listener: (Buffer -> Buffer -> Function -> unit) -> Server
-        [<Emit "$0.prependListener('resumeSession',$1)">] abstract prependListener_resumeSession: listener: (obj option -> (System.Exception -> obj option -> unit) -> unit) -> Server
+        [<Emit "$0.prependListener('resumeSession',$1)">] abstract prependListener_resumeSession: listener: (obj option -> (Error -> obj option -> unit) -> unit) -> Server
         [<Emit "$0.prependListener('secureConnection',$1)">] abstract prependListener_secureConnection: listener: (TLSSocket -> unit) -> Server
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Server
-        [<Emit "$0.prependOnceListener('tlsClientError',$1)">] abstract prependOnceListener_tlsClientError: listener: (System.Exception -> TLSSocket -> unit) -> Server
-        [<Emit "$0.prependOnceListener('newSession',$1)">] abstract prependOnceListener_newSession: listener: (obj option -> obj option -> (System.Exception -> Buffer -> unit) -> unit) -> Server
+        [<Emit "$0.prependOnceListener('tlsClientError',$1)">] abstract prependOnceListener_tlsClientError: listener: (Error -> TLSSocket -> unit) -> Server
+        [<Emit "$0.prependOnceListener('newSession',$1)">] abstract prependOnceListener_newSession: listener: (obj option -> obj option -> (Error -> Buffer -> unit) -> unit) -> Server
         [<Emit "$0.prependOnceListener('OCSPRequest',$1)">] abstract prependOnceListener_OCSPRequest: listener: (Buffer -> Buffer -> Function -> unit) -> Server
-        [<Emit "$0.prependOnceListener('resumeSession',$1)">] abstract prependOnceListener_resumeSession: listener: (obj option -> (System.Exception -> obj option -> unit) -> unit) -> Server
+        [<Emit "$0.prependOnceListener('resumeSession',$1)">] abstract prependOnceListener_resumeSession: listener: (obj option -> (Error -> obj option -> unit) -> unit) -> Server
         [<Emit "$0.prependOnceListener('secureConnection',$1)">] abstract prependOnceListener_secureConnection: listener: (TLSSocket -> unit) -> Server
 
     type [<AllowNullLiteral>] ServerAddContextCredentials =
@@ -4427,7 +4432,7 @@ module Tls =
     type [<AllowNullLiteral>] ClearTextStream =
         inherit Stream.Duplex
         abstract authorized: bool with get, set
-        abstract authorizationError: System.Exception with get, set
+        abstract authorizationError: Error with get, set
         abstract getPeerCertificate: unit -> obj option
         abstract getCipher: TypeLiteral_61 with get, set
         abstract address: TypeLiteral_62 with get, set
@@ -4488,19 +4493,19 @@ module Crypto =
         abstract createDiffieHellman: prime: string * prime_encoding: HexBase64Latin1Encoding * generator: U2<float, Buffer> -> DiffieHellman
         abstract createDiffieHellman: prime: string * prime_encoding: HexBase64Latin1Encoding * generator: string * generator_encoding: HexBase64Latin1Encoding -> DiffieHellman
         abstract getDiffieHellman: group_name: string -> DiffieHellman
-        abstract pbkdf2: password: U2<string, Buffer> * salt: U2<string, Buffer> * iterations: float * keylen: float * digest: string * callback: (System.Exception -> Buffer -> obj option) -> unit
+        abstract pbkdf2: password: U2<string, Buffer> * salt: U2<string, Buffer> * iterations: float * keylen: float * digest: string * callback: (Error -> Buffer -> obj option) -> unit
         abstract pbkdf2Sync: password: U2<string, Buffer> * salt: U2<string, Buffer> * iterations: float * keylen: float * digest: string -> Buffer
         abstract randomBytes: size: float -> Buffer
-        abstract randomBytes: size: float * callback: (System.Exception -> Buffer -> unit) -> unit
+        abstract randomBytes: size: float * callback: (Error -> Buffer -> unit) -> unit
         abstract pseudoRandomBytes: size: float -> Buffer
-        abstract pseudoRandomBytes: size: float * callback: (System.Exception -> Buffer -> unit) -> unit
+        abstract pseudoRandomBytes: size: float * callback: (Error -> Buffer -> unit) -> unit
         abstract randomFillSync: buffer: U2<Buffer, Uint8Array> * ?offset: float * ?size: float -> Buffer
-        abstract randomFill: buffer: Buffer * callback: (System.Exception -> Buffer -> unit) -> unit
-        abstract randomFill: buffer: Uint8Array * callback: (System.Exception -> Uint8Array -> unit) -> unit
-        abstract randomFill: buffer: Buffer * offset: float * callback: (System.Exception -> Buffer -> unit) -> unit
-        abstract randomFill: buffer: Uint8Array * offset: float * callback: (System.Exception -> Uint8Array -> unit) -> unit
-        abstract randomFill: buffer: Buffer * offset: float * size: float * callback: (System.Exception -> Buffer -> unit) -> unit
-        abstract randomFill: buffer: Uint8Array * offset: float * size: float * callback: (System.Exception -> Uint8Array -> unit) -> unit
+        abstract randomFill: buffer: Buffer * callback: (Error -> Buffer -> unit) -> unit
+        abstract randomFill: buffer: Uint8Array * callback: (Error -> Uint8Array -> unit) -> unit
+        abstract randomFill: buffer: Buffer * offset: float * callback: (Error -> Buffer -> unit) -> unit
+        abstract randomFill: buffer: Uint8Array * offset: float * callback: (Error -> Uint8Array -> unit) -> unit
+        abstract randomFill: buffer: Buffer * offset: float * size: float * callback: (Error -> Buffer -> unit) -> unit
+        abstract randomFill: buffer: Uint8Array * offset: float * size: float * callback: (Error -> Uint8Array -> unit) -> unit
         abstract publicEncrypt: public_key: U2<string, RsaPublicKey> * buffer: Buffer -> Buffer
         abstract privateDecrypt: private_key: U2<string, RsaPrivateKey> * buffer: Buffer -> Buffer
         abstract privateEncrypt: private_key: U2<string, RsaPrivateKey> * buffer: Buffer -> Buffer
@@ -4690,7 +4695,7 @@ module Stream =
         abstract encoding: string option with get, set
         abstract objectMode: bool option with get, set
         abstract read: (Readable -> float -> obj option) option with get, set
-        abstract destroy: (System.Exception -> obj option) option with get, set
+        abstract destroy: (Error -> obj option) option with get, set
 
     type [<AllowNullLiteral>] Readable =
         inherit Stream
@@ -4707,8 +4712,8 @@ module Stream =
         abstract unshift: chunk: obj option -> unit
         abstract wrap: oldStream: NodeJS.ReadableStream -> Readable
         abstract push: chunk: obj option * ?encoding: string -> bool
-        abstract _destroy: err: System.Exception * callback: Function -> unit
-        abstract destroy: ?error: System.Exception -> unit
+        abstract _destroy: err: Error * callback: Function -> unit
+        abstract destroy: ?error: Error -> unit
         /// Event emitter
         /// The defined events on documents including:
         /// 1. close
@@ -4721,43 +4726,43 @@ module Stream =
         [<Emit "$0.addListener('data',$1)">] abstract addListener_data: listener: (U2<Buffer, string> -> unit) -> Readable
         [<Emit "$0.addListener('end',$1)">] abstract addListener_end: listener: (unit -> unit) -> Readable
         [<Emit "$0.addListener('readable',$1)">] abstract addListener_readable: listener: (unit -> unit) -> Readable
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Readable
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Readable
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close')">] abstract emit_close: unit -> bool
         [<Emit "$0.emit('data',$1)">] abstract emit_data: chunk: U2<Buffer, string> -> bool
         [<Emit "$0.emit('end')">] abstract emit_end: unit -> bool
         [<Emit "$0.emit('readable')">] abstract emit_readable: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Readable
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (unit -> unit) -> Readable
         [<Emit "$0.on('data',$1)">] abstract on_data: listener: (U2<Buffer, string> -> unit) -> Readable
         [<Emit "$0.on('end',$1)">] abstract on_end: listener: (unit -> unit) -> Readable
         [<Emit "$0.on('readable',$1)">] abstract on_readable: listener: (unit -> unit) -> Readable
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Readable
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Readable
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Readable
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (unit -> unit) -> Readable
         [<Emit "$0.once('data',$1)">] abstract once_data: listener: (U2<Buffer, string> -> unit) -> Readable
         [<Emit "$0.once('end',$1)">] abstract once_end: listener: (unit -> unit) -> Readable
         [<Emit "$0.once('readable',$1)">] abstract once_readable: listener: (unit -> unit) -> Readable
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Readable
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Readable
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Readable
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (unit -> unit) -> Readable
         [<Emit "$0.prependListener('data',$1)">] abstract prependListener_data: listener: (U2<Buffer, string> -> unit) -> Readable
         [<Emit "$0.prependListener('end',$1)">] abstract prependListener_end: listener: (unit -> unit) -> Readable
         [<Emit "$0.prependListener('readable',$1)">] abstract prependListener_readable: listener: (unit -> unit) -> Readable
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Readable
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Readable
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Readable
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (unit -> unit) -> Readable
         [<Emit "$0.prependOnceListener('data',$1)">] abstract prependOnceListener_data: listener: (U2<Buffer, string> -> unit) -> Readable
         [<Emit "$0.prependOnceListener('end',$1)">] abstract prependOnceListener_end: listener: (unit -> unit) -> Readable
         [<Emit "$0.prependOnceListener('readable',$1)">] abstract prependOnceListener_readable: listener: (unit -> unit) -> Readable
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Readable
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Readable
         abstract removeListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Readable
         [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: (unit -> unit) -> Readable
         [<Emit "$0.removeListener('data',$1)">] abstract removeListener_data: listener: (U2<Buffer, string> -> unit) -> Readable
         [<Emit "$0.removeListener('end',$1)">] abstract removeListener_end: listener: (unit -> unit) -> Readable
         [<Emit "$0.removeListener('readable',$1)">] abstract removeListener_readable: listener: (unit -> unit) -> Readable
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (System.Exception -> unit) -> Readable
+        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (Error -> unit) -> Readable
 
     type [<AllowNullLiteral>] ReadableStatic =
         [<Emit "new $0($1...)">] abstract Create: ?opts: ReadableOptions -> Readable
@@ -4768,17 +4773,17 @@ module Stream =
         abstract objectMode: bool option with get, set
         abstract write: (obj option -> string -> Function -> obj option) option with get, set
         abstract writev: (Array<TypeLiteral_65> -> Function -> obj option) option with get, set
-        abstract destroy: (System.Exception -> obj option) option with get, set
-        abstract final: ((System.Exception -> unit) -> unit) option with get, set
+        abstract destroy: (Error -> obj option) option with get, set
+        abstract final: ((Error -> unit) -> unit) option with get, set
 
     type [<AllowNullLiteral>] Writable =
         inherit Stream
         inherit NodeJS.WritableStream
         abstract writable: bool with get, set
         abstract writableHighWaterMark: float
-        abstract _write: chunk: obj option * encoding: string * callback: (System.Exception -> unit) -> unit
-        abstract _writev: chunks: Array<TypeLiteral_65> * callback: (System.Exception -> unit) -> unit
-        abstract _destroy: err: System.Exception * callback: Function -> unit
+        abstract _write: chunk: obj option * encoding: string * callback: (Error -> unit) -> unit
+        abstract _writev: chunks: Array<TypeLiteral_65> * callback: (Error -> unit) -> unit
+        abstract _destroy: err: Error * callback: Function -> unit
         abstract _final: callback: Function -> unit
         abstract write: chunk: obj option * ?cb: Function -> bool
         abstract write: chunk: obj option * ?encoding: string * ?cb: Function -> bool
@@ -4788,7 +4793,7 @@ module Stream =
         abstract ``end``: chunk: obj option * ?encoding: string * ?cb: Function -> unit
         abstract cork: unit -> unit
         abstract uncork: unit -> unit
-        abstract destroy: ?error: System.Exception -> unit
+        abstract destroy: ?error: Error -> unit
         /// Event emitter
         /// The defined events on documents including:
         /// 1. close
@@ -4800,49 +4805,49 @@ module Stream =
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Writable
         [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (unit -> unit) -> Writable
         [<Emit "$0.addListener('drain',$1)">] abstract addListener_drain: listener: (unit -> unit) -> Writable
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Writable
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Writable
         [<Emit "$0.addListener('finish',$1)">] abstract addListener_finish: listener: (unit -> unit) -> Writable
         [<Emit "$0.addListener('pipe',$1)">] abstract addListener_pipe: listener: (Readable -> unit) -> Writable
         [<Emit "$0.addListener('unpipe',$1)">] abstract addListener_unpipe: listener: (Readable -> unit) -> Writable
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close')">] abstract emit_close: unit -> bool
         [<Emit "$0.emit('drain',$1)">] abstract emit_drain: chunk: U2<Buffer, string> -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         [<Emit "$0.emit('finish')">] abstract emit_finish: unit -> bool
         [<Emit "$0.emit('pipe',$1)">] abstract emit_pipe: src: Readable -> bool
         [<Emit "$0.emit('unpipe',$1)">] abstract emit_unpipe: src: Readable -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Writable
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (unit -> unit) -> Writable
         [<Emit "$0.on('drain',$1)">] abstract on_drain: listener: (unit -> unit) -> Writable
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Writable
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Writable
         [<Emit "$0.on('finish',$1)">] abstract on_finish: listener: (unit -> unit) -> Writable
         [<Emit "$0.on('pipe',$1)">] abstract on_pipe: listener: (Readable -> unit) -> Writable
         [<Emit "$0.on('unpipe',$1)">] abstract on_unpipe: listener: (Readable -> unit) -> Writable
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Writable
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (unit -> unit) -> Writable
         [<Emit "$0.once('drain',$1)">] abstract once_drain: listener: (unit -> unit) -> Writable
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Writable
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Writable
         [<Emit "$0.once('finish',$1)">] abstract once_finish: listener: (unit -> unit) -> Writable
         [<Emit "$0.once('pipe',$1)">] abstract once_pipe: listener: (Readable -> unit) -> Writable
         [<Emit "$0.once('unpipe',$1)">] abstract once_unpipe: listener: (Readable -> unit) -> Writable
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Writable
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (unit -> unit) -> Writable
         [<Emit "$0.prependListener('drain',$1)">] abstract prependListener_drain: listener: (unit -> unit) -> Writable
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Writable
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Writable
         [<Emit "$0.prependListener('finish',$1)">] abstract prependListener_finish: listener: (unit -> unit) -> Writable
         [<Emit "$0.prependListener('pipe',$1)">] abstract prependListener_pipe: listener: (Readable -> unit) -> Writable
         [<Emit "$0.prependListener('unpipe',$1)">] abstract prependListener_unpipe: listener: (Readable -> unit) -> Writable
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Writable
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (unit -> unit) -> Writable
         [<Emit "$0.prependOnceListener('drain',$1)">] abstract prependOnceListener_drain: listener: (unit -> unit) -> Writable
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Writable
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Writable
         [<Emit "$0.prependOnceListener('finish',$1)">] abstract prependOnceListener_finish: listener: (unit -> unit) -> Writable
         [<Emit "$0.prependOnceListener('pipe',$1)">] abstract prependOnceListener_pipe: listener: (Readable -> unit) -> Writable
         [<Emit "$0.prependOnceListener('unpipe',$1)">] abstract prependOnceListener_unpipe: listener: (Readable -> unit) -> Writable
         abstract removeListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Writable
         [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: (unit -> unit) -> Writable
         [<Emit "$0.removeListener('drain',$1)">] abstract removeListener_drain: listener: (unit -> unit) -> Writable
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (System.Exception -> unit) -> Writable
+        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (Error -> unit) -> Writable
         [<Emit "$0.removeListener('finish',$1)">] abstract removeListener_finish: listener: (unit -> unit) -> Writable
         [<Emit "$0.removeListener('pipe',$1)">] abstract removeListener_pipe: listener: (Readable -> unit) -> Writable
         [<Emit "$0.removeListener('unpipe',$1)">] abstract removeListener_unpipe: listener: (Readable -> unit) -> Writable
@@ -4862,9 +4867,9 @@ module Stream =
         inherit Writable
         abstract writable: bool with get, set
         abstract writableHighWaterMark: float
-        abstract _write: chunk: obj option * encoding: string * callback: (System.Exception -> unit) -> unit
-        abstract _writev: chunks: Array<TypeLiteral_65> * callback: (System.Exception -> unit) -> unit
-        abstract _destroy: err: System.Exception * callback: Function -> unit
+        abstract _write: chunk: obj option * encoding: string * callback: (Error -> unit) -> unit
+        abstract _writev: chunks: Array<TypeLiteral_65> * callback: (Error -> unit) -> unit
+        abstract _destroy: err: Error * callback: Function -> unit
         abstract _final: callback: Function -> unit
         abstract write: chunk: obj option * ?cb: Function -> bool
         abstract write: chunk: obj option * ?encoding: string * ?cb: Function -> bool
@@ -4886,7 +4891,7 @@ module Stream =
     type [<AllowNullLiteral>] Transform =
         inherit Duplex
         abstract _transform: chunk: obj option * encoding: string * callback: Function -> unit
-        abstract destroy: ?error: System.Exception -> unit
+        abstract destroy: ?error: Error -> unit
 
     type [<AllowNullLiteral>] TransformStatic =
         [<Emit "new $0($1...)">] abstract Create: ?opts: TransformOptions -> Transform
@@ -4945,18 +4950,18 @@ module Util =
         abstract callbackify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Promise<unit>) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> (NodeJS.ErrnoException -> unit) -> unit)
         abstract callbackify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> Promise<'TResult>) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> 'T6 -> (NodeJS.ErrnoException -> 'TResult -> unit) -> unit)
         abstract promisify: fn: CustomPromisify<'TCustom> -> 'TCustom
-        abstract promisify: fn: ((System.Exception option -> 'TResult -> unit) -> unit) -> (unit -> Promise<'TResult>)
-        abstract promisify: fn: ((System.Exception option -> unit) -> unit) -> (unit -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> (System.Exception option -> 'TResult -> unit) -> unit) -> ('T1 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> (System.Exception option -> unit) -> unit) -> ('T1 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> (System.Exception option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> (System.Exception option -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (System.Exception option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (System.Exception option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (System.Exception option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (System.Exception option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<unit>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (System.Exception option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<'TResult>)
-        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (System.Exception option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<unit>)
+        abstract promisify: fn: ((Error option -> 'TResult -> unit) -> unit) -> (unit -> Promise<'TResult>)
+        abstract promisify: fn: ((Error option -> unit) -> unit) -> (unit -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> (Error option -> unit) -> unit) -> ('T1 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> Promise<unit>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (Error option -> 'TResult -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<'TResult>)
+        abstract promisify: fn: ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> (Error option -> unit) -> unit) -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'T5 -> Promise<unit>)
         abstract promisify: fn: Function -> Function
         abstract TextDecoder: TextDecoderStatic
         abstract TextEncoder: TextEncoderStatic
@@ -5014,6 +5019,7 @@ module Assert =
 
     type [<AllowNullLiteral>] IExports =
         abstract ``internal``: value: obj option * ?message: string -> unit
+        abstract AssertionError: AssertionErrorStatic
         abstract fail: message: string -> obj
         abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: string -> obj
         abstract ok: value: obj option * ?message: string -> unit
@@ -5035,8 +5041,24 @@ module Assert =
         abstract doesNotThrow: block: Function * error: (obj option -> bool) * ?message: string -> unit
         abstract ifError: value: obj option -> unit
 
-    type AssertionError =
-        System.Exception
+    type [<AllowNullLiteral>] AssertionError =
+        inherit Error
+        abstract name: string with get, set
+        abstract message: string with get, set
+        abstract actual: obj option with get, set
+        abstract expected: obj option with get, set
+        abstract operator: string with get, set
+        abstract generatedMessage: bool with get, set
+
+    type [<AllowNullLiteral>] AssertionErrorStatic =
+        [<Emit "new $0($1...)">] abstract Create: ?options: AssertionErrorStaticOptions -> AssertionError
+
+    type [<AllowNullLiteral>] AssertionErrorStaticOptions =
+        abstract message: string option with get, set
+        abstract actual: obj option with get, set
+        abstract expected: obj option with get, set
+        abstract operator: string option with get, set
+        abstract stackStartFunction: Function option with get, set
 
 module Tty =
 
@@ -5075,7 +5097,7 @@ module Domain =
         abstract run: fn: Function -> unit
         abstract add: emitter: Events.EventEmitter -> unit
         abstract remove: emitter: Events.EventEmitter -> unit
-        abstract bind: cb: (System.Exception -> obj option -> obj option) -> obj option
+        abstract bind: cb: (Error -> obj option -> obj option) -> obj option
         abstract intercept: cb: (obj option -> obj option) -> obj option
         abstract dispose: unit -> unit
         abstract members: ResizeArray<obj option> with get, set
@@ -5561,7 +5583,7 @@ module Http2 =
         [<Emit "$0.addListener('data',$1)">] abstract addListener_data: listener: (U2<Buffer, string> -> unit) -> Http2Stream
         [<Emit "$0.addListener('drain',$1)">] abstract addListener_drain: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.addListener('end',$1)">] abstract addListener_end: listener: (unit -> unit) -> Http2Stream
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Http2Stream
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Http2Stream
         [<Emit "$0.addListener('finish',$1)">] abstract addListener_finish: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.addListener('frameError',$1)">] abstract addListener_frameError: listener: (float -> float -> unit) -> Http2Stream
         [<Emit "$0.addListener('pipe',$1)">] abstract addListener_pipe: listener: (Stream.Readable -> unit) -> Http2Stream
@@ -5575,7 +5597,7 @@ module Http2 =
         [<Emit "$0.emit('data',$1)">] abstract emit_data: chunk: U2<Buffer, string> -> bool
         [<Emit "$0.emit('drain')">] abstract emit_drain: unit -> bool
         [<Emit "$0.emit('end')">] abstract emit_end: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         [<Emit "$0.emit('finish')">] abstract emit_finish: unit -> bool
         [<Emit "$0.emit('frameError',$1,$2)">] abstract emit_frameError: frameType: float * errorCode: float -> bool
         [<Emit "$0.emit('pipe',$1)">] abstract emit_pipe: src: Stream.Readable -> bool
@@ -5589,7 +5611,7 @@ module Http2 =
         [<Emit "$0.on('data',$1)">] abstract on_data: listener: (U2<Buffer, string> -> unit) -> Http2Stream
         [<Emit "$0.on('drain',$1)">] abstract on_drain: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.on('end',$1)">] abstract on_end: listener: (unit -> unit) -> Http2Stream
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Http2Stream
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Http2Stream
         [<Emit "$0.on('finish',$1)">] abstract on_finish: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.on('frameError',$1)">] abstract on_frameError: listener: (float -> float -> unit) -> Http2Stream
         [<Emit "$0.on('pipe',$1)">] abstract on_pipe: listener: (Stream.Readable -> unit) -> Http2Stream
@@ -5603,7 +5625,7 @@ module Http2 =
         [<Emit "$0.once('data',$1)">] abstract once_data: listener: (U2<Buffer, string> -> unit) -> Http2Stream
         [<Emit "$0.once('drain',$1)">] abstract once_drain: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.once('end',$1)">] abstract once_end: listener: (unit -> unit) -> Http2Stream
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Http2Stream
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Http2Stream
         [<Emit "$0.once('finish',$1)">] abstract once_finish: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.once('frameError',$1)">] abstract once_frameError: listener: (float -> float -> unit) -> Http2Stream
         [<Emit "$0.once('pipe',$1)">] abstract once_pipe: listener: (Stream.Readable -> unit) -> Http2Stream
@@ -5617,7 +5639,7 @@ module Http2 =
         [<Emit "$0.prependListener('data',$1)">] abstract prependListener_data: listener: (U2<Buffer, string> -> unit) -> Http2Stream
         [<Emit "$0.prependListener('drain',$1)">] abstract prependListener_drain: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.prependListener('end',$1)">] abstract prependListener_end: listener: (unit -> unit) -> Http2Stream
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Http2Stream
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Http2Stream
         [<Emit "$0.prependListener('finish',$1)">] abstract prependListener_finish: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.prependListener('frameError',$1)">] abstract prependListener_frameError: listener: (float -> float -> unit) -> Http2Stream
         [<Emit "$0.prependListener('pipe',$1)">] abstract prependListener_pipe: listener: (Stream.Readable -> unit) -> Http2Stream
@@ -5631,7 +5653,7 @@ module Http2 =
         [<Emit "$0.prependOnceListener('data',$1)">] abstract prependOnceListener_data: listener: (U2<Buffer, string> -> unit) -> Http2Stream
         [<Emit "$0.prependOnceListener('drain',$1)">] abstract prependOnceListener_drain: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.prependOnceListener('end',$1)">] abstract prependOnceListener_end: listener: (unit -> unit) -> Http2Stream
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Http2Stream
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Http2Stream
         [<Emit "$0.prependOnceListener('finish',$1)">] abstract prependOnceListener_finish: listener: (unit -> unit) -> Http2Stream
         [<Emit "$0.prependOnceListener('frameError',$1)">] abstract prependOnceListener_frameError: listener: (float -> float -> unit) -> Http2Stream
         [<Emit "$0.prependOnceListener('pipe',$1)">] abstract prependOnceListener_pipe: listener: (Stream.Readable -> unit) -> Http2Stream
@@ -5728,57 +5750,57 @@ module Http2 =
         abstract ``type``: float
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Session
         [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (unit -> unit) -> Http2Session
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.addListener('frameError',$1)">] abstract addListener_frameError: listener: (float -> float -> float -> unit) -> Http2Session
         [<Emit "$0.addListener('goaway',$1)">] abstract addListener_goaway: listener: (float -> float -> Buffer -> unit) -> Http2Session
         [<Emit "$0.addListener('localSettings',$1)">] abstract addListener_localSettings: listener: (Settings -> unit) -> Http2Session
         [<Emit "$0.addListener('remoteSettings',$1)">] abstract addListener_remoteSettings: listener: (Settings -> unit) -> Http2Session
-        [<Emit "$0.addListener('socketError',$1)">] abstract addListener_socketError: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.addListener('socketError',$1)">] abstract addListener_socketError: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.addListener('timeout',$1)">] abstract addListener_timeout: listener: (unit -> unit) -> Http2Session
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('close')">] abstract emit_close: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: err: Error -> bool
         [<Emit "$0.emit('frameError',$1,$2,$3)">] abstract emit_frameError: frameType: float * errorCode: float * streamID: float -> bool
         [<Emit "$0.emit('goaway',$1,$2,$3)">] abstract emit_goaway: errorCode: float * lastStreamID: float * opaqueData: Buffer -> bool
         [<Emit "$0.emit('localSettings',$1)">] abstract emit_localSettings: settings: Settings -> bool
         [<Emit "$0.emit('remoteSettings',$1)">] abstract emit_remoteSettings: settings: Settings -> bool
-        [<Emit "$0.emit('socketError',$1)">] abstract emit_socketError: err: System.Exception -> bool
+        [<Emit "$0.emit('socketError',$1)">] abstract emit_socketError: err: Error -> bool
         [<Emit "$0.emit('timeout')">] abstract emit_timeout: unit -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Session
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (unit -> unit) -> Http2Session
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.on('frameError',$1)">] abstract on_frameError: listener: (float -> float -> float -> unit) -> Http2Session
         [<Emit "$0.on('goaway',$1)">] abstract on_goaway: listener: (float -> float -> Buffer -> unit) -> Http2Session
         [<Emit "$0.on('localSettings',$1)">] abstract on_localSettings: listener: (Settings -> unit) -> Http2Session
         [<Emit "$0.on('remoteSettings',$1)">] abstract on_remoteSettings: listener: (Settings -> unit) -> Http2Session
-        [<Emit "$0.on('socketError',$1)">] abstract on_socketError: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.on('socketError',$1)">] abstract on_socketError: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.on('timeout',$1)">] abstract on_timeout: listener: (unit -> unit) -> Http2Session
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Session
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (unit -> unit) -> Http2Session
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.once('frameError',$1)">] abstract once_frameError: listener: (float -> float -> float -> unit) -> Http2Session
         [<Emit "$0.once('goaway',$1)">] abstract once_goaway: listener: (float -> float -> Buffer -> unit) -> Http2Session
         [<Emit "$0.once('localSettings',$1)">] abstract once_localSettings: listener: (Settings -> unit) -> Http2Session
         [<Emit "$0.once('remoteSettings',$1)">] abstract once_remoteSettings: listener: (Settings -> unit) -> Http2Session
-        [<Emit "$0.once('socketError',$1)">] abstract once_socketError: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.once('socketError',$1)">] abstract once_socketError: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.once('timeout',$1)">] abstract once_timeout: listener: (unit -> unit) -> Http2Session
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Session
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (unit -> unit) -> Http2Session
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.prependListener('frameError',$1)">] abstract prependListener_frameError: listener: (float -> float -> float -> unit) -> Http2Session
         [<Emit "$0.prependListener('goaway',$1)">] abstract prependListener_goaway: listener: (float -> float -> Buffer -> unit) -> Http2Session
         [<Emit "$0.prependListener('localSettings',$1)">] abstract prependListener_localSettings: listener: (Settings -> unit) -> Http2Session
         [<Emit "$0.prependListener('remoteSettings',$1)">] abstract prependListener_remoteSettings: listener: (Settings -> unit) -> Http2Session
-        [<Emit "$0.prependListener('socketError',$1)">] abstract prependListener_socketError: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.prependListener('socketError',$1)">] abstract prependListener_socketError: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.prependListener('timeout',$1)">] abstract prependListener_timeout: listener: (unit -> unit) -> Http2Session
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Session
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (unit -> unit) -> Http2Session
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.prependOnceListener('frameError',$1)">] abstract prependOnceListener_frameError: listener: (float -> float -> float -> unit) -> Http2Session
         [<Emit "$0.prependOnceListener('goaway',$1)">] abstract prependOnceListener_goaway: listener: (float -> float -> Buffer -> unit) -> Http2Session
         [<Emit "$0.prependOnceListener('localSettings',$1)">] abstract prependOnceListener_localSettings: listener: (Settings -> unit) -> Http2Session
         [<Emit "$0.prependOnceListener('remoteSettings',$1)">] abstract prependOnceListener_remoteSettings: listener: (Settings -> unit) -> Http2Session
-        [<Emit "$0.prependOnceListener('socketError',$1)">] abstract prependOnceListener_socketError: listener: (System.Exception -> unit) -> Http2Session
+        [<Emit "$0.prependOnceListener('socketError',$1)">] abstract prependOnceListener_socketError: listener: (Error -> unit) -> Http2Session
         [<Emit "$0.prependOnceListener('timeout',$1)">] abstract prependOnceListener_timeout: listener: (unit -> unit) -> Http2Session
 
     type [<AllowNullLiteral>] ClientHttp2Session =
@@ -5860,38 +5882,38 @@ module Http2 =
         inherit Net.Server
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Server
         [<Emit "$0.addListener('request',$1)">] abstract addListener_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2Server
-        [<Emit "$0.addListener('sessionError',$1)">] abstract addListener_sessionError: listener: (System.Exception -> unit) -> Http2Server
-        [<Emit "$0.addListener('socketError',$1)">] abstract addListener_socketError: listener: (System.Exception -> unit) -> Http2Server
+        [<Emit "$0.addListener('sessionError',$1)">] abstract addListener_sessionError: listener: (Error -> unit) -> Http2Server
+        [<Emit "$0.addListener('socketError',$1)">] abstract addListener_socketError: listener: (Error -> unit) -> Http2Server
         [<Emit "$0.addListener('stream',$1)">] abstract addListener_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2Server
         [<Emit "$0.addListener('timeout',$1)">] abstract addListener_timeout: listener: (unit -> unit) -> Http2Server
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('request',$1,$2)">] abstract emit_request: request: Http2ServerRequest * response: Http2ServerResponse -> bool
-        [<Emit "$0.emit('sessionError',$1)">] abstract emit_sessionError: err: System.Exception -> bool
-        [<Emit "$0.emit('socketError',$1)">] abstract emit_socketError: err: System.Exception -> bool
+        [<Emit "$0.emit('sessionError',$1)">] abstract emit_sessionError: err: Error -> bool
+        [<Emit "$0.emit('socketError',$1)">] abstract emit_socketError: err: Error -> bool
         [<Emit "$0.emit('stream',$1,$2,$3)">] abstract emit_stream: stream: ServerHttp2Stream * headers: IncomingHttpHeaders * flags: float -> bool
         [<Emit "$0.emit('timeout')">] abstract emit_timeout: unit -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Server
         [<Emit "$0.on('request',$1)">] abstract on_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2Server
-        [<Emit "$0.on('sessionError',$1)">] abstract on_sessionError: listener: (System.Exception -> unit) -> Http2Server
-        [<Emit "$0.on('socketError',$1)">] abstract on_socketError: listener: (System.Exception -> unit) -> Http2Server
+        [<Emit "$0.on('sessionError',$1)">] abstract on_sessionError: listener: (Error -> unit) -> Http2Server
+        [<Emit "$0.on('socketError',$1)">] abstract on_socketError: listener: (Error -> unit) -> Http2Server
         [<Emit "$0.on('stream',$1)">] abstract on_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2Server
         [<Emit "$0.on('timeout',$1)">] abstract on_timeout: listener: (unit -> unit) -> Http2Server
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Server
         [<Emit "$0.once('request',$1)">] abstract once_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2Server
-        [<Emit "$0.once('sessionError',$1)">] abstract once_sessionError: listener: (System.Exception -> unit) -> Http2Server
-        [<Emit "$0.once('socketError',$1)">] abstract once_socketError: listener: (System.Exception -> unit) -> Http2Server
+        [<Emit "$0.once('sessionError',$1)">] abstract once_sessionError: listener: (Error -> unit) -> Http2Server
+        [<Emit "$0.once('socketError',$1)">] abstract once_socketError: listener: (Error -> unit) -> Http2Server
         [<Emit "$0.once('stream',$1)">] abstract once_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2Server
         [<Emit "$0.once('timeout',$1)">] abstract once_timeout: listener: (unit -> unit) -> Http2Server
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Server
         [<Emit "$0.prependListener('request',$1)">] abstract prependListener_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2Server
-        [<Emit "$0.prependListener('sessionError',$1)">] abstract prependListener_sessionError: listener: (System.Exception -> unit) -> Http2Server
-        [<Emit "$0.prependListener('socketError',$1)">] abstract prependListener_socketError: listener: (System.Exception -> unit) -> Http2Server
+        [<Emit "$0.prependListener('sessionError',$1)">] abstract prependListener_sessionError: listener: (Error -> unit) -> Http2Server
+        [<Emit "$0.prependListener('socketError',$1)">] abstract prependListener_socketError: listener: (Error -> unit) -> Http2Server
         [<Emit "$0.prependListener('stream',$1)">] abstract prependListener_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2Server
         [<Emit "$0.prependListener('timeout',$1)">] abstract prependListener_timeout: listener: (unit -> unit) -> Http2Server
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2Server
         [<Emit "$0.prependOnceListener('request',$1)">] abstract prependOnceListener_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2Server
-        [<Emit "$0.prependOnceListener('sessionError',$1)">] abstract prependOnceListener_sessionError: listener: (System.Exception -> unit) -> Http2Server
-        [<Emit "$0.prependOnceListener('socketError',$1)">] abstract prependOnceListener_socketError: listener: (System.Exception -> unit) -> Http2Server
+        [<Emit "$0.prependOnceListener('sessionError',$1)">] abstract prependOnceListener_sessionError: listener: (Error -> unit) -> Http2Server
+        [<Emit "$0.prependOnceListener('socketError',$1)">] abstract prependOnceListener_socketError: listener: (Error -> unit) -> Http2Server
         [<Emit "$0.prependOnceListener('stream',$1)">] abstract prependOnceListener_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2Server
         [<Emit "$0.prependOnceListener('timeout',$1)">] abstract prependOnceListener_timeout: listener: (unit -> unit) -> Http2Server
 
@@ -5899,43 +5921,43 @@ module Http2 =
         inherit Tls.Server
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2SecureServer
         [<Emit "$0.addListener('request',$1)">] abstract addListener_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2SecureServer
-        [<Emit "$0.addListener('sessionError',$1)">] abstract addListener_sessionError: listener: (System.Exception -> unit) -> Http2SecureServer
-        [<Emit "$0.addListener('socketError',$1)">] abstract addListener_socketError: listener: (System.Exception -> unit) -> Http2SecureServer
+        [<Emit "$0.addListener('sessionError',$1)">] abstract addListener_sessionError: listener: (Error -> unit) -> Http2SecureServer
+        [<Emit "$0.addListener('socketError',$1)">] abstract addListener_socketError: listener: (Error -> unit) -> Http2SecureServer
         [<Emit "$0.addListener('stream',$1)">] abstract addListener_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2SecureServer
         [<Emit "$0.addListener('timeout',$1)">] abstract addListener_timeout: listener: (unit -> unit) -> Http2SecureServer
         [<Emit "$0.addListener('unknownProtocol',$1)">] abstract addListener_unknownProtocol: listener: (Tls.TLSSocket -> unit) -> Http2SecureServer
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('request',$1,$2)">] abstract emit_request: request: Http2ServerRequest * response: Http2ServerResponse -> bool
-        [<Emit "$0.emit('sessionError',$1)">] abstract emit_sessionError: err: System.Exception -> bool
-        [<Emit "$0.emit('socketError',$1)">] abstract emit_socketError: err: System.Exception -> bool
+        [<Emit "$0.emit('sessionError',$1)">] abstract emit_sessionError: err: Error -> bool
+        [<Emit "$0.emit('socketError',$1)">] abstract emit_socketError: err: Error -> bool
         [<Emit "$0.emit('stream',$1,$2,$3)">] abstract emit_stream: stream: ServerHttp2Stream * headers: IncomingHttpHeaders * flags: float -> bool
         [<Emit "$0.emit('timeout')">] abstract emit_timeout: unit -> bool
         [<Emit "$0.emit('unknownProtocol',$1)">] abstract emit_unknownProtocol: socket: Tls.TLSSocket -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2SecureServer
         [<Emit "$0.on('request',$1)">] abstract on_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2SecureServer
-        [<Emit "$0.on('sessionError',$1)">] abstract on_sessionError: listener: (System.Exception -> unit) -> Http2SecureServer
-        [<Emit "$0.on('socketError',$1)">] abstract on_socketError: listener: (System.Exception -> unit) -> Http2SecureServer
+        [<Emit "$0.on('sessionError',$1)">] abstract on_sessionError: listener: (Error -> unit) -> Http2SecureServer
+        [<Emit "$0.on('socketError',$1)">] abstract on_socketError: listener: (Error -> unit) -> Http2SecureServer
         [<Emit "$0.on('stream',$1)">] abstract on_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2SecureServer
         [<Emit "$0.on('timeout',$1)">] abstract on_timeout: listener: (unit -> unit) -> Http2SecureServer
         [<Emit "$0.on('unknownProtocol',$1)">] abstract on_unknownProtocol: listener: (Tls.TLSSocket -> unit) -> Http2SecureServer
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2SecureServer
         [<Emit "$0.once('request',$1)">] abstract once_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2SecureServer
-        [<Emit "$0.once('sessionError',$1)">] abstract once_sessionError: listener: (System.Exception -> unit) -> Http2SecureServer
-        [<Emit "$0.once('socketError',$1)">] abstract once_socketError: listener: (System.Exception -> unit) -> Http2SecureServer
+        [<Emit "$0.once('sessionError',$1)">] abstract once_sessionError: listener: (Error -> unit) -> Http2SecureServer
+        [<Emit "$0.once('socketError',$1)">] abstract once_socketError: listener: (Error -> unit) -> Http2SecureServer
         [<Emit "$0.once('stream',$1)">] abstract once_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2SecureServer
         [<Emit "$0.once('timeout',$1)">] abstract once_timeout: listener: (unit -> unit) -> Http2SecureServer
         [<Emit "$0.once('unknownProtocol',$1)">] abstract once_unknownProtocol: listener: (Tls.TLSSocket -> unit) -> Http2SecureServer
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2SecureServer
         [<Emit "$0.prependListener('request',$1)">] abstract prependListener_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2SecureServer
-        [<Emit "$0.prependListener('sessionError',$1)">] abstract prependListener_sessionError: listener: (System.Exception -> unit) -> Http2SecureServer
-        [<Emit "$0.prependListener('socketError',$1)">] abstract prependListener_socketError: listener: (System.Exception -> unit) -> Http2SecureServer
+        [<Emit "$0.prependListener('sessionError',$1)">] abstract prependListener_sessionError: listener: (Error -> unit) -> Http2SecureServer
+        [<Emit "$0.prependListener('socketError',$1)">] abstract prependListener_socketError: listener: (Error -> unit) -> Http2SecureServer
         [<Emit "$0.prependListener('stream',$1)">] abstract prependListener_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2SecureServer
         [<Emit "$0.prependListener('timeout',$1)">] abstract prependListener_timeout: listener: (unit -> unit) -> Http2SecureServer
         [<Emit "$0.prependListener('unknownProtocol',$1)">] abstract prependListener_unknownProtocol: listener: (Tls.TLSSocket -> unit) -> Http2SecureServer
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2SecureServer
         [<Emit "$0.prependOnceListener('request',$1)">] abstract prependOnceListener_request: listener: (Http2ServerRequest -> Http2ServerResponse -> unit) -> Http2SecureServer
-        [<Emit "$0.prependOnceListener('sessionError',$1)">] abstract prependOnceListener_sessionError: listener: (System.Exception -> unit) -> Http2SecureServer
-        [<Emit "$0.prependOnceListener('socketError',$1)">] abstract prependOnceListener_socketError: listener: (System.Exception -> unit) -> Http2SecureServer
+        [<Emit "$0.prependOnceListener('sessionError',$1)">] abstract prependOnceListener_sessionError: listener: (Error -> unit) -> Http2SecureServer
+        [<Emit "$0.prependOnceListener('socketError',$1)">] abstract prependOnceListener_socketError: listener: (Error -> unit) -> Http2SecureServer
         [<Emit "$0.prependOnceListener('stream',$1)">] abstract prependOnceListener_stream: listener: (ServerHttp2Stream -> IncomingHttpHeaders -> float -> unit) -> Http2SecureServer
         [<Emit "$0.prependOnceListener('timeout',$1)">] abstract prependOnceListener_timeout: listener: (unit -> unit) -> Http2SecureServer
         [<Emit "$0.prependOnceListener('unknownProtocol',$1)">] abstract prependOnceListener_unknownProtocol: listener: (Tls.TLSSocket -> unit) -> Http2SecureServer
@@ -5986,47 +6008,47 @@ module Http2 =
         abstract statusCode: float with get, set
         abstract statusMessage: string with get, set
         abstract stream: ServerHttp2Stream with get, set
-        abstract write: chunk: U2<string, Buffer> * ?callback: (System.Exception -> unit) -> bool
-        abstract write: chunk: U2<string, Buffer> * ?encoding: string * ?callback: (System.Exception -> unit) -> bool
+        abstract write: chunk: U2<string, Buffer> * ?callback: (Error -> unit) -> bool
+        abstract write: chunk: U2<string, Buffer> * ?encoding: string * ?callback: (Error -> unit) -> bool
         abstract writeContinue: unit -> unit
         abstract writeHead: statusCode: float * ?headers: OutgoingHttpHeaders -> unit
         abstract writeHead: statusCode: float * ?statusMessage: string * ?headers: OutgoingHttpHeaders -> unit
-        abstract createPushResponse: headers: OutgoingHttpHeaders * callback: (System.Exception option -> Http2ServerResponse -> unit) -> unit
+        abstract createPushResponse: headers: OutgoingHttpHeaders * callback: (Error option -> Http2ServerResponse -> unit) -> unit
         abstract addListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2ServerResponse
         [<Emit "$0.addListener('aborted',$1)">] abstract addListener_aborted: listener: (bool -> float -> unit) -> Http2ServerResponse
         [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (unit -> unit) -> Http2ServerResponse
         [<Emit "$0.addListener('drain',$1)">] abstract addListener_drain: listener: (unit -> unit) -> Http2ServerResponse
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (System.Exception -> unit) -> Http2ServerResponse
+        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> Http2ServerResponse
         [<Emit "$0.addListener('finish',$1)">] abstract addListener_finish: listener: (unit -> unit) -> Http2ServerResponse
         abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: ResizeArray<obj option> -> bool
         [<Emit "$0.emit('aborted',$1,$2)">] abstract emit_aborted: hadError: bool * code: float -> bool
         [<Emit "$0.emit('close')">] abstract emit_close: unit -> bool
         [<Emit "$0.emit('drain')">] abstract emit_drain: unit -> bool
-        [<Emit "$0.emit('error',$1)">] abstract emit_error: error: System.Exception -> bool
+        [<Emit "$0.emit('error',$1)">] abstract emit_error: error: Error -> bool
         [<Emit "$0.emit('finish')">] abstract emit_finish: unit -> bool
         abstract on: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2ServerResponse
         [<Emit "$0.on('aborted',$1)">] abstract on_aborted: listener: (bool -> float -> unit) -> Http2ServerResponse
         [<Emit "$0.on('close',$1)">] abstract on_close: listener: (unit -> unit) -> Http2ServerResponse
         [<Emit "$0.on('drain',$1)">] abstract on_drain: listener: (unit -> unit) -> Http2ServerResponse
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (System.Exception -> unit) -> Http2ServerResponse
+        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> Http2ServerResponse
         [<Emit "$0.on('finish',$1)">] abstract on_finish: listener: (unit -> unit) -> Http2ServerResponse
         abstract once: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2ServerResponse
         [<Emit "$0.once('aborted',$1)">] abstract once_aborted: listener: (bool -> float -> unit) -> Http2ServerResponse
         [<Emit "$0.once('close',$1)">] abstract once_close: listener: (unit -> unit) -> Http2ServerResponse
         [<Emit "$0.once('drain',$1)">] abstract once_drain: listener: (unit -> unit) -> Http2ServerResponse
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (System.Exception -> unit) -> Http2ServerResponse
+        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> Http2ServerResponse
         [<Emit "$0.once('finish',$1)">] abstract once_finish: listener: (unit -> unit) -> Http2ServerResponse
         abstract prependListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2ServerResponse
         [<Emit "$0.prependListener('aborted',$1)">] abstract prependListener_aborted: listener: (bool -> float -> unit) -> Http2ServerResponse
         [<Emit "$0.prependListener('close',$1)">] abstract prependListener_close: listener: (unit -> unit) -> Http2ServerResponse
         [<Emit "$0.prependListener('drain',$1)">] abstract prependListener_drain: listener: (unit -> unit) -> Http2ServerResponse
-        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (System.Exception -> unit) -> Http2ServerResponse
+        [<Emit "$0.prependListener('error',$1)">] abstract prependListener_error: listener: (Error -> unit) -> Http2ServerResponse
         [<Emit "$0.prependListener('finish',$1)">] abstract prependListener_finish: listener: (unit -> unit) -> Http2ServerResponse
         abstract prependOnceListener: ``event``: string * listener: (ResizeArray<obj option> -> unit) -> Http2ServerResponse
         [<Emit "$0.prependOnceListener('aborted',$1)">] abstract prependOnceListener_aborted: listener: (bool -> float -> unit) -> Http2ServerResponse
         [<Emit "$0.prependOnceListener('close',$1)">] abstract prependOnceListener_close: listener: (unit -> unit) -> Http2ServerResponse
         [<Emit "$0.prependOnceListener('drain',$1)">] abstract prependOnceListener_drain: listener: (unit -> unit) -> Http2ServerResponse
-        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (System.Exception -> unit) -> Http2ServerResponse
+        [<Emit "$0.prependOnceListener('error',$1)">] abstract prependOnceListener_error: listener: (Error -> unit) -> Http2ServerResponse
         [<Emit "$0.prependOnceListener('finish',$1)">] abstract prependOnceListener_finish: listener: (unit -> unit) -> Http2ServerResponse
 
     module Constants =

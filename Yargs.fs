@@ -115,7 +115,7 @@ module Yargs =
         abstract implies: implies: ArgvImplies -> Argv
         abstract count: key: string -> Argv
         abstract count: keys: ResizeArray<string> -> Argv
-        abstract fail: func: (string -> System.Exception -> obj option) -> Argv
+        abstract fail: func: (string -> Error -> obj option) -> Argv
         abstract coerce: key: U2<string, ResizeArray<string>> * func: ('T -> 'U) -> Argv
         abstract coerce: opts: ArgvCoerceOpts -> Argv
         abstract getCompletion: args: ResizeArray<string> * ``done``: (ResizeArray<string> -> unit) -> Argv
@@ -229,7 +229,7 @@ module Yargs =
         abstract handler: (obj option -> unit) with get, set
 
     type [<AllowNullLiteral>] ParseCallback =
-        [<Emit "$0($1...)">] abstract Invoke: err: System.Exception option * argv: Arguments * output: string -> unit
+        [<Emit "$0($1...)">] abstract Invoke: err: Error option * argv: Arguments * output: string -> unit
 
     type CommandBuilder =
         U2<obj, (Argv -> Argv)>

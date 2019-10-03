@@ -382,7 +382,7 @@ module React =
         abstract componentWillUnmount: unit -> unit
         /// Catches exceptions generated in descendant components. Unhandled exceptions will cause
         /// the entire component tree to unmount.
-        abstract componentDidCatch: error: System.Exception * errorInfo: ErrorInfo -> unit
+        abstract componentDidCatch: error: Error * errorInfo: ErrorInfo -> unit
 
     type [<AllowNullLiteral>] Mixin<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
@@ -2473,7 +2473,7 @@ module React =
         inherit ReactSVG
 
     type [<AllowNullLiteral>] Validator<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> System.Exception option
+        [<Emit "$0($1...)">] abstract Invoke: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> Error option
 
     type [<AllowNullLiteral>] Requireable<'T> =
         inherit Validator<'T>

@@ -95,5 +95,5 @@ type [<AllowNullLiteral>] TypeLiteral_01 =
     abstract exceptionsToConsole: bool with get, set
     abstract catchExceptions: bool with get, set
     abstract traceEnabled: bool with get, set
-    abstract exceptionHandler: (System.Exception -> unit) option with get, set
+    abstract exceptionHandler: (Error -> unit) option with get, set
     abstract unhandledErrorHandler: (obj option -> unit) with get, set

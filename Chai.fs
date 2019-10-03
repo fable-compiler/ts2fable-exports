@@ -69,7 +69,7 @@ module Chai =
 
     type [<AllowNullLiteral>] ShouldThrow =
         [<Emit "$0($1...)">] abstract Invoke: actual: Function * ?expected: U2<string, RegExp> * ?message: string -> unit
-        [<Emit "$0($1...)">] abstract Invoke: actual: Function * ``constructor``: U2<System.Exception, Function> * ?expected: U2<string, RegExp> * ?message: string -> unit
+        [<Emit "$0($1...)">] abstract Invoke: actual: Function * ``constructor``: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> unit
 
     type [<AllowNullLiteral>] Assertion =
         inherit LanguageChains
@@ -237,7 +237,7 @@ module Chai =
 
     type [<AllowNullLiteral>] Throw =
         [<Emit "$0($1...)">] abstract Invoke: ?expected: U2<string, RegExp> * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: ``constructor``: U2<System.Exception, Function> * ?expected: U2<string, RegExp> * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: ``constructor``: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] RespondTo =
         [<Emit "$0($1...)">] abstract Invoke: ``method``: string * ?message: string -> Assertion

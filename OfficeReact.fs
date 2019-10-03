@@ -16583,10 +16583,7 @@ module __components_pickers_examples_Picker_CustomResult_Example =
         inherit BasePickerListBelow<IFullDocumentCardProps, IDocumentPickerProps>
 
     type [<AllowNullLiteral>] DocumentPickerStatic =
-        [<Emit "new $0($1...)">] abstract Create: props: DocumentPickerStaticProps -> DocumentPicker
-
-    type [<AllowNullLiteral>] DocumentPickerStaticProps =
-        interface end
+        [<Emit "new $0($1...)">] abstract Create: unit -> DocumentPicker
 
     type [<AllowNullLiteral>] PickerCustomResultExample =
         inherit React.Component<TypeLiteral_01, IPeoplePickerExampleState>

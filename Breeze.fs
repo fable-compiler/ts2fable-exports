@@ -96,7 +96,7 @@ module Core =
         abstract toJSONSafeReplacer: prop: string * ``val``: obj option -> obj option
 
     type [<AllowNullLiteral>] ErrorCallback =
-        [<Emit "$0($1...)">] abstract Invoke: error: System.Exception -> unit
+        [<Emit "$0($1...)">] abstract Invoke: error: Error -> unit
 
     type [<AllowNullLiteral>] IEnum =
         abstract contains: ``object``: obj option -> bool

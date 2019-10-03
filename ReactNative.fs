@@ -4868,7 +4868,7 @@ type [<AllowNullLiteral>] ActionSheetIOSStatic =
     /// NOTE: if `url` points to a local file, or is a base64-encoded
     /// uri, the file it points to will be loaded and shared directly.
     /// In this way, you can share images, videos, PDF files, etc.
-    abstract showShareActionSheetWithOptions: (ShareActionSheetIOSOptions -> (System.Exception -> unit) -> (bool -> string -> unit) -> unit) with get, set
+    abstract showShareActionSheetWithOptions: (ShareActionSheetIOSOptions -> (Error -> unit) -> (bool -> string -> unit) -> unit) with get, set
 
 type ShareContent =
     U4<obj, obj, obj, obj>
@@ -5025,8 +5025,8 @@ type [<AllowNullLiteral>] AlertAndroidStatic =
 
 /// //FIXME: No documentation - inferred from RCTAdSupport.m
 type [<AllowNullLiteral>] AdSupportIOSStatic =
-    abstract getAdvertisingId: ((string -> unit) -> (System.Exception -> unit) -> unit) with get, set
-    abstract getAdvertisingTrackingEnabled: ((bool -> unit) -> (System.Exception -> unit) -> unit) with get, set
+    abstract getAdvertisingId: ((string -> unit) -> (Error -> unit) -> unit) with get, set
+    abstract getAdvertisingTrackingEnabled: ((bool -> unit) -> (Error -> unit) -> unit) with get, set
 
 type [<AllowNullLiteral>] AlertIOSButton =
     abstract text: string with get, set
@@ -5075,31 +5075,31 @@ type [<AllowNullLiteral>] AppStateStatic =
 /// based on what is available.
 type [<AllowNullLiteral>] AsyncStorageStatic =
     /// Fetches key and passes the result to callback, along with an Error if there is any.
-    abstract getItem: key: string * ?callback: (System.Exception -> string -> unit) -> Promise<string>
+    abstract getItem: key: string * ?callback: (Error -> string -> unit) -> Promise<string>
     /// Sets value for key and calls callback on completion, along with an Error if there is any
-    abstract setItem: key: string * value: string * ?callback: (System.Exception -> unit) -> Promise<unit>
-    abstract removeItem: key: string * ?callback: (System.Exception -> unit) -> Promise<unit>
+    abstract setItem: key: string * value: string * ?callback: (Error -> unit) -> Promise<unit>
+    abstract removeItem: key: string * ?callback: (Error -> unit) -> Promise<unit>
     /// Merges existing value with input value, assuming they are stringified json. Returns a Promise object.
     /// Not supported by all native implementation
-    abstract mergeItem: key: string * value: string * ?callback: (System.Exception -> unit) -> Promise<unit>
+    abstract mergeItem: key: string * value: string * ?callback: (Error -> unit) -> Promise<unit>
     /// Erases all AsyncStorage for all clients, libraries, etc. You probably don't want to call this.
     /// Use removeItem or multiRemove to clear only your own keys instead.
-    abstract clear: ?callback: (System.Exception -> unit) -> Promise<unit>
+    abstract clear: ?callback: (Error -> unit) -> Promise<unit>
     /// Gets all keys known to the app, for all callers, libraries, etc
-    abstract getAllKeys: ?callback: (System.Exception -> ResizeArray<string> -> unit) -> Promise<ResizeArray<string>>
+    abstract getAllKeys: ?callback: (Error -> ResizeArray<string> -> unit) -> Promise<ResizeArray<string>>
     /// multiGet invokes callback with an array of key-value pair arrays that matches the input format of multiSet
-    abstract multiGet: keys: ResizeArray<string> * ?callback: (ResizeArray<System.Exception> -> ResizeArray<string * string> -> unit) -> Promise<ResizeArray<string * string>>
+    abstract multiGet: keys: ResizeArray<string> * ?callback: (ResizeArray<Error> -> ResizeArray<string * string> -> unit) -> Promise<ResizeArray<string * string>>
     /// multiSet and multiMerge take arrays of key-value array pairs that match the output of multiGet,
     /// 
     /// multiSet([['k1', 'val1'], ['k2', 'val2']], cb);
-    abstract multiSet: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: (ResizeArray<System.Exception> -> unit) -> Promise<unit>
+    abstract multiSet: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: (ResizeArray<Error> -> unit) -> Promise<unit>
     /// Delete all the keys in the keys array.
-    abstract multiRemove: keys: ResizeArray<string> * ?callback: (ResizeArray<System.Exception> -> unit) -> Promise<unit>
+    abstract multiRemove: keys: ResizeArray<string> * ?callback: (ResizeArray<Error> -> unit) -> Promise<unit>
     /// Merges existing values with input values, assuming they are stringified json.
     /// Returns a Promise object.
     /// 
     /// Not supported by all native implementations.
-    abstract multiMerge: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: (ResizeArray<System.Exception> -> unit) -> Promise<unit>
+    abstract multiMerge: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: (ResizeArray<Error> -> unit) -> Promise<unit>
 
 type BackPressEventName =
     string
