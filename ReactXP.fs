@@ -2918,7 +2918,7 @@ module __native_common_Popup =
         [<Emit "new $0($1...)">] abstract Create: unit -> Popup
 
 module __native_common_PopupContainerView =
-    type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
+    type PopupContainerViewBase<'P, 'S> = __common_PopupContainerViewBase.PopupContainerViewBase<'P, 'S>
     type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
     type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
 
@@ -3343,7 +3343,7 @@ module __native_desktop_RootView =
     type BaseRootViewProps = __native_common_RootView.BaseRootViewProps
     type RootViewPropsWithMainViewType = __native_common_RootView.RootViewPropsWithMainViewType
     type RootViewState = __native_common_RootView.RootViewState
-    type BaseRootView = __native_common_RootView.BaseRootView
+    type BaseRootView<'P> = __native_common_RootView.BaseRootView<'P>
 
     type [<AllowNullLiteral>] IExports =
         abstract RootViewUsingStore: obj
@@ -3886,7 +3886,7 @@ module __web_Popup =
         [<Emit "new $0($1...)">] abstract Create: unit -> Popup
 
 module __web_PopupContainerView =
-    type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
+    type PopupContainerViewBase<'P, 'S> = __common_PopupContainerViewBase.PopupContainerViewBase<'P, 'S>
     type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
     type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
 
@@ -4527,7 +4527,7 @@ module __windows_GestureView =
 module __windows_Link =
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
-    type LinkBase = __native_common_Link.LinkBase
+    type LinkBase<'S> = __native_common_Link.LinkBase<'S>
 
     type [<AllowNullLiteral>] IExports =
         abstract Link: LinkStatic
@@ -4685,7 +4685,7 @@ module __windows_RootView =
     type BaseRootViewProps = __native_desktop_RootView.BaseRootViewProps
     type RootViewPropsWithMainViewType = __native_desktop_RootView.RootViewPropsWithMainViewType
     type RootViewState = __native_desktop_RootView.RootViewState
-    type BaseRootView = __native_desktop_RootView.BaseRootView
+    type BaseRootView<'P> = __native_desktop_RootView.BaseRootView<'P>
 
     type [<AllowNullLiteral>] IExports =
         abstract RootViewUsingStore: RootViewUsingStoreStatic
