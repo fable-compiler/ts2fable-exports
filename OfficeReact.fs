@@ -2239,7 +2239,7 @@ module __components_ComboBox_ComboBox_styles =
 module __components_ComboBox_ComboBox_types =
     type IIconProps = Icon.IIconProps
     type ISelectableOption = __utilities_selectableOption_SelectableOption_types.ISelectableOption
-    type ISelectableDroppableTextProps<'T> = __utilities_selectableOption_SelectableDroppableText_types.ISelectableDroppableTextProps<'T>
+    type ISelectableDroppableTextProps = __utilities_selectableOption_SelectableDroppableText_types.ISelectableDroppableTextProps
     type IStyle = Styling.IStyle
     type ITheme = Styling.ITheme
     type IButtonStyles = Button.IButtonStyles
@@ -4536,7 +4536,7 @@ module __components_Dropdown_Dropdown_scss =
 module __components_Dropdown_Dropdown_types =
     type IRenderFunction = Utilities.IRenderFunction
     type ISelectableOption = __utilities_selectableOption_SelectableOption_types.ISelectableOption
-    type ISelectableDroppableTextProps<'T> = __utilities_selectableOption_SelectableDroppableText_types.ISelectableDroppableTextProps<'T>
+    type ISelectableDroppableTextProps = __utilities_selectableOption_SelectableDroppableText_types.ISelectableDroppableTextProps
     type ResponsiveMode = __utilities_decorators_withResponsiveMode.ResponsiveMode
     type IKeytipProps = Keytip.IKeytipProps
 
@@ -4601,12 +4601,12 @@ module __components_Dropdown_DropdownPage =
 module __components_ExtendedPicker_BaseExtendedPicker =
     type BaseComponent = Utilities.BaseComponent
     type Autofill = Autofill.Autofill
-    type IBaseExtendedPickerProps<'T> = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps<'T>
-    type IBaseExtendedPicker<'T> = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPicker<'T>
-    type IBaseFloatingPickerProps<'T> = FloatingPicker.IBaseFloatingPickerProps<'T>
-    type BaseFloatingPicker<'T, 'P> = FloatingPicker.BaseFloatingPicker<'T, 'P>
-    type BaseSelectedItemsList<'T, 'P> = SelectedItemsList.BaseSelectedItemsList<'T, 'P>
-    type IBaseSelectedItemsListProps<'T> = SelectedItemsList.IBaseSelectedItemsListProps<'T>
+    type IBaseExtendedPickerProps = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps
+    type IBaseExtendedPicker = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPicker
+    type IBaseFloatingPickerProps = FloatingPicker.IBaseFloatingPickerProps
+    type BaseFloatingPicker = FloatingPicker.BaseFloatingPicker
+    type BaseSelectedItemsList = SelectedItemsList.BaseSelectedItemsList
+    type IBaseSelectedItemsListProps = SelectedItemsList.IBaseSelectedItemsListProps
     type Selection = Selection.Selection
 
     type [<AllowNullLiteral>] IExports =
@@ -4682,8 +4682,8 @@ module __components_ExtendedPicker_BaseExtendedPicker_scss =
         abstract pickerInput: obj
 
 module __components_ExtendedPicker_BaseExtendedPicker_tests =
-    type IBaseExtendedPickerProps<'T> = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps<'T>
-    type BaseExtendedPicker<'T, 'P> = __components_ExtendedPicker_BaseExtendedPicker.BaseExtendedPicker<'T, 'P>
+    type IBaseExtendedPickerProps = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps
+    type BaseExtendedPicker = __components_ExtendedPicker_BaseExtendedPicker.BaseExtendedPicker
 
     type [<AllowNullLiteral>] ISimple =
         abstract key: string with get, set
@@ -4695,8 +4695,8 @@ module __components_ExtendedPicker_BaseExtendedPicker_tests =
 module __components_ExtendedPicker_BaseExtendedPicker_types =
     type Autofill = Autofill.Autofill
     type IInputProps = Pickers.IInputProps
-    type IBaseFloatingPickerProps<'T> = FloatingPicker.IBaseFloatingPickerProps<'T>
-    type IBaseSelectedItemsListProps<'T> = SelectedItemsList.IBaseSelectedItemsListProps<'T>
+    type IBaseFloatingPickerProps = FloatingPicker.IBaseFloatingPickerProps
+    type IBaseSelectedItemsListProps = SelectedItemsList.IBaseSelectedItemsListProps
 
     type [<AllowNullLiteral>] IBaseExtendedPicker<'T> =
         /// Forces the picker to resolve 
@@ -4968,10 +4968,10 @@ module __components_Facepile_FacepilePage =
 module __components_FloatingPicker_BaseFloatingPicker =
     type BaseComponent = Utilities.BaseComponent
     type IBaseFloatingPicker = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPicker
-    type IBaseFloatingPickerProps<'T> = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPickerProps<'T>
-    type ISuggestionsControlProps<'T> = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsControlProps<'T>
-    type SuggestionsControl<'T> = __components_FloatingPicker_Suggestions_SuggestionsControl.SuggestionsControl<'T>
-    type SuggestionsStore<'T> = __components_FloatingPicker_Suggestions_SuggestionsStore.SuggestionsStore<'T>
+    type IBaseFloatingPickerProps = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPickerProps
+    type ISuggestionsControlProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsControlProps
+    type SuggestionsControl = __components_FloatingPicker_Suggestions_SuggestionsControl.SuggestionsControl
+    type SuggestionsStore = __components_FloatingPicker_Suggestions_SuggestionsStore.SuggestionsStore
 
     type [<AllowNullLiteral>] IExports =
         abstract BaseFloatingPicker: BaseFloatingPickerStatic
@@ -5035,10 +5035,10 @@ module __components_FloatingPicker_BaseFloatingPicker_scss =
         abstract callout: obj
 
 module __components_FloatingPicker_BaseFloatingPicker_types =
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
+    type ISuggestionModel = Pickers.ISuggestionModel
     type IPersonaProps = Persona.IPersonaProps
     type ISuggestionsHeaderFooterProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsHeaderFooterProps
-    type SuggestionsStore<'T> = __components_FloatingPicker_Suggestions_SuggestionsStore.SuggestionsStore<'T>
+    type SuggestionsStore = __components_FloatingPicker_Suggestions_SuggestionsStore.SuggestionsStore
 
     type [<AllowNullLiteral>] IBaseFloatingPicker =
         /// Whether the suggestions are shown 
@@ -8373,14 +8373,14 @@ module __components_pickers_BasePicker =
     type KeyCodes = Utilities.KeyCodes
     type IFocusZone = FocusZone.IFocusZone
     type Selection = __utilities_selection_index.Selection
-    type Suggestions<'T> = __components_pickers_Suggestions_Suggestions.Suggestions<'T>
-    type ISuggestionsProps<'T> = __components_pickers_Suggestions_Suggestions_types.ISuggestionsProps<'T>
-    type SuggestionsController<'T> = __components_pickers_Suggestions_SuggestionsController.SuggestionsController<'T>
-    type IBasePicker<'T> = __components_pickers_BasePicker_types.IBasePicker<'T>
-    type IBasePickerProps<'T> = __components_pickers_BasePicker_types.IBasePickerProps<'T>
+    type Suggestions = __components_pickers_Suggestions_Suggestions.Suggestions
+    type ISuggestionsProps = __components_pickers_Suggestions_Suggestions_types.ISuggestionsProps
+    type SuggestionsController = __components_pickers_Suggestions_SuggestionsController.SuggestionsController
+    type IBasePicker = __components_pickers_BasePicker_types.IBasePicker
+    type IBasePickerProps = __components_pickers_BasePicker_types.IBasePickerProps
     type IAutofill = __components_Autofill_index.IAutofill
     type Autofill = __components_Autofill_index.Autofill
-    type IPickerItemProps<'T> = __components_pickers_PickerItem_types.IPickerItemProps<'T>
+    type IPickerItemProps = __components_pickers_PickerItem_types.IPickerItemProps
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
 
     type [<AllowNullLiteral>] IExports =
@@ -8488,10 +8488,10 @@ module __components_pickers_BasePicker_scss =
         abstract screenReaderOnly: obj
 
 module __components_pickers_BasePicker_types =
-    type IPickerItemProps<'T> = __components_pickers_PickerItem_types.IPickerItemProps<'T>
+    type IPickerItemProps = __components_pickers_PickerItem_types.IPickerItemProps
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
     type IRenderFunction = Utilities.IRenderFunction
-    type ISuggestionModel<'T> = __components_pickers_Suggestions_SuggestionsController.ISuggestionModel<'T>
+    type ISuggestionModel = __components_pickers_Suggestions_SuggestionsController.ISuggestionModel
     type BaseAutoFill = __components_pickers_AutoFill_BaseAutoFill.BaseAutoFill
 
     type [<AllowNullLiteral>] IBasePicker<'T> =
@@ -9611,9 +9611,9 @@ module __components_SearchBox_SearchBoxPage =
 module __components_SelectedItemsList_BaseSelectedItemsList =
     type BaseComponent = Utilities.BaseComponent
     type Selection = Selection.Selection
-    type IBaseSelectedItemsList<'T> = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsList<'T>
-    type IBaseSelectedItemsListProps<'T> = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsListProps<'T>
-    type ISelectedItemProps<'T> = __components_SelectedItemsList_BaseSelectedItemsList_types.ISelectedItemProps<'T>
+    type IBaseSelectedItemsList = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsList
+    type IBaseSelectedItemsListProps = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsListProps
+    type ISelectedItemProps = __components_SelectedItemsList_BaseSelectedItemsList_types.ISelectedItemProps
 
     type [<AllowNullLiteral>] IExports =
         abstract BaseSelectedItemsList: BaseSelectedItemsListStatic
@@ -9660,8 +9660,8 @@ module __components_SelectedItemsList_BaseSelectedItemsList =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BaseSelectedItemsList<'T, 'P>
 
 module __components_SelectedItemsList_BaseSelectedItemsList_types =
-    type IPickerItemProps<'T> = Pickers.IPickerItemProps<'T>
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
+    type IPickerItemProps = Pickers.IPickerItemProps
+    type ISuggestionModel = Pickers.ISuggestionModel
     type ValidationState = Pickers.ValidationState
     type Selection = Selection.Selection
 
@@ -12080,7 +12080,7 @@ module __utilities_grid_Grid_types =
         abstract focusedContainer: IStyle option with get, set
 
 module __utilities_grid_GridCell =
-    type IGridCellProps<'T> = __utilities_grid_GridCell_types.IGridCellProps<'T>
+    type IGridCellProps = __utilities_grid_GridCell_types.IGridCellProps
 
     type [<AllowNullLiteral>] IExports =
         abstract GridCell: GridCellStatic
@@ -14954,11 +14954,11 @@ module __components_ExtendedPicker_examples_PeopleExampleData =
         abstract groupTwo: ResizeArray<IExtendedPersonaProps>
 
 module __components_ExtendedPicker_PeoplePicker_ExtendedPeoplePicker =
-    type IPickerItemProps<'T> = Pickers.IPickerItemProps<'T>
+    type IPickerItemProps = Pickers.IPickerItemProps
     type IExtendedPersonaProps = SelectedItemsList.IExtendedPersonaProps
     type IPersonaProps = Persona.IPersonaProps
-    type BaseExtendedPicker<'T, 'P> = __components_ExtendedPicker_BaseExtendedPicker.BaseExtendedPicker<'T, 'P>
-    type IBaseExtendedPickerProps<'T> = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps<'T>
+    type BaseExtendedPicker = __components_ExtendedPicker_BaseExtendedPicker.BaseExtendedPicker
+    type IBaseExtendedPickerProps = __components_ExtendedPicker_BaseExtendedPicker_types.IBaseExtendedPickerProps
 
     type [<AllowNullLiteral>] IExports =
         abstract BaseExtendedPeoplePicker: BaseExtendedPeoplePickerStatic
@@ -15082,10 +15082,10 @@ module __components_Facepile_examples_FacepileExampleData =
         abstract facepilePersonas: ResizeArray<IFacepilePersona>
 
 module __components_FloatingPicker_PeoplePicker_FloatingPeoplePicker =
-    type BaseFloatingPicker<'T, 'P> = __components_FloatingPicker_BaseFloatingPicker.BaseFloatingPicker<'T, 'P>
-    type IBaseFloatingPickerProps<'T> = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPickerProps<'T>
+    type BaseFloatingPicker = __components_FloatingPicker_BaseFloatingPicker.BaseFloatingPicker
+    type IBaseFloatingPickerProps = __components_FloatingPicker_BaseFloatingPicker_types.IBaseFloatingPickerProps
     type IPersonaProps = Persona.IPersonaProps
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
+    type ISuggestionModel = Pickers.ISuggestionModel
 
     type [<AllowNullLiteral>] IExports =
         abstract BaseFloatingPeoplePicker: BaseFloatingPeoplePickerStatic
@@ -15134,7 +15134,7 @@ module __components_FloatingPicker_PeoplePicker_PeoplePicker_scss =
         abstract peoplePickerPersonaContent: obj
 
 module __components_FloatingPicker_Suggestions_Suggestions_types =
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
+    type ISuggestionModel = Pickers.ISuggestionModel
     type IPersonaProps = Persona.IPersonaProps
 
     type [<AllowNullLiteral>] ISuggestionsCoreProps<'T> =
@@ -15199,10 +15199,10 @@ module __components_FloatingPicker_Suggestions_Suggestions_types =
 module __components_FloatingPicker_Suggestions_SuggestionsControl =
     type BaseComponent = Utilities.BaseComponent
     type IButton = Button.IButton
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
+    type ISuggestionModel = Pickers.ISuggestionModel
     type ISuggestionsHeaderFooterItemProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsHeaderFooterItemProps
-    type ISuggestionsControlProps<'T> = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsControlProps<'T>
-    type SuggestionsCore<'T> = __components_FloatingPicker_Suggestions_SuggestionsCore.SuggestionsCore<'T>
+    type ISuggestionsControlProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsControlProps
+    type SuggestionsCore = __components_FloatingPicker_Suggestions_SuggestionsCore.SuggestionsCore
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestionsHeaderFooterItem: SuggestionsHeaderFooterItemStatic
@@ -15278,8 +15278,8 @@ module __components_FloatingPicker_Suggestions_SuggestionsControl_scss =
 
 module __components_FloatingPicker_Suggestions_SuggestionsCore =
     type BaseComponent = Utilities.BaseComponent
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
-    type ISuggestionsCoreProps<'T> = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsCoreProps<'T>
+    type ISuggestionModel = Pickers.ISuggestionModel
+    type ISuggestionsCoreProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsCoreProps
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestionsCore: SuggestionsCoreStatic
@@ -15317,7 +15317,7 @@ module __components_FloatingPicker_Suggestions_SuggestionsCore_scss =
         abstract suggestionsContainer: obj
 
 module __components_FloatingPicker_Suggestions_SuggestionsStore =
-    type ISuggestionModel<'T> = Pickers.ISuggestionModel<'T>
+    type ISuggestionModel = Pickers.ISuggestionModel
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestionsStore: SuggestionsStoreStatic
@@ -16552,10 +16552,10 @@ module __components_pickers_examples_Picker_CustomResult_Example =
     type IDocumentCardProps = __components_pickers_examples_office_ui_fabric_react_lib_DocumentCard.IDocumentCardProps
     type IDocumentCardTitleProps = __components_pickers_examples_office_ui_fabric_react_lib_DocumentCard.IDocumentCardTitleProps
     type IDocumentCardActivityProps = __components_pickers_examples_office_ui_fabric_react_lib_DocumentCard.IDocumentCardActivityProps
-    type IBasePickerProps<'T> = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.IBasePickerProps<'T>
-    type BasePickerListBelow<'T, 'P> = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.BasePickerListBelow<'T, 'P>
-    type IPickerItemProps<'T> = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.IPickerItemProps<'T>
-    type ISuggestionItemProps<'T> = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.ISuggestionItemProps<'T>
+    type IBasePickerProps = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.IBasePickerProps
+    type BasePickerListBelow = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.BasePickerListBelow
+    type IPickerItemProps = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.IPickerItemProps
+    type ISuggestionItemProps = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.ISuggestionItemProps
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestedDocumentItem: (IFullDocumentCardProps -> JSX.Element)
@@ -16583,7 +16583,10 @@ module __components_pickers_examples_Picker_CustomResult_Example =
         inherit BasePickerListBelow<IFullDocumentCardProps, IDocumentPickerProps>
 
     type [<AllowNullLiteral>] DocumentPickerStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> DocumentPicker
+        [<Emit "new $0($1...)">] abstract Create: props: DocumentPickerStaticProps -> DocumentPicker
+
+    type [<AllowNullLiteral>] DocumentPickerStaticProps =
+        interface end
 
     type [<AllowNullLiteral>] PickerCustomResultExample =
         inherit React.Component<TypeLiteral_01, IPeoplePickerExampleState>
@@ -16632,9 +16635,9 @@ module __components_pickers_PeoplePicker_PeoplePicker_checklist =
         abstract testCoverage: ChecklistStatus with get, set
 
 module __components_pickers_PeoplePicker_PeoplePicker =
-    type BasePicker<'T, 'P> = __components_pickers_BasePicker.BasePicker<'T, 'P>
-    type BasePickerListBelow<'T, 'P> = __components_pickers_BasePicker.BasePickerListBelow<'T, 'P>
-    type IBasePickerProps<'T> = __components_pickers_BasePicker_types.IBasePickerProps<'T>
+    type BasePicker = __components_pickers_BasePicker.BasePicker
+    type BasePickerListBelow = __components_pickers_BasePicker.BasePickerListBelow
+    type IBasePickerProps = __components_pickers_BasePicker_types.IBasePickerProps
     type IBasePickerSuggestionsProps = __components_pickers_BasePicker_types.IBasePickerSuggestionsProps
     type ValidationState = __components_pickers_BasePicker_types.ValidationState
     type IPersonaProps = Persona.IPersonaProps
@@ -16728,8 +16731,8 @@ module __components_pickers_PeoplePicker_PeoplePickerPage =
 module __components_pickers_Suggestions_Suggestions =
     type BaseComponent = Utilities.BaseComponent
     type IButton = Button.IButton
-    type ISuggestionItemProps<'T> = __components_pickers_Suggestions_Suggestions_types.ISuggestionItemProps<'T>
-    type ISuggestionsProps<'T> = __components_pickers_Suggestions_Suggestions_types.ISuggestionsProps<'T>
+    type ISuggestionItemProps = __components_pickers_Suggestions_Suggestions_types.ISuggestionItemProps
+    type ISuggestionsProps = __components_pickers_Suggestions_Suggestions_types.ISuggestionsProps
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestionsItem: SuggestionsItemStatic
@@ -16801,7 +16804,7 @@ module __components_pickers_Suggestions_Suggestions_scss =
         abstract suggestionsAvailable: obj
 
 module __components_pickers_Suggestions_Suggestions_types =
-    type ISuggestionModel<'T> = __components_pickers_Suggestions_SuggestionsController.ISuggestionModel<'T>
+    type ISuggestionModel = __components_pickers_Suggestions_SuggestionsController.ISuggestionModel
     type IRenderFunction = Utilities.IRenderFunction
     type KeyCodes = Utilities.KeyCodes
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
@@ -16920,7 +16923,7 @@ module __components_pickers_Suggestions_SuggestionsController =
         [<Emit "new $0($1...)">] abstract Create: unit -> SuggestionsController<'T>
 
 module __components_pickers_TagPicker_TagItem =
-    type IPickerItemProps<'T> = __components_pickers_PickerItem_types.IPickerItemProps<'T>
+    type IPickerItemProps = __components_pickers_PickerItem_types.IPickerItemProps
     type ITag = __components_pickers_TagPicker_TagPicker.ITag
 
     type [<AllowNullLiteral>] IExports =
@@ -16941,8 +16944,8 @@ module __components_pickers_TagPicker_TagItem_scss =
         abstract tagItemTextOverflow: obj
 
 module __components_pickers_TagPicker_TagPicker =
-    type BasePicker<'T, 'P> = __components_pickers_BasePicker.BasePicker<'T, 'P>
-    type IBasePickerProps<'T> = __components_pickers_BasePicker_types.IBasePickerProps<'T>
+    type BasePicker = __components_pickers_BasePicker.BasePicker
+    type IBasePickerProps = __components_pickers_BasePicker_types.IBasePickerProps
     type ITagItemProps = __components_pickers_TagPicker_TagItem.ITagItemProps
 
     type [<AllowNullLiteral>] IExports =
@@ -17348,12 +17351,12 @@ module __components_SelectedItemsList_examples_SelectedPeopleList_Basic_Example_
         abstract persona: obj
 
 module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList =
-    type BaseSelectedItemsList<'T, 'P> = __components_SelectedItemsList_BaseSelectedItemsList.BaseSelectedItemsList<'T, 'P>
-    type IBaseSelectedItemsListProps<'T> = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsListProps<'T>
-    type ISelectedItemProps<'T> = __components_SelectedItemsList_BaseSelectedItemsList_types.ISelectedItemProps<'T>
+    type BaseSelectedItemsList = __components_SelectedItemsList_BaseSelectedItemsList.BaseSelectedItemsList
+    type IBaseSelectedItemsListProps = __components_SelectedItemsList_BaseSelectedItemsList_types.IBaseSelectedItemsListProps
+    type ISelectedItemProps = __components_SelectedItemsList_BaseSelectedItemsList_types.ISelectedItemProps
     type IPersonaProps = Persona.IPersonaProps
     type IRenderFunction = Utilities.IRenderFunction
-    type IBaseFloatingPickerProps<'T> = FloatingPicker.IBaseFloatingPickerProps<'T>
+    type IBaseFloatingPickerProps = FloatingPicker.IBaseFloatingPickerProps
 
     type [<AllowNullLiteral>] IExports =
         abstract BasePeopleSelectedItemsList: BasePeopleSelectedItemsListStatic
@@ -18136,7 +18139,7 @@ module __components_pickers_PeoplePicker_examples_PeoplePickerExampleData =
 
 module __components_pickers_PeoplePicker_PeoplePickerItems_PeoplePickerItem_types =
     type IPersonaProps = Persona.IPersonaProps
-    type IPickerItemProps<'T> = __components_pickers_PickerItem_types.IPickerItemProps<'T>
+    type IPickerItemProps = __components_pickers_PickerItem_types.IPickerItemProps
     type IContextualMenuItem = ContextualMenu.IContextualMenuItem
     type ValidationState = __components_pickers_BasePicker_types.ValidationState
 
@@ -18199,7 +18202,7 @@ module __components_pickers_PeoplePicker_PeoplePickerItems_SuggestionItemDefault
 
 module __components_SelectedItemsList_SelectedPeopleList_Items_EditingItem =
     type BaseComponent = Utilities.BaseComponent
-    type IBaseFloatingPickerProps<'T> = FloatingPicker.IBaseFloatingPickerProps<'T>
+    type IBaseFloatingPickerProps = FloatingPicker.IBaseFloatingPickerProps
     type ISelectedPeopleItemProps = __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList.ISelectedPeopleItemProps
     type IExtendedPersonaProps = __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList.IExtendedPersonaProps
     type IPeoplePickerItemState = __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedItem.IPeoplePickerItemState
