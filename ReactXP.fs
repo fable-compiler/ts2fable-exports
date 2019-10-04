@@ -216,7 +216,6 @@ module __android_Text =
         [<Emit "new $0($1...)">] abstract Create: unit -> Text
 
 module __common_Accessibility =
-    type SubscribableEvent = Subscribableevent.SubscribableEvent
 
     type [<AllowNullLiteral>] IExports =
         abstract Accessibility: AccessibilityStatic
@@ -325,7 +324,6 @@ module __common_Easing =
         [<Emit "new $0($1...)">] abstract Create: unit -> Easing
 
 module __common_Interfaces =
-    type SubscribableEvent = Subscribableevent.SubscribableEvent
 
     type [<AllowNullLiteral>] IExports =
         abstract ActivityIndicator: ActivityIndicatorStatic
@@ -891,7 +889,6 @@ module __common_ModuleInterface =
             Interfaces.Animated
 
 module __common_PopupContainerViewBase =
-    type FocusManagerBase = __common_utils_FocusManager.FocusManagerBase
 
     type [<AllowNullLiteral>] IExports =
         abstract PopupContainerViewBase: PopupContainerViewBaseStatic
@@ -2657,7 +2654,6 @@ module __native_common_Clipboard =
         [<Emit "new $0($1...)">] abstract Create: unit -> Clipboard
 
 module __native_common_FrontLayerViewManager =
-    type SubscribableEvent = Subscribableevent.SubscribableEvent
 
     type [<AllowNullLiteral>] IExports =
         abstract FrontLayerViewManager: FrontLayerViewManagerStatic
@@ -2818,7 +2814,6 @@ module __native_common_Linking =
         [<Emit "new $0($1...)">] abstract Create: unit -> Linking
 
 module __native_common_MainViewStore =
-    type SubscribableEvent = Subscribableevent.SubscribableEvent
 
     type [<AllowNullLiteral>] IExports =
         abstract MainViewStore: MainViewStoreStatic
@@ -2923,7 +2918,7 @@ module __native_common_Popup =
         [<Emit "new $0($1...)">] abstract Create: unit -> Popup
 
 module __native_common_PopupContainerView =
-    type PopupContainerViewBase<'P, 'S> = __common_PopupContainerViewBase.PopupContainerViewBase<'P, 'S>
+    type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
     type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
     type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
 
@@ -3020,7 +3015,6 @@ module __native_common_RootView =
         interface end
 
 module __native_common_ScrollView =
-    type ViewBase<'P, 'S> = __native_common_ViewBase.ViewBase<'P, 'S>
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollView: ScrollViewStatic
@@ -3218,7 +3212,6 @@ module __native_common_UserPresence =
 
 module __native_common_View =
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
-    type ViewBase<'P, 'S> = __native_common_ViewBase.ViewBase<'P, 'S>
 
     type [<AllowNullLiteral>] IExports =
         abstract View: ViewStatic
@@ -3350,8 +3343,7 @@ module __native_desktop_RootView =
     type BaseRootViewProps = __native_common_RootView.BaseRootViewProps
     type RootViewPropsWithMainViewType = __native_common_RootView.RootViewPropsWithMainViewType
     type RootViewState = __native_common_RootView.RootViewState
-    type BaseRootView<'P> = __native_common_RootView.BaseRootView<'P>
-    type FocusManager = __native_desktop_utils_FocusManager.FocusManager
+    type BaseRootView = __native_common_RootView.BaseRootView
 
     type [<AllowNullLiteral>] IExports =
         abstract RootViewUsingStore: obj
@@ -3517,7 +3509,6 @@ module __web_AlertModalContent =
         [<Emit "new $0($1...)">] abstract Create: props: AppModalContentProps -> AlertModalContent
 
 module __web_Animated =
-    type Easing = __common_Easing.Easing
 
     type [<AllowNullLiteral>] IExports =
         abstract Animation: AnimationStatic
@@ -3895,7 +3886,7 @@ module __web_Popup =
         [<Emit "new $0($1...)">] abstract Create: unit -> Popup
 
 module __web_PopupContainerView =
-    type PopupContainerViewBase<'P, 'S> = __common_PopupContainerViewBase.PopupContainerViewBase<'P, 'S>
+    type PopupContainerViewBase = __common_PopupContainerViewBase.PopupContainerViewBase
     type PopupContainerViewBaseProps = __common_PopupContainerViewBase.PopupContainerViewBaseProps
     type PopupContainerViewContext = __common_PopupContainerViewBase.PopupContainerViewContext
 
@@ -4038,8 +4029,6 @@ module __web_ReactXP =
             RXInterfaces.WebView
 
 module __web_RootView =
-    type FocusManager = __web_utils_FocusManager.FocusManager
-    type PopupContainerView = __web_PopupContainerView.PopupContainerView
 
     type [<AllowNullLiteral>] IExports =
         abstract PopupDescriptor: PopupDescriptorStatic
@@ -4095,7 +4084,6 @@ module __web_RootView =
         [<Emit "new $0($1...)">] abstract Create: props: RootViewProps -> RootView
 
 module __web_ScrollView =
-    type ViewBase<'P, 'S> = __web_ViewBase.ViewBase<'P, 'S>
 
     type [<AllowNullLiteral>] IExports =
         abstract ScrollView: ScrollViewStatic
@@ -4329,8 +4317,6 @@ module __web_UserPresence =
 
 module __web_View =
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
-    type ViewBase<'P, 'S> = __web_ViewBase.ViewBase<'P, 'S>
-    type PopupContainerView = __web_PopupContainerView.PopupContainerView
     type FocusManager = __web_utils_FocusManager.FocusManager
 
     type [<AllowNullLiteral>] IExports =
@@ -4541,7 +4527,7 @@ module __windows_GestureView =
 module __windows_Link =
     type ImportantForAccessibilityValue = __native_common_AccessibilityUtil.ImportantForAccessibilityValue
     type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
-    type LinkBase<'S> = __native_common_Link.LinkBase<'S>
+    type LinkBase = __native_common_Link.LinkBase
 
     type [<AllowNullLiteral>] IExports =
         abstract Link: LinkStatic
@@ -4699,7 +4685,7 @@ module __windows_RootView =
     type BaseRootViewProps = __native_desktop_RootView.BaseRootViewProps
     type RootViewPropsWithMainViewType = __native_desktop_RootView.RootViewPropsWithMainViewType
     type RootViewState = __native_desktop_RootView.RootViewState
-    type BaseRootView<'P> = __native_desktop_RootView.BaseRootView<'P>
+    type BaseRootView = __native_desktop_RootView.BaseRootView
 
     type [<AllowNullLiteral>] IExports =
         abstract RootViewUsingStore: RootViewUsingStoreStatic
@@ -4808,7 +4794,6 @@ module __windows_View =
     type ViewContextCommon = __native_common_View.ViewContext
     type FocusManagerFocusableComponent = __native_desktop_utils_FocusManager.FocusManagerFocusableComponent
     type FocusManager = __native_desktop_utils_FocusManager.FocusManager
-    type PopupContainerView = __native_common_PopupContainerView.PopupContainerView
 
     type [<AllowNullLiteral>] IExports =
         abstract View: ViewStatic
@@ -5137,7 +5122,6 @@ module __web_listAnimations_MonitorListEdits =
         [<Emit "new $0($1...)">] abstract Create: unit -> MonitorListEdits
 
 module __web_utils_AppVisibilityUtils =
-    type SubscribableEvent = Subscribableevent.SubscribableEvent
 
     type [<AllowNullLiteral>] IExports =
         abstract AppVisibilityUtils: AppVisibilityUtilsStatic
