@@ -2,9 +2,9 @@
 module rec SyncTasks
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
-let [<Import("config","synctasks")>] config: TypeLiteral_01 = jsNative
+let [<Import("config","synctasks")>] config: Config = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract fromThenable: thenable: Es6Thenable<'T> -> STPromise<'T>
@@ -76,22 +76,11 @@ type [<AllowNullLiteral>] STPromise<'T> =
 type Raceable<'T> =
     U2<'T, Thenable<'T>> option
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Raceable =
-    let ofTOption v: Raceable<'T> = v |> Option.map U2.Case1
-    let ofT v: Raceable<'T> = v |> U2.Case1 |> Some
-    let isT (v: Raceable<'T>) = match v with None -> false | Some o -> match o with U2.Case1 _ -> true | _ -> false
-    let asT (v: Raceable<'T>) = match v with None -> None | Some o -> match o with U2.Case1 o -> Some o | _ -> None
-    let ofThenableOption v: Raceable<'T> = v |> Option.map U2.Case2
-    let ofThenable v: Raceable<'T> = v |> U2.Case2 |> Some
-    let isThenable (v: Raceable<'T>) = match v with None -> false | Some o -> match o with U2.Case2 _ -> true | _ -> false
-    let asThenable (v: Raceable<'T>) = match v with None -> None | Some o -> match o with U2.Case2 o -> Some o | _ -> None
-
 type [<AllowNullLiteral>] RaceTimerResponse<'T> =
     abstract timedOut: bool with get, set
     abstract result: 'T option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_01 =
+type [<AllowNullLiteral>] Config =
     abstract exceptionsToConsole: bool with get, set
     abstract catchExceptions: bool with get, set
     abstract traceEnabled: bool with get, set

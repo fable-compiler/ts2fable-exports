@@ -2,7 +2,7 @@
 module rec Chalk
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
 let [<Import("*","chalk")>] chalk: obj = jsNative
 

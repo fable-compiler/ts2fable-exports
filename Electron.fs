@@ -2,8 +2,8 @@
 module rec Electron
 open System
 open Fable.Core
-open Fable.Import.JS
-open Fable.Import.Browser
+open Fable.Core.JS
+open Browser.Types
 
 
 type GlobalEvent =
@@ -86,7 +86,7 @@ module Electron =
         inherit String
 
     type [<AllowNullLiteral>] AcceleratorStatic =
-        [<Emit "new $0($1...)">] abstract Create: image: U2<NativeImage, string> -> Accelerator
+        [<Emit "new $0($1...)">] abstract Create: unit -> Accelerator
 
     type [<AllowNullLiteral>] Event =
         inherit GlobalEvent
@@ -883,7 +883,7 @@ module Electron =
         /// Sets whether the window should show always on top of other windows. After
         /// setting this, the window is still a normal window, not a toolbox window which
         /// can not be focused on.
-        abstract setAlwaysOnTop: flag: bool * ?level: U8<string, string, string, string, string, string, string, string> * ?relativeLevel: float -> unit
+        abstract setAlwaysOnTop: flag: bool * ?level: BrowserWindowSetAlwaysOnTopLevel * ?relativeLevel: float -> unit
         /// Sets the properties for the window's taskbar button. Note: relaunchCommand and
         /// relaunchDisplayName must always be set together. If one of those properties is
         /// not set, then neither will be used.
@@ -963,7 +963,7 @@ module Electron =
         abstract setOpacity: opacity: float -> unit
         /// Sets a 16 x 16 pixel overlay onto the current taskbar icon, usually used to
         /// convey some sort of application status or to passively notify the user.
-        abstract setOverlayIcon: overlay: NativeImage * description: string -> unit
+        abstract setOverlayIcon: overlay: NativeImage option * description: string -> unit
         /// Sets parent as current window's parent window, passing null will turn current
         /// window into a top-level window.
         abstract setParentWindow: parent: BrowserWindow -> unit
@@ -1019,7 +1019,7 @@ module Electron =
         abstract setTouchBar: touchBar: TouchBar -> unit
         /// Adds a vibrancy effect to the browser window. Passing null or an empty string
         /// will remove the vibrancy effect on the window.
-        abstract setVibrancy: ``type``: obj -> unit
+        abstract setVibrancy: ``type``: BrowserWindowSetVibrancyType -> unit
         /// Sets whether the window should be visible on all workspaces. Note: This API does
         /// nothing on Windows.
         abstract setVisibleOnAllWorkspaces: visible: bool -> unit
@@ -1040,6 +1040,28 @@ module Electron =
         abstract unmaximize: unit -> unit
         abstract id: float with get, set
         abstract webContents: WebContents with get, set
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetAlwaysOnTopLevel =
+        | Normal
+        | Floating
+        | [<CompiledName "torn-off-menu">] TornOffMenu
+        | [<CompiledName "modal-panel">] ModalPanel
+        | [<CompiledName "main-menu">] MainMenu
+        | Status
+        | [<CompiledName "pop-up-menu">] PopUpMenu
+        | [<CompiledName "screen-saver">] ScreenSaver
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetVibrancyType =
+        | [<CompiledName "appearance-based">] AppearanceBased
+        | Light
+        | Dark
+        | Titlebar
+        | Selection
+        | Menu
+        | Popover
+        | Sidebar
+        | [<CompiledName "medium-light">] MediumLight
+        | [<CompiledName "ultra-dark">] UltraDark
 
     type [<AllowNullLiteral>] BrowserWindowStatic =
         [<Emit "new $0($1...)">] abstract Create: ?options: BrowserWindowConstructorOptions -> BrowserWindow
@@ -1207,7 +1229,19 @@ module Electron =
         abstract chunkedEncoding: bool with get, set
 
     type [<AllowNullLiteral>] ClientRequestStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: obj -> ClientRequest
+        [<Emit "new $0($1...)">] abstract Create: options: ClientRequestStaticOptions -> ClientRequest
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ClientRequestStaticOptions =
+        | Method
+        | Url
+        | Session
+        | Partition
+        | Protocol
+        | Host
+        | Hostname
+        | Port
+        | Path
+        | Redirect
 
     type [<AllowNullLiteral>] Clipboard =
         inherit EventEmitter
@@ -1325,10 +1359,10 @@ module Electron =
         inherit EventEmitter
         /// Emitted when a cookie is changed because it was added, edited, removed, or
         /// expired.
-        [<Emit "$0.on('changed',$1)">] abstract on_changed: listener: (Event -> Cookie -> U5<string, string, string, string, string> -> bool -> unit) -> Cookies
-        [<Emit "$0.once('changed',$1)">] abstract once_changed: listener: (Event -> Cookie -> U5<string, string, string, string, string> -> bool -> unit) -> Cookies
-        [<Emit "$0.addListener('changed',$1)">] abstract addListener_changed: listener: (Event -> Cookie -> U5<string, string, string, string, string> -> bool -> unit) -> Cookies
-        [<Emit "$0.removeListener('changed',$1)">] abstract removeListener_changed: listener: (Event -> Cookie -> U5<string, string, string, string, string> -> bool -> unit) -> Cookies
+        [<Emit "$0.on('changed',$1)">] abstract on_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit "$0.once('changed',$1)">] abstract once_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit "$0.addListener('changed',$1)">] abstract addListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit "$0.removeListener('changed',$1)">] abstract removeListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
         /// Writes any unwritten cookies data to disk.
         abstract flushStore: callback: Function -> unit
         /// Sends a request to get all cookies matching details, callback will be called
@@ -1527,7 +1561,7 @@ module Electron =
         abstract scaleFactor: float with get, set
         abstract size: Size with get, set
         /// Can be available, unavailable, unknown.
-        abstract touchSupport: U3<string, string, string> with get, set
+        abstract touchSupport: DisplayTouchSupport with get, set
         abstract workArea: Rectangle with get, set
         abstract workAreaSize: Size with get, set
 
@@ -1562,7 +1596,7 @@ module Electron =
         abstract getStartTime: unit -> float
         /// Note: The following methods are useful specifically to resume a cancelled item
         /// when session is restarted.
-        abstract getState: unit -> U4<string, string, string, string>
+        abstract getState: unit -> DownloadItemGetStateReturn
         /// If the size is unknown, it returns 0.
         abstract getTotalBytes: unit -> float
         abstract getURL: unit -> string
@@ -1580,6 +1614,12 @@ module Electron =
         /// doesn't set the save path via the API, Electron will use the original routine to
         /// determine the save path(Usually prompts a save dialog).
         abstract setSavePath: path: string -> unit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] DownloadItemGetStateReturn =
+        | Progressing
+        | Completed
+        | Cancelled
+        | Interrupted
 
     type [<AllowNullLiteral>] DownloadItemStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> DownloadItem
@@ -1735,7 +1775,7 @@ module Electron =
         /// Must be set if type is custom, otherwise it should be omitted.
         abstract name: string option with get, set
         /// One of the following:
-        abstract ``type``: U4<string, string, string, string> option with get, set
+        abstract ``type``: JumpListCategoryType option with get, set
 
     type [<AllowNullLiteral>] JumpListItem =
         /// The command line arguments when program is executed. Should only be set if type
@@ -1762,7 +1802,7 @@ module Electron =
         /// type is task.
         abstract title: string option with get, set
         /// One of the following:
-        abstract ``type``: U3<string, string, string> option with get, set
+        abstract ``type``: JumpListItemType option with get, set
 
     type [<AllowNullLiteral>] MemoryInfo =
         /// The maximum amount of memory that has ever been pinned to actual physical RAM.
@@ -1976,9 +2016,13 @@ module Electron =
         /// prevent-app-suspension, and another calling B requests for
         /// prevent-display-sleep. prevent-display-sleep will be used until B stops its
         /// request. After that, prevent-app-suspension is used.
-        abstract start: ``type``: U2<string, string> -> float
+        abstract start: ``type``: PowerSaveBlockerStartType -> float
         /// Stops the specified power save blocker.
         abstract stop: id: float -> unit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] PowerSaveBlockerStartType =
+        | [<CompiledName "prevent-app-suspension">] PreventAppSuspension
+        | [<CompiledName "prevent-display-sleep">] PreventDisplaySleep
 
     type [<AllowNullLiteral>] PrinterInfo =
         abstract description: string with get, set
@@ -2113,7 +2157,7 @@ module Electron =
         abstract realm: string option with get, set
         /// Scheme of the authentication. Can be basic, digest, ntlm, negotiate. Must be
         /// provided if removing by origin.
-        abstract scheme: U4<string, string, string, string> option with get, set
+        abstract scheme: RemovePasswordScheme option with get, set
         /// password.
         abstract ``type``: string with get, set
         /// Credentials of the authentication. Must be provided if removing by origin.
@@ -2256,9 +2300,14 @@ module Electron =
         /// Show the given file in a file manager. If possible, select the file.
         abstract showItemInFolder: fullPath: string -> bool
         /// Creates or updates a shortcut link at shortcutPath.
-        abstract writeShortcutLink: shortcutPath: string * operation: U3<string, string, string> * options: ShortcutDetails -> bool
+        abstract writeShortcutLink: shortcutPath: string * operation: ShellWriteShortcutLinkOperation * options: ShortcutDetails -> bool
         /// Creates or updates a shortcut link at shortcutPath.
         abstract writeShortcutLink: shortcutPath: string * options: ShortcutDetails -> bool
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ShellWriteShortcutLinkOperation =
+        | Create
+        | Update
+        | Replace
 
     type [<AllowNullLiteral>] ShortcutDetails =
         /// The Application User Model ID. Default is empty.
@@ -2305,9 +2354,9 @@ module Electron =
         [<Emit "$0.addListener('inverted-color-scheme-changed',$1)">] abstract ``addListener_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
         [<Emit "$0.removeListener('inverted-color-scheme-changed',$1)">] abstract ``removeListener_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
         abstract getAccentColor: unit -> string
-        abstract getColor: color: obj -> string
+        abstract getColor: color: SystemPreferencesGetColorColor -> string
         /// Some popular key and types are:
-        abstract getUserDefault: key: string * ``type``: U8<string, string, string, string, string, string, string, string> -> obj option
+        abstract getUserDefault: key: string * ``type``: SystemPreferencesGetUserDefaultType -> obj option
         /// An example of using it to determine if you should create a transparent window or
         /// not (transparent windows won't work correctly when DWM composition is disabled):
         abstract isAeroGlassEnabled: unit -> bool
@@ -2341,6 +2390,48 @@ module Electron =
         abstract unsubscribeLocalNotification: id: float -> unit
         /// Removes the subscriber with id.
         abstract unsubscribeNotification: id: float -> unit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetColorColor =
+        | [<CompiledName "3d-dark-shadow">] N3dDarkShadow
+        | [<CompiledName "3d-face">] N3dFace
+        | [<CompiledName "3d-highlight">] N3dHighlight
+        | [<CompiledName "3d-light">] N3dLight
+        | [<CompiledName "3d-shadow">] N3dShadow
+        | [<CompiledName "active-border">] ActiveBorder
+        | [<CompiledName "active-caption">] ActiveCaption
+        | [<CompiledName "active-caption-gradient">] ActiveCaptionGradient
+        | [<CompiledName "app-workspace">] AppWorkspace
+        | [<CompiledName "button-text">] ButtonText
+        | [<CompiledName "caption-text">] CaptionText
+        | Desktop
+        | [<CompiledName "disabled-text">] DisabledText
+        | Highlight
+        | [<CompiledName "highlight-text">] HighlightText
+        | Hotlight
+        | [<CompiledName "inactive-border">] InactiveBorder
+        | [<CompiledName "inactive-caption">] InactiveCaption
+        | [<CompiledName "inactive-caption-gradient">] InactiveCaptionGradient
+        | [<CompiledName "inactive-caption-text">] InactiveCaptionText
+        | [<CompiledName "info-background">] InfoBackground
+        | [<CompiledName "info-text">] InfoText
+        | Menu
+        | [<CompiledName "menu-highlight">] MenuHighlight
+        | Menubar
+        | [<CompiledName "menu-text">] MenuText
+        | Scrollbar
+        | Window
+        | [<CompiledName "window-frame">] WindowFrame
+        | [<CompiledName "window-text">] WindowText
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetUserDefaultType =
+        | String
+        | Boolean
+        | Integer
+        | Float
+        | Double
+        | Url
+        | Array
+        | Dictionary
 
     type [<AllowNullLiteral>] Task =
         /// The command line arguments when program is executed.
@@ -2557,15 +2648,20 @@ module Electron =
         /// Sets when the tray's icon background becomes highlighted (in blue). Note: You
         /// can use highlightMode with a BrowserWindow by toggling between 'never' and
         /// 'always' modes when the window visibility changes.
-        abstract setHighlightMode: mode: U3<string, string, string> -> unit
+        abstract setHighlightMode: mode: TraySetHighlightModeMode -> unit
         /// Sets the image associated with this tray icon.
         abstract setImage: image: U2<NativeImage, string> -> unit
         /// Sets the image associated with this tray icon when pressed on macOS.
-        abstract setPressedImage: image: NativeImage -> unit
+        abstract setPressedImage: image: U2<NativeImage, string> -> unit
         /// Sets the title displayed aside of the tray icon in the status bar.
         abstract setTitle: title: string -> unit
         /// Sets the hover text for this tray icon.
         abstract setToolTip: toolTip: string -> unit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TraySetHighlightModeMode =
+        | Selection
+        | Always
+        | Never
 
     type [<AllowNullLiteral>] TrayStatic =
         [<Emit "new $0($1...)">] abstract Create: image: U2<NativeImage, string> -> Tray
@@ -2783,10 +2879,10 @@ module Electron =
         /// BrowserWindow then you must set event.newGuest to reference the new
         /// BrowserWindow instance, failing to do so may result in unexpected behavior. For
         /// example:
-        [<Emit "$0.on('new-window',$1)">] abstract ``on_new-window``: listener: (Event -> string -> string -> U6<string, string, string, string, string, string> -> obj option -> ResizeArray<string> -> unit) -> WebContents
-        [<Emit "$0.once('new-window',$1)">] abstract ``once_new-window``: listener: (Event -> string -> string -> U6<string, string, string, string, string, string> -> obj option -> ResizeArray<string> -> unit) -> WebContents
-        [<Emit "$0.addListener('new-window',$1)">] abstract ``addListener_new-window``: listener: (Event -> string -> string -> U6<string, string, string, string, string, string> -> obj option -> ResizeArray<string> -> unit) -> WebContents
-        [<Emit "$0.removeListener('new-window',$1)">] abstract ``removeListener_new-window``: listener: (Event -> string -> string -> U6<string, string, string, string, string, string> -> obj option -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit "$0.on('new-window',$1)">] abstract ``on_new-window``: listener: (Event -> string -> string -> WebContentsOn_newWindow -> obj option -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit "$0.once('new-window',$1)">] abstract ``once_new-window``: listener: (Event -> string -> string -> WebContentsOn_newWindow -> obj option -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit "$0.addListener('new-window',$1)">] abstract ``addListener_new-window``: listener: (Event -> string -> string -> WebContentsOn_newWindow -> obj option -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit "$0.removeListener('new-window',$1)">] abstract ``removeListener_new-window``: listener: (Event -> string -> string -> WebContentsOn_newWindow -> obj option -> ResizeArray<string> -> unit) -> WebContents
         /// Emitted when page receives favicon urls.
         [<Emit "$0.on('page-favicon-updated',$1)">] abstract ``on_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
         [<Emit "$0.once('page-favicon-updated',$1)">] abstract ``once_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
@@ -3003,7 +3099,7 @@ module Electron =
         abstract replace: text: string -> unit
         /// Executes the editing command replaceMisspelling in web page.
         abstract replaceMisspelling: text: string -> unit
-        abstract savePage: fullPath: string * saveType: U3<string, string, string> * callback: (Error -> unit) -> bool
+        abstract savePage: fullPath: string * saveType: WebContentsSavePageSaveType * callback: (Error -> unit) -> bool
         /// Executes the editing command selectAll in web page.
         abstract selectAll: unit -> unit
         /// Send an asynchronous message to renderer process via channel, you can also send
@@ -3035,7 +3131,7 @@ module Electron =
         abstract setVisualZoomLevelLimits: minimumLevel: float * maximumLevel: float -> unit
         /// Setting the WebRTC IP handling policy allows you to control which IPs are
         /// exposed via WebRTC.  See BrowserLeaks for more details.
-        abstract setWebRTCIPHandlingPolicy: policy: U4<string, string, string, string> -> unit
+        abstract setWebRTCIPHandlingPolicy: policy: WebContentsSetWebRTCIPHandlingPolicyPolicy -> unit
         /// Changes the zoom factor to the specified factor. Zoom factor is zoom percent
         /// divided by 100, so 300% = 3.0.
         abstract setZoomFactor: factor: float -> unit
@@ -3057,7 +3153,7 @@ module Electron =
         /// Stops any pending navigation.
         abstract stop: unit -> unit
         /// Stops any findInPage request for the webContents with the provided action.
-        abstract stopFindInPage: action: U3<string, string, string> -> unit
+        abstract stopFindInPage: action: WebContentsStopFindInPageAction -> unit
         /// If offscreen rendering is enabled and painting, stop painting.
         abstract stopPainting: unit -> unit
         /// Toggles the developer tools.
@@ -3075,6 +3171,22 @@ module Electron =
         abstract hostWebContents: WebContents with get, set
         abstract id: float with get, set
         abstract session: Session with get, set
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSavePageSaveType =
+        | [<CompiledName "HTMLOnly">] HTMLOnly
+        | [<CompiledName "HTMLComplete">] HTMLComplete
+        | [<CompiledName "MHTML">] MHTML
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSetWebRTCIPHandlingPolicyPolicy =
+        | Default
+        | Default_public_interface_only
+        | Default_public_and_private_interfaces
+        | Disable_non_proxied_udp
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsStopFindInPageAction =
+        | ClearSelection
+        | KeepSelection
+        | ActivateSelection
 
     type [<AllowNullLiteral>] WebContentsStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> WebContents
@@ -3423,7 +3535,7 @@ module Electron =
         /// Stops any pending navigation.
         abstract stop: unit -> unit
         /// Stops any findInPage request for the webview with the provided action.
-        abstract stopFindInPage: action: U3<string, string, string> -> unit
+        abstract stopFindInPage: action: WebviewTagStopFindInPageAction -> unit
         /// Executes editing command undo in page.
         abstract undo: unit -> unit
         /// Executes editing command unselect in page.
@@ -3501,6 +3613,11 @@ module Electron =
         /// set to another value by including an =, followed by the value. Special values
         /// yes and 1 are interpreted as true, while no and 0 are interpreted as false.
         abstract webpreferences: string option with get, set
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebviewTagStopFindInPageAction =
+        | ClearSelection
+        | KeepSelection
+        | ActivateSelection
 
     type [<AllowNullLiteral>] AboutPanelOptionsOptions =
         /// The app's name.
@@ -3660,7 +3777,7 @@ module Electron =
         /// The type of window, default is normal window. See more about this below.
         abstract ``type``: string option with get, set
         /// The style of window title bar. Default is default. Possible values are:
-        abstract titleBarStyle: U5<string, string, string, string, string> option with get, set
+        abstract titleBarStyle: BrowserWindowConstructorOptionsTitleBarStyle option with get, set
         /// Shows the title in the tile bar in full screen mode on macOS for all
         /// titleBarStyle options. Default is false.
         abstract fullscreenWindowTitle: bool option with get, set
@@ -3671,7 +3788,7 @@ module Electron =
         /// Add a type of vibrancy effect to the window, only on macOS. Can be
         /// appearance-based, light, dark, titlebar, selection, menu, popover, sidebar,
         /// medium-light or ultra-dark.
-        abstract vibrancy: obj option with get, set
+        abstract vibrancy: BrowserWindowConstructorOptionsVibrancy option with get, set
         /// Controls the behavior on macOS when option-clicking the green stoplight button
         /// on the toolbar or by clicking the Window > Zoom menu item. If true, the window
         /// will grow to the preferred width of the web page when zoomed, false will cause
@@ -3752,7 +3869,7 @@ module Electron =
         abstract srcURL: string with get, set
         /// Type of the node the context menu was invoked on. Can be none, image, audio,
         /// video, canvas, file or plugin.
-        abstract mediaType: U7<string, string, string, string, string, string, string> with get, set
+        abstract mediaType: ContextMenuParamsMediaType with get, set
         /// Whether the context menu was invoked on an image which has non-empty contents.
         abstract hasImageContents: bool with get, set
         /// Whether the context is editable.
@@ -3770,7 +3887,7 @@ module Electron =
         abstract inputFieldType: string with get, set
         /// Input source that invoked the context menu. Can be none, mouse, keyboard, touch,
         /// touchMenu.
-        abstract menuSourceType: U5<string, string, string, string, string> with get, set
+        abstract menuSourceType: ContextMenuParamsMenuSourceType with get, set
         /// The flags for the media element the context menu was invoked on.
         abstract mediaFlags: MediaFlags with get, set
         /// These flags indicate whether the renderer believes it is able to perform the
@@ -3902,7 +4019,7 @@ module Electron =
         /// becomes active or the request is canceled. When informational is passed, the
         /// dock icon will bounce for one second. However, the request remains active until
         /// either the application becomes active or the request is canceled.
-        abstract bounce: (U2<string, string> -> float) with get, set
+        abstract bounce: (DockBounce -> float) with get, set
         /// Cancel the bounce of id.
         abstract cancelBounce: (float -> unit) with get, set
         /// Bounces the Downloads stack if the filePath is inside the Downloads folder.
@@ -3934,7 +4051,7 @@ module Electron =
         interface end
 
     type [<AllowNullLiteral>] FileIconOptions =
-        abstract size: U3<string, string, string> with get, set
+        abstract size: FileIconOptionsSize with get, set
 
     type [<AllowNullLiteral>] Filter =
         /// Retrieves cookies which are associated with url. Empty implies retrieving
@@ -4113,7 +4230,7 @@ module Electron =
         /// ignored. See .
         abstract role: string option with get, set
         /// Can be normal, separator, submenu, checkbox or radio.
-        abstract ``type``: U5<string, string, string, string, string> option with get, set
+        abstract ``type``: MenuItemConstructorOptionsType option with get, set
         abstract label: string option with get, set
         abstract sublabel: string option with get, set
         abstract accelerator: Accelerator option with get, set
@@ -4183,7 +4300,7 @@ module Electron =
         abstract frameName: string with get, set
         /// Can be `default`, `foreground-tab`, `background-tab`, `new-window`,
         /// `save-to-disk` and `other`.
-        abstract disposition: U6<string, string, string, string, string, string> with get, set
+        abstract disposition: WebContentsOn_newWindow with get, set
         /// The options which should be used for creating the new `BrowserWindow`.
         abstract options: Options with get, set
 
@@ -4322,7 +4439,7 @@ module Electron =
         /// Opens the devtools with specified dock state, can be right, bottom, undocked,
         /// detach. Defaults to last used dock state. In undocked mode it's possible to dock
         /// back. In detach mode it's not.
-        abstract mode: U4<string, string, string, string> with get, set
+        abstract mode: OpenDevToolsOptionsMode with get, set
 
     type [<AllowNullLiteral>] OpenDialogOptions =
         abstract title: string option with get, set
@@ -4333,7 +4450,7 @@ module Electron =
         abstract filters: ResizeArray<FileFilter> option with get, set
         /// Contains which features the dialog should use. The following values are
         /// supported:
-        abstract properties: Array<U8<string, string, string, string, string, string, string, string>> option with get, set
+        abstract properties: Array<OpenDialogOptionsPropertiesArray> option with get, set
         /// Message to display above input boxes.
         abstract message: string option with get, set
 
@@ -4353,7 +4470,7 @@ module Electron =
 
     type [<AllowNullLiteral>] Parameters =
         /// Specify the screen type to emulate (default: desktop)
-        abstract screenPosition: U2<string, string> with get, set
+        abstract screenPosition: ParametersScreenPosition with get, set
         /// Set the emulated screen size (screenPosition == mobile)
         abstract screenSize: Size with get, set
         /// Position the view on the screen (screenPosition == mobile) (default: {x: 0, y:
@@ -4427,7 +4544,7 @@ module Electron =
 
     type [<AllowNullLiteral>] ProgressBarOptions =
         /// Mode for the progress bar. Can be none, normal, indeterminate, error or paused.
-        abstract mode: U5<string, string, string, string, string> with get, set
+        abstract mode: ProgressBarOptionsMode with get, set
 
     type [<AllowNullLiteral>] Provider =
         /// Returns Boolean
@@ -4513,6 +4630,7 @@ module Electron =
 
     type [<AllowNullLiteral>] ResourceUsage =
         abstract images: MemoryUsageDetails with get, set
+        abstract scripts: MemoryUsageDetails with get, set
         abstract cssStyleSheets: MemoryUsageDetails with get, set
         abstract xslStyleSheets: MemoryUsageDetails with get, set
         abstract fonts: MemoryUsageDetails with get, set
@@ -4624,7 +4742,7 @@ module Electron =
         /// Button icon.
         abstract icon: NativeImage option with get, set
         /// Can be left, right or overlay.
-        abstract iconPosition: U3<string, string, string> option with get, set
+        abstract iconPosition: TouchBarButtonConstructorOptionsIconPosition option with get, set
         /// Function to call when the button is clicked.
         abstract click: (unit -> unit) option with get, set
 
@@ -4681,9 +4799,9 @@ module Electron =
 
     type [<AllowNullLiteral>] TouchBarSegmentedControlConstructorOptions =
         /// Style of the segments:
-        abstract segmentStyle: U8<string, string, string, string, string, string, string, string> option with get, set
+        abstract segmentStyle: TouchBarSegmentedControlConstructorOptionsSegmentStyle option with get, set
         /// The selection mode of the control:
-        abstract mode: U3<string, string, string> option with get, set
+        abstract mode: TouchBarSegmentedControlConstructorOptionsMode option with get, set
         /// An array of segments to place in this control.
         abstract segments: ResizeArray<SegmentedControlSegment> with get, set
         /// The index of the currently selected segment, will update automatically with user
@@ -4706,7 +4824,7 @@ module Electron =
 
     type [<AllowNullLiteral>] TouchBarSpacerConstructorOptions =
         /// Size of spacer, possible values are:
-        abstract size: U3<string, string, string> option with get, set
+        abstract size: TouchBarSpacerConstructorOptionsSize option with get, set
 
     type [<AllowNullLiteral>] UpdateTargetUrlEvent =
         inherit Event
@@ -4900,6 +5018,146 @@ module Electron =
         abstract cursive: string option with get, set
         /// Defaults to Impact.
         abstract fantasy: string option with get, set
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] CookiesOn_changed =
+        | Explicit
+        | Overwrite
+        | Expired
+        | Evicted
+        | [<CompiledName "expired-overwrite">] ExpiredOverwrite
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] DisplayTouchSupport =
+        | Available
+        | Unavailable
+        | Unknown
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] JumpListCategoryType =
+        | Tasks
+        | Frequent
+        | Recent
+        | Custom
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] JumpListItemType =
+        | Task
+        | Separator
+        | File
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] RemovePasswordScheme =
+        | Basic
+        | Digest
+        | Ntlm
+        | Negotiate
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsOn_newWindow =
+        | Default
+        | [<CompiledName "foreground-tab">] ForegroundTab
+        | [<CompiledName "background-tab">] BackgroundTab
+        | [<CompiledName "new-window">] NewWindow
+        | [<CompiledName "save-to-disk">] SaveToDisk
+        | Other
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowConstructorOptionsTitleBarStyle =
+        | Default
+        | Hidden
+        | [<CompiledName "hidden-inset">] HiddenInset
+        | HiddenInset
+        | CustomButtonsOnHover
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowConstructorOptionsVibrancy =
+        | [<CompiledName "appearance-based">] AppearanceBased
+        | Light
+        | Dark
+        | Titlebar
+        | Selection
+        | Menu
+        | Popover
+        | Sidebar
+        | [<CompiledName "medium-light">] MediumLight
+        | [<CompiledName "ultra-dark">] UltraDark
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ContextMenuParamsMediaType =
+        | None
+        | Image
+        | Audio
+        | Video
+        | Canvas
+        | File
+        | Plugin
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ContextMenuParamsMenuSourceType =
+        | None
+        | Mouse
+        | Keyboard
+        | Touch
+        | TouchMenu
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] DockBounce =
+        | Critical
+        | Informational
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] FileIconOptionsSize =
+        | Small
+        | Normal
+        | Large
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] MenuItemConstructorOptionsType =
+        | Normal
+        | Separator
+        | Submenu
+        | Checkbox
+        | Radio
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] OpenDevToolsOptionsMode =
+        | Right
+        | Bottom
+        | Undocked
+        | Detach
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] OpenDialogOptionsPropertiesArray =
+        | OpenFile
+        | OpenDirectory
+        | MultiSelections
+        | ShowHiddenFiles
+        | CreateDirectory
+        | PromptToCreate
+        | NoResolveAliases
+        | TreatPackageAsDirectory
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ParametersScreenPosition =
+        | Desktop
+        | Mobile
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ProgressBarOptionsMode =
+        | None
+        | Normal
+        | Indeterminate
+        | Error
+        | Paused
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarButtonConstructorOptionsIconPosition =
+        | Left
+        | Right
+        | Overlay
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSegmentedControlConstructorOptionsSegmentStyle =
+        | Automatic
+        | Rounded
+        | [<CompiledName "textured-rounded">] TexturedRounded
+        | [<CompiledName "round-rect">] RoundRect
+        | [<CompiledName "textured-square">] TexturedSquare
+        | Capsule
+        | [<CompiledName "small-square">] SmallSquare
+        | Separated
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSegmentedControlConstructorOptionsMode =
+        | Single
+        | Multiple
+        | Buttons
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSpacerConstructorOptionsSize =
+        | Small
+        | Large
+        | Flexible
 
 type [<AllowNullLiteral>] NodeRequireFunction =
     [<Emit "$0.Invoke('electron')">] abstract Invoke_electron: unit -> obj
