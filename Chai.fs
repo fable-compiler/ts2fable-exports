@@ -2,59 +2,120 @@
 module rec Chai
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
 let [<Import("*","chai")>] chai: Chai.ChaiStatic = jsNative
 
 module Chai =
 
     type [<AllowNullLiteral>] IExports =
+        abstract ErrorConstructor: ErrorConstructorStatic
+        abstract Assertion: AssertionStaticStatic
         abstract AssertionError: AssertionErrorStatic
+
+    type Message =
+        U2<string, (unit -> string)>
+
+    type ObjectProperty =
+        U3<string, Symbol, float>
+
+    type [<AllowNullLiteral>] PathInfo =
+        abstract parent: obj with get, set
+        abstract name: string with get, set
+        abstract value: obj option with get, set
+        abstract exists: bool with get, set
+
+    type [<AllowNullLiteral>] ErrorConstructor =
+        interface end
+
+    type [<AllowNullLiteral>] ErrorConstructorStatic =
+        [<Emit "new $0($1...)">] abstract Create: [<ParamArray>] args: ResizeArray<obj option> -> ErrorConstructor
+
+    type [<AllowNullLiteral>] ChaiUtils =
+        abstract addChainableMethod: ctx: obj * name: string * ``method``: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract overwriteChainableMethod: ctx: obj * name: string * ``method``: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract addLengthGuard: fn: Function * assertionName: string * isChainable: bool -> unit
+        abstract addMethod: ctx: obj * name: string * ``method``: Function -> unit
+        abstract addProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
+        abstract overwriteMethod: ctx: obj * name: string * ``method``: Function -> unit
+        abstract overwriteProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
+        abstract compareByInspect: a: obj * b: obj -> ChaiUtilsCompareByInspectReturn
+        abstract expectTypes: obj: obj * types: ResizeArray<string> -> unit
+        abstract flag: obj: obj * key: string * ?value: obj -> obj option
+        abstract getActual: obj: obj * args: AssertionArgs -> obj option
+        abstract getProperties: obj: obj -> ResizeArray<string>
+        abstract getEnumerableProperties: obj: obj -> ResizeArray<string>
+        abstract getOwnEnumerablePropertySymbols: obj: obj -> ResizeArray<Symbol>
+        abstract getOwnEnumerableProperties: obj: obj -> Array<U2<string, Symbol>>
+        abstract getMessage: errorLike: U2<Error, string> -> string
+        abstract getMessage: obj: obj option * args: AssertionArgs -> string
+        abstract inspect: obj: obj option * ?showHidden: bool * ?depth: float * ?colors: bool -> unit
+        abstract isProxyEnabled: unit -> bool
+        abstract objDisplay: obj: obj -> unit
+        abstract proxify: obj: obj * nonChainableMethodName: string -> obj
+        abstract test: obj: obj * args: AssertionArgs -> bool
+        abstract transferFlags: assertion: Assertion * obj: obj * ?includeAll: bool -> unit
+        abstract compatibleInstance: thrown: Error * errorLike: U2<Error, ErrorConstructor> -> bool
+        abstract compatibleConstructor: thrown: Error * errorLike: U2<Error, ErrorConstructor> -> bool
+        abstract compatibleMessage: thrown: Error * errMatcher: U2<string, RegExp> -> bool
+        abstract getConstructorName: constructorFn: Function -> string
+        abstract getFuncName: constructorFn: Function -> string option
+        abstract hasProperty: obj: obj option * name: ObjectProperty -> bool
+        abstract getPathInfo: obj: obj * path: string -> PathInfo
+        abstract getPathValue: obj: obj * path: string -> obj option
+
+    type [<RequireQualifiedAccess>] ChaiUtilsCompareByInspectReturn =
+        | N1 = 1
+
+    type [<AllowNullLiteral>] ChaiPlugin =
+        [<Emit "$0($1...)">] abstract Invoke: chai: ChaiStatic * utils: ChaiUtils -> unit
 
     type [<AllowNullLiteral>] ChaiStatic =
         abstract expect: ExpectStatic with get, set
         abstract should: unit -> Should
         /// Provides a way to extend the internals of Chai
-        abstract ``use``: fn: (obj option -> obj option -> unit) -> ChaiStatic
+        abstract ``use``: fn: ChaiPlugin -> ChaiStatic
+        abstract util: ChaiUtils with get, set
         abstract ``assert``: AssertStatic with get, set
         abstract config: Config with get, set
+        abstract Assertion: AssertionStatic with get, set
         abstract AssertionError: obj with get, set
         abstract version: string with get, set
 
     type [<AllowNullLiteral>] ExpectStatic =
-        inherit AssertionStatic
+        [<Emit "$0($1...)">] abstract Invoke: ``val``: obj option * ?message: string -> Assertion
         abstract fail: ?actual: obj * ?expected: obj * ?message: string * ?operator: Operator -> unit
 
     type [<AllowNullLiteral>] AssertStatic =
         inherit Assert
 
+    type AssertionArgs =
+        obj option * Message * Message * obj option * obj * obj
+
+    type [<AllowNullLiteral>] AssertionPrototype =
+        abstract ``assert``: [<ParamArray>] args: AssertionArgs -> unit
+        abstract _obj: obj option with get, set
+
     type [<AllowNullLiteral>] AssertionStatic =
-        [<Emit "$0($1...)">] abstract Invoke: target: obj option * ?message: string -> Assertion
+        inherit AssertionPrototype
+        abstract prototype: AssertionPrototype with get, set
+        abstract includeStack: bool with get, set
+        abstract showDiff: bool with get, set
+        abstract addProperty: name: string * getter: (AssertionStatic -> obj option) -> unit
+        abstract addMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> obj option) -> unit
+        abstract addChainableMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract overwriteProperty: name: string * getter: (AssertionStatic -> obj option) -> unit
+        abstract overwriteMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> obj option) -> unit
+        abstract overwriteChainableMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+
+    type [<AllowNullLiteral>] AssertionStaticStatic =
+        [<Emit "new $0($1...)">] abstract Create: target: obj option * ?message: string * ?ssfi: Function * ?lockSsfi: bool -> AssertionStatic
 
     type Operator =
         string
 
     type OperatorComparable =
         U4<bool, float, string, DateTime> option
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module OperatorComparable =
-        let ofBoolOption v: OperatorComparable = v |> Option.map U4.Case1
-        let ofBool v: OperatorComparable = v |> U4.Case1 |> Some
-        let isBool (v: OperatorComparable) = match v with None -> false | Some o -> match o with U4.Case1 _ -> true | _ -> false
-        let asBool (v: OperatorComparable) = match v with None -> None | Some o -> match o with U4.Case1 o -> Some o | _ -> None
-        let ofFloatOption v: OperatorComparable = v |> Option.map U4.Case2
-        let ofFloat v: OperatorComparable = v |> U4.Case2 |> Some
-        let isFloat (v: OperatorComparable) = match v with None -> false | Some o -> match o with U4.Case2 _ -> true | _ -> false
-        let asFloat (v: OperatorComparable) = match v with None -> None | Some o -> match o with U4.Case2 o -> Some o | _ -> None
-        let ofStringOption v: OperatorComparable = v |> Option.map U4.Case3
-        let ofString v: OperatorComparable = v |> U4.Case3 |> Some
-        let isString (v: OperatorComparable) = match v with None -> false | Some o -> match o with U4.Case3 _ -> true | _ -> false
-        let asString (v: OperatorComparable) = match v with None -> None | Some o -> match o with U4.Case3 o -> Some o | _ -> None
-        let ofDateTimeOption v: OperatorComparable = v |> Option.map U4.Case4
-        let ofDateTime v: OperatorComparable = v |> U4.Case4 |> Some
-        let isDateTime (v: OperatorComparable) = match v with None -> false | Some o -> match o with U4.Case4 _ -> true | _ -> false
-        let asDateTime (v: OperatorComparable) = match v with None -> None | Some o -> match o with U4.Case4 o -> Some o | _ -> None
 
     type [<AllowNullLiteral>] ShouldAssertion =
         abstract equal: value1: obj option * value2: obj option * ?message: string -> unit
@@ -79,6 +140,7 @@ module Chai =
         abstract deep: Deep with get, set
         abstract ordered: Ordered with get, set
         abstract nested: Nested with get, set
+        abstract own: Own with get, set
         abstract any: KeyFilter with get, set
         abstract all: KeyFilter with get, set
         abstract a: TypeComparison with get, set
@@ -103,8 +165,8 @@ module Chai =
         abstract eql: Equal with get, set
         abstract eqls: Equal with get, set
         abstract property: Property with get, set
-        abstract ownProperty: OwnProperty with get, set
-        abstract haveOwnProperty: OwnProperty with get, set
+        abstract ownProperty: Property with get, set
+        abstract haveOwnProperty: Property with get, set
         abstract ownPropertyDescriptor: OwnPropertyDescriptor with get, set
         abstract haveOwnPropertyDescriptor: OwnPropertyDescriptor with get, set
         abstract length: Length with get, set
@@ -176,7 +238,7 @@ module Chai =
         abstract instanceOf: InstanceOf with get, set
 
     type [<AllowNullLiteral>] InstanceOf =
-        [<Emit "$0($1...)">] abstract Invoke: ``constructor``: Object * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: ``constructor``: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] CloseTo =
         [<Emit "$0($1...)">] abstract Invoke: expected: float * delta: float * ?message: string -> Assertion
@@ -186,6 +248,10 @@ module Chai =
         abstract property: Property with get, set
         abstract members: Members with get, set
 
+    type [<AllowNullLiteral>] Own =
+        abstract ``include``: Include with get, set
+        abstract property: Property with get, set
+
     type [<AllowNullLiteral>] Deep =
         abstract equal: Equal with get, set
         abstract equals: Equal with get, set
@@ -194,20 +260,21 @@ module Chai =
         abstract property: Property with get, set
         abstract members: Members with get, set
         abstract ordered: Ordered with get, set
+        abstract nested: Nested with get, set
+        abstract own: Own with get, set
 
     type [<AllowNullLiteral>] Ordered =
         abstract members: Members with get, set
 
     type [<AllowNullLiteral>] KeyFilter =
         abstract keys: Keys with get, set
+        abstract members: Members with get, set
 
     type [<AllowNullLiteral>] Equal =
         [<Emit "$0($1...)">] abstract Invoke: value: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Property =
-        [<Emit "$0($1...)">] abstract Invoke: name: string * ?value: obj * ?message: string -> Assertion
-
-    type [<AllowNullLiteral>] OwnProperty =
+        [<Emit "$0($1...)">] abstract Invoke: name: string * value: obj option * ?message: string -> Assertion
         [<Emit "$0($1...)">] abstract Invoke: name: string * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] OwnPropertyDescriptor =
@@ -220,7 +287,7 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: length: float * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Include =
-        [<Emit "$0($1...)">] abstract Invoke: value: U3<Object, string, float> * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: value: obj option * ?message: string -> Assertion
         abstract keys: Keys with get, set
         abstract deep: Deep with get, set
         abstract ordered: Ordered with get, set
@@ -249,7 +316,7 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: set: ResizeArray<obj option> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] PropertyChange =
-        [<Emit "$0($1...)">] abstract Invoke: ``object``: Object * property: string * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: ``object``: Object * ?property: string * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Assert =
         /// <param name="expression">Expression to test for truthiness.</param>
@@ -323,7 +390,7 @@ module Chai =
         /// <param name="valueToBeBelow">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isBelow: valueToCheck: float * valueToBeBelow: float * ?message: string -> unit
-        /// <summary>Asserts valueToCheck is greater than or equal to (>=) valueToBeAtMost.</summary>
+        /// <summary>Asserts valueToCheck is less than or equal to (<=) valueToBeAtMost.</summary>
         /// <param name="valueToCheck">Actual value.</param>
         /// <param name="valueToBeAtMost">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
@@ -352,11 +419,11 @@ module Chai =
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotNull: value: 'T * ?message: string -> unit
-        /// <summary>Asserts that value is not null.</summary>
+        /// <summary>Asserts that value is NaN.</summary>
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNaN: value: 'T * ?message: string -> unit
-        /// <summary>Asserts that value is not null.</summary>
+        /// <summary>Asserts that value is not NaN.</summary>
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotNaN: value: 'T * ?message: string -> unit
@@ -447,34 +514,74 @@ module Chai =
         abstract notInstanceOf: value: 'T * ``type``: Function * ?message: string -> unit
         /// <summary>Asserts that haystack includes needle.</summary>
         /// <param name="haystack">Container string.</param>
-        /// <param name="needle">Potential expected substring of haystack.</param>
+        /// <param name="needle">Potential substring of haystack.</param>
         /// <param name="message">Message to display on error.</param>
         abstract ``include``: haystack: string * needle: string * ?message: string -> unit
         /// <summary>Asserts that haystack includes needle.</summary>
-        /// <param name="haystack">Container array.</param>
+        /// <param name="haystack">Container array, set or map.</param>
         /// <param name="needle">Potential value contained in haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract ``include``: haystack: ResizeArray<'T> * needle: 'T * ?message: string -> unit
-        /// <summary>Asserts that haystack does not include needle.</summary>
-        /// <param name="haystack">Container string or array.</param>
-        /// <param name="needle">Potential expected substring of haystack.</param>
+        abstract ``include``: haystack: U3<ResizeArray<'T>, ReadonlySet<'T>, ReadonlyMap<obj option, 'T>> * needle: 'T * ?message: string -> unit
+        /// <summary>Asserts that haystack includes needle.</summary>
+        /// <param name="haystack">WeakSet container.</param>
+        /// <param name="needle">Potential value contained in haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notInclude: haystack: U2<string, ResizeArray<obj option>> * needle: obj option * ?message: string -> unit
-        /// <summary>Asserts that haystack includes needle. Can be used to assert the inclusion of a value in an array or a subset of properties in an object. Deep equality is used.</summary>
+        abstract ``include``: haystack: WeakSet<'T> * needle: 'T * ?message: string -> unit
+        /// <summary>Asserts that haystack includes needle.</summary>
+        /// <param name="haystack">Object.</param>
+        /// <param name="needle">Potential subset of the haystack's properties.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract ``include``: haystack: 'T * needle: obj * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle.</summary>
         /// <param name="haystack">Container string.</param>
-        /// <param name="needle">Potential expected substring of haystack.</param>
+        /// <param name="needle">Potential substring of haystack.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notInclude: haystack: string * needle: string * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle.</summary>
+        /// <param name="haystack">Container array, set or map.</param>
+        /// <param name="needle">Potential value contained in haystack.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notInclude: haystack: U3<ResizeArray<'T>, ReadonlySet<'T>, ReadonlyMap<obj option, 'T>> * needle: 'T * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle.</summary>
+        /// <param name="haystack">WeakSet container.</param>
+        /// <param name="needle">Potential value contained in haystack.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notInclude: haystack: WeakSet<'T> * needle: 'T * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle.</summary>
+        /// <param name="haystack">Object.</param>
+        /// <param name="needle">Potential subset of the haystack's properties.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notInclude: haystack: 'T * needle: obj * ?message: string -> unit
+        /// <summary>Asserts that haystack includes needle. Deep equality is used.</summary>
+        /// <param name="haystack">Container string.</param>
+        /// <param name="needle">Potential substring of haystack.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepInclude: haystack: string * needle: string * ?message: string -> unit
-        /// <summary>Asserts that haystack includes needle. Can be used to assert the inclusion of a value in an array or a subset of properties in an object. Deep equality is used.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
+        /// <summary>Asserts that haystack includes needle. Deep equality is used.</summary>
+        /// <param name="haystack">Container array, set or map.</param>
+        /// <param name="needle">Potential value contained in haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract deepInclude: haystack: obj option * needle: obj option * ?message: string -> unit
-        /// <summary>Asserts that haystack does not include needle. Can be used to assert the absence of a value in an array or a subset of properties in an object. Deep equality is used.</summary>
-        /// <param name="haystack">Container string or array.</param>
-        /// <param name="needle">Potential expected substring of haystack.</param>
+        abstract deepInclude: haystack: U3<ResizeArray<'T>, ReadonlySet<'T>, ReadonlyMap<obj option, 'T>> * needle: 'T * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle.</summary>
+        /// <param name="haystack">Object.</param>
+        /// <param name="needle">Potential subset of the haystack's properties.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notDeepInclude: haystack: U2<string, ResizeArray<obj option>> * needle: obj option * ?message: string -> unit
+        abstract deepInclude: haystack: 'T * needle: obj * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle. Deep equality is used.</summary>
+        /// <param name="haystack">Container string.</param>
+        /// <param name="needle">Potential substring of haystack.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notDeepInclude: haystack: string * needle: string * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle. Deep equality is used.</summary>
+        /// <param name="haystack">Container array, set or map.</param>
+        /// <param name="needle">Potential value contained in haystack.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notDeepInclude: haystack: U3<ResizeArray<'T>, ReadonlySet<'T>, ReadonlyMap<obj option, 'T>> * needle: 'T * ?message: string -> unit
+        /// <summary>Asserts that haystack does not includes needle. Deep equality is used.</summary>
+        /// <param name="haystack">Object.</param>
+        /// <param name="needle">Potential subset of the haystack's properties.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notDeepInclude: haystack: 'T * needle: obj * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object.
         /// 
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
@@ -482,8 +589,6 @@ module Chai =
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract nestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ does not include ‘needle’. Can be used to assert the absence of a subset of properties in an object.
@@ -493,8 +598,6 @@ module Chai =
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract notNestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while checking for deep equality
@@ -504,8 +607,6 @@ module Chai =
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract deepNestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ does not include ‘needle’. Can be used to assert the absence of a subset of properties in an object while checking for deep equality.
@@ -515,28 +616,18 @@ module Chai =
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract notDeepNestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while ignoring inherited properties.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract ownInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the absence of a subset of properties in an object while ignoring inherited properties.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract notOwnInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while ignoring inherited properties and checking for deep</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract deepOwnInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the absence of a subset of properties in an object while ignoring inherited properties and checking for deep equality.</summary>
-        /// <param name="haystack"></param>
-        /// <param name="needle"></param>
         /// <param name="message">Message to display on error.</param>
         abstract notDeepOwnInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that value matches the regular expression regexp.</summary>
@@ -868,35 +959,35 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract hasAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` has all and only all of the `keys` provided.
         /// You can also provide a single object instead of a `keys` array and its keys
         /// will be used as the expected set of keys.</summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract hasAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` has all of the `keys` provided but may have more keys not listed.
         /// You can also provide a single object instead of a `keys` array and its keys
         /// will be used as the expected set of keys.</summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract containsAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract containsAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` has none of the `keys` provided.
         /// You can also provide a single object instead of a `keys` array and its keys
         /// will be used as the expected set of keys.</summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract doesNotHaveAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` does not have at least one of the `keys` provided.
         /// You can also provide a single object instead of a `keys` array and its keys
         /// will be used as the expected set of keys.</summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract doesNotHaveAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` has at least one of the `keys` provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
@@ -905,7 +996,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract hasAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` has all and only all of the `keys` provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
@@ -914,7 +1005,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract hasAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` contains all of the `keys` provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
@@ -923,7 +1014,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract containsAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract containsAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` contains all of the `keys` provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
@@ -932,7 +1023,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract doesNotHaveAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that `object` contains all of the `keys` provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
@@ -941,7 +1032,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, TypeLiteral_01> * ?message: string -> unit
+        abstract doesNotHaveAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>Asserts that object has a direct or inherited property named by property,
         /// which can be a string using dot- and bracket-notation for nested reference.</summary>
         /// <param name="object">Object to test.</param>
@@ -991,6 +1082,10 @@ module Chai =
         abstract showDiff: bool with get, set
         /// Default: 40
         abstract truncateThreshold: float with get, set
+        /// Default: true
+        abstract useProxy: bool with get, set
+        /// Default: ['then', 'catch', 'inspect', 'toJSON']
+        abstract proxyExcludedKeys: ResizeArray<string> with get, set
 
     type [<AllowNullLiteral>] AssertionError =
         abstract name: string with get, set
@@ -1001,7 +1096,7 @@ module Chai =
     type [<AllowNullLiteral>] AssertionErrorStatic =
         [<Emit "new $0($1...)">] abstract Create: message: string * ?_props: obj * ?ssf: Function -> AssertionError
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] AssertHasAnyKeys =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
 
 type [<AllowNullLiteral>] Object =

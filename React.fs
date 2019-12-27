@@ -2,8 +2,8 @@
 module rec React
 open System
 open Fable.Core
-open Fable.Import.JS
-open Fable.Import.Browser
+open Fable.Core.JS
+open Browser.Types
 
 let [<Import("*","react")>] react: React.IExports = jsNative
 
@@ -44,15 +44,16 @@ module React =
 
     type [<AllowNullLiteral>] IExports =
         abstract createClass: spec: ComponentSpec<'P, 'S> -> ClassicComponentClass<'P>
-        abstract createFactory: ``type``: obj -> HTMLFactory<'T>
-        abstract createFactory: ``type``: obj -> SVGFactory
+        abstract createFactory: ``type``: ReactHTML -> HTMLFactory<'T>
+        abstract createFactory: ``type``: ReactSVG -> SVGFactory
         abstract createFactory: ``type``: string -> DOMFactory<'P, 'T>
         abstract createFactory: ``type``: SFC<'P> -> SFCFactory<'P>
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<TypeLiteral_01, HTMLInputElement>
-        abstract createElement: ``type``: obj * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
+        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
+        abstract createElement: ``type``: ReactHTML * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
+        abstract createElement: ``type``: ReactSVG * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
         abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
         abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
         abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
@@ -81,53 +82,17 @@ module React =
     type ReactType =
         U2<string, ComponentType<obj option>>
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactType =
-        let ofString v: ReactType = v |> U2.Case1
-        let isString (v: ReactType) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: ReactType) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofComponentType v: ReactType = v |> U2.Case2
-        let isComponentType (v: ReactType) = match v with U2.Case2 _ -> true | _ -> false
-        let asComponentType (v: ReactType) = match v with U2.Case2 o -> Some o | _ -> None
-
     type ComponentType =
         ComponentType<obj>
 
     type ComponentType<'P> =
         U2<ComponentClass<'P>, StatelessComponent<'P>>
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ComponentType =
-        let ofComponentClass v: ComponentType<'P> = v |> U2.Case1
-        let isComponentClass (v: ComponentType<'P>) = match v with U2.Case1 _ -> true | _ -> false
-        let asComponentClass (v: ComponentType<'P>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofStatelessComponent v: ComponentType<'P> = v |> U2.Case2
-        let isStatelessComponent (v: ComponentType<'P>) = match v with U2.Case2 _ -> true | _ -> false
-        let asStatelessComponent (v: ComponentType<'P>) = match v with U2.Case2 o -> Some o | _ -> None
-
     type Key =
         U2<string, float>
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module Key =
-        let ofString v: Key = v |> U2.Case1
-        let isString (v: Key) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: Key) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofFloat v: Key = v |> U2.Case2
-        let isFloat (v: Key) = match v with U2.Case2 _ -> true | _ -> false
-        let asFloat (v: Key) = match v with U2.Case2 o -> Some o | _ -> None
-
     type Ref<'T> =
         U2<string, ('T option -> obj option)>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module Ref =
-        let ofString v: Ref<'T> = v |> U2.Case1
-        let isString (v: Ref<'T>) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: Ref<'T>) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofCase2 v: Ref<'T> = v |> U2.Case2
-        let isCase2 (v: Ref<'T>) = match v with U2.Case2 _ -> true | _ -> false
-        let asCase2 (v: Ref<'T>) = match v with U2.Case2 o -> Some o | _ -> None
 
     type [<AllowNullLiteral>] ComponentState =
         interface end
@@ -169,11 +134,11 @@ module React =
 
     type [<AllowNullLiteral>] DetailedReactHTMLElement<'P, 'T> =
         inherit DOMElement<'P, 'T>
-        abstract ``type``: obj with get, set
+        abstract ``type``: ReactHTML with get, set
 
     type [<AllowNullLiteral>] ReactSVGElement =
         inherit DOMElement<SVGAttributes<SVGElement>, SVGElement>
-        abstract ``type``: obj with get, set
+        abstract ``type``: ReactSVG with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
         [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
@@ -207,26 +172,8 @@ module React =
     type ReactText =
         U2<string, float>
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactText =
-        let ofString v: ReactText = v |> U2.Case1
-        let isString (v: ReactText) = match v with U2.Case1 _ -> true | _ -> false
-        let asString (v: ReactText) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofFloat v: ReactText = v |> U2.Case2
-        let isFloat (v: ReactText) = match v with U2.Case2 _ -> true | _ -> false
-        let asFloat (v: ReactText) = match v with U2.Case2 o -> Some o | _ -> None
-
     type ReactChild =
         U2<ReactElement<obj option>, ReactText>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactChild =
-        let ofReactElement v: ReactChild = v |> U2.Case1
-        let isReactElement (v: ReactChild) = match v with U2.Case1 _ -> true | _ -> false
-        let asReactElement (v: ReactChild) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofReactText v: ReactChild = v |> U2.Case2
-        let isReactText (v: ReactChild) = match v with U2.Case2 _ -> true | _ -> false
-        let asReactText (v: ReactChild) = match v with U2.Case2 o -> Some o | _ -> None
 
     type ReactFragment =
         Array<U3<ReactChild, ResizeArray<obj option>, bool>>
@@ -234,32 +181,8 @@ module React =
     type ReactNode =
         U3<ReactChild, ReactFragment, bool> option
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactNode =
-        let ofReactChildOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case1
-        let ofReactChild v: ReactNode = v |> U3.Case1 |> Some
-        let isReactChild (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case1 _ -> true | _ -> false
-        let asReactChild (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case1 o -> Some o | _ -> None
-        let ofReactFragmentOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case2
-        let ofReactFragment v: ReactNode = v |> U3.Case2 |> Some
-        let isReactFragment (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case2 _ -> true | _ -> false
-        let asReactFragment (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case2 o -> Some o | _ -> None
-        let ofBoolOption v: ReactNode = v |> Microsoft.FSharp.Core.Option.map U3.Case3
-        let ofBool v: ReactNode = v |> U3.Case3 |> Some
-        let isBool (v: ReactNode) = match v with None -> false | Some o -> match o with U3.Case3 _ -> true | _ -> false
-        let asBool (v: ReactNode) = match v with None -> None | Some o -> match o with U3.Case3 o -> Some o | _ -> None
-
     type ReactInstance =
         U2<Component<obj option>, Element>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module ReactInstance =
-        let ofComponent v: ReactInstance = v |> U2.Case1
-        let isComponent (v: ReactInstance) = match v with U2.Case1 _ -> true | _ -> false
-        let asComponent (v: ReactInstance) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofElement v: ReactInstance = v |> U2.Case2
-        let isElement (v: ReactInstance) = match v with U2.Case2 _ -> true | _ -> false
-        let asElement (v: ReactInstance) = match v with U2.Case2 o -> Some o | _ -> None
 
     type Component<'S> =
         Component<obj, 'S>
@@ -272,11 +195,11 @@ module React =
         abstract setState: f: ('S -> 'P -> obj) * ?callback: (unit -> obj option) -> unit
         abstract setState: state: obj * ?callback: (unit -> obj option) -> unit
         abstract forceUpdate: ?callBack: (unit -> obj option) -> unit
-        abstract render: unit -> U2<JSX.Element, obj> option
+        abstract render: unit -> JSX.Element option
         abstract props: obj with get, set
         abstract state: obj with get, set
         abstract context: obj option with get, set
-        abstract refs: TypeLiteral_02 with get, set
+        abstract refs: ComponentRefs with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
         [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
@@ -387,7 +310,7 @@ module React =
     type [<AllowNullLiteral>] Mixin<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
         abstract mixins: Array<Mixin<'P, 'S>> option with get, set
-        abstract statics: TypeLiteral_03 option with get, set
+        abstract statics: MixinStatics option with get, set
         abstract displayName: string option with get, set
         abstract propTypes: ValidationMap<obj option> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
@@ -585,7 +508,7 @@ module React =
 
     type [<AllowNullLiteral>] DOMAttributes<'T> =
         abstract children: ReactNode option with get, set
-        abstract dangerouslySetInnerHTML: TypeLiteral_04 option with get, set
+        abstract dangerouslySetInnerHTML: DOMAttributesDangerouslySetInnerHTML option with get, set
         abstract onCopy: ClipboardEventHandler<'T> option with get, set
         abstract onCopyCapture: ClipboardEventHandler<'T> option with get, set
         abstract onCut: ClipboardEventHandler<'T> option with get, set
@@ -734,22 +657,13 @@ module React =
     type CSSLength =
         U2<float, string>
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module CSSLength =
-        let ofFloat v: CSSLength = v |> U2.Case1
-        let isFloat (v: CSSLength) = match v with U2.Case1 _ -> true | _ -> false
-        let asFloat (v: CSSLength) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofString v: CSSLength = v |> U2.Case2
-        let isString (v: CSSLength) = match v with U2.Case2 _ -> true | _ -> false
-        let asString (v: CSSLength) = match v with U2.Case2 o -> Some o | _ -> None
-
     type [<AllowNullLiteral>] CSSProperties =
         /// Aligns a flex container's lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
-        abstract alignContent: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
+        abstract alignContent: U2<CSSWideKeyword, string> option with get, set
         /// Sets the default alignment in the cross axis for all of the flex container's items, including anonymous flex items, similarly to how justify-content aligns items along the main axis.
-        abstract alignItems: U6<CSSWideKeyword, string, string, string, string, string> option with get, set
+        abstract alignItems: U2<CSSWideKeyword, string> option with get, set
         /// Allows the default alignment to be overridden for individual flex items.
-        abstract alignSelf: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
+        abstract alignSelf: U2<CSSWideKeyword, string> option with get, set
         /// This property allows precise alignment of elements, such as graphics,
         /// that do not have a baseline-table or lack the desired baseline in their baseline-table.
         /// With the alignment-adjust property, the position of the baseline identified by the alignment-baseline
@@ -779,7 +693,7 @@ module React =
         /// whether that image's position is fixed within the viewport,
         /// or scrolls along with its containing block.
         /// See CSS 3 background-attachment property https://drafts.csswg.org/css-backgrounds-3/#the-background-attachment
-        abstract backgroundAttachment: U4<CSSWideKeyword, string, string, string> option with get, set
+        abstract backgroundAttachment: U2<CSSWideKeyword, string> option with get, set
         /// This property describes how the element's background images should blend with each other and the element's background color.
         /// The value is a list of blend modes that corresponds to each background image. Each element in the list will apply to the
         /// corresponding element of background-image. If a property doesn’t have enough comma-separated values to match the number of layers,
@@ -1026,7 +940,7 @@ module React =
         /// before any free space is distributed according to the flex factors described in the flex property (flex-grow and flex-shrink).
         abstract flexBasis: U2<CSSWideKeyword, obj option> option with get, set
         /// The flex-direction CSS property describes how flex items are placed in the flex container, by setting the direction of the flex container's main axis.
-        abstract flexDirection: U5<CSSWideKeyword, string, string, string, string> option with get, set
+        abstract flexDirection: U2<CSSWideKeyword, string> option with get, set
         /// The flex-flow CSS property defines the flex container's main and cross axis. It is a shorthand property for the flex-direction and flex-wrap properties.
         abstract flexFlow: U2<CSSWideKeyword, string> option with get, set
         /// Specifies the flex grow factor of a flex item.
@@ -1046,7 +960,7 @@ module React =
         /// Specifies whether flex items are forced into a single line or can be wrapped onto multiple lines.
         /// If wrapping is allowed, this property also enables you to control the direction in which lines are stacked.
         /// See CSS flex-wrap property https://drafts.csswg.org/css-flexbox-1/#flex-wrap-property
-        abstract flexWrap: U4<CSSWideKeyword, string, string, string> option with get, set
+        abstract flexWrap: U2<CSSWideKeyword, string> option with get, set
         /// Elements which have the style float are floated horizontally.
         /// These elements can move as far to the left or right of the containing element.
         /// All elements after the floating element will flow around it, but elements before the floating element are not impacted.
@@ -1065,20 +979,20 @@ module React =
         abstract fontKerning: U2<CSSWideKeyword, obj option> option with get, set
         /// Specifies the size of the font. Used to compute em and ex units.
         /// See CSS 3 font-size property https://www.w3.org/TR/css-fonts-3/#propdef-font-size
-        abstract fontSize: obj option with get, set
+        abstract fontSize: U4<CSSWideKeyword, CSSLength, CSSPercentage, string> option with get, set
         /// The font-size-adjust property adjusts the font-size of the fallback fonts defined with font-family,
         /// so that the x-height is the same no matter what font is used.
         /// This preserves the readability of the text when fallback happens.
         /// See CSS 3 font-size-adjust property https://www.w3.org/TR/css-fonts-3/#propdef-font-size-adjust
-        abstract fontSizeAdjust: U3<CSSWideKeyword, string, float> option with get, set
+        abstract fontSizeAdjust: U3<CSSWideKeyword, float, string> option with get, set
         /// Allows you to expand or condense the widths for a normal, condensed, or expanded font face.
         /// See CSS 3 font-stretch property https://drafts.csswg.org/css-fonts-3/#propdef-font-stretch
-        abstract fontStretch: obj option with get, set
+        abstract fontStretch: U2<CSSWideKeyword, string> option with get, set
         /// The font-style property allows normal, italic, or oblique faces to be selected.
         /// Italic forms are generally cursive in nature while oblique faces are typically sloped versions of the regular face.
         /// Oblique faces can be simulated by artificially sloping the glyphs of the regular face.
         /// See CSS 3 font-style property https://www.w3.org/TR/css-fonts-3/#propdef-font-style
-        abstract fontStyle: U4<CSSWideKeyword, string, string, string> option with get, set
+        abstract fontStyle: U2<CSSWideKeyword, string> option with get, set
         /// This value specifies whether the user agent is allowed to synthesize bold or oblique font faces when a font family lacks bold or italic faces.
         abstract fontSynthesis: U2<CSSWideKeyword, obj option> option with get, set
         /// The font-variant property enables you to select the small-caps font within a font family.
@@ -1087,7 +1001,7 @@ module React =
         abstract fontVariantAlternates: U2<CSSWideKeyword, obj option> option with get, set
         /// Specifies the weight or boldness of the font.
         /// See CSS 3 'font-weight' property https://www.w3.org/TR/css-fonts-3/#propdef-font-weight
-        abstract fontWeight: U6<CSSWideKeyword, string, string, string, string, obj> option with get, set
+        abstract fontWeight: U3<CSSWideKeyword, string, float> option with get, set
         /// Lays out one or more grid items bound by 4 grid lines. Shorthand for setting grid-column-start, grid-column-end, grid-row-start, and grid-row-end in a single declaration.
         abstract gridArea: U2<CSSWideKeyword, obj option> option with get, set
         /// Controls a grid item's placement in a grid area, particularly grid position and a grid span. Shorthand for setting grid-column-start and grid-column-end in a single declaration.
@@ -1134,7 +1048,7 @@ module React =
         /// Defines how the browser distributes space between and around flex items
         /// along the main-axis of their container.
         /// See CSS justify-content property https://www.w3.org/TR/css-flexbox-1/#justify-content-property
-        abstract justifyContent: U7<CSSWideKeyword, string, string, string, string, string, string> option with get, set
+        abstract justifyContent: U2<CSSWideKeyword, string> option with get, set
         abstract layoutGrid: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridChar: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridLine: U2<CSSWideKeyword, obj option> option with get, set
@@ -1149,7 +1063,7 @@ module React =
         abstract lineClamp: U2<CSSWideKeyword, float> option with get, set
         /// Specifies the height of an inline block level element.
         /// See CSS 2.1 line-height property https://www.w3.org/TR/CSS21/visudet.html#propdef-line-height
-        abstract lineHeight: U5<CSSWideKeyword, string, float, CSSLength, CSSPercentage> option with get, set
+        abstract lineHeight: U5<CSSWideKeyword, float, CSSLength, CSSPercentage, string> option with get, set
         /// Shorthand property that sets the list-style-type, list-style-position and list-style-image properties in one declaration.
         abstract listStyle: U2<CSSWideKeyword, obj option> option with get, set
         /// This property sets the image that will be used as the list item marker. When the image is available,
@@ -1241,13 +1155,13 @@ module React =
         abstract outlineOffset: U2<CSSWideKeyword, obj option> option with get, set
         /// The overflow property controls how extra content exceeding the bounding box of an element is rendered.
         /// It can be used in conjunction with an element that has a fixed width and height, to eliminate text-induced page distortion.
-        abstract overflow: U5<CSSWideKeyword, string, string, string, string> option with get, set
+        abstract overflow: U2<CSSWideKeyword, string> option with get, set
         /// Specifies the preferred scrolling methods for elements that overflow.
         abstract overflowStyle: U2<CSSWideKeyword, obj option> option with get, set
         /// Controls how extra content exceeding the x-axis of the bounding box of an element is rendered.
-        abstract overflowX: U5<CSSWideKeyword, string, string, string, string> option with get, set
+        abstract overflowX: U2<CSSWideKeyword, string> option with get, set
         /// Controls how extra content exceeding the y-axis of the bounding box of an element is rendered.
-        abstract overflowY: U5<CSSWideKeyword, string, string, string, string> option with get, set
+        abstract overflowY: U2<CSSWideKeyword, string> option with get, set
         /// The padding optional CSS property sets the required padding space on one to four sides of an element.
         /// The padding area is the space between an element and its border. Negative values are not allowed but decimal values are permitted.
         /// The element size is treated as fixed, and the content of the element shifts toward the center as padding is increased.
@@ -1310,7 +1224,7 @@ module React =
         abstract pointerEvents: U2<CSSWideKeyword, obj option> option with get, set
         /// The position property controls the type of positioning used by an element within its parent elements.
         /// The effect of the position property depends on a lot of factors, for example the position property of parent elements.
-        abstract position: U6<CSSWideKeyword, string, string, string, string, string> option with get, set
+        abstract position: U2<CSSWideKeyword, string> option with get, set
         /// Obsolete: unsupported.
         /// This property determines whether or not a full-width punctuation mark character should be trimmed if it appears at the beginning of a line,
         /// so that its "ink" lines up with the first glyph in the line above and below.
@@ -1540,10 +1454,10 @@ module React =
         /// The z-index property specifies the z-order of an element and its descendants.
         /// When elements overlap, z-order determines which one covers the other.
         /// See CSS 2 z-index property https://www.w3.org/TR/CSS2/visuren.html#z-index
-        abstract zIndex: U3<CSSWideKeyword, string, float> option with get, set
+        abstract zIndex: U3<CSSWideKeyword, float, string> option with get, set
         /// Sets the initial zoom factor of a document defined by @viewport.
         /// See CSS zoom descriptor https://drafts.csswg.org/css-device-adapt/#zoom-desc
-        abstract zoom: U4<CSSWideKeyword, string, float, CSSPercentage> option with get, set
+        abstract zoom: U4<CSSWideKeyword, float, CSSPercentage, string> option with get, set
         [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] HTMLAttributes<'T> =
@@ -2091,13 +2005,13 @@ module React =
         abstract role: string option with get, set
         abstract tabIndex: float option with get, set
         abstract accentHeight: U2<float, string> option with get, set
-        abstract accumulate: U2<string, string> option with get, set
-        abstract additive: U2<string, string> option with get, set
-        abstract alignmentBaseline: obj option with get, set
-        abstract allowReorder: U2<string, string> option with get, set
+        abstract accumulate: SVGAttributesAccumulate option with get, set
+        abstract additive: SVGAttributesAdditive option with get, set
+        abstract alignmentBaseline: SVGAttributesAlignmentBaseline option with get, set
+        abstract allowReorder: SVGAttributesAllowReorder option with get, set
         abstract alphabetic: U2<float, string> option with get, set
         abstract amplitude: U2<float, string> option with get, set
-        abstract arabicForm: U4<string, string, string, string> option with get, set
+        abstract arabicForm: SVGAttributesArabicForm option with get, set
         abstract ascent: U2<float, string> option with get, set
         abstract attributeName: string option with get, set
         abstract attributeType: string option with get, set
@@ -2117,7 +2031,7 @@ module React =
         abstract clipPathUnits: U2<float, string> option with get, set
         abstract clipRule: U2<float, string> option with get, set
         abstract colorInterpolation: U2<float, string> option with get, set
-        abstract colorInterpolationFilters: U4<string, string, string, string> option with get, set
+        abstract colorInterpolationFilters: SVGAttributesColorInterpolationFilters option with get, set
         abstract colorProfile: U2<float, string> option with get, set
         abstract colorRendering: U2<float, string> option with get, set
         abstract contentScriptType: U2<float, string> option with get, set
@@ -2144,7 +2058,7 @@ module React =
         abstract externalResourcesRequired: U2<float, string> option with get, set
         abstract fill: string option with get, set
         abstract fillOpacity: U2<float, string> option with get, set
-        abstract fillRule: U3<string, string, string> option with get, set
+        abstract fillRule: SVGAttributesFillRule option with get, set
         abstract filter: string option with get, set
         abstract filterRes: U2<float, string> option with get, set
         abstract filterUnits: U2<float, string> option with get, set
@@ -2266,8 +2180,8 @@ module React =
         abstract stroke: string option with get, set
         abstract strokeDasharray: U2<string, float> option with get, set
         abstract strokeDashoffset: U2<string, float> option with get, set
-        abstract strokeLinecap: U4<string, string, string, string> option with get, set
-        abstract strokeLinejoin: U4<string, string, string, string> option with get, set
+        abstract strokeLinecap: SVGAttributesStrokeLinecap option with get, set
+        abstract strokeLinejoin: SVGAttributesStrokeLinejoin option with get, set
         abstract strokeMiterlimit: string option with get, set
         abstract strokeOpacity: U2<float, string> option with get, set
         abstract strokeWidth: U2<float, string> option with get, set
@@ -2533,17 +2447,73 @@ module React =
         /// Captures which component contained the exception, and it's ancestors.
         abstract componentStack: string with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] IExportsCreateElement_inputDetailedReactHTMLElement =
         interface end
 
-    type [<AllowNullLiteral>] TypeLiteral_04 =
-        abstract __html: string with get, set
-
-    type [<AllowNullLiteral>] TypeLiteral_02 =
+    type [<AllowNullLiteral>] ComponentRefs =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> ReactInstance with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_03 =
+    type [<AllowNullLiteral>] MixinStatics =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+
+    type [<AllowNullLiteral>] DOMAttributesDangerouslySetInnerHTML =
+        abstract __html: string with get, set
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAccumulate =
+        | None
+        | Sum
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAdditive =
+        | Replace
+        | Sum
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAlignmentBaseline =
+        | Auto
+        | Baseline
+        | [<CompiledName "before-edge">] BeforeEdge
+        | [<CompiledName "text-before-edge">] TextBeforeEdge
+        | Middle
+        | Central
+        | [<CompiledName "after-edge">] AfterEdge
+        | [<CompiledName "text-after-edge">] TextAfterEdge
+        | Ideographic
+        | Alphabetic
+        | Hanging
+        | Mathematical
+        | Inherit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAllowReorder =
+        | No
+        | Yes
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesArabicForm =
+        | Initial
+        | Medial
+        | Terminal
+        | Isolated
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesColorInterpolationFilters =
+        | Auto
+        | SRGB
+        | LinearRGB
+        | Inherit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesFillRule =
+        | Nonzero
+        | Evenodd
+        | Inherit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesStrokeLinecap =
+        | Butt
+        | Round
+        | Square
+        | Inherit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesStrokeLinejoin =
+        | Miter
+        | Round
+        | Bevel
+        | Inherit
 
 module JSX =
 
@@ -2552,13 +2522,13 @@ module JSX =
 
     type [<AllowNullLiteral>] ElementClass =
         inherit React.Component<obj option>
-        abstract render: unit -> U2<Element, obj> option
+        abstract render: unit -> Element option
 
     type [<AllowNullLiteral>] ElementAttributesProperty =
-        abstract props: TypeLiteral_05 with get, set
+        abstract props: ElementAttributesPropertyProps with get, set
 
     type [<AllowNullLiteral>] ElementChildrenAttribute =
-        abstract children: TypeLiteral_05 with get, set
+        abstract children: ElementAttributesPropertyProps with get, set
 
     type [<AllowNullLiteral>] IntrinsicAttributes =
         inherit React.Attributes
@@ -2737,5 +2707,5 @@ module JSX =
         abstract ``use``: React.SVGProps<SVGUseElement> with get, set
         abstract view: React.SVGProps<SVGViewElement> with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_05 =
+    type [<AllowNullLiteral>] ElementAttributesPropertyProps =
         interface end

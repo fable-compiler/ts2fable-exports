@@ -2,10 +2,10 @@
 module rec Protobuf
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
-let [<Import("arith","google-protobuf")>] arith: Arith.IExports = jsNative
 let [<Import("BinaryConstants","google-protobuf")>] binaryConstants: BinaryConstants.IExports = jsNative
+let [<Import("arith","google-protobuf")>] arith: Arith.IExports = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract Message: MessageStatic
@@ -21,88 +21,17 @@ type [<AllowNullLiteral>] IExports =
 type ByteSource =
     U4<ArrayBuffer, Uint8Array, ResizeArray<float>, string>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module ByteSource =
-    let ofArrayBuffer v: ByteSource = v |> U4.Case1
-    let isArrayBuffer (v: ByteSource) = match v with U4.Case1 _ -> true | _ -> false
-    let asArrayBuffer (v: ByteSource) = match v with U4.Case1 o -> Some o | _ -> None
-    let ofUint8Array v: ByteSource = v |> U4.Case2
-    let isUint8Array (v: ByteSource) = match v with U4.Case2 _ -> true | _ -> false
-    let asUint8Array (v: ByteSource) = match v with U4.Case2 o -> Some o | _ -> None
-    let ofFloatArray v: ByteSource = v |> U4.Case3
-    let isFloatArray (v: ByteSource) = match v with U4.Case3 _ -> true | _ -> false
-    let asFloatArray (v: ByteSource) = match v with U4.Case3 o -> Some o | _ -> None
-    let ofString v: ByteSource = v |> U4.Case4
-    let isString (v: ByteSource) = match v with U4.Case4 _ -> true | _ -> false
-    let asString (v: ByteSource) = match v with U4.Case4 o -> Some o | _ -> None
-
 type ScalarFieldType =
     U3<bool, float, string>
-
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module ScalarFieldType =
-    let ofBool v: ScalarFieldType = v |> U3.Case1
-    let isBool (v: ScalarFieldType) = match v with U3.Case1 _ -> true | _ -> false
-    let asBool (v: ScalarFieldType) = match v with U3.Case1 o -> Some o | _ -> None
-    let ofFloat v: ScalarFieldType = v |> U3.Case2
-    let isFloat (v: ScalarFieldType) = match v with U3.Case2 _ -> true | _ -> false
-    let asFloat (v: ScalarFieldType) = match v with U3.Case2 o -> Some o | _ -> None
-    let ofString v: ScalarFieldType = v |> U3.Case3
-    let isString (v: ScalarFieldType) = match v with U3.Case3 _ -> true | _ -> false
-    let asString (v: ScalarFieldType) = match v with U3.Case3 o -> Some o | _ -> None
 
 type RepeatedFieldType =
     U2<ResizeArray<ScalarFieldType>, ResizeArray<Uint8Array>>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module RepeatedFieldType =
-    let ofScalarFieldTypeArray v: RepeatedFieldType = v |> U2.Case1
-    let isScalarFieldTypeArray (v: RepeatedFieldType) = match v with U2.Case1 _ -> true | _ -> false
-    let asScalarFieldTypeArray (v: RepeatedFieldType) = match v with U2.Case1 o -> Some o | _ -> None
-    let ofUint8ArrayArray v: RepeatedFieldType = v |> U2.Case2
-    let isUint8ArrayArray (v: RepeatedFieldType) = match v with U2.Case2 _ -> true | _ -> false
-    let asUint8ArrayArray (v: RepeatedFieldType) = match v with U2.Case2 o -> Some o | _ -> None
-
 type AnyFieldType =
     U3<ScalarFieldType, RepeatedFieldType, Uint8Array>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module AnyFieldType =
-    let ofScalarFieldType v: AnyFieldType = v |> U3.Case1
-    let isScalarFieldType (v: AnyFieldType) = match v with U3.Case1 _ -> true | _ -> false
-    let asScalarFieldType (v: AnyFieldType) = match v with U3.Case1 o -> Some o | _ -> None
-    let ofRepeatedFieldType v: AnyFieldType = v |> U3.Case2
-    let isRepeatedFieldType (v: AnyFieldType) = match v with U3.Case2 _ -> true | _ -> false
-    let asRepeatedFieldType (v: AnyFieldType) = match v with U3.Case2 o -> Some o | _ -> None
-    let ofUint8Array v: AnyFieldType = v |> U3.Case3
-    let isUint8Array (v: AnyFieldType) = match v with U3.Case3 _ -> true | _ -> false
-    let asUint8Array (v: AnyFieldType) = match v with U3.Case3 o -> Some o | _ -> None
-
 type FieldValue =
     U5<string, float, bool, Uint8Array, FieldValueArray> option
-
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module FieldValue =
-    let ofStringOption v: FieldValue = v |> Option.map U5.Case1
-    let ofString v: FieldValue = v |> U5.Case1 |> Some
-    let isString (v: FieldValue) = match v with None -> false | Some o -> match o with U5.Case1 _ -> true | _ -> false
-    let asString (v: FieldValue) = match v with None -> None | Some o -> match o with U5.Case1 o -> Some o | _ -> None
-    let ofFloatOption v: FieldValue = v |> Option.map U5.Case2
-    let ofFloat v: FieldValue = v |> U5.Case2 |> Some
-    let isFloat (v: FieldValue) = match v with None -> false | Some o -> match o with U5.Case2 _ -> true | _ -> false
-    let asFloat (v: FieldValue) = match v with None -> None | Some o -> match o with U5.Case2 o -> Some o | _ -> None
-    let ofBoolOption v: FieldValue = v |> Option.map U5.Case3
-    let ofBool v: FieldValue = v |> U5.Case3 |> Some
-    let isBool (v: FieldValue) = match v with None -> false | Some o -> match o with U5.Case3 _ -> true | _ -> false
-    let asBool (v: FieldValue) = match v with None -> None | Some o -> match o with U5.Case3 o -> Some o | _ -> None
-    let ofUint8ArrayOption v: FieldValue = v |> Option.map U5.Case4
-    let ofUint8Array v: FieldValue = v |> U5.Case4 |> Some
-    let isUint8Array (v: FieldValue) = match v with None -> false | Some o -> match o with U5.Case4 _ -> true | _ -> false
-    let asUint8Array (v: FieldValue) = match v with None -> None | Some o -> match o with U5.Case4 o -> Some o | _ -> None
-    let ofFieldValueArrayOption v: FieldValue = v |> Option.map U5.Case5
-    let ofFieldValueArray v: FieldValue = v |> U5.Case5 |> Some
-    let isFieldValueArray (v: FieldValue) = match v with None -> false | Some o -> match o with U5.Case5 _ -> true | _ -> false
-    let asFieldValueArray (v: FieldValue) = match v with None -> None | Some o -> match o with U5.Case5 o -> Some o | _ -> None
 
 type [<AllowNullLiteral>] FieldValueArray =
     inherit Array<FieldValue>
@@ -132,7 +61,7 @@ type [<AllowNullLiteral>] MessageToObjectReturn =
 type [<AllowNullLiteral>] MessageStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Message
     abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> -> unit
-    abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> TypeLiteral_01) * ?includeInstance: bool -> Array<TypeLiteral_01>
+    abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> MessageStaticToObjectList) * ?includeInstance: bool -> Array<MessageStaticToObjectList>
     abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: MessageStaticToObjectExtensionExtensions * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
     abstract getField: msg: Message * fieldNumber: float -> FieldValue option
     abstract getOptionalFloatingPointField: msg: Message * fieldNumber: float -> float option
@@ -166,8 +95,8 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract deserializeBinaryFromReader: message: Message * reader: BinaryReader -> Message
     abstract serializeBinaryToWriter: message: Message * writer: BinaryWriter -> unit
     abstract toObject: includeInstance: bool * msg: Message -> MessageStaticToObjectReturn
-    abstract extensions: TypeLiteral_02 with get, set
-    abstract extensionsBinary: TypeLiteral_03 with get, set
+    abstract extensions: MessageStaticExtensions with get, set
+    abstract extensionsBinary: MessageStaticExtensionsBinary with get, set
 
 type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
     interface end
@@ -634,14 +563,14 @@ module Arith =
         [<Emit "new $0($1...)">] abstract Create: lo: float * hi: float -> Int64
         abstract fromString: str: string -> Int64
 
-type [<AllowNullLiteral>] TypeLiteral_01 =
+type [<AllowNullLiteral>] MessageStaticToObjectList =
     interface end
 
-type [<AllowNullLiteral>] TypeLiteral_03 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_02 =
+type [<AllowNullLiteral>] MessageStaticExtensions =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
+
+type [<AllowNullLiteral>] MessageStaticExtensionsBinary =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 module Jspb = ______index
 
 type [<AllowNullLiteral>] IExports =
@@ -655,8 +584,8 @@ type [<AllowNullLiteral>] Empty =
 type [<AllowNullLiteral>] EmptyStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Empty
     abstract toObject: includeInstance: bool * msg: Empty -> Empty.AsObject
-    abstract extensions: TypeLiteral_01 with get, set
-    abstract extensionsBinary: TypeLiteral_02 with get, set
+    abstract extensions: EmptyStaticExtensions with get, set
+    abstract extensionsBinary: EmptyStaticExtensionsBinary with get, set
     abstract serializeBinaryToWriter: message: Empty * writer: Jspb.BinaryWriter -> unit
     abstract deserializeBinary: bytes: Uint8Array -> Empty
     abstract deserializeBinaryFromReader: message: Empty * reader: Jspb.BinaryReader -> Empty
@@ -666,8 +595,8 @@ module Empty =
     type [<AllowNullLiteral>] AsObject =
         interface end
 
-type [<AllowNullLiteral>] TypeLiteral_02 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldBinaryInfo<Jspb.Message> with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_01 =
+type [<AllowNullLiteral>] EmptyStaticExtensions =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldInfo<Jspb.Message> with get, set
+
+type [<AllowNullLiteral>] EmptyStaticExtensionsBinary =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldBinaryInfo<Jspb.Message> with get, set

@@ -2,8 +2,8 @@
 module rec Mocha
 open System
 open Fable.Core
-open Fable.Import.JS
-open Fable.Import.Browser
+open Fable.Core.JS
+open Browser.Types
 
 let [<Import("*","mocha")>] mocha: Mocha = jsNative
 let [<Import("describe","mocha")>] describe: Mocha.IContextDefinition = jsNative
@@ -54,13 +54,13 @@ type [<AllowNullLiteral>] ReporterConstructorStatic =
 
 type [<AllowNullLiteral>] Mocha =
     abstract currentTest: Mocha.ITestDefinition with get, set
-    /// Setup mocha with the given options. 
+    /// Setup mocha with the given options.
     abstract setup: options: MochaSetupOptions -> Mocha
     abstract bail: ?value: bool -> Mocha
     abstract addFile: file: string -> Mocha
-    /// Sets reporter by name, defaults to "spec". 
+    /// Sets reporter by name, defaults to "spec".
     abstract reporter: name: string * ?reporterOptions: obj -> Mocha
-    /// Sets reporter constructor, defaults to mocha.reporters.Spec. 
+    /// Sets reporter constructor, defaults to mocha.reporters.Spec.
     abstract reporter: reporter: ReporterConstructor * ?reporterOptions: obj -> Mocha
     abstract ui: value: string -> Mocha
     abstract grep: value: string -> Mocha
@@ -72,7 +72,7 @@ type [<AllowNullLiteral>] Mocha =
     /// This is useful when running tests in a browser because window.onerror will
     /// only receive the 'message' attribute of the Error.
     abstract throwError: error: Error -> unit
-    /// Enables growl support. 
+    /// Enables growl support.
     abstract growl: unit -> Mocha
     abstract globals: value: string -> Mocha
     abstract globals: values: ResizeArray<string> -> Mocha
@@ -83,7 +83,7 @@ type [<AllowNullLiteral>] Mocha =
     abstract enableTimeouts: value: bool -> Mocha
     abstract asyncOnly: value: bool -> Mocha
     abstract noHighlighting: value: bool -> Mocha
-    /// Runs tests and invokes `onComplete()` when finished. 
+    /// Runs tests and invokes `onComplete()` when finished.
     abstract run: ?onComplete: (float -> unit) -> Mocha.IRunner
 
 type [<AllowNullLiteral>] MochaStatic =
@@ -118,7 +118,7 @@ module Mocha =
         abstract slow: ms: float -> ITestCallbackContext
         [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
 
-    /// Partial interface for Mocha's `Runnable` class. 
+    /// Partial interface for Mocha's `Runnable` class.
     type [<AllowNullLiteral>] IRunnable =
         abstract title: string with get, set
         abstract fn: Function with get, set
@@ -128,18 +128,18 @@ module Mocha =
         abstract timeout: n: U2<float, string> -> IRunnable
         abstract duration: float option with get, set
 
-    /// Partial interface for Mocha's `Suite` class. 
+    /// Partial interface for Mocha's `Suite` class.
     type [<AllowNullLiteral>] ISuite =
         abstract parent: ISuite with get, set
         abstract title: string with get, set
         abstract fullTitle: unit -> string
 
-    /// Partial interface for Mocha's `Test` class. 
+    /// Partial interface for Mocha's `Test` class.
     type [<AllowNullLiteral>] ITest =
         inherit IRunnable
         abstract parent: ISuite with get, set
         abstract pending: bool with get, set
-        abstract state: U2<string, string> option with get, set
+        abstract state: ITestState with get, set
         abstract fullTitle: unit -> string
 
     type [<AllowNullLiteral>] IBeforeAndAfterContext =
@@ -156,7 +156,7 @@ module Mocha =
         abstract ``end``: DateTime option with get, set
         abstract duration: DateTime option with get, set
 
-    /// Partial interface for Mocha's `Runner` class. 
+    /// Partial interface for Mocha's `Runner` class.
     type [<AllowNullLiteral>] IRunner =
         abstract stats: IStats option with get, set
         abstract started: bool with get, set
@@ -180,7 +180,7 @@ module Mocha =
         abstract only: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
         abstract skip: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> unit
         abstract timeout: ms: U2<float, string> -> unit
-        abstract state: U2<string, string> with get, set
+        abstract state: ITestState with get, set
 
     module Reporters =
 
@@ -310,3 +310,7 @@ module Mocha =
 
         type [<AllowNullLiteral>] XUnitStatic =
             [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: obj -> XUnit
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ITestState =
+        | Failed
+        | Passed

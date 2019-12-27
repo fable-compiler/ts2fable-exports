@@ -2,10 +2,10 @@
 module rec Breeze
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
-let [<Import("config","breeze-client")>] config: Config.IExports = jsNative
 let [<Import("core","breeze-client")>] core: Core.IExports = jsNative
+let [<Import("config","breeze-client")>] config: Config.IExports = jsNative
 let [<Import("DataType","breeze-client")>] DataType: DataType = jsNative
 let [<Import("EntityAction","breeze-client")>] EntityAction: EntityAction = jsNative
 let [<Import("EntityState","breeze-client")>] EntityState: EntityState = jsNative
@@ -86,13 +86,13 @@ module Core =
         abstract stringStartsWith: str: string * prefix: string -> bool
         abstract stringEndsWith: str: string * suffix: string -> bool
         abstract formatString: format: string * [<ParamArray>] args: ResizeArray<obj option> -> string
-        /// Change text to title case with spaces, e.g. 'myPropertyName12' to 'My Property Name 12' 
+        /// Change text to title case with spaces, e.g. 'myPropertyName12' to 'My Property Name 12'
         abstract titleCase: str: string -> string
-        /// Return the ES5 property descriptor for the property, which may be on a prototype of the object 
+        /// Return the ES5 property descriptor for the property, which may be on a prototype of the object
         abstract getPropertyDescriptor: obj: obj option * propertyName: string -> PropertyDescriptor
-        /// safely perform toJSON logic on objects with cycles.  Replacer function can map or exclude properties. 
+        /// safely perform toJSON logic on objects with cycles.  Replacer function can map or exclude properties.
         abstract toJSONSafe: obj: obj option * ?replacer: (string -> obj option -> obj option) -> obj option
-        /// Default value replacer for toJSONSafe.  Replaces entityAspect and other internal properties with undefined. 
+        /// Default value replacer for toJSONSafe.  Replaces entityAspect and other internal properties with undefined.
         abstract toJSONSafeReplacer: prop: string * ``val``: obj option -> obj option
 
     type [<AllowNullLiteral>] ErrorCallback =
@@ -305,22 +305,22 @@ type [<AllowNullLiteral>] DeletedEntityKeyStatic =
 
 type [<AllowNullLiteral>] JsonResultsAdapter =
     abstract name: string with get, set
-    abstract extractResults: (TypeLiteral_01 -> TypeLiteral_01) with get, set
-    abstract extractSaveResults: (TypeLiteral_01 -> ResizeArray<obj option>) with get, set
-    abstract extractKeyMappings: (TypeLiteral_01 -> ResizeArray<KeyMapping>) with get, set
-    abstract extractDeletedKeys: (TypeLiteral_01 -> ResizeArray<DeletedEntityKey>) with get, set
-    abstract visitNode: (TypeLiteral_01 -> QueryContext -> NodeContext -> TypeLiteral_02) with get, set
+    abstract extractResults: (JsonResultsAdapterExtractResults -> JsonResultsAdapterExtractResults) with get, set
+    abstract extractSaveResults: (JsonResultsAdapterExtractResults -> ResizeArray<obj option>) with get, set
+    abstract extractKeyMappings: (JsonResultsAdapterExtractResults -> ResizeArray<KeyMapping>) with get, set
+    abstract extractDeletedKeys: (JsonResultsAdapterExtractResults -> ResizeArray<DeletedEntityKey>) with get, set
+    abstract visitNode: (JsonResultsAdapterExtractResults -> QueryContext -> NodeContext -> JsonResultsAdapterVisitNode) with get, set
 
 type [<AllowNullLiteral>] JsonResultsAdapterStatic =
     [<Emit "new $0($1...)">] abstract Create: config: JsonResultsAdapterStaticConfig -> JsonResultsAdapter
 
 type [<AllowNullLiteral>] JsonResultsAdapterStaticConfig =
     abstract name: string with get, set
-    abstract extractResults: (TypeLiteral_01 -> TypeLiteral_01) option with get, set
-    abstract extractSaveResults: (TypeLiteral_01 -> ResizeArray<obj option>) option with get, set
-    abstract extractKeyMappings: (TypeLiteral_01 -> ResizeArray<KeyMapping>) option with get, set
-    abstract extractDeletedKeys: (TypeLiteral_01 -> ResizeArray<DeletedEntityKey>) option with get, set
-    abstract visitNode: (TypeLiteral_01 -> QueryContext -> NodeContext -> TypeLiteral_02) with get, set
+    abstract extractResults: (JsonResultsAdapterExtractResults -> JsonResultsAdapterExtractResults) option with get, set
+    abstract extractSaveResults: (JsonResultsAdapterExtractResults -> ResizeArray<obj option>) option with get, set
+    abstract extractKeyMappings: (JsonResultsAdapterExtractResults -> ResizeArray<KeyMapping>) option with get, set
+    abstract extractDeletedKeys: (JsonResultsAdapterExtractResults -> ResizeArray<DeletedEntityKey>) option with get, set
+    abstract visitNode: (JsonResultsAdapterExtractResults -> QueryContext -> NodeContext -> JsonResultsAdapterVisitNode) with get, set
 
 type [<AllowNullLiteral>] QueryContext =
     abstract url: string with get, set
@@ -342,17 +342,17 @@ type [<AllowNullLiteral>] DataTypeSymbol =
     abstract isNumeric: bool option with get, set
     abstract quoteJsonOData: bool option with get, set
     abstract validatorCtor: (obj option -> Validator) with get, set
-    /// Function to convert a value from string to this DataType.  Note that this will be called each time a property is changed, so make it fast. 
+    /// Function to convert a value from string to this DataType.  Note that this will be called each time a property is changed, so make it fast.
     abstract parse: (obj option -> string -> obj option) option with get, set
-    /// Function to format this DataType for OData queries. 
+    /// Function to format this DataType for OData queries.
     abstract fmtOData: (obj option -> obj option) with get, set
-    /// Optional function to get the next value for key generation, if this datatype is used as a key.  Uses an internal table of previous values. 
+    /// Optional function to get the next value for key generation, if this datatype is used as a key.  Uses an internal table of previous values.
     abstract getNext: (unit -> obj option) option with get, set
-    /// Optional function to normalize a data value for comparison, if its value cannot be used directly.  Note that this will be called each time a property is changed, so make it fast. 
+    /// Optional function to normalize a data value for comparison, if its value cannot be used directly.  Note that this will be called each time a property is changed, so make it fast.
     abstract normalize: (obj option -> obj option) option with get, set
-    /// Optional function to get the next value when the datatype is used as a concurrency property. 
+    /// Optional function to get the next value when the datatype is used as a concurrency property.
     abstract getConcurrencyValue: (obj option -> obj option) option with get, set
-    /// Optional function to convert a raw (server) value from string to this DataType. 
+    /// Optional function to convert a raw (server) value from string to this DataType.
     abstract parseRawValue: (obj option -> obj option) option with get, set
 
 type [<AllowNullLiteral>] DataTypeSymbolStatic =
@@ -375,7 +375,7 @@ type [<AllowNullLiteral>] DataType =
     abstract String: DataTypeSymbol with get, set
     abstract Time: DataTypeSymbol with get, set
     abstract Undefined: DataTypeSymbol with get, set
-    abstract constants: TypeLiteral_03 with get, set
+    abstract constants: DataTypeConstants with get, set
     abstract fromEdmDataType: typeName: string -> DataTypeSymbol
     abstract fromValue: ``val``: obj option -> DataTypeSymbol
     abstract getComparableFn: dataType: DataTypeSymbol -> (obj option -> obj option)
@@ -566,7 +566,7 @@ type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig =
 
 type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn =
     abstract entities: ResizeArray<Entity> with get, set
-    abstract tempKeyMapping: TypeLiteral_04 with get, set
+    abstract tempKeyMapping: EntityManagerImportEntitiesReturnTempKeyMapping with get, set
 
 type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig_ =
     abstract mergeAdds: bool option with get, set
@@ -575,7 +575,7 @@ type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig_ =
 
 type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn_ =
     abstract entities: ResizeArray<Entity> with get, set
-    abstract tempKeyMapping: TypeLiteral_04 with get, set
+    abstract tempKeyMapping: EntityManagerImportEntitiesReturnTempKeyMapping with get, set
 
 type [<AllowNullLiteral>] EntityManagerStatic =
     [<Emit "new $0($1...)">] abstract Create: ?config: EntityManagerOptions -> EntityManager
@@ -719,7 +719,7 @@ type [<AllowNullLiteral>] EntityQuery =
 
 type [<AllowNullLiteral>] EntityQueryStatic =
     [<Emit "new $0($1...)">] abstract Create: ?resourceName: string -> EntityQuery
-    /// Create query from an expression tree 
+    /// Create query from an expression tree
     [<Emit "new $0($1...)">] abstract Create: tree: Object -> EntityQuery
     abstract from: resourceName: string -> EntityQuery
     abstract fromEntities: entity: Entity -> EntityQuery
@@ -994,7 +994,7 @@ type [<AllowNullLiteral>] PredicateMethod =
 type [<AllowNullLiteral>] QueryOptions =
     abstract fetchStrategy: FetchStrategySymbol with get, set
     abstract mergeStrategy: MergeStrategySymbol with get, set
-    /// Whether query should return cached deleted entities (false by default) 
+    /// Whether query should return cached deleted entities (false by default)
     abstract includeDeleted: bool with get, set
     abstract setAsDefault: unit -> unit
     abstract using: config: QueryOptionsConfiguration -> QueryOptions
@@ -1018,17 +1018,17 @@ type [<AllowNullLiteral>] HttpResponse =
     abstract getHeaders: headerName: string -> string
 
 type [<AllowNullLiteral>] QueryResult =
-    /// Top level entities returned 
+    /// Top level entities returned
     abstract results: ResizeArray<Entity> with get, set
-    /// Query that was executed 
+    /// Query that was executed
     abstract query: EntityQuery with get, set
-    /// Raw response from the server 
+    /// Raw response from the server
     abstract httpResponse: HttpResponse with get, set
-    /// EntityManager that executed the query 
+    /// EntityManager that executed the query
     abstract entityManager: EntityManager option with get, set
-    /// Total number of results available on the server 
+    /// Total number of results available on the server
     abstract inlineCount: float option with get, set
-    /// All entities returned by the query.  Differs from results when an expand is used. 
+    /// All entities returned by the query.  Differs from results when an expand is used.
     abstract retrievedEntities: ResizeArray<Entity> option with get, set
 
 type [<AllowNullLiteral>] SaveOptions =
@@ -1101,7 +1101,7 @@ type [<AllowNullLiteral>] Validator =
     /// <summary>Run this validator against the specified value.</summary>
     /// <param name="value">Value to validate</param>
     abstract validate: value: obj option * ?context: obj -> ValidationError
-    /// Returns the message generated by the most recent execution of this Validator. 
+    /// Returns the message generated by the most recent execution of this Validator.
     abstract getMessage: unit -> string
 
 type [<AllowNullLiteral>] ValidatorStatic =
@@ -1109,46 +1109,46 @@ type [<AllowNullLiteral>] ValidatorStatic =
     abstract messageTemplates: obj option with get, set
     [<Emit "new $0($1...)">] abstract Create: name: string * validatorFn: ValidatorFunction * ?context: obj -> Validator
     abstract bool: unit -> Validator
-    /// integer between 0 and 255 inclusive 
+    /// integer between 0 and 255 inclusive
     abstract byte: ?context: ValidatorStaticByteContext -> Validator
     abstract date: unit -> Validator
-    /// Returns a ISO 8601 duration string Validator. 
+    /// Returns a ISO 8601 duration string Validator.
     abstract duration: unit -> Validator
-    /// Validators number, double, and single are all the same 
+    /// Validators number, double, and single are all the same
     abstract number: ?context: ValidatorStaticNumberContext -> Validator
-    /// Validators number, double, and single are all the same 
+    /// Validators number, double, and single are all the same
     abstract double: ?context: ValidatorStaticDoubleContext -> Validator
-    /// Validators number, double, and single are all the same 
+    /// Validators number, double, and single are all the same
     abstract single: ?context: ValidatorStaticSingleContext -> Validator
     abstract guid: unit -> Validator
     abstract int16: ?context: ValidatorStaticInt16Context -> Validator
     abstract int32: ?context: ValidatorStaticInt32Context -> Validator
     abstract int64: ?context: ValidatorStaticInt64Context -> Validator
-    /// Same as int64 
+    /// Same as int64
     abstract integer: ?context: ValidatorStaticIntegerContext -> Validator
     abstract maxLength: context: ValidatorStaticMaxLengthContext -> Validator
     abstract required: ?context: ValidatorStaticRequiredContext -> Validator
     abstract string: unit -> Validator
     abstract stringLength: context: ValidatorStaticStringLengthContext -> Validator
-    /// Returns a credit card number validator that performs a Luhn algorithm checksum test for plausability 
+    /// Returns a credit card number validator that performs a Luhn algorithm checksum test for plausability
     abstract creditCard: ?context: ValidatorStaticCreditCardContext -> Validator
-    /// Returns a regular expression validator; the expression must be specified in the context parameter 
+    /// Returns a regular expression validator; the expression must be specified in the context parameter
     abstract regularExpression: context: ValidatorStaticRegularExpressionContext -> Validator
-    /// Returns the email address validator 
+    /// Returns the email address validator
     abstract emailAddress: ?context: ValidatorStaticEmailAddressContext -> Validator
-    /// Returns the phone validator, which handles prefix, country code, area code, and local number, with [-/. ] break characters. 
+    /// Returns the phone validator, which handles prefix, country code, area code, and local number, with [-/. ] break characters.
     abstract phone: ?context: ValidatorStaticPhoneContext -> Validator
-    /// Returns the URL (protocol required) validator 
+    /// Returns the URL (protocol required) validator
     abstract url: ?context: ValidatorStaticUrlContext -> Validator
-    /// Always returns true 
+    /// Always returns true
     abstract none: unit -> Validator
-    /// Creates a validator instance from a JSON object or an array of instances from an array of JSON objects. 
+    /// Creates a validator instance from a JSON object or an array of instances from an array of JSON objects.
     abstract fromJSON: json: string -> Validator
-    /// Register a validator instance so that any deserialized metadata can reference it. 
+    /// Register a validator instance so that any deserialized metadata can reference it.
     abstract register: validator: Validator -> unit
-    /// Register a validator factory so that any deserialized metadata can reference it.  
+    /// Register a validator factory so that any deserialized metadata can reference it.
     abstract registerFactory: fn: (obj -> Validator) * name: string -> unit
-    /// Creates a regular expression validator with a fixed expression. 
+    /// Creates a regular expression validator with a fixed expression.
     abstract makeRegExpValidator: validatorName: string * expression: RegExp * defaultMessage: string * ?context: obj -> Validator
 
 type [<AllowNullLiteral>] ValidatorStaticByteContext =
@@ -1237,8 +1237,7 @@ module Config =
         /// <param name="adapterName">- The name of a previously registered adapter to initialize.</param>
         /// <param name="isDefault">=true {Boolean} - Whether to make this the default "adapter" for this interface.</param>
         abstract initializeAdapterInstance: interfaceName: string * adapterName: string * ?isDefault: bool -> Object
-        /// <summary>Initializes a collection of adapter implementations and makes each one the default for its corresponding interface.</summary>
-        /// <param name="config"></param>
+        /// Initializes a collection of adapter implementations and makes each one the default for its corresponding interface.
         abstract initializeAdapterInstances: config: AdapterInstancesConfig -> ResizeArray<Object>
         abstract interfaceInitialized: Event
         abstract interfaceRegistry: Object
@@ -1251,19 +1250,19 @@ module Config =
         abstract registerFunction: fn: Function * fnName: string -> unit
         abstract registerType: ctor: Function * typeName: string -> unit
         /// <summary>Set the promise implementation, if Q.js is not found.</summary>
-        /// <param name="q">- implementation of promise.  </param>
+        /// <param name="q">- implementation of promise.</param>
         abstract setQ: q: Promises.IPromiseService -> unit
         abstract stringifyPad: string
         abstract typeRegistry: Object
 
     type [<AllowNullLiteral>] AdapterInstancesConfig =
-        /// the name of a previously registered "ajax" adapter 
+        /// the name of a previously registered "ajax" adapter
         abstract ajax: string option with get, set
-        /// the name of a previously registered "dataService" adapter 
+        /// the name of a previously registered "dataService" adapter
         abstract dataService: string option with get, set
-        /// the name of a previously registered "modelLibrary" adapter 
+        /// the name of a previously registered "modelLibrary" adapter
         abstract modelLibary: string option with get, set
-        /// the name of a previously registered "uriBuilder" adapter 
+        /// the name of a previously registered "uriBuilder" adapter
         abstract uriBuilder: string option with get, set
 
 module Promises =
@@ -1279,19 +1278,19 @@ module Promises =
         abstract resolve: ``object``: 'T -> Promise<'T>
         abstract resolve: ``object``: Promise<'T> -> Promise<'T>
 
-type [<AllowNullLiteral>] TypeLiteral_01 =
+type [<AllowNullLiteral>] JsonResultsAdapterExtractResults =
     interface end
 
-type [<AllowNullLiteral>] TypeLiteral_02 =
+type [<AllowNullLiteral>] JsonResultsAdapterVisitNode =
     abstract entityType: EntityType option with get, set
     abstract nodeId: obj option with get, set
     abstract nodeRefId: obj option with get, set
     abstract ignore: bool option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_03 =
+type [<AllowNullLiteral>] DataTypeConstants =
     abstract nextNumber: float with get, set
     abstract nextNumberIncrement: float with get, set
     abstract stringPrefix: string with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_04 =
+type [<AllowNullLiteral>] EntityManagerImportEntitiesReturnTempKeyMapping =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> EntityKey with get, set

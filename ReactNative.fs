@@ -2,12 +2,13 @@
 module rec ReactNative
 open System
 open Fable.Core
-open Fable.Import.JS
+open Fable.Core.JS
 
-let [<Import("addons","react-native")>] addons: Addons.IExports = jsNative
-let [<Import("Animated","react-native")>] animated: Animated.IExports = jsNative
+module PropTypes = Prop_types
 let [<Import("AppRegistry","react-native")>] appRegistry: AppRegistry.IExports = jsNative
 let [<Import("StyleSheet","react-native")>] styleSheet: StyleSheet.IExports = jsNative
+let [<Import("Animated","react-native")>] animated: Animated.IExports = jsNative
+let [<Import("addons","react-native")>] addons: Addons.IExports = jsNative
 let [<Import("TextBase","react-native")>] TextBase: obj = jsNative
 let [<Import("TextInputBase","react-native")>] TextInputBase: obj = jsNative
 let [<Import("ToolbarAndroidBase","react-native")>] ToolbarAndroidBase: obj = jsNative
@@ -90,10 +91,10 @@ let [<Import("Platform","react-native")>] Platform: PlatformStatic = jsNative
 let [<Import("PlatformIOS","react-native")>] PlatformIOS: PlatformIOSStatic = jsNative
 let [<Import("PixelRatio","react-native")>] PixelRatio: PixelRatioStatic = jsNative
 let [<Import("YellowBox","react-native")>] YellowBox: obj = jsNative
-let [<Import("ColorPropType","react-native")>] ColorPropType: React.Requireable<obj option> = jsNative
-let [<Import("EdgeInsetsPropType","react-native")>] EdgeInsetsPropType: React.Requireable<obj option> = jsNative
-let [<Import("PointPropType","react-native")>] PointPropType: React.Requireable<obj option> = jsNative
-let [<Import("ViewPropTypes","react-native")>] ViewPropTypes: React.Requireable<obj option> = jsNative
+let [<Import("ColorPropType","react-native")>] ColorPropType: React.Validator<string> = jsNative
+let [<Import("EdgeInsetsPropType","react-native")>] EdgeInsetsPropType: React.Validator<Insets> = jsNative
+let [<Import("PointPropType","react-native")>] PointPropType: React.Validator<PointPropType> = jsNative
+let [<Import("ViewPropTypes","react-native")>] ViewPropTypes: React.ValidationMap<ViewProps> = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract EventSubscription: EventSubscriptionStatic
@@ -195,7 +196,7 @@ type [<AllowNullLiteral>] IExports =
     /// 
     /// Common types are lined up with the appropriate prop differs with
     /// `TypeToDifferMap`.  Non-scalar types not in the map default to `deepDiffer`.
-    abstract requireNativeComponent: viewName: string * ?componentInterface: ComponentInterface<'P> * ?extraConfig: RequireNativeComponentExtraConfig -> React.ComponentClass<'P>
+    abstract requireNativeComponent: viewName: string * ?componentInterface: ComponentInterface<'P> * ?extraConfig: RequireNativeComponentExtraConfig -> React.ComponentClass<obj>
     abstract findNodeHandle: componentOrHandle: U3<float, React.Component<obj option, obj option>, React.ComponentClass<obj option>> option -> float option
     abstract processColor: color: obj option -> float
     abstract __spread: target: obj option * [<ParamArray>] sources: ResizeArray<obj option> -> obj option
@@ -208,7 +209,7 @@ type [<AllowNullLiteral>] IExports =
     abstract __DEV__: bool
 
 type [<AllowNullLiteral>] RequireNativeComponentExtraConfig =
-    abstract nativeOnly: obj option with get, set
+    abstract nativeOnly: 'NP option with get, set
 
 type Constructor<'T> =
     obj
@@ -392,7 +393,7 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     abstract focus: unit -> unit
     /// Removes focus from an input or view. This is the opposite of `focus()`.
     abstract blur: unit -> unit
-    abstract refs: TypeLiteral_03 with get, set
+    abstract refs: NativeMethodsMixinStaticRefs with get, set
 
 type [<AllowNullLiteral>] Runnable =
     [<Emit "$0($1...)">] abstract Invoke: appParameters: obj option -> unit
@@ -511,16 +512,16 @@ type [<AllowNullLiteral>] LayoutAnimationConfig =
 
 /// Automatically animates views to their new positions when the next layout happens.
 /// A common way to use this API is to call LayoutAnimation.configureNext before
-/// calling setState. 
+/// calling setState.
 type [<AllowNullLiteral>] LayoutAnimationStatic =
     /// Schedules an animation to happen on the next layout.
     abstract configureNext: (LayoutAnimationConfig -> (unit -> unit) -> unit) with get, set
-    /// Helper for creating a config for configureNext. 
+    /// Helper for creating a config for configureNext.
     abstract create: (float -> string -> string -> LayoutAnimationConfig) with get, set
     abstract Types: LayoutAnimationTypes with get, set
     abstract Properties: LayoutAnimationProperties with get, set
-    abstract configChecker: (TypeLiteral_04 -> obj option) with get, set
-    abstract Presets: TypeLiteral_05 with get, set
+    abstract configChecker: (LayoutAnimationStaticConfigChecker -> obj option) with get, set
+    abstract Presets: LayoutAnimationStaticPresets with get, set
     abstract easeInEaseOut: ((unit -> unit) -> unit) with get, set
     abstract linear: ((unit -> unit) -> unit) with get, set
     abstract spring: ((unit -> unit) -> unit) with get, set
@@ -534,9 +535,9 @@ type [<StringEnum>] [<RequireQualifiedAccess>] FlexAlignType =
 
 /// Flex Prop Types
 type [<AllowNullLiteral>] FlexStyle =
-    abstract alignContent: U6<string, string, string, string, string, string> option with get, set
+    abstract alignContent: FlexStyleAlignContent option with get, set
     abstract alignItems: FlexAlignType option with get, set
-    abstract alignSelf: U2<string, FlexAlignType> option with get, set
+    abstract alignSelf: U2<FlexAlignType, string> option with get, set
     abstract aspectRatio: float option with get, set
     abstract borderBottomWidth: float option with get, set
     abstract borderEndWidth: U2<float, string> option with get, set
@@ -546,16 +547,16 @@ type [<AllowNullLiteral>] FlexStyle =
     abstract borderTopWidth: float option with get, set
     abstract borderWidth: float option with get, set
     abstract bottom: U2<float, string> option with get, set
-    abstract display: U2<string, string> option with get, set
+    abstract display: FlexStyleDisplay option with get, set
     abstract ``end``: U2<float, string> option with get, set
     abstract flex: float option with get, set
     abstract flexBasis: U2<float, string> option with get, set
-    abstract flexDirection: U4<string, string, string, string> option with get, set
+    abstract flexDirection: FlexStyleFlexDirection option with get, set
     abstract flexGrow: float option with get, set
     abstract flexShrink: float option with get, set
-    abstract flexWrap: U3<string, string, string> option with get, set
+    abstract flexWrap: FlexStyleFlexWrap option with get, set
     abstract height: U2<float, string> option with get, set
-    abstract justifyContent: U6<string, string, string, string, string, string> option with get, set
+    abstract justifyContent: FlexStyleJustifyContent option with get, set
     abstract left: U2<float, string> option with get, set
     abstract margin: U2<float, string> option with get, set
     abstract marginBottom: U2<float, string> option with get, set
@@ -570,7 +571,7 @@ type [<AllowNullLiteral>] FlexStyle =
     abstract maxWidth: U2<float, string> option with get, set
     abstract minHeight: U2<float, string> option with get, set
     abstract minWidth: U2<float, string> option with get, set
-    abstract overflow: U3<string, string, string> option with get, set
+    abstract overflow: FlexStyleOverflow option with get, set
     abstract padding: U2<float, string> option with get, set
     abstract paddingBottom: U2<float, string> option with get, set
     abstract paddingEnd: U2<float, string> option with get, set
@@ -580,19 +581,19 @@ type [<AllowNullLiteral>] FlexStyle =
     abstract paddingStart: U2<float, string> option with get, set
     abstract paddingTop: U2<float, string> option with get, set
     abstract paddingVertical: U2<float, string> option with get, set
-    abstract position: U2<string, string> option with get, set
+    abstract position: FlexStylePosition option with get, set
     abstract right: U2<float, string> option with get, set
     abstract start: U2<float, string> option with get, set
     abstract top: U2<float, string> option with get, set
     abstract width: U2<float, string> option with get, set
     abstract zIndex: float option with get, set
-    abstract direction: U3<string, string, string> option with get, set
+    abstract direction: FlexStyleDirection option with get, set
 
 type [<AllowNullLiteral>] ShadowPropTypesIOSStatic =
     /// Sets the drop shadow color
     abstract shadowColor: string with get, set
     /// Sets the drop shadow offset
-    abstract shadowOffset: TypeLiteral_06 with get, set
+    abstract shadowOffset: ShadowPropTypesIOSStaticShadowOffset with get, set
     /// Sets the drop shadow opacity (multiplied by the color's alpha component)
     abstract shadowOpacity: float with get, set
     /// Sets the drop shadow blur radius
@@ -609,7 +610,7 @@ type [<AllowNullLiteral>] GeoOptions =
     abstract useSignificantChanges: bool option with get, set
 
 type [<AllowNullLiteral>] GeolocationReturnType =
-    abstract coords: TypeLiteral_07 with get, set
+    abstract coords: GeolocationReturnTypeCoords with get, set
     abstract timestamp: float with get, set
 
 type [<AllowNullLiteral>] GeolocationError =
@@ -675,19 +676,19 @@ type [<AllowNullLiteral>] LayoutRectangle =
     abstract height: float with get, set
 
 type [<AllowNullLiteral>] LayoutChangeEvent =
-    abstract nativeEvent: TypeLiteral_08 with get, set
+    abstract nativeEvent: LayoutChangeEventNativeEvent with get, set
 
 type [<AllowNullLiteral>] TextStyleIOS =
     inherit ViewStyle
     abstract letterSpacing: float option with get, set
     abstract textDecorationColor: string option with get, set
-    abstract textDecorationStyle: U4<string, string, string, string> option with get, set
-    abstract textTransform: U4<string, string, string, string> option with get, set
-    abstract writingDirection: U3<string, string, string> option with get, set
+    abstract textDecorationStyle: TextStyleIOSTextDecorationStyle option with get, set
+    abstract textTransform: TextStyleIOSTextTransform option with get, set
+    abstract writingDirection: TextStyleIOSWritingDirection option with get, set
 
 type [<AllowNullLiteral>] TextStyleAndroid =
     inherit ViewStyle
-    abstract textAlignVertical: U4<string, string, string, string> option with get, set
+    abstract textAlignVertical: TextStyleAndroidTextAlignVertical option with get, set
     abstract includeFontPadding: bool option with get, set
 
 type [<AllowNullLiteral>] TextStyle =
@@ -697,19 +698,19 @@ type [<AllowNullLiteral>] TextStyle =
     abstract color: string option with get, set
     abstract fontFamily: string option with get, set
     abstract fontSize: float option with get, set
-    abstract fontStyle: U2<string, string> option with get, set
+    abstract fontStyle: TextStyleFontStyle option with get, set
     /// Specifies font weight. The values 'normal' and 'bold' are supported
     /// for most fonts. Not all fonts have a variant for each of the numeric
     /// values, in that case the closest one is chosen.
-    abstract fontWeight: obj option with get, set
+    abstract fontWeight: TextStyleFontWeight option with get, set
     abstract letterSpacing: float option with get, set
     abstract lineHeight: float option with get, set
-    abstract textAlign: U5<string, string, string, string, string> option with get, set
-    abstract textDecorationLine: U4<string, string, string, string> option with get, set
-    abstract textDecorationStyle: U4<string, string, string, string> option with get, set
+    abstract textAlign: TextStyleTextAlign option with get, set
+    abstract textDecorationLine: TextStyleTextDecorationLine option with get, set
+    abstract textDecorationStyle: TextStyleIOSTextDecorationStyle option with get, set
     abstract textDecorationColor: string option with get, set
     abstract textShadowColor: string option with get, set
-    abstract textShadowOffset: TypeLiteral_06 option with get, set
+    abstract textShadowOffset: ShadowPropTypesIOSStaticShadowOffset option with get, set
     abstract textShadowRadius: float option with get, set
     abstract testID: string option with get, set
 
@@ -729,7 +730,7 @@ type [<AllowNullLiteral>] TextPropsAndroid =
     abstract selectionColor: string option with get, set
     /// Set text break strategy on Android API Level 23+
     /// default is `highQuality`.
-    abstract textBreakStrategy: U3<string, string, string> option with get, set
+    abstract textBreakStrategy: TextPropsAndroidTextBreakStrategy option with get, set
 
 type [<AllowNullLiteral>] TextProps =
     inherit TextPropsIOS
@@ -753,10 +754,10 @@ type [<AllowNullLiteral>] TextProps =
     /// `numberOfLines` must be set in conjunction with this prop.
     /// 
     /// > `clip` is working only for iOS
-    abstract ellipsizeMode: U4<string, string, string, string> option with get, set
+    abstract ellipsizeMode: TextPropsEllipsizeMode option with get, set
     /// Line Break mode. Works only with numberOfLines.
     /// clip is working only for iOS
-    abstract lineBreakMode: U4<string, string, string, string> option with get, set
+    abstract lineBreakMode: TextPropsEllipsizeMode option with get, set
     /// Used to truncate the text with an ellipsis after computing the text
     /// layout, including line wrapping, such that the total number of lines
     /// does not exceed this number.
@@ -783,21 +784,13 @@ type [<AllowNullLiteral>] TextComponent =
 
 /// A React component for displaying text which supports nesting, styling, and touch handling.
 type [<AllowNullLiteral>] TextComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TextComponentStaticValueIn -> TextComponent
-
-type [<AllowNullLiteral>] TextComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TextComponent
 
 type [<AllowNullLiteral>] Text =
     inherit TextBase
 
 type [<AllowNullLiteral>] TextStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TextStaticValueIn -> Text
-
-type [<AllowNullLiteral>] TextStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Text
 
 type [<StringEnum>] [<RequireQualifiedAccess>] DataDetectorTypes =
     | PhoneNumber
@@ -847,7 +840,7 @@ type [<AllowNullLiteral>] DocumentSelectionStateStatic =
 type [<AllowNullLiteral>] TextInputIOSProps =
     /// enum('never', 'while-editing', 'unless-editing', 'always')
     /// When the clear button should appear on the right side of the text view
-    abstract clearButtonMode: U4<string, string, string, string> option with get, set
+    abstract clearButtonMode: TextInputIOSPropsClearButtonMode option with get, set
     /// If true, clears the text field automatically when editing begins
     abstract clearTextOnFocus: bool option with get, set
     /// Determines the types of data converted to clickable URLs in the text input.
@@ -869,11 +862,48 @@ type [<AllowNullLiteral>] TextInputIOSProps =
     /// The default value is false.
     abstract enablesReturnKeyAutomatically: bool option with get, set
     /// Determines the color of the keyboard.
-    abstract keyboardAppearance: U3<string, string, string> option with get, set
+    abstract keyboardAppearance: TextInputIOSPropsKeyboardAppearance option with get, set
     /// See DocumentSelectionState.js, some state that is responsible for maintaining selection information for a document
     abstract selectionState: DocumentSelectionState option with get, set
     /// If false, disables spell-check style (i.e. red underlines). The default value is inherited from autoCorrect
     abstract spellCheck: bool option with get, set
+    /// Give the keyboard and the system information about the expected
+    /// semantic meaning for the content that users enter.
+    /// 
+    /// For iOS 11+ you can set `textContentType` to `username` or `password` to
+    /// enable autofill of login details from the device keychain.
+    /// 
+    /// To disable autofill, set textContentType to `none`.
+    /// 
+    /// Possible values for `textContentType` are:
+    /// 
+    ///   - `'none'`
+    ///   - `'URL'`
+    ///   - `'addressCity'`
+    ///   - `'addressCityAndState'`
+    ///   - `'addressState'`
+    ///   - `'countryName'`
+    ///   - `'creditCardNumber'`
+    ///   - `'emailAddress'`
+    ///   - `'familyName'`
+    ///   - `'fullStreetAddress'`
+    ///   - `'givenName'`
+    ///   - `'jobTitle'`
+    ///   - `'location'`
+    ///   - `'middleName'`
+    ///   - `'name'`
+    ///   - `'namePrefix'`
+    ///   - `'nameSuffix'`
+    ///   - `'nickname'`
+    ///   - `'organizationName'`
+    ///   - `'postalCode'`
+    ///   - `'streetAddressLine1'`
+    ///   - `'streetAddressLine2'`
+    ///   - `'sublocality'`
+    ///   - `'telephoneNumber'`
+    ///   - `'username'`
+    ///   - `'password'`
+    abstract textContentType: TextInputIOSPropsTextContentType option with get, set
 
 /// Android Specific properties for TextInput
 type [<AllowNullLiteral>] TextInputAndroidProps =
@@ -893,7 +923,7 @@ type [<AllowNullLiteral>] TextInputAndroidProps =
     abstract returnKeyLabel: string option with get, set
     /// Set text break strategy on Android API Level 23+, possible values are simple, highQuality, balanced
     /// The default value is simple.
-    abstract textBreakStrategy: U3<string, string, string> option with get, set
+    abstract textBreakStrategy: TextPropsAndroidTextBreakStrategy option with get, set
     /// The color of the textInput underline.
     abstract underlineColorAndroid: string option with get, set
 
@@ -919,18 +949,6 @@ type KeyboardTypeAndroid =
 type KeyboardTypeOptions =
     U3<KeyboardType, KeyboardTypeAndroid, KeyboardTypeIOS>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module KeyboardTypeOptions =
-    let ofKeyboardType v: KeyboardTypeOptions = v |> U3.Case1
-    let isKeyboardType (v: KeyboardTypeOptions) = match v with U3.Case1 _ -> true | _ -> false
-    let asKeyboardType (v: KeyboardTypeOptions) = match v with U3.Case1 o -> Some o | _ -> None
-    let ofKeyboardTypeAndroid v: KeyboardTypeOptions = v |> U3.Case2
-    let isKeyboardTypeAndroid (v: KeyboardTypeOptions) = match v with U3.Case2 _ -> true | _ -> false
-    let asKeyboardTypeAndroid (v: KeyboardTypeOptions) = match v with U3.Case2 o -> Some o | _ -> None
-    let ofKeyboardTypeIOS v: KeyboardTypeOptions = v |> U3.Case3
-    let isKeyboardTypeIOS (v: KeyboardTypeOptions) = match v with U3.Case3 _ -> true | _ -> false
-    let asKeyboardTypeIOS (v: KeyboardTypeOptions) = match v with U3.Case3 o -> Some o | _ -> None
-
 type [<StringEnum>] [<RequireQualifiedAccess>] ReturnKeyType =
     | Done
     | Go
@@ -953,28 +971,16 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ReturnKeyTypeIOS =
 type ReturnKeyTypeOptions =
     U3<ReturnKeyType, ReturnKeyTypeAndroid, ReturnKeyTypeIOS>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module ReturnKeyTypeOptions =
-    let ofReturnKeyType v: ReturnKeyTypeOptions = v |> U3.Case1
-    let isReturnKeyType (v: ReturnKeyTypeOptions) = match v with U3.Case1 _ -> true | _ -> false
-    let asReturnKeyType (v: ReturnKeyTypeOptions) = match v with U3.Case1 o -> Some o | _ -> None
-    let ofReturnKeyTypeAndroid v: ReturnKeyTypeOptions = v |> U3.Case2
-    let isReturnKeyTypeAndroid (v: ReturnKeyTypeOptions) = match v with U3.Case2 _ -> true | _ -> false
-    let asReturnKeyTypeAndroid (v: ReturnKeyTypeOptions) = match v with U3.Case2 o -> Some o | _ -> None
-    let ofReturnKeyTypeIOS v: ReturnKeyTypeOptions = v |> U3.Case3
-    let isReturnKeyTypeIOS (v: ReturnKeyTypeOptions) = match v with U3.Case3 _ -> true | _ -> false
-    let asReturnKeyTypeIOS (v: ReturnKeyTypeOptions) = match v with U3.Case3 o -> Some o | _ -> None
-
 type [<AllowNullLiteral>] TextInputFocusEventData =
     abstract target: float with get, set
     abstract text: string with get, set
     abstract eventCount: float with get, set
 
 type [<AllowNullLiteral>] TextInputScrollEventData =
-    abstract contentOffset: TypeLiteral_09 with get, set
+    abstract contentOffset: TextInputScrollEventDataContentOffset with get, set
 
 type [<AllowNullLiteral>] TextInputSelectionChangeEventData =
-    abstract selection: TypeLiteral_10 with get, set
+    abstract selection: TextInputSelectionChangeEventDataSelection with get, set
     abstract target: float with get, set
 
 type [<AllowNullLiteral>] TextInputKeyPressEventData =
@@ -986,7 +992,7 @@ type [<AllowNullLiteral>] TextInputChangeEventData =
     abstract text: string with get, set
 
 type [<AllowNullLiteral>] TextInputContentSizeChangeEventData =
-    abstract contentSize: TypeLiteral_06 with get, set
+    abstract contentSize: ShadowPropTypesIOSStaticShadowOffset with get, set
 
 type [<AllowNullLiteral>] TextInputEndEditingEventData =
     abstract text: string with get, set
@@ -1009,7 +1015,7 @@ type [<AllowNullLiteral>] TextInputProps =
     ///       none: don't auto capitalize anything
     /// 
     /// https://facebook.github.io/react-native/docs/textinput.html#autocapitalize
-    abstract autoCapitalize: U4<string, string, string, string> option with get, set
+    abstract autoCapitalize: TextInputPropsAutoCapitalize option with get, set
     /// If false, disables auto-correct.
     /// The default value is true.
     abstract autoCorrect: bool option with get, set
@@ -1021,6 +1027,8 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract blurOnSubmit: bool option with get, set
     /// If true, caret is hidden. The default value is false.
     abstract caretHidden: bool option with get, set
+    /// If true, context menu is hidden. The default value is false.
+    abstract contextMenuHidden: bool option with get, set
     /// Provides an initial value that will change when the user starts typing.
     /// Useful for simple use-cases where you don't want to deal with listening to events
     /// and updating the value prop to keep the controlled state in sync.
@@ -1087,7 +1095,7 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract selectTextOnFocus: bool option with get, set
     /// The start and end of the text input's selection. Set start and end to
     /// the same value to position the cursor.
-    abstract selection: TypeLiteral_11 option with get, set
+    abstract selection: TextInputPropsSelection option with get, set
     /// The highlight (and cursor on ios) color of the text input
     abstract selectionColor: string option with get, set
     /// Styles
@@ -1122,11 +1130,7 @@ type [<AllowNullLiteral>] TextInputComponent =
     inherit React.Component<TextInputProps>
 
 type [<AllowNullLiteral>] TextInputComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TextInputComponentStaticValueIn -> TextInputComponent
-
-type [<AllowNullLiteral>] TextInputComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TextInputComponent
 
 type [<AllowNullLiteral>] TextInput =
     inherit TextInputBase
@@ -1136,13 +1140,9 @@ type [<AllowNullLiteral>] TextInput =
     abstract clear: (unit -> unit) with get, set
 
 type [<AllowNullLiteral>] TextInputStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TextInputStaticValueIn -> TextInput
+    [<Emit "new $0($1...)">] abstract Create: unit -> TextInput
     /// Access the current focus state.
     abstract State: TextInputState with get, set
-
-type [<AllowNullLiteral>] TextInputStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] ToolbarAndroidAction =
     /// title: required, the title of this action
@@ -1150,7 +1150,7 @@ type [<AllowNullLiteral>] ToolbarAndroidAction =
     /// icon: the icon for this action, e.g. require('./some_icon.png')
     abstract icon: ImageURISource option with get, set
     /// show: when to show this action as an icon or hide it in the overflow menu: always, ifRoom or never
-    abstract show: U3<string, string, string> option with get, set
+    abstract show: ToolbarAndroidActionShow option with get, set
     /// showWithText: boolean, whether to show text alongside the icon or not
     abstract showWithText: bool option with get, set
 
@@ -1242,21 +1242,13 @@ type [<AllowNullLiteral>] ToolbarAndroidComponent =
 /// 
 /// [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
 type [<AllowNullLiteral>] ToolbarAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ToolbarAndroidComponentStaticValueIn -> ToolbarAndroidComponent
-
-type [<AllowNullLiteral>] ToolbarAndroidComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ToolbarAndroidComponent
 
 type [<AllowNullLiteral>] ToolbarAndroid =
     inherit ToolbarAndroidBase
 
 type [<AllowNullLiteral>] ToolbarAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ToolbarAndroidStaticValueIn -> ToolbarAndroid
-
-type [<AllowNullLiteral>] ToolbarAndroidStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ToolbarAndroid
 
 /// Gesture recognition on mobile devices is much more complicated than web.
 /// A touch can go through several phases as the app determines what the user's intention is.
@@ -1282,8 +1274,6 @@ type [<AllowNullLiteral>] ToolbarAndroidStaticValueIn =
 /// This uses the responder system and allows you to easily configure tap interactions declaratively.
 /// Use TouchableHighlight anywhere where you would use a button or link on web.
 type [<AllowNullLiteral>] GestureResponderHandlers =
-    /// A view can become the touch responder by implementing the correct negotiation methods.
-    /// There are two methods to ask the view if it wants to become responder:
     /// Does this view want to become responder on the start of a touch?
     abstract onStartShouldSetResponder: (GestureResponderEvent -> bool) option with get, set
     /// Called for every touch move on the View when it is not the responder: does this view want to "claim" touch responsiveness?
@@ -1295,7 +1285,6 @@ type [<AllowNullLiteral>] GestureResponderHandlers =
     abstract onResponderGrant: (GestureResponderEvent -> unit) option with get, set
     /// Something else is the responder right now and will not release it
     abstract onResponderReject: (GestureResponderEvent -> unit) option with get, set
-    /// If the view is responding, the following handlers can be called:
     /// The user is moving their finger
     abstract onResponderMove: (GestureResponderEvent -> unit) option with get, set
     /// Fired at the end of the touch, ie "touchUp"
@@ -1337,7 +1326,7 @@ type [<AllowNullLiteral>] ViewStyle =
     inherit FlexStyle
     inherit ShadowStyleIOS
     inherit TransformsStyle
-    abstract backfaceVisibility: U2<string, string> option with get, set
+    abstract backfaceVisibility: ViewStyleBackfaceVisibility option with get, set
     abstract backgroundColor: string option with get, set
     abstract borderBottomColor: string option with get, set
     abstract borderBottomEndRadius: float option with get, set
@@ -1353,7 +1342,7 @@ type [<AllowNullLiteral>] ViewStyle =
     abstract borderRightColor: string option with get, set
     abstract borderRightWidth: float option with get, set
     abstract borderStartColor: string option with get, set
-    abstract borderStyle: U3<string, string, string> option with get, set
+    abstract borderStyle: ViewStyleBorderStyle option with get, set
     abstract borderTopColor: string option with get, set
     abstract borderTopEndRadius: float option with get, set
     abstract borderTopLeftRadius: float option with get, set
@@ -1413,7 +1402,7 @@ type [<AllowNullLiteral>] ViewPropsAndroid =
     abstract renderToHardwareTextureAndroid: bool option with get, set
 
 type Falsy =
-    obj option
+    obj
 
 type [<AllowNullLiteral>] RecursiveArray<'T> =
     inherit Array<U2<'T, RecursiveArray<'T>>>
@@ -1423,21 +1412,6 @@ type [<AllowNullLiteral>] RegisteredStyle<'T> =
 
 type StyleProp<'T> =
     U4<'T, RegisteredStyle<'T>, RecursiveArray<U3<'T, RegisteredStyle<'T>, Falsy>>, Falsy>
-
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module StyleProp =
-    let ofT v: StyleProp<'T> = v |> U4.Case1
-    let isT (v: StyleProp<'T>) = match v with U4.Case1 _ -> true | _ -> false
-    let asT (v: StyleProp<'T>) = match v with U4.Case1 o -> Some o | _ -> None
-    let ofRegisteredStyle v: StyleProp<'T> = v |> U4.Case2
-    let isRegisteredStyle (v: StyleProp<'T>) = match v with U4.Case2 _ -> true | _ -> false
-    let asRegisteredStyle (v: StyleProp<'T>) = match v with U4.Case2 o -> Some o | _ -> None
-    let ofRecursiveArray v: StyleProp<'T> = v |> U4.Case3
-    let isRecursiveArray (v: StyleProp<'T>) = match v with U4.Case3 _ -> true | _ -> false
-    let asRecursiveArray (v: StyleProp<'T>) = match v with U4.Case3 o -> Some o | _ -> None
-    let ofFalsy v: StyleProp<'T> = v |> U4.Case4
-    let isFalsy (v: StyleProp<'T>) = match v with U4.Case4 _ -> true | _ -> false
-    let asFalsy (v: StyleProp<'T>) = match v with U4.Case4 o -> Some o | _ -> None
 
 type [<AllowNullLiteral>] AccessibilityProps =
     inherit AccessibilityPropsAndroid
@@ -1454,11 +1428,11 @@ type [<AllowNullLiteral>] AccessibilityPropsAndroid =
     /// If we were using native buttons, this would work automatically. Since we are using javascript, we need to
     /// provide a bit more context for TalkBack. To do so, you must specify the ‘accessibilityComponentType’ property
     /// for any UI component. For instances, we support ‘button’, ‘radiobutton_checked’ and ‘radiobutton_unchecked’ and so on.
-    abstract accessibilityComponentType: U4<string, string, string, string> option with get, set
+    abstract accessibilityComponentType: AccessibilityPropsAndroidAccessibilityComponentType option with get, set
     /// Indicates to accessibility services whether the user should be notified when this view changes.
     /// Works for Android API >= 19 only.
     /// See http://developer.android.com/reference/android/view/View.html#attr_android:accessibilityLiveRegion for references.
-    abstract accessibilityLiveRegion: U3<string, string, string> option with get, set
+    abstract accessibilityLiveRegion: AccessibilityPropsAndroidAccessibilityLiveRegion option with get, set
     /// Controls how view is important for accessibility which is if it fires accessibility events
     /// and if it is reported to accessibility services that query the screen.
     /// Works for Android only. See http://developer.android.com/reference/android/R.attr.html#importantForAccessibility for references.
@@ -1468,7 +1442,7 @@ type [<AllowNullLiteral>] AccessibilityPropsAndroid =
     ///       'yes' - The view is important for accessibility.
     ///       'no' - The view is not important for accessibility.
     ///       'no-hide-descendants' - The view is not important for accessibility, nor are any of its descendant views.
-    abstract importantForAccessibility: U4<string, string, string, string> option with get, set
+    abstract importantForAccessibility: AccessibilityPropsAndroidImportantForAccessibility option with get, set
 
 type [<AllowNullLiteral>] AccessibilityPropsIOS =
     /// A Boolean value indicating whether the accessibility elements contained within this accessibility element
@@ -1507,7 +1481,6 @@ type [<AllowNullLiteral>] ViewProps =
     inherit GestureResponderHandlers
     inherit Touchable
     inherit AccessibilityProps
-    inherit ViewStyle
     /// This defines how far a touch event can start away from the view.
     /// Typical interface guidelines recommend touch targets that are at least
     /// 30 - 40 points/density-independent pixels. If a Touchable view has
@@ -1541,7 +1514,7 @@ type [<AllowNullLiteral>] ViewProps =
     /// 
     /// But since pointerEvents does not affect layout/appearance, and we are already deviating from the spec by adding additional modes,
     /// we opt to not include pointerEvents on style. On some platforms, we would need to implement it as a className anyways. Using style or not is an implementation detail of the platform.
-    abstract pointerEvents: U4<string, string, string, string> option with get, set
+    abstract pointerEvents: ViewPropsPointerEvents option with get, set
     /// This is a special performance property exposed by RCTView and is useful for scrolling content when there are many subviews,
     /// most of which are offscreen. For this property to be effective, it must be applied to a view that contains many subviews that extend outside its bound.
     /// The subviews must also have overflow: hidden, as should the containing view (or one of its superviews).
@@ -1562,23 +1535,15 @@ type [<AllowNullLiteral>] ViewComponent =
 /// View maps directly to the native view equivalent on whatever platform React is running on,
 /// whether that is a UIView, <div>, android.view, etc.
 type [<AllowNullLiteral>] ViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ViewComponentStaticValueIn -> ViewComponent
-
-type [<AllowNullLiteral>] ViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ViewComponent
 
 type [<AllowNullLiteral>] View =
     inherit ViewBase
 
 type [<AllowNullLiteral>] ViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ViewStaticValueIn -> View
+    [<Emit "new $0($1...)">] abstract Create: unit -> View
     /// Is 3D Touch / Force Touch available (i.e. will touch events include `force`)
     abstract forceTouchAvailable: bool with get, set
-
-type [<AllowNullLiteral>] ViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] ViewPagerAndroidOnPageScrollEventData =
     abstract position: float with get, set
@@ -1614,11 +1579,11 @@ type [<AllowNullLiteral>] ViewPagerAndroidProps =
     /// - dragging, meaning there is currently an interaction with the page scroller
     /// - settling, meaning that there was an interaction with the page scroller, and the
     ///    page scroller is now finishing it's closing or opening animation
-    abstract onPageScrollStateChanged: (U3<string, string, string> -> unit) option with get, set
+    abstract onPageScrollStateChanged: (ViewPagerAndroidPropsOnPageScrollStateChanged -> unit) option with get, set
     /// Determines whether the keyboard gets dismissed in response to a drag.
     ///    - 'none' (the default), drags do not dismiss the keyboard.
     ///    - 'on-drag', the keyboard is dismissed when a drag begins.
-    abstract keyboardDismissMode: U2<string, string> option with get, set
+    abstract keyboardDismissMode: ViewPagerAndroidPropsKeyboardDismissMode option with get, set
     /// Blank space to show between pages. This is only visible while scrolling, pages are still
     /// edge-to-edge.
     abstract pageMargin: float option with get, set
@@ -1627,11 +1592,7 @@ type [<AllowNullLiteral>] ViewPagerAndroidComponent =
     inherit React.Component<ViewPagerAndroidProps>
 
 type [<AllowNullLiteral>] ViewPagerAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ViewPagerAndroidComponentStaticValueIn -> ViewPagerAndroidComponent
-
-type [<AllowNullLiteral>] ViewPagerAndroidComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ViewPagerAndroidComponent
 
 type [<AllowNullLiteral>] ViewPagerAndroid =
     inherit ViewPagerAndroidBase
@@ -1643,11 +1604,7 @@ type [<AllowNullLiteral>] ViewPagerAndroid =
     abstract setPageWithoutAnimation: selectedPage: float -> unit
 
 type [<AllowNullLiteral>] ViewPagerAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ViewPagerAndroidStaticValueIn -> ViewPagerAndroid
-
-type [<AllowNullLiteral>] ViewPagerAndroidStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ViewPagerAndroid
 
 /// It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard.
 /// It can automatically adjust either its position or bottom padding based on the position of the keyboard.
@@ -1657,30 +1614,26 @@ type [<AllowNullLiteral>] KeyboardAvoidingViewComponent =
 /// It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard.
 /// It can automatically adjust either its position or bottom padding based on the position of the keyboard.
 type [<AllowNullLiteral>] KeyboardAvoidingViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: KeyboardAvoidingViewComponentStaticValueIn -> KeyboardAvoidingViewComponent
-
-type [<AllowNullLiteral>] KeyboardAvoidingViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> KeyboardAvoidingViewComponent
 
 type [<AllowNullLiteral>] KeyboardAvoidingView =
     inherit KeyboardAvoidingViewBase
 
 type [<AllowNullLiteral>] KeyboardAvoidingViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: KeyboardAvoidingViewStaticValueIn -> KeyboardAvoidingView
-
-type [<AllowNullLiteral>] KeyboardAvoidingViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> KeyboardAvoidingView
 
 type [<AllowNullLiteral>] KeyboardAvoidingViewProps =
     inherit ViewProps
-    abstract behavior: U3<string, string, string> option with get, set
+    abstract behavior: KeyboardAvoidingViewPropsBehavior option with get, set
     /// The style of the content container(View) when behavior is 'position'.
     abstract contentContainerStyle: StyleProp<ViewStyle> option with get, set
     /// This is the distance between the top of the user screen and the react native view,
     /// may be non-zero in some use cases.
     abstract keyboardVerticalOffset: float option with get, set
+    /// Enables or disables the KeyboardAvoidingView.
+    /// 
+    /// Default is true
+    abstract enabled: bool option with get, set
 
 /// //FIXME: No documentation extracted from code comment on WebView.ios.js
 type [<AllowNullLiteral>] NavState =
@@ -1709,7 +1662,7 @@ type [<AllowNullLiteral>] WebViewPropsAndroid =
     /// 'never' (default) - WebView will not allow a secure origin to load content from an insecure origin.
     /// 'always' - WebView will allow a secure origin to load content from any other origin, even if that origin is insecure.
     /// 'compatibility' - WebView will attempt to be compatible with the approach of a modern web browser with regard to mixed content.
-    abstract mixedContentMode: U3<string, string, string> option with get, set
+    abstract mixedContentMode: WebViewPropsAndroidMixedContentMode option with get, set
     /// Controls whether form autocomplete data should be saved
     abstract saveFormDataDisabled: bool option with get, set
 
@@ -1720,7 +1673,7 @@ type [<AllowNullLiteral>] WebViewIOSLoadRequestEvent =
     abstract loading: bool with get, set
     abstract title: string with get, set
     abstract canGoForward: bool with get, set
-    abstract navigationType: U2<string, string> with get, set
+    abstract navigationType: WebViewIOSLoadRequestEventNavigationType with get, set
     abstract url: string with get, set
 
 type [<AllowNullLiteral>] WebViewPropsIOS =
@@ -1754,7 +1707,7 @@ type [<AllowNullLiteral>] WebViewPropsIOS =
     /// underlying iOS settings for UIScrollViewDecelerationRateNormal
     /// and UIScrollViewDecelerationRateFast respectively.
     /// - normal: 0.998 - fast: 0.99 (the default for iOS WebView)
-    abstract decelerationRate: U3<string, string, float> option with get, set
+    abstract decelerationRate: U2<float, string> option with get, set
     /// Allows custom handling of any webview requests by a JS handler.
     /// Return true or false from this method to continue loading the
     /// request.
@@ -1765,7 +1718,7 @@ type [<AllowNullLiteral>] WebViewPropsIOS =
 
 type [<AllowNullLiteral>] WebViewUriSource =
     abstract uri: string option with get, set
-    abstract ``method``: string option with get, set
+    abstract ``method``: WebViewUriSourceMethod option with get, set
     abstract headers: obj option with get, set
     abstract body: string option with get, set
 
@@ -1847,11 +1800,7 @@ type [<AllowNullLiteral>] WebView =
     abstract injectJavaScript: (string -> unit) with get, set
 
 type [<AllowNullLiteral>] WebViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: WebViewStaticValueIn -> WebView
-
-type [<AllowNullLiteral>] WebViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> WebView
 
 type [<AllowNullLiteral>] NativeSegmentedControlIOSChangeEvent =
     abstract value: string with get, set
@@ -1889,21 +1838,13 @@ type [<AllowNullLiteral>] SafeAreaViewComponent =
 /// Moreover, and most importantly, Safe Area's paddings feflect physical limitation of the screen,
 /// such as rounded corners or camera notches (aka sensor housing area on iPhone X).
 type [<AllowNullLiteral>] SafeAreaViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SafeAreaViewComponentStaticValueIn -> SafeAreaViewComponent
-
-type [<AllowNullLiteral>] SafeAreaViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SafeAreaViewComponent
 
 type [<AllowNullLiteral>] SafeAreaView =
     inherit SafeAreaViewBase
 
 type [<AllowNullLiteral>] SafeAreaViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SafeAreaViewStaticValueIn -> SafeAreaView
-
-type [<AllowNullLiteral>] SafeAreaViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SafeAreaView
 
 /// A component which enables customization of the keyboard input accessory view on iOS. The input accessory view is
 /// displayed above the keyboard whenever a TextInput has focus. This component can be used to create custom toolbars.
@@ -1919,11 +1860,7 @@ type [<AllowNullLiteral>] InputAccessoryView =
 /// To use this component wrap your custom toolbar with the InputAccessoryView component, and set a nativeID. Then, pass
 /// that nativeID as the inputAccessoryViewID of whatever TextInput you desire.
 type [<AllowNullLiteral>] InputAccessoryViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: InputAccessoryViewStaticValueIn -> InputAccessoryView
-
-type [<AllowNullLiteral>] InputAccessoryViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> InputAccessoryView
 
 type [<AllowNullLiteral>] InputAccessoryViewProps =
     abstract backgroundColor: string option with get, set
@@ -1971,21 +1908,13 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 /// />
 /// ````
 type [<AllowNullLiteral>] SegmentedControlIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SegmentedControlIOSComponentStaticValueIn -> SegmentedControlIOSComponent
-
-type [<AllowNullLiteral>] SegmentedControlIOSComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SegmentedControlIOSComponent
 
 type [<AllowNullLiteral>] SegmentedControlIOS =
     inherit SegmentedControlIOSBase
 
 type [<AllowNullLiteral>] SegmentedControlIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SegmentedControlIOSStaticValueIn -> SegmentedControlIOS
-
-type [<AllowNullLiteral>] SegmentedControlIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SegmentedControlIOS
 
 type [<AllowNullLiteral>] NavigatorIOSProps =
     /// The default background color of the navigation bar.
@@ -2049,11 +1978,7 @@ type [<AllowNullLiteral>] NavigatorIOS =
 /// 
 /// Navigator functions are also available on the NavigatorIOS component:
 type [<AllowNullLiteral>] NavigatorIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: NavigatorIOSStaticValueIn -> NavigatorIOS
-
-type [<AllowNullLiteral>] NavigatorIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> NavigatorIOS
 
 type [<AllowNullLiteral>] ActivityIndicatorProps =
     inherit ViewProps
@@ -2067,28 +1992,20 @@ type [<AllowNullLiteral>] ActivityIndicatorProps =
     /// Small has a height of 20, large has a height of 36.
     /// 
     /// enum('small', 'large')
-    abstract size: U3<float, string, string> option with get, set
+    abstract size: U2<float, string> option with get, set
     abstract style: StyleProp<ViewStyle> option with get, set
 
 type [<AllowNullLiteral>] ActivityIndicatorComponent =
     inherit React.Component<ActivityIndicatorProps>
 
 type [<AllowNullLiteral>] ActivityIndicatorComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ActivityIndicatorComponentStaticValueIn -> ActivityIndicatorComponent
-
-type [<AllowNullLiteral>] ActivityIndicatorComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ActivityIndicatorComponent
 
 type [<AllowNullLiteral>] ActivityIndicator =
     inherit ActivityIndicatorBase
 
 type [<AllowNullLiteral>] ActivityIndicatorStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ActivityIndicatorStaticValueIn -> ActivityIndicator
-
-type [<AllowNullLiteral>] ActivityIndicatorStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ActivityIndicator
 
 type [<AllowNullLiteral>] ActivityIndicatorIOSProps =
     inherit ViewProps
@@ -2099,23 +2016,19 @@ type [<AllowNullLiteral>] ActivityIndicatorIOSProps =
     /// Whether the indicator should hide when not animating (true by default).
     abstract hidesWhenStopped: bool option with get, set
     /// Invoked on mount and layout changes with
-    abstract onLayout: (TypeLiteral_14 -> unit) option with get, set
+    abstract onLayout: (ActivityIndicatorIOSPropsOnLayout -> unit) option with get, set
     /// Size of the indicator.
     /// Small has a height of 20, large has a height of 36.
     /// 
     /// enum('small', 'large')
-    abstract size: U2<string, string> option with get, set
+    abstract size: ActivityIndicatorIOSPropsSize option with get, set
     abstract style: StyleProp<ViewStyle> option with get, set
 
 type [<AllowNullLiteral>] ActivityIndicatorIOS =
     inherit React.Component<ActivityIndicatorIOSProps>
 
 type [<AllowNullLiteral>] ActivityIndicatorIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ActivityIndicatorIOSStaticValueIn -> ActivityIndicatorIOS
-
-type [<AllowNullLiteral>] ActivityIndicatorIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ActivityIndicatorIOS
 
 type [<AllowNullLiteral>] DatePickerIOSProps =
     inherit ViewProps
@@ -2131,10 +2044,10 @@ type [<AllowNullLiteral>] DatePickerIOSProps =
     abstract minimumDate: DateTime option with get, set
     /// enum(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30)
     /// The interval at which minutes can be selected.
-    abstract minuteInterval: obj option with get, set
+    abstract minuteInterval: DatePickerIOSPropsMinuteInterval option with get, set
     /// enum('date', 'time', 'datetime')
     /// The date picker mode.
-    abstract mode: U3<string, string, string> option with get, set
+    abstract mode: DatePickerIOSPropsMode option with get, set
     /// Date change handler.
     /// This is called when the user changes the date or time in the UI.
     /// The first and only argument is a Date object representing the new date and time.
@@ -2148,21 +2061,13 @@ type [<AllowNullLiteral>] DatePickerIOSComponent =
     inherit React.Component<DatePickerIOSProps>
 
 type [<AllowNullLiteral>] DatePickerIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: DatePickerIOSComponentStaticValueIn -> DatePickerIOSComponent
-
-type [<AllowNullLiteral>] DatePickerIOSComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> DatePickerIOSComponent
 
 type [<AllowNullLiteral>] DatePickerIOS =
     inherit DatePickerIOSBase
 
 type [<AllowNullLiteral>] DatePickerIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: DatePickerIOSStaticValueIn -> DatePickerIOS
-
-type [<AllowNullLiteral>] DatePickerIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> DatePickerIOS
 
 type [<AllowNullLiteral>] DrawerSlideEvent =
     inherit NativeSyntheticEvent<NativeTouchEvent>
@@ -2189,7 +2094,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidProps =
     /// - locked-open, meaning that the drawer will stay opened and
     ///    not respond to gestures. The drawer may still be opened and
     ///    closed programmatically (openDrawer/closeDrawer).
-    abstract drawerLockMode: U3<string, string, string> option with get, set
+    abstract drawerLockMode: DrawerLayoutAndroidPropsDrawerLockMode option with get, set
     /// Specifies the side of the screen from which the drawer will slide in.
     /// enum(DrawerLayoutAndroid.positions.Left, DrawerLayoutAndroid.positions.Right)
     abstract drawerPosition: float option with get, set
@@ -2199,7 +2104,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidProps =
     /// Determines whether the keyboard gets dismissed in response to a drag.
     /// - 'none' (the default), drags do not dismiss the keyboard.
     /// - 'on-drag', the keyboard is dismissed when a drag begins.
-    abstract keyboardDismissMode: U2<string, string> option with get, set
+    abstract keyboardDismissMode: ViewPagerAndroidPropsKeyboardDismissMode option with get, set
     /// Function called whenever the navigation view has been closed.
     abstract onDrawerClose: (unit -> unit) option with get, set
     /// Function called whenever the navigation view has been opened.
@@ -2215,7 +2120,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidProps =
     /// - settling, meaning that there was an interaction with the
     ///    navigation view, and the navigation view is now finishing
     ///    it's closing or opening animation
-    abstract onDrawerStateChanged: (U3<string, string, string> -> unit) option with get, set
+    abstract onDrawerStateChanged: (ViewPagerAndroidPropsOnPageScrollStateChanged -> unit) option with get, set
     /// The navigation view that will be rendered to the side of the
     /// screen and can be pulled in.
     abstract renderNavigationView: (unit -> JSX.Element) with get, set
@@ -2232,11 +2137,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidComponent =
     inherit React.Component<DrawerLayoutAndroidProps>
 
 type [<AllowNullLiteral>] DrawerLayoutAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: DrawerLayoutAndroidComponentStaticValueIn -> DrawerLayoutAndroidComponent
-
-type [<AllowNullLiteral>] DrawerLayoutAndroidComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> DrawerLayoutAndroidComponent
 
 type [<AllowNullLiteral>] DrawerLayoutAndroid =
     inherit DrawerLayoutAndroidBase
@@ -2248,11 +2149,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroid =
     abstract closeDrawer: unit -> unit
 
 type [<AllowNullLiteral>] DrawerLayoutAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: DrawerLayoutAndroidStaticValueIn -> DrawerLayoutAndroid
-
-type [<AllowNullLiteral>] DrawerLayoutAndroidStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> DrawerLayoutAndroid
 
 type [<AllowNullLiteral>] PickerIOSItemProps =
     abstract value: U2<string, float> option with get, set
@@ -2262,11 +2159,7 @@ type [<AllowNullLiteral>] PickerIOSItem =
     inherit React.Component<PickerIOSItemProps>
 
 type [<AllowNullLiteral>] PickerIOSItemStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerIOSItemStaticValueIn -> PickerIOSItem
-
-type [<AllowNullLiteral>] PickerIOSItemStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> PickerIOSItem
 
 type [<AllowNullLiteral>] PickerItemProps =
     abstract testID: string option with get, set
@@ -2278,11 +2171,7 @@ type [<AllowNullLiteral>] PickerItem =
     inherit React.Component<PickerItemProps>
 
 type [<AllowNullLiteral>] PickerItemStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerItemStaticValueIn -> PickerItem
-
-type [<AllowNullLiteral>] PickerItemStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> PickerItem
 
 type [<AllowNullLiteral>] PickerPropsIOS =
     inherit ViewProps
@@ -2298,7 +2187,7 @@ type [<AllowNullLiteral>] PickerPropsAndroid =
     /// 
     ///    - 'dialog': Show a modal dialog. This is the default.
     ///    - 'dropdown': Shows a dropdown anchored to the picker view
-    abstract mode: U2<string, string> option with get, set
+    abstract mode: PickerPropsAndroidMode option with get, set
     /// Prompt string for this picker, used on Android in dialog mode as the title of the dialog.
     abstract prompt: string option with get, set
 
@@ -2321,16 +2210,12 @@ type [<AllowNullLiteral>] Picker =
     inherit React.Component<PickerProps>
 
 type [<AllowNullLiteral>] PickerStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerStaticValueIn -> Picker
+    [<Emit "new $0($1...)">] abstract Create: unit -> Picker
     /// On Android, display the options in a dialog.
     abstract MODE_DIALOG: string with get, set
     /// On Android, display the options in a dropdown (this is the default).
     abstract MODE_DROPDOWN: string with get, set
     abstract Item: obj with get, set
-
-type [<AllowNullLiteral>] PickerStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] PickerIOSProps =
     inherit ViewProps
@@ -2342,22 +2227,14 @@ type [<AllowNullLiteral>] PickerIOSComponent =
     inherit React.Component<PickerIOSProps>
 
 type [<AllowNullLiteral>] PickerIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerIOSComponentStaticValueIn -> PickerIOSComponent
-
-type [<AllowNullLiteral>] PickerIOSComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> PickerIOSComponent
 
 type [<AllowNullLiteral>] PickerIOS =
     inherit PickerIOSBase
 
 type [<AllowNullLiteral>] PickerIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: PickerIOSStaticValueIn -> PickerIOS
+    [<Emit "new $0($1...)">] abstract Create: unit -> PickerIOS
     abstract Item: obj with get, set
-
-type [<AllowNullLiteral>] PickerIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] ProgressBarAndroidProps =
     inherit ViewProps
@@ -2369,7 +2246,7 @@ type [<AllowNullLiteral>] ProgressBarAndroidProps =
     ///    Inverse
     ///    SmallInverse
     ///    LargeInverse
-    abstract styleAttr: U7<string, string, string, string, string, string, string> option with get, set
+    abstract styleAttr: ProgressBarAndroidPropsStyleAttr option with get, set
     /// If the progress bar will show indeterminate progress.
     /// Note that this can only be false if styleAttr is Horizontal.
     abstract indeterminate: bool option with get, set
@@ -2388,26 +2265,18 @@ type [<AllowNullLiteral>] ProgressBarAndroidComponent =
 /// React component that wraps the Android-only `ProgressBar`. This component is used to indicate
 /// that the app is loading or there is some activity in the app.
 type [<AllowNullLiteral>] ProgressBarAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ProgressBarAndroidComponentStaticValueIn -> ProgressBarAndroidComponent
-
-type [<AllowNullLiteral>] ProgressBarAndroidComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressBarAndroidComponent
 
 type [<AllowNullLiteral>] ProgressBarAndroid =
     inherit ProgressBarAndroidBase
 
 type [<AllowNullLiteral>] ProgressBarAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ProgressBarAndroidStaticValueIn -> ProgressBarAndroid
-
-type [<AllowNullLiteral>] ProgressBarAndroidStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressBarAndroid
 
 type [<AllowNullLiteral>] ProgressViewIOSProps =
     inherit ViewProps
     /// The progress bar style.
-    abstract progressViewStyle: U2<string, string> option with get, set
+    abstract progressViewStyle: ProgressViewIOSPropsProgressViewStyle option with get, set
     /// The progress value (between 0 and 1).
     abstract progress: float option with get, set
     /// The tint color of the progress bar itself.
@@ -2423,21 +2292,13 @@ type [<AllowNullLiteral>] ProgressViewIOSComponent =
     inherit React.Component<ProgressViewIOSProps>
 
 type [<AllowNullLiteral>] ProgressViewIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ProgressViewIOSComponentStaticValueIn -> ProgressViewIOSComponent
-
-type [<AllowNullLiteral>] ProgressViewIOSComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressViewIOSComponent
 
 type [<AllowNullLiteral>] ProgressViewIOS =
     inherit ProgressViewIOSBase
 
 type [<AllowNullLiteral>] ProgressViewIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ProgressViewIOSStaticValueIn -> ProgressViewIOS
-
-type [<AllowNullLiteral>] ProgressViewIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressViewIOS
 
 type [<AllowNullLiteral>] RefreshControlPropsIOS =
     inherit ViewProps
@@ -2485,22 +2346,14 @@ type [<AllowNullLiteral>] RefreshControlComponent =
 /// __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
 /// in the `onRefresh` function otherwise the refresh indicator will stop immediately.
 type [<AllowNullLiteral>] RefreshControlComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: RefreshControlComponentStaticValueIn -> RefreshControlComponent
-
-type [<AllowNullLiteral>] RefreshControlComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> RefreshControlComponent
 
 type [<AllowNullLiteral>] RefreshControl =
     inherit RefreshControlBase
 
 type [<AllowNullLiteral>] RefreshControlStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: RefreshControlStaticValueIn -> RefreshControl
+    [<Emit "new $0($1...)">] abstract Create: unit -> RefreshControl
     abstract SIZE: Object with get, set
-
-type [<AllowNullLiteral>] RefreshControlStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewProps =
     inherit ScrollViewProps
@@ -2533,11 +2386,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponent =
 /// use it pass this component as `renderScrollComponent` to the list view. For
 /// now only horizontal scrolling is supported.
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: RecyclerViewBackedScrollViewComponentStaticValueIn -> RecyclerViewBackedScrollViewComponent
-
-type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> RecyclerViewBackedScrollViewComponent
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     inherit RecyclerViewBackedScrollViewBase
@@ -2550,7 +2399,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     /// Note: The weird argument signature is due to the fact that, for historical reasons,
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
-    abstract scrollTo: ?y: U2<float, TypeLiteral_15> * ?x: float * ?animated: bool -> unit
+    abstract scrollTo: ?y: U2<float, RecyclerViewBackedScrollViewScrollTo> * ?x: float * ?animated: bool -> unit
     /// Returns a reference to the underlying scroll responder, which supports
     /// operations like `scrollTo`. All ScrollView-like components should
     /// implement this method so that they can be composed while providing access
@@ -2558,11 +2407,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     abstract getScrollResponder: unit -> JSX.Element
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: RecyclerViewBackedScrollViewStaticValueIn -> RecyclerViewBackedScrollView
-
-type [<AllowNullLiteral>] RecyclerViewBackedScrollViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> RecyclerViewBackedScrollView
 
 type [<AllowNullLiteral>] SliderPropsAndroid =
     inherit ViewProps
@@ -2623,21 +2468,13 @@ type [<AllowNullLiteral>] SliderComponent =
 
 /// A component used to select a single value from a range of values.
 type [<AllowNullLiteral>] SliderComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SliderComponentStaticValueIn -> SliderComponent
-
-type [<AllowNullLiteral>] SliderComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SliderComponent
 
 type [<AllowNullLiteral>] Slider =
     inherit SliderBase
 
 type [<AllowNullLiteral>] SliderStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SliderStaticValueIn -> Slider
-
-type [<AllowNullLiteral>] SliderStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Slider
 
 type SliderIOS =
     Slider
@@ -2670,11 +2507,7 @@ type [<AllowNullLiteral>] SwitchIOS =
 /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
 /// otherwise the user's change will be reverted immediately to reflect props.value as the source of truth.
 type [<AllowNullLiteral>] SwitchIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SwitchIOSStaticValueIn -> SwitchIOS
-
-type [<AllowNullLiteral>] SwitchIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SwitchIOS
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ImageResizeMode =
     | Cover
@@ -2704,7 +2537,7 @@ type [<AllowNullLiteral>] ImageResizeModeStatic =
 
 type [<AllowNullLiteral>] ShadowStyleIOS =
     abstract shadowColor: string option with get, set
-    abstract shadowOffset: TypeLiteral_06 option with get, set
+    abstract shadowOffset: ShadowPropTypesIOSStaticShadowOffset option with get, set
     abstract shadowOpacity: float option with get, set
     abstract shadowRadius: float option with get, set
 
@@ -2714,7 +2547,7 @@ type [<AllowNullLiteral>] ImageStyle =
     inherit ShadowStyleIOS
     inherit TransformsStyle
     abstract resizeMode: ImageResizeMode option with get, set
-    abstract backfaceVisibility: U2<string, string> option with get, set
+    abstract backfaceVisibility: ViewStyleBackfaceVisibility option with get, set
     abstract borderBottomLeftRadius: float option with get, set
     abstract borderBottomRightRadius: float option with get, set
     abstract backgroundColor: string option with get, set
@@ -2723,7 +2556,7 @@ type [<AllowNullLiteral>] ImageStyle =
     abstract borderRadius: float option with get, set
     abstract borderTopLeftRadius: float option with get, set
     abstract borderTopRightRadius: float option with get, set
-    abstract overflow: U2<string, string> option with get, set
+    abstract overflow: ViewStyleBackfaceVisibility option with get, set
     abstract overlayColor: string option with get, set
     abstract tintColor: string option with get, set
     abstract opacity: float option with get, set
@@ -2741,7 +2574,7 @@ type [<AllowNullLiteral>] ImageURISource =
     abstract ``method``: string option with get, set
     /// `headers` is an object representing the HTTP headers to send along with the
     /// request for a remote image.
-    abstract headers: TypeLiteral_16 option with get, set
+    abstract headers: ImageURISourceHeaders option with get, set
     /// `cache` determines how the requests handles potentially cached
     /// responses.
     /// 
@@ -2758,7 +2591,7 @@ type [<AllowNullLiteral>] ImageURISource =
     /// its age or expiration date. If there is no existing data in the cache corresponding
     /// to a URL load request, no attempt is made to load the data from the originating source,
     /// and the load is considered to have failed.
-    abstract cache: U4<string, string, string, string> option with get, set
+    abstract cache: ImageURISourceCache option with get, set
     /// `body` is the HTTP body to send with the request. This must be a valid
     /// UTF-8 string, and will be sent exactly as specified, with no
     /// additional encoding (e.g. URL-escaping or base64) applied.
@@ -2805,31 +2638,19 @@ type [<AllowNullLiteral>] ImagePropsAndroid =
     /// 'scale': The image gets drawn downscaled or upscaled. Compared to resize, scale is faster (usually hardware accelerated)
     /// and produces higher quality images. This should be used if the image is smaller than the view.
     /// It should also be used if the image is slightly bigger than the view.
-    abstract resizeMethod: U3<string, string, string> option with get, set
+    abstract resizeMethod: ImagePropsAndroidResizeMethod option with get, set
     /// Duration of fade in animation.
     abstract fadeDuration: float option with get, set
 
 type ImageSourcePropType =
     U3<ImageURISource, ResizeArray<ImageURISource>, ImageRequireSource>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module ImageSourcePropType =
-    let ofImageURISource v: ImageSourcePropType = v |> U3.Case1
-    let isImageURISource (v: ImageSourcePropType) = match v with U3.Case1 _ -> true | _ -> false
-    let asImageURISource (v: ImageSourcePropType) = match v with U3.Case1 o -> Some o | _ -> None
-    let ofImageURISourceArray v: ImageSourcePropType = v |> U3.Case2
-    let isImageURISourceArray (v: ImageSourcePropType) = match v with U3.Case2 _ -> true | _ -> false
-    let asImageURISourceArray (v: ImageSourcePropType) = match v with U3.Case2 o -> Some o | _ -> None
-    let ofImageRequireSource v: ImageSourcePropType = v |> U3.Case3
-    let isImageRequireSource (v: ImageSourcePropType) = match v with U3.Case3 _ -> true | _ -> false
-    let asImageRequireSource (v: ImageSourcePropType) = match v with U3.Case3 o -> Some o | _ -> None
-
 type [<AllowNullLiteral>] ImageLoadEventDataAndroid =
     abstract uri: string option with get, set
 
 type [<AllowNullLiteral>] ImageLoadEventData =
     inherit ImageLoadEventDataAndroid
-    abstract source: TypeLiteral_17 with get, set
+    abstract source: ImageLoadEventDataSource with get, set
 
 type [<AllowNullLiteral>] ImageErrorEventData =
     abstract error: obj option with get, set
@@ -2844,7 +2665,6 @@ type [<AllowNullLiteral>] ImagePropsBase =
     inherit ImagePropsIOS
     inherit ImagePropsAndroid
     inherit AccessibilityProps
-    inherit ImageStyle
     /// onLayout function
     /// 
     /// Invoked on mount and layout changes with
@@ -2902,7 +2722,7 @@ type [<AllowNullLiteral>] ImagePropsBase =
     /// image is slightly bigger than the view.
     /// 
     /// More details about `resize` and `scale` can be found at http://frescolib.org/docs/resizing-rotating.html.
-    abstract resizeMethod: U3<string, string, string> option with get, set
+    abstract resizeMethod: ImagePropsAndroidResizeMethod option with get, set
     /// The image source (either a remote URL or a local file resource).
     /// 
     /// This prop can also contain several remote URLs, specified together with their width and height and potentially with scale/other URI arguments.
@@ -2919,10 +2739,6 @@ type [<AllowNullLiteral>] ImagePropsBase =
     abstract testID: string option with get, set
     /// A static image to display while downloading the final image off the network.
     abstract defaultSource: U2<ImageURISource, float> option with get, set
-    /// Currently broken
-    abstract width: obj option with get, set
-    abstract height: obj option with get, set
-    abstract tintColor: obj option with get, set
 
 type [<AllowNullLiteral>] ImageProps =
     inherit ImagePropsBase
@@ -2933,26 +2749,18 @@ type [<AllowNullLiteral>] ImageComponent =
     inherit React.Component<ImageProps>
 
 type [<AllowNullLiteral>] ImageComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ImageComponentStaticValueIn -> ImageComponent
-
-type [<AllowNullLiteral>] ImageComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ImageComponent
 
 type [<AllowNullLiteral>] Image =
     inherit ImageBase
 
 type [<AllowNullLiteral>] ImageStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ImageStaticValueIn -> Image
+    [<Emit "new $0($1...)">] abstract Create: unit -> Image
     abstract getSize: uri: string * success: (float -> float -> unit) * failure: (obj option -> unit) -> obj option
     abstract prefetch: url: string -> obj option
     abstract abortPrefetch: requestId: float -> unit
-    abstract queryCache: urls: ResizeArray<string> -> Promise<Map<string, U2<string, string>>>
+    abstract queryCache: urls: ResizeArray<string> -> Promise<Map<string, ImageStaticQueryCachePromiseMap>>
     abstract resolveAssetSource: source: ImageSourcePropType -> ImageResolvedAssetSource
-
-type [<AllowNullLiteral>] ImageStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] ImageBackgroundProps =
     inherit ImagePropsBase
@@ -2964,11 +2772,7 @@ type [<AllowNullLiteral>] ImageBackgroundComponent =
     inherit React.Component<ImageBackgroundProps>
 
 type [<AllowNullLiteral>] ImageBackgroundComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ImageBackgroundComponentStaticValueIn -> ImageBackgroundComponent
-
-type [<AllowNullLiteral>] ImageBackgroundComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ImageBackgroundComponent
 
 type [<AllowNullLiteral>] ImageBackground =
     inherit ImageBackgroundBase
@@ -2976,14 +2780,10 @@ type [<AllowNullLiteral>] ImageBackground =
     abstract getSize: uri: string * success: (float -> float -> unit) * failure: (obj option -> unit) -> obj option
     abstract prefetch: url: string -> obj option
     abstract abortPrefetch: requestId: float -> unit
-    abstract queryCache: urls: ResizeArray<string> -> Promise<Map<string, U2<string, string>>>
+    abstract queryCache: urls: ResizeArray<string> -> Promise<Map<string, ImageStaticQueryCachePromiseMap>>
 
 type [<AllowNullLiteral>] ImageBackgroundStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ImageBackgroundStaticValueIn -> ImageBackground
-
-type [<AllowNullLiteral>] ImageBackgroundStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ImageBackground
 
 type [<AllowNullLiteral>] ViewToken =
     abstract item: obj option with get, set
@@ -3011,7 +2811,7 @@ type [<AllowNullLiteral>] ViewabilityConfig =
 
 type [<AllowNullLiteral>] ViewabilityConfigCallbackPair =
     abstract viewabilityConfig: ViewabilityConfig with get, set
-    abstract onViewableItemsChanged: (TypeLiteral_18 -> unit) option with get, set
+    abstract onViewableItemsChanged: (ViewabilityConfigCallbackPairOnViewableItemsChanged -> unit) option with get, set
 
 type ViewabilityConfigCallbackPairs =
     ResizeArray<ViewabilityConfigCallbackPair>
@@ -3019,7 +2819,7 @@ type ViewabilityConfigCallbackPairs =
 type [<AllowNullLiteral>] ListRenderItemInfo<'ItemT> =
     abstract item: 'ItemT with get, set
     abstract index: float with get, set
-    abstract separators: TypeLiteral_19 with get, set
+    abstract separators: ListRenderItemInfoSeparators with get, set
 
 type [<AllowNullLiteral>] ListRenderItem<'ItemT> =
     [<Emit "$0($1...)">] abstract Invoke: info: ListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
@@ -3040,7 +2840,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// is up dismisses the keyboard. When true the scroll view will not catch
     /// taps and the keyboard will not dismiss automatically. The default value
     /// is false.
-    abstract keyboardShouldPersistTaps: U4<bool, string, string, string> option with get, set
+    abstract keyboardShouldPersistTaps: U2<bool, string> option with get, set
     /// For simplicity, data is just a plain array. If you want to use something else,
     /// like an immutable list, use the underlying VirtualizedList directly.
     abstract data: ReadonlyArray<'ItemT> option with get, set
@@ -3058,7 +2858,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// ```
     /// Remember to include separator length (height or width) in your offset calculation if you specify
     /// `ItemSeparatorComponent`.
-    abstract getItemLayout: (Array<'ItemT> option -> float -> TypeLiteral_20) option with get, set
+    abstract getItemLayout: (Array<'ItemT> option -> float -> FlatListPropsGetItemLayout) option with get, set
     /// If true, renders items next to each other horizontally instead of stacked vertically.
     abstract horizontal: bool option with get, set
     /// How many items to render in the initial batch
@@ -3074,7 +2874,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// Items should all be the same height - masonry layouts are not supported.
     abstract numColumns: float option with get, set
     /// Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
-    abstract onEndReached: (TypeLiteral_21 -> unit) option with get, set
+    abstract onEndReached: (FlatListPropsOnEndReached -> unit) option with get, set
     /// How far from the end (in units of visible length of the list) the bottom edge of the
     /// list must be from the end of the content to trigger the `onEndReached` callback.
     /// Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
@@ -3084,7 +2884,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// Make sure to also set the refreshing prop correctly.
     abstract onRefresh: (unit -> unit) option with get, set
     /// Called when the viewability of rows changes, as defined by the `viewablePercentThreshold` prop.
-    abstract onViewableItemsChanged: (TypeLiteral_18 -> unit) option with get, set
+    abstract onViewableItemsChanged: (ViewabilityConfigCallbackPairOnViewableItemsChanged -> unit) option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
     /// Takes an item from data and renders it into the list. Typical usage:
@@ -3109,34 +2909,30 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
 type [<AllowNullLiteral>] FlatList<'ItemT> =
     inherit React.Component<FlatListProps<'ItemT>>
     /// Exports some data, e.g. for perf investigations or analytics.
-    abstract getMetrics: (unit -> TypeLiteral_22) with get, set
+    abstract getMetrics: (unit -> FlatListGetMetrics) with get, set
     /// Scrolls to the end of the content. May be janky without `getItemLayout` prop.
-    abstract scrollToEnd: (TypeLiteral_23 -> unit) with get, set
+    abstract scrollToEnd: (FlatListScrollToEnd -> unit) with get, set
     /// Scrolls to the item at the specified index such that it is positioned in the viewable area
     /// such that viewPosition 0 places it at the top, 1 at the bottom, and 0.5 centered in the middle.
     /// Cannot scroll to locations outside the render window without specifying the getItemLayout prop.
-    abstract scrollToIndex: (TypeLiteral_24 -> unit) with get, set
+    abstract scrollToIndex: (FlatListScrollToIndex -> unit) with get, set
     /// Requires linear scan through data - use `scrollToIndex` instead if possible.
     /// May be janky without `getItemLayout` prop.
-    abstract scrollToItem: (TypeLiteral_25<'ItemT> -> unit) with get, set
+    abstract scrollToItem: (FlatListScrollToItem<'ItemT> -> unit) with get, set
     /// Scroll to a specific content pixel offset, like a normal `ScrollView`.
-    abstract scrollToOffset: (TypeLiteral_26 -> unit) with get, set
+    abstract scrollToOffset: (FlatListScrollToOffset -> unit) with get, set
     /// Tells the list an interaction has occured, which should trigger viewability calculations,
     /// e.g. if waitForInteractions is true and the user has not scrolled. This is typically called
     /// by taps on items or by navigation actions.
     abstract recordInteraction: (unit -> unit) with get, set
 
 type [<AllowNullLiteral>] FlatListStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: FlatListStaticValueIn -> FlatList<'ItemT>
-
-type [<AllowNullLiteral>] FlatListStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> FlatList<'ItemT>
 
 type [<AllowNullLiteral>] SectionBase<'ItemT> =
     abstract data: ResizeArray<'ItemT> with get, set
     abstract key: string option with get, set
-    abstract renderItem: ListRenderItem<'ItemT> option with get, set
+    abstract renderItem: SectionListRenderItem<'ItemT> option with get, set
     abstract ItemSeparatorComponent: U2<React.ComponentClass<obj option>, (unit -> React.ReactElement<obj option>)> option with get, set
     abstract keyExtractor: ('ItemT -> float -> string) option with get, set
 
@@ -3144,8 +2940,15 @@ type [<AllowNullLiteral>] SectionListData<'ItemT> =
     inherit SectionBase<'ItemT>
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
 
+type [<AllowNullLiteral>] SectionListRenderItemInfo<'ItemT> =
+    inherit ListRenderItemInfo<'ItemT>
+    abstract section: SectionListData<'ItemT> with get, set
+
+type [<AllowNullLiteral>] SectionListRenderItem<'ItemT> =
+    [<Emit "$0($1...)">] abstract Invoke: info: SectionListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
+
 type [<AllowNullLiteral>] SectionListProps<'ItemT> =
-    inherit ScrollViewProps
+    inherit VirtualizedListWithoutRenderItemProps<'ItemT>
     /// Rendered in between adjacent Items within each section.
     abstract ItemSeparatorComponent: React.ComponentType<obj option> option with get, set
     /// Rendered when the list is empty.
@@ -3168,7 +2971,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
     /// ```
-    abstract getItemLayout: (ResizeArray<SectionListData<'ItemT>> option -> float -> TypeLiteral_20) option with get, set
+    abstract getItemLayout: (ResizeArray<SectionListData<'ItemT>> option -> float -> FlatListPropsGetItemLayout) option with get, set
     /// How many items to render in the initial batch
     abstract initialNumToRender: float option with get, set
     /// Reverses the direction of scroll. Uses scale transforms of -1.
@@ -3178,7 +2981,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     /// falls back to using the index, like React does.
     abstract keyExtractor: ('ItemT -> float -> string) option with get, set
     /// Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
-    abstract onEndReached: (TypeLiteral_21 -> unit) option with get, set
+    abstract onEndReached: (FlatListPropsOnEndReached -> unit) option with get, set
     /// How far from the end (in units of visible length of the list) the bottom edge of the
     /// list must be from the end of the content to trigger the `onEndReached` callback.
     /// Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
@@ -3190,15 +2993,15 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     /// Used to handle failures when scrolling to an index that has not been measured yet.
     /// Recommended action is to either compute your own offset and `scrollTo` it, or scroll as far
     /// as possible and then try again after more items have been rendered.
-    abstract onScrollToIndexFailed: (TypeLiteral_27 -> unit) option with get, set
+    abstract onScrollToIndexFailed: (SectionListPropsOnScrollToIndexFailed -> unit) option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
     /// Default renderer for every item in every section. Can be over-ridden on a per-section basis.
-    abstract renderItem: ListRenderItem<'ItemT> option with get, set
+    abstract renderItem: SectionListRenderItem<'ItemT> option with get, set
     /// Rendered at the top of each section. Sticky headers are not yet supported.
-    abstract renderSectionHeader: (TypeLiteral_28<'ItemT> -> React.ReactElement<obj option> option) option with get, set
+    abstract renderSectionHeader: (SectionListPropsRenderSectionHeader<'ItemT> -> React.ReactElement<obj option> option) option with get, set
     /// Rendered at the bottom of each section.
-    abstract renderSectionFooter: (TypeLiteral_28<'ItemT> -> React.ReactElement<obj option> option) option with get, set
+    abstract renderSectionFooter: (SectionListPropsRenderSectionHeader<'ItemT> -> React.ReactElement<obj option> option) option with get, set
     /// An array of objects with data for each section.
     abstract sections: ResizeArray<SectionListData<'ItemT>> with get, set
     /// Render a custom scroll component, e.g. with a differently styled `RefreshControl`.
@@ -3226,6 +3029,10 @@ type [<AllowNullLiteral>] SectionListStatic<'SectionT> =
     abstract scrollToLocation: ``params``: SectionListScrollParams -> unit
 
 type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
+    inherit VirtualizedListWithoutRenderItemProps<'ItemT>
+    abstract renderItem: ListRenderItem<'ItemT> with get, set
+
+type [<AllowNullLiteral>] VirtualizedListWithoutRenderItemProps<'ItemT> =
     inherit ScrollViewProps
     /// Rendered when the list is empty. Can be a React Component Class, a render function, or
     /// a rendered element.
@@ -3254,7 +3061,9 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     abstract getItem: (obj option -> float -> 'ItemT) option with get, set
     /// Determines how many items are in the data blob.
     abstract getItemCount: (obj option -> float) option with get, set
-    abstract getItemLayout: (obj option -> float -> TypeLiteral_20) option with get, set
+    abstract getItemLayout: (obj option -> float -> FlatListPropsGetItemLayout) option with get, set
+    /// When true the scroll view's children are arranged horizontally in a row
+    /// instead of vertically in a column. The default value is false.
     abstract horizontal: bool option with get, set
     /// How many items to render in the initial batch. This should be enough to fill the screen but not
     /// much more. Note these items will never be unmounted as part of the windowed rendering in order
@@ -3273,8 +3082,11 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     /// once, the better the fill rate, but responsiveness my suffer because rendering content may
     /// interfere with responding to button taps or other interactions.
     abstract maxToRenderPerBatch: float option with get, set
-    abstract onEndReached: (TypeLiteral_21 -> unit) option with get, set
+    abstract onEndReached: (FlatListPropsOnEndReached -> unit) option with get, set
     abstract onEndReachedThreshold: float option with get, set
+    /// Invoked on mount and layout changes with
+    /// 
+    /// {nativeEvent: { layout: {x, y, width, height}}}.
     abstract onLayout: (LayoutChangeEvent -> unit) option with get, set
     /// If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make
     /// sure to also set the `refreshing` prop correctly.
@@ -3282,10 +3094,10 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     /// Used to handle failures when scrolling to an index that has not been measured yet.
     /// Recommended action is to either compute your own offset and `scrollTo` it, or scroll as far
     /// as possible and then try again after more items have been rendered.
-    abstract onScrollToIndexFailed: (TypeLiteral_27 -> unit) option with get, set
+    abstract onScrollToIndexFailed: (SectionListPropsOnScrollToIndexFailed -> unit) option with get, set
     /// Called when the viewability of rows changes, as defined by the
     /// `viewabilityConfig` prop.
-    abstract onViewableItemsChanged: (TypeLiteral_18 -> unit) option with get, set
+    abstract onViewableItemsChanged: (ViewabilityConfigCallbackPairOnViewableItemsChanged -> unit) option with get, set
     /// Set this when offset is needed for the loading indicator to show correctly.
     abstract progressViewOffset: float option with get, set
     /// Set this true while waiting for new data from a refresh.
@@ -3294,7 +3106,6 @@ type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     /// 
     /// This may improve scroll performance for large lists.
     abstract removeClippedSubviews: bool option with get, set
-    abstract renderItem: ListRenderItem<'ItemT> with get, set
     /// Render a custom scroll component, e.g. with a differently styled `RefreshControl`.
     abstract renderScrollComponent: (ScrollViewProps -> React.ReactElement<ScrollViewProps>) option with get, set
     /// Amount of time between low-pri item render batches, e.g. for rendering items quite a ways off
@@ -3330,7 +3141,7 @@ type [<AllowNullLiteral>] ListViewProps =
     /// `changedRows` maps { sectionID: { rowID: true | false }} for the rows
     /// that have changed their visibility, with true indicating visible, and
     /// false indicating the view has moved out of view.
-    abstract onChangeVisibleRows: (Array<TypeLiteral_30> -> Array<TypeLiteral_30> -> unit) option with get, set
+    abstract onChangeVisibleRows: (Array<ListViewPropsOnChangeVisibleRowsArray> -> Array<ListViewPropsOnChangeVisibleRowsArray> -> unit) option with get, set
     /// Called when all rows have been rendered and the list has been scrolled
     /// to within onEndReachedThreshold of the bottom.  The native scroll
     /// event is provided.
@@ -3409,30 +3220,22 @@ type [<AllowNullLiteral>] ListViewComponent =
     inherit React.Component<ListViewProps>
 
 type [<AllowNullLiteral>] ListViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ListViewComponentStaticValueIn -> ListViewComponent
-
-type [<AllowNullLiteral>] ListViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ListViewComponent
 
 type [<AllowNullLiteral>] ListView =
     inherit ListViewBase
     /// Exports some data, e.g. for perf investigations or analytics.
-    abstract getMetrics: (unit -> TypeLiteral_22) with get, set
+    abstract getMetrics: (unit -> FlatListGetMetrics) with get, set
     /// Provides a handle to the underlying scroll responder.
     abstract getScrollResponder: (unit -> obj option) with get, set
     /// Scrolls to a given x, y offset, either immediately or with a smooth animation.
     /// 
     /// See `ScrollView#scrollTo`.
-    abstract scrollTo: (U2<float, TypeLiteral_15> -> float -> bool -> unit) with get, set
+    abstract scrollTo: (U2<float, RecyclerViewBackedScrollViewScrollTo> -> float -> bool -> unit) with get, set
 
 type [<AllowNullLiteral>] ListViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ListViewStaticValueIn -> ListView
+    [<Emit "new $0($1...)">] abstract Create: unit -> ListView
     abstract DataSource: ListViewDataSource with get, set
-
-type [<AllowNullLiteral>] ListViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] MapViewAnnotation =
     abstract latitude: float with get, set
@@ -3463,7 +3266,7 @@ type [<AllowNullLiteral>] MapViewRegion =
     abstract longitudeDelta: float option with get, set
 
 type [<AllowNullLiteral>] MapViewOverlay =
-    abstract coordinates: ResizeArray<TypeLiteral_31> with get, set
+    abstract coordinates: ResizeArray<MapViewOverlayCoordinates> with get, set
     abstract lineWidth: float option with get, set
     abstract strokeColor: string option with get, set
     abstract fillColor: string option with get, set
@@ -3488,7 +3291,7 @@ type [<AllowNullLiteral>] MapViewProps =
     ///      hybrid: satellite view with roads and points of interest overlayed
     /// 
     /// enum('standard', 'satellite', 'hybrid')
-    abstract mapType: U3<string, string, string> option with get, set
+    abstract mapType: MapViewPropsMapType option with get, set
     /// Maximum size of area that can be displayed.
     abstract maxDelta: float option with get, set
     /// Minimum size of area that can be displayed.
@@ -3539,22 +3342,14 @@ type [<AllowNullLiteral>] MapViewComponent =
     inherit React.Component<MapViewProps>
 
 type [<AllowNullLiteral>] MapViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: MapViewComponentStaticValueIn -> MapViewComponent
-
-type [<AllowNullLiteral>] MapViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> MapViewComponent
 
 type [<AllowNullLiteral>] MapView =
     inherit MapViewBase
 
 type [<AllowNullLiteral>] MapViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: MapViewStaticValueIn -> MapView
-    abstract PinColors: TypeLiteral_32 with get, set
-
-type [<AllowNullLiteral>] MapViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> MapView
+    abstract PinColors: MapViewStaticPinColors with get, set
 
 type [<AllowNullLiteral>] MaskedViewIOSProps =
     inherit ViewProps
@@ -3564,30 +3359,22 @@ type [<AllowNullLiteral>] MaskedViewComponent =
     inherit React.Component<MaskedViewIOSProps>
 
 type [<AllowNullLiteral>] MaskedViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: MaskedViewComponentStaticValueIn -> MaskedViewComponent
-
-type [<AllowNullLiteral>] MaskedViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> MaskedViewComponent
 
 type [<AllowNullLiteral>] MaskedViewIOS =
     inherit MaskedViewBase
 
 type [<AllowNullLiteral>] MaskedViewIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: MaskedViewIOSStaticValueIn -> MaskedViewIOS
+    [<Emit "new $0($1...)">] abstract Create: unit -> MaskedViewIOS
 
-type [<AllowNullLiteral>] MaskedViewIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
-
-type [<AllowNullLiteral>] ModalProps =
+type [<AllowNullLiteral>] ModalBaseProps =
     abstract animated: bool option with get, set
     /// The `animationType` prop controls how the modal animates.
     /// 
     /// - `slide` slides in from the bottom
     /// - `fade` fades into view
     /// - `none` appears without an animation
-    abstract animationType: U3<string, string, string> option with get, set
+    abstract animationType: ModalBasePropsAnimationType option with get, set
     /// The `transparent` prop determines whether your modal will fill the entire view.
     /// Setting this to `true` will render the modal over a transparent background.
     abstract transparent: bool option with get, set
@@ -3598,26 +3385,31 @@ type [<AllowNullLiteral>] ModalProps =
     abstract onRequestClose: (unit -> unit) option with get, set
     /// The `onShow` prop allows passing a function that will be called once the modal has been shown.
     abstract onShow: (NativeSyntheticEvent<obj option> -> unit) option with get, set
+
+type [<AllowNullLiteral>] ModalPropsIOS =
+    /// The `presentationStyle` determines the style of modal to show
+    abstract presentationStyle: ModalPropsIOSPresentationStyle option with get, set
     /// The `supportedOrientations` prop allows the modal to be rotated to any of the specified orientations.
     /// On iOS, the modal is still restricted by what's specified in your app's Info.plist's UISupportedInterfaceOrientations field.
-    abstract supportedOrientations: ResizeArray<U5<string, string, string, string, string>> option with get, set
+    abstract supportedOrientations: Array<ModalPropsIOSSupportedOrientationsArray> option with get, set
+    /// The `onDismiss` prop allows passing a function that will be called once the modal has been dismissed.
+    abstract onDismiss: (unit -> unit) option with get, set
     /// The `onOrientationChange` callback is called when the orientation changes while the modal is being displayed.
     /// The orientation provided is only 'portrait' or 'landscape'. This callback is also called on initial render, regardless of the current orientation.
     abstract onOrientationChange: (NativeSyntheticEvent<obj option> -> unit) option with get, set
-    /// The `onDismiss` prop allows passing a function that will be called once the modal has been dismissed.
-    abstract onDismiss: (unit -> unit) option with get, set
-    /// The `presentationStyle` determines the style of modal to show
-    abstract presentationStyle: U4<string, string, string, string> option with get, set
+
+type [<AllowNullLiteral>] ModalPropsAndroid =
+    /// Controls whether to force hardware acceleration for the underlying window.
+    abstract hardwareAccelerated: bool option with get, set
+
+type [<AllowNullLiteral>] ModalProps =
+    interface end
 
 type [<AllowNullLiteral>] Modal =
     inherit React.Component<ModalProps>
 
 type [<AllowNullLiteral>] ModalStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ModalStaticValueIn -> Modal
-
-type [<AllowNullLiteral>] ModalStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Modal
 
 type [<AllowNullLiteral>] TouchableMixin =
     /// Invoked when the item should be highlighted. Mixers should implement this
@@ -3701,21 +3493,13 @@ type [<AllowNullLiteral>] TouchableWithoutFeedbackComponent =
 /// All the elements that respond to press should have a visual feedback when touched.
 /// This is one of the primary reason a "web" app doesn't feel "native".
 type [<AllowNullLiteral>] TouchableWithoutFeedbackComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableWithoutFeedbackComponentStaticValueIn -> TouchableWithoutFeedbackComponent
-
-type [<AllowNullLiteral>] TouchableWithoutFeedbackComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableWithoutFeedbackComponent
 
 type [<AllowNullLiteral>] TouchableWithoutFeedback =
     inherit TouchableWithoutFeedbackBase
 
 type [<AllowNullLiteral>] TouchableWithoutFeedbackStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableWithoutFeedbackStaticValueIn -> TouchableWithoutFeedback
-
-type [<AllowNullLiteral>] TouchableWithoutFeedbackStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableWithoutFeedback
 
 type [<AllowNullLiteral>] TouchableHighlightProps =
     inherit TouchableWithoutFeedbackProps
@@ -3725,6 +3509,7 @@ type [<AllowNullLiteral>] TouchableHighlightProps =
     abstract onHideUnderlay: (unit -> unit) option with get, set
     /// Called immediately after the underlay is shown
     abstract onShowUnderlay: (unit -> unit) option with get, set
+    /// //FIXME: not in doc but available in examples
     abstract style: StyleProp<ViewStyle> option with get, set
     /// The color of the underlay that will show through when the touch is active.
     abstract underlayColor: string option with get, set
@@ -3751,21 +3536,13 @@ type [<AllowNullLiteral>] TouchableHighlightComponent =
 /// NOTE: TouchableHighlight supports only one child
 /// If you wish to have several child components, wrap them in a View.
 type [<AllowNullLiteral>] TouchableHighlightComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableHighlightComponentStaticValueIn -> TouchableHighlightComponent
-
-type [<AllowNullLiteral>] TouchableHighlightComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableHighlightComponent
 
 type [<AllowNullLiteral>] TouchableHighlight =
     inherit TouchableHighlightBase
 
 type [<AllowNullLiteral>] TouchableHighlightStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableHighlightStaticValueIn -> TouchableHighlight
-
-type [<AllowNullLiteral>] TouchableHighlightStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableHighlight
 
 type [<AllowNullLiteral>] TouchableOpacityProps =
     inherit TouchableWithoutFeedbackProps
@@ -3785,11 +3562,7 @@ type [<AllowNullLiteral>] TouchableOpacityComponent =
 /// This is done without actually changing the view hierarchy,
 /// and in general is easy to add to an app without weird side-effects.
 type [<AllowNullLiteral>] TouchableOpacityComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableOpacityComponentStaticValueIn -> TouchableOpacityComponent
-
-type [<AllowNullLiteral>] TouchableOpacityComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableOpacityComponent
 
 type [<AllowNullLiteral>] TouchableOpacity =
     inherit TouchableOpacityBase
@@ -3797,11 +3570,7 @@ type [<AllowNullLiteral>] TouchableOpacity =
     abstract setOpacityTo: (float -> unit) with get, set
 
 type [<AllowNullLiteral>] TouchableOpacityStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableOpacityStaticValueIn -> TouchableOpacity
-
-type [<AllowNullLiteral>] TouchableOpacityStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableOpacity
 
 type [<AllowNullLiteral>] BaseBackgroundPropType =
     abstract ``type``: string with get, set
@@ -3819,15 +3588,6 @@ type [<AllowNullLiteral>] ThemeAttributeBackgroundPropType =
 
 type BackgroundPropType =
     U2<RippleBackgroundPropType, ThemeAttributeBackgroundPropType>
-
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module BackgroundPropType =
-    let ofRippleBackgroundPropType v: BackgroundPropType = v |> U2.Case1
-    let isRippleBackgroundPropType (v: BackgroundPropType) = match v with U2.Case1 _ -> true | _ -> false
-    let asRippleBackgroundPropType (v: BackgroundPropType) = match v with U2.Case1 o -> Some o | _ -> None
-    let ofThemeAttributeBackgroundPropType v: BackgroundPropType = v |> U2.Case2
-    let isThemeAttributeBackgroundPropType (v: BackgroundPropType) = match v with U2.Case2 _ -> true | _ -> false
-    let asThemeAttributeBackgroundPropType (v: BackgroundPropType) = match v with U2.Case2 o -> Some o | _ -> None
 
 type [<AllowNullLiteral>] TouchableNativeFeedbackProps =
     inherit TouchableWithoutFeedbackProps
@@ -3862,17 +3622,13 @@ type [<AllowNullLiteral>] TouchableNativeFeedbackComponent =
 /// 
 /// Background drawable of native feedback touchable can be customized with background property.
 type [<AllowNullLiteral>] TouchableNativeFeedbackComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableNativeFeedbackComponentStaticValueIn -> TouchableNativeFeedbackComponent
-
-type [<AllowNullLiteral>] TouchableNativeFeedbackComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableNativeFeedbackComponent
 
 type [<AllowNullLiteral>] TouchableNativeFeedback =
     inherit TouchableNativeFeedbackBase
 
 type [<AllowNullLiteral>] TouchableNativeFeedbackStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TouchableNativeFeedbackStaticValueIn -> TouchableNativeFeedback
+    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableNativeFeedback
     /// Creates an object that represents android theme's default background for
     /// selectable elements (?android:attr/selectableItemBackground).
     abstract SelectableBackground: unit -> ThemeAttributeBackgroundPropType
@@ -3888,10 +3644,7 @@ type [<AllowNullLiteral>] TouchableNativeFeedbackStatic =
     /// <param name="color">The ripple color</param>
     /// <param name="borderless">If the ripple can render outside it's bounds</param>
     abstract Ripple: color: string * ?borderless: bool -> RippleBackgroundPropType
-
-type [<AllowNullLiteral>] TouchableNativeFeedbackStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    abstract canUseNativeForeground: unit -> bool
 
 type [<AllowNullLiteral>] Route =
     abstract ``component``: React.ComponentType<obj option> option with get, set
@@ -3972,6 +3725,14 @@ module StyleSheet =
         abstract flatten: ?style: StyleProp<TextStyle> -> TextStyle
         abstract flatten: ?style: StyleProp<ImageStyle> -> ImageStyle
         abstract flatten: ?style: StyleProp<ViewStyle> -> ViewStyle
+        /// WARNING: EXPERIMENTAL. Breaking changes will probably happen a lot and will
+        /// not be reliably announced. The whole thing might be deleted, who knows? Use
+        /// at your own risk.
+        /// 
+        /// Sets a function to use to pre-process a style property value. This is used
+        /// internally to process color and transform values. You should not use this
+        /// unless you really know what you are doing and have exhausted other options.
+        abstract setStyleAttributePreprocessor: property: string * ``process``: (obj option -> obj option) -> unit
         abstract hairlineWidth: float
         abstract absoluteFillObject: AbsoluteFillStyle
         abstract absoluteFill: RegisteredStyle<AbsoluteFillStyle>
@@ -4047,7 +3808,7 @@ type [<AllowNullLiteral>] ListViewDataSource =
     /// the data specified. If you wish to maintain the existing data you must
     /// handle merging of old and new data separately and then pass that into
     /// this function as the `dataBlob`.
-    abstract cloneWithRows: dataBlob: U2<Array<obj option>, TypeLiteral_04> * ?rowIdentities: Array<U2<string, float>> -> ListViewDataSource
+    abstract cloneWithRows: dataBlob: U2<Array<obj option>, LayoutAnimationStaticConfigChecker> * ?rowIdentities: Array<U2<string, float>> -> ListViewDataSource
     /// This performs the same function as the `cloneWithRows` function but here
     /// you also specify what your `sectionIdentities` are. If you don't care
     /// about sections you should safely be able to use `cloneWithRows`.
@@ -4057,7 +3818,7 @@ type [<AllowNullLiteral>] ListViewDataSource =
     /// keys of dataBlob are the section identities.
     /// 
     /// Note: this returns a new object!
-    abstract cloneWithRowsAndSections: dataBlob: U2<Array<obj option>, TypeLiteral_04> * ?sectionIdentities: Array<U2<string, float>> * ?rowIdentities: Array<Array<U2<string, float>>> -> ListViewDataSource
+    abstract cloneWithRowsAndSections: dataBlob: U2<Array<obj option>, LayoutAnimationStaticConfigChecker> * ?sectionIdentities: Array<U2<string, float>> * ?rowIdentities: Array<Array<U2<string, float>>> -> ListViewDataSource
     abstract getRowCount: unit -> float
     abstract getRowAndSectionCount: unit -> float
     /// Returns if the row is dirtied and needs to be rerendered
@@ -4139,7 +3900,7 @@ type [<AllowNullLiteral>] TabBarIOSItemProps =
     /// Note that if you are using them, the title and selectedIcon will be overriden with the system ones.
     /// 
     ///   enum('bookmarks', 'contacts', 'downloads', 'favorites', 'featured', 'history', 'more', 'most-recent', 'most-viewed', 'recents', 'search', 'top-rated')
-    abstract systemIcon: obj option with get, set
+    abstract systemIcon: TabBarIOSItemPropsSystemIcon option with get, set
     /// Text that appears under the icon. It is ignored when a system icon is defined.
     abstract title: string option with get, set
 
@@ -4147,11 +3908,7 @@ type [<AllowNullLiteral>] TabBarIOSItem =
     inherit React.Component<TabBarIOSItemProps>
 
 type [<AllowNullLiteral>] TabBarIOSItemStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TabBarIOSItemStaticValueIn -> TabBarIOSItem
-
-type [<AllowNullLiteral>] TabBarIOSItemStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> TabBarIOSItem
 
 type [<AllowNullLiteral>] TabBarIOSProps =
     inherit ViewProps
@@ -4164,7 +3921,7 @@ type [<AllowNullLiteral>] TabBarIOSProps =
     /// user interface idiom. In a horizontally compact environment (e.g. iPhone 5)
     /// this value defaults to `fill`, in a horizontally regular one (e.g. iPad)
     /// it defaults to center.
-    abstract itemPositioning: U3<string, string, string> option with get, set
+    abstract itemPositioning: TabBarIOSPropsItemPositioning option with get, set
     /// Color of the currently selected tab icon
     abstract tintColor: string option with get, set
     /// A Boolean value that indicates whether the tab bar is translucent
@@ -4178,12 +3935,8 @@ type [<AllowNullLiteral>] TabBarIOS =
     inherit React.Component<TabBarIOSProps>
 
 type [<AllowNullLiteral>] TabBarIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: TabBarIOSStaticValueIn -> TabBarIOS
+    [<Emit "new $0($1...)">] abstract Create: unit -> TabBarIOS
     abstract Item: obj with get, set
-
-type [<AllowNullLiteral>] TabBarIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] PixelRatioStatic =
     abstract get: unit -> float
@@ -4222,6 +3975,9 @@ type [<AllowNullLiteral>] PlatformIOSStatic =
 type [<AllowNullLiteral>] DeviceEventEmitterStatic =
     inherit EventEmitter
     abstract sharedSubscriber: EventSubscriptionVendor with get, set
+    /// Adds a listener to be invoked when events of the specified type are
+    /// emitted. An optional calling context may be provided. The data arguments
+    /// emitted will be passed to the listener function.
     abstract addListener: ``type``: string * listener: (obj option -> unit) * ?context: obj -> EmitterSubscription
 
 /// Deprecated - subclass NativeEventEmitter to create granular event modules instead of
@@ -4257,16 +4013,20 @@ type [<AllowNullLiteral>] Dimensions =
     /// StyleSheet).
     /// Example: const {height, width} = Dimensions.get('window');</summary>
     /// <param name="dim">Name of dimension as defined when calling set.</param>
-    abstract get: dim: U2<string, string> -> ScaledSize
+    abstract get: dim: DimensionsGetDim -> ScaledSize
     /// <summary>This should only be called from native code by sending the didUpdateDimensions event.</summary>
     /// <param name="dims">Simple string-keyed object of dimensions to set</param>
     abstract set: dims: DimensionsSetDims -> unit
     /// <summary>Add an event listener for dimension changes</summary>
     /// <param name="handler">the event handler</param>
-    [<Emit "$0.addEventListener('change',$1)">] abstract addEventListener_change: handler: (TypeLiteral_33 -> unit) -> unit
+    [<Emit "$0.addEventListener('change',$1)">] abstract addEventListener_change: handler: (DimensionsAddEventListener_change -> unit) -> unit
     /// <summary>Remove an event listener</summary>
     /// <param name="handler">the event handler</param>
-    [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: (TypeLiteral_33 -> unit) -> unit
+    [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: (DimensionsAddEventListener_change -> unit) -> unit
+
+type [<StringEnum>] [<RequireQualifiedAccess>] DimensionsGetDim =
+    | Window
+    | Screen
 
 type [<AllowNullLiteral>] DimensionsSetDims =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
@@ -4284,7 +4044,7 @@ type Handle =
 
 type [<AllowNullLiteral>] InteractionManagerStatic =
     inherit EventEmitterListener
-    abstract Events: TypeLiteral_34 with get, set
+    abstract Events: InteractionManagerStaticEvents with get, set
     /// Schedule a function to run after all interactions have completed.
     /// Returns a cancellable
     abstract runAfterInteractions: ?task: U3<(unit -> obj option), SimpleTask, PromiseTask> -> InteractionManagerStaticRunAfterInteractionsReturn
@@ -4420,7 +4180,7 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// Note: The weird argument signature is due to the fact that, for historical reasons,
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
-    abstract scrollResponderScrollTo: ?x: U2<float, TypeLiteral_15> * ?y: float * ?animated: bool -> unit
+    abstract scrollResponderScrollTo: ?x: U2<float, RecyclerViewBackedScrollViewScrollTo> * ?y: float * ?animated: bool -> unit
     /// A helper function to zoom to a specific rect in the scrollview. The argument has the shape
     /// {x: number; y: number; width: number; height: number; animated: boolean = true}
     abstract scrollResponderZoomTo: rect: ScrollResponderMixinScrollResponderZoomToRect * ?animated: bool -> unit
@@ -4520,12 +4280,12 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     abstract contentOffset: PointPropType option with get, set
     /// This property specifies how the safe area insets are used to modify the content area of the scroll view.
     /// The default value of this property must be 'automatic'. But the default value is 'never' until RN@0.51.
-    abstract contentInsetAdjustmentBehavior: U4<string, string, string, string> option with get, set
+    abstract contentInsetAdjustmentBehavior: ScrollViewPropsIOSContentInsetAdjustmentBehavior option with get, set
     /// A floating-point number that determines how quickly the scroll view
     /// decelerates after the user lifts their finger. Reasonable choices include
     ///    - Normal: 0.998 (the default)
     ///    - Fast: 0.9
-    abstract decelerationRate: U3<string, string, float> option with get, set
+    abstract decelerationRate: U2<float, string> option with get, set
     /// When true the ScrollView will try to lock to only vertical or horizontal
     /// scrolling while dragging.  The default value is false.
     abstract directionalLockEnabled: bool option with get, set
@@ -4535,7 +4295,7 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     ///    a white content background.
     /// - white, scroll indicator is white. This style is good against
     ///    a black content background.
-    abstract indicatorStyle: U3<string, string, string> option with get, set
+    abstract indicatorStyle: ScrollViewPropsIOSIndicatorStyle option with get, set
     /// The maximum allowed zoom scale. The default value is 1.0.
     abstract maximumZoomScale: float option with get, set
     /// The minimum allowed zoom scale. The default value is 1.0.
@@ -4561,7 +4321,7 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     ///       - start (the default) will align the snap at the left (horizontal) or top (vertical)
     ///       - center will align the snap in the center
     ///       - end will align the snap at the right (horizontal) or bottom (vertical)
-    abstract snapToAlignment: U3<string, string, string> option with get, set
+    abstract snapToAlignment: ScrollViewPropsIOSSnapToAlignment option with get, set
     /// When set, causes the scroll view to stop at multiples of the value of snapToInterval.
     /// This can be used for paginating through children that have lengths smaller than the scroll view.
     /// Used in combination with snapToAlignment.
@@ -4593,8 +4353,9 @@ type [<AllowNullLiteral>] ScrollViewPropsAndroid =
     ///      - 'auto' - Default value, allow a user to over-scroll this view only if the content is large enough to meaningfully scroll.
     ///      - 'always' - Always allow a user to over-scroll this view.
     ///      - 'never' - Never allow a user to over-scroll this view.
-    ///   
-    abstract overScrollMode: U3<string, string, string> option with get, set
+    abstract overScrollMode: ScrollViewPropsAndroidOverScrollMode option with get, set
+    /// Enables nested scrolling for Android API level 21+. Nested scrolling is supported by default on iOS.
+    abstract nestedScrollEnabled: bool option with get, set
 
 type [<AllowNullLiteral>] ScrollViewProps =
     inherit ViewProps
@@ -4624,12 +4385,12 @@ type [<AllowNullLiteral>] ScrollViewProps =
     ///    - 'interactive' the keyboard is dismissed interactively with the drag
     ///      and moves in synchrony with the touch; dragging upwards cancels the
     ///      dismissal.
-    abstract keyboardDismissMode: U3<string, string, string> option with get, set
+    abstract keyboardDismissMode: ScrollViewPropsKeyboardDismissMode option with get, set
     /// When false tapping outside of the focused text input when the keyboard
     /// is up dismisses the keyboard. When true the scroll view will not catch
     /// taps and the keyboard will not dismiss automatically. The default value
     /// is false.
-    abstract keyboardShouldPersistTaps: U4<bool, string, string, string> option with get, set
+    abstract keyboardShouldPersistTaps: U2<bool, string> option with get, set
     /// Called when scrollable content view of the ScrollView changes.
     /// Handler function is passed the content width and content height as parameters: (contentWidth, contentHeight)
     /// It's implemented using onLayout handler attached to the content container which this ScrollView renders.
@@ -4670,11 +4431,7 @@ type [<AllowNullLiteral>] ScrollViewComponent =
     inherit React.Component<ScrollViewProps>
 
 type [<AllowNullLiteral>] ScrollViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ScrollViewComponentStaticValueIn -> ScrollViewComponent
-
-type [<AllowNullLiteral>] ScrollViewComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollViewComponent
 
 type [<AllowNullLiteral>] ScrollView =
     inherit ScrollViewBase
@@ -4686,7 +4443,7 @@ type [<AllowNullLiteral>] ScrollView =
     /// Note: The weird argument signature is due to the fact that, for historical reasons,
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
-    abstract scrollTo: ?y: U2<float, TypeLiteral_15> * ?x: float * ?animated: bool -> unit
+    abstract scrollTo: ?y: U2<float, RecyclerViewBackedScrollViewScrollTo> * ?x: float * ?animated: bool -> unit
     /// A helper function that scrolls to the end of the scrollview;
     /// If this is a vertical ScrollView, it scrolls to the bottom.
     /// If this is a horizontal ScrollView scrolls to the right.
@@ -4707,11 +4464,7 @@ type [<AllowNullLiteral>] ScrollViewScrollToEndOptions =
     abstract animated: bool with get, set
 
 type [<AllowNullLiteral>] ScrollViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ScrollViewStaticValueIn -> ScrollView
-
-type [<AllowNullLiteral>] ScrollViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollView
 
 type [<AllowNullLiteral>] NativeScrollRectangle =
     abstract left: float with get, set
@@ -4748,21 +4501,13 @@ type [<AllowNullLiteral>] SnapshotViewIOSComponent =
     inherit React.Component<SnapshotViewIOSProps>
 
 type [<AllowNullLiteral>] SnapshotViewIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SnapshotViewIOSComponentStaticValueIn -> SnapshotViewIOSComponent
-
-type [<AllowNullLiteral>] SnapshotViewIOSComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SnapshotViewIOSComponent
 
 type [<AllowNullLiteral>] SnapshotViewIOS =
     inherit SnapshotViewIOSBase
 
 type [<AllowNullLiteral>] SnapshotViewIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SnapshotViewIOSStaticValueIn -> SnapshotViewIOS
-
-type [<AllowNullLiteral>] SnapshotViewIOSStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SnapshotViewIOS
 
 /// Data source wrapper around ListViewDataSource to allow for tracking of
 /// which row is swiped open and close opened row(s) when another row is swiped
@@ -4824,12 +4569,8 @@ type [<AllowNullLiteral>] SwipeableListView =
 /// - It can bounce the 1st row of the list so users know it's swipeable
 /// - More to come
 type [<AllowNullLiteral>] SwipeableListViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SwipeableListViewStaticValueIn -> SwipeableListView
+    [<Emit "new $0($1...)">] abstract Create: unit -> SwipeableListView
     abstract getNewDataSource: unit -> SwipeableListViewDataSource
-
-type [<AllowNullLiteral>] SwipeableListViewStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
 
 type [<AllowNullLiteral>] ActionSheetIOSOptions =
     abstract title: string option with get, set
@@ -4871,22 +4612,7 @@ type [<AllowNullLiteral>] ActionSheetIOSStatic =
     abstract showShareActionSheetWithOptions: (ShareActionSheetIOSOptions -> (Error -> unit) -> (bool -> string -> unit) -> unit) with get, set
 
 type ShareContent =
-    U4<obj, obj, obj, obj>
-
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module ShareContent =
-    let ofTitle v: ShareContent = v |> U4.Case1
-    let isTitle (v: ShareContent) = match v with U4.Case1 _ -> true | _ -> false
-    let asTitle (v: ShareContent) = match v with U4.Case1 o -> Some o | _ -> None
-    let ofMessage v: ShareContent = v |> U4.Case2
-    let isMessage (v: ShareContent) = match v with U4.Case2 _ -> true | _ -> false
-    let asMessage (v: ShareContent) = match v with U4.Case2 o -> Some o | _ -> None
-    let ofTitle v: ShareContent = v |> U4.Case3
-    let isTitle (v: ShareContent) = match v with U4.Case3 _ -> true | _ -> false
-    let asTitle (v: ShareContent) = match v with U4.Case3 o -> Some o | _ -> None
-    let ofUrl v: ShareContent = v |> U4.Case4
-    let isUrl (v: ShareContent) = match v with U4.Case4 _ -> true | _ -> false
-    let asUrl (v: ShareContent) = match v with U4.Case4 o -> Some o | _ -> None
+    U4<string, string, string, string>
 
 type [<AllowNullLiteral>] ShareOptions =
     abstract dialogTitle: string option with get, set
@@ -4941,15 +4667,6 @@ type [<AllowNullLiteral>] AccessibilityAnnoucementFinishedEvent =
 type AccessibilityEvent =
     U2<AccessibilityChangeEvent, AccessibilityAnnoucementFinishedEvent>
 
-[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module AccessibilityEvent =
-    let ofAccessibilityChangeEvent v: AccessibilityEvent = v |> U2.Case1
-    let isAccessibilityChangeEvent (v: AccessibilityEvent) = match v with U2.Case1 _ -> true | _ -> false
-    let asAccessibilityChangeEvent (v: AccessibilityEvent) = match v with U2.Case1 o -> Some o | _ -> None
-    let ofAccessibilityAnnoucementFinishedEvent v: AccessibilityEvent = v |> U2.Case2
-    let isAccessibilityAnnoucementFinishedEvent (v: AccessibilityEvent) = match v with U2.Case2 _ -> true | _ -> false
-    let asAccessibilityAnnoucementFinishedEvent (v: AccessibilityEvent) = match v with U2.Case2 o -> Some o | _ -> None
-
 type [<AllowNullLiteral>] AccessibilityInfoStatic =
     /// Query whether a screen reader is currently enabled.
     /// Returns a promise which resolves to a boolean. The result is true when a screen reader is enabled and false otherwise.
@@ -4974,7 +4691,7 @@ type [<AllowNullLiteral>] AccessibilityInfoStatic =
 type [<AllowNullLiteral>] AlertButton =
     abstract text: string option with get, set
     abstract onPress: (unit -> unit) option with get, set
-    abstract style: U3<string, string, string> option with get, set
+    abstract style: AlertButtonStyle option with get, set
 
 type [<AllowNullLiteral>] AlertOptions =
     abstract cancelable: bool option with get, set
@@ -5031,7 +4748,7 @@ type [<AllowNullLiteral>] AdSupportIOSStatic =
 type [<AllowNullLiteral>] AlertIOSButton =
     abstract text: string with get, set
     abstract onPress: (string -> unit) option with get, set
-    abstract style: U3<string, string, string> option with get, set
+    abstract style: AlertButtonStyle option with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] AlertType =
     | Default
@@ -5043,7 +4760,7 @@ type [<AllowNullLiteral>] AlertIOSStatic =
     /// Create and display a popup alert.
     abstract alert: (string -> string -> U2<(unit -> unit), Array<AlertIOSButton>> -> AlertType -> unit) with get, set
     /// Create and display a prompt to enter some text.
-    abstract prompt: (string -> string -> U2<(string -> unit), Array<AlertIOSButton>> -> AlertType -> string -> unit) with get, set
+    abstract prompt: (string -> string -> U2<(string -> unit), Array<AlertIOSButton>> -> AlertType -> string -> U2<KeyboardType, KeyboardTypeIOS> -> unit) with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] AppStateEvent =
     | Change
@@ -5075,7 +4792,7 @@ type [<AllowNullLiteral>] AppStateStatic =
 /// based on what is available.
 type [<AllowNullLiteral>] AsyncStorageStatic =
     /// Fetches key and passes the result to callback, along with an Error if there is any.
-    abstract getItem: key: string * ?callback: (Error -> string -> unit) -> Promise<string>
+    abstract getItem: key: string * ?callback: (Error -> string -> unit) -> Promise<string option>
     /// Sets value for key and calls callback on completion, along with an Error if there is any
     abstract setItem: key: string * value: string * ?callback: (Error -> unit) -> Promise<unit>
     abstract removeItem: key: string * ?callback: (Error -> unit) -> Promise<unit>
@@ -5135,11 +4852,7 @@ type [<AllowNullLiteral>] Button =
     inherit React.Component<ButtonProps>
 
 type [<AllowNullLiteral>] ButtonStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ButtonStaticValueIn -> Button
-
-type [<AllowNullLiteral>] ButtonStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Button
 
 type [<StringEnum>] [<RequireQualifiedAccess>] CameraRollGroupType =
     | [<CompiledName "Album">] Album
@@ -5173,7 +4886,7 @@ type [<AllowNullLiteral>] CameraRollEdgeInfo =
 
 type [<AllowNullLiteral>] CameraRollAssetInfo =
     abstract edges: ResizeArray<CameraRollEdgeInfo> with get, set
-    abstract page_info: TypeLiteral_35 with get, set
+    abstract page_info: CameraRollAssetInfoPage_info with get, set
 
 type [<AllowNullLiteral>] GetPhotosParamType =
     abstract first: float with get, set
@@ -5184,8 +4897,8 @@ type [<AllowNullLiteral>] GetPhotosParamType =
     abstract mimeTypes: ResizeArray<string> option with get, set
 
 type [<AllowNullLiteral>] GetPhotosReturnType =
-    abstract edges: ResizeArray<TypeLiteral_39> with get, set
-    abstract page_info: TypeLiteral_40 with get, set
+    abstract edges: ResizeArray<GetPhotosReturnTypeEdges> with get, set
+    abstract page_info: GetPhotosReturnTypePage_info with get, set
 
 /// CameraRoll provides access to the local camera roll / gallery.
 /// Before using this you must link the RCTCameraRoll library.
@@ -5207,12 +4920,16 @@ type [<AllowNullLiteral>] CameraRollStatic =
     /// `type` parameter that must be one of 'photo' or 'video'.
     /// 
     /// Returns a Promise which will resolve with the new URI.
-    abstract saveToCameraRoll: tag: string * ?``type``: U2<string, string> -> Promise<string>
+    abstract saveToCameraRoll: tag: string * ?``type``: CameraRollStaticSaveToCameraRollType -> Promise<string>
     /// <summary>Invokes callback with photo identifier objects from the local camera roll of the device matching shape defined by getPhotosReturnChecker.</summary>
     /// <param name="params">See getPhotosParamChecker.</param>
     abstract getPhotos: ``params``: GetPhotosParamType -> Promise<GetPhotosReturnType>
 
-/// Clipboard gives you an interface for setting and getting content from Clipboard on both iOS and Android 
+type [<StringEnum>] [<RequireQualifiedAccess>] CameraRollStaticSaveToCameraRollType =
+    | Photo
+    | Video
+
+/// Clipboard gives you an interface for setting and getting content from Clipboard on both iOS and Android
 type [<AllowNullLiteral>] ClipboardStatic =
     abstract getString: unit -> Promise<string>
     abstract setString: content: string -> unit
@@ -5221,7 +4938,7 @@ type [<AllowNullLiteral>] DatePickerAndroidOpenOptions =
     abstract date: U2<DateTime, float> option with get, set
     abstract minDate: U2<DateTime, float> option with get, set
     abstract maxDate: U2<DateTime, float> option with get, set
-    abstract mode: U3<string, string, string> option with get, set
+    abstract mode: DatePickerAndroidOpenOptionsMode option with get, set
 
 type [<AllowNullLiteral>] DatePickerAndroidOpenReturn =
     abstract action: string with get, set
@@ -5262,31 +4979,25 @@ type [<AllowNullLiteral>] IntentAndroidStatic =
     ///   NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
     /// 
     ///   NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
-    /// 
-    ///   
     abstract openURL: url: string -> unit
     /// Determine whether or not an installed app can handle a given URL.
     /// 
     ///   You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
     /// 
     ///   NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
-    /// 
-    ///   
     abstract canOpenURL: url: string * callback: (bool -> unit) -> unit
     /// If the app launch was triggered by an app link with {@code Intent.ACTION_VIEW}, it will give the link url, otherwise it will give null
     /// 
     ///   Refer http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents
-    /// 
-    ///   
     abstract getInitialURL: callback: (string -> unit) -> unit
 
 type [<AllowNullLiteral>] LinkingStatic =
     inherit NativeEventEmitter
     /// Add a handler to Linking changes by listening to the `url` event type
     /// and providing the handler
-    abstract addEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
+    abstract addEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
     /// Remove a handler by passing the `url` event type and the handler
-    abstract removeEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
+    abstract removeEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
     /// Try to open the given url with any of the installed apps.
     /// You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with the installed apps.
     /// NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
@@ -5302,9 +5013,9 @@ type [<AllowNullLiteral>] LinkingStatic =
 
 type [<AllowNullLiteral>] LinkingIOSStatic =
     /// Add a handler to LinkingIOS changes by listening to the url event type and providing the handler
-    abstract addEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
+    abstract addEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
     /// Remove a handler by passing the url event type and the handler
-    abstract removeEventListener: ``type``: string * handler: (TypeLiteral_41 -> unit) -> unit
+    abstract removeEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
     /// Try to open the given url with any of the installed apps.
     abstract openURL: url: string -> unit
     /// Determine whether or not an installed app can handle a given URL. The callback function will be called with bool supported as the only argument
@@ -5373,12 +5084,12 @@ type [<AllowNullLiteral>] NetInfoStatic =
     /// boolean which represents the internet connectivity.
     /// Use this if you are only interested with whether the device has internet
     /// connectivity.
-    abstract isConnected: TypeLiteral_42 with get, set
+    abstract isConnected: NetInfoStaticIsConnected with get, set
     /// Detect if the current active connection is
     /// metered or not. A network is classified as metered when the user is
     /// sensitive to heavy data usage on that connection due to monetary
     /// costs, data limitations or battery/performance issues.
-    abstract isConnectionExpensive: Promise<bool> with get, set
+    abstract isConnectionExpensive: (unit -> Promise<bool>) with get, set
 
 type [<AllowNullLiteral>] PanResponderGestureState =
     /// ID of the gestureState- persisted as long as there at least one touch on
@@ -5497,9 +5208,9 @@ type [<StringEnum>] [<RequireQualifiedAccess>] PermissionStatus =
 
 type [<AllowNullLiteral>] PermissionsAndroidStatic =
     /// A list of permission results that are returned
-    abstract RESULTS: TypeLiteral_43 with get, set
+    abstract RESULTS: PermissionsAndroidStaticRESULTS with get, set
     /// A list of specified "dangerous" permissions that require prompting the user
-    abstract PERMISSIONS: TypeLiteral_44 with get, set
+    abstract PERMISSIONS: PermissionsAndroidStaticPERMISSIONS with get, set
     /// Deprecated
     abstract checkPermission: permission: Permission -> Promise<bool>
     /// Returns a promise resolving to a boolean value as to whether the specified
@@ -5519,7 +5230,7 @@ type [<AllowNullLiteral>] PermissionsAndroidStatic =
     /// Prompts the user to enable multiple permissions in the same dialog and
     /// returns an object with the permissions as keys and strings as values
     /// indicating whether the user allowed or denied the request
-    abstract requestMultiple: permissions: Array<string> -> Promise<TypeLiteral_45>
+    abstract requestMultiple: permissions: Array<string> -> Promise<PermissionsAndroidStaticRequestMultiplePromise>
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> PermissionsAndroidStatic
@@ -5610,7 +5321,7 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// The handler will get be invoked with an instance of `PushNotificationIOS`
     /// 
     /// The type MUST be 'notification'
-    abstract addEventListener: ``type``: U2<string, string> * handler: (PushNotification -> unit) -> unit
+    abstract addEventListener: ``type``: PushNotificationIOSStaticAddEventListenerType * handler: (PushNotification -> unit) -> unit
     /// Fired when the user registers for remote notifications.
     /// 
     /// The handler will be invoked with a hex string representing the deviceToken.
@@ -5623,10 +5334,10 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// The handler will be invoked with {message: string, code: number, details: any}.
     /// 
     /// The type MUST be 'registrationError'
-    [<Emit "$0.addEventListener('registrationError',$1)">] abstract addEventListener_registrationError: handler: (TypeLiteral_46 -> unit) -> unit
+    [<Emit "$0.addEventListener('registrationError',$1)">] abstract addEventListener_registrationError: handler: (PushNotificationIOSStaticAddEventListener_registrationError -> unit) -> unit
     /// Removes the event listener. Do this in `componentWillUnmount` to prevent
     /// memory leaks
-    abstract removeEventListener: ``type``: PushNotificationEventName * handler: U3<(PushNotification -> unit), (string -> unit), (TypeLiteral_46 -> unit)> -> unit
+    abstract removeEventListener: ``type``: PushNotificationEventName * handler: U3<(PushNotification -> unit), (string -> unit), (PushNotificationIOSStaticAddEventListener_registrationError -> unit)> -> unit
     /// Requests all notification permissions from iOS, prompting the user's
     /// dialog box.
     abstract requestPermissions: ?permissions: ResizeArray<PushNotificationPermissions> -> unit
@@ -5656,6 +5367,10 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// For a list of possible values, see `PushNotificationIOS.FetchResult`.
     abstract FetchResult: FetchResult with get, set
 
+type [<StringEnum>] [<RequireQualifiedAccess>] PushNotificationIOSStaticAddEventListenerType =
+    | Notification
+    | LocalNotification
+
 type [<AllowNullLiteral>] SettingsStatic =
     abstract get: key: string -> obj option
     abstract set: settings: Object -> unit
@@ -5679,7 +5394,7 @@ type [<AllowNullLiteral>] StatusBarPropsIOS =
     abstract networkActivityIndicatorVisible: bool option with get, set
     /// The transition effect when showing and hiding the status bar using
     /// the hidden prop. Defaults to 'fade'.
-    abstract showHideTransition: U2<string, string> option with get, set
+    abstract showHideTransition: StatusBarPropsIOSShowHideTransition option with get, set
 
 type [<AllowNullLiteral>] StatusBarPropsAndroid =
     /// The background color of the status bar.
@@ -5702,7 +5417,7 @@ type [<AllowNullLiteral>] StatusBar =
     inherit React.Component<StatusBarProps>
 
 type [<AllowNullLiteral>] StatusBarStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: StatusBarStaticValueIn -> StatusBar
+    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
     /// The current height of the status bar on the device.
     abstract currentHeight: float option with get, set
     /// Show or hide the status bar
@@ -5716,10 +5431,6 @@ type [<AllowNullLiteral>] StatusBarStatic =
     /// Control the translucency of the status bar
     abstract setTranslucent: (bool -> unit) with get, set
 
-type [<AllowNullLiteral>] StatusBarStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
-
 /// StatusBarIOS is deprecated.
 /// Use `StatusBar` for mutating the status bar.
 type [<AllowNullLiteral>] StatusBarIOSStatic =
@@ -5729,6 +5440,7 @@ type [<AllowNullLiteral>] TimePickerAndroidOpenOptions =
     abstract hour: float option with get, set
     abstract minute: float option with get, set
     abstract is24Hour: bool option with get, set
+    abstract mode: TimePickerAndroidOpenOptionsMode option with get, set
 
 /// Opens the standard Android time picker dialog.
 /// 
@@ -5757,12 +5469,16 @@ type [<AllowNullLiteral>] TimePickerAndroidStatic =
     ///    * `is24Hour` (boolean) - If `true`, the picker uses the 24-hour format. If `false`,
     ///      the picker shows an AM/PM chooser. If undefined, the default for the current locale
     ///      is used.
+    ///    * `mode` (enum('clock', 'spinner', 'default')) - set the time picker mode
+    ///      * 'clock': Show a time picker in clock mode.
+    ///      * 'spinner': Show a time picker in spinner mode.
+    ///      * 'default': Show a default time picker based on Android versions.
     /// 
     /// Returns a Promise which will be invoked an object containing `action`, `hour` (0-23),
     /// `minute` (0-59) if the user picked a time. If the user dismissed the dialog, the Promise will
     /// still be resolved with action being `TimePickerAndroid.dismissedAction` and all the other keys
     /// being undefined. **Always** check whether the `action` before reading the values.
-    abstract ``open``: options: TimePickerAndroidOpenOptions -> Promise<TypeLiteral_47>
+    abstract ``open``: options: TimePickerAndroidOpenOptions -> Promise<TimePickerAndroidStaticOpenPromise>
     /// A time has been selected.
     abstract timeSetAction: string with get, set
     /// The dialog has been dismissed.
@@ -5781,7 +5497,7 @@ type [<AllowNullLiteral>] ToastAndroidStatic =
     /// int duration: The duration of the toast.
     /// May be ToastAndroid.SHORT or ToastAndroid.LONG
     abstract show: message: string * duration: float -> unit
-    /// `gravity` may be ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER 
+    /// `gravity` may be ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER
     abstract showWithGravity: message: string * duration: float * gravity: float -> unit
     abstract SHORT: float with get, set
     abstract LONG: float with get, set
@@ -5804,7 +5520,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// - quality (number) - the quality when using jpeg. 0.0 - 1.0 (default).
     /// 
     /// Returns a Promise<string> (tempFilePath)
-    abstract takeSnapshot: (U3<string, React.ReactElement<obj option>, float> -> TypeLiteral_48 -> Promise<string>) with get, set
+    abstract takeSnapshot: (U3<React.ReactElement<obj option>, float, string> -> UIManagerStaticTakeSnapshot -> Promise<string>) with get, set
     /// Determines the location on screen, width, and height of the given view and
     /// returns the values via an async callback. If successful, the callback will
     /// be called with the following arguments:
@@ -5891,21 +5607,13 @@ type [<AllowNullLiteral>] SwitchComponent =
 /// If the `value` prop is not updated, the component will continue to render
 /// the supplied `value` prop instead of the expected result of any user actions.
 type [<AllowNullLiteral>] SwitchComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SwitchComponentStaticValueIn -> SwitchComponent
-
-type [<AllowNullLiteral>] SwitchComponentStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> SwitchComponent
 
 type [<AllowNullLiteral>] Switch =
     inherit SwitchBase
 
 type [<AllowNullLiteral>] SwitchStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SwitchStaticValueIn -> Switch
-
-type [<AllowNullLiteral>] SwitchStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Switch
 
 /// NOTE: `VibrationIOS` is being deprecated. Use `Vibration` instead.
 /// 
@@ -6039,7 +5747,7 @@ module Animated =
         ///    {dx: this._panX},    // gestureState arg
         /// ]),
         /// ```
-        abstract ``event``: argMapping: Array<Mapping option> * ?config: EventConfig -> (ResizeArray<obj option> -> unit)
+        abstract ``event``: argMapping: Array<Mapping option> * ?config: EventConfig<'T> -> (ResizeArray<obj option> -> unit)
         /// Make any React component Animatable.  Used to create `Animated.View`, etc.
         abstract createAnimatedComponent: ``component``: obj option -> obj option
         abstract View: obj option
@@ -6152,7 +5860,7 @@ module Animated =
         abstract setOffset: offset: ValueXYSetOffsetOffset -> unit
         abstract flattenOffset: unit -> unit
         abstract extractOffset: unit -> unit
-        abstract stopAnimation: ?callback: (TypeLiteral_01 -> unit) -> unit
+        abstract stopAnimation: ?callback: (ValueXYStopAnimation -> unit) -> unit
         abstract addListener: callback: ValueXYListenerCallback -> string
         abstract removeListener: id: string -> unit
         /// Converts `{x, y}` into `{left, top}` for use in style, e.g.
@@ -6168,7 +5876,7 @@ module Animated =
         ///     transform: this.state.anim.getTranslateTransform()
         ///   }}
         /// ```
-        abstract getTranslateTransform: unit -> ResizeArray<TypeLiteral_02>
+        abstract getTranslateTransform: unit -> ResizeArray<ValueXYGetTranslateTransform>
 
     type [<AllowNullLiteral>] ValueXYSetValueValue =
         abstract x: float with get, set
@@ -6207,23 +5915,23 @@ module Animated =
 
     type [<AllowNullLiteral>] DecayAnimationConfig =
         inherit AnimationConfig
-        abstract velocity: U2<float, TypeLiteral_01> with get, set
+        abstract velocity: U2<float, ValueXYStopAnimation> with get, set
         abstract deceleration: float option with get, set
 
     type [<AllowNullLiteral>] TimingAnimationConfig =
         inherit AnimationConfig
-        abstract toValue: U4<float, AnimatedValue, TypeLiteral_01, AnimatedValueXY> with get, set
+        abstract toValue: U4<float, AnimatedValue, ValueXYStopAnimation, AnimatedValueXY> with get, set
         abstract easing: (float -> float) option with get, set
         abstract duration: float option with get, set
         abstract delay: float option with get, set
 
     type [<AllowNullLiteral>] SpringAnimationConfig =
         inherit AnimationConfig
-        abstract toValue: U4<float, AnimatedValue, TypeLiteral_01, AnimatedValueXY> with get, set
+        abstract toValue: U4<float, AnimatedValue, ValueXYStopAnimation, AnimatedValueXY> with get, set
         abstract overshootClamping: bool option with get, set
         abstract restDisplacementThreshold: float option with get, set
         abstract restSpeedThreshold: float option with get, set
-        abstract velocity: U2<float, TypeLiteral_01> option with get, set
+        abstract velocity: U2<float, ValueXYStopAnimation> option with get, set
         abstract bounciness: float option with get, set
         abstract speed: float option with get, set
         abstract tension: float option with get, set
@@ -6269,32 +5977,23 @@ module Animated =
         abstract stopTogether: bool option with get, set
 
     type Mapping =
-        U2<obj, AnimatedValue>
+        U2<Mapping, AnimatedValue>
 
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module Mapping =
-        let ofItem v: Mapping = v |> U2.Case1
-        let isItem (v: Mapping) = match v with U2.Case1 _ -> true | _ -> false
-        let asItem (v: Mapping) = match v with U2.Case1 o -> Some o | _ -> None
-        let ofAnimatedValue v: Mapping = v |> U2.Case2
-        let isAnimatedValue (v: Mapping) = match v with U2.Case2 _ -> true | _ -> false
-        let asAnimatedValue (v: Mapping) = match v with U2.Case2 o -> Some o | _ -> None
-
-    type [<AllowNullLiteral>] EventConfig =
-        abstract listener: ValueListenerCallback option with get, set
+    type [<AllowNullLiteral>] EventConfig<'T> =
+        abstract listener: (NativeSyntheticEvent<'T> -> unit) option with get, set
         abstract useNativeDriver: bool option with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_01 =
+    type [<AllowNullLiteral>] ValueXYStopAnimation =
         abstract x: float with get, set
         abstract y: float with get, set
 
-    type [<AllowNullLiteral>] TypeLiteral_02 =
+    type [<AllowNullLiteral>] ValueXYGetTranslateTransform =
         [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> AnimatedValue with get, set
 
 type [<AllowNullLiteral>] I18nManagerStatic =
     abstract isRTL: bool with get, set
-    abstract allowRTL: (bool -> TypeLiteral_49) with get, set
-    abstract forceRTL: (bool -> TypeLiteral_49) with get, set
+    abstract allowRTL: (bool -> I18nManagerStaticAllowRTL) with get, set
+    abstract forceRTL: (bool -> I18nManagerStaticAllowRTL) with get, set
 
 type [<AllowNullLiteral>] GeolocationStatic =
     /// Invokes the success callback once with the latest location info.  Supported
@@ -6311,13 +6010,13 @@ type [<AllowNullLiteral>] GeolocationStatic =
     abstract setRNConfiguration: config: GeoConfiguration -> unit
 
 type [<AllowNullLiteral>] OpenCameraDialogOptions =
-    /// Defaults to false 
+    /// Defaults to false
     abstract videoMode: bool option with get, set
 
 type [<AllowNullLiteral>] OpenSelectDialogOptions =
-    /// Defaults to true 
+    /// Defaults to true
     abstract showImages: bool option with get, set
-    /// Defaults to false 
+    /// Defaults to false
     abstract showVideos: bool option with get, set
 
 type ImagePickerResult =
@@ -6368,15 +6067,15 @@ type RCTNativeAppEventEmitter =
 type [<AllowNullLiteral>] ImageCropData =
     /// The top-left corner of the cropped image, specified in the original
     /// image's coordinate space.
-    abstract offset: TypeLiteral_09 with get, set
+    abstract offset: TextInputScrollEventDataContentOffset with get, set
     /// The size (dimensions) of the cropped image, specified in the original
     /// image's coordinate space.
-    abstract size: TypeLiteral_06 with get, set
+    abstract size: ShadowPropTypesIOSStaticShadowOffset with get, set
     /// (Optional) size to scale the cropped image to.
-    abstract displaySize: TypeLiteral_06 option with get, set
+    abstract displaySize: ShadowPropTypesIOSStaticShadowOffset option with get, set
     /// (Optional) the resizing mode to use when scaling the image. If the
     /// `displaySize` param is not specified, this has no effect.
-    abstract resizeMode: U3<string, string, string> option with get, set
+    abstract resizeMode: ImageCropDataResizeMode option with get, set
 
 type [<AllowNullLiteral>] ImageEditorStatic =
     /// Crop the image specified by the URI param. If URI points to a remote
@@ -6415,9 +6114,9 @@ type [<AllowNullLiteral>] ARTRenderableMixin =
     inherit ARTNodeMixin
     abstract fill: string option with get, set
     abstract stroke: string option with get, set
-    abstract strokeCap: U3<string, string, string> option with get, set
+    abstract strokeCap: ARTRenderableMixinStrokeCap option with get, set
     abstract strokeDash: ResizeArray<float> option with get, set
-    abstract strokeJoin: U3<string, string, string> option with get, set
+    abstract strokeJoin: ARTRenderableMixinStrokeJoin option with get, set
     abstract strokeWidth: float option with get, set
 
 type [<AllowNullLiteral>] ARTShapeProps =
@@ -6440,51 +6139,31 @@ type [<AllowNullLiteral>] ClippingRectangle =
     inherit React.Component<ARTClippingRectangleProps>
 
 type [<AllowNullLiteral>] ClippingRectangleStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ClippingRectangleStaticValueIn -> ClippingRectangle
-
-type [<AllowNullLiteral>] ClippingRectangleStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ClippingRectangle
 
 type [<AllowNullLiteral>] Group =
     inherit React.Component<ARTGroupProps>
 
 type [<AllowNullLiteral>] GroupStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: GroupStaticValueIn -> Group
-
-type [<AllowNullLiteral>] GroupStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Group
 
 type [<AllowNullLiteral>] Shape =
     inherit React.Component<ARTShapeProps>
 
 type [<AllowNullLiteral>] ShapeStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ShapeStaticValueIn -> Shape
-
-type [<AllowNullLiteral>] ShapeStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Shape
 
 type [<AllowNullLiteral>] Surface =
     inherit React.Component<ARTSurfaceProps>
 
 type [<AllowNullLiteral>] SurfaceStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: SurfaceStaticValueIn -> Surface
-
-type [<AllowNullLiteral>] SurfaceStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> Surface
 
 type [<AllowNullLiteral>] ARTText =
     inherit React.Component<ARTTextProps>
 
 type [<AllowNullLiteral>] ARTTextStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?valueIn: ARTTextStaticValueIn -> ARTText
-
-type [<AllowNullLiteral>] ARTTextStaticValueIn =
-    abstract x: U2<float, AnimatedValue> with get, set
-    abstract y: U2<float, AnimatedValue> with get, set
+    [<Emit "new $0($1...)">] abstract Create: unit -> ARTText
 
 type [<AllowNullLiteral>] ARTStatic =
     abstract ClippingRectangle: obj with get, set
@@ -6633,7 +6312,7 @@ type [<AllowNullLiteral>] NativeModulesStatic =
 type [<AllowNullLiteral>] ComponentInterface<'P> =
     abstract name: string option with get, set
     abstract displayName: string option with get, set
-    abstract propTypes: 'P with get, set
+    abstract propTypes: PropTypes.ValidationMap<'P> with get, set
 
 type [<AllowNullLiteral>] ErrorHandlerCallback =
     [<Emit "$0($1...)">] abstract Invoke: error: obj option * ?isFatal: bool -> unit
@@ -6672,105 +6351,67 @@ type [<AllowNullLiteral>] Navigator =
     abstract product: string
     abstract geolocation: Geolocation
 
-type [<AllowNullLiteral>] TypeLiteral_49 =
-    interface end
+type [<AllowNullLiteral>] NativeMethodsMixinStaticRefs =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> React.Component<obj option, obj option> with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_32 =
-    abstract RED: string with get, set
-    abstract GREEN: string with get, set
-    abstract PURPLE: string with get, set
+type [<AllowNullLiteral>] LayoutAnimationStaticConfigChecker =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_38 =
-    abstract ``type``: string with get, set
-    abstract group_name: string with get, set
-    abstract image: TypeLiteral_36 with get, set
-    abstract timestamp: float with get, set
-    abstract location: TypeLiteral_37 with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_47 =
-    abstract action: string with get, set
-    abstract hour: float with get, set
-    abstract minute: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_23 =
-    abstract animated: bool option with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_24 =
-    abstract animated: bool option with get, set
-    abstract index: float with get, set
-    abstract viewOffset: float option with get, set
-    abstract viewPosition: float option with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_25<'ItemT> =
-    abstract animated: bool option with get, set
-    abstract item: 'ItemT with get, set
-    abstract viewPosition: float option with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_26 =
-    abstract animated: bool option with get, set
-    abstract offset: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_22 =
-    abstract contentLength: float with get, set
-    abstract totalRows: float with get, set
-    abstract renderedRows: float with get, set
-    abstract visibleRows: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_21 =
-    abstract distanceFromEnd: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_05 =
+type [<AllowNullLiteral>] LayoutAnimationStaticPresets =
     abstract easeInEaseOut: LayoutAnimationConfig with get, set
     abstract linear: LayoutAnimationConfig with get, set
     abstract spring: LayoutAnimationConfig with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_42 =
-    abstract fetch: (unit -> Promise<bool>) with get, set
-    /// eventName is expected to be `change`(deprecated) or `connectionChange`
-    abstract addEventListener: (string -> (bool -> unit) -> unit) with get, set
-    /// eventName is expected to be `change`(deprecated) or `connectionChange`
-    abstract removeEventListener: (string -> (bool -> unit) -> unit) with get, set
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleAlignContent =
+    | [<CompiledName "flex-start">] FlexStart
+    | [<CompiledName "flex-end">] FlexEnd
+    | Center
+    | Stretch
+    | [<CompiledName "space-between">] SpaceBetween
+    | [<CompiledName "space-around">] SpaceAround
 
-type [<AllowNullLiteral>] TypeLiteral_35 =
-    abstract has_next_page: bool with get, set
-    abstract end_cursor: string with get, set
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleDisplay =
+    | None
+    | Flex
 
-type [<AllowNullLiteral>] TypeLiteral_40 =
-    abstract has_next_page: bool with get, set
-    abstract start_cursor: string option with get, set
-    abstract end_cursor: string option with get, set
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleFlexDirection =
+    | Row
+    | Column
+    | [<CompiledName "row-reverse">] RowReverse
+    | [<CompiledName "column-reverse">] ColumnReverse
 
-type [<AllowNullLiteral>] TypeLiteral_17 =
-    abstract height: float with get, set
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleFlexWrap =
+    | Wrap
+    | Nowrap
+    | [<CompiledName "wrap-reverse">] WrapReverse
+
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleJustifyContent =
+    | [<CompiledName "flex-start">] FlexStart
+    | [<CompiledName "flex-end">] FlexEnd
+    | Center
+    | [<CompiledName "space-between">] SpaceBetween
+    | [<CompiledName "space-around">] SpaceAround
+    | [<CompiledName "space-evenly">] SpaceEvenly
+
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleOverflow =
+    | Visible
+    | Hidden
+    | Scroll
+
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStylePosition =
+    | Absolute
+    | Relative
+
+type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleDirection =
+    | Inherit
+    | Ltr
+    | Rtl
+
+type [<AllowNullLiteral>] ShadowPropTypesIOSStaticShadowOffset =
     abstract width: float with get, set
-    abstract url: string with get, set
+    abstract height: float with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_19 =
-    abstract highlight: (unit -> unit) with get, set
-    abstract unhighlight: (unit -> unit) with get, set
-    abstract updateProps: (U2<string, string> -> obj option -> unit) with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_27 =
-    abstract index: float with get, set
-    abstract highestMeasuredFrameIndex: float with get, set
-    abstract averageItemLength: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_34 =
-    abstract interactionStart: string with get, set
-    abstract interactionComplete: string with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_31 =
-    abstract latitude: float with get, set
-    abstract longitude: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_37 =
-    abstract latitude: float with get, set
-    abstract longitude: float with get, set
-    abstract altitude: float with get, set
-    abstract heading: float with get, set
-    abstract speed: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_07 =
+type [<AllowNullLiteral>] GeolocationReturnTypeCoords =
     abstract latitude: float with get, set
     abstract longitude: float with get, set
     abstract altitude: float option with get, set
@@ -6779,101 +6420,530 @@ type [<AllowNullLiteral>] TypeLiteral_07 =
     abstract heading: float option with get, set
     abstract speed: float option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_08 =
+type [<AllowNullLiteral>] LayoutChangeEventNativeEvent =
     abstract layout: LayoutRectangle with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_13 =
-    abstract layout: TypeLiteral_12 with get, set
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleIOSTextDecorationStyle =
+    | Solid
+    | Double
+    | Dotted
+    | Dashed
 
-type [<AllowNullLiteral>] TypeLiteral_20 =
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleIOSTextTransform =
+    | None
+    | Capitalize
+    | Uppercase
+    | Lowercase
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleIOSWritingDirection =
+    | Auto
+    | Ltr
+    | Rtl
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleAndroidTextAlignVertical =
+    | Auto
+    | Top
+    | Bottom
+    | Center
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleFontStyle =
+    | Normal
+    | Italic
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleFontWeight =
+    | Normal
+    | Bold
+    | [<CompiledName "100">] N100
+    | [<CompiledName "200">] N200
+    | [<CompiledName "300">] N300
+    | [<CompiledName "400">] N400
+    | [<CompiledName "500">] N500
+    | [<CompiledName "600">] N600
+    | [<CompiledName "700">] N700
+    | [<CompiledName "800">] N800
+    | [<CompiledName "900">] N900
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextAlign =
+    | Auto
+    | Left
+    | Right
+    | Center
+    | Justify
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextDecorationLine =
+    | None
+    | Underline
+    | [<CompiledName "line-through">] LineThrough
+    | [<CompiledName "underline line-through">] ``Underline lineThrough``
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextPropsAndroidTextBreakStrategy =
+    | Simple
+    | HighQuality
+    | Balanced
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextPropsEllipsizeMode =
+    | Head
+    | Middle
+    | Tail
+    | Clip
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsClearButtonMode =
+    | Never
+    | [<CompiledName "while-editing">] WhileEditing
+    | [<CompiledName "unless-editing">] UnlessEditing
+    | Always
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsKeyboardAppearance =
+    | Default
+    | Light
+    | Dark
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsTextContentType =
+    | None
+    | [<CompiledName "URL">] URL
+    | AddressCity
+    | AddressCityAndState
+    | AddressState
+    | CountryName
+    | CreditCardNumber
+    | EmailAddress
+    | FamilyName
+    | FullStreetAddress
+    | GivenName
+    | JobTitle
+    | Location
+    | MiddleName
+    | Name
+    | NamePrefix
+    | NameSuffix
+    | Nickname
+    | OrganizationName
+    | PostalCode
+    | StreetAddressLine1
+    | StreetAddressLine2
+    | Sublocality
+    | TelephoneNumber
+    | Username
+    | Password
+
+type [<AllowNullLiteral>] TextInputScrollEventDataContentOffset =
+    abstract x: float with get, set
+    abstract y: float with get, set
+
+type [<AllowNullLiteral>] TextInputSelectionChangeEventDataSelection =
+    abstract start: float with get, set
+    abstract ``end``: float with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TextInputPropsAutoCapitalize =
+    | None
+    | Sentences
+    | Words
+    | Characters
+
+type [<AllowNullLiteral>] TextInputPropsSelection =
+    abstract start: float with get, set
+    abstract ``end``: float option with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ToolbarAndroidActionShow =
+    | Always
+    | IfRoom
+    | Never
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ViewStyleBackfaceVisibility =
+    | Visible
+    | Hidden
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ViewStyleBorderStyle =
+    | Solid
+    | Dotted
+    | Dashed
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityPropsAndroidAccessibilityComponentType =
+    | None
+    | Button
+    | Radiobutton_checked
+    | Radiobutton_unchecked
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityPropsAndroidAccessibilityLiveRegion =
+    | None
+    | Polite
+    | Assertive
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityPropsAndroidImportantForAccessibility =
+    | Auto
+    | Yes
+    | No
+    | [<CompiledName "no-hide-descendants">] NoHideDescendants
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ViewPropsPointerEvents =
+    | [<CompiledName "box-none">] BoxNone
+    | None
+    | [<CompiledName "box-only">] BoxOnly
+    | Auto
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ViewPagerAndroidPropsOnPageScrollStateChanged =
+    | [<CompiledName "Idle">] Idle
+    | [<CompiledName "Dragging">] Dragging
+    | [<CompiledName "Settling">] Settling
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ViewPagerAndroidPropsKeyboardDismissMode =
+    | None
+    | [<CompiledName "on-drag">] OnDrag
+
+type [<StringEnum>] [<RequireQualifiedAccess>] KeyboardAvoidingViewPropsBehavior =
+    | Height
+    | Position
+    | Padding
+
+type [<StringEnum>] [<RequireQualifiedAccess>] WebViewPropsAndroidMixedContentMode =
+    | Never
+    | Always
+    | Compatibility
+
+type [<StringEnum>] [<RequireQualifiedAccess>] WebViewIOSLoadRequestEventNavigationType =
+    | Click
+    | Formsubmit
+    | Backforward
+    | Reload
+    | Formresubmit
+    | Other
+
+type [<StringEnum>] [<RequireQualifiedAccess>] WebViewUriSourceMethod =
+    | [<CompiledName "GET">] GET
+    | [<CompiledName "POST">] POST
+
+type [<AllowNullLiteral>] ActivityIndicatorIOSPropsOnLayoutNativeEventLayout =
+    abstract x: float with get, set
+    abstract y: float with get, set
+    abstract width: float with get, set
+    abstract height: float with get, set
+
+type [<AllowNullLiteral>] ActivityIndicatorIOSPropsOnLayoutNativeEvent =
+    abstract layout: ActivityIndicatorIOSPropsOnLayoutNativeEventLayout with get, set
+
+type [<AllowNullLiteral>] ActivityIndicatorIOSPropsOnLayout =
+    abstract nativeEvent: ActivityIndicatorIOSPropsOnLayoutNativeEvent with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ActivityIndicatorIOSPropsSize =
+    | Small
+    | Large
+
+type [<RequireQualifiedAccess>] DatePickerIOSPropsMinuteInterval =
+    | N1 = 1
+    | N2 = 2
+    | N3 = 3
+    | N4 = 4
+    | N5 = 5
+    | N6 = 6
+    | N10 = 10
+    | N12 = 12
+    | N15 = 15
+    | N20 = 20
+    | N30 = 30
+
+type [<StringEnum>] [<RequireQualifiedAccess>] DatePickerIOSPropsMode =
+    | Date
+    | Time
+    | Datetime
+
+type [<StringEnum>] [<RequireQualifiedAccess>] DrawerLayoutAndroidPropsDrawerLockMode =
+    | Unlocked
+    | [<CompiledName "locked-closed">] LockedClosed
+    | [<CompiledName "locked-open">] LockedOpen
+
+type [<StringEnum>] [<RequireQualifiedAccess>] PickerPropsAndroidMode =
+    | Dialog
+    | Dropdown
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ProgressBarAndroidPropsStyleAttr =
+    | [<CompiledName "Horizontal">] Horizontal
+    | [<CompiledName "Normal">] Normal
+    | [<CompiledName "Small">] Small
+    | [<CompiledName "Large">] Large
+    | [<CompiledName "Inverse">] Inverse
+    | [<CompiledName "SmallInverse">] SmallInverse
+    | [<CompiledName "LargeInverse">] LargeInverse
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ProgressViewIOSPropsProgressViewStyle =
+    | Default
+    | Bar
+
+type [<AllowNullLiteral>] RecyclerViewBackedScrollViewScrollTo =
+    abstract x: float option with get, set
+    abstract y: float option with get, set
+    abstract animated: bool option with get, set
+
+type [<AllowNullLiteral>] ImageURISourceHeaders =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ImageURISourceCache =
+    | Default
+    | Reload
+    | [<CompiledName "force-cache">] ForceCache
+    | [<CompiledName "only-if-cached">] OnlyIfCached
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ImagePropsAndroidResizeMethod =
+    | Auto
+    | Resize
+    | Scale
+
+type [<AllowNullLiteral>] ImageLoadEventDataSource =
+    abstract height: float with get, set
+    abstract width: float with get, set
+    abstract url: string with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ImageStaticQueryCachePromiseMap =
+    | Memory
+    | Disk
+
+type [<AllowNullLiteral>] ViewabilityConfigCallbackPairOnViewableItemsChanged =
+    abstract viewableItems: Array<ViewToken> with get, set
+    abstract changed: Array<ViewToken> with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ListRenderItemInfoSeparatorsUpdateProps =
+    | Leading
+    | Trailing
+
+type [<AllowNullLiteral>] ListRenderItemInfoSeparators =
+    abstract highlight: (unit -> unit) with get, set
+    abstract unhighlight: (unit -> unit) with get, set
+    abstract updateProps: (ListRenderItemInfoSeparatorsUpdateProps -> obj option -> unit) with get, set
+
+type [<AllowNullLiteral>] FlatListPropsGetItemLayout =
     abstract length: float with get, set
     abstract offset: float with get, set
     abstract index: float with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_46 =
-    abstract message: string with get, set
-    abstract code: float with get, set
-    abstract details: obj option with get, set
+type [<AllowNullLiteral>] FlatListPropsOnEndReached =
+    abstract distanceFromEnd: float with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_14 =
-    abstract nativeEvent: TypeLiteral_13 with get, set
+type [<AllowNullLiteral>] FlatListGetMetrics =
+    abstract contentLength: float with get, set
+    abstract totalRows: float with get, set
+    abstract renderedRows: float with get, set
+    abstract visibleRows: float with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_39 =
-    abstract node: TypeLiteral_38 with get, set
+type [<AllowNullLiteral>] FlatListScrollToEnd =
+    abstract animated: bool option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_28<'ItemT> =
+type [<AllowNullLiteral>] FlatListScrollToIndex =
+    abstract animated: bool option with get, set
+    abstract index: float with get, set
+    abstract viewOffset: float option with get, set
+    abstract viewPosition: float option with get, set
+
+type [<AllowNullLiteral>] FlatListScrollToItem<'ItemT> =
+    abstract animated: bool option with get, set
+    abstract item: 'ItemT with get, set
+    abstract viewPosition: float option with get, set
+
+type [<AllowNullLiteral>] FlatListScrollToOffset =
+    abstract animated: bool option with get, set
+    abstract offset: float with get, set
+
+type [<AllowNullLiteral>] SectionListPropsOnScrollToIndexFailed =
+    abstract index: float with get, set
+    abstract highestMeasuredFrameIndex: float with get, set
+    abstract averageItemLength: float with get, set
+
+type [<AllowNullLiteral>] SectionListPropsRenderSectionHeader<'ItemT> =
     abstract section: SectionListData<'ItemT> with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_10 =
-    abstract start: float with get, set
-    abstract ``end``: float with get, set
+type [<AllowNullLiteral>] ListViewPropsOnChangeVisibleRowsArrayItem =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: rowID: string -> bool with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_11 =
-    abstract start: float with get, set
-    abstract ``end``: float option with get, set
+type [<AllowNullLiteral>] ListViewPropsOnChangeVisibleRowsArray =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: sectionId: string -> ListViewPropsOnChangeVisibleRowsArrayItem with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_36 =
+type [<AllowNullLiteral>] MapViewOverlayCoordinates =
+    abstract latitude: float with get, set
+    abstract longitude: float with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] MapViewPropsMapType =
+    | Standard
+    | Satellite
+    | Hybrid
+
+type [<AllowNullLiteral>] MapViewStaticPinColors =
+    abstract RED: string with get, set
+    abstract GREEN: string with get, set
+    abstract PURPLE: string with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ModalBasePropsAnimationType =
+    | None
+    | Slide
+    | Fade
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ModalPropsIOSPresentationStyle =
+    | FullScreen
+    | PageSheet
+    | FormSheet
+    | OverFullScreen
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ModalPropsIOSSupportedOrientationsArray =
+    | Portrait
+    | [<CompiledName "portrait-upside-down">] PortraitUpsideDown
+    | Landscape
+    | [<CompiledName "landscape-left">] LandscapeLeft
+    | [<CompiledName "landscape-right">] LandscapeRight
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TabBarIOSItemPropsSystemIcon =
+    | Bookmarks
+    | Contacts
+    | Downloads
+    | Favorites
+    | Featured
+    | History
+    | More
+    | [<CompiledName "most-recent">] MostRecent
+    | [<CompiledName "most-viewed">] MostViewed
+    | Recents
+    | Search
+    | [<CompiledName "top-rated">] TopRated
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TabBarIOSPropsItemPositioning =
+    | Fill
+    | Center
+    | Auto
+
+type [<AllowNullLiteral>] DimensionsAddEventListener_change =
+    abstract window: ScaledSize with get, set
+    abstract screen: ScaledSize with get, set
+
+type [<AllowNullLiteral>] InteractionManagerStaticEvents =
+    abstract interactionStart: string with get, set
+    abstract interactionComplete: string with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsIOSContentInsetAdjustmentBehavior =
+    | Automatic
+    | ScrollableAxes
+    | Never
+    | Always
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsIOSIndicatorStyle =
+    | Default
+    | Black
+    | White
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsIOSSnapToAlignment =
+    | Start
+    | Center
+    | End
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsAndroidOverScrollMode =
+    | Auto
+    | Always
+    | Never
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsKeyboardDismissMode =
+    | None
+    | Interactive
+    | [<CompiledName "on-drag">] OnDrag
+
+type [<StringEnum>] [<RequireQualifiedAccess>] AlertButtonStyle =
+    | Default
+    | Cancel
+    | Destructive
+
+type [<AllowNullLiteral>] CameraRollAssetInfoPage_info =
+    abstract has_next_page: bool with get, set
+    abstract end_cursor: string with get, set
+
+type [<AllowNullLiteral>] GetPhotosReturnTypeEdgesNodeImage =
     abstract uri: string with get, set
     abstract height: float with get, set
     abstract width: float with get, set
     abstract isStored: bool option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_41 =
+type [<AllowNullLiteral>] GetPhotosReturnTypeEdgesNodeLocation =
+    abstract latitude: float with get, set
+    abstract longitude: float with get, set
+    abstract altitude: float with get, set
+    abstract heading: float with get, set
+    abstract speed: float with get, set
+
+type [<AllowNullLiteral>] GetPhotosReturnTypeEdgesNode =
+    abstract ``type``: string with get, set
+    abstract group_name: string with get, set
+    abstract image: GetPhotosReturnTypeEdgesNodeImage with get, set
+    abstract timestamp: float with get, set
+    abstract location: GetPhotosReturnTypeEdgesNodeLocation with get, set
+
+type [<AllowNullLiteral>] GetPhotosReturnTypeEdges =
+    abstract node: GetPhotosReturnTypeEdgesNode with get, set
+
+type [<AllowNullLiteral>] GetPhotosReturnTypePage_info =
+    abstract has_next_page: bool with get, set
+    abstract start_cursor: string option with get, set
+    abstract end_cursor: string option with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] DatePickerAndroidOpenOptionsMode =
+    | Calendar
+    | Spinner
+    | Default
+
+type [<AllowNullLiteral>] LinkingStaticAddEventListener =
     abstract url: string with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_18 =
-    abstract viewableItems: Array<ViewToken> with get, set
-    abstract changed: Array<ViewToken> with get, set
+type [<AllowNullLiteral>] NetInfoStaticIsConnected =
+    abstract fetch: (unit -> Promise<bool>) with get, set
+    /// eventName is expected to be `change`(deprecated) or `connectionChange`
+    abstract addEventListener: (string -> (bool -> unit) -> unit) with get, set
+    /// eventName is expected to be `change`(deprecated) or `connectionChange`
+    abstract removeEventListener: (string -> (bool -> unit) -> unit) with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_06 =
-    abstract width: float with get, set
-    abstract height: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_48 =
-    abstract width: float option with get, set
-    abstract height: float option with get, set
-    abstract format: U2<string, string> option with get, set
-    abstract quality: float option with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_33 =
-    abstract window: ScaledSize with get, set
-    abstract screen: ScaledSize with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_09 =
-    abstract x: float with get, set
-    abstract y: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_12 =
-    abstract x: float with get, set
-    abstract y: float with get, set
-    abstract width: float with get, set
-    abstract height: float with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_15 =
-    abstract x: float option with get, set
-    abstract y: float option with get, set
-    abstract animated: bool option with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_44 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> Permission with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_43 =
+type [<AllowNullLiteral>] PermissionsAndroidStaticRESULTS =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> PermissionStatus with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_16 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+type [<AllowNullLiteral>] PermissionsAndroidStaticPERMISSIONS =
+    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> Permission with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_04 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_03 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> React.Component<obj option, obj option> with get, set
-
-type [<AllowNullLiteral>] TypeLiteral_45 =
+type [<AllowNullLiteral>] PermissionsAndroidStaticRequestMultiplePromise =
     [<Emit "$0[$1]{{=$2}}">] abstract Item: permission: string -> PermissionStatus with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_29 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: rowID: string -> bool with get, set
+type [<AllowNullLiteral>] PushNotificationIOSStaticAddEventListener_registrationError =
+    abstract message: string with get, set
+    abstract code: float with get, set
+    abstract details: obj option with get, set
 
-type [<AllowNullLiteral>] TypeLiteral_30 =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: sectionId: string -> TypeLiteral_29 with get, set
+type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarPropsIOSShowHideTransition =
+    | Fade
+    | Slide
+
+type [<StringEnum>] [<RequireQualifiedAccess>] TimePickerAndroidOpenOptionsMode =
+    | Clock
+    | Spinner
+    | Default
+
+type [<AllowNullLiteral>] TimePickerAndroidStaticOpenPromise =
+    abstract action: string with get, set
+    abstract hour: float with get, set
+    abstract minute: float with get, set
+
+type [<StringEnum>] [<RequireQualifiedAccess>] UIManagerStaticTakeSnapshotFormat =
+    | Png
+    | Jpeg
+
+type [<AllowNullLiteral>] UIManagerStaticTakeSnapshot =
+    abstract width: float option with get, set
+    abstract height: float option with get, set
+    abstract format: UIManagerStaticTakeSnapshotFormat option with get, set
+    abstract quality: float option with get, set
+
+type [<AllowNullLiteral>] I18nManagerStaticAllowRTL =
+    interface end
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ImageCropDataResizeMode =
+    | Contain
+    | Cover
+    | Stretch
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ARTRenderableMixinStrokeCap =
+    | Butt
+    | Square
+    | Round
+
+type [<StringEnum>] [<RequireQualifiedAccess>] ARTRenderableMixinStrokeJoin =
+    | Bevel
+    | Miter
+    | Round

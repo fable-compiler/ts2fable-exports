@@ -2,8 +2,8 @@
 module rec Monaco
 open System
 open Fable.Core
-open Fable.Import.JS
-open Fable.Import.Browser
+open Fable.Core.JS
+open Browser.Types
 
 let [<Import("*","monaco-editor")>] monaco: Monaco.IExports = jsNative
 
@@ -87,8 +87,8 @@ module Monaco =
         abstract timeout: delay: float -> Promise<unit>
         abstract join: promises: ResizeArray<Promise<'ValueType>> -> Promise<ResizeArray<'ValueType>>
         abstract join: promises: ResizeArray<Thenable<'ValueType>> -> Thenable<ResizeArray<'ValueType>>
-        abstract join: promises: PromiseStaticJoinPromises -> Promise<TypeLiteral_09<'ValueType>>
-        abstract any: promises: ResizeArray<Promise<'ValueType>> -> Promise<TypeLiteral_10<'ValueType>>
+        abstract join: promises: PromiseStaticJoinPromises -> Promise<PromiseStaticJoinPromise<'ValueType>>
+        abstract any: promises: ResizeArray<Promise<'ValueType>> -> Promise<PromiseStaticAnyPromise<'ValueType>>
         abstract wrap: value: Thenable<'ValueType> -> Promise<'ValueType>
         abstract wrap: value: 'ValueType -> Promise<'ValueType>
         abstract wrapError: error: Error -> Promise<'ValueType>
@@ -305,19 +305,7 @@ module Monaco =
         abstract chord: firstPart: float * secondPart: float -> float
 
     type MarkedString =
-        U3<string, obj, obj>
-
-    [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module MarkedString =
-        let ofString v: MarkedString = v |> U3.Case1
-        let isString (v: MarkedString) = match v with U3.Case1 _ -> true | _ -> false
-        let asString (v: MarkedString) = match v with U3.Case1 o -> Some o | _ -> None
-        let ofLanguage v: MarkedString = v |> U3.Case2
-        let isLanguage (v: MarkedString) = match v with U3.Case2 _ -> true | _ -> false
-        let asLanguage (v: MarkedString) = match v with U3.Case2 o -> Some o | _ -> None
-        let ofValue v: MarkedString = v |> U3.Case3
-        let isValue (v: MarkedString) = match v with U3.Case3 _ -> true | _ -> false
-        let asValue (v: MarkedString) = match v with U3.Case3 o -> Some o | _ -> None
+        U3<string, string, string>
 
     type [<AllowNullLiteral>] IKeyboardEvent =
         abstract browserEvent: KeyboardEvent
@@ -578,8 +566,7 @@ module Monaco =
             abstract setModelLanguage: model: IModel * language: string -> unit
             /// Set the markers for a model.
             abstract setModelMarkers: model: IModel * owner: string * markers: ResizeArray<IMarkerData> -> unit
-            /// <summary>Get markers for owner ant/or resource</summary>
-            /// <param name="filter"></param>
+            /// Get markers for owner ant/or resource
             abstract getModelMarkers: filter: GetModelMarkersFilter -> ResizeArray<IMarker>
             /// Get the model that has `uri` if it exists.
             abstract getModel: uri: Uri -> IModel
@@ -590,7 +577,7 @@ module Monaco =
             /// Emitted right before a model is disposed.
             abstract onWillDisposeModel: listener: (IModel -> unit) -> IDisposable
             /// Emitted when a different language is set to a model.
-            abstract onDidChangeModelLanguage: listener: (TypeLiteral_01 -> unit) -> IDisposable
+            abstract onDidChangeModelLanguage: listener: (IExportsOnDidChangeModelLanguage -> unit) -> IDisposable
             /// Create a new web worker that has model syncing capabilities built in.
             /// Specify an AMD module to load that will `create` an object that will be proxied.
             abstract createWebWorker: opts: IWebWorkerOptions -> MonacoWebWorker<'T>
@@ -608,7 +595,7 @@ module Monaco =
             abstract setTheme: themeName: string -> unit
             abstract TextModelResolvedOptions: TextModelResolvedOptionsStatic
             abstract FindMatch: FindMatchStatic
-            abstract EditorType: TypeLiteral_02
+            abstract EditorType: IExportsEditorType
             abstract InternalEditorOptions: InternalEditorOptionsStatic
             abstract FontInfo: FontInfoStatic
             abstract BareFontInfo: BareFontInfoStatic
@@ -711,7 +698,9 @@ module Monaco =
             abstract addCommand: keybinding: float * handler: ICommandHandler * context: string -> string
             abstract createContextKey: key: string * defaultValue: 'T -> IContextKey<'T>
             abstract addAction: descriptor: IActionDescriptor -> IDisposable
+            /// Get the `original` editor.
             abstract getOriginalEditor: unit -> IStandaloneCodeEditor
+            /// Get the `modified` editor.
             abstract getModifiedEditor: unit -> IStandaloneCodeEditor
 
         type [<AllowNullLiteral>] ICommandHandler =
@@ -1264,15 +1253,6 @@ module Monaco =
         type IEditorModel =
             U2<IModel, IDiffEditorModel>
 
-        [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module IEditorModel =
-            let ofIModel v: IEditorModel = v |> U2.Case1
-            let isIModel (v: IEditorModel) = match v with U2.Case1 _ -> true | _ -> false
-            let asIModel (v: IEditorModel) = match v with U2.Case1 o -> Some o | _ -> None
-            let ofIDiffEditorModel v: IEditorModel = v |> U2.Case2
-            let isIDiffEditorModel (v: IEditorModel) = match v with U2.Case2 _ -> true | _ -> false
-            let asIDiffEditorModel (v: IEditorModel) = match v with U2.Case2 o -> Some o | _ -> None
-
         /// A (serializable) state of the cursors.
         type [<AllowNullLiteral>] ICursorState =
             abstract inSelectionMode: bool with get, set
@@ -1289,7 +1269,7 @@ module Monaco =
         type [<AllowNullLiteral>] ICodeEditorViewState =
             abstract cursorState: ResizeArray<ICursorState> with get, set
             abstract viewState: IViewState with get, set
-            abstract contributionsState: TypeLiteral_03 with get, set
+            abstract contributionsState: ICodeEditorViewStateContributionsState with get, set
 
         /// (Serializable) View state for the diff editor.
         type [<AllowNullLiteral>] IDiffEditorViewState =
@@ -1298,15 +1278,6 @@ module Monaco =
 
         type IEditorViewState =
             U2<ICodeEditorViewState, IDiffEditorViewState>
-
-        [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module IEditorViewState =
-            let ofICodeEditorViewState v: IEditorViewState = v |> U2.Case1
-            let isICodeEditorViewState (v: IEditorViewState) = match v with U2.Case1 _ -> true | _ -> false
-            let asICodeEditorViewState (v: IEditorViewState) = match v with U2.Case1 o -> Some o | _ -> None
-            let ofIDiffEditorViewState v: IEditorViewState = v |> U2.Case2
-            let isIDiffEditorViewState (v: IEditorViewState) = match v with U2.Case2 _ -> true | _ -> false
-            let asIDiffEditorViewState (v: IEditorViewState) = match v with U2.Case2 o -> Some o | _ -> None
 
         /// An editor.
         type [<AllowNullLiteral>] IEditor =
@@ -1568,7 +1539,7 @@ module Monaco =
 
         /// An event describing that some ranges of lines have been tokenized (their tokens have changed).
         type [<AllowNullLiteral>] IModelTokensChangedEvent =
-            abstract ranges: ResizeArray<TypeLiteral_04>
+            abstract ranges: ResizeArray<IModelTokensChangedEventRanges>
 
         type [<AllowNullLiteral>] IModelOptionsChangedEvent =
             abstract tabSize: bool
@@ -1658,7 +1629,7 @@ module Monaco =
             abstract enabled: bool option with get, set
             /// Control the rendering of the minimap slider.
             /// Defaults to 'mouseover'.
-            abstract showSlider: U2<string, string> option with get, set
+            abstract showSlider: IEditorMinimapOptionsShowSlider option with get, set
             /// Render the actual text on a line (as opposed to color blocks).
             /// Defaults to true.
             abstract renderCharacters: bool option with get, set
@@ -1684,7 +1655,7 @@ module Monaco =
             /// Otherwise, if it is a truey, line numbers will be rendered normally (equivalent of using an identity function).
             /// Otherwise, line numbers will not be rendered.
             /// Defaults to true.
-            abstract lineNumbers: U4<string, string, string, (float -> string)> option with get, set
+            abstract lineNumbers: U2<(float -> string), string> option with get, set
             /// Should the corresponding line be selected when clicking on the line number?
             /// Defaults to true.
             abstract selectOnLineNumbers: bool option with get, set
@@ -1761,7 +1732,7 @@ module Monaco =
             /// When `wordWrap` = "wordWrapColumn", the lines will wrap at `wordWrapColumn`.
             /// When `wordWrap` = "bounded", the lines will wrap at min(viewport width, wordWrapColumn).
             /// Defaults to "off".
-            abstract wordWrap: U4<string, string, string, string> option with get, set
+            abstract wordWrap: IEditorOptionsWordWrap option with get, set
             /// Control the wrapping of the editor.
             /// When `wordWrap` = "off", the lines will never wrap.
             /// When `wordWrap` = "on", the lines will wrap at the viewport width.
@@ -1802,13 +1773,13 @@ module Monaco =
             abstract mouseWheelScrollSensitivity: float option with get, set
             /// The modifier to be used to add multiple cursors with the mouse.
             /// Defaults to 'alt'
-            abstract multiCursorModifier: U2<string, string> option with get, set
+            abstract multiCursorModifier: IEditorOptionsMultiCursorModifier option with get, set
             /// Configure the editor's accessibility support.
             /// Defaults to 'auto'. It is best to leave this to 'auto'.
-            abstract accessibilitySupport: U3<string, string, string> option with get, set
+            abstract accessibilitySupport: IEditorOptionsAccessibilitySupport option with get, set
             /// Enable quick suggestions (shadow suggestions)
             /// Defaults to true.
-            abstract quickSuggestions: U2<bool, TypeLiteral_05> option with get, set
+            abstract quickSuggestions: U2<bool, IEditorOptionsQuickSuggestions> option with get, set
             /// Quick suggestions show delay (in ms)
             /// Defaults to 500 (ms)
             abstract quickSuggestionsDelay: float option with get, set
@@ -1837,12 +1808,12 @@ module Monaco =
             abstract suggestOnTriggerCharacters: bool option with get, set
             /// Accept suggestions on ENTER.
             /// Defaults to 'on'.
-            abstract acceptSuggestionOnEnter: U3<string, string, string> option with get, set
+            abstract acceptSuggestionOnEnter: IEditorOptionsAcceptSuggestionOnEnter option with get, set
             /// Accept suggestions on provider defined characters.
             /// Defaults to true.
             abstract acceptSuggestionOnCommitCharacter: bool option with get, set
             /// Enable snippet suggestions. Default to 'true'.
-            abstract snippetSuggestions: U4<string, string, string, string> option with get, set
+            abstract snippetSuggestions: IEditorOptionsSnippetSuggestions option with get, set
             /// Copying without a selection copies the current line.
             abstract emptySelectionClipboard: bool option with get, set
             /// Enable word based suggestions. Defaults to 'true'
@@ -1867,13 +1838,13 @@ module Monaco =
             abstract folding: bool option with get, set
             /// Controls whether the fold actions in the gutter stay always visible or hide unless the mouse is over the gutter.
             /// Defaults to 'mouseover'.
-            abstract showFoldingControls: U2<string, string> option with get, set
+            abstract showFoldingControls: IEditorMinimapOptionsShowSlider option with get, set
             /// Enable highlighting of matching brackets.
             /// Defaults to true.
             abstract matchBrackets: bool option with get, set
             /// Enable rendering of whitespace.
             /// Defaults to none.
-            abstract renderWhitespace: U3<string, string, string> option with get, set
+            abstract renderWhitespace: IEditorOptionsRenderWhitespace option with get, set
             /// Enable rendering of control characters.
             /// Defaults to false.
             abstract renderControlCharacters: bool option with get, set
@@ -1882,13 +1853,13 @@ module Monaco =
             abstract renderIndentGuides: bool option with get, set
             /// Enable rendering of current line highlight.
             /// Defaults to all.
-            abstract renderLineHighlight: U4<string, string, string, string> option with get, set
+            abstract renderLineHighlight: IEditorOptionsRenderLineHighlight option with get, set
             /// Inserting and deleting whitespace follows tab stops.
             abstract useTabStops: bool option with get, set
             /// The font family
             abstract fontFamily: string option with get, set
             /// The font weight
-            abstract fontWeight: obj option with get, set
+            abstract fontWeight: IEditorOptionsFontWeight option with get, set
             /// The font size
             abstract fontSize: float option with get, set
             /// The line height
@@ -1959,7 +1930,7 @@ module Monaco =
 
         type [<AllowNullLiteral>] InternalEditorMinimapOptions =
             abstract enabled: bool
-            abstract showSlider: U2<string, string>
+            abstract showSlider: IEditorMinimapOptionsShowSlider
             abstract renderCharacters: bool
             abstract maxColumn: float
 
@@ -1998,11 +1969,11 @@ module Monaco =
             abstract hideCursorInOverviewRuler: bool
             abstract scrollBeyondLastLine: bool
             abstract stopRenderingLineAfter: float
-            abstract renderWhitespace: U3<string, string, string>
+            abstract renderWhitespace: IEditorOptionsRenderWhitespace
             abstract renderControlCharacters: bool
             abstract fontLigatures: bool
             abstract renderIndentGuides: bool
-            abstract renderLineHighlight: U4<string, string, string, string>
+            abstract renderLineHighlight: IEditorOptionsRenderLineHighlight
             abstract scrollbar: InternalEditorScrollbarOptions
             abstract minimap: InternalEditorMinimapOptions
             abstract fixedOverflowWidgets: bool
@@ -2012,16 +1983,16 @@ module Monaco =
             abstract hover: bool
             abstract links: bool
             abstract contextmenu: bool
-            abstract quickSuggestions: U2<bool, TypeLiteral_05>
+            abstract quickSuggestions: U2<bool, IEditorOptionsQuickSuggestions>
             abstract quickSuggestionsDelay: float
             abstract parameterHints: bool
             abstract iconsInSuggestions: bool
             abstract formatOnType: bool
             abstract formatOnPaste: bool
             abstract suggestOnTriggerCharacters: bool
-            abstract acceptSuggestionOnEnter: U3<string, string, string>
+            abstract acceptSuggestionOnEnter: IEditorOptionsAcceptSuggestionOnEnter
             abstract acceptSuggestionOnCommitCharacter: bool
-            abstract snippetSuggestions: U4<string, string, string, string>
+            abstract snippetSuggestions: IEditorOptionsSnippetSuggestions
             abstract wordBasedSuggestions: bool
             abstract suggestFontSize: float
             abstract suggestLineHeight: float
@@ -2029,7 +2000,7 @@ module Monaco =
             abstract occurrencesHighlight: bool
             abstract codeLens: bool
             abstract folding: bool
-            abstract showFoldingControls: U2<string, string>
+            abstract showFoldingControls: IEditorMinimapOptionsShowSlider
             abstract matchBrackets: bool
             abstract find: InternalEditorFindOptions
 
@@ -2041,7 +2012,7 @@ module Monaco =
             abstract editorClassName: string
             abstract lineHeight: float
             abstract readOnly: bool
-            abstract multiCursorModifier: U3<string, string, string>
+            abstract multiCursorModifier: InternalEditorOptionsMultiCursorModifier
             abstract wordSeparators: string
             abstract autoClosingBrackets: bool
             abstract autoIndent: bool
@@ -2357,33 +2328,96 @@ module Monaco =
         type [<AllowNullLiteral>] BareFontInfoStatic =
             [<Emit "new $0($1...)">] abstract Create: unit -> BareFontInfo
 
-        type [<AllowNullLiteral>] TypeLiteral_02 =
-            abstract ICodeEditor: string with get, set
-            abstract IDiffEditor: string with get, set
-
-        type [<AllowNullLiteral>] TypeLiteral_01 =
+        type [<AllowNullLiteral>] IExportsOnDidChangeModelLanguage =
             abstract model: IModel
             abstract oldLanguage: string
 
-        type [<AllowNullLiteral>] TypeLiteral_05 =
-            abstract other: bool with get, set
-            abstract comments: bool with get, set
-            abstract strings: bool with get, set
+        type [<AllowNullLiteral>] IExportsEditorType =
+            abstract ICodeEditor: string with get, set
+            abstract IDiffEditor: string with get, set
 
-        type [<AllowNullLiteral>] TypeLiteral_03 =
+        type [<AllowNullLiteral>] ICodeEditorViewStateContributionsState =
             [<Emit "$0[$1]{{=$2}}">] abstract Item: id: string -> obj option with get, set
 
-        type [<AllowNullLiteral>] TypeLiteral_04 =
+        type [<AllowNullLiteral>] IModelTokensChangedEventRanges =
             /// The start of the range (inclusive)
             abstract fromLineNumber: float
             /// The end of the range (inclusive)
             abstract toLineNumber: float
 
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorMinimapOptionsShowSlider =
+            | Always
+            | Mouseover
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsWordWrap =
+            | Off
+            | On
+            | WordWrapColumn
+            | Bounded
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsMultiCursorModifier =
+            | CtrlCmd
+            | Alt
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsAccessibilitySupport =
+            | Auto
+            | Off
+            | On
+
+        type [<AllowNullLiteral>] IEditorOptionsQuickSuggestions =
+            abstract other: bool with get, set
+            abstract comments: bool with get, set
+            abstract strings: bool with get, set
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsAcceptSuggestionOnEnter =
+            | On
+            | Smart
+            | Off
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsSnippetSuggestions =
+            | Top
+            | Bottom
+            | Inline
+            | None
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsRenderWhitespace =
+            | None
+            | Boundary
+            | All
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsRenderLineHighlight =
+            | None
+            | Gutter
+            | Line
+            | All
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsFontWeight =
+            | Normal
+            | Bold
+            | Bolder
+            | Lighter
+            | Initial
+            | Inherit
+            | [<CompiledName "100">] N100
+            | [<CompiledName "200">] N200
+            | [<CompiledName "300">] N300
+            | [<CompiledName "400">] N400
+            | [<CompiledName "500">] N500
+            | [<CompiledName "600">] N600
+            | [<CompiledName "700">] N700
+            | [<CompiledName "800">] N800
+            | [<CompiledName "900">] N900
+
+        type [<StringEnum>] [<RequireQualifiedAccess>] InternalEditorOptionsMultiCursorModifier =
+            | AltKey
+            | CtrlKey
+            | MetaKey
+
     module Languages =
-        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
-        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
-        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
         let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
+        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
+        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
+        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
 
         type [<AllowNullLiteral>] IExports =
             /// Register information about a new language.
@@ -2764,15 +2798,6 @@ module Monaco =
         type Definition =
             U2<Location, ResizeArray<Location>>
 
-        [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module Definition =
-            let ofLocation v: Definition = v |> U2.Case1
-            let isLocation (v: Definition) = match v with U2.Case1 _ -> true | _ -> false
-            let asLocation (v: Definition) = match v with U2.Case1 o -> Some o | _ -> None
-            let ofLocationArray v: Definition = v |> U2.Case2
-            let isLocationArray (v: Definition) = match v with U2.Case2 _ -> true | _ -> false
-            let asLocationArray (v: Definition) = match v with U2.Case2 o -> Some o | _ -> None
-
         /// The definition provider interface defines the contract between extensions and
         /// the [go to definition](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition)
         /// and peek definition features.
@@ -2928,7 +2953,7 @@ module Monaco =
         /// A Monarch language definition
         type [<AllowNullLiteral>] IMonarchLanguage =
             /// map from string to ILanguageRule[]
-            abstract tokenizer: TypeLiteral_08 with get, set
+            abstract tokenizer: IMonarchLanguageTokenizer with get, set
             /// is the language case insensitive?
             abstract ignoreCase: bool option with get, set
             /// if no match in the tokenizer assign this token class (default 'source')
@@ -3023,24 +3048,6 @@ module Monaco =
             type CompilerOptionsValue =
                 U5<string, float, bool, ResizeArray<U2<string, float>>, ResizeArray<string>>
 
-            [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-            module CompilerOptionsValue =
-                let ofString v: CompilerOptionsValue = v |> U5.Case1
-                let isString (v: CompilerOptionsValue) = match v with U5.Case1 _ -> true | _ -> false
-                let asString (v: CompilerOptionsValue) = match v with U5.Case1 o -> Some o | _ -> None
-                let ofFloat v: CompilerOptionsValue = v |> U5.Case2
-                let isFloat (v: CompilerOptionsValue) = match v with U5.Case2 _ -> true | _ -> false
-                let asFloat (v: CompilerOptionsValue) = match v with U5.Case2 o -> Some o | _ -> None
-                let ofBool v: CompilerOptionsValue = v |> U5.Case3
-                let isBool (v: CompilerOptionsValue) = match v with U5.Case3 _ -> true | _ -> false
-                let asBool (v: CompilerOptionsValue) = match v with U5.Case3 o -> Some o | _ -> None
-                let ofCase4 v: CompilerOptionsValue = v |> U5.Case4
-                let isCase4 (v: CompilerOptionsValue) = match v with U5.Case4 _ -> true | _ -> false
-                let asCase4 (v: CompilerOptionsValue) = match v with U5.Case4 o -> Some o | _ -> None
-                let ofStringArray v: CompilerOptionsValue = v |> U5.Case5
-                let isStringArray (v: CompilerOptionsValue) = match v with U5.Case5 _ -> true | _ -> false
-                let asStringArray (v: CompilerOptionsValue) = match v with U5.Case5 o -> Some o | _ -> None
-
             type [<AllowNullLiteral>] CompilerOptions =
                 abstract allowJs: bool option with get, set
                 abstract allowSyntheticDefaultImports: bool option with get, set
@@ -3101,7 +3108,7 @@ module Monaco =
                 abstract target: ScriptTarget option with get, set
                 abstract traceResolution: bool option with get, set
                 abstract types: ResizeArray<string> option with get, set
-                /// Paths used to compute primary types search locations 
+                /// Paths used to compute primary types search locations
                 abstract typeRoots: ResizeArray<string> option with get, set
                 [<Emit "$0[$1]{{=$2}}">] abstract Item: option: string -> CompilerOptionsValue option with get, set
 
@@ -3138,32 +3145,37 @@ module Monaco =
 
             type [<AllowNullLiteral>] DiagnosticsOptions =
                 abstract validate: bool option
-                abstract lint: TypeLiteral_06 option
+                abstract lint: DiagnosticsOptionsLint option
 
             type [<AllowNullLiteral>] LanguageServiceDefaults =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
 
-            type [<AllowNullLiteral>] TypeLiteral_06 =
-                abstract compatibleVendorPrefixes: U3<string, string, string> option
-                abstract vendorPrefix: U3<string, string, string> option
-                abstract duplicateProperties: U3<string, string, string> option
-                abstract emptyRules: U3<string, string, string> option
-                abstract importStatement: U3<string, string, string> option
-                abstract boxModel: U3<string, string, string> option
-                abstract universalSelector: U3<string, string, string> option
-                abstract zeroUnits: U3<string, string, string> option
-                abstract fontFaceProperties: U3<string, string, string> option
-                abstract hexColorLength: U3<string, string, string> option
-                abstract argumentsInColorFunction: U3<string, string, string> option
-                abstract unknownProperties: U3<string, string, string> option
-                abstract ieHack: U3<string, string, string> option
-                abstract unknownVendorSpecificProperties: U3<string, string, string> option
-                abstract propertyIgnoredDueToDisplay: U3<string, string, string> option
-                abstract important: U3<string, string, string> option
-                abstract float: U3<string, string, string> option
-                abstract idSelector: U3<string, string, string> option
+            type [<StringEnum>] [<RequireQualifiedAccess>] DiagnosticsOptionsLintCompatibleVendorPrefixes =
+                | Ignore
+                | Warning
+                | Error
+
+            type [<AllowNullLiteral>] DiagnosticsOptionsLint =
+                abstract compatibleVendorPrefixes: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract vendorPrefix: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract duplicateProperties: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract emptyRules: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract importStatement: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract boxModel: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract universalSelector: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract zeroUnits: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract fontFaceProperties: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract hexColorLength: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract argumentsInColorFunction: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract unknownProperties: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract ieHack: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract unknownVendorSpecificProperties: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract propertyIgnoredDueToDisplay: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract important: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract float: DiagnosticsOptionsLintCompatibleVendorPrefixes option
+                abstract idSelector: DiagnosticsOptionsLintCompatibleVendorPrefixes option
 
         module Json =
 
@@ -3176,14 +3188,14 @@ module Monaco =
                 /// If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
                 abstract allowComments: bool option
                 /// A list of known schemas and/or associations of schemas to file names.
-                abstract schemas: ResizeArray<TypeLiteral_07> option
+                abstract schemas: ResizeArray<DiagnosticsOptionsSchemas> option
 
             type [<AllowNullLiteral>] LanguageServiceDefaults =
                 abstract onDidChange: IEvent<LanguageServiceDefaults>
                 abstract diagnosticsOptions: DiagnosticsOptions
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
 
-            type [<AllowNullLiteral>] TypeLiteral_07 =
+            type [<AllowNullLiteral>] DiagnosticsOptionsSchemas =
                 /// The URI of the schema, which is also the identifier of the schema.
                 abstract uri: string
                 /// A list of file names that are associated to the schema. The '*' wildcard can be used. For example '*.schema.json', 'package.json'
@@ -3210,7 +3222,7 @@ module Monaco =
                 abstract indentHandlebars: bool
                 abstract endWithNewline: bool
                 abstract extraLiners: string
-                abstract wrapAttributes: U4<string, string, string, string>
+                abstract wrapAttributes: HTMLFormatConfigurationWrapAttributes
 
             type [<AllowNullLiteral>] CompletionConfiguration =
                 [<Emit "$0[$1]{{=$2}}">] abstract Item: provider: string -> bool with get, set
@@ -3226,7 +3238,13 @@ module Monaco =
                 abstract options: Options
                 abstract setOptions: options: Options -> unit
 
-        type [<AllowNullLiteral>] TypeLiteral_08 =
+            type [<StringEnum>] [<RequireQualifiedAccess>] HTMLFormatConfigurationWrapAttributes =
+                | Auto
+                | Force
+                | [<CompiledName "force-aligned">] ForceAligned
+                | [<CompiledName "force-expand-multiline">] ForceExpandMultiline
+
+        type [<AllowNullLiteral>] IMonarchLanguageTokenizer =
             [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> ResizeArray<IMonarchLanguageRule> with get, set
 
     module Worker =
@@ -3240,9 +3258,9 @@ module Monaco =
             /// Get all available mirror models in this worker.
             abstract getMirrorModels: unit -> ResizeArray<IMirrorModel>
 
-    type [<AllowNullLiteral>] TypeLiteral_10<'ValueType> =
+    type [<AllowNullLiteral>] PromiseStaticJoinPromise<'ValueType> =
+        [<Emit "$0[$1]{{=$2}}">] abstract Item: n: string -> 'ValueType with get, set
+
+    type [<AllowNullLiteral>] PromiseStaticAnyPromise<'ValueType> =
         abstract key: string with get, set
         abstract value: Promise<'ValueType> with get, set
-
-    type [<AllowNullLiteral>] TypeLiteral_09<'ValueType> =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: n: string -> 'ValueType with get, set
