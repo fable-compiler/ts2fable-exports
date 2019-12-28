@@ -4,6 +4,8 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type TemplateStringsArray = System.Collections.Generic.IReadOnlyList<string>
+
 let [<Import("*","chalk")>] chalk: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =

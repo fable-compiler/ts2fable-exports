@@ -4,6 +4,10 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Error = System.Exception
+type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
+
 module PropTypes = Prop_types
 let [<Import("AppRegistry","react-native")>] appRegistry: AppRegistry.IExports = jsNative
 let [<Import("StyleSheet","react-native")>] styleSheet: StyleSheet.IExports = jsNative

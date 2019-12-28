@@ -4,6 +4,10 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Error = System.Exception
+type Function = System.Action
+type RegExp = System.Text.RegularExpressions.Regex
+
 let [<Import("core","breeze-client")>] core: Core.IExports = jsNative
 let [<Import("config","breeze-client")>] config: Config.IExports = jsNative
 let [<Import("DataType","breeze-client")>] DataType: DataType = jsNative

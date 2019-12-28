@@ -4,6 +4,8 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Error = System.Exception
+
 let [<Import("config","synctasks")>] config: Config = jsNative
 
 type [<AllowNullLiteral>] IExports =

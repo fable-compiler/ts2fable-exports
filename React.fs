@@ -5,6 +5,9 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Error = System.Exception
+
 let [<Import("*","react")>] react: React.IExports = jsNative
 
 type NativeAnimationEvent =

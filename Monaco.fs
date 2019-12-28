@@ -5,6 +5,9 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+type Error = System.Exception
+type RegExp = System.Text.RegularExpressions.Regex
+
 let [<Import("*","monaco-editor")>] monaco: Monaco.IExports = jsNative
 
 module Monaco =

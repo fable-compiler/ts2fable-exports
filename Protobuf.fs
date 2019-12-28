@@ -4,6 +4,8 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+
 let [<Import("BinaryConstants","google-protobuf")>] binaryConstants: BinaryConstants.IExports = jsNative
 let [<Import("arith","google-protobuf")>] arith: Arith.IExports = jsNative
 
