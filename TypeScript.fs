@@ -4,6 +4,11 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
+type ReadonlyMap<'K, 'V> = Map<'K, 'V>
+type Symbol = obj
+
 let [<Import("*","typescript")>] ts: Ts.IExports = jsNative
 
 type [<AllowNullLiteral>] IExports =
@@ -5277,7 +5282,7 @@ module Ts =
         CombinedCodeFixScope
 
     type [<StringEnum>] [<RequireQualifiedAccess>] CompletionsTriggerCharacter =
-        | [<CompiledName ".">] _
+        | [<CompiledName ".">] ``_``
         | [<CompiledName "\"">] ``"``
         | [<CompiledName "'">] ``'``
         | [<CompiledName "`">] ``'``

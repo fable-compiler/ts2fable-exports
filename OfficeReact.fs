@@ -5,6 +5,10 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Function = System.Action
+type RegExp = System.Text.RegularExpressions.Regex
+
 
 module __common_DirectionalHint =
 

@@ -4,6 +4,14 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Error = System.Exception
+type Function = System.Action
+type ReadonlyMap<'K, 'V> = Map<'K, 'V>
+type ReadonlySet<'T> = Set<'T>
+type RegExp = System.Text.RegularExpressions.Regex
+type Symbol = obj
+
 let [<Import("*","chai")>] chai: Chai.ChaiStatic = jsNative
 
 module Chai =

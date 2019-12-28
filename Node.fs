@@ -4,6 +4,8 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Symbol = obj
+
 let [<Global>] Symbol: SymbolConstructor = jsNative
 
 type [<AllowNullLiteral>] MapConstructor =

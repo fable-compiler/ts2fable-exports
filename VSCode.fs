@@ -4,6 +4,12 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Error = System.Exception
+type Function = System.Action
+type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
+type RegExp = System.Text.RegularExpressions.Regex
+
 let [<Import("*","vscode")>] vscode: Vscode.IExports = jsNative
 
 module Vscode =

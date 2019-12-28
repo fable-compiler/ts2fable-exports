@@ -5,6 +5,8 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+
 let [<Import("*","izitoast")>] iziToast: IziToast = jsNative
 
 type [<StringEnum>] [<RequireQualifiedAccess>] IziToastPosition =

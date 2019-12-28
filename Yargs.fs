@@ -4,6 +4,11 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Error = System.Exception
+type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
+type RegExp = System.Text.RegularExpressions.Regex
+
 type DetailedArguments = Yargs_parser.DetailedArguments
 type Configuration = Yargs_parser.Configuration
 let [<Import("*","yargs")>] yargs: Yargs.Argv = jsNative

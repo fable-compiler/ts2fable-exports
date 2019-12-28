@@ -5,6 +5,10 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+type Array<'T> = System.Collections.Generic.IList<'T>
+type Error = System.Exception
+type Function = System.Action
+
 module ReactXP = __web_ReactXP
 
 module __android_Accessibility =
