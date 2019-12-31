@@ -253,11 +253,17 @@ module Chai =
 
     type [<AllowNullLiteral>] Nested =
         abstract ``include``: Include with get, set
+        abstract includes: Include with get, set
+        abstract contain: Include with get, set
+        abstract contains: Include with get, set
         abstract property: Property with get, set
         abstract members: Members with get, set
 
     type [<AllowNullLiteral>] Own =
         abstract ``include``: Include with get, set
+        abstract includes: Include with get, set
+        abstract contain: Include with get, set
+        abstract contains: Include with get, set
         abstract property: Property with get, set
 
     type [<AllowNullLiteral>] Deep =
@@ -265,6 +271,9 @@ module Chai =
         abstract equals: Equal with get, set
         abstract eq: Equal with get, set
         abstract ``include``: Include with get, set
+        abstract includes: Include with get, set
+        abstract contain: Include with get, set
+        abstract contains: Include with get, set
         abstract property: Property with get, set
         abstract members: Members with get, set
         abstract ordered: Ordered with get, set
