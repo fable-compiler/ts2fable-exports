@@ -14148,7 +14148,7 @@ module __components_ComboBox_examples_ComboBox_Basic_Example =
         abstract ComboBoxBasicExample: ComboBoxBasicExampleStatic
 
     type [<AllowNullLiteral>] ComboBoxBasicExample =
-        inherit React.Component<ComboBoxBasicExampleReactComponent, ComboBoxBasicExampleReactComponent>
+        inherit React.Component<ComboBoxBasicExampleReactComponent, ComboBoxBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ComboBoxBasicExampleStatic =
@@ -14160,7 +14160,7 @@ module __components_ComboBox_examples_ComboBox_Basic_Example =
     type [<AllowNullLiteral>] ComboBoxBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] ComboBoxBasicExampleReactComponent =
+    type [<AllowNullLiteral>] ComboBoxBasicExampleReactComponent2 =
         abstract options: ResizeArray<IComboBoxOption> with get, set
         abstract selectedOptionKey: U2<string, float> option with get, set
         abstract value: string option with get, set
@@ -14239,8 +14239,8 @@ module __components_CommandBar_examples_CommandBar_NonFocusable_Example =
 module __components_CommandBar_examples_data_nonFocusable =
 
     type [<AllowNullLiteral>] IExports =
-        abstract itemsNonFocusable: ResizeArray<U2<IExportsItemsNonFocusable, IExportsItemsNonFocusable>>
-        abstract farItemsNonFocusable: ResizeArray<U2<IExportsFarItemsNonFocusable, IExportsFarItemsNonFocusable>>
+        abstract itemsNonFocusable: ResizeArray<U2<IExportsItemsNonFocusable, IExportsItemsNonFocusable2>>
+        abstract farItemsNonFocusable: ResizeArray<U2<IExportsFarItemsNonFocusable, IExportsFarItemsNonFocusable2>>
 
     type [<AllowNullLiteral>] IExportsItemsNonFocusableItems =
         abstract key: string with get, set
@@ -14256,7 +14256,7 @@ module __components_CommandBar_examples_data_nonFocusable =
         abstract items: ResizeArray<IExportsItemsNonFocusableItems> with get, set
         abstract ``data-automation-id``: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsItemsNonFocusable =
+    type [<AllowNullLiteral>] IExportsItemsNonFocusable2 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
@@ -14272,7 +14272,7 @@ module __components_CommandBar_examples_data_nonFocusable =
         abstract ``['data-automation-id']``: string with get, set
         abstract onClick: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsFarItemsNonFocusable =
+    type [<AllowNullLiteral>] IExportsFarItemsNonFocusable2 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
@@ -14282,9 +14282,9 @@ module __components_CommandBar_examples_data_nonFocusable =
 module __components_CommandBar_examples_data =
 
     type [<AllowNullLiteral>] IExports =
-        abstract items: ResizeArray<U5<IExportsItems, IExportsItems, IExportsItems, IExportsItems, IExportsItems>>
+        abstract items: ResizeArray<U5<IExportsItems, IExportsItems2, IExportsItems3, IExportsItems4, IExportsItems5>>
         abstract textOnlyItems: ResizeArray<IExportsTextOnlyItems>
-        abstract iconOnlyItems: ResizeArray<U2<IExportsIconOnlyItems, IExportsIconOnlyItems>>
+        abstract iconOnlyItems: ResizeArray<U2<IExportsIconOnlyItems, IExportsIconOnlyItems2>>
         abstract overflowItems: ResizeArray<IExportsOverflowItems>
         abstract farItems: ResizeArray<IExportsFarItems>
 
@@ -14294,14 +14294,14 @@ module __components_CommandBar_examples_data =
         abstract icon: string with get, set
         abstract ``['data-automation-id']``: string with get, set
 
-    type [<AllowNullLiteral>] IExportsItemsSubMenuPropsItems =
+    type [<AllowNullLiteral>] IExportsItemsSubMenuPropsItems2 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
         abstract ``data-automation-id``: obj option with get, set
 
     type [<AllowNullLiteral>] IExportsItemsSubMenuProps =
-        abstract items: ResizeArray<U2<IExportsItemsSubMenuPropsItems, IExportsItemsSubMenuPropsItems>> with get, set
+        abstract items: ResizeArray<U2<IExportsItemsSubMenuPropsItems, IExportsItemsSubMenuPropsItems2>> with get, set
 
     type [<AllowNullLiteral>] IExportsItems =
         abstract key: string with get, set
@@ -14313,7 +14313,7 @@ module __components_CommandBar_examples_data =
         abstract href: obj option with get, set
         abstract onClick: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsItems =
+    type [<AllowNullLiteral>] IExportsItems2 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
@@ -14323,7 +14323,7 @@ module __components_CommandBar_examples_data =
         abstract subMenuProps: obj option with get, set
         abstract onClick: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsItems =
+    type [<AllowNullLiteral>] IExportsItems3 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
@@ -14333,7 +14333,7 @@ module __components_CommandBar_examples_data =
         abstract subMenuProps: obj option with get, set
         abstract href: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsItems =
+    type [<AllowNullLiteral>] IExportsItems4 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
@@ -14343,7 +14343,7 @@ module __components_CommandBar_examples_data =
         abstract href: obj option with get, set
         abstract onClick: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsItems =
+    type [<AllowNullLiteral>] IExportsItems5 =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
@@ -14365,7 +14365,7 @@ module __components_CommandBar_examples_data =
         abstract onClick: (unit -> unit) with get, set
         abstract disabled: obj option with get, set
 
-    type [<AllowNullLiteral>] IExportsIconOnlyItems =
+    type [<AllowNullLiteral>] IExportsIconOnlyItems2 =
         abstract key: string with get, set
         abstract icon: string with get, set
         abstract disabled: bool with get, set
@@ -14645,7 +14645,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_Example =
         abstract ContextualMenuIconExample: ContextualMenuIconExampleStatic
 
     type [<AllowNullLiteral>] ContextualMenuIconExample =
-        inherit React.Component<ContextualMenuIconExampleReactComponent, ContextualMenuIconExampleReactComponent>
+        inherit React.Component<ContextualMenuIconExampleReactComponent, ContextualMenuIconExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ContextualMenuIconExampleStatic =
@@ -14657,7 +14657,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_Example =
     type [<AllowNullLiteral>] ContextualMenuIconExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] ContextualMenuIconExampleReactComponent =
+    type [<AllowNullLiteral>] ContextualMenuIconExampleReactComponent2 =
         abstract showCallout: bool with get, set
 
 module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Example =
@@ -14666,7 +14666,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Ex
         abstract ContextualMenuIconSecondaryTextExample: ContextualMenuIconSecondaryTextExampleStatic
 
     type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExample =
-        inherit React.Component<ContextualMenuIconSecondaryTextExampleReactComponent, ContextualMenuIconSecondaryTextExampleReactComponent>
+        inherit React.Component<ContextualMenuIconSecondaryTextExampleReactComponent, ContextualMenuIconSecondaryTextExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleStatic =
@@ -14678,7 +14678,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Ex
     type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleReactComponent =
+    type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleReactComponent2 =
         abstract showCallout: bool with get, set
 
 module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
@@ -14687,7 +14687,7 @@ module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
         abstract ContextualMenuWithScrollBarExample: ContextualMenuWithScrollBarExampleStatic
 
     type [<AllowNullLiteral>] ContextualMenuWithScrollBarExample =
-        inherit React.Component<ContextualMenuWithScrollBarExampleReactComponent, ContextualMenuWithScrollBarExampleReactComponent>
+        inherit React.Component<ContextualMenuWithScrollBarExampleReactComponent, ContextualMenuWithScrollBarExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleStatic =
@@ -14699,7 +14699,7 @@ module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
     type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleReactComponent =
+    type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleReactComponent2 =
         abstract showCallout: bool with get, set
 
 module __components_ContextualMenu_examples_ContextualMenu_Section_Example =
@@ -14918,7 +14918,7 @@ module __components_DetailsList_examples_DetailsList_Basic_Example =
         abstract DetailsListBasicExample: DetailsListBasicExampleStatic
 
     type [<AllowNullLiteral>] DetailsListBasicExample =
-        inherit React.Component<DetailsListBasicExampleReactComponent, DetailsListBasicExampleReactComponent>
+        inherit React.Component<DetailsListBasicExampleReactComponent, DetailsListBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListBasicExampleStatic =
@@ -14930,7 +14930,7 @@ module __components_DetailsList_examples_DetailsList_Basic_Example =
     type [<AllowNullLiteral>] DetailsListBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] DetailsListBasicExampleReactComponent =
+    type [<AllowNullLiteral>] DetailsListBasicExampleReactComponent2 =
         abstract items: ResizeArray<DetailsListBasicExampleReactComponent> with get, set
         abstract selectionDetails: DetailsListBasicExampleReactComponent with get, set
 
@@ -14940,7 +14940,7 @@ module __components_DetailsList_examples_DetailsList_Compact_Example =
         abstract DetailsListCompactExample: DetailsListCompactExampleStatic
 
     type [<AllowNullLiteral>] DetailsListCompactExample =
-        inherit React.Component<DetailsListCompactExampleReactComponent, DetailsListCompactExampleReactComponent>
+        inherit React.Component<DetailsListCompactExampleReactComponent, DetailsListCompactExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListCompactExampleStatic =
@@ -14952,7 +14952,7 @@ module __components_DetailsList_examples_DetailsList_Compact_Example =
     type [<AllowNullLiteral>] DetailsListCompactExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] DetailsListCompactExampleReactComponent =
+    type [<AllowNullLiteral>] DetailsListCompactExampleReactComponent2 =
         abstract items: ResizeArray<DetailsListCompactExampleReactComponent> with get, set
         abstract selectionDetails: string with get, set
 
@@ -15048,7 +15048,7 @@ module __components_DetailsList_examples_DetailsList_DragDrop_Example =
         abstract DetailsListDragDropExample: DetailsListDragDropExampleStatic
 
     type [<AllowNullLiteral>] DetailsListDragDropExample =
-        inherit React.Component<DetailsListDragDropExampleReactComponent, DetailsListDragDropExampleReactComponent>
+        inherit React.Component<DetailsListDragDropExampleReactComponent, DetailsListDragDropExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListDragDropExampleStatic =
@@ -15060,7 +15060,7 @@ module __components_DetailsList_examples_DetailsList_DragDrop_Example =
     type [<AllowNullLiteral>] DetailsListDragDropExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] DetailsListDragDropExampleReactComponent =
+    type [<AllowNullLiteral>] DetailsListDragDropExampleReactComponent2 =
         abstract items: ResizeArray<DetailsListDragDropExampleReactComponent> with get, set
         abstract selectionDetails: string option with get, set
         abstract columns: ResizeArray<IColumn> with get, set
@@ -15075,7 +15075,7 @@ module __components_DetailsList_examples_DetailsList_Grouped_Example =
         abstract DetailsListGroupedExample: DetailsListGroupedExampleStatic
 
     type [<AllowNullLiteral>] DetailsListGroupedExample =
-        inherit BaseComponent<DetailsListGroupedExampleBaseComponent, DetailsListGroupedExampleBaseComponent>
+        inherit BaseComponent<DetailsListGroupedExampleBaseComponent, DetailsListGroupedExampleBaseComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListGroupedExampleStatic =
@@ -15087,7 +15087,7 @@ module __components_DetailsList_examples_DetailsList_Grouped_Example =
     type [<AllowNullLiteral>] DetailsListGroupedExampleBaseComponent =
         interface end
 
-    type [<AllowNullLiteral>] DetailsListGroupedExampleBaseComponent =
+    type [<AllowNullLiteral>] DetailsListGroupedExampleBaseComponent2 =
         abstract items: ResizeArray<DetailsListGroupedExampleBaseComponent> with get, set
 
 module __components_DetailsList_examples_DetailsList_NavigatingFocus_Example =
@@ -15116,7 +15116,7 @@ module __components_Dialog_examples_Dialog_Basic_Example =
         abstract DialogBasicExample: DialogBasicExampleStatic
 
     type [<AllowNullLiteral>] DialogBasicExample =
-        inherit React.Component<DialogBasicExampleReactComponent, DialogBasicExampleReactComponent>
+        inherit React.Component<DialogBasicExampleReactComponent, DialogBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogBasicExampleStatic =
@@ -15128,7 +15128,7 @@ module __components_Dialog_examples_Dialog_Basic_Example =
     type [<AllowNullLiteral>] DialogBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] DialogBasicExampleReactComponent =
+    type [<AllowNullLiteral>] DialogBasicExampleReactComponent2 =
         abstract hideDialog: bool with get, set
 
 module __components_Dialog_examples_Dialog_Blocking_Example =
@@ -15137,7 +15137,7 @@ module __components_Dialog_examples_Dialog_Blocking_Example =
         abstract DialogBlockingExample: DialogBlockingExampleStatic
 
     type [<AllowNullLiteral>] DialogBlockingExample =
-        inherit React.Component<DialogBlockingExampleReactComponent, DialogBlockingExampleReactComponent>
+        inherit React.Component<DialogBlockingExampleReactComponent, DialogBlockingExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogBlockingExampleStatic =
@@ -15149,7 +15149,7 @@ module __components_Dialog_examples_Dialog_Blocking_Example =
     type [<AllowNullLiteral>] DialogBlockingExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] DialogBlockingExampleReactComponent =
+    type [<AllowNullLiteral>] DialogBlockingExampleReactComponent2 =
         abstract hideDialog: bool with get, set
 
 module __components_Dialog_examples_Dialog_LargeHeader_Example =
@@ -15158,7 +15158,7 @@ module __components_Dialog_examples_Dialog_LargeHeader_Example =
         abstract DialogLargeHeaderExample: DialogLargeHeaderExampleStatic
 
     type [<AllowNullLiteral>] DialogLargeHeaderExample =
-        inherit React.Component<DialogLargeHeaderExampleReactComponent, DialogLargeHeaderExampleReactComponent>
+        inherit React.Component<DialogLargeHeaderExampleReactComponent, DialogLargeHeaderExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogLargeHeaderExampleStatic =
@@ -15170,7 +15170,7 @@ module __components_Dialog_examples_Dialog_LargeHeader_Example =
     type [<AllowNullLiteral>] DialogLargeHeaderExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] DialogLargeHeaderExampleReactComponent =
+    type [<AllowNullLiteral>] DialogLargeHeaderExampleReactComponent2 =
         abstract hideDialog: bool with get, set
 
 module __components_Divider_examples_VerticalDivider_Basic_Example =
@@ -15251,7 +15251,7 @@ module __components_Dropdown_examples_Dropdown_Basic_Example =
         abstract DropdownBasicExample: DropdownBasicExampleStatic
 
     type [<AllowNullLiteral>] DropdownBasicExample =
-        inherit BaseComponent<DropdownBasicExampleBaseComponent, DropdownBasicExampleBaseComponent>
+        inherit BaseComponent<DropdownBasicExampleBaseComponent, DropdownBasicExampleBaseComponent2>
         abstract render: unit -> JSX.Element
         abstract changeState: (IDropdownOption -> unit) with get, set
         abstract onChangeMultiSelect: (IDropdownOption -> unit) with get, set
@@ -15269,7 +15269,7 @@ module __components_Dropdown_examples_Dropdown_Basic_Example =
     type [<AllowNullLiteral>] DropdownBasicExampleBaseComponentSelectedItem =
         abstract key: U2<string, float> option with get, set
 
-    type [<AllowNullLiteral>] DropdownBasicExampleBaseComponent =
+    type [<AllowNullLiteral>] DropdownBasicExampleBaseComponent2 =
         abstract selectedItem: DropdownBasicExampleBaseComponentSelectedItem option with get, set
         abstract selectedItems: ResizeArray<string> with get, set
 
@@ -16125,7 +16125,7 @@ module __components_Layer_examples_Layer_Basic_Example =
         abstract LayerBasicExample: LayerBasicExampleStatic
 
     type [<AllowNullLiteral>] LayerContentExample =
-        inherit BaseComponent<LayerContentExampleBaseComponent, LayerContentExampleBaseComponent>
+        inherit BaseComponent<LayerContentExampleBaseComponent, LayerContentExampleBaseComponent2>
         abstract context: LayerContentExampleContext with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
@@ -16155,7 +16155,7 @@ module __components_Layer_examples_Layer_Basic_Example =
     type [<AllowNullLiteral>] LayerContentExampleBaseComponent =
         interface end
 
-    type [<AllowNullLiteral>] LayerContentExampleBaseComponent =
+    type [<AllowNullLiteral>] LayerContentExampleBaseComponent2 =
         abstract time: string with get, set
 
     type [<AllowNullLiteral>] LayerContentExampleContext =
@@ -16195,7 +16195,7 @@ module __components_Layer_examples_Layer_Hosted_Example =
         abstract LayerHostedExample: LayerHostedExampleStatic
 
     type [<AllowNullLiteral>] LayerHostedExample =
-        inherit React.Component<LayerHostedExampleReactComponent, LayerHostedExampleReactComponent>
+        inherit React.Component<LayerHostedExampleReactComponent, LayerHostedExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] LayerHostedExampleStatic =
@@ -16207,7 +16207,7 @@ module __components_Layer_examples_Layer_Hosted_Example =
     type [<AllowNullLiteral>] LayerHostedExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] LayerHostedExampleReactComponent =
+    type [<AllowNullLiteral>] LayerHostedExampleReactComponent2 =
         abstract showLayer: bool with get, set
         abstract showLayerNoId: bool with get, set
         abstract showHost: bool with get, set
@@ -16329,7 +16329,7 @@ module __components_Modal_examples_Modal_Basic_Example =
         abstract ModalBasicExample: ModalBasicExampleStatic
 
     type [<AllowNullLiteral>] ModalBasicExample =
-        inherit React.Component<ModalBasicExampleReactComponent, ModalBasicExampleReactComponent>
+        inherit React.Component<ModalBasicExampleReactComponent, ModalBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ModalBasicExampleStatic =
@@ -16341,7 +16341,7 @@ module __components_Modal_examples_Modal_Basic_Example =
     type [<AllowNullLiteral>] ModalBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] ModalBasicExampleReactComponent =
+    type [<AllowNullLiteral>] ModalBasicExampleReactComponent2 =
         abstract showModal: bool with get, set
 
 module __components_Nav_examples_Nav_Basic_Example =
@@ -16507,7 +16507,7 @@ module __components_Panel_examples_Panel_Custom_Example =
         abstract PanelCustomExample: PanelCustomExampleStatic
 
     type [<AllowNullLiteral>] PanelCustomExample =
-        inherit React.Component<PanelCustomExampleReactComponent, PanelCustomExampleReactComponent>
+        inherit React.Component<PanelCustomExampleReactComponent, PanelCustomExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelCustomExampleStatic =
@@ -16519,7 +16519,7 @@ module __components_Panel_examples_Panel_Custom_Example =
     type [<AllowNullLiteral>] PanelCustomExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelCustomExampleReactComponent =
+    type [<AllowNullLiteral>] PanelCustomExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_ExtraLarge_Example =
@@ -16528,7 +16528,7 @@ module __components_Panel_examples_Panel_ExtraLarge_Example =
         abstract PanelExtraLargeExample: PanelExtraLargeExampleStatic
 
     type [<AllowNullLiteral>] PanelExtraLargeExample =
-        inherit React.Component<PanelExtraLargeExampleReactComponent, PanelExtraLargeExampleReactComponent>
+        inherit React.Component<PanelExtraLargeExampleReactComponent, PanelExtraLargeExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelExtraLargeExampleStatic =
@@ -16540,7 +16540,7 @@ module __components_Panel_examples_Panel_ExtraLarge_Example =
     type [<AllowNullLiteral>] PanelExtraLargeExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelExtraLargeExampleReactComponent =
+    type [<AllowNullLiteral>] PanelExtraLargeExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_Footer_Example =
@@ -16549,7 +16549,7 @@ module __components_Panel_examples_Panel_Footer_Example =
         abstract PanelFooterExample: PanelFooterExampleStatic
 
     type [<AllowNullLiteral>] PanelFooterExample =
-        inherit React.Component<PanelFooterExampleReactComponent, PanelFooterExampleReactComponent>
+        inherit React.Component<PanelFooterExampleReactComponent, PanelFooterExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelFooterExampleStatic =
@@ -16561,7 +16561,7 @@ module __components_Panel_examples_Panel_Footer_Example =
     type [<AllowNullLiteral>] PanelFooterExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelFooterExampleReactComponent =
+    type [<AllowNullLiteral>] PanelFooterExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
@@ -16570,7 +16570,7 @@ module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
         abstract PanelHiddenOnDismissExample: PanelHiddenOnDismissExampleStatic
 
     type [<AllowNullLiteral>] PanelHiddenOnDismissExample =
-        inherit React.Component<PanelHiddenOnDismissExampleReactComponent, PanelHiddenOnDismissExampleReactComponent>
+        inherit React.Component<PanelHiddenOnDismissExampleReactComponent, PanelHiddenOnDismissExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelHiddenOnDismissExampleStatic =
@@ -16582,7 +16582,7 @@ module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
     type [<AllowNullLiteral>] PanelHiddenOnDismissExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelHiddenOnDismissExampleReactComponent =
+    type [<AllowNullLiteral>] PanelHiddenOnDismissExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_Large_Example =
@@ -16591,7 +16591,7 @@ module __components_Panel_examples_Panel_Large_Example =
         abstract PanelLargeExample: PanelLargeExampleStatic
 
     type [<AllowNullLiteral>] PanelLargeExample =
-        inherit React.Component<PanelLargeExampleReactComponent, PanelLargeExampleReactComponent>
+        inherit React.Component<PanelLargeExampleReactComponent, PanelLargeExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLargeExampleStatic =
@@ -16603,7 +16603,7 @@ module __components_Panel_examples_Panel_Large_Example =
     type [<AllowNullLiteral>] PanelLargeExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelLargeExampleReactComponent =
+    type [<AllowNullLiteral>] PanelLargeExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_LargeFixed_Example =
@@ -16612,7 +16612,7 @@ module __components_Panel_examples_Panel_LargeFixed_Example =
         abstract PanelLargeFixedExample: PanelLargeFixedExampleStatic
 
     type [<AllowNullLiteral>] PanelLargeFixedExample =
-        inherit React.Component<PanelLargeFixedExampleReactComponent, PanelLargeFixedExampleReactComponent>
+        inherit React.Component<PanelLargeFixedExampleReactComponent, PanelLargeFixedExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLargeFixedExampleStatic =
@@ -16624,7 +16624,7 @@ module __components_Panel_examples_Panel_LargeFixed_Example =
     type [<AllowNullLiteral>] PanelLargeFixedExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelLargeFixedExampleReactComponent =
+    type [<AllowNullLiteral>] PanelLargeFixedExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_LightDismiss_Example =
@@ -16633,7 +16633,7 @@ module __components_Panel_examples_Panel_LightDismiss_Example =
         abstract PanelLightDismissExample: PanelLightDismissExampleStatic
 
     type [<AllowNullLiteral>] PanelLightDismissExample =
-        inherit React.Component<PanelLightDismissExampleReactComponent, PanelLightDismissExampleReactComponent>
+        inherit React.Component<PanelLightDismissExampleReactComponent, PanelLightDismissExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLightDismissExampleStatic =
@@ -16645,7 +16645,7 @@ module __components_Panel_examples_Panel_LightDismiss_Example =
     type [<AllowNullLiteral>] PanelLightDismissExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelLightDismissExampleReactComponent =
+    type [<AllowNullLiteral>] PanelLightDismissExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_LightDismissCustom_Example =
@@ -16654,7 +16654,7 @@ module __components_Panel_examples_Panel_LightDismissCustom_Example =
         abstract PanelLightDismissCustomExample: PanelLightDismissCustomExampleStatic
 
     type [<AllowNullLiteral>] PanelLightDismissCustomExample =
-        inherit React.Component<PanelLightDismissCustomExampleReactComponent, PanelLightDismissCustomExampleReactComponent>
+        inherit React.Component<PanelLightDismissCustomExampleReactComponent, PanelLightDismissCustomExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLightDismissCustomExampleStatic =
@@ -16666,7 +16666,7 @@ module __components_Panel_examples_Panel_LightDismissCustom_Example =
     type [<AllowNullLiteral>] PanelLightDismissCustomExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelLightDismissCustomExampleReactComponent =
+    type [<AllowNullLiteral>] PanelLightDismissCustomExampleReactComponent2 =
         abstract showPanel: bool with get, set
         abstract hideDialog: bool with get, set
 
@@ -16676,7 +16676,7 @@ module __components_Panel_examples_Panel_Medium_Example =
         abstract PanelMediumExample: PanelMediumExampleStatic
 
     type [<AllowNullLiteral>] PanelMediumExample =
-        inherit React.Component<PanelMediumExampleReactComponent, PanelMediumExampleReactComponent>
+        inherit React.Component<PanelMediumExampleReactComponent, PanelMediumExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelMediumExampleStatic =
@@ -16688,7 +16688,7 @@ module __components_Panel_examples_Panel_Medium_Example =
     type [<AllowNullLiteral>] PanelMediumExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelMediumExampleReactComponent =
+    type [<AllowNullLiteral>] PanelMediumExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_NonModal_Example =
@@ -16697,7 +16697,7 @@ module __components_Panel_examples_Panel_NonModal_Example =
         abstract PanelNonModalExample: PanelNonModalExampleStatic
 
     type [<AllowNullLiteral>] PanelNonModalExample =
-        inherit React.Component<PanelNonModalExampleReactComponent, PanelNonModalExampleReactComponent>
+        inherit React.Component<PanelNonModalExampleReactComponent, PanelNonModalExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelNonModalExampleStatic =
@@ -16709,7 +16709,7 @@ module __components_Panel_examples_Panel_NonModal_Example =
     type [<AllowNullLiteral>] PanelNonModalExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelNonModalExampleReactComponent =
+    type [<AllowNullLiteral>] PanelNonModalExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_SmallFluid_Example =
@@ -16718,7 +16718,7 @@ module __components_Panel_examples_Panel_SmallFluid_Example =
         abstract PanelSmallFluidExample: PanelSmallFluidExampleStatic
 
     type [<AllowNullLiteral>] PanelSmallFluidExample =
-        inherit React.Component<PanelSmallFluidExampleReactComponent, PanelSmallFluidExampleReactComponent>
+        inherit React.Component<PanelSmallFluidExampleReactComponent, PanelSmallFluidExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelSmallFluidExampleStatic =
@@ -16730,7 +16730,7 @@ module __components_Panel_examples_Panel_SmallFluid_Example =
     type [<AllowNullLiteral>] PanelSmallFluidExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelSmallFluidExampleReactComponent =
+    type [<AllowNullLiteral>] PanelSmallFluidExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_SmallLeft_Example =
@@ -16739,7 +16739,7 @@ module __components_Panel_examples_Panel_SmallLeft_Example =
         abstract PanelSmallLeftExample: PanelSmallLeftExampleStatic
 
     type [<AllowNullLiteral>] PanelSmallLeftExample =
-        inherit React.Component<PanelSmallLeftExampleReactComponent, PanelSmallLeftExampleReactComponent>
+        inherit React.Component<PanelSmallLeftExampleReactComponent, PanelSmallLeftExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelSmallLeftExampleStatic =
@@ -16751,7 +16751,7 @@ module __components_Panel_examples_Panel_SmallLeft_Example =
     type [<AllowNullLiteral>] PanelSmallLeftExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelSmallLeftExampleReactComponent =
+    type [<AllowNullLiteral>] PanelSmallLeftExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Panel_examples_Panel_SmallRight_Example =
@@ -16760,7 +16760,7 @@ module __components_Panel_examples_Panel_SmallRight_Example =
         abstract PanelSmallRightExample: PanelSmallRightExampleStatic
 
     type [<AllowNullLiteral>] PanelSmallRightExample =
-        inherit React.Component<PanelSmallRightExampleReactComponent, PanelSmallRightExampleReactComponent>
+        inherit React.Component<PanelSmallRightExampleReactComponent, PanelSmallRightExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelSmallRightExampleStatic =
@@ -16772,7 +16772,7 @@ module __components_Panel_examples_Panel_SmallRight_Example =
     type [<AllowNullLiteral>] PanelSmallRightExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PanelSmallRightExampleReactComponent =
+    type [<AllowNullLiteral>] PanelSmallRightExampleReactComponent2 =
         abstract showPanel: bool with get, set
 
 module __components_Persona_examples_Persona_Alternate_Example =
@@ -16781,7 +16781,7 @@ module __components_Persona_examples_Persona_Alternate_Example =
         abstract PersonaAlternateExample: PersonaAlternateExampleStatic
 
     type [<AllowNullLiteral>] PersonaAlternateExample =
-        inherit React.Component<PersonaAlternateExampleReactComponent, PersonaAlternateExampleReactComponent>
+        inherit React.Component<PersonaAlternateExampleReactComponent, PersonaAlternateExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PersonaAlternateExampleStatic =
@@ -16793,7 +16793,7 @@ module __components_Persona_examples_Persona_Alternate_Example =
     type [<AllowNullLiteral>] PersonaAlternateExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PersonaAlternateExampleReactComponent =
+    type [<AllowNullLiteral>] PersonaAlternateExampleReactComponent2 =
         abstract renderPersonaDetails: bool with get, set
 
 module __components_Persona_examples_Persona_Basic_Example =
@@ -16802,7 +16802,7 @@ module __components_Persona_examples_Persona_Basic_Example =
         abstract PersonaBasicExample: PersonaBasicExampleStatic
 
     type [<AllowNullLiteral>] PersonaBasicExample =
-        inherit React.Component<PersonaBasicExampleReactComponent, PersonaBasicExampleReactComponent>
+        inherit React.Component<PersonaBasicExampleReactComponent, PersonaBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PersonaBasicExampleStatic =
@@ -16814,7 +16814,7 @@ module __components_Persona_examples_Persona_Basic_Example =
     type [<AllowNullLiteral>] PersonaBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] PersonaBasicExampleReactComponent =
+    type [<AllowNullLiteral>] PersonaBasicExampleReactComponent2 =
         abstract renderPersonaDetails: bool option with get, set
 
 module __components_Persona_examples_Persona_CustomCoinRender_Example =
@@ -17542,7 +17542,7 @@ module __components_Rating_examples_Rating_Basic_Example =
         abstract RatingBasicExample: RatingBasicExampleStatic
 
     type [<AllowNullLiteral>] RatingBasicExample =
-        inherit React.Component<RatingBasicExampleReactComponent, RatingBasicExampleReactComponent>
+        inherit React.Component<RatingBasicExampleReactComponent, RatingBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] RatingBasicExampleStatic =
@@ -17554,7 +17554,7 @@ module __components_Rating_examples_Rating_Basic_Example =
     type [<AllowNullLiteral>] RatingBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] RatingBasicExampleReactComponent =
+    type [<AllowNullLiteral>] RatingBasicExampleReactComponent2 =
         abstract rating: float option with get, set
         abstract largeStarRating: float option with get, set
         abstract smallStarRating: float option with get, set
@@ -17572,7 +17572,7 @@ module __components_Rating_examples_Rating_ButtonControlled_Example =
         abstract RatingButtonControlledExample: RatingButtonControlledExampleStatic
 
     type [<AllowNullLiteral>] RatingButtonControlledExample =
-        inherit React.Component<RatingButtonControlledExampleReactComponent, RatingButtonControlledExampleReactComponent>
+        inherit React.Component<RatingButtonControlledExampleReactComponent, RatingButtonControlledExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] RatingButtonControlledExampleStatic =
@@ -17584,7 +17584,7 @@ module __components_Rating_examples_Rating_ButtonControlled_Example =
     type [<AllowNullLiteral>] RatingButtonControlledExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] RatingButtonControlledExampleReactComponent =
+    type [<AllowNullLiteral>] RatingButtonControlledExampleReactComponent2 =
         abstract rating: float with get, set
 
 module __components_ResizeGroup_examples_ResizeGroup_Example_scss =
@@ -17662,7 +17662,7 @@ module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
         abstract ScrollablePaneDetailsListExample: ScrollablePaneDetailsListExampleStatic
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExample =
-        inherit React.Component<ScrollablePaneDetailsListExampleReactComponent, ScrollablePaneDetailsListExampleReactComponent>
+        inherit React.Component<ScrollablePaneDetailsListExampleReactComponent, ScrollablePaneDetailsListExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleStatic =
@@ -17674,7 +17674,7 @@ module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleReactComponent =
+    type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleReactComponent2 =
         abstract items: ResizeArray<ScrollablePaneDetailsListExampleReactComponent> with get, set
         abstract selectionDetails: string with get, set
 
@@ -18239,7 +18239,7 @@ module __components_Slider_examples_Slider_Basic_Example =
         abstract SliderBasicExample: SliderBasicExampleStatic
 
     type [<AllowNullLiteral>] SliderBasicExample =
-        inherit React.Component<SliderBasicExampleReactComponent, SliderBasicExampleReactComponent>
+        inherit React.Component<SliderBasicExampleReactComponent, SliderBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] SliderBasicExampleStatic =
@@ -18251,7 +18251,7 @@ module __components_Slider_examples_Slider_Basic_Example =
     type [<AllowNullLiteral>] SliderBasicExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] SliderBasicExampleReactComponent =
+    type [<AllowNullLiteral>] SliderBasicExampleReactComponent2 =
         abstract value: float with get, set
 
 module __components_SpinButton_examples_SpinButton_Basic_Example =
@@ -18546,7 +18546,7 @@ module __components_TextField_examples_TextField_CustomRender_Example =
         abstract TextFieldCustomRenderExample: TextFieldCustomRenderExampleStatic
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExample =
-        inherit React.Component<TextFieldCustomRenderExampleReactComponent, TextFieldCustomRenderExampleReactComponent>
+        inherit React.Component<TextFieldCustomRenderExampleReactComponent, TextFieldCustomRenderExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExampleStatic =
@@ -18558,7 +18558,7 @@ module __components_TextField_examples_TextField_CustomRender_Example =
     type [<AllowNullLiteral>] TextFieldCustomRenderExampleReactComponent =
         interface end
 
-    type [<AllowNullLiteral>] TextFieldCustomRenderExampleReactComponent =
+    type [<AllowNullLiteral>] TextFieldCustomRenderExampleReactComponent2 =
         abstract isCalloutVisible: bool with get, set
 
 module __components_TextField_examples_TextField_ErrorMessage_Example =
