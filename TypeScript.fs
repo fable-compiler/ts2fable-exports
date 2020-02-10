@@ -988,7 +988,7 @@ module Ts =
 
     /// ES6 Iterator type.
     type [<AllowNullLiteral>] Iterator<'T> =
-        abstract next: unit -> U2<IteratorNext<'T>, IteratorNext>
+        abstract next: unit -> U2<IteratorNext<'T>, IteratorNext2>
 
     /// Array that is only intended to be pushed to, never read.
     type [<AllowNullLiteral>] Push<'T> =
@@ -5972,7 +5972,7 @@ module Ts =
         abstract value: 'T with get, set
         abstract ``done``: obj option with get, set
 
-    type [<AllowNullLiteral>] IteratorNext =
+    type [<AllowNullLiteral>] IteratorNext2 =
         abstract value: obj with get, set
         abstract ``done``: obj with get, set
 
