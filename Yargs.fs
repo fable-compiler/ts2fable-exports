@@ -506,11 +506,11 @@ module Yargs =
     type [<AllowNullLiteral>] InferredOptionTypes<'O> =
         interface end
 
-    type CommandModule<'U> =
-        CommandModule<obj, 'U>
-
     type CommandModule =
         CommandModule<obj, obj>
+
+    type CommandModule<'T> =
+        CommandModule<'T, obj>
 
     type [<AllowNullLiteral>] CommandModule<'T, 'U> =
         /// array of strings (or a single string) representing aliases of `exports.command`, positional args defined in an alias are ignored
@@ -530,11 +530,11 @@ module Yargs =
     type [<AllowNullLiteral>] ParseCallback<'T> =
         [<Emit "$0($1...)">] abstract Invoke: err: Error option * argv: Arguments<'T> * output: string -> unit
 
-    type CommandBuilder<'U> =
-        CommandBuilder<obj, 'U>
-
     type CommandBuilder =
         CommandBuilder<obj, obj>
+
+    type CommandBuilder<'T> =
+        CommandBuilder<'T, obj>
 
     type CommandBuilder<'T, 'U> =
         U2<Options, (Argv<'T> -> Argv<'U>)>

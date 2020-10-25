@@ -711,8 +711,8 @@ module __common_Interfaces =
     type [<AllowNullLiteral>] UserPresenceStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> UserPresence
 
-    type ViewBase<'S> =
-        ViewBase<obj, 'S>
+    type ViewBase<'P> =
+        ViewBase<'P, obj>
 
     type [<AllowNullLiteral>] ViewBase<'P, 'S> =
         inherit React.Component<'P, 'S>
@@ -1268,7 +1268,7 @@ module __common_Types =
         abstract key: U2<string, float> option with get, set
 
     type CommonProps =
-        CommonProps<obj>
+        CommonProps<React.Component>
 
     type [<AllowNullLiteral>] CommonProps<'C> =
         inherit RefAttributes<'C>
