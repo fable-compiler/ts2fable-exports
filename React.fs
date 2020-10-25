@@ -187,11 +187,11 @@ module React =
     type ReactInstance =
         U2<Component<obj option>, Element>
 
-    type Component<'S> =
-        Component<obj, 'S>
-
     type Component =
         Component<obj, obj>
+
+    type Component<'P> =
+        Component<'P, obj>
 
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
@@ -207,11 +207,11 @@ module React =
     type [<AllowNullLiteral>] ComponentStatic =
         [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
 
-    type PureComponent<'S> =
-        PureComponent<obj, 'S>
-
     type PureComponent =
         PureComponent<obj, obj>
+
+    type PureComponent<'P> =
+        PureComponent<'P, obj>
 
     type [<AllowNullLiteral>] PureComponent<'P, 'S> =
         inherit Component<'P, 'S>
@@ -219,11 +219,11 @@ module React =
     type [<AllowNullLiteral>] PureComponentStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> PureComponent<'P, 'S>
 
-    type ClassicComponent<'S> =
-        ClassicComponent<obj, 'S>
-
     type ClassicComponent =
         ClassicComponent<obj, obj>
+
+    type ClassicComponent<'P> =
+        ClassicComponent<'P, obj>
 
     type [<AllowNullLiteral>] ClassicComponent<'P, 'S> =
         inherit Component<'P, 'S>
