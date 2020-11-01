@@ -8,11 +8,11 @@ open Browser.Types
 type Error = System.Exception
 type RegExp = System.Text.RegularExpressions.Regex
 
-let [<Import("*","monaco-editor")>] monaco: Monaco.IExports = jsNative
+let [<Import("*","monaco")>] monaco: Monaco.IExports = jsNative
 
 module Monaco =
-    let [<Import("editor","monaco-editor/monaco")>] editor: Editor.IExports = jsNative
-    let [<Import("languages","monaco-editor/monaco")>] languages: Languages.IExports = jsNative
+    let [<Import("editor","monaco/monaco")>] editor: Editor.IExports = jsNative
+    let [<Import("languages","monaco/monaco")>] languages: Languages.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract Emitter: EmitterStatic
@@ -2417,10 +2417,10 @@ module Monaco =
             | MetaKey
 
     module Languages =
-        let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
-        let [<Import("css","monaco-editor/monaco/languages")>] css: Css.IExports = jsNative
-        let [<Import("json","monaco-editor/monaco/languages")>] json: Json.IExports = jsNative
-        let [<Import("html","monaco-editor/monaco/languages")>] html: Html.IExports = jsNative
+        let [<Import("typescript","monaco/monaco/languages")>] typescript: Typescript.IExports = jsNative
+        let [<Import("css","monaco/monaco/languages")>] css: Css.IExports = jsNative
+        let [<Import("json","monaco/monaco/languages")>] json: Json.IExports = jsNative
+        let [<Import("html","monaco/monaco/languages")>] html: Html.IExports = jsNative
 
         type [<AllowNullLiteral>] IExports =
             /// Register information about a new language.
