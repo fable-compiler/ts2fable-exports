@@ -3433,9 +3433,9 @@ module Electron =
         /// Emitted when DevTools is focused / opened.
         [<Emit "$0.addEventListener('devtools-focused',$1,$2)">] abstract ``addEventListener_devtools-focused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
         [<Emit "$0.removeEventListener('devtools-focused',$1)">] abstract ``removeEventListener_devtools-focused``: listener: (Event -> unit) -> WebviewTag
-        abstract addEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
+        abstract addEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit when 'K :> HTMLElementEventMap
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
-        abstract removeEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
+        abstract removeEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit when 'K :> HTMLElementEventMap
         abstract removeEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
         abstract canGoBack: unit -> bool
         abstract canGoForward: unit -> bool

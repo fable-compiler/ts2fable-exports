@@ -23,7 +23,7 @@ type [<AllowNullLiteral>] IExports =
     abstract all: values: Raceable<'T1> * Raceable<'T2> -> STPromise<'T1 * 'T2>
     abstract all: values: ResizeArray<U2<'T, Thenable<'T>>> -> STPromise<ResizeArray<'T>>
     abstract Defer: unit -> Deferred<'T>
-    abstract Resolved: unit -> STPromise<'T>
+    abstract Resolved: unit -> STPromise<'T> when 'T :> unit
     abstract Resolved: ``val``: 'T -> STPromise<'T>
     abstract Rejected: ?``val``: obj -> STPromise<'T>
     abstract race: values: Raceable<'T1> * Raceable<'T2> * Raceable<'T3> * Raceable<'T4> * Raceable<'T5> * Raceable<'T6> * Raceable<'T7> * Raceable<'T8> * Raceable<'T9> * Raceable<'T10> -> STPromise<obj>

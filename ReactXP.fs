@@ -407,12 +407,12 @@ module __common_Interfaces =
     type [<AllowNullLiteral>] AlertStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> Alert
 
-    type [<AllowNullLiteral>] AnimatedComponent<'P, 'T, 'C> =
+    type [<AllowNullLiteral>] AnimatedComponent<'P, 'T, 'C when 'P :> Types.CommonProps<'C>> =
         inherit React.Component<'P, 'T>
         abstract setNativeProps: props: 'P -> unit
 
     type [<AllowNullLiteral>] AnimatedComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedComponent<'P, 'T, 'C>
+        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedComponent<'P, 'T, 'C> when 'P :> Types.CommonProps<'C>
 
     type [<AllowNullLiteral>] AnimatedImage =
         inherit AnimatedComponent<Types.AnimatedImageProps, Types.Stateless, AnimatedImage>
@@ -966,7 +966,7 @@ module __common_PopupContainerViewBase =
         abstract constrainedPopupWidth: float with get, set
         abstract constrainedPopupHeight: float with get, set
 
-    type [<AllowNullLiteral>] PopupContainerViewBase<'P, 'S, 'C> =
+    type [<AllowNullLiteral>] PopupContainerViewBase<'P, 'S, 'C when 'P :> PopupContainerViewBaseProps<'C>> =
         inherit React.Component<'P, 'S>
         abstract getChildContext: unit -> PopupContainerViewBaseGetChildContextReturn
         abstract registerPopupComponent: onShow: (unit -> unit) * onHide: (unit -> unit) -> PopupComponent
@@ -993,7 +993,7 @@ module __common_StyleLeakDetector =
 
     type [<AllowNullLiteral>] StyleLeakDetector =
         abstract isDisabled: unit -> bool
-        abstract detectLeaks: style: 'T -> unit
+        abstract detectLeaks: style: 'T -> unit when 'T :> Types.ViewAndImageCommonStyle
 
     type [<AllowNullLiteral>] StyleLeakDetectorStatic =
         [<Emit "new $0($1...)">] abstract Create: unit -> StyleLeakDetector
@@ -3252,7 +3252,7 @@ module __native_common_RootView =
         abstract mainView: obj option with get, set
         abstract announcementText: string option with get, set
 
-    type [<AllowNullLiteral>] BaseRootView<'P> =
+    type [<AllowNullLiteral>] BaseRootView<'P when 'P :> BaseRootViewProps> =
         inherit React.Component<'P, RootViewState>
         abstract _mainViewProps: BaseRootView_mainViewProps with get, set
         abstract _rootViewId: string option with get, set
@@ -3573,7 +3573,7 @@ module __native_common_ViewBase =
     type [<AllowNullLiteral>] IExports =
         abstract ViewBase: ViewBaseStatic
 
-    type [<AllowNullLiteral>] ViewBase<'P, 'S, 'T, 'C> =
+    type [<AllowNullLiteral>] ViewBase<'P, 'S, 'T, 'C when 'P :> RX.Types.ViewPropsShared<'C>> =
         inherit RX.ViewBase<'P, 'S>
         abstract render: unit -> JSX.Element
         abstract _nativeComponent: 'T option with get, set
@@ -3583,7 +3583,7 @@ module __native_common_ViewBase =
         abstract _onLayout: (RN.LayoutChangeEvent -> unit) with get, set
 
     type [<AllowNullLiteral>] ViewBaseStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> ViewBase<'P, 'S, 'T, 'C>
+        [<Emit "new $0($1...)">] abstract Create: unit -> ViewBase<'P, 'S, 'T, 'C> when 'P :> RX.Types.ViewPropsShared<'C>
         abstract setDefaultViewStyle: defaultViewStyle: RX.Types.ViewStyleRuleSet -> unit
         abstract getDefaultViewStyle: unit -> RX.Types.StyleRuleSet<RX.Types.ViewStyle>
 
@@ -4758,7 +4758,7 @@ module __web_ViewBase =
     type [<AllowNullLiteral>] IExports =
         abstract ViewBase: ViewBaseStatic
 
-    type [<AllowNullLiteral>] ViewBase<'P, 'S, 'C> =
+    type [<AllowNullLiteral>] ViewBase<'P, 'S, 'C when 'P :> RX.Types.ViewPropsShared<'C>> =
         inherit RX.ViewBase<'P, 'S>
         abstract render: unit -> JSX.Element
         abstract _getContainer: unit -> HTMLElement option
@@ -4774,7 +4774,7 @@ module __web_ViewBase =
         abstract componentWillUnmount: unit -> unit
 
     type [<AllowNullLiteral>] ViewBaseStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> ViewBase<'P, 'S, 'C>
+        [<Emit "new $0($1...)">] abstract Create: unit -> ViewBase<'P, 'S, 'C> when 'P :> RX.Types.ViewPropsShared<'C>
         abstract setActivationState: newState: RX.Types.AppActivationState -> unit
         abstract _checkViews: unit -> unit
         abstract _reportDeferredLayoutChanges: unit -> unit

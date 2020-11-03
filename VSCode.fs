@@ -3431,12 +3431,12 @@ module Vscode =
             /// <summary>Show an information message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showInformationMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option>
+            abstract showInformationMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an information message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option>
+            abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show a warning message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
@@ -3449,12 +3449,12 @@ module Vscode =
             /// <summary>Show a warning message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showWarningMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option>
+            abstract showWarningMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show a warning message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option>
+            abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
@@ -3467,12 +3467,12 @@ module Vscode =
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showErrorMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option>
+            abstract showErrorMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option>
+            abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Shows a selection list allowing multiple selections.</summary>
             /// <param name="items">An array of strings, or a promise that resolves to an array of strings.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
@@ -3487,12 +3487,12 @@ module Vscode =
             /// <param name="items">An array of items, or a promise that resolves to an array of items.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
-            abstract showQuickPick: items: U2<ResizeArray<'T>, Thenable<ResizeArray<'T>>> * options: obj * ?token: CancellationToken -> Thenable<ResizeArray<'T> option>
+            abstract showQuickPick: items: U2<ResizeArray<'T>, Thenable<ResizeArray<'T>>> * options: obj * ?token: CancellationToken -> Thenable<ResizeArray<'T> option> when 'T :> QuickPickItem
             /// <summary>Shows a selection list.</summary>
             /// <param name="items">An array of items, or a promise that resolves to an array of items.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
-            abstract showQuickPick: items: U2<ResizeArray<'T>, Thenable<ResizeArray<'T>>> * ?options: QuickPickOptions * ?token: CancellationToken -> Thenable<'T option>
+            abstract showQuickPick: items: U2<ResizeArray<'T>, Thenable<ResizeArray<'T>>> * ?options: QuickPickOptions * ?token: CancellationToken -> Thenable<'T option> when 'T :> QuickPickItem
             /// <summary>Shows a selection list of [workspace folders](#workspace.workspaceFolders) to pick from.
             /// Returns `undefined` if no folder is open.</summary>
             /// <param name="options">Configures the behavior of the workspace folder list.</param>
@@ -3519,7 +3519,7 @@ module Vscode =
             /// Note that in many cases the more convenient [window.showQuickPick](#window.showQuickPick)
             /// is easier to use. [window.createQuickPick](#window.createQuickPick) should be used
             /// when [window.showQuickPick](#window.showQuickPick) does not offer the required flexibility.
-            abstract createQuickPick: unit -> QuickPick<'T>
+            abstract createQuickPick: unit -> QuickPick<'T> when 'T :> QuickPickItem
             /// Creates a [InputBox](#InputBox) to let the user enter some text input.
             /// 
             /// Note that in many cases the more convenient [window.showInputBox](#window.showInputBox)
@@ -3867,7 +3867,7 @@ module Vscode =
     /// Note that in many cases the more convenient [window.showQuickPick](#window.showQuickPick)
     /// is easier to use. [window.createQuickPick](#window.createQuickPick) should be used
     /// when [window.showQuickPick](#window.showQuickPick) does not offer the required flexibility.
-    type [<AllowNullLiteral>] QuickPick<'T> =
+    type [<AllowNullLiteral>] QuickPick<'T when 'T :> QuickPickItem> =
         inherit QuickInput
         /// Current value of the filter text.
         abstract value: string with get, set

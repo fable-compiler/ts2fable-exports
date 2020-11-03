@@ -1421,7 +1421,7 @@ module Monaco =
             /// Returns true if this editor or one of its widgets has keyboard focus.
             abstract hasWidgetFocus: unit -> bool
             /// Get a contribution of this editor.
-            abstract getContribution: id: string -> 'T
+            abstract getContribution: id: string -> 'T when 'T :> IEditorContribution
             /// Type the getModel() of IEditor.
             abstract getModel: unit -> IModel
             /// Returns the current editor's configuration

@@ -3687,7 +3687,7 @@ module StyleSheet =
 
     type [<AllowNullLiteral>] IExports =
         /// Creates a StyleSheet style reference from the given object.
-        abstract create: styles: 'T -> obj
+        abstract create: styles: 'T -> obj when 'T :> NamedStyles<'T>
         /// Flattens an array of style objects, into one aggregated style object.
         /// Alternatively, this method can be used to lookup IDs, returned by
         /// StyleSheet.register.
