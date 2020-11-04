@@ -46,7 +46,7 @@ module Ts =
         abstract isIdentifierPart: ch: float * languageVersion: ScriptTarget option -> bool
         abstract createScanner: languageVersion: ScriptTarget * skipTrivia: bool * ?languageVariant: LanguageVariant * ?textInitial: string * ?onError: ErrorCallback * ?start: float * ?length: float -> Scanner
         abstract isExternalModuleNameRelative: moduleName: string -> bool
-        abstract sortAndDeduplicateDiagnostics: diagnostics: ResizeArray<'T> -> SortedReadonlyArray<'T>
+        abstract sortAndDeduplicateDiagnostics: diagnostics: ResizeArray<'T> -> SortedReadonlyArray<'T> when 'T :> Diagnostic
         abstract getDefaultLibFileName: options: CompilerOptions -> string
         abstract textSpanEnd: span: TextSpan -> float
         abstract textSpanIsEmpty: span: TextSpan -> bool
@@ -83,9 +83,9 @@ module Ts =
         /// and if it is, attempts to set the appropriate language.
         abstract validateLocaleAndSetLanguage: locale: string * sys: ValidateLocaleAndSetLanguageSys * ?errors: Push<Diagnostic> -> unit
         abstract getOriginalNode: node: Node -> Node
-        abstract getOriginalNode: node: Node * nodeTest: (Node -> bool) -> 'T
+        abstract getOriginalNode: node: Node * nodeTest: (Node -> bool) -> 'T when 'T :> Node
         abstract getOriginalNode: node: Node option -> Node option
-        abstract getOriginalNode: node: Node option * nodeTest: (Node option -> bool) -> 'T option
+        abstract getOriginalNode: node: Node option * nodeTest: (Node option -> bool) -> 'T option when 'T :> Node
         /// <summary>Gets a value indicating whether a node originated in the parse tree.</summary>
         /// <param name="node">The node to test.</param>
         abstract isParseTreeNode: node: Node -> bool
@@ -95,7 +95,7 @@ module Ts =
         /// <summary>Gets the original parse tree node for a node.</summary>
         /// <param name="node">The original node.</param>
         /// <param name="nodeTest">A callback used to ensure the correct type of parse tree node is returned.</param>
-        abstract getParseTreeNode: node: Node option * ?nodeTest: (Node -> bool) -> 'T option
+        abstract getParseTreeNode: node: Node option * ?nodeTest: (Node -> bool) -> 'T option when 'T :> Node
         /// Add an extra underscore to identifiers that start with two underscores to avoid issues with magic names like '__proto__'
         abstract escapeLeadingUnderscores: identifier: string -> __String
         /// <summary>Remove extra underscore from escaped identifier text content.</summary>
@@ -414,7 +414,7 @@ module Ts =
         abstract resolveModuleName: moduleName: string * containingFile: string * compilerOptions: CompilerOptions * host: ModuleResolutionHost * ?cache: ModuleResolutionCache * ?redirectedReference: ResolvedProjectReference -> ResolvedModuleWithFailedLookupLocations
         abstract nodeModuleNameResolver: moduleName: string * containingFile: string * compilerOptions: CompilerOptions * host: ModuleResolutionHost * ?cache: ModuleResolutionCache * ?redirectedReference: ResolvedProjectReference -> ResolvedModuleWithFailedLookupLocations
         abstract classicNameResolver: moduleName: string * containingFile: string * compilerOptions: CompilerOptions * host: ModuleResolutionHost * ?cache: NonRelativeModuleNameResolutionCache * ?redirectedReference: ResolvedProjectReference -> ResolvedModuleWithFailedLookupLocations
-        abstract createNodeArray: ?elements: ResizeArray<'T> * ?hasTrailingComma: bool -> ResizeArray<'T>
+        abstract createNodeArray: ?elements: ResizeArray<'T> * ?hasTrailingComma: bool -> ResizeArray<'T> when 'T :> Node
         /// If a node is passed, creates a string literal whose source text is read from a source node during emit.
         abstract createLiteral: value: U5<string, StringLiteral, NoSubstitutionTemplateLiteral, NumericLiteral, Identifier> -> StringLiteral
         abstract createLiteral: value: U2<float, PseudoBigInt> -> NumericLiteral
@@ -438,13 +438,13 @@ module Ts =
         abstract createFileLevelUniqueName: text: string -> Identifier
         /// Create a unique name generated for a node.
         abstract getGeneratedNameForNode: node: Node option -> Identifier
-        abstract createToken: token: 'TKind -> Token<'TKind>
+        abstract createToken: token: 'TKind -> Token<'TKind> when 'TKind :> SyntaxKind
         abstract createSuper: unit -> SuperExpression
         abstract createThis: unit -> obj
         abstract createNull: unit -> obj
         abstract createTrue: unit -> obj
         abstract createFalse: unit -> obj
-        abstract createModifier: kind: 'T -> Token<'T>
+        abstract createModifier: kind: 'T -> Token<'T> when 'T :> Modifier
         abstract createModifiersFromModifierFlags: flags: ModifierFlags -> ResizeArray<Modifier>
         abstract createQualifiedName: left: EntityName * right: U2<string, Identifier> -> QualifiedName
         abstract updateQualifiedName: node: QualifiedName * left: EntityName * right: Identifier -> QualifiedName
@@ -722,7 +722,7 @@ module Ts =
         abstract updateEnumMember: node: EnumMember * name: PropertyName * initializer: Expression option -> EnumMember
         abstract updateSourceFileNode: node: SourceFile * statements: ResizeArray<Statement> * ?isDeclarationFile: bool * ?referencedFiles: SourceFile * ?typeReferences: SourceFile * ?hasNoDefaultLib: bool * ?libReferences: SourceFile -> SourceFile
         /// Creates a shallow, memberwise clone of a node for mutation.
-        abstract getMutableClone: node: 'T -> 'T
+        abstract getMutableClone: node: 'T -> 'T when 'T :> Node
         /// <summary>Creates a synthetic statement to act as a placeholder for a not-emitted statement in
         /// order to preserve comments.</summary>
         /// <param name="original">The original statement.</param>
@@ -766,58 +766,58 @@ module Ts =
         /// <summary>Clears any EmitNode entries from parse-tree nodes.</summary>
         /// <param name="sourceFile">A source file.</param>
         abstract disposeEmitNodes: sourceFile: SourceFile -> unit
-        abstract setTextRange: range: 'T * location: TextRange option -> 'T
+        abstract setTextRange: range: 'T * location: TextRange option -> 'T when 'T :> TextRange
         /// Sets flags that control emit behavior of a node.
-        abstract setEmitFlags: node: 'T * emitFlags: EmitFlags -> 'T
+        abstract setEmitFlags: node: 'T * emitFlags: EmitFlags -> 'T when 'T :> Node
         /// Gets a custom text range to use when emitting source maps.
         abstract getSourceMapRange: node: Node -> SourceMapRange
         /// Sets a custom text range to use when emitting source maps.
-        abstract setSourceMapRange: node: 'T * range: SourceMapRange option -> 'T
+        abstract setSourceMapRange: node: 'T * range: SourceMapRange option -> 'T when 'T :> Node
         /// Create an external source map source file reference
         abstract createSourceMapSource: fileName: string * text: string * ?skipTrivia: (float -> float) -> SourceMapSource
         /// Gets the TextRange to use for source maps for a token of a node.
         abstract getTokenSourceMapRange: node: Node * token: SyntaxKind -> SourceMapRange option
         /// Sets the TextRange to use for source maps for a token of a node.
-        abstract setTokenSourceMapRange: node: 'T * token: SyntaxKind * range: SourceMapRange option -> 'T
+        abstract setTokenSourceMapRange: node: 'T * token: SyntaxKind * range: SourceMapRange option -> 'T when 'T :> Node
         /// Gets a custom text range to use when emitting comments.
         abstract getCommentRange: node: Node -> TextRange
         /// Sets a custom text range to use when emitting comments.
-        abstract setCommentRange: node: 'T * range: TextRange -> 'T
+        abstract setCommentRange: node: 'T * range: TextRange -> 'T when 'T :> Node
         abstract getSyntheticLeadingComments: node: Node -> ResizeArray<SynthesizedComment> option
-        abstract setSyntheticLeadingComments: node: 'T * comments: ResizeArray<SynthesizedComment> option -> 'T
-        abstract addSyntheticLeadingComment: node: 'T * kind: SyntaxKind * text: string * ?hasTrailingNewLine: bool -> 'T
+        abstract setSyntheticLeadingComments: node: 'T * comments: ResizeArray<SynthesizedComment> option -> 'T when 'T :> Node
+        abstract addSyntheticLeadingComment: node: 'T * kind: SyntaxKind * text: string * ?hasTrailingNewLine: bool -> 'T when 'T :> Node
         abstract getSyntheticTrailingComments: node: Node -> ResizeArray<SynthesizedComment> option
-        abstract setSyntheticTrailingComments: node: 'T * comments: ResizeArray<SynthesizedComment> option -> 'T
-        abstract addSyntheticTrailingComment: node: 'T * kind: SyntaxKind * text: string * ?hasTrailingNewLine: bool -> 'T
-        abstract moveSyntheticComments: node: 'T * original: Node -> 'T
+        abstract setSyntheticTrailingComments: node: 'T * comments: ResizeArray<SynthesizedComment> option -> 'T when 'T :> Node
+        abstract addSyntheticTrailingComment: node: 'T * kind: SyntaxKind * text: string * ?hasTrailingNewLine: bool -> 'T when 'T :> Node
+        abstract moveSyntheticComments: node: 'T * original: Node -> 'T when 'T :> Node
         /// Gets the constant value to emit for an expression.
         abstract getConstantValue: node: U2<PropertyAccessExpression, ElementAccessExpression> -> U2<string, float> option
         /// Sets the constant value to emit for an expression.
         abstract setConstantValue: node: U2<PropertyAccessExpression, ElementAccessExpression> * value: U2<string, float> -> U2<ElementAccessExpression, PropertyAccessExpression>
         /// Adds an EmitHelper to a node.
-        abstract addEmitHelper: node: 'T * helper: EmitHelper -> 'T
+        abstract addEmitHelper: node: 'T * helper: EmitHelper -> 'T when 'T :> Node
         /// Add EmitHelpers to a node.
-        abstract addEmitHelpers: node: 'T * helpers: ResizeArray<EmitHelper> option -> 'T
+        abstract addEmitHelpers: node: 'T * helpers: ResizeArray<EmitHelper> option -> 'T when 'T :> Node
         /// Removes an EmitHelper from a node.
         abstract removeEmitHelper: node: Node * helper: EmitHelper -> bool
         /// Gets the EmitHelpers of a node.
         abstract getEmitHelpers: node: Node -> ResizeArray<EmitHelper> option
         /// Moves matching emit helpers from a source node to a target node.
         abstract moveEmitHelpers: source: Node * target: Node * predicate: (EmitHelper -> bool) -> unit
-        abstract setOriginalNode: node: 'T * original: Node option -> 'T
+        abstract setOriginalNode: node: 'T * original: Node option -> 'T when 'T :> Node
         /// <summary>Visits a Node using the supplied visitor, possibly returning a new Node in its place.</summary>
         /// <param name="node">The Node to visit.</param>
         /// <param name="visitor">The callback used to visit the Node.</param>
         /// <param name="test">A callback to execute to verify the Node is valid.</param>
         /// <param name="lift">An optional callback to execute to lift a NodeArray into a valid Node.</param>
-        abstract visitNode: node: 'T option * visitor: Visitor option * ?test: (Node -> bool) * ?lift: (ResizeArray<Node> -> 'T) -> 'T
+        abstract visitNode: node: 'T option * visitor: Visitor option * ?test: (Node -> bool) * ?lift: (ResizeArray<Node> -> 'T) -> 'T when 'T :> Node
         /// <summary>Visits a NodeArray using the supplied visitor, possibly returning a new NodeArray in its place.</summary>
         /// <param name="nodes">The NodeArray to visit.</param>
         /// <param name="visitor">The callback used to visit a Node.</param>
         /// <param name="test">A node test to execute for each node.</param>
         /// <param name="start">An optional value indicating the starting offset at which to start visiting.</param>
         /// <param name="count">An optional value indicating the maximum number of nodes to visit.</param>
-        abstract visitNodes: nodes: ResizeArray<'T> option * visitor: Visitor * ?test: (Node -> bool) * ?start: float * ?count: float -> ResizeArray<'T>
+        abstract visitNodes: nodes: ResizeArray<'T> option * visitor: Visitor * ?test: (Node -> bool) * ?start: float * ?count: float -> ResizeArray<'T> when 'T :> Node
         /// Starts a new lexical environment and visits a statement list, ending the lexical environment
         /// and merging hoisted declarations upon completion.
         abstract visitLexicalEnvironment: statements: ResizeArray<Statement> * visitor: Visitor * context: TransformationContext * ?start: float * ?ensureUseStrict: bool -> ResizeArray<Statement>
@@ -837,12 +837,12 @@ module Ts =
         /// <param name="node">The Node whose children will be visited.</param>
         /// <param name="visitor">The callback used to visit each child.</param>
         /// <param name="context">A lexical environment context for the visitor.</param>
-        abstract visitEachChild: node: 'T * visitor: Visitor * context: TransformationContext -> 'T
+        abstract visitEachChild: node: 'T * visitor: Visitor * context: TransformationContext -> 'T when 'T :> Node
         /// <summary>Visits each child of a Node using the supplied visitor, possibly returning a new Node of the same kind in its place.</summary>
         /// <param name="node">The Node whose children will be visited.</param>
         /// <param name="visitor">The callback used to visit each child.</param>
         /// <param name="context">A lexical environment context for the visitor.</param>
-        abstract visitEachChild: node: 'T option * visitor: Visitor * context: TransformationContext * ?nodesVisitor: obj * ?tokenVisitor: Visitor -> 'T option
+        abstract visitEachChild: node: 'T option * visitor: Visitor * context: TransformationContext * ?nodesVisitor: obj * ?tokenVisitor: Visitor -> 'T option when 'T :> Node
         abstract getTsBuildInfoEmitOutputFilePath: options: CompilerOptions -> string option
         abstract getOutputFileNames: commandLine: ParsedCommandLine * inputFileName: string * ignoreCase: bool -> ResizeArray<string>
         abstract createPrinter: ?printerOptions: PrinterOptions * ?handlers: PrintHandlers -> Printer
@@ -889,20 +889,20 @@ module Ts =
         abstract createAbstractBuilder: rootNames: ResizeArray<string> option * options: CompilerOptions option * ?host: CompilerHost * ?oldProgram: BuilderProgram * ?configFileParsingDiagnostics: ResizeArray<Diagnostic> * ?projectReferences: ResizeArray<ProjectReference> -> BuilderProgram
         abstract readBuilderProgram: compilerOptions: CompilerOptions * host: ReadBuildProgramHost -> EmitAndSemanticDiagnosticsBuilderProgram option
         abstract createIncrementalCompilerHost: options: CompilerOptions * ?system: System -> CompilerHost
-        abstract createIncrementalProgram: p0: IncrementalProgramOptions<'T> -> 'T
+        abstract createIncrementalProgram: p0: IncrementalProgramOptions<'T> -> 'T when 'T :> BuilderProgram
         /// Create the watch compiler host for either configFile or fileNames and its options
-        abstract createWatchCompilerHost: configFileName: string * optionsToExtend: CompilerOptions option * system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportWatchStatus: WatchStatusReporter -> WatchCompilerHostOfConfigFile<'T>
-        abstract createWatchCompilerHost: rootFiles: ResizeArray<string> * options: CompilerOptions * system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportWatchStatus: WatchStatusReporter * ?projectReferences: ResizeArray<ProjectReference> -> WatchCompilerHostOfFilesAndCompilerOptions<'T>
+        abstract createWatchCompilerHost: configFileName: string * optionsToExtend: CompilerOptions option * system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportWatchStatus: WatchStatusReporter -> WatchCompilerHostOfConfigFile<'T> when 'T :> BuilderProgram
+        abstract createWatchCompilerHost: rootFiles: ResizeArray<string> * options: CompilerOptions * system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportWatchStatus: WatchStatusReporter * ?projectReferences: ResizeArray<ProjectReference> -> WatchCompilerHostOfFilesAndCompilerOptions<'T> when 'T :> BuilderProgram
         /// Creates the watch from the host for root files and compiler options
-        abstract createWatchProgram: host: WatchCompilerHostOfFilesAndCompilerOptions<'T> -> WatchOfFilesAndCompilerOptions<'T>
+        abstract createWatchProgram: host: WatchCompilerHostOfFilesAndCompilerOptions<'T> -> WatchOfFilesAndCompilerOptions<'T> when 'T :> BuilderProgram
         /// Creates the watch from the host for config file
-        abstract createWatchProgram: host: WatchCompilerHostOfConfigFile<'T> -> WatchOfConfigFile<'T>
+        abstract createWatchProgram: host: WatchCompilerHostOfConfigFile<'T> -> WatchOfConfigFile<'T> when 'T :> BuilderProgram
         /// Create a function that reports watch status by writing to the system and handles the formating of the diagnostic
         abstract createBuilderStatusReporter: system: System * ?pretty: bool -> DiagnosticReporter
-        abstract createSolutionBuilderHost: ?system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportSolutionBuilderStatus: DiagnosticReporter * ?reportErrorSummary: ReportEmitErrorSummary -> SolutionBuilderHost<'T>
-        abstract createSolutionBuilderWithWatchHost: ?system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportSolutionBuilderStatus: DiagnosticReporter * ?reportWatchStatus: WatchStatusReporter -> SolutionBuilderWithWatchHost<'T>
-        abstract createSolutionBuilder: host: SolutionBuilderHost<'T> * rootNames: ResizeArray<string> * defaultOptions: BuildOptions -> SolutionBuilder<'T>
-        abstract createSolutionBuilderWithWatch: host: SolutionBuilderWithWatchHost<'T> * rootNames: ResizeArray<string> * defaultOptions: BuildOptions -> SolutionBuilder<'T>
+        abstract createSolutionBuilderHost: ?system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportSolutionBuilderStatus: DiagnosticReporter * ?reportErrorSummary: ReportEmitErrorSummary -> SolutionBuilderHost<'T> when 'T :> BuilderProgram
+        abstract createSolutionBuilderWithWatchHost: ?system: System * ?createProgram: CreateProgram<'T> * ?reportDiagnostic: DiagnosticReporter * ?reportSolutionBuilderStatus: DiagnosticReporter * ?reportWatchStatus: WatchStatusReporter -> SolutionBuilderWithWatchHost<'T> when 'T :> BuilderProgram
+        abstract createSolutionBuilder: host: SolutionBuilderHost<'T> * rootNames: ResizeArray<string> * defaultOptions: BuildOptions -> SolutionBuilder<'T> when 'T :> BuilderProgram
+        abstract createSolutionBuilderWithWatch: host: SolutionBuilderWithWatchHost<'T> * rootNames: ResizeArray<string> * defaultOptions: BuildOptions -> SolutionBuilder<'T> when 'T :> BuilderProgram
         abstract getDefaultFormatCodeSettings: ?newLineCharacter: string -> FormatCodeSettings
         /// The classifier is used for syntactic highlighting in editors via the TSServer
         abstract createClassifier: unit -> Classifier
@@ -927,7 +927,7 @@ module Ts =
         /// <param name="source">A single `Node` or an array of `Node` objects.</param>
         /// <param name="transformers">An array of `TransformerFactory` callbacks used to process the transformation.</param>
         /// <param name="compilerOptions">Optional compiler options.</param>
-        abstract transform: source: U2<'T, ResizeArray<'T>> * transformers: ResizeArray<TransformerFactory<'T>> * ?compilerOptions: CompilerOptions -> TransformationResult<'T>
+        abstract transform: source: U2<'T, ResizeArray<'T>> * transformers: ResizeArray<TransformerFactory<'T>> * ?compilerOptions: CompilerOptions -> TransformationResult<'T> when 'T :> Node
 
     type [<AllowNullLiteral>] ValidateLocaleAndSetLanguageSys =
         abstract getExecutingFilePath: unit -> string
@@ -1463,12 +1463,12 @@ module Ts =
     type HasExpressionInitializer =
         U7<VariableDeclaration, ParameterDeclaration, BindingElement, PropertySignature, PropertyDeclaration, PropertyAssignment, EnumMember>
 
-    type [<AllowNullLiteral>] NodeArray<'T> =
+    type [<AllowNullLiteral>] NodeArray<'T when 'T :> Node> =
         inherit ReadonlyArray<'T>
         inherit TextRange
         abstract hasTrailingComma: bool option with get, set
 
-    type [<AllowNullLiteral>] Token<'TKind> =
+    type [<AllowNullLiteral>] Token<'TKind when 'TKind :> SyntaxKind> =
         inherit Node
         abstract kind: 'TKind with get, set
 
@@ -2148,7 +2148,7 @@ module Ts =
     type AssignmentOperatorToken =
         Token<AssignmentOperator>
 
-    type [<AllowNullLiteral>] AssignmentExpression<'TOperator> =
+    type [<AllowNullLiteral>] AssignmentExpression<'TOperator when 'TOperator :> AssignmentOperatorToken> =
         inherit BinaryExpression
         abstract left: LeftHandSideExpression with get, set
         abstract operatorToken: 'TOperator with get, set
@@ -2311,7 +2311,7 @@ module Ts =
     /// ObjectLiteralExpression in that it contains array of properties; however, JSXAttributes' properties can only be
     /// JSXAttribute or JSXSpreadAttribute. ObjectLiteralExpression, on the other hand, can only have properties of type
     /// ObjectLiteralElement (e.g. PropertyAssignment, ShorthandPropertyAssignment etc.)
-    type [<AllowNullLiteral>] ObjectLiteralExpressionBase<'T> =
+    type [<AllowNullLiteral>] ObjectLiteralExpressionBase<'T when 'T :> ObjectLiteralElement> =
         inherit PrimaryExpression
         inherit Declaration
         abstract properties: ResizeArray<'T> with get, set
@@ -4447,7 +4447,7 @@ module Ts =
         /// before returning the `NodeTransformer` callback.
         abstract onEmitNode: (EmitHint -> Node -> (EmitHint -> Node -> unit) -> unit) with get, set
 
-    type [<AllowNullLiteral>] TransformationResult<'T> =
+    type [<AllowNullLiteral>] TransformationResult<'T when 'T :> Node> =
         /// Gets the transformed source files.
         abstract transformed: ResizeArray<'T> with get, set
         /// Gets diagnostics for the transformation.
@@ -4464,16 +4464,16 @@ module Ts =
         /// Clean up EmitNode entries on any parse-tree nodes.
         abstract dispose: unit -> unit
 
-    type [<AllowNullLiteral>] TransformerFactory<'T> =
+    type [<AllowNullLiteral>] TransformerFactory<'T when 'T :> Node> =
         [<Emit "$0($1...)">] abstract Invoke: context: TransformationContext -> Transformer<'T>
 
-    type [<AllowNullLiteral>] Transformer<'T> =
+    type [<AllowNullLiteral>] Transformer<'T when 'T :> Node> =
         [<Emit "$0($1...)">] abstract Invoke: node: 'T -> 'T
 
     type [<AllowNullLiteral>] Visitor =
         [<Emit "$0($1...)">] abstract Invoke: node: Node -> VisitResult<Node>
 
-    type VisitResult<'T> =
+    type VisitResult<'T when 'T :> Node> =
         U2<'T, ResizeArray<'T>> option
 
     type [<AllowNullLiteral>] Printer =
@@ -4490,7 +4490,7 @@ module Ts =
         /// collisions.</param>
         abstract printNode: hint: EmitHint * node: Node * sourceFile: SourceFile -> string
         /// Prints a list of nodes using the given format flags
-        abstract printList: format: ListFormat * list: ResizeArray<'T> * sourceFile: SourceFile -> string
+        abstract printList: format: ListFormat * list: ResizeArray<'T> * sourceFile: SourceFile -> string when 'T :> Node
         /// Prints a source file as-is, without any emit transformations.
         abstract printFile: sourceFile: SourceFile -> string
         /// Prints a bundle of source files as-is, without any emit transformations.
@@ -4850,7 +4850,7 @@ module Ts =
         abstract getCurrentDirectory: unit -> string
         abstract readFile: fileName: string -> string option
 
-    type [<AllowNullLiteral>] IncrementalProgramOptions<'T> =
+    type [<AllowNullLiteral>] IncrementalProgramOptions<'T when 'T :> BuilderProgram> =
         abstract rootNames: ResizeArray<string> with get, set
         abstract options: CompilerOptions with get, set
         abstract configFileParsingDiagnostics: ResizeArray<Diagnostic> option with get, set
@@ -4861,7 +4861,7 @@ module Ts =
     type [<AllowNullLiteral>] WatchStatusReporter =
         [<Emit "$0($1...)">] abstract Invoke: diagnostic: Diagnostic * newLine: string * options: CompilerOptions * ?errorCount: float -> unit
 
-    type [<AllowNullLiteral>] CreateProgram<'T> =
+    type [<AllowNullLiteral>] CreateProgram<'T when 'T :> BuilderProgram> =
         [<Emit "$0($1...)">] abstract Invoke: rootNames: ResizeArray<string> option * options: CompilerOptions option * ?host: CompilerHost * ?oldProgram: 'T * ?configFileParsingDiagnostics: ResizeArray<Diagnostic> * ?projectReferences: ResizeArray<ProjectReference> -> 'T
 
     /// Host that has watch functionality used in --watch mode
@@ -4877,7 +4877,7 @@ module Ts =
         /// If provided, will be used to reset existing delayed compilation
         abstract clearTimeout: timeoutId: obj option -> unit
 
-    type [<AllowNullLiteral>] ProgramHost<'T> =
+    type [<AllowNullLiteral>] ProgramHost<'T when 'T :> BuilderProgram> =
         /// Used to create the program when need for program creation or recreation detected
         abstract createProgram: CreateProgram<'T> with get, set
         abstract useCaseSensitiveFileNames: unit -> bool
@@ -4909,14 +4909,14 @@ module Ts =
         /// If provided, used to resolve type reference directives, otherwise typescript's default resolution
         abstract resolveTypeReferenceDirectives: typeReferenceDirectiveNames: ResizeArray<string> * containingFile: string * redirectedReference: ResolvedProjectReference option * options: CompilerOptions -> ResizeArray<ResolvedTypeReferenceDirective option>
 
-    type [<AllowNullLiteral>] WatchCompilerHost<'T> =
+    type [<AllowNullLiteral>] WatchCompilerHost<'T when 'T :> BuilderProgram> =
         inherit ProgramHost<'T>
         inherit WatchHost
         /// If provided, callback to invoke after every new program creation
         abstract afterProgramCreate: program: 'T -> unit
 
     /// Host to create watch with root files and options
-    type [<AllowNullLiteral>] WatchCompilerHostOfFilesAndCompilerOptions<'T> =
+    type [<AllowNullLiteral>] WatchCompilerHostOfFilesAndCompilerOptions<'T when 'T :> BuilderProgram> =
         inherit WatchCompilerHost<'T>
         /// root files to use to generate program
         abstract rootFiles: ResizeArray<string> with get, set
@@ -4926,7 +4926,7 @@ module Ts =
         abstract projectReferences: ResizeArray<ProjectReference> option with get, set
 
     /// Host to create watch with config file
-    type [<AllowNullLiteral>] WatchCompilerHostOfConfigFile<'T> =
+    type [<AllowNullLiteral>] WatchCompilerHostOfConfigFile<'T when 'T :> BuilderProgram> =
         inherit WatchCompilerHost<'T>
         inherit ConfigFileDiagnosticsReporter
         /// Name of the config file to compile
@@ -4964,7 +4964,7 @@ module Ts =
     type [<AllowNullLiteral>] ReportEmitErrorSummary =
         [<Emit "$0($1...)">] abstract Invoke: errorCount: float -> unit
 
-    type [<AllowNullLiteral>] SolutionBuilderHostBase<'T> =
+    type [<AllowNullLiteral>] SolutionBuilderHostBase<'T when 'T :> BuilderProgram> =
         inherit ProgramHost<'T>
         abstract createDirectory: path: string -> unit
         /// Should provide create directory and writeFile if done of invalidatedProjects is not invoked with
@@ -4978,15 +4978,15 @@ module Ts =
         abstract reportSolutionBuilderStatus: DiagnosticReporter with get, set
         abstract afterProgramEmitAndDiagnostics: program: 'T -> unit
 
-    type [<AllowNullLiteral>] SolutionBuilderHost<'T> =
+    type [<AllowNullLiteral>] SolutionBuilderHost<'T when 'T :> BuilderProgram> =
         inherit SolutionBuilderHostBase<'T>
         abstract reportErrorSummary: ReportEmitErrorSummary option with get, set
 
-    type [<AllowNullLiteral>] SolutionBuilderWithWatchHost<'T> =
+    type [<AllowNullLiteral>] SolutionBuilderWithWatchHost<'T when 'T :> BuilderProgram> =
         inherit SolutionBuilderHostBase<'T>
         inherit WatchHost
 
-    type [<AllowNullLiteral>] SolutionBuilder<'T> =
+    type [<AllowNullLiteral>] SolutionBuilder<'T when 'T :> BuilderProgram> =
         abstract build: ?project: string * ?cancellationToken: CancellationToken -> ExitStatus
         abstract clean: ?project: string -> ExitStatus
         abstract buildReferences: project: string * ?cancellationToken: CancellationToken -> ExitStatus
@@ -5011,7 +5011,7 @@ module Ts =
         abstract kind: InvalidatedProjectKind
         abstract updateOutputFileStatmps: unit -> unit
 
-    type [<AllowNullLiteral>] BuildInvalidedProject<'T> =
+    type [<AllowNullLiteral>] BuildInvalidedProject<'T when 'T :> BuilderProgram> =
         inherit InvalidatedProjectBase
         abstract kind: InvalidatedProjectKind
         abstract getBuilderProgram: unit -> 'T option
@@ -5027,12 +5027,12 @@ module Ts =
         abstract getSemanticDiagnosticsOfNextAffectedFile: ?cancellationToken: CancellationToken * ?ignoreSourceFile: (SourceFile -> bool) -> AffectedFileResult<ResizeArray<Diagnostic>>
         abstract emit: ?targetSourceFile: SourceFile * ?writeFile: WriteFileCallback * ?cancellationToken: CancellationToken * ?emitOnlyDtsFiles: bool * ?customTransformers: CustomTransformers -> EmitResult option
 
-    type [<AllowNullLiteral>] UpdateBundleProject<'T> =
+    type [<AllowNullLiteral>] UpdateBundleProject<'T when 'T :> BuilderProgram> =
         inherit InvalidatedProjectBase
         abstract kind: InvalidatedProjectKind
         abstract emit: ?writeFile: WriteFileCallback * ?customTransformers: CustomTransformers -> U2<EmitResult, BuildInvalidedProject<'T>> option
 
-    type InvalidatedProject<'T> =
+    type InvalidatedProject<'T when 'T :> BuilderProgram> =
         U3<UpdateOutputFileStampsProject, BuildInvalidedProject<'T>, UpdateBundleProject<'T>>
 
     module Server =

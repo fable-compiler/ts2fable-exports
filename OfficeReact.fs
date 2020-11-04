@@ -4794,7 +4794,7 @@ module __components_ExtendedPicker_BaseExtendedPicker =
         abstract suggestionsLoading: bool option with get, set
         abstract isResultsFooterVisible: bool option with get, set
 
-    type [<AllowNullLiteral>] BaseExtendedPicker<'T, 'P> =
+    type [<AllowNullLiteral>] BaseExtendedPicker<'T, 'P when 'P :> IBaseExtendedPickerProps<'T>> =
         inherit BaseComponent<'P, IBaseExtendedPickerState>
         inherit IBaseExtendedPicker<'T>
         abstract floatingPicker: BaseExtendedPickerFloatingPicker<'T> with get, set
@@ -5158,7 +5158,7 @@ module __components_FloatingPicker_BaseFloatingPicker =
         abstract isResultsFooterVisible: bool option with get, set
         abstract didBind: bool with get, set
 
-    type [<AllowNullLiteral>] BaseFloatingPicker<'T, 'P> =
+    type [<AllowNullLiteral>] BaseFloatingPicker<'T, 'P when 'P :> IBaseFloatingPickerProps<'T>> =
         inherit BaseComponent<'P, IBaseFloatingPickerState>
         inherit IBaseFloatingPicker
         abstract selection: Selection with get, set
@@ -8592,7 +8592,7 @@ module __components_pickers_BasePicker =
         /// Aria id for suggestions list component
         abstract suggestionList: string with get, set
 
-    type [<AllowNullLiteral>] BasePicker<'T, 'P> =
+    type [<AllowNullLiteral>] BasePicker<'T, 'P when 'P :> IBasePickerProps<'T>> =
         inherit BaseComponent<'P, IBasePickerState>
         inherit IBasePicker<'T>
         abstract selection: Selection with get, set
@@ -8647,13 +8647,13 @@ module __components_pickers_BasePicker =
     type [<AllowNullLiteral>] BasePickerStatic =
         [<Emit "new $0($1...)">] abstract Create: basePickerProps: 'P -> BasePicker<'T, 'P>
 
-    type [<AllowNullLiteral>] BasePickerListBelow<'T, 'P> =
+    type [<AllowNullLiteral>] BasePickerListBelow<'T, 'P when 'P :> IBasePickerProps<'T>> =
         inherit BasePicker<'T, 'P>
         abstract render: unit -> JSX.Element
         abstract onBackspace: ev: React.KeyboardEvent<HTMLElement> -> unit
 
     type [<AllowNullLiteral>] BasePickerListBelowStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> BasePickerListBelow<'T, 'P>
+        [<Emit "new $0($1...)">] abstract Create: unit -> BasePickerListBelow<'T, 'P> when 'P :> IBasePickerProps<'T>
 
     type [<AllowNullLiteral>] BasePickerRoot =
         [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
@@ -9828,7 +9828,7 @@ module __components_SelectedItemsList_BaseSelectedItemsList =
         abstract suggestionsLoading: bool option with get, set
         abstract isResultsFooterVisible: bool option with get, set
 
-    type [<AllowNullLiteral>] BaseSelectedItemsList<'T, 'P> =
+    type [<AllowNullLiteral>] BaseSelectedItemsList<'T, 'P when 'P :> IBaseSelectedItemsListProps<'T>> =
         inherit BaseComponent<'P, IBaseSelectedItemsListState>
         inherit IBaseSelectedItemsList<'T>
         abstract root: HTMLElement with get, set
@@ -12472,12 +12472,12 @@ module __utilities_grid_GridCell =
     type [<AllowNullLiteral>] IExports =
         abstract GridCell: GridCellStatic
 
-    type [<AllowNullLiteral>] GridCell<'T, 'P> =
+    type [<AllowNullLiteral>] GridCell<'T, 'P when 'P :> IGridCellProps<'T>> =
         inherit React.Component<'P, GridCellReactComponent>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] GridCellStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> GridCell<'T, 'P>
+        [<Emit "new $0($1...)">] abstract Create: unit -> GridCell<'T, 'P> when 'P :> IGridCellProps<'T>
         abstract defaultProps: GridCellStaticDefaultProps with get, set
 
     type [<AllowNullLiteral>] GridCellReactComponent =

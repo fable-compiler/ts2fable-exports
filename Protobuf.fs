@@ -63,7 +63,7 @@ type [<AllowNullLiteral>] MessageToObjectReturn =
 type [<AllowNullLiteral>] MessageStatic =
     [<Emit "new $0($1...)">] abstract Create: unit -> Message
     abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> -> unit
-    abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> MessageStaticToObjectList) * ?includeInstance: bool -> Array<MessageStaticToObjectList>
+    abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> MessageStaticToObjectList) * ?includeInstance: bool -> Array<MessageStaticToObjectList> when 'T :> Message
     abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: MessageStaticToObjectExtensionExtensions * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
     abstract getField: msg: Message * fieldNumber: float -> FieldValue option
     abstract getOptionalFloatingPointField: msg: Message * fieldNumber: float -> float option
@@ -78,19 +78,19 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract addToRepeatedField: msg: Message * fieldNumber: float * value: obj option * ?index: float -> unit
     abstract setOneofField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: FieldValue -> unit
     abstract computeOneofCase: msg: Message * oneof: ResizeArray<float> -> float
-    abstract getWrapperField: msg: Message * ctor: MessageStaticGetWrapperFieldCtor * fieldNumber: float * ?required: float -> 'T
-    abstract getRepeatedWrapperField: msg: Message * ctor: MessageStaticGetRepeatedWrapperFieldCtor * fieldNumber: float -> ResizeArray<'T>
-    abstract setWrapperField: msg: Message * fieldNumber: float * ?value: U2<'T, Map<obj option, obj option>> -> unit
+    abstract getWrapperField: msg: Message * ctor: MessageStaticGetWrapperFieldCtor * fieldNumber: float * ?required: float -> 'T when 'T :> Message
+    abstract getRepeatedWrapperField: msg: Message * ctor: MessageStaticGetRepeatedWrapperFieldCtor * fieldNumber: float -> ResizeArray<'T> when 'T :> Message
+    abstract setWrapperField: msg: Message * fieldNumber: float * ?value: U2<'T, Map<obj option, obj option>> -> unit when 'T :> Message
     abstract setOneofWrapperField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: obj option -> unit
-    abstract setRepeatedWrapperField: msg: Message * fieldNumber: float * ?value: ResizeArray<'T> -> unit
-    abstract addToRepeatedWrapperField: msg: Message * fieldNumber: float * value: 'T option * ctor: MessageStaticAddToRepeatedWrapperFieldCtor * ?index: float -> 'T
+    abstract setRepeatedWrapperField: msg: Message * fieldNumber: float * ?value: ResizeArray<'T> -> unit when 'T :> Message
+    abstract addToRepeatedWrapperField: msg: Message * fieldNumber: float * value: 'T option * ctor: MessageStaticAddToRepeatedWrapperFieldCtor * ?index: float -> 'T when 'T :> Message
     abstract toMap: field: ResizeArray<obj option> * mapKeyGetterFn: (obj option -> string) * ?toObjectFn: Message.StaticToObject * ?includeInstance: bool -> unit
-    abstract difference: m1: 'T * m2: 'T -> 'T
+    abstract difference: m1: 'T * m2: 'T -> 'T when 'T :> Message
     abstract equals: m1: Message * m2: Message -> bool
     abstract compareExtensions: extension1: MessageStaticCompareExtensionsExtension1 * extension2: MessageStaticCompareExtensionsExtension2 -> bool
     abstract compareFields: field1: obj option * field2: obj option -> bool
-    abstract clone: msg: 'T -> 'T
-    abstract cloneMessage: msg: 'T -> 'T
+    abstract clone: msg: 'T -> 'T when 'T :> Message
+    abstract cloneMessage: msg: 'T -> 'T when 'T :> Message
     abstract copyInto: fromMessage: Message * toMessage: Message -> unit
     abstract registerMessageType: id: float * ``constructor``: obj -> unit
     abstract deserializeBinary: bytes: Uint8Array -> Message

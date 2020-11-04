@@ -543,7 +543,7 @@ module Chai =
         /// <param name="haystack">WeakSet container.</param>
         /// <param name="needle">Potential value contained in haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract ``include``: haystack: WeakSet<'T> * needle: 'T * ?message: string -> unit
+        abstract ``include``: haystack: WeakSet<'T> * needle: 'T * ?message: string -> unit when 'T :> obj
         /// <summary>Asserts that haystack includes needle.</summary>
         /// <param name="haystack">Object.</param>
         /// <param name="needle">Potential subset of the haystack's properties.</param>
@@ -563,7 +563,7 @@ module Chai =
         /// <param name="haystack">WeakSet container.</param>
         /// <param name="needle">Potential value contained in haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notInclude: haystack: WeakSet<'T> * needle: 'T * ?message: string -> unit
+        abstract notInclude: haystack: WeakSet<'T> * needle: 'T * ?message: string -> unit when 'T :> obj
         /// <summary>Asserts that haystack does not includes needle.</summary>
         /// <param name="haystack">Object.</param>
         /// <param name="needle">Potential subset of the haystack's properties.</param>
