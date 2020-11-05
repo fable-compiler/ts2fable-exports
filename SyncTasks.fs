@@ -6,7 +6,7 @@ open Fable.Core.JS
 
 type Error = System.Exception
 
-let [<Import("config","SyncTasks")>] config: Config = jsNative
+let [<Import("config","synctasks")>] config: Config = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract fromThenable: thenable: Es6Thenable<'T> -> STPromise<'T>
