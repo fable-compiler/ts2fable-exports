@@ -77,7 +77,7 @@ module Electron =
         abstract setMaxListeners: n: float -> EventEmitter
         abstract getMaxListeners: unit -> float
         abstract listeners: ``event``: string -> ResizeArray<Function>
-        abstract emit: ``event``: string * [<ParamArray>] args: ResizeArray<obj option> -> bool
+        abstract emit: ``event``: string * [<ParamArray>] args: obj option[] -> bool
         abstract listenerCount: ``type``: string -> float
         abstract prependListener: ``event``: string * listener: Function -> EventEmitter
         abstract prependOnceListener: ``event``: string * listener: Function -> EventEmitter
@@ -1759,19 +1759,19 @@ module Electron =
         /// arbitrary arguments. Arguments will be serialized in JSON internally and hence
         /// no functions or prototype chain will be included. The main process handles it by
         /// listening for channel with ipcMain module.
-        abstract send: channel: string * [<ParamArray>] args: ResizeArray<obj option> -> unit
+        abstract send: channel: string * [<ParamArray>] args: obj option[] -> unit
         /// Send a message to the main process synchronously via channel, you can also send
         /// arbitrary arguments. Arguments will be serialized in JSON internally and hence
         /// no functions or prototype chain will be included. The main process handles it by
         /// listening for channel with ipcMain module, and replies by setting
         /// event.returnValue. Note: Sending a synchronous message will block the whole
         /// renderer process, unless you know what you are doing you should never use it.
-        abstract sendSync: channel: string * [<ParamArray>] args: ResizeArray<obj option> -> obj option
+        abstract sendSync: channel: string * [<ParamArray>] args: obj option[] -> obj option
         /// Sends a message to a window with windowid via channel
-        abstract sendTo: windowId: float * channel: string * [<ParamArray>] args: ResizeArray<obj option> -> unit
+        abstract sendTo: windowId: float * channel: string * [<ParamArray>] args: obj option[] -> unit
         /// Like ipcRenderer.send but the event will be sent to the <webview> element in the
         /// host page instead of the main process.
-        abstract sendToHost: channel: string * [<ParamArray>] args: ResizeArray<obj option> -> unit
+        abstract sendToHost: channel: string * [<ParamArray>] args: obj option[] -> unit
 
     type [<AllowNullLiteral>] JumpListCategory =
         /// Array of objects if type is tasks or custom, otherwise it should be omitted.
@@ -3111,7 +3111,7 @@ module Electron =
         /// no functions or prototype chain will be included. The renderer process can
         /// handle the message by listening to channel with the ipcRenderer module. An
         /// example of sending messages from the main process to the renderer process:
-        abstract send: channel: string * [<ParamArray>] args: ResizeArray<obj option> -> unit
+        abstract send: channel: string * [<ParamArray>] args: obj option[] -> unit
         /// Sends an input event to the page. Note: The BrowserWindow containing the
         /// contents needs to be focused for sendInputEvent() to work. For keyboard events,
         /// the event object also have following properties: For mouse events, the event
@@ -3519,7 +3519,7 @@ module Electron =
         /// arbitrary arguments. The renderer process can handle the message by listening to
         /// the channel event with the ipcRenderer module. See webContents.send for
         /// examples.
-        abstract send: channel: string * [<ParamArray>] args: ResizeArray<obj option> -> unit
+        abstract send: channel: string * [<ParamArray>] args: obj option[] -> unit
         /// Sends an input event to the page. See webContents.sendInputEvent for detailed
         /// description of event object.
         abstract sendInputEvent: ``event``: obj option -> unit
