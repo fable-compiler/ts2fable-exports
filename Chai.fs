@@ -37,7 +37,7 @@ module Chai =
         interface end
 
     type [<AllowNullLiteral>] ErrorConstructorStatic =
-        [<Emit "new $0($1...)">] abstract Create: [<ParamArray>] args: ResizeArray<obj option> -> ErrorConstructor
+        [<Emit "new $0($1...)">] abstract Create: [<ParamArray>] args: obj option[] -> ErrorConstructor
 
     type [<AllowNullLiteral>] ChaiUtils =
         abstract addChainableMethod: ctx: obj * name: string * ``method``: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
@@ -316,7 +316,7 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: regexp: RegExp * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Keys =
-        [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] keys: ResizeArray<string> -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] keys: string[] -> Assertion
         [<Emit "$0($1...)">] abstract Invoke: keys: U2<ResizeArray<obj option>, Object> -> Assertion
 
     type [<AllowNullLiteral>] Throw =

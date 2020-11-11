@@ -707,7 +707,7 @@ module Monaco =
             abstract getModifiedEditor: unit -> IStandaloneCodeEditor
 
         type [<AllowNullLiteral>] ICommandHandler =
-            [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] args: ResizeArray<obj option> -> unit
+            [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] args: obj option[] -> unit
 
         type [<AllowNullLiteral>] IContextKey<'T> =
             abstract set: value: 'T -> unit

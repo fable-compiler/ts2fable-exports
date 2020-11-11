@@ -54,21 +54,21 @@ module React =
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T> when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
-        abstract createElement: ``type``: ReactHTML * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
-        abstract createElement: ``type``: ReactSVG * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
-        abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
-        abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
-        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, ClassicComponent<'P, ComponentState>>
-        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T> when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>
-        abstract createElement: ``type``: ComponentClass<'P> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
-        abstract cloneElement: element: DetailedReactHTMLElement<'P, 'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
-        abstract cloneElement: element: ReactHTMLElement<'T> * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactHTMLElement<'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
-        abstract cloneElement: element: ReactSVGElement * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
-        abstract cloneElement: element: DOMElement<'P, 'T> * ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
-        abstract cloneElement: element: SFCElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P> when 'P :> 'Q
-        abstract cloneElement: element: CElement<'P, 'T> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T> when 'P :> 'Q and 'T :> Component<'P, ComponentState>
-        abstract cloneElement: element: ReactElement<'P> * ?props: 'Q * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P> when 'P :> 'Q
+        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
+        abstract createElement: ``type``: ReactHTML * ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
+        abstract createElement: ``type``: ReactSVG * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
+        abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
+        abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ReactNode[] -> SFCElement<'P>
+        abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, ClassicComponent<'P, ComponentState>>
+        abstract createElement: ``type``: ClassType<'P, 'T, 'C> * ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, 'T> when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>
+        abstract createElement: ``type``: ComponentClass<'P> * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactElement<'P>
+        abstract cloneElement: element: DetailedReactHTMLElement<'P, 'T> * ?props: 'P * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
+        abstract cloneElement: element: ReactHTMLElement<'T> * ?props: 'P * [<ParamArray>] children: ReactNode[] -> ReactHTMLElement<'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
+        abstract cloneElement: element: ReactSVGElement * ?props: 'P * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
+        abstract cloneElement: element: DOMElement<'P, 'T> * ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
+        abstract cloneElement: element: SFCElement<'P> * ?props: 'Q * [<ParamArray>] children: ReactNode[] -> SFCElement<'P> when 'P :> 'Q
+        abstract cloneElement: element: CElement<'P, 'T> * ?props: 'Q * [<ParamArray>] children: ReactNode[] -> CElement<'P, 'T> when 'P :> 'Q and 'T :> Component<'P, ComponentState>
+        abstract cloneElement: element: ReactElement<'P> * ?props: 'Q * [<ParamArray>] children: ReactNode[] -> ReactElement<'P> when 'P :> 'Q
         abstract isValidElement: ``object``: IsValidElementObject -> bool
         abstract DOM: ReactDOM
         abstract PropTypes: ReactPropTypes
@@ -144,13 +144,13 @@ module React =
         abstract ``type``: ReactSVG with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactElement<'P>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactElement<'P>
 
     type [<AllowNullLiteral>] SFCFactory<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> SFCElement<'P>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> SFCElement<'P>
 
     type [<AllowNullLiteral>] ComponentFactory<'P, 'T when 'T :> Component<'P, ComponentState>> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> CElement<'P, 'T>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, 'T>
 
     type CFactory<'P, 'T when 'T :> Component<'P, ComponentState>> =
         ComponentFactory<'P, 'T>
@@ -159,18 +159,18 @@ module React =
         CFactory<'P, ClassicComponent<'P, ComponentState>>
 
     type [<AllowNullLiteral>] DOMFactory<'P, 'T when 'P :> DOMAttributes<'T> and 'T :> Element> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DOMElement<'P, 'T>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T>
 
     type [<AllowNullLiteral>] HTMLFactory<'T when 'T :> HTMLElement> =
         inherit DetailedHTMLFactory<AllHTMLAttributes<'T>, 'T>
 
     type [<AllowNullLiteral>] DetailedHTMLFactory<'P, 'T when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement> =
         inherit DOMFactory<'P, 'T>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> DetailedReactHTMLElement<'P, 'T>
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T>
 
     type [<AllowNullLiteral>] SVGFactory =
         inherit DOMFactory<SVGAttributes<SVGElement>, SVGElement>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ResizeArray<ReactNode> -> ReactSVGElement
+        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement
 
     type ReactText =
         U2<string, float>
@@ -2390,7 +2390,7 @@ module React =
         inherit ReactSVG
 
     type [<AllowNullLiteral>] Validator<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: ResizeArray<obj option> -> Error option
+        [<Emit "$0($1...)">] abstract Invoke: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: obj option[] -> Error option
 
     type [<AllowNullLiteral>] Requireable<'T> =
         inherit Validator<'T>

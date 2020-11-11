@@ -89,7 +89,7 @@ module Core =
         abstract isNumeric: o: obj option -> bool
         abstract stringStartsWith: str: string * prefix: string -> bool
         abstract stringEndsWith: str: string * suffix: string -> bool
-        abstract formatString: format: string * [<ParamArray>] args: ResizeArray<obj option> -> string
+        abstract formatString: format: string * [<ParamArray>] args: obj option[] -> string
         /// Change text to title case with spaces, e.g. 'myPropertyName12' to 'My Property Name 12'
         abstract titleCase: str: string -> string
         /// Return the ES5 property descriptor for the property, which may be on a prototype of the object
@@ -989,7 +989,7 @@ type [<AllowNullLiteral>] PredicateStaticValue_ =
 
 type [<AllowNullLiteral>] PredicateMethod =
     [<Emit "$0($1...)">] abstract Invoke: predicates: ResizeArray<Predicate> -> Predicate
-    [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] predicates: ResizeArray<Predicate> -> Predicate
+    [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] predicates: Predicate[] -> Predicate
     [<Emit "$0($1...)">] abstract Invoke: property: string * operator: string * value: obj option * ?valueIsLiteral: bool -> Predicate
     [<Emit "$0($1...)">] abstract Invoke: property: string * operator: FilterQueryOpSymbol * value: obj option * ?valueIsLiteral: bool -> Predicate
     [<Emit "$0($1...)">] abstract Invoke: property: string * filterop: FilterQueryOpSymbol * property2: string * filterop2: FilterQueryOpSymbol * value: obj option -> Predicate

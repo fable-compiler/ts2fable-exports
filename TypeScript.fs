@@ -992,7 +992,7 @@ module Ts =
 
     /// Array that is only intended to be pushed to, never read.
     type [<AllowNullLiteral>] Push<'T> =
-        abstract push: [<ParamArray>] values: ResizeArray<'T> -> unit
+        abstract push: [<ParamArray>] values: 'T[] -> unit
 
     type [<AllowNullLiteral>] Path =
         interface end
@@ -4666,7 +4666,7 @@ module Ts =
         abstract getMemoryUsage: unit -> float
         abstract exit: ?exitCode: float -> unit
         abstract realpath: path: string -> string
-        abstract setTimeout: callback: (ResizeArray<obj option> -> unit) * ms: float * [<ParamArray>] args: ResizeArray<obj option> -> obj option
+        abstract setTimeout: callback: (ResizeArray<obj option> -> unit) * ms: float * [<ParamArray>] args: obj option[] -> obj option
         abstract clearTimeout: timeoutId: obj option -> unit
         abstract clearScreen: unit -> unit
         abstract base64decode: input: string -> string
@@ -4873,7 +4873,7 @@ module Ts =
         /// Used to watch resolved module's failed lookup locations, config file specs, type roots where auto type reference directives are added
         abstract watchDirectory: path: string * callback: DirectoryWatcherCallback * ?recursive: bool -> FileWatcher
         /// If provided, will be used to set delayed compilation, so that multiple changes in short span are compiled together
-        abstract setTimeout: callback: (ResizeArray<obj option> -> unit) * ms: float * [<ParamArray>] args: ResizeArray<obj option> -> obj option
+        abstract setTimeout: callback: (ResizeArray<obj option> -> unit) * ms: float * [<ParamArray>] args: obj option[] -> obj option
         /// If provided, will be used to reset existing delayed compilation
         abstract clearTimeout: timeoutId: obj option -> unit
 

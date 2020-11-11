@@ -1010,7 +1010,7 @@ module __common_Types =
         React.ReactNode
 
     type [<AllowNullLiteral>] ReactInterface =
-        abstract createElement: ``type``: string * ?props: 'P * [<ParamArray>] children: ResizeArray<ReactNode> -> React.ReactElement<'P>
+        abstract createElement: ``type``: string * ?props: 'P * [<ParamArray>] children: ReactNode[] -> React.ReactElement<'P>
 
     type [<AllowNullLiteral>] FlexboxParentStyle =
         abstract flexDirection: FlexboxParentStyleFlexDirection option with get, set

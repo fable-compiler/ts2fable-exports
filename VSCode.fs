@@ -823,7 +823,7 @@ module Vscode =
         /// when having objects with a dispose function which are not
         /// instances of Disposable.</summary>
         /// <param name="disposableLikes">Objects that have at least a `dispose`-function member.</param>
-        abstract from: [<ParamArray>] disposableLikes: ResizeArray<DisposableStaticFrom> -> Disposable
+        abstract from: [<ParamArray>] disposableLikes: DisposableStaticFrom[] -> Disposable
         /// <summary>Creates a new Disposable calling the provided function
         /// on dispose.</summary>
         /// <param name="callOnDispose">Function that disposes something.</param>
@@ -3363,7 +3363,7 @@ module Vscode =
             /// by extensions.</summary>
             /// <param name="command">Identifier of the command to execute.</param>
             /// <param name="rest">Parameters passed to the command function.</param>
-            abstract executeCommand: command: string * [<ParamArray>] rest: ResizeArray<obj option> -> Thenable<'T option>
+            abstract executeCommand: command: string * [<ParamArray>] rest: obj option[] -> Thenable<'T option>
             /// <summary>Retrieve the list of all available commands. Commands starting an underscore are
             /// treated as internal commands.</summary>
             /// <param name="filterInternal">Set `true` to not see internal commands (starting with an underscore)</param>
@@ -3421,58 +3421,58 @@ module Vscode =
             /// clickable buttons.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showInformationMessage: message: string * [<ParamArray>] items: ResizeArray<string> -> Thenable<string option>
+            abstract showInformationMessage: message: string * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an information message to users. Optionally provide an array of items which will be presented as
             /// clickable buttons.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<string> -> Thenable<string option>
+            abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an information message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showInformationMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
+            abstract showInformationMessage: message: string * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an information message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
+            abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show a warning message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showWarningMessage: message: string * [<ParamArray>] items: ResizeArray<string> -> Thenable<string option>
-            /// <summary>Show a warning message.</summary>
-            /// <param name="message">The message to show.</param>
-            /// <param name="options">Configures the behaviour of the message.</param>
-            /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<string> -> Thenable<string option>
-            /// <summary>Show a warning message.</summary>
-            /// <param name="message">The message to show.</param>
-            /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showWarningMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
+            abstract showWarningMessage: message: string * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show a warning message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
+            abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: string[] -> Thenable<string option>
+            /// <summary>Show a warning message.</summary>
+            /// <param name="message">The message to show.</param>
+            /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            abstract showWarningMessage: message: string * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
+            /// <summary>Show a warning message.</summary>
+            /// <param name="message">The message to show.</param>
+            /// <param name="options">Configures the behaviour of the message.</param>
+            /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showErrorMessage: message: string * [<ParamArray>] items: ResizeArray<string> -> Thenable<string option>
+            abstract showErrorMessage: message: string * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<string> -> Thenable<string option>
+            abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showErrorMessage: message: string * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
+            abstract showErrorMessage: message: string * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an error message.</summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
-            abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: ResizeArray<'T> -> Thenable<'T option> when 'T :> MessageItem
+            abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Shows a selection list allowing multiple selections.</summary>
             /// <param name="items">An array of strings, or a promise that resolves to an array of strings.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
@@ -4078,7 +4078,7 @@ module Vscode =
             /// <param name="deleteCount">the optional number of workspace folders to remove.</param>
             /// <param name="workspaceFoldersToAdd">the optional variable set of workspace folders to add in place of the deleted ones.
             /// Each workspace is identified with a mandatory URI and an optional name.</param>
-            abstract updateWorkspaceFolders: start: float * deleteCount: float option * [<ParamArray>] workspaceFoldersToAdd: ResizeArray<IExportsUpdateWorkspaceFolders> -> bool
+            abstract updateWorkspaceFolders: start: float * deleteCount: float option * [<ParamArray>] workspaceFoldersToAdd: IExportsUpdateWorkspaceFolders[] -> bool
             /// <summary>Creates a file system watcher.
             /// 
             /// A glob pattern that filters the file events on their absolute path must be provided. Optionally,
@@ -4262,7 +4262,7 @@ module Vscode =
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A completion provider.</param>
             /// <param name="triggerCharacters">Trigger completion when the user types one of the characters, like `.` or `:`.</param>
-            abstract registerCompletionItemProvider: selector: DocumentSelector * provider: CompletionItemProvider * [<ParamArray>] triggerCharacters: ResizeArray<string> -> Disposable
+            abstract registerCompletionItemProvider: selector: DocumentSelector * provider: CompletionItemProvider * [<ParamArray>] triggerCharacters: string[] -> Disposable
             /// <summary>Register a code action provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
@@ -4389,7 +4389,7 @@ module Vscode =
             /// <param name="provider">An on type formatting edit provider.</param>
             /// <param name="firstTriggerCharacter">A character on which formatting should be triggered, like `}`.</param>
             /// <param name="moreTriggerCharacter">More trigger characters.</param>
-            abstract registerOnTypeFormattingEditProvider: selector: DocumentSelector * provider: OnTypeFormattingEditProvider * firstTriggerCharacter: string * [<ParamArray>] moreTriggerCharacter: ResizeArray<string> -> Disposable
+            abstract registerOnTypeFormattingEditProvider: selector: DocumentSelector * provider: OnTypeFormattingEditProvider * firstTriggerCharacter: string * [<ParamArray>] moreTriggerCharacter: string[] -> Disposable
             /// <summary>Register a signature help provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
@@ -4398,7 +4398,7 @@ module Vscode =
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A signature help provider.</param>
             /// <param name="triggerCharacters">Trigger signature help when the user types one of the characters, like `,` or `(`.</param>
-            abstract registerSignatureHelpProvider: selector: DocumentSelector * provider: SignatureHelpProvider * [<ParamArray>] triggerCharacters: ResizeArray<string> -> Disposable
+            abstract registerSignatureHelpProvider: selector: DocumentSelector * provider: SignatureHelpProvider * [<ParamArray>] triggerCharacters: string[] -> Disposable
             abstract registerSignatureHelpProvider: selector: DocumentSelector * provider: SignatureHelpProvider * metadata: SignatureHelpProviderMetadata -> Disposable
             /// <summary>Register a document link provider.
             /// 

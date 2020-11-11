@@ -104,7 +104,7 @@ type [<AllowNullLiteral>] IExports =
     abstract EventSubscription: EventSubscriptionStatic
     abstract EmitterSubscription: EmitterSubscriptionStatic
     abstract EventEmitter: EventEmitterStatic
-    abstract createElement: ``type``: React.ReactType * ?props: 'P * [<ParamArray>] children: ResizeArray<React.ReactNode> -> React.ReactElement<'P>
+    abstract createElement: ``type``: React.ReactType * ?props: 'P * [<ParamArray>] children: React.ReactNode[] -> React.ReactElement<'P>
     abstract TextComponent: TextComponentStatic
     abstract Text: TextStatic
     abstract DocumentSelectionState: DocumentSelectionStateStatic
@@ -203,7 +203,7 @@ type [<AllowNullLiteral>] IExports =
     abstract requireNativeComponent: viewName: string * ?componentInterface: ComponentInterface<'P> * ?extraConfig: RequireNativeComponentExtraConfig -> React.ComponentClass<obj>
     abstract findNodeHandle: componentOrHandle: U3<float, React.Component<obj option, obj option>, React.ComponentClass<obj option>> option -> float option
     abstract processColor: color: obj option -> float
-    abstract __spread: target: obj option * [<ParamArray>] sources: ResizeArray<obj option> -> obj option
+    abstract __spread: target: obj option * [<ParamArray>] sources: obj option[] -> obj option
     abstract require: name: string -> obj option
     abstract console: Console
     abstract navigator: Navigator
@@ -330,7 +330,7 @@ type [<AllowNullLiteral>] EventEmitter =
     /// <summary>Emits an event of the given type with the given data. All handlers of that
     /// particular type will be notified.</summary>
     /// <param name="eventType">- Name of the event to emit</param>
-    abstract emit: eventType: string * [<ParamArray>] ``params``: ResizeArray<obj option> -> unit
+    abstract emit: eventType: string * [<ParamArray>] ``params``: obj option[] -> unit
     /// <summary>Removes the given listener for event of specific type.</summary>
     /// <param name="eventType">- Name of the event to emit</param>
     /// <param name="listener">- Function to invoke when the specified event is
@@ -6340,13 +6340,13 @@ module Addons =
 
 /// Console polyfill
 type [<AllowNullLiteral>] Console =
-    abstract error: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract info: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract log: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract warn: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract trace: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract debug: ?message: obj * [<ParamArray>] optionalParams: ResizeArray<obj option> -> unit
-    abstract table: [<ParamArray>] data: ResizeArray<obj option> -> unit
+    abstract error: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
+    abstract info: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
+    abstract log: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
+    abstract warn: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
+    abstract trace: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
+    abstract debug: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
+    abstract table: [<ParamArray>] data: obj option[] -> unit
     abstract disableYellowBox: bool with get, set
     abstract ignoredYellowBox: ResizeArray<string> with get, set
 
