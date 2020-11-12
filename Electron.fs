@@ -5,6 +5,7 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+[<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 type Function = System.Action
@@ -3433,9 +3434,9 @@ module Electron =
         /// Emitted when DevTools is focused / opened.
         [<Emit "$0.addEventListener('devtools-focused',$1,$2)">] abstract ``addEventListener_devtools-focused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
         [<Emit "$0.removeEventListener('devtools-focused',$1)">] abstract ``removeEventListener_devtools-focused``: listener: (Event -> unit) -> WebviewTag
-        abstract addEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit when 'K :> HTMLElementEventMap
+        abstract addEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
-        abstract removeEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit when 'K :> HTMLElementEventMap
+        abstract removeEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
         abstract removeEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
         abstract canGoBack: unit -> bool
         abstract canGoForward: unit -> bool
