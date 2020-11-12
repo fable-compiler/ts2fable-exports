@@ -52,16 +52,16 @@ type [<AllowNullLiteral>] Message =
     abstract toObject: ?includeInstance: bool -> MessageToObjectReturn
 
 type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 
 type [<AllowNullLiteral>] MessageReadBinaryExtensionExtensions =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 
 type [<AllowNullLiteral>] MessageToObjectReturn =
     interface end
 
 type [<AllowNullLiteral>] MessageStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Message
+    [<EmitConstructor>] abstract Create: unit -> Message
     abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> -> unit
     abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> MessageStaticToObjectList) * ?includeInstance: bool -> Array<MessageStaticToObjectList> when 'T :> Message
     abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: MessageStaticToObjectExtensionExtensions * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
@@ -104,16 +104,16 @@ type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
     interface end
 
 type [<AllowNullLiteral>] MessageStaticToObjectExtensionExtensions =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
 
 type [<AllowNullLiteral>] MessageStaticGetWrapperFieldCtor =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Message
+    [<EmitConstructor>] abstract Create: unit -> Message
 
 type [<AllowNullLiteral>] MessageStaticGetRepeatedWrapperFieldCtor =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Message
+    [<EmitConstructor>] abstract Create: unit -> Message
 
 type [<AllowNullLiteral>] MessageStaticAddToRepeatedWrapperFieldCtor =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Message
+    [<EmitConstructor>] abstract Create: unit -> Message
 
 type [<AllowNullLiteral>] MessageStaticCompareExtensionsExtension1 =
     interface end
@@ -144,10 +144,10 @@ type [<AllowNullLiteral>] ExtensionFieldInfo<'T> =
     abstract isMessageType: unit -> bool
 
 type [<AllowNullLiteral>] ExtensionFieldInfoStatic =
-    [<Emit "new $0($1...)">] abstract Create: fieldIndex: float * fieldName: ExtensionFieldInfoStaticFieldName * ctor: obj * toObjectFn: Message.StaticToObject * isRepeated: float -> ExtensionFieldInfo<'T>
+    [<EmitConstructor>] abstract Create: fieldIndex: float * fieldName: ExtensionFieldInfoStaticFieldName * ctor: obj * toObjectFn: Message.StaticToObject * isRepeated: float -> ExtensionFieldInfo<'T>
 
 type [<AllowNullLiteral>] ExtensionFieldInfoStaticFieldName =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> float with get, set
+    [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
 type [<AllowNullLiteral>] ExtensionFieldBinaryInfo<'T> =
     abstract fieldInfo: ExtensionFieldInfo<'T> with get, set
@@ -158,7 +158,7 @@ type [<AllowNullLiteral>] ExtensionFieldBinaryInfo<'T> =
     abstract opt_isPacked: bool with get, set
 
 type [<AllowNullLiteral>] ExtensionFieldBinaryInfoStatic =
-    [<Emit "new $0($1...)">] abstract Create: fieldInfo: ExtensionFieldInfo<'T> * binaryReaderFn: BinaryRead * binaryWriterFn: BinaryWrite * opt_binaryMessageSerializeFn: (Message -> BinaryWriter -> unit) * opt_binaryMessageDeserializeFn: (Message -> BinaryReader -> Message) * opt_isPacked: bool -> ExtensionFieldBinaryInfo<'T>
+    [<EmitConstructor>] abstract Create: fieldInfo: ExtensionFieldInfo<'T> * binaryReaderFn: BinaryRead * binaryWriterFn: BinaryWrite * opt_binaryMessageSerializeFn: (Message -> BinaryWriter -> unit) * opt_binaryMessageDeserializeFn: (Message -> BinaryReader -> Message) * opt_isPacked: bool -> ExtensionFieldBinaryInfo<'T>
 
 type [<AllowNullLiteral>] Map<'K, 'V> =
     abstract toArray: unit -> Array<'K * 'V>
@@ -179,11 +179,11 @@ type [<AllowNullLiteral>] MapForEachThisArg =
     interface end
 
 type [<AllowNullLiteral>] MapStatic =
-    [<Emit "new $0($1...)">] abstract Create: arr: Array<'K * 'V> * ?valueCtor: MapStaticValueCtor -> Map<'K, 'V>
+    [<EmitConstructor>] abstract Create: arr: Array<'K * 'V> * ?valueCtor: MapStaticValueCtor -> Map<'K, 'V>
     abstract fromObject: entries: Array<'TK * 'TV> * valueCtor: obj option * valueFromObject: obj option -> Map<'TK, 'TV>
 
 type [<AllowNullLiteral>] MapStaticValueCtor =
-    [<Emit "new $0($1...)">] abstract Create: init: obj option -> Map<'K, 'V>
+    [<EmitConstructor>] abstract Create: init: obj option -> Map<'K, 'V>
 
 module Map =
 
@@ -285,7 +285,7 @@ type [<AllowNullLiteral>] BinaryReader =
     abstract readPackedFixedHash64: unit -> ResizeArray<string>
 
 type [<AllowNullLiteral>] BinaryReaderStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryReader
+    [<EmitConstructor>] abstract Create: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryReader
     abstract alloc: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryReader
 
 type [<AllowNullLiteral>] BinaryWriter =
@@ -376,7 +376,7 @@ type [<AllowNullLiteral>] BinaryWriter =
     abstract writePackedVarintHash64: field: float * ?value: ResizeArray<string> -> unit
 
 type [<AllowNullLiteral>] BinaryWriterStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> BinaryWriter
+    [<EmitConstructor>] abstract Create: unit -> BinaryWriter
 
 type [<AllowNullLiteral>] BinaryEncoder =
     abstract length: unit -> float
@@ -409,7 +409,7 @@ type [<AllowNullLiteral>] BinaryEncoder =
     abstract writeString: value: string -> float
 
 type [<AllowNullLiteral>] BinaryEncoderStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> BinaryEncoder
+    [<EmitConstructor>] abstract Create: unit -> BinaryEncoder
 
 type [<AllowNullLiteral>] BinaryDecoder =
     abstract free: unit -> unit
@@ -460,7 +460,7 @@ type [<AllowNullLiteral>] BinaryDecoder =
     abstract readFixedHash64: unit -> string
 
 type [<AllowNullLiteral>] BinaryDecoderStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryDecoder
+    [<EmitConstructor>] abstract Create: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryDecoder
     abstract alloc: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryDecoder
 
 type [<AllowNullLiteral>] BinaryIterator =
@@ -471,7 +471,7 @@ type [<AllowNullLiteral>] BinaryIterator =
     abstract next: unit -> ScalarFieldType option
 
 type [<AllowNullLiteral>] BinaryIteratorStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?decoder: BinaryDecoder * ?next: (unit -> U3<float, bool, string> option) * ?elements: Array<U3<float, bool, string>> -> BinaryIterator
+    [<EmitConstructor>] abstract Create: ?decoder: BinaryDecoder * ?next: (unit -> U3<float, bool, string> option) * ?elements: Array<U3<float, bool, string>> -> BinaryIterator
     abstract alloc: ?decoder: BinaryDecoder * ?next: (unit -> U3<float, bool, string> option) * ?elements: Array<U3<float, bool, string>> -> BinaryIterator
 
 module BinaryConstants =
@@ -549,7 +549,7 @@ module Arith =
         abstract clone: unit -> UInt64
 
     type [<AllowNullLiteral>] UInt64Static =
-        [<Emit "new $0($1...)">] abstract Create: lo: float * hi: float -> UInt64
+        [<EmitConstructor>] abstract Create: lo: float * hi: float -> UInt64
         abstract mul32x32: a: float * b: float -> UInt64
         abstract fromString: str: string -> UInt64
 
@@ -562,17 +562,17 @@ module Arith =
         abstract toString: unit -> string
 
     type [<AllowNullLiteral>] Int64Static =
-        [<Emit "new $0($1...)">] abstract Create: lo: float * hi: float -> Int64
+        [<EmitConstructor>] abstract Create: lo: float * hi: float -> Int64
         abstract fromString: str: string -> Int64
 
 type [<AllowNullLiteral>] MessageStaticToObjectList =
     interface end
 
 type [<AllowNullLiteral>] MessageStaticExtensions =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
 
 type [<AllowNullLiteral>] MessageStaticExtensionsBinary =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 module Jspb = ______index
 
 type [<AllowNullLiteral>] IExports =
@@ -584,7 +584,7 @@ type [<AllowNullLiteral>] Empty =
     abstract toObject: ?includeInstance: bool -> Empty.AsObject
 
 type [<AllowNullLiteral>] EmptyStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Empty
+    [<EmitConstructor>] abstract Create: unit -> Empty
     abstract toObject: includeInstance: bool * msg: Empty -> Empty.AsObject
     abstract extensions: EmptyStaticExtensions with get, set
     abstract extensionsBinary: EmptyStaticExtensionsBinary with get, set
@@ -598,7 +598,7 @@ module Empty =
         interface end
 
 type [<AllowNullLiteral>] EmptyStaticExtensions =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldInfo<Jspb.Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> Jspb.ExtensionFieldInfo<Jspb.Message> with get, set
 
 type [<AllowNullLiteral>] EmptyStaticExtensionsBinary =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: float -> Jspb.ExtensionFieldBinaryInfo<Jspb.Message> with get, set
+    [<EmitIndexer>] abstract Item: key: float -> Jspb.ExtensionFieldBinaryInfo<Jspb.Message> with get, set

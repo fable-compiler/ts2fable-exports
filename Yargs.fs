@@ -4,7 +4,6 @@ open System
 open Fable.Core
 open Fable.Core.JS
 
-[<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
@@ -35,8 +34,8 @@ module Yargs =
         /// 
         /// Optionally `.alias()` can take an object that maps keys to aliases.
         /// Each key of this object should be the canonical version of the option, and each value should be a string or an array of strings.
-        abstract alias: shortName: KeyOf<'T> * longName: U2<'K2, ResizeArray<'K2>> -> Argv<obj>
-        abstract alias: shortName: 'K2 * longName: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract alias: shortName: 'K1 * longName: U2<'K2, ResizeArray<'K2>> -> Argv<obj> when 'K1 :> 'T
+        abstract alias: shortName: 'K2 * longName: U2<'K1, ResizeArray<'K1>> -> Argv<obj> when 'K1 :> 'T
         abstract alias: shortName: U2<string, ResizeArray<string>> * longName: U2<string, ResizeArray<string>> -> Argv<'T>
         abstract alias: aliases: ArgvAliasAliases -> Argv<'T>
         /// Get the arguments as a plain old object.
@@ -54,14 +53,14 @@ module Yargs =
         /// Also, if you use the option multiple times all the values will be flattened in one array so `--foo foo --foo bar` will be parsed as `['foo', 'bar']`
         /// 
         /// When the option is used with a positional, use `--` to tell `yargs` to stop adding values to the array.
-        abstract array: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract array: key: U2<'K, ResizeArray<'K>> -> Argv<obj> when 'K :> 'T
         abstract array: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         /// Interpret `key` as a boolean. If a non-flag option follows `key` in `process.argv`, that string won't get set as the value of `key`.
         /// 
         /// `key` will default to `false`, unless a `default(key, undefined)` is explicitly set.
         /// 
         /// If `key` is an array, interpret all the elements as booleans.
-        abstract boolean: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract boolean: key: U2<'K, ResizeArray<'K>> -> Argv<obj> when 'K :> 'T
         abstract boolean: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         /// <summary>Check that certain conditions are met in the provided arguments.</summary>
         /// <param name="func">Called with two arguments, the parsed `argv` hash and an array of options and their aliases.
@@ -75,7 +74,7 @@ module Yargs =
         /// Optionally `.choices()` can take an object that maps multiple keys to their choices.
         /// 
         /// Choices can also be specified as choices in the object given to `option()`.
-        abstract choices: key: KeyOf<'T> * values: 'C -> Argv<obj>
+        abstract choices: key: 'K * values: 'C -> Argv<obj> when 'K :> 'T
         abstract choices: key: 'K * values: 'C -> Argv<obj>
         abstract choices: choices: 'C -> Argv<obj>
         /// Provide a synchronous function to coerce or transform the value(s) given on the command line for `key`.
@@ -92,7 +91,7 @@ module Yargs =
         /// You can also map the same function to several keys at one time. Just pass an array of keys as the first argument to `.coerce()`.
         /// 
         /// If you are using dot-notion or arrays, .e.g., `user.email` and `user.password`, coercion will be applied to the final object that has been parsed
-        abstract coerce: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> * func: (obj option -> 'V) -> Argv<obj>
+        abstract coerce: key: U2<'K, ResizeArray<'K>> * func: (obj option -> 'V) -> Argv<obj> when 'K :> 'T
         abstract coerce: key: U2<'K, ResizeArray<'K>> * func: (obj option -> 'V) -> Argv<obj>
         abstract coerce: opts: 'O -> Argv<obj>
         /// <summary>Define the commands exposed by your application.</summary>
@@ -138,7 +137,7 @@ module Yargs =
         abstract conflicts: key: string * value: U2<string, ResizeArray<string>> -> Argv<'T>
         abstract conflicts: conflicts: ArgvConflicts -> Argv<'T>
         /// Interpret `key` as a boolean flag, but set its parsed value to the number of flag occurrences rather than `true` or `false`. Default value is thus `0`.
-        abstract count: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract count: key: U2<'K, ResizeArray<'K>> -> Argv<obj> when 'K :> 'T
         abstract count: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         /// Set `argv[key]` to `value` if no option was specified in `process.argv`.
         /// 
@@ -147,10 +146,10 @@ module Yargs =
         /// The default value can be a `function` which returns a value. The name of the function will be used in the usage string.
         /// 
         /// Optionally, `description` can also be provided and will take precedence over displaying the value in the usage instructions.
-        abstract ``default``: key: KeyOf<'T> * value: 'V * ?description: string -> Argv<obj>
+        abstract ``default``: key: 'K * value: 'V * ?description: string -> Argv<obj> when 'K :> 'T
         abstract ``default``: key: 'K * value: 'V * ?description: string -> Argv<obj>
         abstract ``default``: defaults: 'D * ?description: string -> Argv<obj>
-        abstract demand: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> * ?msg: string -> Argv<Defined<'T, KeyOf<'T>>>
+        abstract demand: key: U2<'K, ResizeArray<'K>> * ?msg: string -> Argv<Defined<'T, 'K>> when 'K :> 'T
         abstract demand: key: U2<'K, ResizeArray<'K>> * ?msg: string -> Argv<obj>
         abstract demand: key: U2<string, ResizeArray<string>> * ?required: bool -> Argv<'T>
         abstract demand: positionals: float * msg: string -> Argv<'T>
@@ -159,7 +158,7 @@ module Yargs =
         /// <param name="key">If is a string, show the usage information and exit if key wasn't specified in `process.argv`.
         /// If is an array, demand each element.</param>
         /// <param name="msg">If string is given, it will be printed when the argument is missing, instead of the standard error message.</param>
-        abstract demandOption: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> * ?msg: string -> Argv<Defined<'T, KeyOf<'T>>>
+        abstract demandOption: key: U2<'K, ResizeArray<'K>> * ?msg: string -> Argv<Defined<'T, 'K>> when 'K :> 'T
         abstract demandOption: key: U2<'K, ResizeArray<'K>> * ?msg: string -> Argv<obj>
         abstract demandOption: key: U2<string, ResizeArray<string>> * ?demand: bool -> Argv<'T>
         /// Demand in context of commands.
@@ -252,7 +251,7 @@ module Yargs =
         abstract nargs: key: string * count: float -> Argv<'T>
         abstract nargs: nargs: ArgvNargs -> Argv<'T>
         /// The key provided represents a path and should have `path.normalize()` applied.
-        abstract normalize: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract normalize: key: U2<'K, ResizeArray<'K>> -> Argv<obj> when 'K :> 'T
         abstract normalize: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         /// Tell the parser to always interpret key as a number.
         /// 
@@ -263,16 +262,16 @@ module Yargs =
         /// If the value given on the command line cannot be parsed as a number, `argv` will be populated with `NaN`.
         /// 
         /// Note that decimals, hexadecimals, and scientific notation are all accepted.
-        abstract number: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract number: key: U2<'K, ResizeArray<'K>> -> Argv<obj> when 'K :> 'T
         abstract number: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         /// This method can be used to make yargs aware of options that could exist.
         /// You can also pass an opt object which can hold further customization, like `.alias()`, `.demandOption()` etc. for that option.
-        abstract option: key: KeyOf<'T> * options: 'O -> Argv<obj> when 'O :> Options
+        abstract option: key: 'K * options: 'O -> Argv<obj> when 'K :> 'T and 'O :> Options
         abstract option: key: 'K * options: 'O -> Argv<obj> when 'O :> Options
         abstract option: options: 'O -> Argv<obj>
         /// This method can be used to make yargs aware of options that could exist.
         /// You can also pass an opt object which can hold further customization, like `.alias()`, `.demandOption()` etc. for that option.
-        abstract options: key: KeyOf<'T> * options: 'O -> Argv<obj> when 'O :> Options
+        abstract options: key: 'K * options: 'O -> Argv<obj> when 'K :> 'T and 'O :> Options
         abstract options: key: 'K * options: 'O -> Argv<obj> when 'O :> Options
         abstract options: options: 'O -> Argv<obj>
         /// Parse `args` instead of `process.argv`. Returns the `argv` object. `args` may either be a pre-processed argv array, or a raw argument string.
@@ -291,18 +290,18 @@ module Yargs =
         abstract pkgConf: key: U2<string, ResizeArray<string>> * ?cwd: string -> Argv<'T>
         /// Allows you to configure a command's positional arguments with an API similar to `.option()`.
         /// `.positional()` should be called in a command's builder function, and is not available on the top-level yargs instance. If so, it will throw an error.
-        abstract positional: key: KeyOf<'T> * opt: 'O -> Argv<obj> when 'O :> PositionalOptions
+        abstract positional: key: 'K * opt: 'O -> Argv<obj> when 'K :> 'T and 'O :> PositionalOptions
         abstract positional: key: 'K * opt: 'O -> Argv<obj> when 'O :> PositionalOptions
         /// Should yargs provide suggestions regarding similar commands if no matching command is found?
         abstract recommendCommands: unit -> Argv<'T>
-        abstract require: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> * ?msg: string -> Argv<Defined<'T, KeyOf<'T>>>
+        abstract require: key: U2<'K, ResizeArray<'K>> * ?msg: string -> Argv<Defined<'T, 'K>> when 'K :> 'T
         abstract require: key: string * msg: string -> Argv<'T>
         abstract require: key: string * required: bool -> Argv<'T>
         abstract require: keys: ResizeArray<float> * msg: string -> Argv<'T>
         abstract require: keys: ResizeArray<float> * required: bool -> Argv<'T>
         abstract require: positionals: float * required: bool -> Argv<'T>
         abstract require: positionals: float * msg: string -> Argv<'T>
-        abstract required: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> * ?msg: string -> Argv<Defined<'T, KeyOf<'T>>>
+        abstract required: key: U2<'K, ResizeArray<'K>> * ?msg: string -> Argv<Defined<'T, 'K>> when 'K :> 'T
         abstract required: key: string * msg: string -> Argv<'T>
         abstract required: key: string * required: bool -> Argv<'T>
         abstract required: keys: ResizeArray<float> * msg: string -> Argv<'T>
@@ -340,7 +339,7 @@ module Yargs =
         /// If `key` is an array, interpret all the elements as strings.
         /// 
         /// `.string('_')` will result in non-hyphenated arguments being interpreted as strings, regardless of whether they resemble numbers.
-        abstract string: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
+        abstract string: key: U2<'K, ResizeArray<'K>> -> Argv<obj> when 'K :> 'T
         abstract string: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         abstract terminalWidth: unit -> float
         abstract updateLocale: obj: ArgvUpdateLocaleObj -> Argv<'T>
@@ -377,25 +376,25 @@ module Yargs =
         abstract wrap: columns: float option -> Argv<'T>
 
     type [<AllowNullLiteral>] ArgvAliasAliases =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
 
     type [<AllowNullLiteral>] ArgvConflicts =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
     type [<AllowNullLiteral>] ArgvDescribeDescriptions =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] ArgvImplies =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
     type [<AllowNullLiteral>] ArgvNargs =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> float with get, set
+        [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
     type [<AllowNullLiteral>] ArgvUpdateLocaleObj =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] ArgvUpdateStringsObj =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type Arguments =
         Arguments<obj>
@@ -499,7 +498,7 @@ module Yargs =
     type [<AllowNullLiteral>] Omit<'T, 'K> =
         interface end
 
-    type [<AllowNullLiteral>] Defined<'T> =
+    type [<AllowNullLiteral>] Defined<'T, 'K when 'K :> 'T> =
         interface end
 
     type ToArray<'T> =
@@ -577,7 +576,7 @@ module Yargs =
         | String
 
     type [<AllowNullLiteral>] ArgvCheck =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: alias: string -> string with get, set
+        [<EmitIndexer>] abstract Item: alias: string -> string with get, set
 
     type [<AllowNullLiteral>] OptionsConflicts =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ReadonlyArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U2<string, ReadonlyArray<string>> with get, set

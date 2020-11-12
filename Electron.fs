@@ -5,7 +5,6 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
-[<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 type Function = System.Action
@@ -85,13 +84,13 @@ module Electron =
         abstract eventNames: unit -> ResizeArray<string>
 
     type [<AllowNullLiteral>] EventEmitterStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> EventEmitter
+        [<EmitConstructor>] abstract Create: unit -> EventEmitter
 
     type [<AllowNullLiteral>] Accelerator =
         inherit String
 
     type [<AllowNullLiteral>] AcceleratorStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Accelerator
+        [<EmitConstructor>] abstract Create: unit -> Accelerator
 
     type [<AllowNullLiteral>] Event =
         inherit GlobalEvent
@@ -601,7 +600,7 @@ module Electron =
         abstract webContents: WebContents with get, set
 
     type [<AllowNullLiteral>] BrowserViewStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?options: BrowserViewConstructorOptions -> BrowserView
+        [<EmitConstructor>] abstract Create: ?options: BrowserViewConstructorOptions -> BrowserView
         abstract fromId: id: float -> BrowserView
         abstract fromWebContents: webContents: WebContents -> BrowserView option
         abstract getAllViews: unit -> ResizeArray<BrowserView>
@@ -1069,7 +1068,7 @@ module Electron =
         | [<CompiledName "ultra-dark">] UltraDark
 
     type [<AllowNullLiteral>] BrowserWindowStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?options: BrowserWindowConstructorOptions -> BrowserWindow
+        [<EmitConstructor>] abstract Create: ?options: BrowserWindowConstructorOptions -> BrowserWindow
         /// Adds DevTools extension located at path, and returns extension's name. The
         /// extension will be remembered so you only need to call this API once, this API is
         /// not for programming use. If you try to add an extension that has already been
@@ -1119,7 +1118,7 @@ module Electron =
         abstract closed: bool with get, set
 
     type [<AllowNullLiteral>] BrowserWindowProxyStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> BrowserWindowProxy
+        [<EmitConstructor>] abstract Create: unit -> BrowserWindowProxy
 
     type [<AllowNullLiteral>] Certificate =
         /// PEM encoded data
@@ -1234,7 +1233,7 @@ module Electron =
         abstract chunkedEncoding: bool with get, set
 
     type [<AllowNullLiteral>] ClientRequestStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: ClientRequestStaticOptions -> ClientRequest
+        [<EmitConstructor>] abstract Create: options: ClientRequestStaticOptions -> ClientRequest
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ClientRequestStaticOptions =
         | Method
@@ -1381,7 +1380,7 @@ module Electron =
         abstract set: details: Details * callback: (Error -> unit) -> unit
 
     type [<AllowNullLiteral>] CookiesStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Cookies
+        [<EmitConstructor>] abstract Create: unit -> Cookies
 
     type [<AllowNullLiteral>] CPUUsage =
         /// The number of average idle cpu wakeups per second since the last call to
@@ -1465,7 +1464,7 @@ module Electron =
         abstract sendCommand: ``method``: string * ?commandParams: obj * ?callback: (obj option -> obj option -> unit) -> unit
 
     type [<AllowNullLiteral>] DebuggerStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Debugger
+        [<EmitConstructor>] abstract Create: unit -> Debugger
 
     type [<AllowNullLiteral>] DesktopCapturer =
         inherit EventEmitter
@@ -1627,7 +1626,7 @@ module Electron =
         | Interrupted
 
     type [<AllowNullLiteral>] DownloadItemStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> DownloadItem
+        [<EmitConstructor>] abstract Create: unit -> DownloadItem
 
     type [<AllowNullLiteral>] FileFilter =
         abstract extensions: ResizeArray<string> with get, set
@@ -1713,7 +1712,7 @@ module Electron =
         abstract statusMessage: string with get, set
 
     type [<AllowNullLiteral>] IncomingMessageStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> IncomingMessage
+        [<EmitConstructor>] abstract Create: unit -> IncomingMessage
 
     type [<AllowNullLiteral>] IOCounters =
         /// Then number of I/O other operations.
@@ -1842,7 +1841,7 @@ module Electron =
         abstract items: ResizeArray<MenuItem> with get, set
 
     type [<AllowNullLiteral>] MenuStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Menu
+        [<EmitConstructor>] abstract Create: unit -> Menu
         /// Generally, the template is just an array of options for constructing a MenuItem.
         /// The usage can be referenced above. You can also attach other fields to the
         /// element of the template and they will become properties of the constructed menu
@@ -1870,7 +1869,7 @@ module Electron =
         abstract visible: bool with get, set
 
     type [<AllowNullLiteral>] MenuItemStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: MenuItemConstructorOptions -> MenuItem
+        [<EmitConstructor>] abstract Create: options: MenuItemConstructorOptions -> MenuItem
 
     type [<AllowNullLiteral>] MimeTypedBuffer =
         /// The actual Buffer content
@@ -1907,7 +1906,7 @@ module Electron =
         abstract toPNG: ?options: ToPNGOptions -> Buffer
 
     type [<AllowNullLiteral>] NativeImageStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> NativeImage
+        [<EmitConstructor>] abstract Create: unit -> NativeImage
         /// Creates an empty NativeImage instance.
         abstract createEmpty: unit -> NativeImage
         /// Creates a new NativeImage instance from buffer.
@@ -1974,7 +1973,7 @@ module Electron =
         abstract show: unit -> unit
 
     type [<AllowNullLiteral>] NotificationStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: NotificationConstructorOptions -> Notification
+        [<EmitConstructor>] abstract Create: options: NotificationConstructorOptions -> Notification
         abstract isSupported: unit -> bool
 
     type [<AllowNullLiteral>] NotificationAction =
@@ -2278,7 +2277,7 @@ module Electron =
         abstract webRequest: WebRequest with get, set
 
     type [<AllowNullLiteral>] SessionStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Session
+        [<EmitConstructor>] abstract Create: unit -> Session
         /// If partition starts with persist:, the page will use a persistent session
         /// available to all pages in the app with the same partition. if there is no
         /// persist: prefix, the page will use an in-memory session. If the partition is
@@ -2474,7 +2473,7 @@ module Electron =
         abstract label: string with get, set
 
     type [<AllowNullLiteral>] TouchBarButtonStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarButtonConstructorOptions -> TouchBarButton
+        [<EmitConstructor>] abstract Create: options: TouchBarButtonConstructorOptions -> TouchBarButton
 
     type [<AllowNullLiteral>] TouchBarColorPicker =
         inherit EventEmitter
@@ -2482,13 +2481,13 @@ module Electron =
         abstract selectedColor: string with get, set
 
     type [<AllowNullLiteral>] TouchBarColorPickerStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarColorPickerConstructorOptions -> TouchBarColorPicker
+        [<EmitConstructor>] abstract Create: options: TouchBarColorPickerConstructorOptions -> TouchBarColorPicker
 
     type [<AllowNullLiteral>] TouchBarGroup =
         inherit EventEmitter
 
     type [<AllowNullLiteral>] TouchBarGroupStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarGroupConstructorOptions -> TouchBarGroup
+        [<EmitConstructor>] abstract Create: options: TouchBarGroupConstructorOptions -> TouchBarGroup
 
     type [<AllowNullLiteral>] TouchBarLabel =
         inherit EventEmitter
@@ -2496,7 +2495,7 @@ module Electron =
         abstract textColor: string with get, set
 
     type [<AllowNullLiteral>] TouchBarLabelStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarLabelConstructorOptions -> TouchBarLabel
+        [<EmitConstructor>] abstract Create: options: TouchBarLabelConstructorOptions -> TouchBarLabel
 
     type [<AllowNullLiteral>] TouchBarPopover =
         inherit EventEmitter
@@ -2504,7 +2503,7 @@ module Electron =
         abstract label: string with get, set
 
     type [<AllowNullLiteral>] TouchBarPopoverStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarPopoverConstructorOptions -> TouchBarPopover
+        [<EmitConstructor>] abstract Create: options: TouchBarPopoverConstructorOptions -> TouchBarPopover
 
     type [<AllowNullLiteral>] TouchBarScrubber =
         inherit EventEmitter
@@ -2516,7 +2515,7 @@ module Electron =
         abstract showArrowButtons: bool with get, set
 
     type [<AllowNullLiteral>] TouchBarScrubberStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarScrubberConstructorOptions -> TouchBarScrubber
+        [<EmitConstructor>] abstract Create: options: TouchBarScrubberConstructorOptions -> TouchBarScrubber
 
     type [<AllowNullLiteral>] TouchBarSegmentedControl =
         inherit EventEmitter
@@ -2525,7 +2524,7 @@ module Electron =
         abstract selectedIndex: float with get, set
 
     type [<AllowNullLiteral>] TouchBarSegmentedControlStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarSegmentedControlConstructorOptions -> TouchBarSegmentedControl
+        [<EmitConstructor>] abstract Create: options: TouchBarSegmentedControlConstructorOptions -> TouchBarSegmentedControl
 
     type [<AllowNullLiteral>] TouchBarSlider =
         inherit EventEmitter
@@ -2535,20 +2534,20 @@ module Electron =
         abstract value: float with get, set
 
     type [<AllowNullLiteral>] TouchBarSliderStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarSliderConstructorOptions -> TouchBarSlider
+        [<EmitConstructor>] abstract Create: options: TouchBarSliderConstructorOptions -> TouchBarSlider
 
     type [<AllowNullLiteral>] TouchBarSpacer =
         inherit EventEmitter
 
     type [<AllowNullLiteral>] TouchBarSpacerStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarSpacerConstructorOptions -> TouchBarSpacer
+        [<EmitConstructor>] abstract Create: options: TouchBarSpacerConstructorOptions -> TouchBarSpacer
 
     type [<AllowNullLiteral>] TouchBar =
         inherit EventEmitter
         abstract escapeItem: obj option with get, set
 
     type [<AllowNullLiteral>] TouchBarStatic =
-        [<Emit "new $0($1...)">] abstract Create: options: TouchBarConstructorOptions -> TouchBar
+        [<EmitConstructor>] abstract Create: options: TouchBarConstructorOptions -> TouchBar
         abstract TouchBarButton: obj with get, set
         abstract TouchBarColorPicker: obj with get, set
         abstract TouchBarGroup: obj with get, set
@@ -2669,7 +2668,7 @@ module Electron =
         | Never
 
     type [<AllowNullLiteral>] TrayStatic =
-        [<Emit "new $0($1...)">] abstract Create: image: U2<NativeImage, string> -> Tray
+        [<EmitConstructor>] abstract Create: image: U2<NativeImage, string> -> Tray
 
     type [<AllowNullLiteral>] UploadBlob =
         /// UUID of blob data to upload.
@@ -3194,7 +3193,7 @@ module Electron =
         | ActivateSelection
 
     type [<AllowNullLiteral>] WebContentsStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> WebContents
+        [<EmitConstructor>] abstract Create: unit -> WebContents
         abstract fromId: id: float -> WebContents
         abstract getAllWebContents: unit -> ResizeArray<WebContents>
         abstract getFocusedWebContents: unit -> WebContents
@@ -3310,7 +3309,7 @@ module Electron =
         abstract onSendHeaders: listener: (OnSendHeadersDetails -> unit) -> unit
 
     type [<AllowNullLiteral>] WebRequestStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> WebRequest
+        [<EmitConstructor>] abstract Create: unit -> WebRequest
 
     type [<AllowNullLiteral>] WebviewTag =
         inherit HTMLElement
@@ -3434,9 +3433,9 @@ module Electron =
         /// Emitted when DevTools is focused / opened.
         [<Emit "$0.addEventListener('devtools-focused',$1,$2)">] abstract ``addEventListener_devtools-focused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
         [<Emit "$0.removeEventListener('devtools-focused',$1)">] abstract ``removeEventListener_devtools-focused``: listener: (Event -> unit) -> WebviewTag
-        abstract addEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
+        abstract addEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit when 'K :> HTMLElementEventMap
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
-        abstract removeEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
+        abstract removeEventListener: ``type``: 'K * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit when 'K :> HTMLElementEventMap
         abstract removeEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
         abstract canGoBack: unit -> bool
         abstract canGoForward: unit -> bool

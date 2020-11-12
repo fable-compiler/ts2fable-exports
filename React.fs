@@ -5,7 +5,6 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
-[<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 
@@ -48,16 +47,16 @@ module React =
 
     type [<AllowNullLiteral>] IExports =
         abstract createClass: spec: ComponentSpec<'P, 'S> -> ClassicComponentClass<'P>
-        abstract createFactory: ``type``: KeyOf<ReactHTML> -> HTMLFactory<'T> when 'T :> HTMLElement
-        abstract createFactory: ``type``: KeyOf<ReactSVG> -> SVGFactory
+        abstract createFactory: ``type``: ReactHTML -> HTMLFactory<'T> when 'T :> HTMLElement
+        abstract createFactory: ``type``: ReactSVG -> SVGFactory
         abstract createFactory: ``type``: string -> DOMFactory<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
         abstract createFactory: ``type``: SFC<'P> -> SFCFactory<'P>
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T> when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
         [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
-        abstract createElement: ``type``: KeyOf<ReactHTML> * ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
-        abstract createElement: ``type``: KeyOf<ReactSVG> * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
+        abstract createElement: ``type``: ReactHTML * ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
+        abstract createElement: ``type``: ReactSVG * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
         abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
         abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ReactNode[] -> SFCElement<'P>
         abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, ClassicComponent<'P, ComponentState>>
@@ -138,11 +137,11 @@ module React =
 
     type [<AllowNullLiteral>] DetailedReactHTMLElement<'P, 'T when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement> =
         inherit DOMElement<'P, 'T>
-        abstract ``type``: KeyOf<ReactHTML> with get, set
+        abstract ``type``: ReactHTML with get, set
 
     type [<AllowNullLiteral>] ReactSVGElement =
         inherit DOMElement<SVGAttributes<SVGElement>, SVGElement>
-        abstract ``type``: KeyOf<ReactSVG> with get, set
+        abstract ``type``: ReactSVG with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
         [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactElement<'P>
@@ -196,8 +195,8 @@ module React =
 
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
-        abstract setState: f: ('S -> 'P -> obj) * ?callback: (unit -> obj option) -> unit
-        abstract setState: state: obj * ?callback: (unit -> obj option) -> unit
+        abstract setState: f: ('S -> 'P -> obj) * ?callback: (unit -> obj option) -> unit when 'K :> 'S
+        abstract setState: state: obj * ?callback: (unit -> obj option) -> unit when 'K :> 'S
         abstract forceUpdate: ?callBack: (unit -> obj option) -> unit
         abstract render: unit -> JSX.Element option
         abstract props: obj with get, set
@@ -206,7 +205,7 @@ module React =
         abstract refs: ComponentRefs with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
+        [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
 
     type PureComponent =
         PureComponent<obj, obj>
@@ -218,7 +217,7 @@ module React =
         inherit Component<'P, 'S>
 
     type [<AllowNullLiteral>] PureComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> PureComponent<'P, 'S>
+        [<EmitConstructor>] abstract Create: unit -> PureComponent<'P, 'S>
 
     type ClassicComponent =
         ClassicComponent<obj, obj>
@@ -262,7 +261,7 @@ module React =
         abstract displayName: string option with get, set
 
     type [<AllowNullLiteral>] ComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> ComponentClass<'P>
+        [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> ComponentClass<'P>
 
     type ClassicComponentClass =
         ClassicComponentClass<obj>
@@ -272,7 +271,7 @@ module React =
         abstract getDefaultProps: unit -> 'P
 
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> ClassicComponentClass<'P>
+        [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> ClassicComponentClass<'P>
 
     type [<AllowNullLiteral>] ClassType<'P, 'T, 'C when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>> =
         interface end
@@ -325,7 +324,7 @@ module React =
     type [<AllowNullLiteral>] ComponentSpec<'P, 'S> =
         inherit Mixin<'P, 'S>
         abstract render: unit -> ReactElement<obj option> option
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] SyntheticEvent<'T> =
         abstract bubbles: bool with get, set
@@ -1462,7 +1461,7 @@ module React =
         /// Sets the initial zoom factor of a document defined by @viewport.
         /// See CSS zoom descriptor https://drafts.csswg.org/css-device-adapt/#zoom-desc
         abstract zoom: U4<CSSWideKeyword, float, CSSPercentage, string> option with get, set
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] HTMLAttributes<'T> =
         inherit DOMAttributes<'T>
@@ -2442,7 +2441,7 @@ module React =
         abstract pageY: float with get, set
 
     type [<AllowNullLiteral>] TouchList =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: float -> Touch with get, set
+        [<EmitIndexer>] abstract Item: index: float -> Touch with get, set
         abstract length: float with get, set
         abstract item: index: float -> Touch
         abstract identifiedTouch: identifier: float -> Touch
@@ -2455,10 +2454,10 @@ module React =
         interface end
 
     type [<AllowNullLiteral>] ComponentRefs =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> ReactInstance with get, set
+        [<EmitIndexer>] abstract Item: key: string -> ReactInstance with get, set
 
     type [<AllowNullLiteral>] MixinStatics =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
     type [<AllowNullLiteral>] DOMAttributesDangerouslySetInnerHTML =
         abstract __html: string with get, set

@@ -46,7 +46,7 @@ module Monaco =
 
     /// A helper that allows to emit and listen to typed events
     type [<AllowNullLiteral>] EmitterStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Emitter<'T>
+        [<EmitConstructor>] abstract Create: unit -> Emitter<'T>
 
     type [<RequireQualifiedAccess>] Severity =
         | Ignore = 0
@@ -80,7 +80,7 @@ module Monaco =
 
     /// A Promise implementation that supports progress and cancelation.
     type [<AllowNullLiteral>] PromiseStatic =
-        [<Emit "new $0($1...)">] abstract Create: init: (TValueCallback<'V> -> (obj option -> unit) -> ProgressCallback -> unit) * ?oncancel: obj -> Promise<'V>
+        [<EmitConstructor>] abstract Create: init: (TValueCallback<'V> -> (obj option -> unit) -> ProgressCallback -> unit) * ?oncancel: obj -> Promise<'V>
         abstract ``as``: value: obj -> Promise<obj>
         abstract ``as``: value: obj -> Promise<obj>
         abstract ``as``: value: Promise<'ValueType> -> Promise<'ValueType>
@@ -97,7 +97,7 @@ module Monaco =
         abstract wrapError: error: Error -> Promise<'ValueType>
 
     type [<AllowNullLiteral>] PromiseStaticJoinPromises =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: n: string -> Promise<'ValueType> with get, set
+        [<EmitIndexer>] abstract Item: n: string -> Promise<'ValueType> with get, set
 
     type [<AllowNullLiteral>] CancellationTokenSource =
         abstract token: CancellationToken
@@ -105,7 +105,7 @@ module Monaco =
         abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] CancellationTokenSourceStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> CancellationTokenSource
+        [<EmitConstructor>] abstract Create: unit -> CancellationTokenSource
 
     type [<AllowNullLiteral>] CancellationToken =
         abstract isCancellationRequested: bool
@@ -167,7 +167,7 @@ module Monaco =
     ///        / \ /                        \
     ///        urn:example:animal:ferret:nose
     type [<AllowNullLiteral>] UriStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Uri
+        [<EmitConstructor>] abstract Create: unit -> Uri
         abstract isUri: thing: obj option -> bool
         abstract parse: value: string -> Uri
         abstract file: path: string -> Uri
@@ -300,7 +300,7 @@ module Monaco =
         interface end
 
     type [<AllowNullLiteral>] KeyModStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> KeyMod
+        [<EmitConstructor>] abstract Create: unit -> KeyMod
         abstract CtrlCmd: float
         abstract Shift: float
         abstract Alt: float
@@ -378,7 +378,7 @@ module Monaco =
 
     /// A position in the editor.
     type [<AllowNullLiteral>] PositionStatic =
-        [<Emit "new $0($1...)">] abstract Create: lineNumber: float * column: float -> Position
+        [<EmitConstructor>] abstract Create: lineNumber: float * column: float -> Position
         /// Test if position `a` equals position `b`
         abstract equals: a: IPosition * b: IPosition -> bool
         /// Test if position `a` is before position `b`.
@@ -445,7 +445,7 @@ module Monaco =
 
     /// A range in the editor. (startLineNumber,startColumn) is <= (endLineNumber,endColumn)
     type [<AllowNullLiteral>] RangeStatic =
-        [<Emit "new $0($1...)">] abstract Create: startLineNumber: float * startColumn: float * endLineNumber: float * endColumn: float -> Range
+        [<EmitConstructor>] abstract Create: startLineNumber: float * startColumn: float * endLineNumber: float * endColumn: float -> Range
         /// Test if `range` is empty.
         abstract isEmpty: range: IRange -> bool
         /// Test if `position` is in `range`. If the position is at the edges, will return true.
@@ -519,7 +519,7 @@ module Monaco =
     /// A selection in the editor.
     /// The selection is a range that has an orientation.
     type [<AllowNullLiteral>] SelectionStatic =
-        [<Emit "new $0($1...)">] abstract Create: selectionStartLineNumber: float * selectionStartColumn: float * positionLineNumber: float * positionColumn: float -> Selection
+        [<EmitConstructor>] abstract Create: selectionStartLineNumber: float * selectionStartColumn: float * positionLineNumber: float * positionColumn: float -> Selection
         /// Test if the two selections are equal.
         abstract selectionsEqual: a: ISelection * b: ISelection -> bool
         /// Create a `Selection` from one or two positions
@@ -545,7 +545,7 @@ module Monaco =
         abstract toString: unit -> string
 
     type [<AllowNullLiteral>] TokenStatic =
-        [<Emit "new $0($1...)">] abstract Create: offset: float * ``type``: string * language: string -> Token
+        [<EmitConstructor>] abstract Create: offset: float * ``type``: string * language: string -> Token
 
     module Editor =
 
@@ -632,7 +632,7 @@ module Monaco =
             abstract colors: IColors with get, set
 
         type [<AllowNullLiteral>] IColors =
-            [<Emit "$0[$1]{{=$2}}">] abstract Item: colorId: string -> string with get, set
+            [<EmitIndexer>] abstract Item: colorId: string -> string with get, set
 
         type [<AllowNullLiteral>] ITokenThemeRule =
             abstract token: string with get, set
@@ -715,7 +715,7 @@ module Monaco =
             abstract get: unit -> 'T
 
         type [<AllowNullLiteral>] IEditorOverrideServices =
-            [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
+            [<EmitIndexer>] abstract Item: index: string -> obj option with get, set
 
         type [<AllowNullLiteral>] IMarker =
             abstract owner: string with get, set
@@ -932,7 +932,7 @@ module Monaco =
             abstract trimAutoWhitespace: bool
 
         type [<AllowNullLiteral>] TextModelResolvedOptionsStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> TextModelResolvedOptions
+            [<EmitConstructor>] abstract Create: unit -> TextModelResolvedOptions
 
         type [<AllowNullLiteral>] ITextModelUpdateOptions =
             abstract tabSize: float option with get, set
@@ -1051,7 +1051,7 @@ module Monaco =
             abstract matches: ResizeArray<string>
 
         type [<AllowNullLiteral>] FindMatchStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> FindMatch
+            [<EmitConstructor>] abstract Create: unit -> FindMatch
 
         type [<AllowNullLiteral>] IReadOnlyModel =
             inherit ITextModel
@@ -2031,7 +2031,7 @@ module Monaco =
 
         /// Internal configuration options (transformed or computed) for the editor.
         type [<AllowNullLiteral>] InternalEditorOptionsStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> InternalEditorOptions
+            [<EmitConstructor>] abstract Create: unit -> InternalEditorOptions
 
         /// A description for the overview ruler position.
         type [<AllowNullLiteral>] OverviewRulerPosition =
@@ -2317,7 +2317,7 @@ module Monaco =
             abstract maxDigitWidth: float
 
         type [<AllowNullLiteral>] FontInfoStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> FontInfo
+            [<EmitConstructor>] abstract Create: unit -> FontInfo
 
         type [<AllowNullLiteral>] BareFontInfo =
             abstract _bareFontInfoBrand: unit
@@ -2329,7 +2329,7 @@ module Monaco =
             abstract letterSpacing: float
 
         type [<AllowNullLiteral>] BareFontInfoStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> BareFontInfo
+            [<EmitConstructor>] abstract Create: unit -> BareFontInfo
 
         type [<AllowNullLiteral>] IExportsOnDidChangeModelLanguage =
             abstract model: IModel
@@ -2340,7 +2340,7 @@ module Monaco =
             abstract IDiffEditor: string with get, set
 
         type [<AllowNullLiteral>] ICodeEditorViewStateContributionsState =
-            [<Emit "$0[$1]{{=$2}}">] abstract Item: id: string -> obj option with get, set
+            [<EmitIndexer>] abstract Item: id: string -> obj option with get, set
 
         type [<AllowNullLiteral>] IModelTokensChangedEventRanges =
             /// The start of the range (inclusive)
@@ -3113,7 +3113,7 @@ module Monaco =
                 abstract types: ResizeArray<string> option with get, set
                 /// Paths used to compute primary types search locations
                 abstract typeRoots: ResizeArray<string> option with get, set
-                [<Emit "$0[$1]{{=$2}}">] abstract Item: option: string -> CompilerOptionsValue option with get, set
+                [<EmitIndexer>] abstract Item: option: string -> CompilerOptionsValue option with get, set
 
             type [<AllowNullLiteral>] DiagnosticsOptions =
                 abstract noSemanticValidation: bool option with get, set
@@ -3228,7 +3228,7 @@ module Monaco =
                 abstract wrapAttributes: HTMLFormatConfigurationWrapAttributes
 
             type [<AllowNullLiteral>] CompletionConfiguration =
-                [<Emit "$0[$1]{{=$2}}">] abstract Item: provider: string -> bool with get, set
+                [<EmitIndexer>] abstract Item: provider: string -> bool with get, set
 
             type [<AllowNullLiteral>] Options =
                 /// If set, comments are tolerated. If set to false, syntax errors will be emmited for comments.
@@ -3248,7 +3248,7 @@ module Monaco =
                 | [<CompiledName "force-expand-multiline">] ForceExpandMultiline
 
         type [<AllowNullLiteral>] IMonarchLanguageTokenizer =
-            [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> ResizeArray<IMonarchLanguageRule> with get, set
+            [<EmitIndexer>] abstract Item: name: string -> ResizeArray<IMonarchLanguageRule> with get, set
 
     module Worker =
 
@@ -3262,7 +3262,7 @@ module Monaco =
             abstract getMirrorModels: unit -> ResizeArray<IMirrorModel>
 
     type [<AllowNullLiteral>] PromiseStaticJoinPromise<'ValueType> =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: n: string -> 'ValueType with get, set
+        [<EmitIndexer>] abstract Item: n: string -> 'ValueType with get, set
 
     type [<AllowNullLiteral>] PromiseStaticAnyPromise<'ValueType> =
         abstract key: string with get, set
