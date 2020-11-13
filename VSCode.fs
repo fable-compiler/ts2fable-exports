@@ -248,7 +248,7 @@ module Vscode =
     type [<AllowNullLiteral>] PositionStatic =
         /// <param name="line">A zero-based line value.</param>
         /// <param name="character">A zero-based character value.</param>
-        [<Emit "new $0($1...)">] abstract Create: line: float * character: float -> Position
+        [<EmitConstructor>] abstract Create: line: float * character: float -> Position
 
     /// A range represents an ordered pair of two positions.
     /// It is guaranteed that [start](#Range.start).isBeforeOrEqual([end](#Range.end))
@@ -301,14 +301,14 @@ module Vscode =
         /// before or equal to `end`, the values will be swapped.</summary>
         /// <param name="start">A position.</param>
         /// <param name="end">A position.</param>
-        [<Emit "new $0($1...)">] abstract Create: start: Position * ``end``: Position -> Range
+        [<EmitConstructor>] abstract Create: start: Position * ``end``: Position -> Range
         /// <summary>Create a new range from number coordinates. It is a shorter equivalent of
         /// using `new Range(new Position(startLine, startCharacter), new Position(endLine, endCharacter))`</summary>
         /// <param name="startLine">A zero-based line value.</param>
         /// <param name="startCharacter">A zero-based character value.</param>
         /// <param name="endLine">A zero-based line value.</param>
         /// <param name="endCharacter">A zero-based character value.</param>
-        [<Emit "new $0($1...)">] abstract Create: startLine: float * startCharacter: float * endLine: float * endCharacter: float -> Range
+        [<EmitConstructor>] abstract Create: startLine: float * startCharacter: float * endLine: float * endCharacter: float -> Range
 
     /// Represents a text selection in an editor.
     type [<AllowNullLiteral>] Selection =
@@ -327,13 +327,13 @@ module Vscode =
         /// <summary>Create a selection from two positions.</summary>
         /// <param name="anchor">A position.</param>
         /// <param name="active">A position.</param>
-        [<Emit "new $0($1...)">] abstract Create: anchor: Position * active: Position -> Selection
+        [<EmitConstructor>] abstract Create: anchor: Position * active: Position -> Selection
         /// <summary>Create a selection from four coordinates.</summary>
         /// <param name="anchorLine">A zero-based line value.</param>
         /// <param name="anchorCharacter">A zero-based character value.</param>
         /// <param name="activeLine">A zero-based line value.</param>
         /// <param name="activeCharacter">A zero-based character value.</param>
-        [<Emit "new $0($1...)">] abstract Create: anchorLine: float * anchorCharacter: float * activeLine: float * activeCharacter: float -> Selection
+        [<EmitConstructor>] abstract Create: anchorLine: float * anchorCharacter: float * activeLine: float * activeCharacter: float -> Selection
 
     type [<RequireQualifiedAccess>] TextEditorSelectionChangeKind =
         | Keyboard = 1
@@ -461,7 +461,7 @@ module Vscode =
     type [<AllowNullLiteral>] ThemeColorStatic =
         /// <summary>Creates a reference to a theme color.</summary>
         /// <param name="id">of the color. The available colors are listed in https://code.visualstudio.com/docs/getstarted/theme-color-reference.</param>
-        [<Emit "new $0($1...)">] abstract Create: id: string -> ThemeColor
+        [<EmitConstructor>] abstract Create: id: string -> ThemeColor
 
     /// A reference to a named icon. Currently only [File](#ThemeIcon.File) and [Folder](#ThemeIcon.Folder) are supported.
     /// Using a theme icon is preferred over a custom icon as it gives theme authors the possibility to change the icons.
@@ -808,7 +808,7 @@ module Vscode =
 
     /// A cancellation source creates and controls a [cancellation token](#CancellationToken).
     type [<AllowNullLiteral>] CancellationTokenSourceStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> CancellationTokenSource
+        [<EmitConstructor>] abstract Create: unit -> CancellationTokenSource
 
     /// Represents a type which can release resources, such
     /// as event listening or a timer.
@@ -827,7 +827,7 @@ module Vscode =
         /// <summary>Creates a new Disposable calling the provided function
         /// on dispose.</summary>
         /// <param name="callOnDispose">Function that disposes something.</param>
-        [<Emit "new $0($1...)">] abstract Create: callOnDispose: Function -> Disposable
+        [<EmitConstructor>] abstract Create: callOnDispose: Function -> Disposable
 
     /// Represents a typed event.
     /// 
@@ -864,7 +864,7 @@ module Vscode =
     /// inside a [TextDocumentContentProvider](#TextDocumentContentProvider) or when providing
     /// API to other extensions.
     type [<AllowNullLiteral>] EventEmitterStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> EventEmitter<'T>
+        [<EmitConstructor>] abstract Create: unit -> EventEmitter<'T>
 
     /// A file system watcher notifies about changes to files and folders
     /// on disk.
@@ -1052,7 +1052,7 @@ module Vscode =
         /// <param name="base">A base file path to which this pattern will be matched against relatively.</param>
         /// <param name="pattern">A file glob pattern like `*.{ts,js}` that will be matched on file paths
         /// relative to the base path.</param>
-        [<Emit "new $0($1...)">] abstract Create: ``base``: U2<WorkspaceFolder, string> * pattern: string -> RelativePattern
+        [<EmitConstructor>] abstract Create: ``base``: U2<WorkspaceFolder, string> * pattern: string -> RelativePattern
 
     type GlobPattern =
         U2<string, RelativePattern>
@@ -1206,7 +1206,7 @@ module Vscode =
         /// and/or a [command](#CodeAction.command).</summary>
         /// <param name="title">The title of the code action.</param>
         /// <param name="kind">The kind of the code action.</param>
-        [<Emit "new $0($1...)">] abstract Create: title: string * ?kind: CodeActionKind -> CodeAction
+        [<EmitConstructor>] abstract Create: title: string * ?kind: CodeActionKind -> CodeAction
 
     /// The code action interface defines the contract between extensions and
     /// the [light bulb](https://code.visualstudio.com/docs/editor/editingevolved#_code-action) feature.
@@ -1251,7 +1251,7 @@ module Vscode =
         /// <summary>Creates a new code lens object.</summary>
         /// <param name="range">The range to which this code lens applies.</param>
         /// <param name="command">The command associated to this code lens.</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * ?command: Command -> CodeLens
+        [<EmitConstructor>] abstract Create: range: Range * ?command: Command -> CodeLens
 
     /// A code lens provider adds [commands](#Command) to source text. The commands will be shown
     /// as dedicated horizontal lines in between the source text.
@@ -1340,7 +1340,7 @@ module Vscode =
     type [<AllowNullLiteral>] MarkdownStringStatic =
         /// <summary>Creates a new markdown string with the given value.</summary>
         /// <param name="value">Optional, initial value.</param>
-        [<Emit "new $0($1...)">] abstract Create: ?value: string -> MarkdownString
+        [<EmitConstructor>] abstract Create: ?value: string -> MarkdownString
 
     type MarkedString =
         U4<MarkdownString, string, string, string>
@@ -1361,7 +1361,7 @@ module Vscode =
         /// <summary>Creates a new hover object.</summary>
         /// <param name="contents">The contents of the hover.</param>
         /// <param name="range">The range to which the hover applies.</param>
-        [<Emit "new $0($1...)">] abstract Create: contents: U2<MarkedString, ResizeArray<MarkedString>> * ?range: Range -> Hover
+        [<EmitConstructor>] abstract Create: contents: U2<MarkedString, ResizeArray<MarkedString>> * ?range: Range -> Hover
 
     /// The hover provider interface defines the contract between extensions and
     /// the [hover](https://code.visualstudio.com/docs/editor/intellisense)-feature.
@@ -1395,7 +1395,7 @@ module Vscode =
         /// <summary>Creates a new document highlight object.</summary>
         /// <param name="range">The range the highlight applies to.</param>
         /// <param name="kind">The highlight kind, default is [text](#DocumentHighlightKind.Text).</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * ?kind: DocumentHighlightKind -> DocumentHighlight
+        [<EmitConstructor>] abstract Create: range: Range * ?kind: DocumentHighlightKind -> DocumentHighlight
 
     /// The document highlight provider interface defines the contract between extensions and
     /// the word-highlight-feature.
@@ -1455,14 +1455,14 @@ module Vscode =
         /// <param name="kind">The kind of the symbol.</param>
         /// <param name="containerName">The name of the symbol containing the symbol.</param>
         /// <param name="location">The location of the symbol.</param>
-        [<Emit "new $0($1...)">] abstract Create: name: string * kind: SymbolKind * containerName: string * location: Location -> SymbolInformation
+        [<EmitConstructor>] abstract Create: name: string * kind: SymbolKind * containerName: string * location: Location -> SymbolInformation
         /// <summary>~~Creates a new symbol information object.~~</summary>
         /// <param name="name">The name of the symbol.</param>
         /// <param name="kind">The kind of the symbol.</param>
         /// <param name="range">The range of the location of the symbol.</param>
         /// <param name="uri">The resource of the location of symbol, defaults to the current document.</param>
         /// <param name="containerName">The name of the symbol containing the symbol.</param>
-        [<Emit "new $0($1...)">] abstract Create: name: string * kind: SymbolKind * range: Range * ?uri: Uri * ?containerName: string -> SymbolInformation
+        [<EmitConstructor>] abstract Create: name: string * kind: SymbolKind * range: Range * ?uri: Uri * ?containerName: string -> SymbolInformation
 
     /// Represents programming constructs like variables, classes, interfaces etc. that appear in a document. Document
     /// symbols can be hierarchical and they have two ranges: one that encloses its definition and one that points to
@@ -1492,7 +1492,7 @@ module Vscode =
         /// <param name="kind">The kind of the symbol.</param>
         /// <param name="range">The full range of the symbol.</param>
         /// <param name="selectionRange">The range that should be reveal.</param>
-        [<Emit "new $0($1...)">] abstract Create: name: string * detail: string * kind: SymbolKind * range: Range * selectionRange: Range -> DocumentSymbol
+        [<EmitConstructor>] abstract Create: name: string * detail: string * kind: SymbolKind * range: Range * selectionRange: Range -> DocumentSymbol
 
     /// The document symbol provider interface defines the contract between extensions and
     /// the [go to symbol](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-symbol)-feature.
@@ -1580,7 +1580,7 @@ module Vscode =
         /// <summary>Create a new TextEdit.</summary>
         /// <param name="range">A range.</param>
         /// <param name="newText">A string.</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * newText: string -> TextEdit
+        [<EmitConstructor>] abstract Create: range: Range * newText: string -> TextEdit
 
     /// A workspace edit is a collection of textual and files changes for
     /// multiple resources and documents.
@@ -1647,7 +1647,7 @@ module Vscode =
     /// 
     /// Use the [applyEdit](#workspace.applyEdit)-function to apply a workspace edit.
     type [<AllowNullLiteral>] WorkspaceEditStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> WorkspaceEdit
+        [<EmitConstructor>] abstract Create: unit -> WorkspaceEdit
 
     /// A snippet string is a template which allows to insert text
     /// and to control the editor cursor when insertion happens.
@@ -1692,7 +1692,7 @@ module Vscode =
     /// `${name:default value}`. The full snippet syntax is documented
     /// [here](http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets).
     type [<AllowNullLiteral>] SnippetStringStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?value: string -> SnippetString
+        [<EmitConstructor>] abstract Create: ?value: string -> SnippetString
 
     /// The rename provider interface defines the contract between extensions and
     /// the [rename](https://code.visualstudio.com/docs/editor/editingevolved#_rename-symbol)-feature.
@@ -1719,7 +1719,7 @@ module Vscode =
         /// Prefer spaces over tabs.
         abstract insertSpaces: bool with get, set
         /// Signature for further properties.
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U3<bool, float, string> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U3<bool, float, string> with get, set
 
     /// The document formatting provider interface defines the contract between extensions and
     /// the formatting-feature.
@@ -1778,7 +1778,7 @@ module Vscode =
         /// <summary>Creates a new parameter information object.</summary>
         /// <param name="label">A label string or inclusive start and exclusive end offsets within its containing signature label.</param>
         /// <param name="documentation">A doc string.</param>
-        [<Emit "new $0($1...)">] abstract Create: label: U2<string, float * float> * ?documentation: U2<string, MarkdownString> -> ParameterInformation
+        [<EmitConstructor>] abstract Create: label: U2<string, float * float> * ?documentation: U2<string, MarkdownString> -> ParameterInformation
 
     /// Represents the signature of something callable. A signature
     /// can have a label, like a function-name, a doc-comment, and
@@ -1800,7 +1800,7 @@ module Vscode =
         /// <summary>Creates a new signature information object.</summary>
         /// <param name="label">A label string.</param>
         /// <param name="documentation">A doc string.</param>
-        [<Emit "new $0($1...)">] abstract Create: label: string * ?documentation: U2<string, MarkdownString> -> SignatureInformation
+        [<EmitConstructor>] abstract Create: label: string * ?documentation: U2<string, MarkdownString> -> SignatureInformation
 
     /// Signature help represents the signature of something
     /// callable. There can be multiple signatures but only one
@@ -1817,7 +1817,7 @@ module Vscode =
     /// callable. There can be multiple signatures but only one
     /// active and only one active parameter.
     type [<AllowNullLiteral>] SignatureHelpStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> SignatureHelp
+        [<EmitConstructor>] abstract Create: unit -> SignatureHelp
 
     type [<RequireQualifiedAccess>] SignatureHelpTriggerKind =
         | Invoke = 1
@@ -1974,7 +1974,7 @@ module Vscode =
         /// will be used as insert text as well as for sorting and filtering.</summary>
         /// <param name="label">The label of the completion.</param>
         /// <param name="kind">The [kind](#CompletionItemKind) of the completion.</param>
-        [<Emit "new $0($1...)">] abstract Create: label: string * ?kind: CompletionItemKind -> CompletionItem
+        [<EmitConstructor>] abstract Create: label: string * ?kind: CompletionItemKind -> CompletionItem
 
     /// Represents a collection of [completion items](#CompletionItem) to be presented
     /// in the editor.
@@ -1991,7 +1991,7 @@ module Vscode =
         /// <summary>Creates a new completion list.</summary>
         /// <param name="items">The completion items.</param>
         /// <param name="isIncomplete">The list is not complete.</param>
-        [<Emit "new $0($1...)">] abstract Create: ?items: ResizeArray<CompletionItem> * ?isIncomplete: bool -> CompletionList
+        [<EmitConstructor>] abstract Create: ?items: ResizeArray<CompletionItem> * ?isIncomplete: bool -> CompletionList
 
     type [<RequireQualifiedAccess>] CompletionTriggerKind =
         | Invoke = 0
@@ -2050,7 +2050,7 @@ module Vscode =
         /// <summary>Creates a new document link.</summary>
         /// <param name="range">The range the document link applies to. Must not be empty.</param>
         /// <param name="target">The uri the document link points to.</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * ?target: Uri -> DocumentLink
+        [<EmitConstructor>] abstract Create: range: Range * ?target: Uri -> DocumentLink
 
     /// The document link provider defines the contract between extensions and feature of showing
     /// links in the editor.
@@ -2086,7 +2086,7 @@ module Vscode =
         /// <param name="green">The green component.</param>
         /// <param name="blue">The blue component.</param>
         /// <param name="alpha">The alpha component.</param>
-        [<Emit "new $0($1...)">] abstract Create: red: float * green: float * blue: float * alpha: float -> Color
+        [<EmitConstructor>] abstract Create: red: float * green: float * blue: float * alpha: float -> Color
 
     /// Represents a color range from a document.
     type [<AllowNullLiteral>] ColorInformation =
@@ -2100,7 +2100,7 @@ module Vscode =
         /// <summary>Creates a new color range.</summary>
         /// <param name="range">The range the color appears in. Must not be empty.</param>
         /// <param name="color">The value of the color.</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * color: Color -> ColorInformation
+        [<EmitConstructor>] abstract Create: range: Range * color: Color -> ColorInformation
 
     /// A color presentation object describes how a [`color`](#Color) should be represented as text and what
     /// edits are required to refer to it from source code.
@@ -2130,7 +2130,7 @@ module Vscode =
     type [<AllowNullLiteral>] ColorPresentationStatic =
         /// <summary>Creates a new color presentation.</summary>
         /// <param name="label">The label of this color presentation.</param>
-        [<Emit "new $0($1...)">] abstract Create: label: string -> ColorPresentation
+        [<EmitConstructor>] abstract Create: label: string -> ColorPresentation
 
     /// The document color provider defines the contract between extensions and feature of
     /// picking and modifying colors in the editor.
@@ -2172,7 +2172,7 @@ module Vscode =
         /// <param name="start">The start line of the folded range.</param>
         /// <param name="end">The end line of the folded range.</param>
         /// <param name="kind">The kind of the folding range.</param>
-        [<Emit "new $0($1...)">] abstract Create: start: float * ``end``: float * ?kind: FoldingRangeKind -> FoldingRange
+        [<EmitConstructor>] abstract Create: start: float * ``end``: float * ?kind: FoldingRangeKind -> FoldingRange
 
     type [<RequireQualifiedAccess>] FoldingRangeKind =
         | Comment = 1
@@ -2207,7 +2207,7 @@ module Vscode =
         /// <summary>Creates a new selection range.</summary>
         /// <param name="range">The range of the selection range.</param>
         /// <param name="parent">The parent of the selection range.</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * ?parent: SelectionRange -> SelectionRange
+        [<EmitConstructor>] abstract Create: range: Range * ?parent: SelectionRange -> SelectionRange
 
     type [<AllowNullLiteral>] SelectionRangeProvider =
         /// <summary>Provide selection ranges for the given positions.
@@ -2377,7 +2377,7 @@ module Vscode =
         /// `ConfigurationTarget.Workspace` otherwise.</param>
         abstract update: section: string * value: obj option * ?configurationTarget: U2<ConfigurationTarget, bool> -> Thenable<unit>
         /// Readable dictionary that backs this configuration.
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option
+        [<EmitIndexer>] abstract Item: key: string -> obj option
 
     /// Represents a location inside a resource, such as a line
     /// inside a text file.
@@ -2393,7 +2393,7 @@ module Vscode =
         /// <summary>Creates a new location object.</summary>
         /// <param name="uri">The resource identifier.</param>
         /// <param name="rangeOrPosition">The range or position. Positions will be converted to an empty range.</param>
-        [<Emit "new $0($1...)">] abstract Create: uri: Uri * rangeOrPosition: U2<Range, Position> -> Location
+        [<EmitConstructor>] abstract Create: uri: Uri * rangeOrPosition: U2<Range, Position> -> Location
 
     /// Represents the connection of two locations. Provides additional metadata over normal [locations](#Location),
     /// including an origin range.
@@ -2437,7 +2437,7 @@ module Vscode =
         /// <summary>Creates a new related diagnostic information object.</summary>
         /// <param name="location">The location.</param>
         /// <param name="message">The message.</param>
-        [<Emit "new $0($1...)">] abstract Create: location: Location * message: string -> DiagnosticRelatedInformation
+        [<EmitConstructor>] abstract Create: location: Location * message: string -> DiagnosticRelatedInformation
 
     type [<RequireQualifiedAccess>] DiagnosticTag =
         | Unnecessary = 1
@@ -2470,7 +2470,7 @@ module Vscode =
         /// <param name="range">The range to which this diagnostic applies.</param>
         /// <param name="message">The human-readable message.</param>
         /// <param name="severity">The severity, default is [error](#DiagnosticSeverity.Error).</param>
-        [<Emit "new $0($1...)">] abstract Create: range: Range * message: string * ?severity: DiagnosticSeverity -> Diagnostic
+        [<EmitConstructor>] abstract Create: range: Range * message: string * ?severity: DiagnosticSeverity -> Diagnostic
 
     /// A diagnostics collection is a container that manages a set of
     /// [diagnostics](#Diagnostic). Diagnostics are always scopes to a
@@ -2758,7 +2758,7 @@ module Vscode =
         /// usages and shouldn't be used by extensions.
         abstract ``type``: string
         /// Additional attributes of a concrete task definition.
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: name: string -> obj option with get, set
 
     /// Options for a process execution
     type [<AllowNullLiteral>] ProcessExecutionOptions =
@@ -2787,12 +2787,12 @@ module Vscode =
         /// <summary>Creates a process execution.</summary>
         /// <param name="process">The process to start.</param>
         /// <param name="options">Optional options for the started process.</param>
-        [<Emit "new $0($1...)">] abstract Create: ``process``: string * ?options: ProcessExecutionOptions -> ProcessExecution
+        [<EmitConstructor>] abstract Create: ``process``: string * ?options: ProcessExecutionOptions -> ProcessExecution
         /// <summary>Creates a process execution.</summary>
         /// <param name="process">The process to start.</param>
         /// <param name="args">Arguments to be passed to the process.</param>
         /// <param name="options">Optional options for the started process.</param>
-        [<Emit "new $0($1...)">] abstract Create: ``process``: string * args: ResizeArray<string> * ?options: ProcessExecutionOptions -> ProcessExecution
+        [<EmitConstructor>] abstract Create: ``process``: string * args: ResizeArray<string> * ?options: ProcessExecutionOptions -> ProcessExecution
 
     /// The shell quoting options.
     type [<AllowNullLiteral>] ShellQuotingOptions =
@@ -2851,7 +2851,7 @@ module Vscode =
         /// <summary>Creates a shell execution with a full command line.</summary>
         /// <param name="commandLine">The command line to execute.</param>
         /// <param name="options">Optional options for the started the shell.</param>
-        [<Emit "new $0($1...)">] abstract Create: commandLine: string * ?options: ShellExecutionOptions -> ShellExecution
+        [<EmitConstructor>] abstract Create: commandLine: string * ?options: ShellExecutionOptions -> ShellExecution
         /// <summary>Creates a shell execution with a command and arguments. For the real execution VS Code will
         /// construct a command line from the command and the arguments. This is subject to interpretation
         /// especially when it comes to quoting. If full control over the command line is needed please
@@ -2859,7 +2859,7 @@ module Vscode =
         /// <param name="command">The command to execute.</param>
         /// <param name="args">The command arguments.</param>
         /// <param name="options">Optional options for the started the shell.</param>
-        [<Emit "new $0($1...)">] abstract Create: command: U2<string, ShellQuotedString> * args: ResizeArray<U2<string, ShellQuotedString>> * ?options: ShellExecutionOptions -> ShellExecution
+        [<EmitConstructor>] abstract Create: command: U2<string, ShellQuotedString> * args: ResizeArray<U2<string, ShellQuotedString>> * ?options: ShellExecutionOptions -> ShellExecution
 
     type [<RequireQualifiedAccess>] TaskScope =
         | Global = 1
@@ -2908,7 +2908,7 @@ module Vscode =
         /// <param name="problemMatchers">the names of problem matchers to use, like '$tsc'
         /// or '$eslint'. Problem matchers can be contributed by an extension using
         /// the `problemMatchers` extension point.</param>
-        [<Emit "new $0($1...)">] abstract Create: taskDefinition: TaskDefinition * scope: U2<WorkspaceFolder, TaskScope> * name: string * source: string * ?execution: U2<ProcessExecution, ShellExecution> * ?problemMatchers: U2<string, ResizeArray<string>> -> Task
+        [<EmitConstructor>] abstract Create: taskDefinition: TaskDefinition * scope: U2<WorkspaceFolder, TaskScope> * name: string * source: string * ?execution: U2<ProcessExecution, ShellExecution> * ?problemMatchers: U2<string, ResizeArray<string>> -> Task
         /// <summary>~~Creates a new task.~~</summary>
         /// <param name="name">The task's name. Is presented in the user interface.</param>
         /// <param name="source">The task's source (e.g. 'gulp', 'npm', ...). Is presented in the user interface.</param>
@@ -2916,7 +2916,7 @@ module Vscode =
         /// <param name="problemMatchers">the names of problem matchers to use, like '$tsc'
         /// or '$eslint'. Problem matchers can be contributed by an extension using
         /// the `problemMatchers` extension point.</param>
-        [<Emit "new $0($1...)">] abstract Create: taskDefinition: TaskDefinition * name: string * source: string * ?execution: U2<ProcessExecution, ShellExecution> * ?problemMatchers: U2<string, ResizeArray<string>> -> Task
+        [<EmitConstructor>] abstract Create: taskDefinition: TaskDefinition * name: string * source: string * ?execution: U2<ProcessExecution, ShellExecution> * ?problemMatchers: U2<string, ResizeArray<string>> -> Task
 
     /// A task provider allows to add tasks to the task service.
     /// A task provider is registered via #tasks.registerTaskProvider.
@@ -3056,7 +3056,7 @@ module Vscode =
         abstract Unavailable: ?messageOrUri: U2<string, Uri> -> FileSystemError
         /// <summary>Creates a new filesystem error.</summary>
         /// <param name="messageOrUri">Message or uri.</param>
-        [<Emit "new $0($1...)">] abstract Create: ?messageOrUri: U2<string, Uri> -> FileSystemError
+        [<EmitConstructor>] abstract Create: ?messageOrUri: U2<string, Uri> -> FileSystemError
 
     type [<RequireQualifiedAccess>] FileChangeType =
         | Changed = 1
@@ -3754,10 +3754,10 @@ module Vscode =
     type [<AllowNullLiteral>] TreeItemStatic =
         /// <param name="label">A human-readable string describing this item</param>
         /// <param name="collapsibleState">[TreeItemCollapsibleState](#TreeItemCollapsibleState) of the tree item. Default is [TreeItemCollapsibleState.None](#TreeItemCollapsibleState.None)</param>
-        [<Emit "new $0($1...)">] abstract Create: label: string * ?collapsibleState: TreeItemCollapsibleState -> TreeItem
+        [<EmitConstructor>] abstract Create: label: string * ?collapsibleState: TreeItemCollapsibleState -> TreeItem
         /// <param name="resourceUri">The [uri](#Uri) of the resource representing this item.</param>
         /// <param name="collapsibleState">[TreeItemCollapsibleState](#TreeItemCollapsibleState) of the tree item. Default is [TreeItemCollapsibleState.None](#TreeItemCollapsibleState.None)</param>
-        [<Emit "new $0($1...)">] abstract Create: resourceUri: Uri * ?collapsibleState: TreeItemCollapsibleState -> TreeItem
+        [<EmitConstructor>] abstract Create: resourceUri: Uri * ?collapsibleState: TreeItemCollapsibleState -> TreeItem
 
     type [<RequireQualifiedAccess>] TreeItemCollapsibleState =
         | None = 0
@@ -4564,7 +4564,7 @@ module Vscode =
         /// The request type of the debug session.
         abstract request: string with get, set
         /// Additional debug type specific properties.
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
     /// A debug session.
     type [<AllowNullLiteral>] DebugSession =
@@ -4630,7 +4630,7 @@ module Vscode =
         /// <param name="command">The command or executable path that implements the debug adapter.</param>
         /// <param name="args">Optional arguments to be passed to the command or executable.</param>
         /// <param name="options">Optional options to be used when starting the command or executable.</param>
-        [<Emit "new $0($1...)">] abstract Create: command: string * ?args: ResizeArray<string> * ?options: DebugAdapterExecutableOptions -> DebugAdapterExecutable
+        [<EmitConstructor>] abstract Create: command: string * ?args: ResizeArray<string> * ?options: DebugAdapterExecutableOptions -> DebugAdapterExecutable
 
     /// Options for a debug adapter executable.
     type [<AllowNullLiteral>] DebugAdapterExecutableOptions =
@@ -4651,7 +4651,7 @@ module Vscode =
     /// Represents a debug adapter running as a socket based server.
     type [<AllowNullLiteral>] DebugAdapterServerStatic =
         /// Create a description for a debug adapter running as a socket based server.
-        [<Emit "new $0($1...)">] abstract Create: port: float * ?host: string -> DebugAdapterServer
+        [<EmitConstructor>] abstract Create: port: float * ?host: string -> DebugAdapterServer
 
     type DebugAdapterDescriptor =
         U2<DebugAdapterExecutable, DebugAdapterServer>
@@ -4728,7 +4728,7 @@ module Vscode =
 
     /// The base class of all breakpoint types.
     type [<AllowNullLiteral>] BreakpointStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> Breakpoint
+        [<EmitConstructor>] abstract Create: ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> Breakpoint
 
     /// A breakpoint specified by a source location.
     type [<AllowNullLiteral>] SourceBreakpoint =
@@ -4739,7 +4739,7 @@ module Vscode =
     /// A breakpoint specified by a source location.
     type [<AllowNullLiteral>] SourceBreakpointStatic =
         /// Create a new breakpoint for a source location.
-        [<Emit "new $0($1...)">] abstract Create: location: Location * ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> SourceBreakpoint
+        [<EmitConstructor>] abstract Create: location: Location * ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> SourceBreakpoint
 
     /// A breakpoint specified by a function name.
     type [<AllowNullLiteral>] FunctionBreakpoint =
@@ -4750,7 +4750,7 @@ module Vscode =
     /// A breakpoint specified by a function name.
     type [<AllowNullLiteral>] FunctionBreakpointStatic =
         /// Create a new function breakpoint.
-        [<Emit "new $0($1...)">] abstract Create: functionName: string * ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> FunctionBreakpoint
+        [<EmitConstructor>] abstract Create: functionName: string * ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> FunctionBreakpoint
 
     module Debug =
 
@@ -4931,7 +4931,7 @@ module Vscode =
         abstract dispose: (unit -> obj option) with get, set
 
     type [<AllowNullLiteral>] OpenDialogOptionsFilters =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> ResizeArray<string> with get, set
+        [<EmitIndexer>] abstract Item: name: string -> ResizeArray<string> with get, set
 
     type [<AllowNullLiteral>] RenameProviderPrepareRenameProviderResult =
         abstract range: Range with get, set
@@ -4971,7 +4971,7 @@ module Vscode =
         abstract dispose: unit -> obj option
 
     type [<AllowNullLiteral>] ProcessExecutionOptionsEnv =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] ShellQuotingOptionsEscape =
         /// The escape character.
@@ -4988,7 +4988,7 @@ module Vscode =
         abstract dark: U2<string, Uri> with get, set
 
     type [<AllowNullLiteral>] TerminalOptionsEnv =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string option with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string option with get, set
 
 /// Thenable is a common denominator between ES6 promises, Q, jquery.Deferred, WinJS.Promise,
 /// and others. This API makes no assumption about what promise library is being used which

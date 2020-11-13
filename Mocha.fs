@@ -54,7 +54,7 @@ type [<AllowNullLiteral>] ReporterConstructor =
     interface end
 
 type [<AllowNullLiteral>] ReporterConstructorStatic =
-    [<Emit "new $0($1...)">] abstract Create: runner: Mocha.IRunner * options: obj option -> ReporterConstructor
+    [<EmitConstructor>] abstract Create: runner: Mocha.IRunner * options: obj option -> ReporterConstructor
 
 type [<AllowNullLiteral>] Mocha =
     abstract currentTest: Mocha.ITestDefinition with get, set
@@ -91,7 +91,7 @@ type [<AllowNullLiteral>] Mocha =
     abstract run: ?onComplete: (float -> unit) -> Mocha.IRunner
 
 type [<AllowNullLiteral>] MochaStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?options: MochaStaticOptions -> Mocha
+    [<EmitConstructor>] abstract Create: ?options: MochaStaticOptions -> Mocha
 
 type [<AllowNullLiteral>] MochaStaticOptions =
     abstract grep: RegExp option with get, set
@@ -113,14 +113,14 @@ module Mocha =
     type [<AllowNullLiteral>] IHookCallbackContext =
         abstract skip: unit -> IHookCallbackContext
         abstract timeout: ms: U2<float, string> -> IHookCallbackContext
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: index: string -> obj option with get, set
 
     type [<AllowNullLiteral>] ITestCallbackContext =
         abstract skip: unit -> ITestCallbackContext
         abstract timeout: ms: U2<float, string> -> ITestCallbackContext
         abstract retries: n: float -> ITestCallbackContext
         abstract slow: ms: float -> ITestCallbackContext
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: index: string -> obj option with get, set
 
     /// Partial interface for Mocha's `Runnable` class.
     type [<AllowNullLiteral>] IRunnable =
@@ -211,85 +211,85 @@ module Mocha =
             abstract stats: IStats with get, set
 
         type [<AllowNullLiteral>] BaseStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner -> Base
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Base
 
         type [<AllowNullLiteral>] Doc =
             inherit Base
 
         type [<AllowNullLiteral>] DocStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Doc
+            [<EmitConstructor>] abstract Create: unit -> Doc
 
         type [<AllowNullLiteral>] Dot =
             inherit Base
 
         type [<AllowNullLiteral>] DotStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Dot
+            [<EmitConstructor>] abstract Create: unit -> Dot
 
         type [<AllowNullLiteral>] HTML =
             inherit Base
 
         type [<AllowNullLiteral>] HTMLStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> HTML
+            [<EmitConstructor>] abstract Create: unit -> HTML
 
         type [<AllowNullLiteral>] HTMLCov =
             inherit Base
 
         type [<AllowNullLiteral>] HTMLCovStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> HTMLCov
+            [<EmitConstructor>] abstract Create: unit -> HTMLCov
 
         type [<AllowNullLiteral>] JSON =
             inherit Base
 
         type [<AllowNullLiteral>] JSONStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> JSON
+            [<EmitConstructor>] abstract Create: unit -> JSON
 
         type [<AllowNullLiteral>] JSONCov =
             inherit Base
 
         type [<AllowNullLiteral>] JSONCovStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> JSONCov
+            [<EmitConstructor>] abstract Create: unit -> JSONCov
 
         type [<AllowNullLiteral>] JSONStream =
             inherit Base
 
         type [<AllowNullLiteral>] JSONStreamStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> JSONStream
+            [<EmitConstructor>] abstract Create: unit -> JSONStream
 
         type [<AllowNullLiteral>] Landing =
             inherit Base
 
         type [<AllowNullLiteral>] LandingStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Landing
+            [<EmitConstructor>] abstract Create: unit -> Landing
 
         type [<AllowNullLiteral>] List =
             inherit Base
 
         type [<AllowNullLiteral>] ListStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> List
+            [<EmitConstructor>] abstract Create: unit -> List
 
         type [<AllowNullLiteral>] Markdown =
             inherit Base
 
         type [<AllowNullLiteral>] MarkdownStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Markdown
+            [<EmitConstructor>] abstract Create: unit -> Markdown
 
         type [<AllowNullLiteral>] Min =
             inherit Base
 
         type [<AllowNullLiteral>] MinStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Min
+            [<EmitConstructor>] abstract Create: unit -> Min
 
         type [<AllowNullLiteral>] Nyan =
             inherit Base
 
         type [<AllowNullLiteral>] NyanStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Nyan
+            [<EmitConstructor>] abstract Create: unit -> Nyan
 
         type [<AllowNullLiteral>] Progress =
             inherit Base
 
         type [<AllowNullLiteral>] ProgressStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: ProgressStaticOptions -> Progress
+            [<EmitConstructor>] abstract Create: runner: IRunner * ?options: ProgressStaticOptions -> Progress
 
         type [<AllowNullLiteral>] ProgressStaticOptions =
             abstract ``open``: string option with get, set
@@ -301,19 +301,19 @@ module Mocha =
             inherit Base
 
         type [<AllowNullLiteral>] SpecStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> Spec
+            [<EmitConstructor>] abstract Create: unit -> Spec
 
         type [<AllowNullLiteral>] TAP =
             inherit Base
 
         type [<AllowNullLiteral>] TAPStatic =
-            [<Emit "new $0($1...)">] abstract Create: unit -> TAP
+            [<EmitConstructor>] abstract Create: unit -> TAP
 
         type [<AllowNullLiteral>] XUnit =
             inherit Base
 
         type [<AllowNullLiteral>] XUnitStatic =
-            [<Emit "new $0($1...)">] abstract Create: runner: IRunner * ?options: obj -> XUnit
+            [<EmitConstructor>] abstract Create: runner: IRunner * ?options: obj -> XUnit
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ITestState =
         | Failed

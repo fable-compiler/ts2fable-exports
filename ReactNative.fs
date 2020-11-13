@@ -241,7 +241,7 @@ type [<AllowNullLiteral>] EventSubscription =
 type [<AllowNullLiteral>] EventSubscriptionStatic =
     /// <param name="subscriber">the subscriber that controls
     /// this subscription.</param>
-    [<Emit "new $0($1...)">] abstract Create: subscriber: EventSubscriptionVendor -> EventSubscription
+    [<EmitConstructor>] abstract Create: subscriber: EventSubscriptionVendor -> EventSubscription
 
 /// EventSubscriptionVendor stores a set of EventSubscriptions that are
 /// subscribed to a particular event type.
@@ -285,7 +285,7 @@ type [<AllowNullLiteral>] EmitterSubscriptionStatic =
     /// emitted</param>
     /// <param name="context">- Optional context object to use when invoking the
     /// listener</param>
-    [<Emit "new $0($1...)">] abstract Create: emitter: EventEmitter * subscriber: EventSubscriptionVendor * listener: (unit -> obj option) * context: obj option -> EmitterSubscription
+    [<EmitConstructor>] abstract Create: emitter: EventEmitter * subscriber: EventSubscriptionVendor * listener: (unit -> obj option) * context: obj option -> EmitterSubscription
 
 type [<AllowNullLiteral>] EventEmitterListener =
     /// <summary>Adds a listener to be invoked when events of the specified type are
@@ -340,7 +340,7 @@ type [<AllowNullLiteral>] EventEmitter =
 type [<AllowNullLiteral>] EventEmitterStatic =
     /// <param name="subscriber">- Optional subscriber instance
     /// to use. If omitted, a new subscriber will be created for the emitter.</param>
-    [<Emit "new $0($1...)">] abstract Create: ?subscriber: EventSubscriptionVendor -> EventEmitter
+    [<EmitConstructor>] abstract Create: ?subscriber: EventSubscriptionVendor -> EventEmitter
 
 /// NativeMethodsMixin provides methods to access the underlying native component directly.
 /// This can be useful in cases when you want to focus a view or measure its on-screen dimensions,
@@ -788,13 +788,13 @@ type [<AllowNullLiteral>] TextComponent =
 
 /// A React component for displaying text which supports nesting, styling, and touch handling.
 type [<AllowNullLiteral>] TextComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TextComponent
+    [<EmitConstructor>] abstract Create: unit -> TextComponent
 
 type [<AllowNullLiteral>] Text =
     inherit TextBase
 
 type [<AllowNullLiteral>] TextStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Text
+    [<EmitConstructor>] abstract Create: unit -> Text
 
 type [<StringEnum>] [<RequireQualifiedAccess>] DataDetectorTypes =
     | PhoneNumber
@@ -838,7 +838,7 @@ type [<AllowNullLiteral>] DocumentSelectionState =
 /// DocumentContent, and for programatically setting browser selection when
 /// components re-render.
 type [<AllowNullLiteral>] DocumentSelectionStateStatic =
-    [<Emit "new $0($1...)">] abstract Create: anchor: float * focus: float -> DocumentSelectionState
+    [<EmitConstructor>] abstract Create: anchor: float * focus: float -> DocumentSelectionState
 
 /// IOS Specific properties for TextInput
 type [<AllowNullLiteral>] TextInputIOSProps =
@@ -1134,7 +1134,7 @@ type [<AllowNullLiteral>] TextInputComponent =
     inherit React.Component<TextInputProps>
 
 type [<AllowNullLiteral>] TextInputComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TextInputComponent
+    [<EmitConstructor>] abstract Create: unit -> TextInputComponent
 
 type [<AllowNullLiteral>] TextInput =
     inherit TextInputBase
@@ -1144,7 +1144,7 @@ type [<AllowNullLiteral>] TextInput =
     abstract clear: (unit -> unit) with get, set
 
 type [<AllowNullLiteral>] TextInputStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TextInput
+    [<EmitConstructor>] abstract Create: unit -> TextInput
     /// Access the current focus state.
     abstract State: TextInputState with get, set
 
@@ -1246,13 +1246,13 @@ type [<AllowNullLiteral>] ToolbarAndroidComponent =
 /// 
 /// [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
 type [<AllowNullLiteral>] ToolbarAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ToolbarAndroidComponent
+    [<EmitConstructor>] abstract Create: unit -> ToolbarAndroidComponent
 
 type [<AllowNullLiteral>] ToolbarAndroid =
     inherit ToolbarAndroidBase
 
 type [<AllowNullLiteral>] ToolbarAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ToolbarAndroid
+    [<EmitConstructor>] abstract Create: unit -> ToolbarAndroid
 
 /// Gesture recognition on mobile devices is much more complicated than web.
 /// A touch can go through several phases as the app determines what the user's intention is.
@@ -1539,13 +1539,13 @@ type [<AllowNullLiteral>] ViewComponent =
 /// View maps directly to the native view equivalent on whatever platform React is running on,
 /// whether that is a UIView, <div>, android.view, etc.
 type [<AllowNullLiteral>] ViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ViewComponent
+    [<EmitConstructor>] abstract Create: unit -> ViewComponent
 
 type [<AllowNullLiteral>] View =
     inherit ViewBase
 
 type [<AllowNullLiteral>] ViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> View
+    [<EmitConstructor>] abstract Create: unit -> View
     /// Is 3D Touch / Force Touch available (i.e. will touch events include `force`)
     abstract forceTouchAvailable: bool with get, set
 
@@ -1596,7 +1596,7 @@ type [<AllowNullLiteral>] ViewPagerAndroidComponent =
     inherit React.Component<ViewPagerAndroidProps>
 
 type [<AllowNullLiteral>] ViewPagerAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ViewPagerAndroidComponent
+    [<EmitConstructor>] abstract Create: unit -> ViewPagerAndroidComponent
 
 type [<AllowNullLiteral>] ViewPagerAndroid =
     inherit ViewPagerAndroidBase
@@ -1608,7 +1608,7 @@ type [<AllowNullLiteral>] ViewPagerAndroid =
     abstract setPageWithoutAnimation: selectedPage: float -> unit
 
 type [<AllowNullLiteral>] ViewPagerAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ViewPagerAndroid
+    [<EmitConstructor>] abstract Create: unit -> ViewPagerAndroid
 
 /// It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard.
 /// It can automatically adjust either its position or bottom padding based on the position of the keyboard.
@@ -1618,13 +1618,13 @@ type [<AllowNullLiteral>] KeyboardAvoidingViewComponent =
 /// It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard.
 /// It can automatically adjust either its position or bottom padding based on the position of the keyboard.
 type [<AllowNullLiteral>] KeyboardAvoidingViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> KeyboardAvoidingViewComponent
+    [<EmitConstructor>] abstract Create: unit -> KeyboardAvoidingViewComponent
 
 type [<AllowNullLiteral>] KeyboardAvoidingView =
     inherit KeyboardAvoidingViewBase
 
 type [<AllowNullLiteral>] KeyboardAvoidingViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> KeyboardAvoidingView
+    [<EmitConstructor>] abstract Create: unit -> KeyboardAvoidingView
 
 type [<AllowNullLiteral>] KeyboardAvoidingViewProps =
     inherit ViewProps
@@ -1646,7 +1646,7 @@ type [<AllowNullLiteral>] NavState =
     abstract loading: bool option with get, set
     abstract canGoBack: bool option with get, set
     abstract canGoForward: bool option with get, set
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+    [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
 /// Passed data from WebView via window.postMessage.
 type [<AllowNullLiteral>] WebViewMessageEventData =
@@ -1804,7 +1804,7 @@ type [<AllowNullLiteral>] WebView =
     abstract injectJavaScript: (string -> unit) with get, set
 
 type [<AllowNullLiteral>] WebViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> WebView
+    [<EmitConstructor>] abstract Create: unit -> WebView
 
 type [<AllowNullLiteral>] NativeSegmentedControlIOSChangeEvent =
     abstract value: string with get, set
@@ -1842,13 +1842,13 @@ type [<AllowNullLiteral>] SafeAreaViewComponent =
 /// Moreover, and most importantly, Safe Area's paddings feflect physical limitation of the screen,
 /// such as rounded corners or camera notches (aka sensor housing area on iPhone X).
 type [<AllowNullLiteral>] SafeAreaViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SafeAreaViewComponent
+    [<EmitConstructor>] abstract Create: unit -> SafeAreaViewComponent
 
 type [<AllowNullLiteral>] SafeAreaView =
     inherit SafeAreaViewBase
 
 type [<AllowNullLiteral>] SafeAreaViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SafeAreaView
+    [<EmitConstructor>] abstract Create: unit -> SafeAreaView
 
 /// A component which enables customization of the keyboard input accessory view on iOS. The input accessory view is
 /// displayed above the keyboard whenever a TextInput has focus. This component can be used to create custom toolbars.
@@ -1864,7 +1864,7 @@ type [<AllowNullLiteral>] InputAccessoryView =
 /// To use this component wrap your custom toolbar with the InputAccessoryView component, and set a nativeID. Then, pass
 /// that nativeID as the inputAccessoryViewID of whatever TextInput you desire.
 type [<AllowNullLiteral>] InputAccessoryViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> InputAccessoryView
+    [<EmitConstructor>] abstract Create: unit -> InputAccessoryView
 
 type [<AllowNullLiteral>] InputAccessoryViewProps =
     abstract backgroundColor: string option with get, set
@@ -1912,13 +1912,13 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 /// />
 /// ````
 type [<AllowNullLiteral>] SegmentedControlIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SegmentedControlIOSComponent
+    [<EmitConstructor>] abstract Create: unit -> SegmentedControlIOSComponent
 
 type [<AllowNullLiteral>] SegmentedControlIOS =
     inherit SegmentedControlIOSBase
 
 type [<AllowNullLiteral>] SegmentedControlIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SegmentedControlIOS
+    [<EmitConstructor>] abstract Create: unit -> SegmentedControlIOS
 
 type [<AllowNullLiteral>] NavigatorIOSProps =
     /// The default background color of the navigation bar.
@@ -1982,7 +1982,7 @@ type [<AllowNullLiteral>] NavigatorIOS =
 /// 
 /// Navigator functions are also available on the NavigatorIOS component:
 type [<AllowNullLiteral>] NavigatorIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> NavigatorIOS
+    [<EmitConstructor>] abstract Create: unit -> NavigatorIOS
 
 type [<AllowNullLiteral>] ActivityIndicatorProps =
     inherit ViewProps
@@ -2003,13 +2003,13 @@ type [<AllowNullLiteral>] ActivityIndicatorComponent =
     inherit React.Component<ActivityIndicatorProps>
 
 type [<AllowNullLiteral>] ActivityIndicatorComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ActivityIndicatorComponent
+    [<EmitConstructor>] abstract Create: unit -> ActivityIndicatorComponent
 
 type [<AllowNullLiteral>] ActivityIndicator =
     inherit ActivityIndicatorBase
 
 type [<AllowNullLiteral>] ActivityIndicatorStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ActivityIndicator
+    [<EmitConstructor>] abstract Create: unit -> ActivityIndicator
 
 type [<AllowNullLiteral>] ActivityIndicatorIOSProps =
     inherit ViewProps
@@ -2032,7 +2032,7 @@ type [<AllowNullLiteral>] ActivityIndicatorIOS =
     inherit React.Component<ActivityIndicatorIOSProps>
 
 type [<AllowNullLiteral>] ActivityIndicatorIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ActivityIndicatorIOS
+    [<EmitConstructor>] abstract Create: unit -> ActivityIndicatorIOS
 
 type [<AllowNullLiteral>] DatePickerIOSProps =
     inherit ViewProps
@@ -2065,13 +2065,13 @@ type [<AllowNullLiteral>] DatePickerIOSComponent =
     inherit React.Component<DatePickerIOSProps>
 
 type [<AllowNullLiteral>] DatePickerIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> DatePickerIOSComponent
+    [<EmitConstructor>] abstract Create: unit -> DatePickerIOSComponent
 
 type [<AllowNullLiteral>] DatePickerIOS =
     inherit DatePickerIOSBase
 
 type [<AllowNullLiteral>] DatePickerIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> DatePickerIOS
+    [<EmitConstructor>] abstract Create: unit -> DatePickerIOS
 
 type [<AllowNullLiteral>] DrawerSlideEvent =
     inherit NativeSyntheticEvent<NativeTouchEvent>
@@ -2141,7 +2141,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidComponent =
     inherit React.Component<DrawerLayoutAndroidProps>
 
 type [<AllowNullLiteral>] DrawerLayoutAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> DrawerLayoutAndroidComponent
+    [<EmitConstructor>] abstract Create: unit -> DrawerLayoutAndroidComponent
 
 type [<AllowNullLiteral>] DrawerLayoutAndroid =
     inherit DrawerLayoutAndroidBase
@@ -2153,7 +2153,7 @@ type [<AllowNullLiteral>] DrawerLayoutAndroid =
     abstract closeDrawer: unit -> unit
 
 type [<AllowNullLiteral>] DrawerLayoutAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> DrawerLayoutAndroid
+    [<EmitConstructor>] abstract Create: unit -> DrawerLayoutAndroid
 
 type [<AllowNullLiteral>] PickerIOSItemProps =
     abstract value: U2<string, float> option with get, set
@@ -2163,7 +2163,7 @@ type [<AllowNullLiteral>] PickerIOSItem =
     inherit React.Component<PickerIOSItemProps>
 
 type [<AllowNullLiteral>] PickerIOSItemStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> PickerIOSItem
+    [<EmitConstructor>] abstract Create: unit -> PickerIOSItem
 
 type [<AllowNullLiteral>] PickerItemProps =
     abstract testID: string option with get, set
@@ -2175,7 +2175,7 @@ type [<AllowNullLiteral>] PickerItem =
     inherit React.Component<PickerItemProps>
 
 type [<AllowNullLiteral>] PickerItemStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> PickerItem
+    [<EmitConstructor>] abstract Create: unit -> PickerItem
 
 type [<AllowNullLiteral>] PickerPropsIOS =
     inherit ViewProps
@@ -2214,7 +2214,7 @@ type [<AllowNullLiteral>] Picker =
     inherit React.Component<PickerProps>
 
 type [<AllowNullLiteral>] PickerStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Picker
+    [<EmitConstructor>] abstract Create: unit -> Picker
     /// On Android, display the options in a dialog.
     abstract MODE_DIALOG: string with get, set
     /// On Android, display the options in a dropdown (this is the default).
@@ -2231,13 +2231,13 @@ type [<AllowNullLiteral>] PickerIOSComponent =
     inherit React.Component<PickerIOSProps>
 
 type [<AllowNullLiteral>] PickerIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> PickerIOSComponent
+    [<EmitConstructor>] abstract Create: unit -> PickerIOSComponent
 
 type [<AllowNullLiteral>] PickerIOS =
     inherit PickerIOSBase
 
 type [<AllowNullLiteral>] PickerIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> PickerIOS
+    [<EmitConstructor>] abstract Create: unit -> PickerIOS
     abstract Item: obj with get, set
 
 type [<AllowNullLiteral>] ProgressBarAndroidProps =
@@ -2269,13 +2269,13 @@ type [<AllowNullLiteral>] ProgressBarAndroidComponent =
 /// React component that wraps the Android-only `ProgressBar`. This component is used to indicate
 /// that the app is loading or there is some activity in the app.
 type [<AllowNullLiteral>] ProgressBarAndroidComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressBarAndroidComponent
+    [<EmitConstructor>] abstract Create: unit -> ProgressBarAndroidComponent
 
 type [<AllowNullLiteral>] ProgressBarAndroid =
     inherit ProgressBarAndroidBase
 
 type [<AllowNullLiteral>] ProgressBarAndroidStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressBarAndroid
+    [<EmitConstructor>] abstract Create: unit -> ProgressBarAndroid
 
 type [<AllowNullLiteral>] ProgressViewIOSProps =
     inherit ViewProps
@@ -2296,13 +2296,13 @@ type [<AllowNullLiteral>] ProgressViewIOSComponent =
     inherit React.Component<ProgressViewIOSProps>
 
 type [<AllowNullLiteral>] ProgressViewIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressViewIOSComponent
+    [<EmitConstructor>] abstract Create: unit -> ProgressViewIOSComponent
 
 type [<AllowNullLiteral>] ProgressViewIOS =
     inherit ProgressViewIOSBase
 
 type [<AllowNullLiteral>] ProgressViewIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ProgressViewIOS
+    [<EmitConstructor>] abstract Create: unit -> ProgressViewIOS
 
 type [<AllowNullLiteral>] RefreshControlPropsIOS =
     inherit ViewProps
@@ -2350,13 +2350,13 @@ type [<AllowNullLiteral>] RefreshControlComponent =
 /// __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
 /// in the `onRefresh` function otherwise the refresh indicator will stop immediately.
 type [<AllowNullLiteral>] RefreshControlComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> RefreshControlComponent
+    [<EmitConstructor>] abstract Create: unit -> RefreshControlComponent
 
 type [<AllowNullLiteral>] RefreshControl =
     inherit RefreshControlBase
 
 type [<AllowNullLiteral>] RefreshControlStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> RefreshControl
+    [<EmitConstructor>] abstract Create: unit -> RefreshControl
     abstract SIZE: Object with get, set
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewProps =
@@ -2390,7 +2390,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponent =
 /// use it pass this component as `renderScrollComponent` to the list view. For
 /// now only horizontal scrolling is supported.
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> RecyclerViewBackedScrollViewComponent
+    [<EmitConstructor>] abstract Create: unit -> RecyclerViewBackedScrollViewComponent
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     inherit RecyclerViewBackedScrollViewBase
@@ -2411,7 +2411,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     abstract getScrollResponder: unit -> JSX.Element
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> RecyclerViewBackedScrollView
+    [<EmitConstructor>] abstract Create: unit -> RecyclerViewBackedScrollView
 
 type [<AllowNullLiteral>] SliderPropsAndroid =
     inherit ViewProps
@@ -2472,13 +2472,13 @@ type [<AllowNullLiteral>] SliderComponent =
 
 /// A component used to select a single value from a range of values.
 type [<AllowNullLiteral>] SliderComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SliderComponent
+    [<EmitConstructor>] abstract Create: unit -> SliderComponent
 
 type [<AllowNullLiteral>] Slider =
     inherit SliderBase
 
 type [<AllowNullLiteral>] SliderStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Slider
+    [<EmitConstructor>] abstract Create: unit -> Slider
 
 type SliderIOS =
     Slider
@@ -2511,7 +2511,7 @@ type [<AllowNullLiteral>] SwitchIOS =
 /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
 /// otherwise the user's change will be reverted immediately to reflect props.value as the source of truth.
 type [<AllowNullLiteral>] SwitchIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SwitchIOS
+    [<EmitConstructor>] abstract Create: unit -> SwitchIOS
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ImageResizeMode =
     | Cover
@@ -2753,13 +2753,13 @@ type [<AllowNullLiteral>] ImageComponent =
     inherit React.Component<ImageProps>
 
 type [<AllowNullLiteral>] ImageComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ImageComponent
+    [<EmitConstructor>] abstract Create: unit -> ImageComponent
 
 type [<AllowNullLiteral>] Image =
     inherit ImageBase
 
 type [<AllowNullLiteral>] ImageStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Image
+    [<EmitConstructor>] abstract Create: unit -> Image
     abstract getSize: uri: string * success: (float -> float -> unit) * failure: (obj option -> unit) -> obj option
     abstract prefetch: url: string -> obj option
     abstract abortPrefetch: requestId: float -> unit
@@ -2776,7 +2776,7 @@ type [<AllowNullLiteral>] ImageBackgroundComponent =
     inherit React.Component<ImageBackgroundProps>
 
 type [<AllowNullLiteral>] ImageBackgroundComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ImageBackgroundComponent
+    [<EmitConstructor>] abstract Create: unit -> ImageBackgroundComponent
 
 type [<AllowNullLiteral>] ImageBackground =
     inherit ImageBackgroundBase
@@ -2787,7 +2787,7 @@ type [<AllowNullLiteral>] ImageBackground =
     abstract queryCache: urls: ResizeArray<string> -> Promise<Map<string, ImageStaticQueryCachePromiseMap>>
 
 type [<AllowNullLiteral>] ImageBackgroundStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ImageBackground
+    [<EmitConstructor>] abstract Create: unit -> ImageBackground
 
 type [<AllowNullLiteral>] ViewToken =
     abstract item: obj option with get, set
@@ -2931,7 +2931,7 @@ type [<AllowNullLiteral>] FlatList<'ItemT> =
     abstract recordInteraction: (unit -> unit) with get, set
 
 type [<AllowNullLiteral>] FlatListStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> FlatList<'ItemT>
+    [<EmitConstructor>] abstract Create: unit -> FlatList<'ItemT>
 
 type [<AllowNullLiteral>] SectionBase<'ItemT> =
     abstract data: ResizeArray<'ItemT> with get, set
@@ -2942,7 +2942,7 @@ type [<AllowNullLiteral>] SectionBase<'ItemT> =
 
 type [<AllowNullLiteral>] SectionListData<'ItemT> =
     inherit SectionBase<'ItemT>
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+    [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
 type [<AllowNullLiteral>] SectionListRenderItemInfo<'ItemT> =
     inherit ListRenderItemInfo<'ItemT>
@@ -3224,7 +3224,7 @@ type [<AllowNullLiteral>] ListViewComponent =
     inherit React.Component<ListViewProps>
 
 type [<AllowNullLiteral>] ListViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ListViewComponent
+    [<EmitConstructor>] abstract Create: unit -> ListViewComponent
 
 type [<AllowNullLiteral>] ListView =
     inherit ListViewBase
@@ -3238,7 +3238,7 @@ type [<AllowNullLiteral>] ListView =
     abstract scrollTo: (U2<float, RecyclerViewBackedScrollViewScrollTo> -> float -> bool -> unit) with get, set
 
 type [<AllowNullLiteral>] ListViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ListView
+    [<EmitConstructor>] abstract Create: unit -> ListView
     abstract DataSource: ListViewDataSource with get, set
 
 type [<AllowNullLiteral>] MapViewAnnotation =
@@ -3346,13 +3346,13 @@ type [<AllowNullLiteral>] MapViewComponent =
     inherit React.Component<MapViewProps>
 
 type [<AllowNullLiteral>] MapViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> MapViewComponent
+    [<EmitConstructor>] abstract Create: unit -> MapViewComponent
 
 type [<AllowNullLiteral>] MapView =
     inherit MapViewBase
 
 type [<AllowNullLiteral>] MapViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> MapView
+    [<EmitConstructor>] abstract Create: unit -> MapView
     abstract PinColors: MapViewStaticPinColors with get, set
 
 type [<AllowNullLiteral>] MaskedViewIOSProps =
@@ -3363,13 +3363,13 @@ type [<AllowNullLiteral>] MaskedViewComponent =
     inherit React.Component<MaskedViewIOSProps>
 
 type [<AllowNullLiteral>] MaskedViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> MaskedViewComponent
+    [<EmitConstructor>] abstract Create: unit -> MaskedViewComponent
 
 type [<AllowNullLiteral>] MaskedViewIOS =
     inherit MaskedViewBase
 
 type [<AllowNullLiteral>] MaskedViewIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> MaskedViewIOS
+    [<EmitConstructor>] abstract Create: unit -> MaskedViewIOS
 
 type [<AllowNullLiteral>] ModalBaseProps =
     abstract animated: bool option with get, set
@@ -3413,7 +3413,7 @@ type [<AllowNullLiteral>] Modal =
     inherit React.Component<ModalProps>
 
 type [<AllowNullLiteral>] ModalStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Modal
+    [<EmitConstructor>] abstract Create: unit -> Modal
 
 type [<AllowNullLiteral>] TouchableMixin =
     /// Invoked when the item should be highlighted. Mixers should implement this
@@ -3497,13 +3497,13 @@ type [<AllowNullLiteral>] TouchableWithoutFeedbackComponent =
 /// All the elements that respond to press should have a visual feedback when touched.
 /// This is one of the primary reason a "web" app doesn't feel "native".
 type [<AllowNullLiteral>] TouchableWithoutFeedbackComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableWithoutFeedbackComponent
+    [<EmitConstructor>] abstract Create: unit -> TouchableWithoutFeedbackComponent
 
 type [<AllowNullLiteral>] TouchableWithoutFeedback =
     inherit TouchableWithoutFeedbackBase
 
 type [<AllowNullLiteral>] TouchableWithoutFeedbackStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableWithoutFeedback
+    [<EmitConstructor>] abstract Create: unit -> TouchableWithoutFeedback
 
 type [<AllowNullLiteral>] TouchableHighlightProps =
     inherit TouchableWithoutFeedbackProps
@@ -3540,13 +3540,13 @@ type [<AllowNullLiteral>] TouchableHighlightComponent =
 /// NOTE: TouchableHighlight supports only one child
 /// If you wish to have several child components, wrap them in a View.
 type [<AllowNullLiteral>] TouchableHighlightComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableHighlightComponent
+    [<EmitConstructor>] abstract Create: unit -> TouchableHighlightComponent
 
 type [<AllowNullLiteral>] TouchableHighlight =
     inherit TouchableHighlightBase
 
 type [<AllowNullLiteral>] TouchableHighlightStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableHighlight
+    [<EmitConstructor>] abstract Create: unit -> TouchableHighlight
 
 type [<AllowNullLiteral>] TouchableOpacityProps =
     inherit TouchableWithoutFeedbackProps
@@ -3566,7 +3566,7 @@ type [<AllowNullLiteral>] TouchableOpacityComponent =
 /// This is done without actually changing the view hierarchy,
 /// and in general is easy to add to an app without weird side-effects.
 type [<AllowNullLiteral>] TouchableOpacityComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableOpacityComponent
+    [<EmitConstructor>] abstract Create: unit -> TouchableOpacityComponent
 
 type [<AllowNullLiteral>] TouchableOpacity =
     inherit TouchableOpacityBase
@@ -3574,7 +3574,7 @@ type [<AllowNullLiteral>] TouchableOpacity =
     abstract setOpacityTo: (float -> unit) with get, set
 
 type [<AllowNullLiteral>] TouchableOpacityStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableOpacity
+    [<EmitConstructor>] abstract Create: unit -> TouchableOpacity
 
 type [<AllowNullLiteral>] BaseBackgroundPropType =
     abstract ``type``: string with get, set
@@ -3626,13 +3626,13 @@ type [<AllowNullLiteral>] TouchableNativeFeedbackComponent =
 /// 
 /// Background drawable of native feedback touchable can be customized with background property.
 type [<AllowNullLiteral>] TouchableNativeFeedbackComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableNativeFeedbackComponent
+    [<EmitConstructor>] abstract Create: unit -> TouchableNativeFeedbackComponent
 
 type [<AllowNullLiteral>] TouchableNativeFeedback =
     inherit TouchableNativeFeedbackBase
 
 type [<AllowNullLiteral>] TouchableNativeFeedbackStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TouchableNativeFeedback
+    [<EmitConstructor>] abstract Create: unit -> TouchableNativeFeedback
     /// Creates an object that represents android theme's default background for
     /// selectable elements (?android:attr/selectableItemBackground).
     abstract SelectableBackground: unit -> ThemeAttributeBackgroundPropType
@@ -3655,7 +3655,7 @@ type [<AllowNullLiteral>] Route =
     abstract id: string option with get, set
     abstract title: string option with get, set
     abstract passProps: Object option with get, set
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+    [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
     abstract backButtonTitle: string option with get, set
     abstract content: string option with get, set
     abstract message: string option with get, set
@@ -3877,7 +3877,7 @@ type [<AllowNullLiteral>] ListViewDataSourceStatic =
     /// - getSectionHeaderData(dataBlob, sectionID);
     /// - rowHasChanged(prevRowData, nextRowData);
     /// - sectionHeaderHasChanged(prevSectionData, nextSectionData);
-    [<Emit "new $0($1...)">] abstract Create: onAsset: DataSourceAssetCallback -> ListViewDataSource
+    [<EmitConstructor>] abstract Create: onAsset: DataSourceAssetCallback -> ListViewDataSource
 
 type [<AllowNullLiteral>] TabBarIOSItemProps =
     inherit ViewProps
@@ -3912,7 +3912,7 @@ type [<AllowNullLiteral>] TabBarIOSItem =
     inherit React.Component<TabBarIOSItemProps>
 
 type [<AllowNullLiteral>] TabBarIOSItemStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TabBarIOSItem
+    [<EmitConstructor>] abstract Create: unit -> TabBarIOSItem
 
 type [<AllowNullLiteral>] TabBarIOSProps =
     inherit ViewProps
@@ -3939,7 +3939,7 @@ type [<AllowNullLiteral>] TabBarIOS =
     inherit React.Component<TabBarIOSProps>
 
 type [<AllowNullLiteral>] TabBarIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> TabBarIOS
+    [<EmitConstructor>] abstract Create: unit -> TabBarIOS
     abstract Item: obj with get, set
 
 type [<AllowNullLiteral>] PixelRatioStatic =
@@ -3987,7 +3987,7 @@ type [<AllowNullLiteral>] DeviceEventEmitterStatic =
 /// Deprecated - subclass NativeEventEmitter to create granular event modules instead of
 /// adding all event listeners directly to RCTDeviceEventEmitter.
 type [<AllowNullLiteral>] DeviceEventEmitterStaticStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> DeviceEventEmitterStatic
+    [<EmitConstructor>] abstract Create: unit -> DeviceEventEmitterStatic
 
 type [<AllowNullLiteral>] ScaledSize =
     abstract width: float with get, set
@@ -4033,7 +4033,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] DimensionsGetDim =
     | Screen
 
 type [<AllowNullLiteral>] DimensionsSetDims =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+    [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
 type [<AllowNullLiteral>] SimpleTask =
     abstract name: string with get, set
@@ -4435,7 +4435,7 @@ type [<AllowNullLiteral>] ScrollViewComponent =
     inherit React.Component<ScrollViewProps>
 
 type [<AllowNullLiteral>] ScrollViewComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollViewComponent
+    [<EmitConstructor>] abstract Create: unit -> ScrollViewComponent
 
 type [<AllowNullLiteral>] ScrollView =
     inherit ScrollViewBase
@@ -4468,7 +4468,7 @@ type [<AllowNullLiteral>] ScrollViewScrollToEndOptions =
     abstract animated: bool with get, set
 
 type [<AllowNullLiteral>] ScrollViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ScrollView
+    [<EmitConstructor>] abstract Create: unit -> ScrollView
 
 type [<AllowNullLiteral>] NativeScrollRectangle =
     abstract left: float with get, set
@@ -4505,13 +4505,13 @@ type [<AllowNullLiteral>] SnapshotViewIOSComponent =
     inherit React.Component<SnapshotViewIOSProps>
 
 type [<AllowNullLiteral>] SnapshotViewIOSComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SnapshotViewIOSComponent
+    [<EmitConstructor>] abstract Create: unit -> SnapshotViewIOSComponent
 
 type [<AllowNullLiteral>] SnapshotViewIOS =
     inherit SnapshotViewIOSBase
 
 type [<AllowNullLiteral>] SnapshotViewIOSStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SnapshotViewIOS
+    [<EmitConstructor>] abstract Create: unit -> SnapshotViewIOS
 
 /// Data source wrapper around ListViewDataSource to allow for tracking of
 /// which row is swiped open and close opened row(s) when another row is swiped
@@ -4573,7 +4573,7 @@ type [<AllowNullLiteral>] SwipeableListView =
 /// - It can bounce the 1st row of the list so users know it's swipeable
 /// - More to come
 type [<AllowNullLiteral>] SwipeableListViewStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SwipeableListView
+    [<EmitConstructor>] abstract Create: unit -> SwipeableListView
     abstract getNewDataSource: unit -> SwipeableListViewDataSource
 
 type [<AllowNullLiteral>] ActionSheetIOSOptions =
@@ -4856,7 +4856,7 @@ type [<AllowNullLiteral>] Button =
     inherit React.Component<ButtonProps>
 
 type [<AllowNullLiteral>] ButtonStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Button
+    [<EmitConstructor>] abstract Create: unit -> Button
 
 type [<StringEnum>] [<RequireQualifiedAccess>] CameraRollGroupType =
     | [<CompiledName "Album">] Album
@@ -5237,7 +5237,7 @@ type [<AllowNullLiteral>] PermissionsAndroidStatic =
     abstract requestMultiple: permissions: Array<string> -> Promise<PermissionsAndroidStaticRequestMultiplePromise>
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> PermissionsAndroidStatic
+    [<EmitConstructor>] abstract Create: unit -> PermissionsAndroidStatic
 
 type [<AllowNullLiteral>] PushNotificationPermissions =
     abstract alert: bool option with get, set
@@ -5421,7 +5421,7 @@ type [<AllowNullLiteral>] StatusBar =
     inherit React.Component<StatusBarProps>
 
 type [<AllowNullLiteral>] StatusBarStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> StatusBar
+    [<EmitConstructor>] abstract Create: unit -> StatusBar
     /// The current height of the status bar on the device.
     abstract currentHeight: float option with get, set
     /// Show or hide the status bar
@@ -5611,13 +5611,13 @@ type [<AllowNullLiteral>] SwitchComponent =
 /// If the `value` prop is not updated, the component will continue to render
 /// the supplied `value` prop instead of the expected result of any user actions.
 type [<AllowNullLiteral>] SwitchComponentStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> SwitchComponent
+    [<EmitConstructor>] abstract Create: unit -> SwitchComponent
 
 type [<AllowNullLiteral>] Switch =
     inherit SwitchBase
 
 type [<AllowNullLiteral>] SwitchStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Switch
+    [<EmitConstructor>] abstract Create: unit -> Switch
 
 /// NOTE: `VibrationIOS` is being deprecated. Use `Vibration` instead.
 /// 
@@ -5772,20 +5772,20 @@ module Animated =
         interface end
 
     type [<AllowNullLiteral>] AnimatedStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> Animated
+        [<EmitConstructor>] abstract Create: unit -> Animated
 
     type [<AllowNullLiteral>] AnimatedWithChildren =
         inherit Animated
 
     type [<AllowNullLiteral>] AnimatedWithChildrenStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedWithChildren
+        [<EmitConstructor>] abstract Create: unit -> AnimatedWithChildren
 
     type [<AllowNullLiteral>] AnimatedInterpolation =
         inherit AnimatedWithChildren
         abstract interpolate: config: InterpolationConfigType -> AnimatedInterpolation
 
     type [<AllowNullLiteral>] AnimatedInterpolationStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedInterpolation
+        [<EmitConstructor>] abstract Create: unit -> AnimatedInterpolation
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ExtrapolateType =
         | Extend
@@ -5844,7 +5844,7 @@ module Animated =
     /// mechanism at a time.  Using a new mechanism (e.g. starting a new animation,
     /// or calling `setValue`) will stop any previous ones.
     type [<AllowNullLiteral>] ValueStatic =
-        [<Emit "new $0($1...)">] abstract Create: value: float -> Value
+        [<EmitConstructor>] abstract Create: value: float -> Value
 
     type [<AllowNullLiteral>] ValueXYListenerCallback =
         [<Emit "$0($1...)">] abstract Invoke: value: ValueXYListenerCallbackInvokeValue -> unit
@@ -5891,13 +5891,13 @@ module Animated =
         abstract y: float with get, set
 
     type [<AllowNullLiteral>] ValueXYGetLayoutReturn =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> AnimatedValue with get, set
+        [<EmitIndexer>] abstract Item: key: string -> AnimatedValue with get, set
 
     /// 2D Value for driving 2D animations, such as pan gestures.  Almost identical
     /// API to normal `Animated.Value`, but multiplexed.  Contains two regular
     /// `Animated.Value`s under the hood.
     type [<AllowNullLiteral>] ValueXYStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?valueIn: ValueXYStaticValueIn -> ValueXY
+        [<EmitConstructor>] abstract Create: ?valueIn: ValueXYStaticValueIn -> ValueXY
 
     type [<AllowNullLiteral>] ValueXYStaticValueIn =
         abstract x: U2<float, AnimatedValue> with get, set
@@ -5951,31 +5951,31 @@ module Animated =
         inherit AnimatedInterpolation
 
     type [<AllowNullLiteral>] AnimatedAdditionStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedAddition
+        [<EmitConstructor>] abstract Create: unit -> AnimatedAddition
 
     type [<AllowNullLiteral>] AnimatedDivision =
         inherit AnimatedInterpolation
 
     type [<AllowNullLiteral>] AnimatedDivisionStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedDivision
+        [<EmitConstructor>] abstract Create: unit -> AnimatedDivision
 
     type [<AllowNullLiteral>] AnimatedMultiplication =
         inherit AnimatedInterpolation
 
     type [<AllowNullLiteral>] AnimatedMultiplicationStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedMultiplication
+        [<EmitConstructor>] abstract Create: unit -> AnimatedMultiplication
 
     type [<AllowNullLiteral>] AnimatedModulo =
         inherit AnimatedInterpolation
 
     type [<AllowNullLiteral>] AnimatedModuloStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedModulo
+        [<EmitConstructor>] abstract Create: unit -> AnimatedModulo
 
     type [<AllowNullLiteral>] AnimatedDiffClamp =
         inherit AnimatedInterpolation
 
     type [<AllowNullLiteral>] AnimatedDiffClampStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> AnimatedDiffClamp
+        [<EmitConstructor>] abstract Create: unit -> AnimatedDiffClamp
 
     type [<AllowNullLiteral>] ParallelConfig =
         abstract stopTogether: bool option with get, set
@@ -5992,7 +5992,7 @@ module Animated =
         abstract y: float with get, set
 
     type [<AllowNullLiteral>] ValueXYGetTranslateTransform =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> AnimatedValue with get, set
+        [<EmitIndexer>] abstract Item: key: string -> AnimatedValue with get, set
 
 type [<AllowNullLiteral>] I18nManagerStatic =
     abstract isRTL: bool with get, set
@@ -6143,31 +6143,31 @@ type [<AllowNullLiteral>] ClippingRectangle =
     inherit React.Component<ARTClippingRectangleProps>
 
 type [<AllowNullLiteral>] ClippingRectangleStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ClippingRectangle
+    [<EmitConstructor>] abstract Create: unit -> ClippingRectangle
 
 type [<AllowNullLiteral>] Group =
     inherit React.Component<ARTGroupProps>
 
 type [<AllowNullLiteral>] GroupStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Group
+    [<EmitConstructor>] abstract Create: unit -> Group
 
 type [<AllowNullLiteral>] Shape =
     inherit React.Component<ARTShapeProps>
 
 type [<AllowNullLiteral>] ShapeStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Shape
+    [<EmitConstructor>] abstract Create: unit -> Shape
 
 type [<AllowNullLiteral>] Surface =
     inherit React.Component<ARTSurfaceProps>
 
 type [<AllowNullLiteral>] SurfaceStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> Surface
+    [<EmitConstructor>] abstract Create: unit -> Surface
 
 type [<AllowNullLiteral>] ARTText =
     inherit React.Component<ARTTextProps>
 
 type [<AllowNullLiteral>] ARTTextStatic =
-    [<Emit "new $0($1...)">] abstract Create: unit -> ARTText
+    [<EmitConstructor>] abstract Create: unit -> ARTText
 
 type [<AllowNullLiteral>] ARTStatic =
     abstract ClippingRectangle: obj with get, set
@@ -6311,7 +6311,7 @@ type [<AllowNullLiteral>] NativeEventEmitter =
 /// Interface for NativeModules which allows to augment NativeModules with type informations.
 /// See react-native-sensor-manager for example.
 type [<AllowNullLiteral>] NativeModulesStatic =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: name: string -> obj option with get, set
+    [<EmitIndexer>] abstract Item: name: string -> obj option with get, set
 
 type [<AllowNullLiteral>] ComponentInterface<'P> =
     abstract name: string option with get, set
@@ -6356,10 +6356,10 @@ type [<AllowNullLiteral>] Navigator =
     abstract geolocation: Geolocation
 
 type [<AllowNullLiteral>] NativeMethodsMixinStaticRefs =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> React.Component<obj option, obj option> with get, set
+    [<EmitIndexer>] abstract Item: key: string -> React.Component<obj option, obj option> with get, set
 
 type [<AllowNullLiteral>] LayoutAnimationStaticConfigChecker =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+    [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
 type [<AllowNullLiteral>] LayoutAnimationStaticPresets =
     abstract easeInEaseOut: LayoutAnimationConfig with get, set
@@ -6678,7 +6678,7 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollViewScrollTo =
     abstract animated: bool option with get, set
 
 type [<AllowNullLiteral>] ImageURISourceHeaders =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+    [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ImageURISourceCache =
     | Default
@@ -6754,10 +6754,10 @@ type [<AllowNullLiteral>] SectionListPropsRenderSectionHeader<'ItemT> =
     abstract section: SectionListData<'ItemT> with get, set
 
 type [<AllowNullLiteral>] ListViewPropsOnChangeVisibleRowsArrayItem =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: rowID: string -> bool with get, set
+    [<EmitIndexer>] abstract Item: rowID: string -> bool with get, set
 
 type [<AllowNullLiteral>] ListViewPropsOnChangeVisibleRowsArray =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: sectionId: string -> ListViewPropsOnChangeVisibleRowsArrayItem with get, set
+    [<EmitIndexer>] abstract Item: sectionId: string -> ListViewPropsOnChangeVisibleRowsArrayItem with get, set
 
 type [<AllowNullLiteral>] MapViewOverlayCoordinates =
     abstract latitude: float with get, set
@@ -6897,13 +6897,13 @@ type [<AllowNullLiteral>] NetInfoStaticIsConnected =
     abstract removeEventListener: (string -> (bool -> unit) -> unit) with get, set
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticRESULTS =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> PermissionStatus with get, set
+    [<EmitIndexer>] abstract Item: key: string -> PermissionStatus with get, set
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticPERMISSIONS =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> Permission with get, set
+    [<EmitIndexer>] abstract Item: key: string -> Permission with get, set
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticRequestMultiplePromise =
-    [<Emit "$0[$1]{{=$2}}">] abstract Item: permission: string -> PermissionStatus with get, set
+    [<EmitIndexer>] abstract Item: permission: string -> PermissionStatus with get, set
 
 type [<AllowNullLiteral>] PushNotificationIOSStaticAddEventListener_registrationError =
     abstract message: string with get, set

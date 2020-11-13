@@ -959,7 +959,7 @@ module Ts =
     /// The `in` and `for-in` operators can *not* be safely used,
     /// since `Object.prototype` may be modified by outside code.
     type [<AllowNullLiteral>] MapLike<'T> =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: string -> 'T with get, set
+        [<EmitIndexer>] abstract Item: index: string -> 'T with get, set
 
     type [<AllowNullLiteral>] SortedReadonlyArray<'T> =
         inherit ReadonlyArray<'T>
@@ -3332,7 +3332,7 @@ module Ts =
         interface end
 
     type [<AllowNullLiteral>] OperationCanceledExceptionStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> OperationCanceledException
+        [<EmitConstructor>] abstract Create: unit -> OperationCanceledException
 
     type [<AllowNullLiteral>] CancellationToken =
         abstract isCancellationRequested: unit -> bool
@@ -4168,14 +4168,14 @@ module Ts =
         abstract typeRoots: ResizeArray<string> option with get, set
         abstract esModuleInterop: bool option with get, set
         abstract useDefineForClassFields: bool option with get, set
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: option: string -> U2<CompilerOptionsValue, TsConfigSourceFile> option with get, set
+        [<EmitIndexer>] abstract Item: option: string -> U2<CompilerOptionsValue, TsConfigSourceFile> option with get, set
 
     type [<AllowNullLiteral>] TypeAcquisition =
         abstract enableAutoDiscovery: bool option with get, set
         abstract enable: bool option with get, set
         abstract ``include``: ResizeArray<string> option with get, set
         abstract exclude: ResizeArray<string> option with get, set
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: option: string -> U2<ResizeArray<string>, bool> option with get, set
+        [<EmitIndexer>] abstract Item: option: string -> U2<ResizeArray<string>, bool> option with get, set
 
     type [<RequireQualifiedAccess>] ModuleKind =
         | None = 0
@@ -4959,7 +4959,7 @@ module Ts =
         abstract verbose: bool option with get, set
         abstract incremental: bool option with get, set
         abstract traceResolution: bool option with get, set
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: option: string -> CompilerOptionsValue option with get, set
+        [<EmitIndexer>] abstract Item: option: string -> CompilerOptionsValue option with get, set
 
     type [<AllowNullLiteral>] ReportEmitErrorSummary =
         [<Emit "$0($1...)">] abstract Invoke: errorCount: float -> unit

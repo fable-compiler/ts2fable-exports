@@ -25,7 +25,7 @@ type [<AllowNullLiteral>] SubscriptionToken =
 /// 
 /// A simple strongly-typed pub/sub/fire eventing system.
 type [<AllowNullLiteral>] SubscriptionTokenStatic =
-    [<Emit "new $0($1...)">] abstract Create: _event: SubscribableEvent<obj option> * _callback: (ResizeArray<obj option> -> U2<bool, unit>) -> SubscriptionToken
+    [<EmitConstructor>] abstract Create: _event: SubscribableEvent<obj option> * _callback: (ResizeArray<obj option> -> U2<bool, unit>) -> SubscriptionToken
 
 type [<AllowNullLiteral>] SubscribableEvent<'F> =
     abstract dispose: unit -> unit
@@ -34,4 +34,4 @@ type [<AllowNullLiteral>] SubscribableEvent<'F> =
     abstract fire: 'F with get, set
 
 type [<AllowNullLiteral>] SubscribableEventStatic =
-    [<Emit "new $0($1...)">] abstract Create: ?_allowStopPropagation: bool -> SubscribableEvent<'F>
+    [<EmitConstructor>] abstract Create: ?_allowStopPropagation: bool -> SubscribableEvent<'F>

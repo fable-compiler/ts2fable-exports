@@ -376,25 +376,25 @@ module Yargs =
         abstract wrap: columns: float option -> Argv<'T>
 
     type [<AllowNullLiteral>] ArgvAliasAliases =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
 
     type [<AllowNullLiteral>] ArgvConflicts =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
     type [<AllowNullLiteral>] ArgvDescribeDescriptions =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] ArgvImplies =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
     type [<AllowNullLiteral>] ArgvNargs =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> float with get, set
+        [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
     type [<AllowNullLiteral>] ArgvUpdateLocaleObj =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] ArgvUpdateStringsObj =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> string with get, set
+        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type Arguments =
         Arguments<obj>
@@ -576,7 +576,7 @@ module Yargs =
         | String
 
     type [<AllowNullLiteral>] ArgvCheck =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: alias: string -> string with get, set
+        [<EmitIndexer>] abstract Item: alias: string -> string with get, set
 
     type [<AllowNullLiteral>] OptionsConflicts =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> U2<string, ReadonlyArray<string>> with get, set
+        [<EmitIndexer>] abstract Item: key: string -> U2<string, ReadonlyArray<string>> with get, set

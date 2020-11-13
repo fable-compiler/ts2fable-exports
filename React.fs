@@ -205,7 +205,7 @@ module React =
         abstract refs: ComponentRefs with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
+        [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
 
     type PureComponent =
         PureComponent<obj, obj>
@@ -217,7 +217,7 @@ module React =
         inherit Component<'P, 'S>
 
     type [<AllowNullLiteral>] PureComponentStatic =
-        [<Emit "new $0($1...)">] abstract Create: unit -> PureComponent<'P, 'S>
+        [<EmitConstructor>] abstract Create: unit -> PureComponent<'P, 'S>
 
     type ClassicComponent =
         ClassicComponent<obj, obj>
@@ -261,7 +261,7 @@ module React =
         abstract displayName: string option with get, set
 
     type [<AllowNullLiteral>] ComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> ComponentClass<'P>
+        [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> ComponentClass<'P>
 
     type ClassicComponentClass =
         ClassicComponentClass<obj>
@@ -271,7 +271,7 @@ module React =
         abstract getDefaultProps: unit -> 'P
 
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
-        [<Emit "new $0($1...)">] abstract Create: ?props: 'P * ?context: obj -> ClassicComponentClass<'P>
+        [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> ClassicComponentClass<'P>
 
     type [<AllowNullLiteral>] ClassType<'P, 'T, 'C when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>> =
         interface end
@@ -324,7 +324,7 @@ module React =
     type [<AllowNullLiteral>] ComponentSpec<'P, 'S> =
         inherit Mixin<'P, 'S>
         abstract render: unit -> ReactElement<obj option> option
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] SyntheticEvent<'T> =
         abstract bubbles: bool with get, set
@@ -1461,7 +1461,7 @@ module React =
         /// Sets the initial zoom factor of a document defined by @viewport.
         /// See CSS zoom descriptor https://drafts.csswg.org/css-device-adapt/#zoom-desc
         abstract zoom: U4<CSSWideKeyword, float, CSSPercentage, string> option with get, set
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: propertyName: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: propertyName: string -> obj option with get, set
 
     type [<AllowNullLiteral>] HTMLAttributes<'T> =
         inherit DOMAttributes<'T>
@@ -2441,7 +2441,7 @@ module React =
         abstract pageY: float with get, set
 
     type [<AllowNullLiteral>] TouchList =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: index: float -> Touch with get, set
+        [<EmitIndexer>] abstract Item: index: float -> Touch with get, set
         abstract length: float with get, set
         abstract item: index: float -> Touch
         abstract identifiedTouch: identifier: float -> Touch
@@ -2454,10 +2454,10 @@ module React =
         interface end
 
     type [<AllowNullLiteral>] ComponentRefs =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> ReactInstance with get, set
+        [<EmitIndexer>] abstract Item: key: string -> ReactInstance with get, set
 
     type [<AllowNullLiteral>] MixinStatics =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
     type [<AllowNullLiteral>] DOMAttributesDangerouslySetInnerHTML =
         abstract __html: string with get, set

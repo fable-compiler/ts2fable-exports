@@ -37,7 +37,7 @@ module Chai =
         interface end
 
     type [<AllowNullLiteral>] ErrorConstructorStatic =
-        [<Emit "new $0($1...)">] abstract Create: [<ParamArray>] args: obj option[] -> ErrorConstructor
+        [<EmitConstructor>] abstract Create: [<ParamArray>] args: obj option[] -> ErrorConstructor
 
     type [<AllowNullLiteral>] ChaiUtils =
         abstract addChainableMethod: ctx: obj * name: string * ``method``: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
@@ -117,7 +117,7 @@ module Chai =
         abstract overwriteChainableMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
 
     type [<AllowNullLiteral>] AssertionStaticStatic =
-        [<Emit "new $0($1...)">] abstract Create: target: obj option * ?message: string * ?ssfi: Function * ?lockSsfi: bool -> AssertionStatic
+        [<EmitConstructor>] abstract Create: target: obj option * ?message: string * ?ssfi: Function * ?lockSsfi: bool -> AssertionStatic
 
     type Operator =
         string
@@ -1111,10 +1111,10 @@ module Chai =
         abstract stack: string with get, set
 
     type [<AllowNullLiteral>] AssertionErrorStatic =
-        [<Emit "new $0($1...)">] abstract Create: message: string * ?_props: obj * ?ssf: Function -> AssertionError
+        [<EmitConstructor>] abstract Create: message: string * ?_props: obj * ?ssf: Function -> AssertionError
 
     type [<AllowNullLiteral>] AssertHasAnyKeys =
-        [<Emit "$0[$1]{{=$2}}">] abstract Item: key: string -> obj option with get, set
+        [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
 type [<AllowNullLiteral>] Object =
     abstract should: Chai.Assertion with get, set
