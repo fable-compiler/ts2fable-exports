@@ -5,6 +5,7 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+[<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Function = System.Action
 type RegExp = System.Text.RegularExpressions.Regex
@@ -5414,7 +5415,7 @@ module __components_FocusZone_FocusZone_types =
         /// This does not affect disabled attribute of any child.
         abstract disabled: bool option with get, set
         /// Element type the root element will use. Default is "div".
-        abstract elementType: React.ReactHTML option with get, set
+        abstract elementType: KeyOf<React.ReactHTML> option with get, set
         /// If set, will cycle to the beginning of the targets once the user navigates to the
         /// next target while at the end, and to the end when navigate to the previous at the beginning.
         abstract isCircularNavigation: bool option with get, set
