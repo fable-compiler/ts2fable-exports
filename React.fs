@@ -5,6 +5,7 @@ open Fable.Core
 open Fable.Core.JS
 open Browser.Types
 
+[<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 
@@ -47,16 +48,16 @@ module React =
 
     type [<AllowNullLiteral>] IExports =
         abstract createClass: spec: ComponentSpec<'P, 'S> -> ClassicComponentClass<'P>
-        abstract createFactory: ``type``: ReactHTML -> HTMLFactory<'T> when 'T :> HTMLElement
-        abstract createFactory: ``type``: ReactSVG -> SVGFactory
+        abstract createFactory: ``type``: KeyOf<ReactHTML> -> HTMLFactory<'T> when 'T :> HTMLElement
+        abstract createFactory: ``type``: KeyOf<ReactSVG> -> SVGFactory
         abstract createFactory: ``type``: string -> DOMFactory<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
         abstract createFactory: ``type``: SFC<'P> -> SFCFactory<'P>
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T> when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
         [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
-        abstract createElement: ``type``: ReactHTML * ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
-        abstract createElement: ``type``: ReactSVG * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
+        abstract createElement: ``type``: KeyOf<ReactHTML> * ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
+        abstract createElement: ``type``: KeyOf<ReactSVG> * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
         abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
         abstract createElement: ``type``: SFC<'P> * ?props: obj * [<ParamArray>] children: ReactNode[] -> SFCElement<'P>
         abstract createElement: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> * ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, ClassicComponent<'P, ComponentState>>
@@ -137,11 +138,11 @@ module React =
 
     type [<AllowNullLiteral>] DetailedReactHTMLElement<'P, 'T when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement> =
         inherit DOMElement<'P, 'T>
-        abstract ``type``: ReactHTML with get, set
+        abstract ``type``: KeyOf<ReactHTML> with get, set
 
     type [<AllowNullLiteral>] ReactSVGElement =
         inherit DOMElement<SVGAttributes<SVGElement>, SVGElement>
-        abstract ``type``: ReactSVG with get, set
+        abstract ``type``: KeyOf<ReactSVG> with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
         [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactElement<'P>
@@ -195,8 +196,8 @@ module React =
 
     type [<AllowNullLiteral>] Component<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
-        abstract setState: f: ('S -> 'P -> obj) * ?callback: (unit -> obj option) -> unit when 'K :> 'S
-        abstract setState: state: obj * ?callback: (unit -> obj option) -> unit when 'K :> 'S
+        abstract setState: f: ('S -> 'P -> obj) * ?callback: (unit -> obj option) -> unit
+        abstract setState: state: obj * ?callback: (unit -> obj option) -> unit
         abstract forceUpdate: ?callBack: (unit -> obj option) -> unit
         abstract render: unit -> JSX.Element option
         abstract props: obj with get, set
