@@ -163,10 +163,12 @@ module Electron =
 
     type [<AllowNullLiteral>] App =
         inherit EventEmitter
+        /// <summary>
         /// Emitted when Chrome's accessibility support changes. This event fires when
         /// assistive technologies, such as screen readers, are enabled or disabled. See
-        /// https://www.chromium.org/developers/design-documents/accessibility for more
+        /// <see href="https://www.chromium.org/developers/design-documents/accessibility" /> for more
         /// details.
+        /// </summary>
         [<Emit "$0.on('accessibility-support-changed',$1)">] abstract ``on_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
         [<Emit "$0.once('accessibility-support-changed',$1)">] abstract ``once_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
         [<Emit "$0.addListener('accessibility-support-changed',$1)">] abstract ``addListener_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
@@ -468,12 +470,14 @@ module Electron =
         /// Set the about panel options. This will override the values defined in the app's
         /// .plist file. See the Apple docs for more details.
         abstract setAboutPanelOptions: options: AboutPanelOptionsOptions -> unit
+        /// <summary>
         /// Manually enables Chrome's accessibility support, allowing to expose
         /// accessibility switch to users in application settings.
-        /// https://www.chromium.org/developers/design-documents/accessibility for more
+        /// <see href="https://www.chromium.org/developers/design-documents/accessibility" /> for more
         /// details. Disabled by default. Note: Rendering accessibility tree can
         /// significantly affect the performance of your app. It should not be enabled by
         /// default.
+        /// </summary>
         abstract setAccessibilitySupportEnabled: enabled: bool -> unit
         /// Changes the Application User Model ID to id.
         abstract setAppUserModelId: id: string -> unit
@@ -855,11 +859,13 @@ module Electron =
         /// Note: This API always returns false on Windows.
         abstract isVisibleOnAllWorkspaces: unit -> bool
         abstract isWindowMessageHooked: message: float -> bool
+        /// <summary>
         /// Same as webContents.loadURL(url[, options]). The url can be a remote address
-        /// (e.g. http://) or a path to a local HTML file using the file:// protocol. To
+        /// (e.g. <see href="http://)" /> or a path to a local HTML file using the file:// protocol. To
         /// ensure that file URLs are properly formatted, it is recommended to use Node's
         /// url.format method: You can load a URL using a POST request with URL-encoded data
         /// by doing the following:
+        /// </summary>
         abstract loadURL: url: string * ?options: LoadURLOptions -> unit
         /// Maximizes the window. This will also show (but not focus) the window if it isn't
         /// being displayed already.
@@ -3069,9 +3075,11 @@ module Electron =
         abstract isOffscreen: unit -> bool
         abstract isPainting: unit -> bool
         abstract isWaitingForResponse: unit -> bool
+        /// <summary>
         /// Loads the url in the window. The url must contain the protocol prefix, e.g. the
-        /// http:// or file://. If the load should bypass http cache then use the pragma
+        /// http:// or <see href="file://." /> If the load should bypass http cache then use the pragma
         /// header to achieve it.
+        /// </summary>
         abstract loadURL: url: string * ?options: LoadURLOptions -> unit
         /// Opens the devtools.
         abstract openDevTools: ?options: OpenDevToolsOptions -> unit
@@ -3490,8 +3498,10 @@ module Electron =
         abstract isDevToolsOpened: unit -> bool
         abstract isLoading: unit -> bool
         abstract isWaitingForResponse: unit -> bool
+        /// <summary>
         /// Loads the url in the webview, the url must contain the protocol prefix, e.g. the
-        /// http:// or file://.
+        /// http:// or <see href="file://." />
+        /// </summary>
         abstract loadURL: url: string * ?options: LoadURLOptions -> unit
         /// Opens a DevTools window for guest page.
         abstract openDevTools: unit -> unit
@@ -3823,7 +3833,7 @@ module Electron =
         abstract errorCode: float with get, set
 
     type [<AllowNullLiteral>] ClearStorageDataOptions =
-        /// Should follow window.location.origin’s representation scheme://host:port.
+        /// <summary>Should follow window.location.origin’s representation <see href="scheme://host:port." /></summary>
         abstract origin: string option with get, set
         /// The types of storages to clear, can contain: appcache, cookies, filesystem,
         /// indexdb, localstorage, shadercache, websql, serviceworkers
@@ -4303,10 +4313,12 @@ module Electron =
         inherit Event
         abstract url: string with get, set
         abstract frameName: string with get, set
-        /// Can be `default`, `foreground-tab`, `background-tab`, `new-window`,
-        /// `save-to-disk` and `other`.
+        /// <summary>
+        /// Can be <c>default</c>, <c>foreground-tab</c>, <c>background-tab</c>, <c>new-window</c>,
+        /// <c>save-to-disk</c> and <c>other</c>.
+        /// </summary>
         abstract disposition: WebContentsOn_newWindow with get, set
-        /// The options which should be used for creating the new `BrowserWindow`.
+        /// <summary>The options which should be used for creating the new <c>BrowserWindow</c>.</summary>
         abstract options: Options with get, set
 
     type [<AllowNullLiteral>] NotificationConstructorOptions =

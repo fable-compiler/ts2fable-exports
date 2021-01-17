@@ -344,17 +344,22 @@ module Chai =
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         /// <param name="operator">Comparison operator, if not strict equality.</param>
+        /// <remarks>Node.js assert module-compatible.</remarks>
         abstract fail: ?actual: 'T * ?expected: 'T * ?message: string * ?operator: Operator -> unit
         /// <summary>Asserts that object is truthy.</summary>
+        /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isOk: value: 'T * ?message: string -> unit
         /// <summary>Asserts that object is truthy.</summary>
+        /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract ok: value: 'T * ?message: string -> unit
         /// <summary>Asserts that object is falsy.</summary>
+        /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotOk: value: 'T * ?message: string -> unit
         /// <summary>Asserts that object is falsy.</summary>
+        /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notOk: value: 'T * ?message: string -> unit
         /// <summary>Asserts non-strict equality (==) of actual and expected.</summary>
@@ -468,13 +473,18 @@ module Chai =
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotFunction: value: 'T * ?message: string -> unit
-        /// <summary>Asserts that value is an object of type 'Object'
-        /// (as revealed by Object.prototype.toString).</summary>
+        /// <summary>
+        /// Asserts that value is an object of type 'Object'
+        /// (as revealed by Object.prototype.toString).
+        /// </summary>
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
+        /// <remarks>The assertion does not match subclassed objects.</remarks>
         abstract isObject: value: 'T * ?message: string -> unit
-        /// <summary>Asserts that value is not an object of type 'Object'
-        /// (as revealed by Object.prototype.toString).</summary>
+        /// <summary>
+        /// Asserts that value is not an object of type 'Object'
+        /// (as revealed by Object.prototype.toString).
+        /// </summary>
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotObject: value: 'T * ?message: string -> unit
@@ -527,6 +537,7 @@ module Chai =
         abstract instanceOf: value: 'T * ``constructor``: Function * ?message: string -> unit
         /// <summary>Asserts that value is not an instance of constructor.</summary>
         /// <param name="value">Actual value.</param>
+        /// <param name="constructor">Potential expected contructor of value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notInstanceOf: value: 'T * ``type``: Function * ?message: string -> unit
         /// <summary>Asserts that haystack includes needle.</summary>
@@ -573,6 +584,7 @@ module Chai =
         /// <param name="haystack">Container string.</param>
         /// <param name="needle">Potential substring of haystack.</param>
         /// <param name="message">Message to display on error.</param>
+        [<Obsolete("Does not have any effect on string. Use {@link Assert#include} instead.")>]
         abstract deepInclude: haystack: string * needle: string * ?message: string -> unit
         /// <summary>Asserts that haystack includes needle. Deep equality is used.</summary>
         /// <param name="haystack">Container array, set or map.</param>
@@ -588,6 +600,7 @@ module Chai =
         /// <param name="haystack">Container string.</param>
         /// <param name="needle">Potential substring of haystack.</param>
         /// <param name="message">Message to display on error.</param>
+        [<Obsolete("Does not have any effect on string. Use {@link Assert#notInclude} instead.")>]
         abstract notDeepInclude: haystack: string * needle: string * ?message: string -> unit
         /// <summary>Asserts that haystack does not includes needle. Deep equality is used.</summary>
         /// <param name="haystack">Container array, set or map.</param>
@@ -599,52 +612,76 @@ module Chai =
         /// <param name="needle">Potential subset of the haystack's properties.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notDeepInclude: haystack: 'T * needle: obj * ?message: string -> unit
-        /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object.
+        /// <summary>
+        /// Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object.
         /// 
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.Asserts that ‘haystack’ includes ‘needle’.
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
-        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
+        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.
+        /// </summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract nestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
-        /// <summary>Asserts that ‘haystack’ does not include ‘needle’. Can be used to assert the absence of a subset of properties in an object.
+        /// <summary>
+        /// Asserts that ‘haystack’ does not include ‘needle’. Can be used to assert the absence of a subset of properties in an object.
         /// 
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.Asserts that ‘haystack’ includes ‘needle’.
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
-        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
+        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.
+        /// </summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract notNestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
-        /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while checking for deep equality
+        /// <summary>
+        /// Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while checking for deep equality
         /// 
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.Asserts that ‘haystack’ includes ‘needle’.
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
-        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
+        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.
+        /// </summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract deepNestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
-        /// <summary>Asserts that ‘haystack’ does not include ‘needle’. Can be used to assert the absence of a subset of properties in an object while checking for deep equality.
+        /// <summary>
+        /// Asserts that ‘haystack’ does not include ‘needle’. Can be used to assert the absence of a subset of properties in an object while checking for deep equality.
         /// 
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
         /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.Asserts that ‘haystack’ includes ‘needle’.
         /// Can be used to assert the inclusion of a subset of properties in an object.
         /// Enables the use of dot- and bracket-notation for referencing nested properties.
-        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.</summary>
+        /// ‘[]’ and ‘.’ in property names can be escaped using double backslashes.
+        /// </summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract notDeepNestedInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while ignoring inherited properties.</summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract ownInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the absence of a subset of properties in an object while ignoring inherited properties.</summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract notOwnInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the inclusion of a subset of properties in an object while ignoring inherited properties and checking for deep</summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract deepOwnInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that ‘haystack’ includes ‘needle’. Can be used to assert the absence of a subset of properties in an object while ignoring inherited properties and checking for deep equality.</summary>
+        /// <param name="haystack" />
+        /// <param name="needle" />
         /// <param name="message">Message to display on error.</param>
         abstract notDeepOwnInclude: haystack: obj option * needle: obj option * ?message: string -> unit
         /// <summary>Asserts that value matches the regular expression regexp.</summary>
@@ -653,6 +690,7 @@ module Chai =
         /// <param name="message">Message to display on error.</param>
         abstract ``match``: value: string * regexp: RegExp * ?message: string -> unit
         /// <summary>Asserts that value does not match the regular expression regexp.</summary>
+        /// <param name="value">Actual value.</param>
         /// <param name="regexp">Potential match of value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notMatch: expected: obj option * regexp: RegExp * ?message: string -> unit
@@ -666,14 +704,18 @@ module Chai =
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notProperty: ``object``: 'T * property: string * ?message: string -> unit
-        /// <summary>Asserts that object has a property named by property, which can be a string
-        /// using dot- and bracket-notation for deep reference.</summary>
+        /// <summary>
+        /// Asserts that object has a property named by property, which can be a string
+        /// using dot- and bracket-notation for deep reference.
+        /// </summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepProperty: ``object``: 'T * property: string * ?message: string -> unit
-        /// <summary>Asserts that object does not have a property named by property, which can be a
-        /// string using dot- and bracket-notation for deep reference.</summary>
+        /// <summary>
+        /// Asserts that object does not have a property named by property, which can be a
+        /// string using dot- and bracket-notation for deep reference.
+        /// </summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
@@ -690,15 +732,19 @@ module Chai =
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract propertyNotVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
-        /// <summary>Asserts that object has a property named by property, which can be a string
-        /// using dot- and bracket-notation for deep reference.</summary>
+        /// <summary>
+        /// Asserts that object has a property named by property, which can be a string
+        /// using dot- and bracket-notation for deep reference.
+        /// </summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepPropertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
-        /// <summary>Asserts that object does not have a property named by property, which can be a
-        /// string using dot- and bracket-notation for deep reference.</summary>
+        /// <summary>
+        /// Asserts that object does not have a property named by property, which can be a
+        /// string using dot- and bracket-notation for deep reference.
+        /// </summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
@@ -716,16 +762,20 @@ module Chai =
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="regExp">Potential expected message match.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract throw: fn: Function * regExp: RegExp -> unit
         /// <summary>Asserts that function will throw an error that is an instance of constructor.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
         abstract throw: fn: Function * ``constructor``: Function * ?message: string -> unit
-        /// <summary>Asserts that function will throw an error that is an instance of constructor
-        /// and an error with message matching regexp.</summary>
+        /// <summary>
+        /// Asserts that function will throw an error that is an instance of constructor
+        /// and an error with message matching regexp.
+        /// </summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract throw: fn: Function * ``constructor``: Function * regExp: RegExp -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
@@ -736,9 +786,13 @@ module Chai =
         /// <param name="errType">Potential expected message match or error constructor.</param>
         /// <param name="message">Message to display on error.</param>
         abstract throws: fn: Function * errType: U2<RegExp, Function> * ?message: string -> unit
-        /// <summary>Asserts that function will throw an error that is an instance of constructor
-        /// and an error with message matching regexp.</summary>
+        /// <summary>
+        /// Asserts that function will throw an error that is an instance of constructor
+        /// and an error with message matching regexp.
+        /// </summary>
         /// <param name="fn">Function that may throw.</param>
+        /// <param name="constructor">Potential expected error constructor.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract throws: fn: Function * errType: Function * regExp: RegExp -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
@@ -747,14 +801,20 @@ module Chai =
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="regExp">Potential expected message match.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract Throw: fn: Function * regExp: RegExp -> unit
         /// <summary>Asserts that function will throw an error that is an instance of constructor.</summary>
         /// <param name="fn">Function that may throw.</param>
+        /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
         abstract Throw: fn: Function * errType: Function * ?message: string -> unit
-        /// <summary>Asserts that function will throw an error that is an instance of constructor
-        /// and an error with message matching regexp.</summary>
+        /// <summary>
+        /// Asserts that function will throw an error that is an instance of constructor
+        /// and an error with message matching regexp.
+        /// </summary>
         /// <param name="fn">Function that may throw.</param>
+        /// <param name="constructor">Potential expected error constructor.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract Throw: fn: Function * errType: Function * regExp: RegExp -> unit
         /// <summary>Asserts that fn will not throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
@@ -763,14 +823,20 @@ module Chai =
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="regExp">Potential expected message match.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract doesNotThrow: fn: Function * regExp: RegExp -> unit
         /// <summary>Asserts that function will throw an error that is an instance of constructor.</summary>
         /// <param name="fn">Function that may throw.</param>
+        /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
         abstract doesNotThrow: fn: Function * errType: Function * ?message: string -> unit
-        /// <summary>Asserts that function will throw an error that is an instance of constructor
-        /// and an error with message matching regexp.</summary>
+        /// <summary>
+        /// Asserts that function will throw an error that is an instance of constructor
+        /// and an error with message matching regexp.
+        /// </summary>
         /// <param name="fn">Function that may throw.</param>
+        /// <param name="constructor">Potential expected error constructor.</param>
+        /// <param name="message">Message to display on error.</param>
         abstract doesNotThrow: fn: Function * errType: Function * regExp: RegExp -> unit
         /// <summary>Compares two values using operator.</summary>
         /// <param name="val1">Left value during comparison.</param>
@@ -785,6 +851,8 @@ module Chai =
         /// <param name="message">Message to display on error.</param>
         abstract closeTo: actual: float * expected: float * delta: float * ?message: string -> unit
         /// <summary>Asserts that the target is equal to expected, to within a +/- delta range.</summary>
+        /// <param name="actual">Actual value</param>
+        /// <param name="expected">Potential expected value.</param>
         /// <param name="delta">Maximum differenced between values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract approximately: act: float * exp: float * delta: float * ?message: string -> unit
@@ -793,56 +861,74 @@ module Chai =
         /// <param name="set2">Potential expected set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract sameMembers: set1: ResizeArray<'T> * set2: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that set1 and set2 have the same members using deep equality checking.
-        /// Order is not take into account.</summary>
+        /// <summary>
+        /// Asserts that set1 and set2 have the same members using deep equality checking.
+        /// Order is not take into account.
+        /// </summary>
         /// <param name="set1">Actual set of values.</param>
         /// <param name="set2">Potential expected set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract sameDeepMembers: set1: ResizeArray<'T> * set2: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that set1 and set2 have the same members in the same order.
-        /// Uses a strict equality check (===).</summary>
+        /// <summary>
+        /// Asserts that set1 and set2 have the same members in the same order.
+        /// Uses a strict equality check (===).
+        /// </summary>
         /// <param name="set1">Actual set of values.</param>
         /// <param name="set2">Potential expected set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract sameOrderedMembers: set1: ResizeArray<'T> * set2: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that set1 and set2 don’t have the same members in the same order.
-        /// Uses a strict equality check (===).</summary>
+        /// <summary>
+        /// Asserts that set1 and set2 don’t have the same members in the same order.
+        /// Uses a strict equality check (===).
+        /// </summary>
         /// <param name="set1">Actual set of values.</param>
         /// <param name="set2">Potential expected set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notSameOrderedMembers: set1: ResizeArray<'T> * set2: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that set1 and set2 have the same members in the same order.
-        /// Uses a deep equality check.</summary>
+        /// <summary>
+        /// Asserts that set1 and set2 have the same members in the same order.
+        /// Uses a deep equality check.
+        /// </summary>
         /// <param name="set1">Actual set of values.</param>
         /// <param name="set2">Potential expected set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract sameDeepOrderedMembers: set1: ResizeArray<'T> * set2: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that set1 and set2 don’t have the same members in the same order.
-        /// Uses a deep equality check.</summary>
+        /// <summary>
+        /// Asserts that set1 and set2 don’t have the same members in the same order.
+        /// Uses a deep equality check.
+        /// </summary>
         /// <param name="set1">Actual set of values.</param>
         /// <param name="set2">Potential expected set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notSameDeepOrderedMembers: set1: ResizeArray<'T> * set2: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that subset is included in superset in the same order beginning with the first element in superset.
-        /// Uses a strict equality check (===).</summary>
+        /// <summary>
+        /// Asserts that subset is included in superset in the same order beginning with the first element in superset.
+        /// Uses a strict equality check (===).
+        /// </summary>
         /// <param name="superset">Actual set of values.</param>
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract includeOrderedMembers: superset: ResizeArray<'T> * subset: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that subset isn’t included in superset in the same order beginning with the first element in superset.
-        /// Uses a strict equality check (===).</summary>
+        /// <summary>
+        /// Asserts that subset isn’t included in superset in the same order beginning with the first element in superset.
+        /// Uses a strict equality check (===).
+        /// </summary>
         /// <param name="superset">Actual set of values.</param>
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notIncludeOrderedMembers: superset: ResizeArray<'T> * subset: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that subset is included in superset in the same order beginning with the first element in superset.
-        /// Uses a deep equality check.</summary>
+        /// <summary>
+        /// Asserts that subset is included in superset in the same order beginning with the first element in superset.
+        /// Uses a deep equality check.
+        /// </summary>
         /// <param name="superset">Actual set of values.</param>
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract includeDeepOrderedMembers: superset: ResizeArray<'T> * subset: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that subset isn’t included in superset in the same order beginning with the first element in superset.
-        /// Uses a deep equality check.</summary>
+        /// <summary>
+        /// Asserts that subset isn’t included in superset in the same order beginning with the first element in superset.
+        /// Uses a deep equality check.
+        /// </summary>
         /// <param name="superset">Actual set of values.</param>
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
@@ -852,8 +938,10 @@ module Chai =
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract includeMembers: superset: ResizeArray<'T> * subset: ResizeArray<'T> * ?message: string -> unit
-        /// <summary>Asserts that subset is included in superset using deep equality checking.
-        /// Order is not take into account.</summary>
+        /// <summary>
+        /// Asserts that subset is included in superset using deep equality checking.
+        /// Order is not take into account.
+        /// </summary>
         /// <param name="superset">Actual set of values.</param>
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
@@ -902,6 +990,10 @@ module Chai =
         /// <summary>Asserts if value is not a false value, and throws if it is a true value.</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
+        /// <remarks>
+        /// This is added to allow for chai to be a drop-in replacement for
+        /// Node’s assert class.
+        /// </remarks>
         abstract ifError: ``object``: 'T * ?message: string -> unit
         /// <summary>Asserts that object is extensible (can have new properties added to it).</summary>
         /// <param name="object">Actual value.</param>
@@ -919,13 +1011,17 @@ module Chai =
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notExtensible: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that object is sealed (can have new properties added to it
-        /// and its existing properties cannot be removed).</summary>
+        /// <summary>
+        /// Asserts that object is sealed (can have new properties added to it
+        /// and its existing properties cannot be removed).
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isSealed: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that object is sealed (can have new properties added to it
-        /// and its existing properties cannot be removed).</summary>
+        /// <summary>
+        /// Asserts that object is sealed (can have new properties added to it
+        /// and its existing properties cannot be removed).
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract ``sealed``: ``object``: 'T * ?message: string -> unit
@@ -937,155 +1033,199 @@ module Chai =
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notSealed: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that object is frozen (cannot have new properties added to it
-        /// and its existing properties cannot be removed).</summary>
+        /// <summary>
+        /// Asserts that object is frozen (cannot have new properties added to it
+        /// and its existing properties cannot be removed).
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isFrozen: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that object is frozen (cannot have new properties added to it
-        /// and its existing properties cannot be removed).</summary>
+        /// <summary>
+        /// Asserts that object is frozen (cannot have new properties added to it
+        /// and its existing properties cannot be removed).
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract frozen: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that object is not frozen (cannot have new properties added to it
-        /// and its existing properties cannot be removed).</summary>
+        /// <summary>
+        /// Asserts that object is not frozen (cannot have new properties added to it
+        /// and its existing properties cannot be removed).
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotFrozen: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that object is not frozen (cannot have new properties added to it
-        /// and its existing properties cannot be removed).</summary>
+        /// <summary>
+        /// Asserts that object is not frozen (cannot have new properties added to it
+        /// and its existing properties cannot be removed).
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notFrozen: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that the target does not contain any values. For arrays and
+        /// <summary>
+        /// Asserts that the target does not contain any values. For arrays and
         /// strings, it checks the length property. For Map and Set instances, it
         /// checks the size property. For non-function objects, it gets the count
-        /// of own enumerable string keys.</summary>
+        /// of own enumerable string keys.
+        /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isEmpty: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that the target contains values. For arrays and strings, it checks
+        /// <summary>
+        /// Asserts that the target contains values. For arrays and strings, it checks
         /// the length property. For Map and Set instances, it checks the size property.
-        /// For non-function objects, it gets the count of own enumerable string keys.</summary>
+        /// For non-function objects, it gets the count of own enumerable string keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotEmpty: ``object``: 'T * ?message: string -> unit
-        /// <summary>Asserts that `object` has at least one of the `keys` provided.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// <summary>
+        /// Asserts that <c>object</c> has at least one of the <c>keys</c> provided.
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract hasAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` has all and only all of the `keys` provided.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// <summary>
+        /// Asserts that <c>object</c> has all and only all of the <c>keys</c> provided.
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract hasAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` has all of the `keys` provided but may have more keys not listed.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// <summary>
+        /// Asserts that <c>object</c> has all of the <c>keys</c> provided but may have more keys not listed.
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract containsAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` has none of the `keys` provided.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// <summary>
+        /// Asserts that <c>object</c> has none of the <c>keys</c> provided.
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract doesNotHaveAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` does not have at least one of the `keys` provided.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// <summary>
+        /// Asserts that <c>object</c> does not have at least one of the <c>keys</c> provided.
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract doesNotHaveAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` has at least one of the `keys` provided.
+        /// <summary>
+        /// Asserts that <c>object</c> has at least one of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract hasAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` has all and only all of the `keys` provided.
+        /// <summary>
+        /// Asserts that <c>object</c> has all and only all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract hasAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` contains all of the `keys` provided.
+        /// <summary>
+        /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract containsAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` contains all of the `keys` provided.
+        /// <summary>
+        /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract doesNotHaveAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that `object` contains all of the `keys` provided.
+        /// <summary>
+        /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
         /// a deep comparison.
-        /// You can also provide a single object instead of a `keys` array and its keys
-        /// will be used as the expected set of keys.</summary>
+        /// You can also provide a single object instead of a <c>keys</c> array and its keys
+        /// will be used as the expected set of keys.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
         abstract doesNotHaveAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
-        /// <summary>Asserts that object has a direct or inherited property named by property,
-        /// which can be a string using dot- and bracket-notation for nested reference.</summary>
+        /// <summary>
+        /// Asserts that object has a direct or inherited property named by property,
+        /// which can be a string using dot- and bracket-notation for nested reference.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract nestedProperty: ``object``: 'T * property: string * ?message: string -> unit
-        /// <summary>Asserts that object does not have a property named by property,
+        /// <summary>
+        /// Asserts that object does not have a property named by property,
         /// which can be a string using dot- and bracket-notation for nested reference.
-        /// The property cannot exist on the object nor anywhere in its prototype chain.</summary>
+        /// The property cannot exist on the object nor anywhere in its prototype chain.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notNestedProperty: ``object``: 'T * property: string * ?message: string -> unit
-        /// <summary>Asserts that object has a property named by property with value given by value.
-        /// property can use dot- and bracket-notation for nested reference. Uses a strict equality check (===).</summary>
+        /// <summary>
+        /// Asserts that object has a property named by property with value given by value.
+        /// property can use dot- and bracket-notation for nested reference. Uses a strict equality check (===).
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract nestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
-        /// <summary>Asserts that object does not have a property named by property with value given by value.
-        /// property can use dot- and bracket-notation for nested reference. Uses a strict equality check (===).</summary>
+        /// <summary>
+        /// Asserts that object does not have a property named by property with value given by value.
+        /// property can use dot- and bracket-notation for nested reference. Uses a strict equality check (===).
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notNestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
-        /// <summary>Asserts that object has a property named by property with a value given by value.
-        /// property can use dot- and bracket-notation for nested reference. Uses a deep equality check.</summary>
+        /// <summary>
+        /// Asserts that object has a property named by property with a value given by value.
+        /// property can use dot- and bracket-notation for nested reference. Uses a deep equality check.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepNestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
-        /// <summary>Asserts that object does not have a property named by property with value given by value.
-        /// property can use dot- and bracket-notation for nested reference. Uses a deep equality check.</summary>
+        /// <summary>
+        /// Asserts that object does not have a property named by property with value given by value.
+        /// property can use dot- and bracket-notation for nested reference. Uses a deep equality check.
+        /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>

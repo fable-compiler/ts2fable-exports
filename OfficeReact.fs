@@ -14,53 +14,73 @@ type RegExp = System.Text.RegularExpressions.Regex
 module __common_DirectionalHint =
 
     type [<RequireQualifiedAccess>] DirectionalHint =
+        /// Appear above the target element, with the left edges of the callout and target aligning.
         | TopLeftEdge = 0
+        /// Appear above the target element, with the centers of the callout and target aligning.
         | TopCenter = 1
+        /// Appear above the target element, with the right edges of the callout and target aligning.
         | TopRightEdge = 2
+        /// Appear above the target element, aligning with the target element such that the callout tends toward the center of the screen.
         | TopAutoEdge = 3
+        /// Appear below the target element, with the left edges of the callout and target aligning.
         | BottomLeftEdge = 4
+        /// Appear below the target element, with the centers of the callout and target aligning.
         | BottomCenter = 5
+        /// Appear below the target element, with the right edges of the callout and target aligning.
         | BottomRightEdge = 6
+        /// Appear below the target element, aligning with the target element such that the callout tends toward the center of the screen.
         | BottomAutoEdge = 7
+        /// Appear to the left of the target element, with the top edges of the callout and target aligning.
         | LeftTopEdge = 8
+        /// Appear to the left of the target element, with the centers of the callout and target aligning.
         | LeftCenter = 9
+        /// Appear to the left of the target element, with the bottom edges of the callout and target aligning.
         | LeftBottomEdge = 10
+        /// Appear to the right of the target element, with the top edges of the callout and target aligning.
         | RightTopEdge = 11
+        /// Appear to the right of the target element, with the centers of the callout and target aligning.
         | RightCenter = 12
+        /// Appear to the right of the target element, with the bottom edges of the callout and target aligning.
         | RightBottomEdge = 13
 
 module __common_IAccessiblePopupProps =
 
     type [<AllowNullLiteral>] IAccessiblePopupProps =
-        /// Sets the HTMLElement to focus on when exiting the FocusTrapZone.
+        /// <summary>Sets the HTMLElement to focus on when exiting the FocusTrapZone.</summary>
+        /// <default>The element.target that triggered the Panel.</default>
         abstract elementToFocusOnDismiss: HTMLElement option with get, set
-        /// Indicates if this dialog will ignore keeping track of HTMLElement that activated the Zone.
+        /// <summary>Indicates if this dialog will ignore keeping track of HTMLElement that activated the Zone.</summary>
+        /// <default>false</default>
         abstract ignoreExternalFocusing: bool option with get, set
-        /// Indicates whether dialog should force focus inside the focus trap zone
+        /// <summary>Indicates whether dialog should force focus inside the focus trap zone</summary>
+        /// <default>true</default>
         abstract forceFocusInsideTrap: bool option with get, set
         /// Indicates the selector for first focusable item
         abstract firstFocusableSelector: U2<string, (unit -> string)> option with get, set
         /// Aria label on close button
         abstract closeButtonAriaLabel: string option with get, set
-        /// Indicates if this dialog will allow clicks outside the FocusTrapZone
+        /// <summary>Indicates if this dialog will allow clicks outside the FocusTrapZone</summary>
+        /// <default>false</default>
         abstract isClickableOutsideFocusTrap: bool option with get, set
 
 module __common_shallowUntilTarget =
     type ShallowWrapper = Enzyme.ShallowWrapper
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>
         /// An extention of enzyme's shallow function which will fail to work
         /// with decorated components and/or components using the styled() function.
         /// This function allows you to pass a 'target' component (e.g. ComponentBase)
         /// and keep running shallow on each child component till a match is found.
+        /// </summary>
         abstract shallowUntilTarget: componentInstance: React.ReactElement<'P> * TargetComponent: string * ?options: IShallowUntilTarget -> ShallowWrapper
 
-    /// Duplicated enzyme's ShallowRendererProps
+    /// <summary>Duplicated enzyme's ShallowRendererProps</summary>
     type [<AllowNullLiteral>] IShallowRendererProps =
         abstract lifecycleExperimental: bool option with get, set
         abstract disableLifecycleMethods: bool option with get, set
 
-    /// ShallowUntilTarget Interface
+    /// <summary>ShallowUntilTarget Interface</summary>
     type [<AllowNullLiteral>] IShallowUntilTarget =
         abstract maxTries: float with get, set
         abstract shallowOptions: IShallowRendererProps with get, set
@@ -183,6 +203,7 @@ module __components_ActivityItem_ActivityItem_types =
         /// An element describing the activity that took place. If no activityDescription, activityDescriptionText, or onRenderActivityDescription are included, no description of the activity is shown.
         abstract activityDescription: U2<ResizeArray<React.ReactNode>, React.ReactNode> option with get, set
         /// Text describing the activity that occurred and naming the people involved in it. Deprecated, use activityDescription instead.
+        [<Obsolete("")>]
         abstract activityDescriptionText: string option with get, set
         /// An element containing an icon shown next to the activity item.
         abstract activityIcon: React.ReactNode option with get, set
@@ -191,6 +212,7 @@ module __components_ActivityItem_ActivityItem_types =
         /// An element containing the text of comments or @mention messages. If no comments, commentText, or onRenderComments are included, no comments are shown.
         abstract comments: U2<ResizeArray<React.ReactNode>, React.ReactNode> option with get, set
         /// Text of comments or @mention messages. Deprecated, use comments instead.
+        [<Obsolete("")>]
         abstract commentText: string option with get, set
         /// Gets ref to component interface.
         abstract componentRef: (unit -> unit) option with get, set
@@ -212,8 +234,11 @@ module __components_ActivityItem_ActivityItem_types =
         abstract beaconColorOne: string option with get, set
         /// Beacon color two
         abstract beaconColorTwo: string option with get, set
+        /// <summary>
         /// Enables/Disables the beacon that radiates
         /// from the center of the center of the activity icon. Signals an activity has started.
+        /// </summary>
+        /// <default>false</default>
         abstract animateBeaconSignal: bool option with get, set
 
     type [<AllowNullLiteral>] IActivityItemStyles =
@@ -275,6 +300,7 @@ module __components_Autofill_Autofill =
 
     type [<AllowNullLiteral>] IExports =
         abstract Autofill: AutofillStatic
+        /// Legacy, @deprecated, do not use.
         abstract BaseAutoFill: BaseAutoFillStatic
 
     type [<AllowNullLiteral>] IAutofillState =
@@ -343,28 +369,43 @@ module __components_Autofill_Autofill_types =
         abstract suggestedDisplayValue: string option with get, set
         /// A callback for when the current input value changes.
         abstract onInputValueChange: (string -> unit) option with get, set
+        /// <summary>
         /// When the user uses left arrow, right arrow, clicks, or deletes text autofill is disabled
         /// Since the user has taken control. It is automatically reenabled when the user enters text and the
         /// cursor is at the end of the text in the input box. This specifies other key presses that will reenabled
         /// autofill.
+        /// </summary>
+        /// <default>[KeyCodes.down, KeyCodes.up]</default>
         abstract enableAutofillOnKeyPress: ResizeArray<KeyCodes> option with get, set
         /// The default value to be visible. This is different from placeholder
         /// because it actually sets the current value of the picker
         /// Note: This will only be set upon component creation
         /// and will not update with subsequent prop updates.
         abstract defaultVisibleValue: string option with get, set
+        /// <summary>
         /// Handler for checking and updating the value if needed
         /// in componentWillReceiveProps
+        /// </summary>
+        /// <param name="defaultVisibleValue">
+        /// the defaultVisibleValue that got passed
+        /// in to the auto fill's componentWillReceiveProps
+        /// </param>
+        /// <returns>- the updated value to set, if needed</returns>
         abstract updateValueInWillReceiveProps: (unit -> string option) option with get, set
+        /// <summary>
         /// Handler for checking if the full value of the input should
         /// be seleced in componentDidUpdate
+        /// </summary>
+        /// <returns>- should the full value of the input be selected?</returns>
         abstract shouldSelectFullInputValueInComponentDidUpdate: (unit -> bool) option with get, set
         /// A callback used to modify the input string.
         abstract onInputChange: (string -> string) option with get, set
 
+    [<Obsolete("do not use, will be removed in 6.0")>]
     type [<AllowNullLiteral>] IBaseAutoFill =
         inherit IAutofill
 
+    [<Obsolete("do not use, will be removed in 6.0")>]
     type [<AllowNullLiteral>] IBaseAutoFillProps =
         inherit IAutofillProps
 
@@ -578,9 +619,12 @@ module __components_Button_Button =
     type IButtonProps = __components_Button_Button_types.IButtonProps
 
     type [<AllowNullLiteral>] IExports =
+        /// This class is deprecated. Use the individual *Button components instead.
+        [<Obsolete("")>]
         abstract Button: ButtonStatic
 
     /// This class is deprecated. Use the individual *Button components instead.
+    [<Obsolete("")>]
     type [<AllowNullLiteral>] Button =
         inherit BaseComponent<IButtonProps, ButtonBaseComponent>
         /// Set this BaseComponent._resolveComponentRef to false, bypassing resolution of componentRef.
@@ -588,6 +632,7 @@ module __components_Button_Button =
         abstract render: unit -> JSX.Element
 
     /// This class is deprecated. Use the individual *Button components instead.
+    [<Obsolete("")>]
     type [<AllowNullLiteral>] ButtonStatic =
         [<EmitConstructor>] abstract Create: props: IButtonProps -> Button
 
@@ -620,9 +665,11 @@ module __components_Button_Button_types =
         /// Optional callback to access the IButton interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IButton option -> unit) option with get, set
-        /// If provided, this component will be rendered as an anchor.
+        /// <summary>If provided, this component will be rendered as an anchor.</summary>
+        /// <default>ElementType.anchor</default>
         abstract href: string option with get, set
-        /// Changes the visual presentation of the button to be emphasized (if defined)
+        /// <summary>Changes the visual presentation of the button to be emphasized (if defined)</summary>
+        /// <default>false</default>
         abstract primary: bool option with get, set
         /// Unique id to identify the item. Typically a duplicate of key value.
         abstract uniqueId: U2<string, float> option with get, set
@@ -680,22 +727,31 @@ module __components_Button_Button_types =
         /// Description of the action this button takes.
         /// Only used for compound buttons
         abstract secondaryText: string option with get, set
-        /// Deprecated at v1.2.3, to be removed at >= v2.0.0. Use specific button component instead
+        /// <summary>Deprecated at v1.2.3, to be removed at >= v2.0.0. Use specific button component instead</summary>
+        /// <default>ButtonType.default</default>
+        [<Obsolete("")>]
         abstract buttonType: ButtonType option with get, set
         /// Deprecated at v0.56.2, to be removed at >= v1.0.0. Just pass in button props instead;
         /// they will be mixed into the button/anchor element rendered by the component.
+        [<Obsolete("")>]
         abstract rootProps: U2<React.ButtonHTMLAttributes<HTMLButtonElement>, React.AnchorHTMLAttributes<HTMLAnchorElement>> option with get, set
         /// Any custom data the developer wishes to associate with the menu item.
         abstract toggled: bool option with get, set
         /// Any custom data the developer wishes to associate with the menu item.
         abstract data: obj option with get, set
+        /// <summary>
         /// Method to provide the classnames to style a button.
         /// The default value for this prop is the getClassnames func
         /// defined in BaseButton.classnames.
+        /// </summary>
+        /// <default>getBaseButtonClassNames</default>
         abstract getClassNames: (ITheme -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames) option with get, set
+        /// <summary>
         /// Method to provide the classnames to style a button.
         /// The default value for this prop is the getClassnames func
         /// defined in BaseButton.classnames.
+        /// </summary>
+        /// <default>getBaseSplitButtonClassNames</default>
         abstract getSplitButtonClassNames: (bool -> bool -> bool -> ISplitButtonClassNames) option with get, set
         /// Provides a custom KeyCode that can be used to open the button menu.
         /// The default KeyCode is the down arrow. A value of null can be provided to disable the key codes for opening the button menu.
@@ -709,10 +765,13 @@ module __components_Button_Button_types =
         /// Note: This may increase the amount of time it takes for the button itself to mount.
         abstract persistMenu: bool option with get, set
         /// Style for the description text if applicable (for compound buttons.)
+        [<Obsolete("Use 'secondaryText' instead.")>]
         abstract description: IStyle option with get, set
 
     type [<RequireQualifiedAccess>] ElementType =
+        /// <button> element.
         | Button = 0
+        /// <a> element.
         | Anchor = 1
 
     type [<RequireQualifiedAccess>] ButtonType =
@@ -992,46 +1051,65 @@ module __components_Calendar_Calendar_types =
         abstract componentRef: (ICalendar option -> unit) option with get, set
         /// Optional class name to add to the root element.
         abstract className: string option with get, set
-        /// Callback issued when a date is selected
+        /// <summary>Callback issued when a date is selected</summary>
+        /// <param name="date">The date the user selected</param>
+        /// <param name="selectedDateRangeArray">The resultant list of dates that are selected based on the date range type set for the component.</param>
         abstract onSelectDate: (DateTime -> ResizeArray<DateTime> -> unit) option with get, set
         /// Callback issued when calendar is closed
         abstract onDismiss: (unit -> unit) option with get, set
-        /// Whether the month picker is shown beside the day picker or hidden.
+        /// <summary>Whether the month picker is shown beside the day picker or hidden.</summary>
+        /// <default>true</default>
         abstract isMonthPickerVisible: bool option with get, set
-        /// Whether the day picker is shown beside the month picker or hidden.
+        /// <summary>Whether the day picker is shown beside the month picker or hidden.</summary>
+        /// <default>true</default>
         abstract isDayPickerVisible: bool option with get, set
-        /// Show month picker on top of date picker when visible.
+        /// <summary>Show month picker on top of date picker when visible.</summary>
+        /// <default>false</default>
         abstract showMonthPickerAsOverlay: bool option with get, set
         /// Value of today. If null, current time in client machine will be used.
         abstract today: DateTime option with get, set
         /// Default value of the Calendar, if any
         abstract value: DateTime option with get, set
-        /// The first day of the week for your locale.
+        /// <summary>The first day of the week for your locale.</summary>
+        /// <default>DayOfWeek.Sunday</default>
         abstract firstDayOfWeek: DayOfWeek option with get, set
+        /// <summary>
         /// The date range type indicating how  many days should be selected as the user
         /// selects days
+        /// </summary>
+        /// <default>DateRangeType.Day</default>
         abstract dateRangeType: DateRangeType option with get, set
+        /// <summary>
         /// Whether the month view should automatically navigate to the next or previous date range
         /// depending on the selected date. If this property is set to true and the currently displayed
         /// month is March 2017, if the user clicks on a day outside the month, i.e., April 1st, the
         /// picker will automatically navigate to the month of April.
+        /// </summary>
+        /// <default>false</default>
         abstract autoNavigateOnSelection: bool option with get, set
         /// Whether the "Go to today" link should be shown or not
         abstract showGoToToday: bool option with get, set
         /// This property has been removed at 0.80.0 in place of the focus method, to be removed @ 1.0.0.
+        [<Obsolete("")>]
         abstract shouldFocusOnMount: bool option with get, set
         /// Localized strings to use in the Calendar
         abstract strings: ICalendarStrings option with get, set
-        /// Whether the month picker should highlight the current month
+        /// <summary>Whether the month picker should highlight the current month</summary>
+        /// <default>false</default>
         abstract highlightCurrentMonth: bool option with get, set
-        /// Whether the month picker should highlight the selected month
+        /// <summary>Whether the month picker should highlight the selected month</summary>
+        /// <default>false</default>
         abstract highlightSelectedMonth: bool option with get, set
         /// Customize navigation icons using ICalendarIconStrings
         abstract navigationIcons: ICalendarIconStrings option with get, set
-        /// Whether the calendar should show the week number (weeks 1 to 53) before each week row
+        /// <summary>Whether the calendar should show the week number (weeks 1 to 53) before each week row</summary>
+        /// <default>false</default>
         abstract showWeekNumbers: bool option with get, set
+        /// <summary>
         /// Defines when the first week of the year should start, FirstWeekOfYear.FirstDay,
         /// FirstWeekOfYear.FirstFullWeek or FirstWeekOfYear.FirstFourDayWeek are the possible values
+        /// </summary>
+        /// <default>FirstWeekOfYear.FirstDay</default>
         abstract firstWeekOfYear: FirstWeekOfYear option with get, set
         /// Apply additional formating to dates, for example localized date formatting.
         abstract dateTimeFormatter: ICalendarFormatDateCallbacks option with get, set
@@ -1039,9 +1117,11 @@ module __components_Calendar_Calendar_types =
         abstract minDate: DateTime option with get, set
         /// If set the Calendar will not allow navigation to or selection of a date later than this value.
         abstract maxDate: DateTime option with get, set
-        /// Whether the calendar should show 6 weeks by default.
+        /// <summary>Whether the calendar should show 6 weeks by default.</summary>
+        /// <default>false</default>
         abstract showSixWeeksByDefault: bool option with get, set
-        /// The days that are selectable when dateRangeType is WorkWeek. If dateRangeType is not WorkWeek this property does nothing.
+        /// <summary>The days that are selectable when dateRangeType is WorkWeek. If dateRangeType is not WorkWeek this property does nothing.</summary>
+        /// <default>[Monday,Tuesday,Wednesday,Thursday,Friday]</default>
         abstract workWeekDays: ResizeArray<DayOfWeek> option with get, set
 
     type [<AllowNullLiteral>] ICalendarStrings =
@@ -1071,9 +1151,11 @@ module __components_Calendar_Calendar_types =
         abstract weekNumberFormatString: string option with get, set
 
     type [<AllowNullLiteral>] ICalendarIconStrings =
-        /// FabricMDL2Icons name for the left navigation icon.  Previous default: ChevronLeft.
+        /// <summary>FabricMDL2Icons name for the left navigation icon.  Previous default: ChevronLeft.</summary>
+        /// <default>'Up'</default>
         abstract leftNavigation: string option with get, set
-        /// FabricMDL2Icons name for the right navigation icon.  Previous default: ChevronRight.
+        /// <summary>FabricMDL2Icons name for the right navigation icon.  Previous default: ChevronRight.</summary>
+        /// <default>'Down'</default>
         abstract rightNavigation: string option with get, set
 
     type [<AllowNullLiteral>] ICalendarFormatDateCallbacks =
@@ -1252,34 +1334,49 @@ module __components_Callout_Callout_types =
         /// It can be either an Element a querySelector string of a valid Element
         /// or a MouseEvent. If MouseEvent is given then the origin point of the event will be used.
         abstract target: U4<Element, string, MouseEvent, IPoint> option with get, set
-        /// How the element should be positioned
+        /// <summary>How the element should be positioned</summary>
+        /// <default>DirectionalHint.BottomAutoEdge</default>
         abstract directionalHint: DirectionalHint option with get, set
+        /// <summary>
         /// How the element should be positioned in RTL layouts.
-        /// If not specified, a mirror of `directionalHint` will be used instead
+        /// If not specified, a mirror of <c>directionalHint</c> will be used instead
+        /// </summary>
         abstract directionalHintForRTL: DirectionalHint option with get, set
-        /// The gap between the Callout and the target
+        /// <summary>The gap between the Callout and the target</summary>
+        /// <default>0</default>
         abstract gapSpace: float option with get, set
-        /// The width of the beak.
+        /// <summary>The width of the beak.</summary>
+        /// <default>16</default>
         abstract beakWidth: float option with get, set
-        /// Custom width for callout including borders. If value is 0, no width is applied.
+        /// <summary>Custom width for callout including borders. If value is 0, no width is applied.</summary>
+        /// <default>0</default>
         abstract calloutWidth: float option with get, set
-        /// The background color of the Callout in hex format ie. #ffffff.
+        /// <summary>The background color of the Callout in hex format ie. #ffffff.</summary>
+        /// <default>$ms-color-white</default>
         abstract backgroundColor: string option with get, set
         /// The bounding rectangle for which  the contextual menu can appear in.
         abstract bounds: IRectangle option with get, set
-        /// The minimum distance the callout will be away from the edge of the screen.
+        /// <summary>The minimum distance the callout will be away from the edge of the screen.</summary>
+        /// <default>8</default>
         abstract minPagePadding: float option with get, set
         /// If true use a point rather than rectangle to position the Callout.
         /// For example it can be used to position based on a click.
+        [<Obsolete("Use 'target' instead")>]
         abstract useTargetPoint: bool option with get, set
         /// Point used to position the Callout
+        [<Obsolete("Use 'target' instead")>]
         abstract targetPoint: IPoint option with get, set
-        /// If true then the beak is visible. If false it will not be shown.
+        /// <summary>If true then the beak is visible. If false it will not be shown.</summary>
+        /// <default>true</default>
         abstract isBeakVisible: bool option with get, set
-        /// If true then the onClose will not not dismiss on scroll
+        /// <summary>If true then the onClose will not not dismiss on scroll</summary>
+        /// <default>false</default>
         abstract preventDismissOnScroll: bool option with get, set
+        /// <summary>
         /// If true the position returned will have the menu element cover the target.
         /// If false then it will position next to the target;
+        /// </summary>
+        /// <default>false</default>
         abstract coverTarget: bool option with get, set
         /// Aria role assigned to the callout (Eg. dialog, alertdialog).
         abstract role: string option with get, set
@@ -1289,30 +1386,43 @@ module __components_Callout_Callout_types =
         abstract ariaLabelledBy: string option with get, set
         /// Defines the element id referencing the element containing the description for the callout.
         abstract ariaDescribedBy: string option with get, set
-        /// CSS class to apply to the callout.
+        /// <summary>CSS class to apply to the callout.</summary>
+        /// <default>null</default>
         abstract className: string option with get, set
         /// CSS style to apply to the callout.
         abstract style: React.CSSProperties option with get, set
         /// Optional callback when the layer content has mounted.
         abstract onLayerMounted: (unit -> unit) option with get, set
-        /// Optional callback that is called once the callout has been correctly positioned.
+        /// <summary>Optional callback that is called once the callout has been correctly positioned.</summary>
+        /// <param name="positions">
+        /// gives the user information about how the callout is positioned such as the
+        /// final edge of the target that it positioned against, the beak position, and the beaks relationship to the
+        /// edges of the callout.
+        /// </param>
         abstract onPositioned: (ICalloutPositionedInfo -> unit) option with get, set
         /// Callback when the Callout tries to close.
         abstract onDismiss: (obj -> unit) option with get, set
         /// If true do not render on a new layer. If false render on a new layer.
         abstract doNotLayer: bool option with get, set
+        /// <summary>
         /// If true the position will not change sides in an attempt to fit the callout within bounds.
         /// It will still attempt to align it to whatever bounds are given.
+        /// </summary>
+        /// <default>false</default>
         abstract directionalHintFixed: bool option with get, set
         /// Specify the final height of the content.
         /// To be used when expanding the content dynamically so that callout can adjust its position.
         abstract finalHeight: float option with get, set
+        /// <summary>
         /// If true then the callout will attempt to focus the first focusable element that it contains.
         /// If it doesn't find an element, no focus will be set and the method will return false.
         /// This means that it's the contents responsibility to either set focus or have
         /// focusable items.
+        /// </summary>
+        /// <returns>True if focus was set, false if it was not.</returns>
         abstract setInitialFocus: bool option with get, set
         /// Deprecated at v0.59.1, to be removed at >= v1.0.0. Pass in a beakWidth to dictate size.
+        [<Obsolete("")>]
         abstract beakStyle: string option with get, set
         /// Set max height of callout
         /// When not set the callout will expand with contents up to the bottom of the screen
@@ -1342,12 +1452,15 @@ module __components_Callout_Callout_types =
         /// Whether or not to clip content of the callout,
         /// if it overflows vertically.
         abstract overflowYHidden: bool option with get, set
+        [<Obsolete("will be removed in v6. Do not use.
+Max height applied to the content of a callout.")>]
         abstract contentMaxHeight: float option with get, set
         /// Background color for the beak and callout.
         abstract backgroundColor: string option with get, set
         /// Width of Callout beak
         abstract beakWidth: float option with get, set
         /// Deprecated at v0.59.1, to be removed at >= v1.0.0. Pass in a beakWidth to dictate size.
+        [<Obsolete("")>]
         abstract beakStyle: string option with get, set
 
     type [<AllowNullLiteral>] ICalloutContentStyles =
@@ -1479,7 +1592,8 @@ module __components_Check_Check_types =
         inherit React.Props<CheckBase>
         /// Gets the component ref.
         abstract componentRef: (ICheckProps option -> unit) option with get, set
-        /// Whether or not this menu item is currently checked.
+        /// <summary>Whether or not this menu item is currently checked.</summary>
+        /// <default>false</default>
         abstract ``checked``: bool option with get, set
         /// Call to provide customized styling that will layer on top of the variant rules
         abstract getStyles: IStyleFunction<ICheckStyleProps, ICheckStyles> option with get, set
@@ -1487,7 +1601,8 @@ module __components_Check_Check_types =
         abstract alwaysShowCheck: bool option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Check
+        /// <summary>Additional css class to apply to the Check</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
 
     type [<AllowNullLiteral>] ICheckStyleProps =
@@ -1495,7 +1610,8 @@ module __components_Check_Check_types =
         abstract theme: ITheme with get, set
         /// Accept custom classNames
         abstract className: string option with get, set
-        /// Accept custom checkBox size in pixels.
+        /// <summary>Accept custom checkBox size in pixels.</summary>
+        /// <default>'18px'</default>
         abstract checkBoxHeight: string option with get, set
         abstract ``checked``: bool option with get, set
 
@@ -1608,7 +1724,8 @@ module __components_Checkbox_Checkbox_types =
         /// Note that if you provide, for example, "disabled" as well as "inputProps.disabled", the former will take
         /// precedence over the later.
         abstract inputProps: React.ButtonHTMLAttributes<U2<HTMLElement, HTMLButtonElement>> option with get, set
-        /// Allows you to set the checkbox to be at the before (start) or after (end) the label.
+        /// <summary>Allows you to set the checkbox to be at the before (start) or after (end) the label.</summary>
+        /// <default>'start'</default>
         abstract boxSide: ICheckboxPropsBoxSide option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
@@ -1777,6 +1894,7 @@ module __components_ChoiceGroup_ChoiceGroup_types =
         /// Descriptive label for the choice group.
         abstract label: string option with get, set
         /// Deprecated and will be removed by 07/17/2017 Use 'onChange' instead.
+        [<Obsolete("")>]
         abstract onChanged: (IChoiceGroupOption -> React.FormEvent<U2<HTMLElement, HTMLInputElement>> -> unit) option with get, set
 
     type [<AllowNullLiteral>] IChoiceGroupOption =
@@ -1797,7 +1915,8 @@ module __components_ChoiceGroup_ChoiceGroup_types =
         abstract imageAlt: string option with get, set
         /// The src of image for choice field which is selected.
         abstract selectedImageSrc: string option with get, set
-        /// The width and height of the image in px for choice field.
+        /// <summary>The width and height of the image in px for choice field.</summary>
+        /// <default>{ width: 32, height: 32 }</default>
         abstract imageSize: IChoiceGroupOptionImageSize option with get, set
         /// Whether or not the option is disabled.
         abstract disabled: bool option with get, set
@@ -1902,6 +2021,7 @@ module __components_Coachmark_Coachmark_styles =
 
     type [<AllowNullLiteral>] ICoachmarkStyleProps =
         /// Is the Coachmark collapsed.  Deprecated: use isCollapsed instead.
+        [<Obsolete("")>]
         abstract collapsed: bool option with get, set
         /// Is the Coachmark collapsed
         abstract isCollapsed: bool with get, set
@@ -1973,33 +2093,48 @@ module __components_Coachmark_Coachmark_types =
         abstract getStyles: IStyleFunction<ICoachmarkStyleProps, ICoachmarkStyles> option with get, set
         /// The target that the Coachmark should try to position itself based on.
         abstract target: U2<HTMLElement, string> option with get, set
-        /// Props to pass to the PositioningContainer component.  Specific the `directionalHint` to indicate which edge the
+        /// <summary>
+        /// Props to pass to the PositioningContainer component.  Specific the <c>directionalHint</c> to indicate which edge the
         /// Coachmark/TeachingBubble should live.
+        /// </summary>
+        /// <default>directionalHint: DirectionalHint.bottomAutoEdge</default>
         abstract positioningContainerProps: IPositioningContainerTypes option with get, set
-        /// Whether or not to force the Coachmark/TeachingBubble content to fit within the window bounds.
+        /// <summary>Whether or not to force the Coachmark/TeachingBubble content to fit within the window bounds.</summary>
+        /// <default>true</default>
         abstract isPositionForced: bool option with get, set
-        /// The starting collapsed state for the Coachmark.  Use isCollapsed instead.
+        /// <summary>The starting collapsed state for the Coachmark.  Use isCollapsed instead.</summary>
+        /// <default>true</default>
+        [<Obsolete("")>]
         abstract collapsed: bool option with get, set
-        /// The starting collapsed state for the Coachmark.
+        /// <summary>The starting collapsed state for the Coachmark.</summary>
+        /// <default>true</default>
         abstract isCollapsed: bool option with get, set
+        /// <summary>
         /// The distance in pixels the mouse is located
         /// before opening up the Coachmark.
+        /// </summary>
+        /// <default>10</default>
         abstract mouseProximityOffset: float option with get, set
         /// Callback when the opening animation begins.
         abstract onAnimationOpenStart: (unit -> unit) option with get, set
         /// Callback when the opening animation completes.
         abstract onAnimationOpenEnd: (unit -> unit) option with get, set
         /// The width of the Beak component.
+        [<Obsolete("")>]
         abstract beakWidth: float option with get, set
         /// The height of the Beak component.
+        [<Obsolete("")>]
         abstract beakHeight: float option with get, set
-        /// Delay before allowing mouse movements to open the Coachmark.
+        /// <summary>Delay before allowing mouse movements to open the Coachmark.</summary>
+        /// <default>3600</default>
         abstract delayBeforeMouseOpen: float option with get, set
         /// Callback to run when the mouse moves.
         abstract onMouseMove: (MouseEvent -> unit) option with get, set
         /// The width of the Coachmark.
+        [<Obsolete("")>]
         abstract width: float option with get, set
         /// The height of the Coachmark.
+        [<Obsolete("")>]
         abstract height: float option with get, set
         /// Color of the Coachmark/TeachingBubble.
         abstract color: string option with get, set
@@ -2109,15 +2244,20 @@ module __components_ColorPicker_ColorPicker_types =
         abstract onColorChanged: (string -> unit) option with get, set
         /// The setting of whether to hide the alpha control slider.
         abstract alphaSliderHidden: bool option with get, set
-        /// Label for the hex textfield.
+        /// <summary>Label for the hex textfield.</summary>
+        /// <default>Hex</default>
         abstract hexLabel: string option with get, set
-        /// Label for the red textfield
+        /// <summary>Label for the red textfield</summary>
+        /// <default>Red</default>
         abstract redLabel: string option with get, set
-        /// Label for the green textfield
+        /// <summary>Label for the green textfield</summary>
+        /// <default>Green</default>
         abstract greenLabel: string option with get, set
-        /// Label for the blue textfield
+        /// <summary>Label for the blue textfield</summary>
+        /// <default>Blue</default>
         abstract blueLabel: string option with get, set
-        /// Label for the alpha textfield
+        /// <summary>Label for the alpha textfield</summary>
+        /// <default>Alpha</default>
         abstract alphaLabel: string option with get, set
 
 module __components_ColorPicker_ColorPickerPage =
@@ -2310,7 +2450,8 @@ module __components_ComboBox_ComboBox_types =
     type [<AllowNullLiteral>] IComboBox =
         /// If there is a menu open this will dismiss the menu
         abstract dismissMenu: (unit -> unit) with get, set
-        /// Sets focus to the input in the comboBox
+        /// <summary>Sets focus to the input in the comboBox</summary>
+        /// <returns>True if focus could be set, false if no operation was taken.</returns>
         abstract focus: ?shouldOpenOnFocus: bool -> bool
 
     type [<AllowNullLiteral>] IComboBoxOption =
@@ -2319,8 +2460,11 @@ module __components_ComboBox_ComboBox_types =
         /// common styles to all comboBox option please use
         /// the prop comboBoxOptionStyles
         abstract styles: obj option with get, set
+        /// <summary>
         /// In scenarios where embedded data is used at the text prop, we will use the ariaLabel prop
         /// to set the aria-label and preview text. Default to false
+        /// </summary>
+        /// <default>false;</default>
         abstract useAriaLabelAsText: bool option with get, set
 
     type [<AllowNullLiteral>] IComboBoxProps =
@@ -2348,8 +2492,11 @@ module __components_ComboBox_ComboBox_types =
         abstract onScrollToItem: (float -> unit) option with get, set
         /// Whether the ComboBox is free form, meaning that the user input is not bound to provided options. Defaults to false.
         abstract allowFreeform: bool option with get, set
+        /// <summary>
         /// Whether the ComboBox auto completes. As the user is inputing text, it will be suggested potential matches from the list of options. If
         /// the combo box is expanded, this will also scroll to the suggested option, and give it a selected style.
+        /// </summary>
+        /// <default>"on"</default>
         abstract autoComplete: IComboBoxPropsAutoComplete option with get, set
         /// Value to show in the input, does not have to map to a combobox option
         abstract text: string option with get, set
@@ -2367,7 +2514,8 @@ module __components_ComboBox_ComboBox_types =
         /// Default styles that should be applied to ComboBox options,
         /// in case an option does not come with user-defined custom styles
         abstract comboBoxOptionStyles: obj option with get, set
-        /// When options are scrollable the selected option is positioned at the top of the callout when it is opened (unless it has reached the end of the scrollbar).
+        /// <summary>When options are scrollable the selected option is positioned at the top of the callout when it is opened (unless it has reached the end of the scrollbar).</summary>
+        /// <default>false;</default>
         abstract scrollSelectedToTop: bool option with get, set
         /// Add additional content below the callout list.
         abstract onRenderLowerContent: IRenderFunction<IComboBoxProps> option with get, set
@@ -2377,11 +2525,13 @@ module __components_ComboBox_ComboBox_types =
         abstract useComboBoxAsMenuWidth: bool option with get, set
         /// Optional mode indicates if multi-choice selections is allowed.  Default to false
         abstract multiSelect: bool option with get, set
-        /// Sets the 'aria-hidden' attribute on the ComboBox's button element instructing screen readers how to handle the element. This element is hidden by default because all functionality is handled by the input element and the arrow button is only meant to be decorative.
+        /// <summary>Sets the 'aria-hidden' attribute on the ComboBox's button element instructing screen readers how to handle the element. This element is hidden by default because all functionality is handled by the input element and the arrow button is only meant to be decorative.</summary>
+        /// <default>true</default>
         abstract isButtonAriaHidden: bool option with get, set
         /// Optional keytip for this combo box
         abstract keytipProps: IKeytipProps option with get, set
         /// Value to show in the input, does not have to map to a combobox option
+        [<Obsolete("Use `text` instead.")>]
         abstract value: string option with get, set
 
     type [<AllowNullLiteral>] IComboBoxStyles =
@@ -2567,7 +2717,8 @@ module __components_CommandBar_CommandBar_types =
         /// Optional callback to access the ICommandBar interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (ICommandBar option -> unit) option with get, set
-        /// Whether or not the search box is visible
+        /// <summary>Whether or not the search box is visible</summary>
+        /// <default>false</default>
         abstract isSearchBoxVisible: bool option with get, set
         /// Placeholder text to display in the search box
         abstract searchPlaceholderText: string option with get, set
@@ -2581,16 +2732,21 @@ module __components_CommandBar_CommandBar_types =
         abstract elipisisAriaLabel: string option with get, set
         /// Items to render on the right side (or left, in RTL).
         abstract farItems: ResizeArray<IContextualMenuItem> option with get, set
-        /// Additional css class to apply to the command bar
+        /// <summary>Additional css class to apply to the command bar</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
-        /// Method to override the render of all command bar buttons. Note, is not used when rendered in overflow
+        /// <summary>Method to override the render of all command bar buttons. Note, is not used when rendered in overflow</summary>
+        /// <default>CommandBarButton</default>
+        [<Obsolete("")>]
         abstract commandBarButtonAs: IComponentAs<ICommandBarItemProps> option with get, set
 
     type [<AllowNullLiteral>] ICommandBarItemProps =
         inherit IContextualMenuItem
-        /// Remove text when button is not in the overflow
+        /// <summary>Remove text when button is not in the overflow</summary>
+        /// <default>false</default>
         abstract iconOnly: bool option with get, set
-        /// Method to override the render of the individual command bar button. Note, is not used when rendered in overflow
+        /// <summary>Method to override the render of the individual command bar button. Note, is not used when rendered in overflow</summary>
+        /// <default>CommandBarButton</default>
         abstract commandBarButtonAs: IComponentAs<ICommandBarItemProps> option with get, set
 
 module __components_CommandBar_CommandBarPage =
@@ -2739,38 +2895,54 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// It can be either an Element a querySelector string of a valid Element
         /// or a MouseEvent. If MouseEvent is given then the origin point of the event will be used.
         abstract target: U4<Element, string, MouseEvent, IPoint> option with get, set
-        /// How the element should be positioned
+        /// <summary>How the element should be positioned</summary>
+        /// <default>DirectionalHint.bottomAutoEdge</default>
         abstract directionalHint: DirectionalHint option with get, set
+        /// <summary>
         /// How the element should be positioned in RTL layouts.
-        /// If not specified, a mirror of `directionalHint` will be used instead
+        /// If not specified, a mirror of <c>directionalHint</c> will be used instead
+        /// </summary>
         abstract directionalHintForRTL: DirectionalHint option with get, set
-        /// The gap between the ContextualMenu and the target
+        /// <summary>The gap between the ContextualMenu and the target</summary>
+        /// <default>0</default>
         abstract gapSpace: float option with get, set
-        /// The width of the beak.
+        /// <summary>The width of the beak.</summary>
+        /// <default>16</default>
         abstract beakWidth: float option with get, set
-        /// If true the context menu will render as the same width as the target element
+        /// <summary>If true the context menu will render as the same width as the target element</summary>
+        /// <default>false</default>
         abstract useTargetWidth: bool option with get, set
-        /// If true the context menu will have a minimum width equal to the width of the target element
+        /// <summary>If true the context menu will have a minimum width equal to the width of the target element</summary>
+        /// <default>false</default>
         abstract useTargetAsMinWidth: bool option with get, set
         /// The bounding rectangle for which the contextual menu can appear in.
         abstract bounds: IRectangle option with get, set
         /// If true use a point rather than rectangle to position the ContextualMenu.
         /// For example it can be used to position based on a click.
+        [<Obsolete("Use 'target' instead")>]
         abstract useTargetPoint: bool option with get, set
         /// Point used to position the ContextualMenu
+        [<Obsolete("Use 'target' instead")>]
         abstract targetPoint: IPoint option with get, set
         /// If true then the beak is visible. If false it will not be shown.
         abstract isBeakVisible: bool option with get, set
+        /// <summary>
         /// If true the position returned will have the menu element cover the target.
         /// If false then it will position next to the target;
+        /// </summary>
+        /// <default>false</default>
         abstract coverTarget: bool option with get, set
-        /// Collection of menu items.
+        /// <summary>Collection of menu items.</summary>
+        /// <default>[]</default>
         abstract items: ResizeArray<IContextualMenuItem> with get, set
-        /// Aria Labelled by labelElementId
+        /// <summary>Aria Labelled by labelElementId</summary>
+        /// <default>null</default>
         abstract labelElementId: string option with get, set
-        /// Whether to focus on the menu when mounted.
+        /// <summary>Whether to focus on the menu when mounted.</summary>
+        /// <default>true</default>
         abstract shouldFocusOnMount: bool option with get, set
-        /// Whether to focus on the contextual menu container (as opposed to the first menu item).
+        /// <summary>Whether to focus on the contextual menu container (as opposed to the first menu item).</summary>
+        /// <default>null</default>
         abstract shouldFocusOnContainer: bool option with get, set
         /// Callback when the ContextualMenu tries to close. If dismissAll is true then all
         /// submenus will be dismissed.
@@ -2779,7 +2951,8 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// menu item.
         /// Returning true will dismiss the menu even if ev.preventDefault() was called.
         abstract onItemClick: (U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>> -> IContextualMenuItem -> U2<bool, unit>) option with get, set
-        /// CSS class to apply to the context menu.
+        /// <summary>CSS class to apply to the context menu.</summary>
+        /// <default>null</default>
         abstract className: string option with get, set
         /// Whether this menu is a submenu of another menu or not.
         abstract isSubMenu: bool option with get, set
@@ -2789,12 +2962,17 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// Aria label for accessibility for the ContextualMenu.
         /// If none specified no aria label will be applied to the ContextualMenu.
         abstract ariaLabel: string option with get, set
-        /// If true do not render on a new layer. If false render on a new layer.
+        /// <summary>If true do not render on a new layer. If false render on a new layer.</summary>
+        /// <default>false</default>
         abstract doNotLayer: bool option with get, set
         /// Direction for arrow navigation of the ContextualMenu. Should only be specified if using custom-rendered menu items.
+        [<Obsolete("Use focusZoneProps instead")>]
         abstract arrowDirection: FocusZoneDirection option with get, set
+        /// <summary>
         /// If true the position will not change sides in an attempt to fit the ContextualMenu within bounds.
         /// It will still attempt to align it to whatever bounds are given.
+        /// </summary>
+        /// <default>false</default>
         abstract directionalHintFixed: bool option with get, set
         /// Callback for when the contextualmenu has been opened.
         abstract onMenuOpened: (IContextualMenuProps -> unit) option with get, set
@@ -2808,18 +2986,25 @@ module __components_ContextualMenu_ContextualMenu_types =
         abstract styles: IContextualMenuStyles option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
+        /// <summary>
         /// Method to provide the classnames to style the contextual menu. Default value is the getMenuClassnames func
         /// defined in ContextualMenu.classnames.
+        /// </summary>
+        /// <default>getContextualMenuClassNames</default>
         abstract getMenuClassNames: (ITheme -> string -> IContextualMenuClassNames) option with get, set
         /// Method to call when trying to render a submenu.
         abstract onRenderSubMenu: IRenderFunction<IContextualMenuProps> option with get, set
         /// Delay (in milliseconds) to wait before expanding / dismissing a submenu on mouseEnter or mouseLeave
         abstract subMenuHoverDelay: float option with get, set
-        /// Method to override the render of the individual menu items
+        /// <summary>Method to override the render of the individual menu items</summary>
+        /// <default>ContextualMenuItem</default>
         abstract contextualMenuItemAs: U2<React.ComponentClass<IContextualMenuItemProps>, React.StatelessComponent<IContextualMenuItemProps>> option with get, set
+        /// <summary>
         /// Props to pass down to the FocusZone.
         /// NOTE: the default FocusZoneDirection will be used unless a direction
         /// is specified in the focusZoneProps (even if other focusZoneProps are defined)
+        /// </summary>
+        /// <default>{direction: FocusZoneDirection.vertical}</default>
         abstract focusZoneProps: IFocusZoneProps option with get, set
         /// If specified, renders the ContextualMenu in a hidden state.
         /// Use this flag, rather than rendering a ContextualMenu conditionally based on visibility,
@@ -2845,22 +3030,30 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// Props that go to the IconComponent used for the chevron.
         abstract submenuIconProps: IIconProps option with get, set
         /// Deprecated at v0.69.0 and will no longer exist after 1.0 use IconProps instead.
+        [<Obsolete("")>]
         abstract icon: string option with get, set
-        /// Whether the menu item is disabled
+        /// <summary>Whether the menu item is disabled</summary>
+        /// <default>false</default>
         abstract disabled: bool option with get, set
-        /// If the menu item is a split button, this prop disables purely the primary action of the button.
+        /// <summary>If the menu item is a split button, this prop disables purely the primary action of the button.</summary>
+        /// <default>false</default>
         abstract primaryDisabled: bool option with get, set
         /// Deprecated at v0.65.1 and will be removed by v 1.0. Use 'disabled' instead.
+        [<Obsolete("")>]
         abstract isDisabled: bool option with get, set
         /// [TODO] Not Yet Implemented
         abstract shortCut: string option with get, set
-        /// Whether or not this menu item can be checked
+        /// <summary>Whether or not this menu item can be checked</summary>
+        /// <default>false</default>
         abstract canCheck: bool option with get, set
-        /// Whether or not this menu item is currently checked.
+        /// <summary>Whether or not this menu item is currently checked.</summary>
+        /// <default>false</default>
         abstract ``checked``: bool option with get, set
         /// Deprecated at v.65.1 and will be removed by v 1.0. Use 'checked' instead.
+        [<Obsolete("")>]
         abstract isChecked: bool option with get, set
-        /// Whether or not this menu item is a splitButton.
+        /// <summary>Whether or not this menu item is a splitButton.</summary>
+        /// <default>false</default>
         abstract split: bool option with get, set
         /// Any custom data the developer wishes to associate with the menu item.
         abstract data: obj option with get, set
@@ -2874,35 +3067,45 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// An optional rel when using href. If target is _blank rel is defaulted to a value to prevent clickjacking.
         abstract rel: string option with get, set
         /// Deprecated at v.80.0 and will be removed by v 1.0. Use 'subMenuProps' instead.
+        [<Obsolete("")>]
         abstract items: ResizeArray<IContextualMenuItem> option with get, set
         /// Properties to apply to a submenu to this item.
         /// The ContextualMenu will provide default values for 'target', 'onDismiss', 'isSubMenu',
         ///   'id', 'shouldFocusOnMount', 'directionalHint', 'className', and 'gapSpace', all of which
         ///   can be overridden.
         abstract subMenuProps: IContextualMenuProps option with get, set
+        /// <summary>
         /// Method to provide the classnames to style the individual items inside a menu. Default value is the getItemClassnames func
         /// defined in ContextualMenu.classnames.
+        /// </summary>
+        /// <default>getItemClassNames</default>
         abstract getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string -> string -> string -> string -> bool -> IMenuItemClassNames) option with get, set
-        /// Method to provide the classnames to style the Vertical Divider of a split button inside a menu. Default value is the getVerticalDividerClassnames func defined in ContextualMenu.classnames
+        /// <summary>Method to provide the classnames to style the Vertical Divider of a split button inside a menu. Default value is the getVerticalDividerClassnames func defined in ContextualMenu.classnames</summary>
+        /// <default>getSplitButtonVerticalDividerClassNames</default>
         abstract getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames) option with get, set
         /// Properties to apply to render this item as a section.
         /// This prop is mutually exclusive with subMenuProps.
         abstract sectionProps: IContextualMenuSection option with get, set
-        /// Additional css class to apply to the menu item
+        /// <summary>Additional css class to apply to the menu item</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
-        /// Additional styles to apply to the menu item
+        /// <summary>Additional styles to apply to the menu item</summary>
+        /// <default>undefined</default>
         abstract style: React.CSSProperties option with get, set
         /// Optional accessibility label (aria-label) attribute that will be stamped on to the element.
         /// If none is specified, the aria-label attribute will contain the item name
         abstract ariaLabel: string option with get, set
         /// Optional title for displaying text when hovering over an item.
         abstract title: string option with get, set
+        /// <summary>
         /// Method to custom render this menu item.
         /// For keyboard accessibility, the top-level rendered item should be a focusable element
-        /// (like an anchor or a button) or have the `data-is-focusable` property set to true.
+        /// (like an anchor or a button) or have the <c>data-is-focusable</c> property set to true.
         /// 
         /// The function receives a function that can be called to dismiss the menu as a second argument.
         ///   This can be used to make sure that a custom menu item click dismisses the menu.
+        /// </summary>
+        /// <default>undefined</default>
         abstract onRender: (obj option -> (obj -> bool -> unit) -> React.ReactNode) option with get, set
         /// A function to be executed onMouseDown. This is executed before an onClick event and can
         /// be used to interrupt native on click events as well. The click event should still handle
@@ -2951,6 +3154,7 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// Styles for a divider item of a ConextualMenu.
         abstract divider: IStyle with get, set
         /// Styles for a split button divider in a menu item
+        [<Obsolete("")>]
         abstract splitButtonSeparator: IStyle with get, set
 
     type [<AllowNullLiteral>] IContextualMenuStyles =
@@ -3112,21 +3316,28 @@ module __components_DatePicker_DatePicker_types =
         abstract onSelectDate: (DateTime option -> unit) option with get, set
         /// Label for the DatePicker
         abstract label: string option with get, set
-        /// Whether the DatePicker is a required field or not
+        /// <summary>Whether the DatePicker is a required field or not</summary>
+        /// <default>false</default>
         abstract isRequired: bool option with get, set
-        /// Disabled state of the DatePicker.
+        /// <summary>Disabled state of the DatePicker.</summary>
+        /// <default>false</default>
         abstract disabled: bool option with get, set
         /// Aria Label for TextField of the DatePicker for screen reader users.
         abstract ariaLabel: string option with get, set
-        /// Aria label for date picker popup for screen reader users.
+        /// <summary>Aria label for date picker popup for screen reader users.</summary>
+        /// <default>Calendar</default>
         abstract pickerAriaLabel: string option with get, set
-        /// Whether the month picker is shown beside the day picker or hidden.
+        /// <summary>Whether the month picker is shown beside the day picker or hidden.</summary>
+        /// <default>true</default>
         abstract isMonthPickerVisible: bool option with get, set
-        /// Show month picker on top of date picker when visible.
+        /// <summary>Show month picker on top of date picker when visible.</summary>
+        /// <default>false</default>
         abstract showMonthPickerAsOverlay: bool option with get, set
-        /// Whether the DatePicker allows input a date string directly or not
+        /// <summary>Whether the DatePicker allows input a date string directly or not</summary>
+        /// <default>false</default>
         abstract allowTextInput: bool option with get, set
-        /// Whether the DatePicker should open automatically when the control is focused
+        /// <summary>Whether the DatePicker should open automatically when the control is focused</summary>
+        /// <default>false</default>
         abstract disableAutoFocus: bool option with get, set
         /// Placeholder text for the DatePicker
         abstract placeholder: string option with get, set
@@ -3134,26 +3345,36 @@ module __components_DatePicker_DatePicker_types =
         abstract today: DateTime option with get, set
         /// Default value of the DatePicker, if any
         abstract value: DateTime option with get, set
-        /// Optional method to format the chosen date to a string to display in the DatePicker
+        /// <summary>Optional method to format the chosen date to a string to display in the DatePicker</summary>
+        /// <default>date.toString()</default>
         abstract formatDate: (DateTime -> string) option with get, set
-        /// Optional method to parse the text input value to date, it is only useful when allowTextInput is set to true
+        /// <summary>Optional method to parse the text input value to date, it is only useful when allowTextInput is set to true</summary>
+        /// <default>new Date(Date.parse(dateStr))</default>
         abstract parseDateFromString: (string -> DateTime option) option with get, set
-        /// The first day of the week for your locale.
+        /// <summary>The first day of the week for your locale.</summary>
+        /// <default>DayOfWeek.Sunday</default>
         abstract firstDayOfWeek: DayOfWeek option with get, set
         /// Localized strings to use in the DatePicker
         abstract strings: IDatePickerStrings option with get, set
-        /// Whether the month picker should highlight the current month
+        /// <summary>Whether the month picker should highlight the current month</summary>
+        /// <default>false</default>
         abstract highlightCurrentMonth: bool option with get, set
-        /// Whether the month picker should highlight the selected month
+        /// <summary>Whether the month picker should highlight the selected month</summary>
+        /// <default>false</default>
         abstract highlightSelectedMonth: bool option with get, set
-        /// Whether the calendar should show the week number (weeks 1 to 53) before each week row
+        /// <summary>Whether the calendar should show the week number (weeks 1 to 53) before each week row</summary>
+        /// <default>false</default>
         abstract showWeekNumbers: bool option with get, set
+        /// <summary>
         /// Defines when the first week of the year should start, FirstWeekOfYear.FirstDay,
         /// FirstWeekOfYear.FirstFullWeek or FirstWeekOfYear.FirstFourDayWeek are the possible values
+        /// </summary>
+        /// <default>FirstWeekOfYear.FirstFullWeek</default>
         abstract firstWeekOfYear: FirstWeekOfYear option with get, set
         /// Whether the "Go to today" link should be shown or not
         abstract showGoToToday: bool option with get, set
-        /// Determines if DatePicker has a border.
+        /// <summary>Determines if DatePicker has a border.</summary>
+        /// <default>false</default>
         abstract borderless: bool option with get, set
         /// Optional Classname for datepicker root element .
         abstract className: string option with get, set
@@ -3497,7 +3718,14 @@ module __components_DetailsList_DetailsList_types =
         /// still needs to be re-evaluated. For example, if a sizer bar is adjusted and causes the list width to change, you can
         /// call this to force a re-evaluation. Be aware that this can be an expensive operation and should be done sparingly.
         abstract forceUpdate: (unit -> unit) with get, set
-        /// Scroll to and focus the item at the given index. focusIndex will call scrollToIndex on the specified index.
+        /// <summary>Scroll to and focus the item at the given index. focusIndex will call scrollToIndex on the specified index.</summary>
+        /// <param name="index">Index of item to scroll to</param>
+        /// <param name="forceIntoFirstElement">
+        /// If true, focus will be set to the first focusable child element of the item rather
+        /// than the item itself.
+        /// </param>
+        /// <param name="measureItem">Optional callback to measure the height of an individual item</param>
+        /// <param name="scrollToMode">Optional setting to determine where in the window the item should be scrolled to when focused.</param>
         abstract focusIndex: (float -> bool -> (float -> float) -> ScrollToMode -> unit) with get, set
 
     type [<AllowNullLiteral>] IDetailsListProps =
@@ -3524,16 +3752,21 @@ module __components_DetailsList_DetailsList_types =
         abstract selection: ISelection option with get, set
         /// Controls how/if the details list manages selection. Options include none, single, multiple
         abstract selectionMode: SelectionMode option with get, set
+        /// <summary>
         /// By default, selection is cleared when clicking on an empty (non-focusable) section of the screen. Setting this value to true
         /// overrides that behavior and maintains selection.
+        /// </summary>
+        /// <default>false</default>
         abstract selectionPreservedOnEmptyClick: bool option with get, set
         /// Addition props to pass through to the selection zone created by default.
         abstract selectionZoneProps: ISelectionZoneProps option with get, set
         /// Controls how the columns are adjusted.
         abstract layoutMode: DetailsListLayoutMode option with get, set
-        /// Controls the visibility of selection check box.
+        /// <summary>Controls the visibility of selection check box.</summary>
+        /// <default>CheckboxVisibility.onHover</default>
         abstract checkboxVisibility: CheckboxVisibility option with get, set
-        /// Controls the visibility of the details header.
+        /// <summary>Controls the visibility of the details header.</summary>
+        /// <default>true</default>
         abstract isHeaderVisible: bool option with get, set
         /// Given column defitions. If none are provided, default columns will be created based on the item's properties.
         abstract columns: ResizeArray<IColumn> option with get, set
@@ -3566,7 +3799,8 @@ module __components_DetailsList_DetailsList_types =
         abstract dragDropEvents: IDragDropEvents option with get, set
         /// Callback for what to render when the item is missing.
         abstract onRenderMissingItem: (float -> IDetailsRowProps -> React.ReactNode) option with get, set
-        /// If set to true and we provide an empty array, it will render 10 lines of whatever provided in onRenderMissingItem.
+        /// <summary>If set to true and we provide an empty array, it will render 10 lines of whatever provided in onRenderMissingItem.</summary>
+        /// <default>false</default>
         abstract enableShimmer: bool option with get, set
         /// An override to render the details header.
         abstract onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> option with get, set
@@ -3596,12 +3830,16 @@ module __components_DetailsList_DetailsList_types =
         abstract ariaLabelForGrid: string option with get, set
         /// Boolean value to indicate if the role application should be applied on details list. Set to false by default
         abstract shouldApplyApplicationRole: bool option with get, set
-        /// The minimum mouse move distance to interpret the action as drag event.
+        /// <summary>The minimum mouse move distance to interpret the action as drag event.</summary>
+        /// <default>5</default>
         abstract minimumPixelsForDrag: float option with get, set
         /// Boolean value to indicate if the component should render in compact mode. Set to false by default
         abstract compact: bool option with get, set
+        /// <summary>
         /// Boolean value to enable render page caching. This is an experimental performance optimization
         /// that is off by default.
+        /// </summary>
+        /// <default>false</default>
         abstract usePageCache: bool option with get, set
         /// Optional callback to determine whether the list should be rendered in full, or virtualized.
         /// Virtualization will add and remove pages of items as the user scrolls them into the visible range.
@@ -3632,12 +3870,16 @@ module __components_DetailsList_DetailsList_types =
         /// Optional accessibility label (aria-label) attribute that will be stamped on to the element.
         /// If none is specified, the arai-label attribute will contain the column name
         abstract ariaLabel: string option with get, set
+        /// <summary>
         /// Optional flag on whether the column is a header for the given row. There should be only one column with
         /// row header set to true.
+        /// </summary>
+        /// <default>false</default>
         abstract isRowHeader: bool option with get, set
         /// Maximum width for the column, if stretching is allowed in justified scenarios.
         abstract maxWidth: float option with get, set
-        /// Defines how the column's header should render.
+        /// <summary>Defines how the column's header should render.</summary>
+        /// <default>ColumnActionsMode.clickable</default>
         abstract columnActionsMode: ColumnActionsMode option with get, set
         /// Optional iconName to use for the column header.
         abstract iconName: string option with get, set
@@ -3689,19 +3931,29 @@ module __components_DetailsList_DetailsList_types =
         /// ARIA label for the status of this column when filtered.
         abstract filterAriaLabel: string option with get, set
 
+    /// Enum to describe how a particular column header behaves.... This enum is used to
+    /// to specify the property IColumn:columnActionsMode.
+    /// If IColumn:columnActionsMode is undefined, then it's equivalent to ColumnActionsMode.clickable
     type [<RequireQualifiedAccess>] ColumnActionsMode =
+        /// Renders the column header as disabled.
         | Disabled = 0
+        /// Renders the column header is clickable.
         | Clickable = 1
+        /// Renders the column header ias clickable and displays the dropdown cheveron.
         | HasDropdown = 2
 
     type [<RequireQualifiedAccess>] ConstrainMode =
+        /// If specified, lets the content grow which allows the page to manage scrolling.
         | Unconstrained = 0
+        /// If specified, constrains the list to the given layout space.
         | HorizontalConstrained = 1
 
     type [<AllowNullLiteral>] IColumnReorderOptions =
-        /// Specifies the number fixed columns from left(0th index)
+        /// <summary>Specifies the number fixed columns from left(0th index)</summary>
+        /// <default>0</default>
         abstract frozenColumnCountFromStart: float option with get, set
-        /// Specifies the number fixed columns from right
+        /// <summary>Specifies the number fixed columns from right</summary>
+        /// <default>0</default>
         abstract frozenColumnCountFromEnd: float option with get, set
         /// Callback to handle the column dragstart
         /// draggedStarted indicates that the column drag has been started on DetailsHeader
@@ -3709,6 +3961,7 @@ module __components_DetailsList_DetailsList_types =
         /// Callback to handle the column reorder
         /// draggedIndex is the source column index, that need to be placed in targetIndex
         /// Use oncolumnDrop instead of this
+        [<Obsolete("")>]
         abstract handleColumnReorder: (float -> float -> unit) option with get, set
         /// Callback to handle the column reorder
         /// draggedIndex is the source column index, that need to be placed in targetIndex
@@ -3717,23 +3970,35 @@ module __components_DetailsList_DetailsList_types =
         abstract onDragEnd: (ColumnDragEndLocation -> unit) option with get, set
 
     type [<AllowNullLiteral>] IColumnDragDropDetails =
-        /// Specifies the source column index
+        /// <summary>Specifies the source column index</summary>
+        /// <default>-1</default>
         abstract draggedIndex: float with get, set
-        /// Specifies the target column index
+        /// <summary>Specifies the target column index</summary>
+        /// <default>-1</default>
         abstract targetIndex: float with get, set
 
+    /// Enum to describe where the column has been dropped, after starting the drag
     type [<RequireQualifiedAccess>] ColumnDragEndLocation =
+        /// Drag ended outside of current list
         | Outside = 0
+        /// Drag ended on current List
         | Surface = 1
+        /// Drag ended on Header
         | Header = 2
 
     type [<RequireQualifiedAccess>] DetailsListLayoutMode =
+        /// Lets the user resize columns and makes not attempt to fit them.
         | FixedColumns = 0
+        /// Manages which columns are visible, tries to size them according to their min/max rules and drops
+        /// off columns that can't fit and have isCollapsable set.
         | Justified = 1
 
     type [<RequireQualifiedAccess>] CheckboxVisibility =
+        /// Visible on hover.
         | OnHover = 0
+        /// Visible always.
         | Always = 1
+        /// Hide checkboxes.
         | Hidden = 2
 
     type [<AllowNullLiteral>] IDetailsGroupRenderProps =
@@ -3878,6 +4143,7 @@ module __components_DetailsList_DetailsRowCheck =
         abstract isHeader: bool option with get, set
         abstract selected: bool option with get, set
         /// Deprecated at v.65.1 and will be removed by v 1.0. Use 'selected' instead.
+        [<Obsolete("")>]
         abstract isSelected: bool option with get, set
         abstract anySelected: bool option with get, set
         abstract canSelect: bool with get, set
@@ -4017,39 +4283,59 @@ module __components_Dialog_Dialog_types =
         abstract dialogContentProps: IDialogContentProps option with get, set
         /// A callback function for when the Dialog is dismissed from the close button or light dismiss. Can also be specified separately in content and modal.
         abstract onDismiss: (React.MouseEvent<HTMLButtonElement> -> obj option) option with get, set
-        /// Whether the dialog is hidden.
+        /// <summary>Whether the dialog is hidden.</summary>
+        /// <default>true</default>
         abstract hidden: bool option with get, set
         /// Props to be passed through to Modal
         abstract modalProps: IModalProps option with get, set
-        /// Whether the dialog is displayed.
+        /// <summary>Whether the dialog is displayed.</summary>
+        /// <default>false</default>
+        [<Obsolete("Use hidden instead")>]
         abstract isOpen: bool option with get, set
-        /// Whether the overlay is dark themed.
+        /// <summary>Whether the overlay is dark themed.</summary>
+        /// <default>true</default>
+        [<Obsolete("Pass through via modalProps instead")>]
         abstract isDarkOverlay: bool option with get, set
         /// A callback function which is called after the Dialog is dismissed and the animation is complete.
+        [<Obsolete("Pass through via modalProps instead")>]
         abstract onDismissed: (unit -> obj option) option with get, set
-        /// Whether the dialog can be light dismissed by clicking outside the dialog (on the overlay).
+        /// <summary>Whether the dialog can be light dismissed by clicking outside the dialog (on the overlay).</summary>
+        /// <default>false</default>
+        [<Obsolete("Pass through via modalProps instead")>]
         abstract isBlocking: bool option with get, set
         /// Optional class name to be added to the root class
+        [<Obsolete("Pass through via modalProps.className instead")>]
         abstract className: string option with get, set
         /// Optional override for container class
+        [<Obsolete("Pass through via modalProps.className instead")>]
         abstract containerClassName: string option with get, set
         /// A callback function for when the Dialog content is mounted on the overlay layer
+        [<Obsolete("Pass through via modalProps instead")>]
         abstract onLayerDidMount: (unit -> unit) option with get, set
         /// Deprecated at 0.81.2, use 'onLayerDidMount' instead.
+        [<Obsolete("")>]
         abstract onLayerMounted: (unit -> unit) option with get, set
-        /// The type of Dialog to display.
+        /// <summary>The type of Dialog to display.</summary>
+        /// <default>DialogType.normal</default>
+        [<Obsolete("Pass through via dialogContentProps instead")>]
         abstract ``type``: DialogType option with get, set
         /// The title text to display at the top of the dialog.
+        [<Obsolete("Pass through via dialogContentProps instead")>]
         abstract title: string option with get, set
         /// The subtext to display in the dialog.
+        [<Obsolete("Pass through via dialogContentProps instead")>]
         abstract subText: string option with get, set
         /// Optional override content class
+        [<Obsolete("Pass through via dialogContentProps instead as className")>]
         abstract contentClassName: string option with get, set
         /// Other top buttons that will show up next to the close button
+        [<Obsolete("Pass through via dialogContentProps instead")>]
         abstract topButtonsProps: ResizeArray<IButtonProps> option with get, set
         /// Optional id for aria-LabelledBy
+        [<Obsolete("Pass through via modalProps.titleAriaId instead")>]
         abstract ariaLabelledById: string option with get, set
         /// Optional id for aria-DescribedBy
+        [<Obsolete("Pass through via modalProps.subtitleAriaId instead")>]
         abstract ariaDescribedById: string option with get, set
 
     type [<AllowNullLiteral>] IDialogStyleProps =
@@ -4058,14 +4344,19 @@ module __components_Dialog_Dialog_types =
         /// Accept custom classNames
         abstract className: string option with get, set
         /// Optional override for container class
+        [<Obsolete("Pass through via modalProps.className instead")>]
         abstract containerClassName: string option with get, set
         /// Optional override content class
+        [<Obsolete("Pass through via dialogContentProps instead as className")>]
         abstract contentClassName: string option with get, set
-        /// Whether the dialog is hidden.
+        /// <summary>Whether the dialog is hidden.</summary>
+        /// <default>false</default>
         abstract hidden: bool option with get, set
-        /// Default min-width for the dialog box.
+        /// <summary>Default min-width for the dialog box.</summary>
+        /// <default>'288px'</default>
         abstract dialogDefaultMinWidth: string option with get, set
-        /// Default max-width for the dialog box.
+        /// <summary>Default max-width for the dialog box.</summary>
+        /// <default>'340px'</default>
         abstract dialogDefaultMaxWidth: string option with get, set
 
     type [<AllowNullLiteral>] IDialogStyles =
@@ -4144,14 +4435,19 @@ module __components_Dialog_DialogContent_types =
         abstract title: string option with get, set
         /// Responsive mode passed in from decorator.
         abstract responsiveMode: ResponsiveMode option with get, set
-        /// Label to be passed to to aria-label of close button
+        /// <summary>Label to be passed to to aria-label of close button</summary>
+        /// <default>Close</default>
         abstract closeButtonAriaLabel: string option with get, set
-        /// The type of Dialog to display.
+        /// <summary>The type of Dialog to display.</summary>
+        /// <default>DialogType.normal</default>
         abstract ``type``: DialogType option with get, set
 
     type [<RequireQualifiedAccess>] DialogType =
+        /// Standard dialog
         | Normal = 0
+        /// Dialog with large header banner
         | LargeHeader = 1
+        /// Dialog with an 'x' close button in the upper-right corner
         | Close = 2
 
     type [<AllowNullLiteral>] IDialogContentStyleProps =
@@ -4383,7 +4679,8 @@ module __components_DocumentCard_DocumentCard_types =
         /// Optional callback to access the IDocumentCard interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IDocumentCard option -> unit) option with get, set
-        /// The type of DocumentCard to display.
+        /// <summary>The type of DocumentCard to display.</summary>
+        /// <default>DocumentCardType.normal</default>
         abstract ``type``: DocumentCardType option with get, set
         /// Function to call when the card is clicked or keyboard Enter/Space is pushed.
         abstract onClick: (React.SyntheticEvent<HTMLElement> -> unit) option with get, set
@@ -4392,17 +4689,23 @@ module __components_DocumentCard_DocumentCard_types =
         abstract onClickHref: string option with get, set
         /// Optional class for document card.
         abstract className: string option with get, set
+        /// <summary>
         /// Aria role assigned to the documentCard (Eg. button, link).
         /// Use this to override the default assignment.
+        /// </summary>
+        /// <default>When <c>onClick</c> is provided, default role will be 'button'. When <c>onClickHref</c> is provided, default role will be 'link'.</default>
         abstract role: string option with get, set
         /// Hex color value of the line below the card, which should correspond to the document type.
         /// This should only be supplied when using the 'compact' card layout.
         /// 
         /// Deprecated at v4.17.1, to be removed at >= v5.0.0.
+        [<Obsolete("")>]
         abstract accentColor: string option with get, set
 
     type [<RequireQualifiedAccess>] DocumentCardType =
+        /// Standard DocumentCard.
         | Normal = 0
+        /// Compact layout. Displays the preview beside the details, rather than above.
         | Compact = 1
 
     type [<AllowNullLiteral>] IDocumentCardPreviewProps =
@@ -4411,8 +4714,10 @@ module __components_DocumentCard_DocumentCard_types =
         abstract componentRef: (unit -> unit) option with get, set
         /// One or more preview images to display.
         abstract previewImages: ResizeArray<IDocumentCardPreviewImage> with get, set
+        /// <summary>
         /// The function return string that will describe the number of overflow documents.
-        /// such as  (overflowCount: number) => `+${ overflowCount } more`,
+        /// such as  (overflowCount: number) => <c>+${ overflowCount } more</c>,
+        /// </summary>
         abstract getOverflowDocumentCountText: (float -> string) option with get, set
 
     type [<AllowNullLiteral>] IDocumentCardPreviewImage =
@@ -4425,6 +4730,7 @@ module __components_DocumentCard_DocumentCard_types =
         /// Path to the preview image.
         abstract previewImageSrc: string option with get, set
         /// Deprecated at v1.3.6, to be removed at >= v2.0.0.
+        [<Obsolete("")>]
         abstract errorImageSrc: string option with get, set
         /// Path to the icon associated with this document type.
         abstract iconSrc: string option with get, set
@@ -4438,6 +4744,7 @@ module __components_DocumentCard_DocumentCard_types =
         /// Hex color value of the line below the preview, which should correspond to the document type.
         /// 
         /// Deprecated at v4.17.1, to be removed at >= v5.0.0.
+        [<Obsolete("")>]
         abstract accentColor: string option with get, set
         /// The props for the preview icon.
         /// If provided, icon will be rendered instead of image.
@@ -4452,9 +4759,11 @@ module __components_DocumentCard_DocumentCard_types =
         abstract componentRef: (unit -> unit) option with get, set
         /// Title text. If the card represents more than one document, this should be the title of one document and a "+X" string. For example, a collection of four documents would have a string of "Document.docx +3".
         abstract title: string with get, set
-        /// Whether we truncate the title to fit within the box. May have a performance impact.
+        /// <summary>Whether we truncate the title to fit within the box. May have a performance impact.</summary>
+        /// <default>true</default>
         abstract shouldTruncate: bool option with get, set
-        /// Whether show as title as secondary title style such as smaller font and lighter color.
+        /// <summary>Whether show as title as secondary title style such as smaller font and lighter color.</summary>
+        /// <default>false</default>
         abstract showAsSecondaryTitle: bool option with get, set
 
     type [<AllowNullLiteral>] IDocumentCardLocationProps =
@@ -4486,10 +4795,14 @@ module __components_DocumentCard_DocumentCard_types =
         abstract profileImageSrc: string with get, set
         /// The user's initials to display in the profile photo area when there is no image.
         abstract initials: string option with get, set
+        /// <summary>
         /// Whether initials are calculated for phone numbers and number sequences.
         /// Example: Set property to true to get initials for project names consisting of numbers only.
+        /// </summary>
+        /// <default>false</default>
         abstract allowPhoneInitials: bool option with get, set
-        /// The background color when the user's initials are displayed.
+        /// <summary>The background color when the user's initials are displayed.</summary>
+        /// <default>PersonaInitialsColor.blue</default>
         abstract initialsColor: PersonaInitialsColor option with get, set
 
     type [<AllowNullLiteral>] IDocumentCardActionsProps =
@@ -4730,7 +5043,8 @@ module __components_Dropdown_Dropdown_types =
         abstract onRenderTitle: IRenderFunction<U2<IDropdownOption, ResizeArray<IDropdownOption>>> option with get, set
         /// Optional custom renderer for chevron icon
         abstract onRenderCaretDown: IRenderFunction<IDropdownProps> option with get, set
-        /// Custom width for dropdown. If value is 0, width of the input field is used.
+        /// <summary>Custom width for dropdown. If value is 0, width of the input field is used.</summary>
+        /// <default>0</default>
         abstract dropdownWidth: float option with get, set
         abstract responsiveMode: ResponsiveMode option with get, set
         /// Optional mode indicates if multi-choice selections is allowed.  Default to false
@@ -4740,10 +5054,14 @@ module __components_Dropdown_Dropdown_types =
         /// Keys of the selected items. If you provide this, you must maintain selection
         /// state by observing onChange events and passing a new value in when changed.
         abstract selectedKeys: U2<ResizeArray<string>, ResizeArray<float>> option with get, set
+        /// <summary>
         /// When multiple items are selected, this still will be used to separate values in
         /// the dropdown title.
+        /// </summary>
+        /// <default>", "</default>
         abstract multiSelectDelimiter: string option with get, set
         /// Deprecated at v0.52.0, use 'disabled' instead.
+        [<Obsolete("")>]
         abstract isDisabled: bool option with get, set
         /// Optional keytip for this dropdown
         abstract keytipProps: IKeytipProps option with get, set
@@ -4753,6 +5071,7 @@ module __components_Dropdown_Dropdown_types =
         /// Data available to custom onRender functions.
         abstract data: obj option with get, set
         /// Deprecated at v.65.1, use 'selected' instead.
+        [<Obsolete("")>]
         abstract isSelected: bool option with get, set
 
 module __components_Dropdown_DropdownPage =
@@ -4903,15 +5222,19 @@ module __components_ExtendedPicker_BaseExtendedPicker_types =
         abstract floatingPickerProps: IBaseFloatingPickerProps<'T> with get, set
         /// Selected items list properties
         abstract selectedItemsListProps: IBaseSelectedItemsListProps<'T> with get, set
-        /// Autofill input native props
+        /// <summary>Autofill input native props</summary>
+        /// <default>undefined</default>
         abstract inputProps: IInputProps option with get, set
-        /// Flag for disabling the picker.
+        /// <summary>Flag for disabling the picker.</summary>
+        /// <default>false</default>
         abstract disabled: bool option with get, set
-        /// Restrict the amount of selectable items.
+        /// <summary>Restrict the amount of selectable items.</summary>
+        /// <default>undefined</default>
         abstract itemLimit: float option with get, set
         /// A callback to process a selection after the user selects something from the picker.
         abstract onItemSelected: ('T -> U2<'T, PromiseLike<'T>>) option with get, set
         /// Deprecated at 5.96.0. Use defaultSelectedItems or selectedItems in selectedItemsListProps instead.
+        [<Obsolete("")>]
         abstract selectedItems: ResizeArray<'T> option with get, set
 
 module __components_Fabric_Fabric =
@@ -5040,7 +5363,8 @@ module __components_Facepile_Facepile_types =
         abstract getStyles: IStyleFunction<IFacepileStyleProps, IFacepileStyles> option with get, set
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Facepile
+        /// <summary>Additional css class to apply to the Facepile</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// Array of IPersonaProps that define each Persona.
         abstract personas: ResizeArray<IFacepilePersona> with get, set
@@ -5057,6 +5381,7 @@ module __components_Facepile_Facepile_types =
         /// Button properties for the add face button
         abstract addButtonProps: IButtonProps option with get, set
         /// Deprecated at v0.70, use 'overflowButtonProps' instead;
+        [<Obsolete("")>]
         abstract chevronButtonProps: IButtonProps option with get, set
         /// Properties for the overflow icon
         abstract overflowButtonProps: IButtonProps option with get, set
@@ -5071,12 +5396,17 @@ module __components_Facepile_Facepile_types =
         abstract personaName: string option with get, set
         /// Url to the image to use, should be a square aspect ratio and big enough to fit in the image area.
         abstract imageUrl: string option with get, set
-        /// The user's initials to display in the image area when there is no image.
+        /// <summary>The user's initials to display in the image area when there is no image.</summary>
+        /// <default>[Derived from personaName]</default>
         abstract imageInitials: string option with get, set
+        /// <summary>
         /// Whether initials are calculated for phone numbers and number sequences.
         /// Example: Set property to true to get initials for project names consisting of numbers only.
+        /// </summary>
+        /// <default>false</default>
         abstract allowPhoneInitials: bool option with get, set
-        /// The background color when the user's initials are displayed.
+        /// <summary>The background color when the user's initials are displayed.</summary>
+        /// <default>[Derived from personaName]</default>
         abstract initialsColor: PersonaInitialsColor option with get, set
         /// If provided, persona will be rendered with cursor:pointer and the handler will be
         /// called on click.
@@ -5090,9 +5420,13 @@ module __components_Facepile_Facepile_types =
         abstract data: obj option with get, set
 
     type [<RequireQualifiedAccess>] OverflowButtonType =
+        /// No overflow
         | None = 0
+        /// +1 overflow icon
         | Descriptive = 1
+        /// More overflow icon
         | More = 2
+        /// Chevron overflow icon
         | DownArrow = 3
 
     type [<AllowNullLiteral>] IFacepileStyleProps =
@@ -5220,7 +5554,8 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         abstract onQueryStringChanged: (string -> unit) with get, set
         /// Hides the picker
         abstract hidePicker: (unit -> unit) with get, set
-        /// Shows the picker
+        /// <summary>Shows the picker</summary>
+        /// <param name="updateValue">optional param to indicate whether to update the query string</param>
         abstract showPicker: (bool -> unit) with get, set
         /// Gets the suggestions
         abstract suggestions: ResizeArray<obj option> with get, set
@@ -5323,19 +5658,24 @@ module __components_FocusTrapZone_FocusTrapZone_types =
         /// Optional callback to access the IFocusTrapZone interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IFocusTrapZone option -> unit) option with get, set
-        /// Sets the HTMLElement to focus on when exiting the FocusTrapZone.
+        /// <summary>Sets the HTMLElement to focus on when exiting the FocusTrapZone.</summary>
+        /// <default>The element.target that triggered the FTZ.</default>
         abstract elementToFocusOnDismiss: HTMLElement option with get, set
         /// Sets the aria-labelledby attribute.
         abstract ariaLabelledBy: string option with get, set
-        /// Indicates if this Trap Zone will allow clicks outside the FocusTrapZone
+        /// <summary>Indicates if this Trap Zone will allow clicks outside the FocusTrapZone</summary>
+        /// <default>false</default>
         abstract isClickableOutsideFocusTrap: bool option with get, set
-        /// Indicates if this Trap Zone will ignore keeping track of HTMLElement that activated the Zone.
+        /// <summary>Indicates if this Trap Zone will ignore keeping track of HTMLElement that activated the Zone.</summary>
+        /// <default>false</default>
         abstract ignoreExternalFocusing: bool option with get, set
-        /// Indicates whether focus trap zone should force focus inside the focus trap zone
+        /// <summary>Indicates whether focus trap zone should force focus inside the focus trap zone</summary>
+        /// <default>true</default>
         abstract forceFocusInsideTrap: bool option with get, set
         /// Indicates the selector for first focusable item
         abstract firstFocusableSelector: U2<string, (unit -> string)> option with get, set
-        /// Do not put focus onto first element when render focus trap zone
+        /// <summary>Do not put focus onto first element when render focus trap zone</summary>
+        /// <default>false</default>
         abstract disableFirstFocus: bool option with get, set
         /// Optional, onKeyDown event handler
         abstract onKeyDown: (React.KeyboardEvent<HTMLElement> -> unit) option with get, set
@@ -5372,11 +5712,15 @@ module __components_FocusZone_FocusZone =
         abstract render: unit -> JSX.Element
         /// <summary>Sets focus to the first tabbable item in the zone.</summary>
         /// <param name="forceIntoFirstElement">If true, focus will be forced into the first element, even if focus is already in the focus zone.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focus: ?forceIntoFirstElement: bool -> bool
-        /// <summary>Sets focus to a specific child element within the zone. This can be used in conjunction with
+        /// <summary>
+        /// Sets focus to a specific child element within the zone. This can be used in conjunction with
         /// onBeforeFocus to created delayed focus scenarios (like animate the scroll position to the correct
-        /// location and then focus.)</summary>
+        /// location and then focus.)
+        /// </summary>
         /// <param name="element">The child element within the zone to focus.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focusElement: element: HTMLElement -> bool
 
     type [<AllowNullLiteral>] FocusZoneStatic =
@@ -5393,10 +5737,15 @@ module __components_FocusZone_FocusZone_types =
     type [<AllowNullLiteral>] IFocusZone =
         /// <summary>Sets focus to the first tabbable item in the zone.</summary>
         /// <param name="forceIntoFirstElement">If true, focus will be forced into the first element, even if focus is already in the focus zone.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focus: ?forceIntoFirstElement: bool -> bool
+        /// <summary>
         /// Sets focus to a specific child element within the zone. This can be used in conjunction with
         /// onBeforeFocus to created delayed focus scenarios (like animate the scroll position to the correct
         /// location and then focus.)
+        /// </summary>
+        /// <param name="element">The child element within the zone to focus.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focusElement: ?childElement: HTMLElement -> bool
 
     /// FocusZone component props.
@@ -5407,7 +5756,8 @@ module __components_FocusZone_FocusZone_types =
         abstract componentRef: (IFocusZone option -> unit) option with get, set
         /// Additional class name to provide on the root element, in addition to the ms-FocusZone class.
         abstract className: string option with get, set
-        /// Defines which arrows to react to.
+        /// <summary>Defines which arrows to react to.</summary>
+        /// <default>FocusZoneDirection.bidriectional</default>
         abstract direction: FocusZoneDirection option with get, set
         /// Optionally provide a selector for identifying the intial active element.
         abstract defaultActiveElement: string option with get, set
@@ -5431,23 +5781,32 @@ module __components_FocusZone_FocusZone_types =
         /// or by having one of its respective children elements focused.
         abstract onActiveElementChanged: (HTMLElement -> React.FocusEvent<HTMLElement> -> unit) option with get, set
         /// Deprecated at v1.12.1. DIV props provided to the FocusZone will be mixed into the root element.
+        [<Obsolete("")>]
         abstract rootProps: React.HTMLAttributes<HTMLDivElement> option with get, set
-        /// Callback method for determining if focus should indeed be set on the given element.
+        /// <summary>Callback method for determining if focus should indeed be set on the given element.</summary>
+        /// <param name="element">The child element within the zone to focus.</param>
+        /// <returns>True if focus should be set to the given element, false to avoid setting focus.</returns>
         abstract onBeforeFocus: (HTMLElement -> bool) option with get, set
         /// Allow focus to move to root
         abstract allowFocusRoot: bool option with get, set
         /// Allows tab key to be handled to tab through a list of items in the focus zone,
         /// an unfortunate side effect is that users will not be able to tab out of the focus zone
         /// and have to hit escape or some other key.
+        [<Obsolete("Use 'handleTabKey' instead.")>]
         abstract allowTabKey: bool option with get, set
         /// Allows tab key to be handled to tab through a list of items in the focus zone,
         /// an unfortunate side effect is that users will not be able to tab out of the focus zone
         /// and have to hit escape or some other key.
         abstract handleTabKey: FocusZoneTabbableElements option with get, set
-        /// A callback method to determine if the input element should lose focus on arrow keys
+        /// <summary>A callback method to determine if the input element should lose focus on arrow keys</summary>
+        /// <param name="inputElement">The input element which is to loose focus.</param>
+        /// <returns>True if input element should loose focus or false otherwise.</returns>
         abstract shouldInputLoseFocusOnArrowKey: (HTMLInputElement -> bool) option with get, set
+        /// <summary>
         /// Whether the to check for data-no-horizontal-wrap or data-no-vertical-wrap attributes
         /// when determining how to move focus
+        /// </summary>
+        /// <default>false</default>
         abstract checkForNoWrap: bool option with get, set
         /// Whether the FocusZone should allow focus events to propagate past the FocusZone
         abstract doNotAllowFocusEventToPropagate: bool option with get, set
@@ -5455,13 +5814,19 @@ module __components_FocusZone_FocusZone_types =
         abstract onFocusNotification: (unit -> unit) option with get, set
 
     type [<RequireQualifiedAccess>] FocusZoneTabbableElements =
+        /// Tabbing is not allowed
         | None = 0
+        /// All tabbing action is allowed
         | All = 1
+        /// Tabbing is allowed only on input elements
         | InputOnly = 2
 
     type [<RequireQualifiedAccess>] FocusZoneDirection =
+        /// Only react to up/down arrows.
         | Vertical = 0
+        /// Only react to left/right arrows.
         | Horizontal = 1
+        /// React to all arrows.
         | Bidirectional = 2
 
 module __components_FocusZone_FocusZonePage =
@@ -5620,6 +5985,7 @@ module __components_GroupedList_GroupedList_types =
         /// Number indicating the level of nested groups.
         abstract level: float option with get, set
         /// Deprecated at 1.0.0, selection state will be controled by the selection store only.
+        [<Obsolete("")>]
         abstract isSelected: bool option with get, set
         /// If all the items in the group are collapsed.
         abstract isCollapsed: bool option with get, set
@@ -5655,9 +6021,11 @@ module __components_GroupedList_GroupedList_types =
         abstract onRenderShowAll: IRenderFunction<IGroupDividerProps> option with get, set
         /// Override which allows the caller to provide a custom footer.
         abstract onRenderFooter: IRenderFunction<IGroupDividerProps> option with get, set
-        /// Flag to indicate whether to ignore the collapsing icon on header.
+        /// <summary>Flag to indicate whether to ignore the collapsing icon on header.</summary>
+        /// <default>CheckboxVisibility.visible</default>
         abstract collapseAllVisibility: CollapseAllVisibility option with get, set
-        /// Boolean indicating if empty groups are shown
+        /// <summary>Boolean indicating if empty groups are shown</summary>
+        /// <default>false</default>
         abstract showEmptyGroups: bool option with get, set
 
     type [<AllowNullLiteral>] IGroupDividerProps =
@@ -5675,6 +6043,7 @@ module __components_GroupedList_GroupedList_types =
         /// If all items in the group are selected.
         abstract selected: bool option with get, set
         /// Deprecated at v.65.1 and will be removed by v 1.0. Use 'selected' instead.
+        [<Obsolete("")>]
         abstract isSelected: bool option with get, set
         /// A reference to the viewport in which the header is rendered.
         abstract viewport: IViewport option with get, set
@@ -5865,7 +6234,8 @@ module __components_GroupedList_GroupShowAll =
         abstract GroupShowAll: GroupShowAllStatic
 
     type [<AllowNullLiteral>] IGroupDividerProps =
-        /// The Show All link text.
+        /// <summary>The Show All link text.</summary>
+        /// <default>'Show All'</default>
         abstract showAllLinkText: string with get, set
 
     type [<AllowNullLiteral>] GroupShowAll =
@@ -5961,21 +6331,27 @@ module __components_HoverCard_ExpandingCard_types =
         abstract onEnter: (obj -> unit) option with get, set
         /// Callback upon blur or mouse leave event
         abstract onLeave: (obj -> unit) option with get, set
-        /// Height of compact card
+        /// <summary>Height of compact card</summary>
+        /// <default>156</default>
         abstract compactCardHeight: float option with get, set
-        /// Height of expanded card
+        /// <summary>Height of expanded card</summary>
+        /// <default>384</default>
         abstract expandedCardHeight: float option with get, set
-        /// Use to open the card in expanded format and not wait for the delay
+        /// <summary>Use to open the card in expanded format and not wait for the delay</summary>
+        /// <default>ExpandingCardMode.compact</default>
         abstract mode: ExpandingCardMode option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// How the element should be positioned
+        /// <summary>How the element should be positioned</summary>
+        /// <default>DirectionalHint.bottomLeftEdge</default>
         abstract directionalHint: DirectionalHint option with get, set
-        /// The gap between the card and the target
+        /// <summary>The gap between the card and the target</summary>
+        /// <default>0</default>
         abstract gapSpace: float option with get, set
         /// Custom styles for this component
         abstract styles: IExpandingCardStyles option with get, set
-        /// Make callout content show on the set side
+        /// <summary>Make callout content show on the set side</summary>
+        /// <default>true</default>
         abstract directionalHintFixed: bool option with get, set
         /// Trap focus or not
         abstract trapFocus: bool option with get, set
@@ -5983,11 +6359,15 @@ module __components_HoverCard_ExpandingCard_types =
         abstract firstFocus: bool option with get, set
 
     type [<RequireQualifiedAccess>] ExpandingCardMode =
+        /// To have top compact card only
         | Compact = 0
+        /// To have both top compact and bottom expanded card
         | Expanded = 1
 
     type [<RequireQualifiedAccess>] OpenCardMode =
+        /// Open card by hover
         | Hover = 0
+        /// Open card by hot key
         | HotKey = 1
 
     type [<AllowNullLiteral>] IExpandingCardStyles =
@@ -6070,15 +6450,20 @@ module __components_HoverCard_HoverCard_types =
         abstract setAriaDescribedBy: bool option with get, set
         /// Callback when visible card is expanded.
         abstract onCardExpand: (unit -> unit) option with get, set
-        /// Length of compact card delay
+        /// <summary>Length of compact card delay</summary>
+        /// <default>500</default>
         abstract cardOpenDelay: float option with get, set
-        /// Length of card dismiss delay. A min number is necessary for pointer to hop between target and card
+        /// <summary>Length of card dismiss delay. A min number is necessary for pointer to hop between target and card</summary>
+        /// <default>100</default>
         abstract cardDismissDelay: float option with get, set
-        /// Time in ms when expanded card should open after compact card
+        /// <summary>Time in ms when expanded card should open after compact card</summary>
+        /// <default>1500</default>
         abstract expandedCardOpenDelay: float option with get, set
-        /// If true disables Card dismiss upon mouse leave, so that card sticks around.
+        /// <summary>If true disables Card dismiss upon mouse leave, so that card sticks around.</summary>
+        /// <default>false</default>
         abstract sticky: bool option with get, set
-        /// Enables instant open of the full card upon click
+        /// <summary>Enables instant open of the full card upon click</summary>
+        /// <default>false</default>
         abstract instantOpenOnClick: bool option with get, set
         /// Custom styles for this component
         abstract styles: IHoverCardStyles option with get, set
@@ -6160,9 +6545,15 @@ module __components_Icon_Icon_types =
     type IStyleFunction = Utilities.IStyleFunction
 
     type [<RequireQualifiedAccess>] IconType =
+        /// Render using the fabric icon font.
         | Default = 0
+        /// Render using an image, where imageProps would be used.
         | Image = 1
+        /// <summary>Deprecated, use default.</summary>
+        /// <deprecated />
         | Default = 100000
+        /// <summary>Deprecated, use image.</summary>
+        /// <deprecated />
         | Image = 100001
 
     type [<AllowNullLiteral>] IIconProps =
@@ -6172,15 +6563,16 @@ module __components_Icon_Icon_types =
         abstract iconName: string option with get, set
         /// The aria label of the button for the benefit of screen readers.
         abstract ariaLabel: string option with get, set
-        /// The type of icon to render (image or icon font).
+        /// <summary>The type of icon to render (image or icon font).</summary>
         abstract iconType: IconType option with get, set
-        /// If rendering an image icon, these props will be passed to the Image component.
+        /// <summary>If rendering an image icon, these props will be passed to the Image component.</summary>
         abstract imageProps: IImageProps option with get, set
         /// If rendering an image icon, this function callback will be invoked in the event loading the image errors.
         abstract imageErrorAs: U2<React.StatelessComponent<IImageProps>, React.ComponentClass<IImageProps>> option with get, set
         /// Gets the styles for an Icon.
         abstract getStyles: IStyleFunction<IIconStyleProps, IIconStyles> option with get, set
         /// Deprecated: use getStyles.
+        [<Obsolete("")>]
         abstract styles: IIconStyles option with get, set
 
     type [<AllowNullLiteral>] IIconStyleProps =
@@ -6193,6 +6585,7 @@ module __components_Icon_Icon_types =
     type [<AllowNullLiteral>] IIconStyles =
         abstract root: IStyle option with get, set
         /// Deprecated. Use 'root'.
+        [<Obsolete("")>]
         abstract imageContainer: IStyle option with get, set
 
 module __components_Icon_IconPage =
@@ -6278,17 +6671,27 @@ module __components_Image_Image_types =
         abstract getStyles: IStyleFunction<IImageStyleProps, IImageStyles> option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Component
+        /// <summary>Additional css class to apply to the Component</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
-        /// If true, fades the image in when loaded.
+        /// <summary>If true, fades the image in when loaded.</summary>
+        /// <default>true</default>
         abstract shouldFadeIn: bool option with get, set
+        /// <summary>
         /// If true, the image starts as visible and is hidden on error. Otherwise, the image is hidden until
         /// it is successfully loaded. This disables shouldFadeIn.
+        /// </summary>
+        /// <default>false;</default>
         abstract shouldStartVisible: bool option with get, set
-        /// Used to determine how the image is scaled and cropped to fit the frame.
+        /// <summary>Used to determine how the image is scaled and cropped to fit the frame.</summary>
+        /// <default>
+        /// If both dimensions are provided, then the image is fit using ImageFit.scale. Otherwise, the
+        /// image won't be scaled or cropped.
+        /// </default>
         abstract imageFit: ImageFit option with get, set
         /// Deprecated at v1.3.6, to replace the src in case of errors, use onLoadingStateChange instead and
         /// rerender the Image with a difference src.
+        [<Obsolete("")>]
         abstract errorSrc: string option with get, set
         /// If true, the image frame will expand to fill its parent container.
         abstract maximizeFrame: bool option with get, set
@@ -6300,20 +6703,40 @@ module __components_Image_Image_types =
         /// aspect ratio for the image.
         abstract coverStyle: ImageCoverStyle option with get, set
 
+    /// The possible methods that can be used to fit the image.
     type [<RequireQualifiedAccess>] ImageFit =
+        /// The image is not scaled. The image is centered and cropped within the content box.
         | Center = 0
+        /// The image is scaled to maintain its aspect ratio while being fully contained within the frame. The image will
+        /// be centered horizontally and vertically within the frame. The space in the top and bottom or in the sides of
+        /// the frame will be empty depending on the difference in aspect ratio between the image and the frame.
         | Contain = 1
+        /// The image is scaled to maintain its aspect ratio while filling the frame. Portions of the image will be cropped from
+        /// the top and bottom, or from the sides, depending on the difference in aspect ratio between the image and the frame.
         | Cover = 2
+        /// Neither the image nor the frame are scaled. If their sizes do not match, the image will either be cropped or the
+        /// frame will have empty space.
         | None = 3
 
+    /// The cover style to be used on the image
     type [<RequireQualifiedAccess>] ImageCoverStyle =
+        /// The image will be shown at 100% height of container and the width will be scaled accordingly
         | Landscape = 0
+        /// The image will be shown at 100% width of container and the height will be scaled accordingly
         | Portrait = 1
 
     type [<RequireQualifiedAccess>] ImageLoadState =
+        /// The image has not yet been loaded, and there is no error yet.
         | NotLoaded = 0
+        /// The image has been loaded successfully.
         | Loaded = 1
+        /// An error has been encountered while loading the image.
         | Error = 2
+        /// <summary>
+        /// Deprecated at v1.3.6, to replace the src in case of errors, use onLoadingStateChange instead
+        /// and rerender the Image with a difference src.
+        /// </summary>
+        /// <deprecated />
         | ErrorLoaded = 3
 
     type [<AllowNullLiteral>] IImageStyleProps =
@@ -6325,10 +6748,14 @@ module __components_Image_Image_types =
         abstract maximizeFrame: bool option with get, set
         /// If true, the image is loaded
         abstract isLoaded: bool option with get, set
-        /// If true, fades the image in when loaded.
+        /// <summary>If true, fades the image in when loaded.</summary>
+        /// <default>true</default>
         abstract shouldFadeIn: bool option with get, set
+        /// <summary>
         /// If true, the image starts as visible and is hidden on error. Otherwise, the image is hidden until
         /// it is successfully loaded. This disables shouldFadeIn.
+        /// </summary>
+        /// <default>false;</default>
         abstract shouldStartVisible: bool option with get, set
         /// If true the image is coverStyle landscape instead of portrait
         abstract isLandscape: bool option with get, set
@@ -6387,15 +6814,16 @@ module __components_Keytip_Keytip =
     type IKeytipProps = __components_Keytip_Keytip_types.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>A callout corresponding to another Fabric component to describe a key sequence that will activate that component</summary>
         abstract Keytip: KeytipStatic
 
-    /// A callout corresponding to another Fabric component to describe a key sequence that will activate that component
+    /// <summary>A callout corresponding to another Fabric component to describe a key sequence that will activate that component</summary>
     type [<AllowNullLiteral>] Keytip =
         inherit BaseComponent<IKeytipProps, KeytipBaseComponent>
         inherit IKeytip
         abstract render: unit -> JSX.Element
 
-    /// A callout corresponding to another Fabric component to describe a key sequence that will activate that component
+    /// <summary>A callout corresponding to another Fabric component to describe a key sequence that will activate that component</summary>
     type [<AllowNullLiteral>] KeytipStatic =
         [<EmitConstructor>] abstract Create: unit -> Keytip
 
@@ -6429,52 +6857,64 @@ module __components_Keytip_Keytip_types =
         /// Optional callback to access the Keytip component. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IKeytip option -> unit) option with get, set
-        /// Content to put inside the keytip
+        /// <summary>Content to put inside the keytip</summary>
         abstract content: string with get, set
-        /// Theme for the component
+        /// <summary>Theme for the component</summary>
         abstract theme: ITheme option with get, set
-        /// T/F if the corresponding control for this keytip is disabled
+        /// <summary>T/F if the corresponding control for this keytip is disabled</summary>
         abstract disabled: bool option with get, set
-        /// T/F if the keytip is visible
+        /// <summary>T/F if the keytip is visible</summary>
         abstract visible: bool option with get, set
+        /// <summary>
         /// Function to call when this keytip is activated
         /// 'el' is the DOM element marked with 'data-ktp-execute-target'
+        /// </summary>
         abstract onExecute: (HTMLElement option -> unit) option with get, set
+        /// <summary>
         /// Function to call when the keytip is returned to
         /// 'el' is the DOM element marked with 'data-ktp-execute-target'
+        /// </summary>
         abstract onReturn: (HTMLElement option -> unit) option with get, set
+        /// <summary>
         /// Array of KeySequences which is the full key sequence to trigger this keytip
         /// Should not include initial 'start' key sequence
+        /// </summary>
         abstract keySequences: ResizeArray<string> with get, set
-        /// Full KeySequence of the overflow set button, will be set automatically if this keytip is inside an overflow
+        /// <summary>Full KeySequence of the overflow set button, will be set automatically if this keytip is inside an overflow</summary>
         abstract overflowSetSequence: ResizeArray<string> option with get, set
-        /// ICalloutProps to pass to the callout element
+        /// <summary>ICalloutProps to pass to the callout element</summary>
         abstract calloutProps: ICalloutProps option with get, set
-        /// Optional styles for the component.
+        /// <summary>Optional styles for the component.</summary>
         abstract getStyles: IStyleFunction<IKeytipStyleProps, IKeytipStyles> option with get, set
+        /// <summary>
         /// Offset x and y for the keytip, added from the top-left corner
         /// By default the keytip will be anchored to the bottom-center of the element
+        /// </summary>
         abstract offset: IPoint option with get, set
+        /// <summary>
         /// Whether or not this keytip will have children keytips that are dynamically created (DOM is generated on keytip activation)
         /// Common cases are a Pivot or Modal
+        /// </summary>
         abstract hasDynamicChildren: bool option with get, set
+        /// <summary>
         /// Whether or not this keytip belongs to a component that has a menu
         /// Keytip mode will stay on when a menu is opened, even if the items in that menu have no keytips
+        /// </summary>
         abstract hasMenu: bool option with get, set
 
     /// Props to style Keytip component
     type [<AllowNullLiteral>] IKeytipStyleProps =
-        /// The theme for the keytip.
+        /// <summary>The theme for the keytip.</summary>
         abstract theme: ITheme with get, set
-        /// Whether the keytip is disabled or not.
+        /// <summary>Whether the keytip is disabled or not.</summary>
         abstract disabled: bool option with get, set
-        /// T/F if the keytip is visible
+        /// <summary>T/F if the keytip is visible</summary>
         abstract visible: bool option with get, set
 
     type [<AllowNullLiteral>] IKeytipStyles =
-        /// Style for the div container surrounding the keytip content.
+        /// <summary>Style for the div container surrounding the keytip content.</summary>
         abstract container: IStyle with get, set
-        /// Style for the keytip content element.
+        /// <summary>Style for the keytip content element.</summary>
         abstract root: IStyle with get, set
 
 module __components_Keytip_KeytipContent_base =
@@ -6482,14 +6922,15 @@ module __components_Keytip_KeytipContent_base =
     type IKeytipProps = __components_Keytip_Keytip_types.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>A component corresponding the the content rendered inside the callout of the keytip component.</summary>
         abstract KeytipContentBase: KeytipContentBaseStatic
 
-    /// A component corresponding the the content rendered inside the callout of the keytip component.
+    /// <summary>A component corresponding the the content rendered inside the callout of the keytip component.</summary>
     type [<AllowNullLiteral>] KeytipContentBase =
         inherit BaseComponent<IKeytipProps, KeytipContentBaseBaseComponent>
         abstract render: unit -> JSX.Element
 
-    /// A component corresponding the the content rendered inside the callout of the keytip component.
+    /// <summary>A component corresponding the the content rendered inside the callout of the keytip component.</summary>
     type [<AllowNullLiteral>] KeytipContentBaseStatic =
         [<EmitConstructor>] abstract Create: unit -> KeytipContentBase
 
@@ -6524,9 +6965,10 @@ module __components_KeytipData_KeytipData =
     type IKeytipDataProps = __components_KeytipData_KeytipData_types.IKeytipDataProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>A small element to help the target component correctly read out its aria-describedby for its Keytip</summary>
         abstract KeytipData: KeytipDataStatic
 
-    /// A small element to help the target component correctly read out its aria-describedby for its Keytip
+    /// <summary>A small element to help the target component correctly read out its aria-describedby for its Keytip</summary>
     type [<AllowNullLiteral>] KeytipData =
         inherit BaseComponent<obj, KeytipDataBaseComponent>
         abstract componentDidMount: unit -> unit
@@ -6534,7 +6976,7 @@ module __components_KeytipData_KeytipData =
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
 
-    /// A small element to help the target component correctly read out its aria-describedby for its Keytip
+    /// <summary>A small element to help the target component correctly read out its aria-describedby for its Keytip</summary>
     type [<AllowNullLiteral>] KeytipDataStatic =
         [<EmitConstructor>] abstract Create: unit -> KeytipData
 
@@ -6545,13 +6987,17 @@ module __components_KeytipData_KeytipData_types =
     type IKeytipProps = Keytip.IKeytipProps
 
     type [<AllowNullLiteral>] IKeytipDataProps =
+        /// <summary>
         /// IKeytipProps to create from this KeytipData
         /// If no keytipProps are defined, a keytip won't be registered
+        /// </summary>
         abstract keytipProps: IKeytipProps option with get, set
+        /// <summary>
         /// String to add to the aria-describedby generated by this KeytipData
         /// It will prepend this string to the generated aria-describedby property
+        /// </summary>
         abstract ariaDescribedBy: string option with get, set
-        /// T/F if this keytip should be disabled upon creation
+        /// <summary>T/F if this keytip should be disabled upon creation</summary>
         abstract disabled: bool option with get, set
 
 module __components_KeytipLayer_IKeytipTreeNode =
@@ -6590,6 +7036,7 @@ module __components_KeytipLayer_KeytipLayer_base =
     type IKeytipTransitionKey = __utilities_keytips_IKeytipTransitionKey.IKeytipTransitionKey
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>A layer that holds all keytip items</summary>
         abstract KeytipLayerBase: KeytipLayerBaseStatic
 
     type [<AllowNullLiteral>] IKeytipLayerState =
@@ -6597,7 +7044,7 @@ module __components_KeytipLayer_KeytipLayer_base =
         abstract keytips: ResizeArray<IKeytipProps> with get, set
         abstract visibleKeytips: ResizeArray<IKeytipProps> with get, set
 
-    /// A layer that holds all keytip items
+    /// <summary>A layer that holds all keytip items</summary>
     type [<AllowNullLiteral>] KeytipLayerBase =
         inherit BaseComponent<IKeytipLayerProps, IKeytipLayerState>
         abstract render: unit -> JSX.Element
@@ -6606,16 +7053,16 @@ module __components_KeytipLayer_KeytipLayer_base =
         abstract getCurrentSequence: unit -> string
         abstract getKeytipTree: unit -> KeytipTree
         /// <summary>Processes an IKeytipTransitionKey entered by the user</summary>
-        /// <param name="transitionKey">- IKeytipTransitionKey received by the layer to process</param>
+        /// <param name="transitionKey">IKeytipTransitionKey received by the layer to process</param>
         abstract processTransitionInput: transitionKey: IKeytipTransitionKey -> unit
         /// <summary>Processes inputs from the document listener and traverse the keytip tree</summary>
-        /// <param name="key">- Key pressed by the user</param>
+        /// <param name="key">Key pressed by the user</param>
         abstract processInput: key: string -> unit
         /// <summary>Show the given keytips and hide all others</summary>
-        /// <param name="ids">- Keytip IDs to show</param>
+        /// <param name="ids">Keytip IDs to show</param>
         abstract showKeytips: ids: ResizeArray<string> -> unit
 
-    /// A layer that holds all keytip items
+    /// <summary>A layer that holds all keytip items</summary>
     type [<AllowNullLiteral>] KeytipLayerBaseStatic =
         abstract defaultProps: IKeytipLayerProps with get, set
         [<EmitConstructor>] abstract Create: props: IKeytipLayerProps * context: obj option -> KeytipLayerBase
@@ -6649,18 +7096,20 @@ module __components_KeytipLayer_KeytipLayer_types =
         /// Optional callback to access the KeytipLayer component. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IKeytipLayer option -> unit) option with get, set
+        /// <summary>
         /// String to put inside the layer to be used for the aria-describedby for the component with the keytip
         /// Should be one of the starting sequences
+        /// </summary>
         abstract content: string with get, set
-        /// List of key sequences that will start keytips mode
+        /// <summary>List of key sequences that will start keytips mode</summary>
         abstract keytipStartSequences: ResizeArray<IKeytipTransitionKey> option with get, set
-        /// List of key sequences that execute the return functionality in keytips (going back to the previous level of keytips)
+        /// <summary>List of key sequences that execute the return functionality in keytips (going back to the previous level of keytips)</summary>
         abstract keytipReturnSequences: ResizeArray<IKeytipTransitionKey> option with get, set
-        /// List of key sequences that will exit keytips mode
+        /// <summary>List of key sequences that will exit keytips mode</summary>
         abstract keytipExitSequences: ResizeArray<IKeytipTransitionKey> option with get, set
-        /// Callback function triggered when keytip mode is exited
+        /// <summary>Callback function triggered when keytip mode is exited</summary>
         abstract onExitKeytipMode: (unit -> unit) option with get, set
-        /// Callback function triggered when keytip mode is entered
+        /// <summary>Callback function triggered when keytip mode is entered</summary>
         abstract onEnterKeytipMode: (unit -> unit) option with get, set
         /// getStyles function for KeytipLayer
         abstract getStyles: IStyleFunction<IKeytipLayerStyleProps, IKeytipLayerStyles> option with get, set
@@ -6676,6 +7125,7 @@ module __components_KeytipLayer_KeytipTree =
     type IKeytipTreeNode = __components_KeytipLayer_IKeytipTreeNode.IKeytipTreeNode
 
     type [<AllowNullLiteral>] IExports =
+        /// This class is responsible for handling the parent/child relationships between keytips
         abstract KeytipTree: KeytipTreeStatic
 
     /// This class is responsible for handling the parent/child relationships between keytips
@@ -6684,38 +7134,51 @@ module __components_KeytipLayer_KeytipTree =
         abstract root: IKeytipTreeNode with get, set
         abstract nodeMap: KeytipTreeNodeMap with get, set
         /// <summary>Add a keytip node to this KeytipTree</summary>
-        /// <param name="keytipProps">- Keytip to add to the Tree</param>
-        /// <param name="uniqueID">- Unique ID for this keytip</param>
-        /// <param name="persisted">- T/F if this keytip should be marked as persisted</param>
+        /// <param name="keytipProps">Keytip to add to the Tree</param>
+        /// <param name="uniqueID">Unique ID for this keytip</param>
+        /// <param name="persisted">T/F if this keytip should be marked as persisted</param>
         abstract addNode: keytipProps: IKeytipProps * uniqueID: string * ?persisted: bool -> unit
         /// <summary>Updates a node in the tree</summary>
-        /// <param name="keytipProps">- Keytip props to update</param>
-        /// <param name="uniqueID">- Unique ID for this keytip</param>
+        /// <param name="keytipProps">Keytip props to update</param>
+        /// <param name="uniqueID">Unique ID for this keytip</param>
         abstract updateNode: keytipProps: IKeytipProps * uniqueID: string -> unit
-        /// Removes a node from the KeytipTree
+        /// <summary>Removes a node from the KeytipTree</summary>
+        /// <param name="sequence">full string of the node to remove</param>
         abstract removeNode: keytipProps: IKeytipProps * uniqueID: string -> unit
-        /// <summary>Searches the currentKeytip's children to exactly match a sequence. Will not match disabled nodes but
-        /// will match persisted nodes</summary>
-        /// <param name="keySequence">- string to match</param>
-        /// <param name="currentKeytip">- The keytip who's children will try to match</param>
+        /// <summary>
+        /// Searches the currentKeytip's children to exactly match a sequence. Will not match disabled nodes but
+        /// will match persisted nodes
+        /// </summary>
+        /// <param name="keySequence">string to match</param>
+        /// <param name="currentKeytip">The keytip who's children will try to match</param>
+        /// <returns>The node that exactly matched the keySequence, or undefined if none matched</returns>
         abstract getExactMatchedNode: keySequence: string * currentKeytip: IKeytipTreeNode -> IKeytipTreeNode option
-        /// <summary>Searches the currentKeytip's children to find nodes that start with the given sequence. Will not match
-        /// disabled nodes but will match persisted nodes</summary>
-        /// <param name="keySequence">- string to partially match</param>
-        /// <param name="currentKeytip">- The keytip who's children will try to partially match</param>
+        /// <summary>
+        /// Searches the currentKeytip's children to find nodes that start with the given sequence. Will not match
+        /// disabled nodes but will match persisted nodes
+        /// </summary>
+        /// <param name="keySequence">string to partially match</param>
+        /// <param name="currentKeytip">The keytip who's children will try to partially match</param>
+        /// <returns>List of tree nodes that partially match the given sequence</returns>
         abstract getPartiallyMatchedNodes: keySequence: string * currentKeytip: IKeytipTreeNode -> ResizeArray<IKeytipTreeNode>
-        /// <summary>Get the non-persisted children of the give node
-        /// If no node is given, will use the 'currentKeytip'</summary>
-        /// <param name="node">- Node to get the children for</param>
+        /// <summary>
+        /// Get the non-persisted children of the give node
+        /// If no node is given, will use the 'currentKeytip'
+        /// </summary>
+        /// <param name="node">Node to get the children for</param>
+        /// <returns>List of node IDs that are the children of the node</returns>
         abstract getChildren: ?node: IKeytipTreeNode -> ResizeArray<string>
         /// <summary>Gets all nodes from their IDs</summary>
         /// <param name="ids">List of keytip IDs</param>
+        /// <returns>Array of nodes that match the given IDs, can be empty</returns>
         abstract getNodes: ids: ResizeArray<string> -> ResizeArray<IKeytipTreeNode>
         /// <summary>Gets a single node from its ID</summary>
-        /// <param name="id">- ID of the node to get</param>
+        /// <param name="id">ID of the node to get</param>
+        /// <returns>Node with the given ID, if found</returns>
         abstract getNode: id: string -> IKeytipTreeNode option
         /// <summary>Tests if the currentKeytip in this.keytipTree is the parent of 'keytipProps'</summary>
-        /// <param name="keytipProps">- Keytip to test the parent for</param>
+        /// <param name="keytipProps">Keytip to test the parent for</param>
+        /// <returns>T/F if the currentKeytip is this keytipProps' parent</returns>
         abstract isCurrentKeytipParent: keytipProps: IKeytipProps -> bool
 
     /// This class is responsible for handling the parent/child relationships between keytips
@@ -6776,7 +7239,8 @@ module __components_Label_Label_types =
         /// Optional callback to access the ILabel interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (ILabel option -> unit) option with get, set
-        /// Whether the associated form field is required or not
+        /// <summary>Whether the associated form field is required or not</summary>
+        /// <default>false</default>
         abstract required: bool option with get, set
         /// Renders the label as disabled.
         abstract disabled: bool option with get, set
@@ -6871,7 +7335,8 @@ module __components_Layer_Layer_types =
         abstract getStyles: IStyleFunction<ILayerStyleProps, ILayerStyles> option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Layer
+        /// <summary>Additional css class to apply to the Layer</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// Callback for when the layer is mounted.
         abstract onLayerMounted: (unit -> unit) option with get, set
@@ -7062,6 +7527,27 @@ module __components_List_List =
     type ScrollToMode = __components_List_List_types.ScrollToMode
 
     type [<AllowNullLiteral>] IExports =
+        /// The List renders virtualized pages of items. Each page's item count is determined by the getItemCountForPage callback if
+        /// provided by the caller, or 10 as default. Each page's height is determined by the getPageHeight callback if provided by
+        /// the caller, or by cached measurements if available, or by a running average, or a default fallback.
+        /// 
+        /// The algorithm for rendering pages works like this:
+        /// 
+        /// 1. Predict visible pages based on "current measure data" (page heights, surface position, visible window)
+        /// 2. If changes are necessary, apply changes (add/remove pages)
+        /// 3. For pages that are added, measure the page heights if we need to using getBoundingClientRect
+        /// 4. If measurements don't match predictions, update measure data and goto step 1 asynchronously
+        /// 
+        /// Measuring too frequently can pull performance down significantly. To compensate, we cache measured values so that
+        /// we can avoid re-measuring during operations that should not alter heights, like scrolling.
+        /// 
+        /// To optimize glass rendering performance, onShouldVirtualize can be set. When onShouldVirtualize return false,
+        /// List will run in fast mode (not virtualized) to render all items without any measurements to improve page load time. And we
+        /// start doing measurements and rendering in virtualized mode when items grows larger than this threshold.
+        /// 
+        /// However, certain operations can make measure data stale. For example, resizing the list, or passing in new props,
+        /// or forcing an update change cause pages to shrink/grow. When these operations occur, we increment a measureVersion
+        /// number, which we associate with cached measurements and use to determine if a remeasure should occur.
         abstract List: ListStatic
 
     type [<AllowNullLiteral>] IListState =
@@ -7095,11 +7581,13 @@ module __components_List_List =
         inherit BaseComponent<IListProps, IListState>
         inherit IList
         abstract refs: ListRefs with get, set
-        /// <summary>Scroll to the given index. By default will bring the page the specified item is on into the view. If a callback
+        /// <summary>
+        /// Scroll to the given index. By default will bring the page the specified item is on into the view. If a callback
         /// to measure the height of an individual item is specified, will only scroll to bring the specific item into view.
         /// 
-        /// Note: with items of variable height and no passed in `getPageHeight` method, the list might jump after scrolling
-        /// when windows before/ahead are being rendered, and the estimated height is replaced using actual elements.</summary>
+        /// Note: with items of variable height and no passed in <c>getPageHeight</c> method, the list might jump after scrolling
+        /// when windows before/ahead are being rendered, and the estimated height is replaced using actual elements.
+        /// </summary>
         /// <param name="index">Index of item to scroll to</param>
         /// <param name="measureItem">Optional callback to measure the height of an individual item</param>
         /// <param name="scrollToMode">Optional defines where in the window the item should be positioned to when scrolling</param>
@@ -7150,19 +7638,31 @@ module __components_List_List_types =
     type List = __components_List_List.List
 
     type [<RequireQualifiedAccess>] ScrollToMode =
+        /// Does not make any consideration to where in the viewport the item should align to.
         | Auto = 0
+        /// Attempts to scroll the list so the top of the desired item is aligned with the top of the viewport.
         | Top = 1
+        /// Attempts to scroll the list so the bottom of the desired item is aligned with the bottom of the viewport.
         | Bottom = 2
+        /// Attempts to scroll the list so the desired item is in the exact center of the viewport.
         | Center = 3
 
     type [<AllowNullLiteral>] IList =
         /// Force the component to update.
         abstract forceUpdate: (unit -> unit) with get, set
+        /// <summary>
         /// Scroll to the given index. By default will bring the page the specified item is on into the view. If a callback
         /// to measure the height of an individual item is specified, will only scroll to bring the specific item into view.
         /// 
-        /// Note: with items of variable height and no passed in `getPageHeight` method, the list might jump after scrolling
+        /// Note: with items of variable height and no passed in <c>getPageHeight</c> method, the list might jump after scrolling
         /// when windows before/ahead are being rendered, and the estimated height is replaced using actual elements.
+        /// </summary>
+        /// <param name="index">Index of item to scroll to</param>
+        /// <param name="measureItem">Optional callback to measure the height of an individual item</param>
+        /// <param name="scrollToMode">
+        /// Optional defines the behavior of the scrolling alignment. Defaults to auto.
+        /// Note: The scrollToMode requires the measureItem callback is provided to function.
+        /// </param>
         abstract scrollToIndex: (float -> (float -> float) -> ScrollToMode -> unit) with get, set
 
     type [<AllowNullLiteral>] IListProps =
@@ -7174,13 +7674,19 @@ module __components_List_List_types =
         abstract className: string option with get, set
         /// Items to render.
         abstract items: ResizeArray<obj option> option with get, set
-        /// Method to call when trying to render an item.
+        /// <summary>Method to call when trying to render an item.</summary>
+        /// <param name="item">The the data associated with the cell that is being rendered.</param>
+        /// <param name="index">The index of the cell being rendered.</param>
+        /// <param name="isScrolling">True if the list is being scrolled. May be useful for rendering a placeholder if your cells are complex.</param>
         abstract onRenderCell: (obj -> float -> bool -> React.ReactNode) option with get, set
+        /// <summary>
         /// Optional callback invoked when List rendering completed.
         /// This can be on initial mount or on re-render due to scrolling.
         /// This method will be called as a result of changes in List pages (added or removed),
         /// and after ALL the changes complete.
         /// To track individual page Add / Remove use onPageAdded / onPageRemoved instead.
+        /// </summary>
+        /// <param name="pages">The current array of pages in the List.</param>
         abstract onPagesUpdated: (ResizeArray<IPage> -> unit) option with get, set
         /// Optional callback for monitoring when a page is added.
         abstract onPageAdded: (IPage -> unit) option with get, set
@@ -7193,28 +7699,37 @@ module __components_List_List_types =
         /// as well as an estimated rendered height for the page.
         /// The list will use this to optimize virtualization.
         abstract getPageSpecification: (float -> IRectangle -> IPageSpecification) option with get, set
+        /// <summary>
         /// Method called by the list to get how many items to render per page from specified index.
-        /// In general, use `getPageSpecification` instead.
+        /// In general, use <c>getPageSpecification</c> instead.
+        /// </summary>
         abstract getItemCountForPage: (float -> IRectangle -> float) option with get, set
+        /// <summary>
         /// Method called by the list to get the pixel height for a given page. By default, we measure the first
         /// page's height and default all other pages to that height when calculating the surface space. It is
         /// ideal to be able to adequately predict page heights in order to keep the surface space from jumping
         /// in pixels, which has been seen to cause browser performance issues.
-        /// In general, use `getPageSpecification` instead.
+        /// In general, use <c>getPageSpecification</c> instead.
+        /// </summary>
         abstract getPageHeight: (float -> IRectangle -> float) option with get, set
         /// Method called by the list to derive the page style object. For spacer pages, the list will derive
         /// the height and passed in heights will be ignored.
         abstract getPageStyle: (IPage -> obj option) option with get, set
-        /// In addition to the visible window, how many windowHeights should we render ahead.
+        /// <summary>In addition to the visible window, how many windowHeights should we render ahead.</summary>
+        /// <default>2</default>
         abstract renderedWindowsAhead: float option with get, set
-        /// In addition to the visible window, how many windowHeights should we render behind.
+        /// <summary>In addition to the visible window, how many windowHeights should we render behind.</summary>
+        /// <default>2</default>
         abstract renderedWindowsBehind: float option with get, set
         /// Index in items array to start rendering from. Defaults to 0.
         abstract startIndex: float option with get, set
         /// Number of items to render. Defaults to items.length.
         abstract renderCount: float option with get, set
+        /// <summary>
         /// Boolean value to enable render page caching. This is an experimental performance optimization
         /// that is off by default.
+        /// </summary>
+        /// <default>false</default>
         abstract usePageCache: bool option with get, set
         /// Optional callback to determine whether the list should be rendered in full, or virtualized.
         /// Virtualization will add and remove pages of items as the user scrolls them into the visible range.
@@ -7279,6 +7794,10 @@ module __components_MarqueeSelection_MarqueeSelection_base =
     type IMarqueeSelectionProps = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionProps
 
     type [<AllowNullLiteral>] IExports =
+        /// MarqueeSelection component abstracts managing a draggable rectangle which sets items selected/not selected.
+        /// Elements which have data-selectable-index attributes are queried and measured once to determine if they
+        /// fall within the bounds of the rectangle. The measure is memoized during the drag as a performance optimization
+        /// so if the items change sizes while dragging, that could cause incorrect results.
         abstract MarqueeSelectionBase: MarqueeSelectionBaseStatic
 
     type [<AllowNullLiteral>] IMarqueeSelectionState =
@@ -7354,12 +7873,18 @@ module __components_MarqueeSelection_MarqueeSelection_types =
         /// if we should start a marquee selection. If true is returned, we will cancel the mousedown
         /// event to prevent upstream mousedown handlers from executing.
         abstract onShouldStartSelection: (MouseEvent -> bool) option with get, set
+        /// <summary>
         /// Optional flag to control the enabled state of marquee selection. This allows you to render
         /// it and have events all ready to go, but conditionally disable it. That way transitioning
         /// between enabled/disabled generate no difference in the DOM.
+        /// </summary>
+        /// <default>true</default>
         abstract isEnabled: bool option with get, set
+        /// <summary>
         /// Optional flag to restrict the drag rect to the root element, instead of allowing the drag
         /// rect to start outside of the root element boundaries.
+        /// </summary>
+        /// <default>false</default>
         abstract isDraggingConstrainedToRoot: bool option with get, set
         /// Additional CSS class(es) to apply to the MarqueeSelection.
         abstract className: string option with get, set
@@ -7461,34 +7986,52 @@ module __components_MessageBar_MessageBar_types =
         /// Optional callback to access the IMessageBar interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IMessageBar option -> unit) option with get, set
-        /// The type of MessageBar to render.
+        /// <summary>The type of MessageBar to render.</summary>
+        /// <default>MessageBarType.info</default>
         abstract messageBarType: MessageBarType option with get, set
         /// The actions you want to show on the other side.
         abstract actions: JSX.Element option with get, set
         /// A description of the message bar for the benefit of screen readers.
         abstract ariaLabel: string option with get, set
+        /// <summary>
         /// Whether the message bar has a dismiss button and its callback.
         /// If null, we don't show a dismiss button.
+        /// </summary>
+        /// <default>null</default>
         abstract onDismiss: (React.MouseEvent<U5<HTMLButtonElement, BaseButton, HTMLAnchorElement, HTMLDivElement, Button>> -> obj option) option with get, set
+        /// <summary>
         /// Determines if the message bar is multi lined.
         /// If false, and the text overflows over buttons or to another line, it is clipped.
+        /// </summary>
+        /// <default>true</default>
         abstract isMultiline: bool option with get, set
         /// Aria label on dismiss button if onDismiss is defined.
         abstract dismissButtonAriaLabel: string option with get, set
+        /// <summary>
         /// Determines if the message bar text is truncated.
         /// If true, a button will render to toggle between a single line view and multiline view.
         /// This prop is for single line message bars with no buttons only in a limited space scenario.
+        /// </summary>
+        /// <default>false</default>
         abstract truncated: bool option with get, set
         /// Aria label on overflow button if truncated is defined.
         abstract overflowButtonAriaLabel: string option with get, set
 
     type [<RequireQualifiedAccess>] MessageBarType =
+        /// Info styled MessageBar
         | Info = 0
+        /// Error styled MessageBar
         | Error = 1
+        /// Blocked styled MessageBar
         | Blocked = 2
+        /// SevereWarning styled MessageBar
         | SevereWarning = 3
+        /// Success styled MessageBar
         | Success = 4
+        /// Warning styled MessageBar
         | Warning = 5
+        /// <summary>Deprecated at v0.48.0, to be removed at >= v1.0.0. Use 'blocked' instead.</summary>
+        /// <deprecated />
         | Remove = 90000
 
 module __components_MessageBar_MessageBarPage =
@@ -7570,15 +8113,18 @@ module __components_Modal_Modal_types =
         /// Optional callback to access the IDialog interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IModal option -> unit) option with get, set
-        /// Whether the dialog is displayed.
+        /// <summary>Whether the dialog is displayed.</summary>
+        /// <default>false</default>
         abstract isOpen: bool option with get, set
-        /// Whether the overlay is dark themed.
+        /// <summary>Whether the overlay is dark themed.</summary>
+        /// <default>true</default>
         abstract isDarkOverlay: bool option with get, set
         /// A callback function for when the Modal is dismissed light dismiss, before the animation completes.
         abstract onDismiss: (React.MouseEvent<HTMLButtonElement> -> obj option) option with get, set
         /// A callback function which is called after the Modal is dismissed and the animation is complete.
         abstract onDismissed: (unit -> obj option) option with get, set
-        /// Whether the dialog can be light dismissed by clicking outside the dialog (on the overlay).
+        /// <summary>Whether the dialog can be light dismissed by clicking outside the dialog (on the overlay).</summary>
+        /// <default>false</default>
         abstract isBlocking: bool option with get, set
         /// Optional class name to be added to the root class
         abstract className: string option with get, set
@@ -7685,11 +8231,13 @@ module __components_Nav_Nav_types =
         abstract getStyles: IStyleFunction<INavStyleProps, INavStyles> option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Nav
+        /// <summary>Additional css class to apply to the Nav</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// A collection of link groups to display in the navigation bar
         abstract groups: ResizeArray<INavLinkGroup> option with get, set
-        /// Used to customize how content inside the link tag is rendered
+        /// <summary>Used to customize how content inside the link tag is rendered</summary>
+        /// <default>Default link rendering</default>
         abstract onRenderLink: IRenderFunction<INavLink> option with get, set
         /// Function callback invoked when a link in the navigation is clicked
         abstract onLinkClick: (React.MouseEvent<HTMLElement> -> INavLink -> unit) option with get, set
@@ -7706,8 +8254,10 @@ module __components_Nav_Nav_types =
         /// (Optional) The nav container aria label.
         abstract expandButtonAriaLabel: string option with get, set
         /// Deprecated at v0.68.1 and will be removed at >= V1.0.0.
+        [<Obsolete("")>]
         abstract expandedStateText: string option with get, set
         /// Deprecated at v0.68.1 and will be removed at >= V1.0.0.
+        [<Obsolete("")>]
         abstract collapsedStateText: string option with get, set
 
     type [<AllowNullLiteral>] INavLinkGroup =
@@ -7737,12 +8287,15 @@ module __components_Nav_Nav_types =
         /// button icon name if applied
         abstract icon: string option with get, set
         /// Deprecated. Use iconProps.className instead.
+        [<Obsolete("")>]
         abstract iconClassName: string option with get, set
         /// button icon props if applied
         abstract iconProps: IIconProps option with get, set
         /// Deprecated at v0.68.1 and will be removed at >= v1.0.0.
+        [<Obsolete("")>]
         abstract engagementName: string option with get, set
         /// Deprecated at v0.68.1 and will be removed at >= v1.0.0.
+        [<Obsolete("")>]
         abstract altText: string option with get, set
         /// The name to use for functional automation tests
         abstract automationId: string option with get, set
@@ -7862,11 +8415,15 @@ module __components_OverflowSet_OverflowSet =
         inherit IOverflowSet
         abstract render: unit -> JSX.Element
         /// <summary>Sets focus to the first tabbable item in the OverflowSet.</summary>
-        /// <param name="forceIntoFirstElement">If true, focus will be forced into the first element,
-        /// even if focus is already in theOverflowSet</param>
+        /// <param name="forceIntoFirstElement">
+        /// If true, focus will be forced into the first element,
+        /// even if focus is already in theOverflowSet
+        /// </param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focus: ?forceIntoFirstElement: bool -> bool
         /// <summary>Sets focus to a specific child element within the OverflowSet.</summary>
         /// <param name="childElement">The child element within the zone to focus.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focusElement: ?childElement: HTMLElement -> bool
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -7895,11 +8452,15 @@ module __components_OverflowSet_OverflowSet_types =
     type [<AllowNullLiteral>] IOverflowSet =
         /// <summary>Sets focus to the first tabbable item in the zone.</summary>
         /// <param name="forceIntoFirstElement">If true, focus will be forced into the first element, even if focus is already in the focus zone.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focus: ?forceIntoFirstElement: bool -> bool
-        /// <summary>Sets focus to a specific child element within the zone. This can be used in conjunction with
+        /// <summary>
+        /// Sets focus to a specific child element within the zone. This can be used in conjunction with
         /// onBeforeFocus to created delayed focus scenarios (like animate the scroll position to the correct
-        /// location and then focus.)</summary>
+        /// location and then focus.)
+        /// </summary>
         /// <param name="childElement">The child element within the zone to focus.</param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
         abstract focusElement: ?childElement: HTMLElement -> bool
 
     type [<AllowNullLiteral>] IOverflowSetProps =
@@ -7910,7 +8471,8 @@ module __components_OverflowSet_OverflowSet_types =
         abstract className: string option with get, set
         /// An array of items to be rendered by your onRenderItem function in the primary content area
         abstract items: ResizeArray<IOverflowSetItemProps> option with get, set
-        /// Change item layout direction to vertical/stacked.
+        /// <summary>Change item layout direction to vertical/stacked.</summary>
+        /// <default>false</default>
         abstract vertical: bool option with get, set
         /// An array of items to be passed to overflow contextual menu
         abstract overflowItems: ResizeArray<IOverflowSetItemProps> option with get, set
@@ -7928,7 +8490,8 @@ module __components_OverflowSet_OverflowSet_types =
         /// If this is set to true focusZoneProps will be ignored.
         /// Use one or the other.
         abstract doNotContainWithinFocusZone: bool option with get, set
-        /// The role for the OverflowSet.
+        /// <summary>The role for the OverflowSet.</summary>
+        /// <default>'menubar'</default>
         abstract role: string option with get, set
         /// Optional full keytip sequence for the overflow button, if it will have a keytip.
         abstract keytipSequences: ResizeArray<string> option with get, set
@@ -8019,9 +8582,11 @@ module __components_Overlay_Overlay_types =
         abstract getStyles: IStyleFunction<IOverlayStyleProps, IOverlayStyles> option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Overlay
+        /// <summary>Additional css class to apply to the Overlay</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
-        /// Whether to use the dark-themed overlay.
+        /// <summary>Whether to use the dark-themed overlay.</summary>
+        /// <default>false</default>
         abstract isDarkThemed: bool option with get, set
         abstract onClick: (unit -> unit) option with get, set
 
@@ -8140,20 +8705,29 @@ module __components_Panel_Panel_types =
         /// Optional callback to access the IPanel interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IPanel option -> unit) option with get, set
-        /// Whether the panel is displayed.
+        /// <summary>Whether the panel is displayed.</summary>
+        /// <default>false</default>
         abstract isOpen: bool option with get, set
-        /// Has the close button visible.
+        /// <summary>Has the close button visible.</summary>
+        /// <default>true</default>
         abstract hasCloseButton: bool option with get, set
-        /// Whether the panel can be light dismissed.
+        /// <summary>Whether the panel can be light dismissed.</summary>
+        /// <default>false</default>
         abstract isLightDismiss: bool option with get, set
+        /// <summary>
         /// Whether the panel is hidden on dismiss, instead of destroyed in the DOM.
         /// Protects the contents from being destroyed when the panel is dismissed.
+        /// </summary>
+        /// <default>false</default>
         abstract isHiddenOnDismiss: bool option with get, set
-        /// Whether the panel uses a modal overlay or not
+        /// <summary>Whether the panel uses a modal overlay or not</summary>
+        /// <default>true</default>
         abstract isBlocking: bool option with get, set
-        /// Determines if content should stretch to fill available space putting footer at the bottom of the page
+        /// <summary>Determines if content should stretch to fill available space putting footer at the bottom of the page</summary>
+        /// <default>false</default>
         abstract isFooterAtBottom: bool option with get, set
-        /// Header text for the Panel.
+        /// <summary>Header text for the Panel.</summary>
+        /// <default>""</default>
         abstract headerText: string option with get, set
         /// A callback function for when the panel is closed, before the animation completes.
         abstract onDismiss: (unit -> unit) option with get, set
@@ -8161,7 +8735,8 @@ module __components_Panel_Panel_types =
         abstract onDismissed: (unit -> unit) option with get, set
         /// Additional styling options.
         abstract className: string option with get, set
-        /// Type of the panel.
+        /// <summary>Type of the panel.</summary>
+        /// <default>PanelType.smallFixedRight</default>
         abstract ``type``: PanelType option with get, set
         /// Custom panel width, used only when type is set to PanelType.custom.
         abstract customWidth: string option with get, set
@@ -8169,16 +8744,26 @@ module __components_Panel_Panel_types =
         abstract closeButtonAriaLabel: string option with get, set
         /// Optional parameter to provider the class name for header text
         abstract headerClassName: string option with get, set
-        /// Sets the HTMLElement to focus on when exiting the FocusTrapZone.
+        /// <summary>Sets the HTMLElement to focus on when exiting the FocusTrapZone.</summary>
+        /// <default>The element.target that triggered the Panel.</default>
         abstract elementToFocusOnDismiss: HTMLElement option with get, set
+        /// <summary>
         /// Indicates if this Panel will ignore keeping track of HTMLElement that activated the Zone.
         /// Deprecated, use focusTrapZoneProps.
+        /// </summary>
+        /// <default>false</default>
+        [<Obsolete("")>]
         abstract ignoreExternalFocusing: bool option with get, set
+        /// <summary>
         /// Indicates whether Panel should force focus inside the focus trap zone
         /// Deprecated, use focusTrapZoneProps.
+        /// </summary>
+        /// <default>true</default>
+        [<Obsolete("")>]
         abstract forceFocusInsideTrap: bool option with get, set
         /// Indicates the selector for first focusable item.
         /// Deprecated, use focusTrapZoneProps.
+        [<Obsolete("")>]
         abstract firstFocusableSelector: string option with get, set
         /// Optional props to pass to the FocusTrapZone component to manage focus in the panel.
         abstract focusTrapZoneProps: IFocusTrapZoneProps option with get, set
@@ -8199,29 +8784,88 @@ module __components_Panel_Panel_types =
         /// Custom renderer for content in the sticky footer
         abstract onRenderFooterContent: IRenderFunction<IPanelProps> option with get, set
         /// Deprecated property. Serves no function.
+        [<Obsolete("")>]
         abstract componentId: string option with get, set
 
+    /// <summary>
     /// Renderer function which takes an additional parameter, the ID to use for the element containing
-    /// the panel's title. This allows the `aria-labelledby` for the panel popup to work correctly.
-    /// Note that if `headerTextId` is provided, it **must** be used on an element, or screen readers
+    /// the panel's title. This allows the <c>aria-labelledby</c> for the panel popup to work correctly.
+    /// Note that if <c>headerTextId</c> is provided, it **must** be used on an element, or screen readers
     /// will be confused by the reference to a nonexistent ID.
+    /// </summary>
     type [<AllowNullLiteral>] IPanelHeaderRenderer =
         inherit IRenderFunction<IPanelProps>
         /// <param name="props">Props given to the panel</param>
-        /// <param name="defaultRender">Default header renderer. If using this renderer in code that does not
-        /// assign `headerTextId` to an element elsewhere, it **must** be passed to this function.</param>
-        /// <param name="headerTextId">If provided, this **must** be used as the ID of an element containing the
-        /// panel's title, because the panel popup uses this ID as its aria-labelledby.</param>
+        /// <param name="defaultRender">
+        /// Default header renderer. If using this renderer in code that does not
+        /// assign <c>headerTextId</c> to an element elsewhere, it **must** be passed to this function.
+        /// </param>
+        /// <param name="headerTextId">
+        /// If provided, this **must** be used as the ID of an element containing the
+        /// panel's title, because the panel popup uses this ID as its aria-labelledby.
+        /// </param>
         [<Emit "$0($1...)">] abstract Invoke: ?props: IPanelProps * ?defaultRender: IPanelHeaderRenderer * ?headerTextId: string -> JSX.Element option
 
     type [<RequireQualifiedAccess>] PanelType =
+        /// Renders the panel in 'small' mode, anchored to the far side (right in LTR mode), and has a fluid width.
+        /// Only used on Small screen breakpoints.
+        /// Small: 320-479px width (full screen), 16px Left/Right padding
+        /// Medium: <unused>
+        /// Large: <unused>
+        /// XLarge: <unused>
+        /// XXLarge: <unused>
         | SmallFluid = 0
+        /// Renders the panel in 'small' mode, anchored to the far side (right in LTR mode), and has a fixed width.
+        /// Small: 272px width, 16px Left/Right padding
+        /// Medium: 340px width, 16px Left/Right padding
+        /// Large: 340px width, 32px Left/Right padding
+        /// XLarge: 340px width, 32px Left/Right padding
+        /// XXLarge: 340px width, 40px Left/Right padding
         | SmallFixedFar = 1
+        /// Renders the panel in 'small' mode, anchored to the near side (left in LTR mode), and has a fixed width.
+        /// Small: 272px width, 16px Left/Right padding
+        /// Medium: 272px width, 16px Left/Right padding
+        /// Large: 272px width, 32px Left/Right padding
+        /// XLarge: 272px width, 32px Left/Right padding
+        /// XXLarge: 272px width, 32px Left/Right padding
         | SmallFixedNear = 2
+        /// Renders the panel in 'medium' mode, anchored to the far side (right in LTR mode).
+        /// Small: <adapts to smallFluid>
+        /// Medium: <adapts to smallFixedFar>
+        /// Large: 48px fixed left margin, 32px Left/Right padding
+        /// XLarge: 644px width, 32px Left/Right padding
+        /// XXLarge: 643px width, 40px Left/Right padding
         | Medium = 3
+        /// Renders the panel in 'large' mode, anchored to the far side (right in LTR mode), and is fluid at XXX-Large breakpoint.
+        /// Small: <adapts to smallFluid>
+        /// Medium:  <adapts to smallFixedFar>
+        /// Large: <adapts to medium>
+        /// XLarge: 48px fixed left margin, 32px Left/Right padding
+        /// XXLarge: 48px fixed left margin, 32px Left/Right padding
+        /// XXXLarge: 48px fixed left margin, (no redlines for padding, assuming previous breakpoint)
         | Large = 4
+        /// Renders the panel in 'large' mode, anchored to the far side (right in LTR mode), and is fixed at XXX-Large breakpoint.
+        /// Small: <adapts to smallFluid>
+        /// Medium:  <adapts to smallFixedFar>
+        /// Large: <adapts to medium>
+        /// XLarge: 48px fixed left margin, 32px Left/Right padding
+        /// XXLarge: 48px fixed left margin, 32px Left/Right padding
+        /// XXXLarge: 940px width, (no redlines for padding, assuming previous breakpoint)
         | LargeFixed = 5
+        /// Renders the panel in 'extra large' mode, anchored to the far side (right in LTR mode).
+        /// Small: <adapts to smallFluid>
+        /// Medium: <adapts to smallFixedFar>
+        /// Large: <adapts to medium>
+        /// XLarge: <adapts to large>
+        /// XXLarge: 176px fixed left margin, 40px Left/Right padding
+        /// XXXLarge: 176px fixed left margin, 40px Left/Right padding
         | ExtraLarge = 6
+        /// Renders the panel in 'custom' mode using customWidth, anchored to the far side (right in LTR mode).
+        /// Small: <adapts to smallFluid>
+        /// Medium: <adapts to smallFixedFar>
+        /// Large: 48px fixed left margin, 32px Left/Right padding
+        /// XLarge: 644px width, 32px Left/Right padding
+        /// XXLarge: 643px width, 40px Left/Right padding
         | Custom = 7
 
 module __components_Panel_PanelPage =
@@ -8245,16 +8889,24 @@ module __components_Persona_Persona_base =
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>
+        /// Persona with no default styles.
+        /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+        /// </summary>
         abstract PersonaBase: PersonaBaseStatic
 
+    /// <summary>
     /// Persona with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] PersonaBase =
         inherit BaseComponent<IPersonaProps, PersonaBaseBaseComponent>
         abstract render: unit -> JSX.Element
 
+    /// <summary>
     /// Persona with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] PersonaBaseStatic =
         abstract defaultProps: IPersonaProps with get, set
         [<EmitConstructor>] abstract Create: props: IPersonaProps -> PersonaBase
@@ -8303,31 +8955,41 @@ module __components_Persona_Persona_types =
         inherit React.HTMLAttributes<PersonaBase>
         /// Primary text to display, usually the name of the person.
         abstract text: string option with get, set
-        /// Decides the size of the control.
+        /// <summary>Decides the size of the control.</summary>
+        /// <default>PersonaSize.size48</default>
         abstract size: PersonaSize option with get, set
         /// Optional custom renderer for the coin
         abstract onRenderCoin: IRenderFunction<IPersonaSharedProps> option with get, set
         /// If true, adds the css class 'is-fadeIn' to the image.
         abstract imageShouldFadeIn: bool option with get, set
+        /// <summary>
         /// If true, the image starts as visible and is hidden on error. Otherwise, the image is hidden until
         /// it is successfully loaded. This disables imageShouldFadeIn.
+        /// </summary>
+        /// <default>false</default>
         abstract imageShouldStartVisible: bool option with get, set
         /// Url to the image to use, should be a square aspect ratio and big enough to fit in the image area.
         abstract imageUrl: string option with get, set
         /// Alt text for the image to use. Defaults to an empty string.
         abstract imageAlt: string option with get, set
-        /// The user's initials to display in the image area when there is no image.
+        /// <summary>The user's initials to display in the image area when there is no image.</summary>
+        /// <default>[Derived from text]</default>
         abstract imageInitials: string option with get, set
+        /// <summary>
         /// Whether initials are calculated for phone numbers and number sequences.
         /// Example: Set property to true to get initials for project names consisting of numbers only.
+        /// </summary>
+        /// <default>false</default>
         abstract allowPhoneInitials: bool option with get, set
         /// Optional custom renderer for the initials
         abstract onRenderInitials: IRenderFunction<IPersonaSharedProps> option with get, set
         /// Optional callback for when loading state of the photo changes
         abstract onPhotoLoadingStateChange: (ImageLoadState -> unit) option with get, set
-        /// The background color when the user's initials are displayed.
+        /// <summary>The background color when the user's initials are displayed.</summary>
+        /// <default>[Derived from text]</default>
         abstract initialsColor: U2<PersonaInitialsColor, string> option with get, set
-        /// Presence of the person to display - will not display presence if undefined.
+        /// <summary>Presence of the person to display - will not display presence if undefined.</summary>
+        /// <default>PersonaPresence.none</default>
         abstract presence: PersonaPresence option with get, set
         /// Secondary text to display, usually the role of the user.
         abstract secondaryText: string option with get, set
@@ -8348,6 +9010,7 @@ module __components_Persona_Persona_types =
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
         /// Primary text to display, usually the name of the person.
+        [<Obsolete("Use 'text' instead.")>]
         abstract primaryText: string option with get, set
 
     type [<AllowNullLiteral>] IPersonaProps =
@@ -8375,9 +9038,11 @@ module __components_Persona_Persona_types =
         abstract className: string option with get, set
         /// Optional custom persona coin size in pixel.
         abstract coinSize: float option with get, set
-        /// Decides the size of the control.
+        /// <summary>Decides the size of the control.</summary>
+        /// <default>PersonaSize.size48</default>
         abstract size: PersonaSize option with get, set
-        /// Presence of the person to display - will not display presence if undefined.
+        /// <summary>Presence of the person to display - will not display presence if undefined.</summary>
+        /// <default>PersonaPresence.none</default>
         abstract presence: PersonaPresence option with get, set
         abstract showSecondaryText: bool option with get, set
 
@@ -8396,7 +9061,8 @@ module __components_Persona_Persona_types =
         abstract componentRef: (IPersonaCoinProps -> unit) option with get, set
         /// Call to provide customized styling that will layer on top of the variant rules
         abstract getStyles: IStyleFunction<IPersonaCoinStyleProps, IPersonaCoinStyles> option with get, set
-        /// Additional css class to apply to the PersonaCoin
+        /// <summary>Additional css class to apply to the PersonaCoin</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
 
     type [<AllowNullLiteral>] IPersonaCoinStyleProps =
@@ -8404,7 +9070,8 @@ module __components_Persona_Persona_types =
         abstract theme: ITheme with get, set
         /// Custom class name.
         abstract className: string option with get, set
-        /// Decides the size of the control.
+        /// <summary>Decides the size of the control.</summary>
+        /// <default>PersonaSize.size48</default>
         abstract size: PersonaSize option with get, set
         /// Decides whether to display coin for unknown persona
         abstract showUnknownPersonaCoin: bool option with get, set
@@ -8428,9 +9095,11 @@ module __components_Persona_Persona_types =
         abstract theme: ITheme with get, set
         /// Custom class name.
         abstract className: string option with get, set
-        /// Presence of the person to display - will not display presence if undefined.
+        /// <summary>Presence of the person to display - will not display presence if undefined.</summary>
+        /// <default>PersonaPresence.none</default>
         abstract presence: PersonaPresence option with get, set
-        /// Decides the size of the control.
+        /// <summary>Decides the size of the control.</summary>
+        /// <default>PersonaSize.size48</default>
         abstract size: PersonaSize option with get, set
 
     type [<AllowNullLiteral>] IPersonaPresenceStyles =
@@ -8438,12 +9107,26 @@ module __components_Persona_Persona_types =
         abstract presenceIcon: IStyle with get, set
 
     type [<RequireQualifiedAccess>] PersonaSize =
+        /// <summary>tiny size has been deprecated in favor of standardized numeric sizing. Use size10 instead.</summary>
+        /// <deprecated />
         | Tiny = 0
+        /// <summary>extraExtraSmall size has been deprecated in favor of standardized numeric sizing. Use size24 instead.</summary>
+        /// <deprecated />
         | ExtraExtraSmall = 1
+        /// <summary>extraSmall size has been deprecated in favor of standardized numeric sizing. Use size32 instead.</summary>
+        /// <deprecated />
         | ExtraSmall = 2
+        /// <summary>small size has been deprecated in favor of standardized numeric sizing. Use size40 instead.</summary>
+        /// <deprecated />
         | Small = 3
+        /// <summary>regular size has been deprecated in favor of standardized numeric sizing. Use size48 instead.</summary>
+        /// <deprecated />
         | Regular = 4
+        /// <summary>large size has been deprecated in favor of standardized numeric sizing. Use size72 instead.</summary>
+        /// <deprecated />
         | Large = 5
+        /// <summary>extraLarge size has been deprecated in favor of standardized numeric sizing. Use size100 instead.</summary>
+        /// <deprecated />
         | ExtraLarge = 6
         | Size28 = 7
         | Size16 = 8
@@ -8478,8 +9161,11 @@ module __components_Persona_Persona_types =
         | Purple = 10
         | Black = 11
         | Orange = 12
+        /// Red is a color that often has a special meaning, so it is considered a reserved color and can only be set with overrides
         | Red = 13
         | DarkRed = 14
+        /// Transparent is not intended to be used with typical initials due to accessibility issues.
+        /// Its primary use is for overflow buttons, so it is considered a reserved color and can only be set with overrides.
         | Transparent = 15
 
 module __components_Persona_PersonaConsts =
@@ -8585,6 +9271,7 @@ module __components_pickers_BasePicker =
         abstract isResultsFooterVisible: bool option with get, set
         abstract selectedIndices: ResizeArray<float> option with get, set
 
+    /// Aria id's for internal picker components
     type [<AllowNullLiteral>] IPickerAriaIds =
         /// Aria id for selected suggestion alert component
         abstract selectedSuggestionAlert: string with get, set
@@ -8732,7 +9419,8 @@ module __components_pickers_BasePicker_types =
         abstract className: string option with get, set
         /// The properties that will get passed to the Suggestions component.
         abstract pickerSuggestionsProps: IBasePickerSuggestionsProps option with get, set
-        /// AutoFill input native props
+        /// <summary>AutoFill input native props</summary>
+        /// <default>undefined</default>
         abstract inputProps: IInputProps option with get, set
         /// A callback for when a persona is removed from the suggestion list
         abstract onRemoveSuggestion: (IPersonaProps -> unit) option with get, set
@@ -8740,13 +9428,16 @@ module __components_pickers_BasePicker_types =
         abstract onValidateInput: (string -> ValidationState) option with get, set
         /// The text to display while searching for more results in a limited suggestions list
         abstract searchingText: U2<(IBasePickerPropsSearchingText -> string), string> option with get, set
-        /// Flag for disabling the picker.
+        /// <summary>Flag for disabling the picker.</summary>
+        /// <default>false</default>
         abstract disabled: bool option with get, set
-        /// Restrict the amount of selectable items.
+        /// <summary>Restrict the amount of selectable items.</summary>
+        /// <default>undefined</default>
         abstract itemLimit: float option with get, set
         /// Function that specifies how arbitrary text entered into the well is handled.
         abstract createGenericItem: (string -> ValidationState -> U2<ISuggestionModel<'T>, 'T>) option with get, set
-        /// Aria label for the "X" button in the selected item component.
+        /// <summary>Aria label for the "X" button in the selected item component.</summary>
+        /// <default>''</default>
         abstract removeButtonAriaLabel: string option with get, set
         /// A callback to process a selection after the user selects something from the picker. If the callback returns null,
         /// the item will not be added to the picker.
@@ -8757,9 +9448,12 @@ module __components_pickers_BasePicker_types =
         abstract onInputChange: (string -> string) option with get, set
         /// A callback to override the default behavior of adding the selected suggestion on dismiss.
         abstract onDismiss: (obj -> 'T -> unit) option with get, set
+        /// <summary>
         /// Adds an additional alert for the currently selected suggestion. This prop should be set to true for IE11 and below, as it
         /// enables proper screen reader behavior for each suggestion (since aria-activedescendant does not work with IE11).
         /// It should not be set for modern browsers (Edge, Chrome).
+        /// </summary>
+        /// <default>false</default>
         abstract enableSelectedSuggestionAlert: bool option with get, set
 
     type [<AllowNullLiteral>] IBasePickerSuggestionsProps =
@@ -8957,7 +9651,8 @@ module __components_Pivot_Pivot_types =
         abstract getStyles: IStyleFunction<IPivotStyleProps, IPivotStyles> option with get, set
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Pivot
+        /// <summary>Additional css class to apply to the Pivot</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// The index of the pivot item initially selected.
         /// 
@@ -9007,11 +9702,15 @@ module __components_Pivot_Pivot_types =
         abstract ellipsis: IStyle with get, set
 
     type [<RequireQualifiedAccess>] PivotLinkFormat =
+        /// Display Pivot Links as links
         | Links = 0
+        /// Display Pivot Links as Tabs
         | Tabs = 1
 
     type [<RequireQualifiedAccess>] PivotLinkSize =
+        /// Display Link using normal font size
         | Normal = 0
+        /// Display links using large font size
         | Large = 1
 
 module __components_Pivot_PivotItem =
@@ -9040,6 +9739,7 @@ module __components_Pivot_PivotItem_types =
         /// Gets the component ref.
         abstract componentRef: (unit -> unit) option with get, set
         /// The text displayed of each pivot link - renaming to 'headerText'.
+        [<Obsolete("")>]
         abstract linkText: string option with get, set
         /// The text displayed of each pivot link.
         abstract headerText: string option with get, set
@@ -9088,6 +9788,7 @@ module __components_Popup_Popup =
     type IPopupProps = __components_Popup_Popup_types.IPopupProps
 
     type [<AllowNullLiteral>] IExports =
+        /// This adds accessibility to Dialog and Panel controls
         abstract Popup: PopupStatic
 
     type [<AllowNullLiteral>] IPopupState =
@@ -9137,7 +9838,8 @@ module __components_Popup_Popup_types =
         abstract onDismiss: (U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>> -> obj option) option with get, set
         /// Optional class name for the root popup div.
         abstract className: string option with get, set
-        /// If true, the unmounting of this component will cause focus to be restored to the element that had focus when first mounted.
+        /// <summary>If true, the unmounting of this component will cause focus to be restored to the element that had focus when first mounted.</summary>
+        /// <default>true</default>
         abstract shouldRestoreFocus: bool option with get, set
 
 module __components_ProgressIndicator_ProgressIndicator_base =
@@ -9145,16 +9847,24 @@ module __components_ProgressIndicator_ProgressIndicator_base =
     type IProgressIndicatorProps = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>
+        /// ProgressIndicator with no default styles.
+        /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+        /// </summary>
         abstract ProgressIndicatorBase: ProgressIndicatorBaseStatic
 
+    /// <summary>
     /// ProgressIndicator with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] ProgressIndicatorBase =
         inherit BaseComponent<IProgressIndicatorProps, ProgressIndicatorBaseBaseComponent>
         abstract render: unit -> JSX.Element
 
+    /// <summary>
     /// ProgressIndicator with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] ProgressIndicatorBaseStatic =
         abstract defaultProps: ProgressIndicatorBaseStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IProgressIndicatorProps -> ProgressIndicatorBase
@@ -9211,7 +9921,8 @@ module __components_ProgressIndicator_ProgressIndicator_types =
         abstract getStyles: IStyleFunction<IProgressIndicatorStyleProps, IProgressIndicatorStyles> option with get, set
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the ProgressIndicator
+        /// <summary>Additional css class to apply to the ProgressIndicator</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// Label to display above the control. May be a string or React virtual elements.
         abstract label: React.ReactNode option with get, set
@@ -9226,8 +9937,10 @@ module __components_ProgressIndicator_ProgressIndicator_types =
         /// Text alternative of the progress status, used by screen readers for reading the value of the progress.
         abstract ariaValueText: string option with get, set
         /// Deprecated at v0.43.0, to be removed at >= v0.53.0. Use 'label' instead.
+        [<Obsolete("")>]
         abstract title: string option with get, set
-        /// Height of the ProgressIndicator
+        /// <summary>Height of the ProgressIndicator</summary>
+        /// <default>2</default>
         abstract barHeight: float option with get, set
 
     type [<AllowNullLiteral>] IProgressIndicatorStyleProps =
@@ -9325,6 +10038,7 @@ module __components_Rating_Rating_types =
         /// Selected rating, has to be an integer between min and max
         abstract rating: float option with get, set
         /// Minimum rating, defaults to 1, has to be >= 0
+        [<Obsolete("")>]
         abstract min: float option with get, set
         /// Maximum rating, defaults to 5, has to be >= min
         abstract max: float option with get, set
@@ -9341,6 +10055,7 @@ module __components_Rating_Rating_types =
         /// Where {0} will be subsituted by the current rating and {1} will be subsituted by the max rating.
         abstract ariaLabelFormat: string option with get, set
         /// Deprecated: Optional id of label describing this instance of Rating. Instead of this use getArialabel
+        [<Obsolete("")>]
         abstract ariaLabelId: string option with get, set
         /// Optional flag to mark rating control as readOnly
         abstract readOnly: bool option with get, set
@@ -9480,7 +10195,8 @@ module __components_ResizeGroup_ResizeGroup_types =
         abstract getStyles: IStyleFunction<IResizeGroupStyleProps, IResizeGroupStyles> option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the Component
+        /// <summary>Additional css class to apply to the Component</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// Initial data to be passed to the onRenderData function. When there is no onGrowData provided, this data should represent what should
         /// be passed to the render function when the parent container of the ResizeGroup is at it's maximum supported width. A cacheKey property
@@ -9638,7 +10354,8 @@ module __components_ScrollablePane_ScrollablePane_types =
         abstract getStyles: IStyleFunction<IScrollablePaneStyleProps, IScrollablePaneStyles> option with get, set
         /// Theme provided by HOC.
         abstract theme: ITheme option with get, set
-        /// Additional css class to apply to the ScrollablePane
+        /// <summary>Additional css class to apply to the ScrollablePane</summary>
+        /// <default>undefined</default>
         abstract className: string option with get, set
         /// Sets the initial scroll position of the ScrollablePane
         abstract initialScrollPosition: float option with get, set
@@ -9745,6 +10462,7 @@ module __components_SearchBox_SearchBox_types =
         /// Placeholder for the search box.
         abstract placeholder: string option with get, set
         /// Deprecated. Use placeholder instead.
+        [<Obsolete("")>]
         abstract labelText: string option with get, set
         /// Callback function for when the typed input for the SearchBox has changed.
         abstract onChange: (obj option -> unit) option with get, set
@@ -9755,26 +10473,31 @@ module __components_SearchBox_SearchBox_types =
         /// Callback executed when the user presses escape in the search box.
         abstract onEscape: (obj -> unit) option with get, set
         /// Deprecated at v0.52.2, use 'onChange' instead.
+        [<Obsolete("")>]
         abstract onChanged: (obj option -> unit) option with get, set
         /// The value of the text in the SearchBox.
         abstract value: string option with get, set
         /// The default value of the text in the SearchBox, in the case of an uncontrolled component.
         /// Up till now, this has not been implemented, deprecating. Will re-implement if uncontrolled
         /// component behavior is implemented.
+        [<Obsolete("")>]
         abstract defaultValue: string option with get, set
         /// CSS class to apply to the SearchBox.
         abstract className: string option with get, set
-        /// The aria label of the SearchBox for the benefit of screen readers.
+        /// <summary>The aria label of the SearchBox for the benefit of screen readers.</summary>
+        /// <default>placeholder</default>
         abstract ariaLabel: string option with get, set
         /// The props for the clear button.
         abstract clearButtonProps: IButtonProps option with get, set
-        /// Whether or not the SearchBox is underlined.
+        /// <summary>Whether or not the SearchBox is underlined.</summary>
+        /// <default>false</default>
         abstract underlined: bool option with get, set
         /// Theme (provided through customization.)
         abstract theme: ITheme option with get, set
         /// Call to provide customized styling that will layer on top of the variant rules.
         abstract getStyles: IStyleFunction<ISearchBoxStyleProps, ISearchBoxStyles> option with get, set
-        /// Whether or not to animate the SearchBox icon on focus.
+        /// <summary>Whether or not to animate the SearchBox icon on focus.</summary>
+        /// <default>false</default>
         abstract disableAnimation: bool option with get, set
 
     type [<AllowNullLiteral>] ISearchBoxStyleProps =
@@ -9897,7 +10620,8 @@ module __components_SelectedItemsList_BaseSelectedItemsList_types =
         /// The items that the base picker should currently display as selected. If this is provided then the picker will act as a
         /// controlled component.
         abstract selectedItems: ResizeArray<'T> option with get, set
-        /// Aria label for the 'X' button in the selected item component.
+        /// <summary>Aria label for the 'X' button in the selected item component.</summary>
+        /// <default>''</default>
         abstract removeButtonAriaLabel: string option with get, set
         /// A callback when and item is deleted
         abstract onItemDeleted: ('T -> unit) option with get, set
@@ -9962,9 +10686,11 @@ module __components_Shimmer_Shimmer_types =
         /// Optional callback to access the IShimmer interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IShimmer option -> unit) option with get, set
-        /// Sets the width value of the shimmer wave wrapper.
+        /// <summary>Sets the width value of the shimmer wave wrapper.</summary>
+        /// <default>100%</default>
         abstract width: U2<float, string> option with get, set
-        /// Controls when the shimmer is swapped with actual data through an animated transition.
+        /// <summary>Controls when the shimmer is swapped with actual data through an animated transition.</summary>
+        /// <default>false</default>
         abstract isDataLoaded: bool option with get, set
         /// Elements to render in one line of the Shimmer.
         abstract shimmerElements: ResizeArray<IShimmerElement> option with get, set
@@ -9989,27 +10715,35 @@ module __components_Shimmer_Shimmer_types =
         /// The width value of the element (ILine, IGap) in pixels.
         /// Read more details for each specific element.
         abstract width: U2<float, string> option with get, set
-        /// The vertical alignemt of the element (ICircle, ILine).
+        /// <summary>The vertical alignemt of the element (ICircle, ILine).</summary>
+        /// <default>center</default>
         abstract verticalAlign: IShimmerElementVerticalAlign option with get, set
 
     type [<AllowNullLiteral>] ILine =
         inherit IShimmerElement
-        /// Sets the height of the shimmer line in pixels.
+        /// <summary>Sets the height of the shimmer line in pixels.</summary>
+        /// <default>16px</default>
         abstract height: float option with get, set
-        /// Line width value.
+        /// <summary>Line width value.</summary>
+        /// <default>100%</default>
         abstract width: U2<float, string> option with get, set
 
     type [<AllowNullLiteral>] ICircle =
         inherit IShimmerElement
+        /// <summary>
         /// Sets the height of the shimmer circle in pixels.
         /// Minimum supported 10px.
+        /// </summary>
+        /// <default>24px</default>
         abstract height: float option with get, set
 
     type [<AllowNullLiteral>] IGap =
         inherit IShimmerElement
-        /// Sets the height of the shimmer gap in pixels.
+        /// <summary>Sets the height of the shimmer gap in pixels.</summary>
+        /// <default>16px</default>
         abstract height: float option with get, set
-        /// Gap width value.
+        /// <summary>Gap width value.</summary>
+        /// <default>10px</default>
         abstract width: U2<float, string> option with get, set
 
     type [<AllowNullLiteral>] IShimmerStyleProps =
@@ -10025,13 +10759,19 @@ module __components_Shimmer_Shimmer_types =
         abstract screenReaderText: IStyle option with get, set
 
     type [<RequireQualifiedAccess>] ShimmerElementType =
+        /// Line element type
         | Line = 1
+        /// Circle element type
         | Circle = 2
+        /// Gap element type
         | Gap = 3
 
     type [<RequireQualifiedAccess>] ShimmerElementsDefaultHeights =
+        /// Default height of the line element when not provided by user: 16px
         | Line = 16
+        /// Default height of the gap element when not provided by user: 16px
         | Gap = 16
+        /// Default height of the circle element when not provided by user: 24px
         | Circle = 24
 
     type [<StringEnum>] [<RequireQualifiedAccess>] IShimmerElementVerticalAlign =
@@ -10067,6 +10807,7 @@ module __components_Slider_Slider_base =
         abstract value: float option with get, set
         abstract renderedValue: float option with get, set
 
+    [<Obsolete("Unused.")>]
     type [<RequireQualifiedAccess>] ValuePosition =
         | Previous = 0
         | Next = 1
@@ -10159,13 +10900,17 @@ module __components_Slider_Slider_types =
         /// The initial value of the Slider. Use this if you intend to pass in a new value as a result of onChange events.
         /// This value is mutually exclusive to defaultValue. Use one or the other.
         abstract value: float option with get, set
-        /// The min value of the Slider
+        /// <summary>The min value of the Slider</summary>
+        /// <default>0</default>
         abstract min: float option with get, set
-        /// The max value of the Slider
+        /// <summary>The max value of the Slider</summary>
+        /// <default>10</default>
         abstract max: float option with get, set
-        /// The difference between the two adjacent values of the Slider
+        /// <summary>The difference between the two adjacent values of the Slider</summary>
+        /// <default>1</default>
         abstract step: float option with get, set
-        /// Whether to show the value on the right of the Slider.
+        /// <summary>Whether to show the value on the right of the Slider.</summary>
+        /// <default>true</default>
         abstract showValue: bool option with get, set
         /// Callback when the value has been changed
         abstract onChange: (float -> unit) option with get, set
@@ -10318,20 +11063,28 @@ module __components_SpinButton_SpinButton_types =
     type [<AllowNullLiteral>] ISpinButtonProps =
         /// Gets the component ref.
         abstract componentRef: (ISpinButton -> unit) option with get, set
+        /// <summary>
         /// The initial value of the SpinButton. Use this if you intend for the SpinButton to be an uncontrolled component.
         /// This value is mutually exclusive to value. Use one or the other.
+        /// </summary>
+        /// <default>0</default>
         abstract defaultValue: string option with get, set
         /// The value of the SpinButton. Use this if you intend to pass in a new value as a result of onChange events.
         /// This value is mutually exclusive to defaultValue. Use one or the other.
         abstract value: string option with get, set
-        /// The min value of the SpinButton.
+        /// <summary>The min value of the SpinButton.</summary>
+        /// <default>0</default>
         abstract min: float option with get, set
-        /// The max value of the SpinButton.
+        /// <summary>The max value of the SpinButton.</summary>
+        /// <default>10</default>
         abstract max: float option with get, set
+        /// <summary>
         /// The difference between the two adjacent values of the SpinButton.
         /// This value is sued to calculate the precision of the input if no
         /// precision is given. The precision calculated this way will always
         /// be >= 0.
+        /// </summary>
+        /// <default>1</default>
         abstract step: float option with get, set
         /// A description of the SpinButton for the benefit of screen readers.
         abstract ariaLabel: string option with get, set
@@ -10343,14 +11096,18 @@ module __components_SpinButton_SpinButton_types =
         abstract className: string option with get, set
         /// Descriptive label for the SpinButton.
         abstract label: string with get, set
+        /// <default>: Left</default>
         abstract labelPosition: Position option with get, set
         /// Icon that goes along with the label for the whole SpinButton
         abstract iconProps: IIconProps option with get, set
-        /// This callback is triggered when the value inside the SpinButton should be validated.
+        /// <summary>This callback is triggered when the value inside the SpinButton should be validated.</summary>
+        /// <returns>If a string is returned, it will be used as the value of the SpinButton.</returns>
         abstract onValidate: (string -> U2<string, unit>) option with get, set
-        /// This callback is triggered when the increment button is pressed or if the user presses up arrow with focus on the input of the spinButton
+        /// <summary>This callback is triggered when the increment button is pressed or if the user presses up arrow with focus on the input of the spinButton</summary>
+        /// <returns>If a string is returned, it will be used as the value of the SpinButton.</returns>
         abstract onIncrement: (string -> U2<string, unit>) option with get, set
-        /// This callback is triggered when the decrement button is pressed or if the user presses down arrow with focus on the input of the spinButton
+        /// <summary>This callback is triggered when the decrement button is pressed or if the user presses down arrow with focus on the input of the spinButton</summary>
+        /// <returns>If a string is returned, it will be used as the value of the SpinButton.</returns>
         abstract onDecrement: (string -> U2<string, unit>) option with get, set
         /// A callback for when the user put focus on the picker
         abstract onFocus: React.FocusEventHandler<HTMLInputElement> option with get, set
@@ -10455,6 +11212,8 @@ module __components_SpinButton_SpinButtonPage =
 
 module __components_Spinner_interfaces =
 
+    /// Deprecated at 2.0.0. Use SpinnerSize instead.
+    [<Obsolete("")>]
     type [<RequireQualifiedAccess>] SpinnerType =
         | Normal = 0
         | Large = 1
@@ -10520,15 +11279,18 @@ module __components_Spinner_Spinner_types =
         /// the public methods and properties of the component.
         abstract componentRef: (ISpinner option -> unit) option with get, set
         /// Deprecated and will be removed at >= 2.0.0. Use SpinnerSize instead.
+        [<Obsolete("")>]
         abstract ``type``: SpinnerType option with get, set
-        /// The size of Spinner to render. { extraSmall, small, medium, large }
+        /// <summary>The size of Spinner to render. { extraSmall, small, medium, large }</summary>
+        /// <default>SpinnerType.medium</default>
         abstract size: SpinnerSize option with get, set
         /// The label to show next to the Spinner. Label updates will be announced to the screen readers.
         /// Use ariaLive to control politeness level.
         abstract label: string option with get, set
         /// Additional CSS class(es) to apply to the Spinner.
         abstract className: string option with get, set
-        /// Politeness setting for label update announcement.
+        /// <summary>Politeness setting for label update announcement.</summary>
+        /// <default>polite</default>
         abstract ariaLive: ISpinnerPropsAriaLive option with get, set
         /// Alternative status label for screen reader
         abstract ariaLabel: string option with get, set
@@ -10538,13 +11300,21 @@ module __components_Spinner_Spinner_types =
         abstract getStyles: IStyleFunction<ISpinnerStyleProps, ISpinnerStyles> option with get, set
 
     type [<RequireQualifiedAccess>] SpinnerSize =
+        /// 12px Spinner diameter
         | XSmall = 0
+        /// 16px Spinner diameter
         | Small = 1
+        /// 20px Spinner diameter
         | Medium = 2
+        /// 28px Spinner diameter
         | Large = 3
 
+    /// Deprecated at v2.0.0, use 'SpinnerSize' instead.
+    [<Obsolete("")>]
     type [<RequireQualifiedAccess>] SpinnerType =
+        /// Deprecated and will be removed at >= 2.0.0. Use SpinnerSize.medium instead.
         | Normal = 0
+        /// Deprecated and will be removed at >= 2.0.0. Use SpinnerSize.large instead.
         | Large = 1
 
     type [<AllowNullLiteral>] ISpinnerStyleProps =
@@ -10641,7 +11411,8 @@ module __components_Sticky_Sticky_types =
         abstract stickyClassName: string option with get, set
         /// color to apply as 'background-color' style for sticky element.
         abstract stickyBackgroundColor: string option with get, set
-        /// Region to render sticky component in.
+        /// <summary>Region to render sticky component in.</summary>
+        /// <default>Both</default>
         abstract stickyPosition: StickyPositionType option with get, set
 
     type [<RequireQualifiedAccess>] StickyPositionType =
@@ -10713,9 +11484,11 @@ module __components_SwatchColorPicker_ColorPickerGridCell_types =
         abstract onFocus: (IColorCellProps -> unit) option with get, set
         /// Optional styles for the component.
         abstract getStyles: IStyleFunction<IColorPickerGridCellStyleProps, IColorPickerGridCellStyles> option with get, set
-        /// Optional, mouseEnter handler.
+        /// <summary>Optional, mouseEnter handler.</summary>
+        /// <returns>true if the event should be processed, false otherwise</returns>
         abstract onMouseEnter: (React.MouseEvent<HTMLButtonElement> -> bool) option with get, set
-        /// Optional, mouseMove handler
+        /// <summary>Optional, mouseMove handler</summary>
+        /// <returns>true if the event should be processed, false otherwise</returns>
         abstract onMouseMove: (React.MouseEvent<HTMLButtonElement> -> bool) option with get, set
         /// Optional, mouseLeave handler
         abstract onMouseLeave: (React.MouseEvent<HTMLButtonElement> -> unit) option with get, set
@@ -10846,8 +11619,11 @@ module __components_SwatchColorPicker_SwatchColorPicker_types =
         abstract positionInSet: float option with get, set
         /// The optional size of the parent set (size of parent menu, for example)
         abstract setSize: float option with get, set
+        /// <summary>
         /// Should focus cycle to the beginning of once the user navigates past the end (and visa vsersa).
         /// This prop is only relevant if doNotcontainWithinFocusZone is not true
+        /// </summary>
+        /// <default>to true</default>
         abstract shouldFocusCircularNavigate: bool option with get, set
         /// If true do not contain the grid inside of a FocusZone.
         /// If false contain the grid inside of a FocusZone.
@@ -10858,7 +11634,8 @@ module __components_SwatchColorPicker_SwatchColorPicker_types =
         abstract getStyles: IStyleFunction<ISwatchColorPickerStyleProps, ISwatchColorPickerStyles> option with get, set
         /// Optional styles for the component.
         abstract getColorGridCellStyles: IStyleFunction<IColorPickerGridCellStyleProps, IColorPickerGridCellStyles> option with get, set
-        /// Optional, whether to update focus when a cell is hovered.
+        /// <summary>Optional, whether to update focus when a cell is hovered.</summary>
+        /// <default>false</default>
         abstract focusOnHover: bool option with get, set
         /// Selector to focus on mouseLeave
         /// SHOULD ONLY BE USED IN CONJUNCTION WITH focusOnHover
@@ -11163,7 +11940,9 @@ module __components_TextField_TextField_types =
         abstract setSelectionStart: (float -> unit) with get, set
         /// Sets the selection end of the text field to a specified value.
         abstract setSelectionEnd: (float -> unit) with get, set
-        /// Sets the start and end positions of a selection in a text field.
+        /// <summary>Sets the start and end positions of a selection in a text field.</summary>
+        /// <param name="start">Index of the start of the selection.</param>
+        /// <param name="end">Index of the end of the selection.</param>
         abstract setSelectionRange: (float -> float -> unit) with get, set
         /// Gets the selection start of the text field. Returns -1 if there is no selection.
         abstract selectionStart: float option with get, set
@@ -11176,15 +11955,20 @@ module __components_TextField_TextField_types =
         /// Optional callback to access the ITextField interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (ITextField option -> unit) option with get, set
-        /// Whether or not the textfield is a multiline textfield.
+        /// <summary>Whether or not the textfield is a multiline textfield.</summary>
+        /// <default>false</default>
         abstract multiline: bool option with get, set
-        /// Whether or not the multiline textfield is resizable.
+        /// <summary>Whether or not the multiline textfield is resizable.</summary>
+        /// <default>true</default>
         abstract resizable: bool option with get, set
-        /// Whether or not to auto adjust textField height. Applies only to multiline textfield.
+        /// <summary>Whether or not to auto adjust textField height. Applies only to multiline textfield.</summary>
+        /// <default>false</default>
         abstract autoAdjustHeight: bool option with get, set
-        /// Whether or not the textfield is underlined.
+        /// <summary>Whether or not the textfield is underlined.</summary>
+        /// <default>false</default>
         abstract underlined: bool option with get, set
-        /// Whether or not the textfield is borderless.
+        /// <summary>Whether or not the textfield is borderless.</summary>
+        /// <default>false</default>
         abstract borderless: bool option with get, set
         /// Label for the textfield.
         abstract label: string option with get, set
@@ -11194,11 +11978,13 @@ module __components_TextField_TextField_types =
         abstract description: string option with get, set
         /// Optional custom renderer for the description.
         abstract onRenderDescription: IRenderFunction<ITextFieldProps> option with get, set
+        [<Obsolete("Deprecated; use prefix instead.")>]
         abstract addonString: string option with get, set
         /// String for prefix
         abstract prefix: string option with get, set
         /// String for suffix
         abstract suffix: string option with get, set
+        [<Obsolete("Deprecated; use onRenderPrefix instead.")>]
         abstract onRenderAddon: IRenderFunction<ITextFieldProps> option with get, set
         /// Custom render function for prefix.
         abstract onRenderPrefix: IRenderFunction<ITextFieldProps> option with get, set
@@ -11212,7 +11998,8 @@ module __components_TextField_TextField_types =
         /// Current value of the textfield. Only provide this if the textfield is a controlled component where you
         /// are maintaining its current state; otherwise, use the "defaultValue" property.
         abstract value: string option with get, set
-        /// Disabled state of the textfield.
+        /// <summary>Disabled state of the textfield.</summary>
+        /// <default>false</default>
         abstract disabled: bool option with get, set
         /// If set, this will display an error message for the text field.
         abstract errorMessage: string option with get, set
@@ -11233,7 +12020,8 @@ module __components_TextField_TextField_types =
         ///    - The resolved value is display as error message.
         ///    - The rejected, the value is thrown away.
         abstract onGetErrorMessage: (string -> U2<string, PromiseLike<string>> option) option with get, set
-        /// Text field will start to validate after users stop typing for `deferredValidationTime` milliseconds.
+        /// <summary>Text field will start to validate after users stop typing for <c>deferredValidationTime</c> milliseconds.</summary>
+        /// <default>200</default>
         abstract deferredValidationTime: float option with get, set
         /// Optional class name that is added to the container of the component.
         abstract className: string option with get, set
@@ -11241,12 +12029,16 @@ module __components_TextField_TextField_types =
         abstract inputClassName: string option with get, set
         /// Aria Label for textfield, if any.
         abstract ariaLabel: string option with get, set
-        /// Run validation only on input focus
+        /// <summary>Run validation only on input focus</summary>
+        /// <default>false</default>
         abstract validateOnFocusIn: bool option with get, set
-        /// Run validation only on input focus out
+        /// <summary>Run validation only on input focus out</summary>
+        /// <default>false</default>
         abstract validateOnFocusOut: bool option with get, set
-        /// Optional flag to disable onload validation
+        /// <summary>Optional flag to disable onload validation</summary>
+        /// <default>true</default>
         abstract validateOnLoad: bool option with get, set
+        [<Obsolete("Deprecated; use iconProps instead.")>]
         abstract iconClass: string option with get, set
         /// Whether the input field should have autocomplete enabled.
         /// This tells the browser to display options based on earlier typed values.
@@ -11258,7 +12050,8 @@ module __components_TextField_TextField_types =
         /// 'a': [a-zA-Z]
         /// '*': [a-zA-Z0-9]
         abstract mask: string option with get, set
-        /// The character to show in place of unfilled characters of the mask.
+        /// <summary>The character to show in place of unfilled characters of the mask.</summary>
+        /// <default>'_'</default>
         abstract maskChar: string option with get, set
         /// An object defining the format characters and corresponding regexp values.
         /// Default format characters: {
@@ -11268,6 +12061,7 @@ module __components_TextField_TextField_types =
         /// }
         abstract maskFormat: ITextFieldPropsMaskFormat option with get, set
         /// Deprecated property. Serves no function.
+        [<Obsolete("")>]
         abstract componentId: string option with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ITextFieldPropsAutoComplete =
@@ -11661,22 +12455,28 @@ module __components_Tooltip_Tooltip_types =
         /// Optional callback to access the ITooltip interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (ITooltip option -> unit) option with get, set
-        /// Properties to pass through for Callout, reference detail properties in ICalloutProps
+        /// <summary>Properties to pass through for Callout, reference detail properties in ICalloutProps</summary>
+        /// <default>isBeakVisible: true, beakWidth: 16, gapSpace: 0, setInitialFocus: true, doNotLayer: false</default>
         abstract calloutProps: ICalloutProps option with get, set
         /// String to be passed to the tooltip
         abstract content: string option with get, set
         /// Render function to populate content area
         abstract onRenderContent: IRenderFunction<ITooltipProps> option with get, set
-        /// Length of delay. Can be set to zero if you do not want a delay.
+        /// <summary>Length of delay. Can be set to zero if you do not want a delay.</summary>
+        /// <default>medium</default>
         abstract delay: TooltipDelay option with get, set
-        /// Max width of tooltip
+        /// <summary>Max width of tooltip</summary>
+        /// <default>364px</default>
         abstract maxWidth: string option with get, set
         /// Element to anchor the Tooltip to.
         abstract targetElement: HTMLElement option with get, set
-        /// Indicator of how the tooltip should be anchored to its targetElement.
+        /// <summary>Indicator of how the tooltip should be anchored to its targetElement.</summary>
+        /// <default>DirectionalHint.topCenter</default>
         abstract directionalHint: DirectionalHint option with get, set
+        /// <summary>
         /// How the element should be positioned in RTL layouts.
-        /// If not specified, a mirror of `directionalHint` will be used instead
+        /// If not specified, a mirror of <c>directionalHint</c> will be used instead
+        /// </summary>
         abstract directionalHintForRTL: DirectionalHint option with get, set
         /// Theme to apply to the component.
         abstract theme: ITheme option with get, set
@@ -11744,7 +12544,9 @@ module __components_Tooltip_TooltipHost_types =
         interface end
 
     type [<RequireQualifiedAccess>] TooltipOverflowMode =
+        /// Only show tooltip if parent DOM element is overflowing
         | Parent = 0
+        /// Only show tooltip if tooltip host's content is overflowing
         | Self = 1
 
     /// Tooltip component props.
@@ -11760,14 +12562,17 @@ module __components_Tooltip_TooltipHost_types =
         /// Whether or not to mark the container as described by the tooltip.
         /// If not specified, the caller should mark as element as described by the tooltip id.
         abstract setAriaDescribedBy: bool option with get, set
-        /// Length of delay
+        /// <summary>Length of delay</summary>
+        /// <default>medium</default>
         abstract delay: TooltipDelay option with get, set
         /// String to be passed to the tooltip
         abstract content: string option with get, set
         /// Indicator of how the tooltip should be anchored to its targetElement.
         abstract directionalHint: DirectionalHint option with get, set
+        /// <summary>
         /// How the element should be positioned in RTL layouts.
-        /// If not specified, a mirror of `directionalHint` will be used instead
+        /// If not specified, a mirror of <c>directionalHint</c> will be used instead
+        /// </summary>
         abstract directionalHintForRTL: DirectionalHint option with get, set
         /// Only show if there is overflow. If set, the tooltip hosts observes  and only shows the tooltip if this element has overflow.
         /// It also uses the parent as target element for the tooltip.
@@ -12088,7 +12893,8 @@ module __utilities_color_shades =
         /// <param name="shade">The Shade value to validate.</param>
         abstract isValidShade: ?shade: Shade -> bool
         abstract isDark: color: IColor -> bool
-        /// <summary>Given a color and a shade specification, generates the requested shade of the color.
+        /// <summary>
+        /// Given a color and a shade specification, generates the requested shade of the color.
         /// Logic:
         /// if white
         ///   darken via tables defined above
@@ -12099,7 +12905,8 @@ module __utilities_color_shades =
         /// if dark
         ///   soften
         /// else default
-        ///   soften or strongen depending on shade#</summary>
+        ///   soften or strongen depending on shade#
+        /// </summary>
         /// <param name="color">The base color whose shade is to be computed</param>
         /// <param name="shade">The shade of the base color to compute</param>
         /// <param name="isInverted">Default false. Whether the given theme is inverted (reverse strongen/soften logic)</param>
@@ -12107,6 +12914,7 @@ module __utilities_color_shades =
         abstract getBackgroundShade: color: IColor * shade: Shade * ?isInverted: bool -> IColor option
         abstract getContrastRatio: color1: IColor * color2: IColor -> float
 
+    /// Shades of a given color, from softest to strongest.
     type [<RequireQualifiedAccess>] Shade =
         | Unshaded = 0
         | Shade1 = 1
@@ -12124,6 +12932,9 @@ module __utilities_contextualMenu_contextualMenuUtility =
     type [<AllowNullLiteral>] IExports =
         /// <summary>Determines the effective checked state of a menu item.</summary>
         /// <param name="item">to get the check state of.</param>
+        /// <returns>if the item is checked.</returns>
+        /// <returns>if the item is unchecked.</returns>
+        /// <returns>if the item is not checkable.</returns>
         abstract getIsChecked: item: IContextualMenuItem -> bool option
         abstract hasSubmenu: item: IContextualMenuItem -> bool
         abstract isItemDisabled: item: IContextualMenuItem -> bool
@@ -12135,72 +12946,106 @@ module __utilities_dateMath_DateMath =
 
     type [<AllowNullLiteral>] IExports =
         /// <summary>Returns a date offset from the given date by the specified number of days.</summary>
-        /// <param name="date">- The origin date</param>
-        /// <param name="days">- The number of days to offset. 'days' can be negative.</param>
+        /// <param name="date">The origin date</param>
+        /// <param name="days">The number of days to offset. 'days' can be negative.</param>
+        /// <returns>A new Date object offset from the origin date by the given number of days</returns>
         abstract addDays: date: DateTime * days: float -> DateTime
         /// <summary>Returns a date offset from the given date by the specified number of weeks.</summary>
-        /// <param name="date">- The origin date</param>
-        /// <param name="weeks">- The number of weeks to offset. 'weeks' can be negative.</param>
+        /// <param name="date">The origin date</param>
+        /// <param name="weeks">The number of weeks to offset. 'weeks' can be negative.</param>
+        /// <returns>A new Date object offset from the origin date by the given number of weeks</returns>
         abstract addWeeks: date: DateTime * weeks: float -> DateTime
-        /// <summary>Returns a date offset from the given date by the specified number of months.
+        /// <summary>
+        /// Returns a date offset from the given date by the specified number of months.
         /// The method tries to preserve the day-of-month; however, if the new month does not have enough days
-        /// to contain the original day-of-month, we'll use the last day of the new month.</summary>
-        /// <param name="date">- The origin date</param>
-        /// <param name="months">- The number of months to offset. 'months' can be negative.</param>
+        /// to contain the original day-of-month, we'll use the last day of the new month.
+        /// </summary>
+        /// <param name="date">The origin date</param>
+        /// <param name="months">The number of months to offset. 'months' can be negative.</param>
+        /// <returns>A new Date object offset from the origin date by the given number of months</returns>
         abstract addMonths: date: DateTime * months: float -> DateTime
-        /// <summary>Returns a date offset from the given date by the specified number of years.
+        /// <summary>
+        /// Returns a date offset from the given date by the specified number of years.
         /// The method tries to preserve the day-of-month; however, if the new month does not have enough days
-        /// to contain the original day-of-month, we'll use the last day of the new month.</summary>
-        /// <param name="date">- The origin date</param>
-        /// <param name="years">- The number of years to offset. 'years' can be negative.</param>
+        /// to contain the original day-of-month, we'll use the last day of the new month.
+        /// </summary>
+        /// <param name="date">The origin date</param>
+        /// <param name="years">The number of years to offset. 'years' can be negative.</param>
+        /// <returns>A new Date object offset from the origin date by the given number of years</returns>
         abstract addYears: date: DateTime * years: float -> DateTime
         /// <summary>Returns a date that is the first day of the month of the provided date.</summary>
-        /// <param name="date">- The origin date</param>
+        /// <param name="date">The origin date</param>
+        /// <returns>A new Date object with the day set to the first day of the month.</returns>
         abstract getMonthStart: date: DateTime -> DateTime
         /// <summary>Returns a date that is the last day of the month of the provided date.</summary>
-        /// <param name="date">- The origin date</param>
+        /// <param name="date">The origin date</param>
+        /// <returns>A new Date object with the day set to the last day of the month.</returns>
         abstract getMonthEnd: date: DateTime -> DateTime
         /// <summary>Returns a date that is the first day of the year of the provided date.</summary>
-        /// <param name="date">- The origin date</param>
+        /// <param name="date">The origin date</param>
+        /// <returns>A new Date object with the day set to the first day of the year.</returns>
         abstract getYearStart: date: DateTime -> DateTime
         /// <summary>Returns a date that is the last day of the year of the provided date.</summary>
-        /// <param name="date">- The origin date</param>
+        /// <param name="date">The origin date</param>
+        /// <returns>A new Date object with the day set to the last day of the year.</returns>
         abstract getYearEnd: date: DateTime -> DateTime
-        /// <summary>Returns a date that is a copy of the given date, aside from the month changing to the given month.
+        /// <summary>
+        /// Returns a date that is a copy of the given date, aside from the month changing to the given month.
         ///   The method tries to preserve the day-of-month; however, if the new month does not have enough days
-        /// to contain the original day-of-month, we'll use the last day of the new month.</summary>
-        /// <param name="date">- The origin date</param>
-        /// <param name="month">- The 0-based index of the month to set on the date.</param>
+        /// to contain the original day-of-month, we'll use the last day of the new month.
+        /// </summary>
+        /// <param name="date">The origin date</param>
+        /// <param name="month">The 0-based index of the month to set on the date.</param>
+        /// <returns>A new Date object with the given month set.</returns>
         abstract setMonth: date: DateTime * month: float -> DateTime
-        /// Compares two dates, and returns true if the two dates (not accounting for time-of-day) are equal.
+        /// <summary>Compares two dates, and returns true if the two dates (not accounting for time-of-day) are equal.</summary>
+        /// <returns>True if the two dates represent the same date (regardless of time-of-day), false otherwise.</returns>
         abstract compareDates: date1: DateTime * date2: DateTime -> bool
         /// <summary>Compare the date parts of two dates</summary>
-        /// <param name="date1">- The first date to compare</param>
-        /// <param name="date2">- The second date to compare</param>
+        /// <param name="date1">The first date to compare</param>
+        /// <param name="date2">The second date to compare</param>
+        /// <returns>
+        /// A negative value if date1 is earlier than date2, 0 if the dates are equal, or a positive value
+        /// if date1 is later than date2.
+        /// </returns>
         abstract compareDatePart: date1: DateTime * date2: DateTime -> Number
-        /// <summary>Gets the date range array including the specified date. The date range array is calculated as the list
-        /// of dates accounting for the specified first day of the week and date range type.</summary>
-        /// <param name="date">- The input date</param>
-        /// <param name="dateRangeType">- The desired date range type, i.e., day, week, month, etc.</param>
-        /// <param name="firstDayOfWeek">- The first day of the week.</param>
-        /// <param name="workWeekDays">- The allowed days in work week. If not provided, assumes all days are allowed.</param>
+        /// <summary>
+        /// Gets the date range array including the specified date. The date range array is calculated as the list
+        /// of dates accounting for the specified first day of the week and date range type.
+        /// </summary>
+        /// <param name="date">The input date</param>
+        /// <param name="dateRangeType">The desired date range type, i.e., day, week, month, etc.</param>
+        /// <param name="firstDayOfWeek">The first day of the week.</param>
+        /// <param name="workWeekDays">The allowed days in work week. If not provided, assumes all days are allowed.</param>
+        /// <returns>An array of dates representing the date range containing the specified date.</returns>
         abstract getDateRangeArray: date: DateTime * dateRangeType: DateRangeType * firstDayOfWeek: DayOfWeek * ?workWeekDays: ResizeArray<DayOfWeek> -> ResizeArray<DateTime>
         /// <summary>Checks whether the specified date is in the given date range.</summary>
-        /// <param name="date">- The origin date</param>
-        /// <param name="dateRange">- An array of dates to do the lookup on</param>
+        /// <param name="date">The origin date</param>
+        /// <param name="dateRange">An array of dates to do the lookup on</param>
+        /// <returns>True if the date matches one of the dates in the specified array, false otherwise.</returns>
         abstract isInDateRangeArray: date: DateTime * dateRange: ResizeArray<DateTime> -> bool
+        /// <summary>
         /// Returns the week number for a date.
         /// Week numbers are 1 - 52 (53) in a year
+        /// </summary>
+        /// <param name="Date">A date to find the week number for.</param>
+        /// <param name="DayOfWeek">The first day of the week (0-6, Sunday = 0)</param>
+        /// <param name="FirstWeekOfYear">The first week of the year (1-2)</param>
+        /// <returns>The weeks number array for the current month.</returns>
         abstract getWeekNumbersInMonth: weeksInMonth: float * firstDayOfWeek: DayOfWeek * firstWeekOfYear: FirstWeekOfYear * navigatedDate: DateTime -> ResizeArray<float>
-        /// <summary>Returns the week number for a date.
-        /// Week numbers are 1 - 52 (53) in a year</summary>
-        /// <param name="date">- A date to find the week number for.</param>
-        /// <param name="firstDayOfWeek">- The first day of the week (0-6, Sunday = 0)</param>
-        /// <param name="firstWeekOfYear">- The first week of the year (1-2)</param>
+        /// <summary>
+        /// Returns the week number for a date.
+        /// Week numbers are 1 - 52 (53) in a year
+        /// </summary>
+        /// <param name="date">A date to find the week number for.</param>
+        /// <param name="firstDayOfWeek">The first day of the week (0-6, Sunday = 0)</param>
+        /// <param name="firstWeekOfYear">The first week of the year (1-2)</param>
+        /// <returns>The week's number in the year.</returns>
         abstract getWeekNumber: date: DateTime * firstDayOfWeek: DayOfWeek * firstWeekOfYear: FirstWeekOfYear -> float
 
 module __utilities_dateValues_DateValues =
 
+    /// The days of the week
     type [<RequireQualifiedAccess>] DayOfWeek =
         | Sunday = 0
         | Monday = 1
@@ -12210,6 +13055,7 @@ module __utilities_dateValues_DateValues =
         | Friday = 5
         | Saturday = 6
 
+    /// The months
     type [<RequireQualifiedAccess>] MonthOfYear =
         | January = 0
         | February = 1
@@ -12224,11 +13070,13 @@ module __utilities_dateValues_DateValues =
         | November = 10
         | December = 11
 
+    /// First week of the year settings types
     type [<RequireQualifiedAccess>] FirstWeekOfYear =
         | FirstDay = 0
         | FirstFullWeek = 1
         | FirstFourDayWeek = 2
 
+    /// The supported date range types
     type [<RequireQualifiedAccess>] DateRangeType =
         | Day = 0
         | Week = 1
@@ -12441,6 +13289,8 @@ module __utilities_grid_Grid_types =
         /// If false contain the grid inside of a FocusZone.
         abstract doNotContainWithinFocusZone: bool option with get, set
         /// Optional, class name for the FocusZone container for the grid
+        [<Obsolete("Use getStyles and IGridStyles to define a styling for the focus zone container with
+focusedContainer property.")>]
         abstract containerClassName: string option with get, set
         /// Optional, handler for when the grid should blur
         abstract onBlur: (unit -> unit) option with get, set
@@ -12527,9 +13377,11 @@ module __utilities_grid_GridCell_types =
         /// The default value for this prop is the getClassnames func
         /// defined in BaseButton.classnames.
         abstract getClassNames: (ITheme -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames) option with get, set
-        /// Optional, mouseEnter handler.
+        /// <summary>Optional, mouseEnter handler.</summary>
+        /// <returns>true if the event should be processed, false otherwise</returns>
         abstract onMouseEnter: (React.MouseEvent<HTMLButtonElement> -> bool) option with get, set
-        /// Optional, mouseMove handler
+        /// <summary>Optional, mouseMove handler</summary>
+        /// <returns>true if the event should be processed, false otherwise</returns>
         abstract onMouseMove: (React.MouseEvent<HTMLButtonElement> -> bool) option with get, set
         /// Optional, mouseLeave handler
         abstract onMouseLeave: (React.MouseEvent<HTMLButtonElement> -> unit) option with get, set
@@ -12548,12 +13400,14 @@ module __utilities_keytips_IKeytipTransitionKey =
 
     type [<AllowNullLiteral>] IExports =
         /// <summary>Tests for equality between two IKeytipTransitionKeys.</summary>
-        /// <param name="key1">- First IKeytipTransitionKey.</param>
-        /// <param name="key2">- Second IKeytipTransitionKey.</param>
+        /// <param name="key1">First IKeytipTransitionKey.</param>
+        /// <param name="key2">Second IKeytipTransitionKey.</param>
+        /// <returns>T/F if the transition keys are equal.</returns>
         abstract transitionKeysAreEqual: key1: IKeytipTransitionKey * key2: IKeytipTransitionKey -> bool
         /// <summary>Tests if 'key' is present in 'keys'.</summary>
-        /// <param name="keys">- Array of IKeytipTransitionKey.</param>
-        /// <param name="key">- IKeytipTransitionKey to find in 'keys'.</param>
+        /// <param name="keys">Array of IKeytipTransitionKey.</param>
+        /// <param name="key">IKeytipTransitionKey to find in 'keys'.</param>
+        /// <returns>T/F if 'keys' contains 'key'.</returns>
         abstract transitionKeysContain: keys: ResizeArray<IKeytipTransitionKey> * key: IKeytipTransitionKey -> bool
 
     type [<RequireQualifiedAccess>] KeytipTransitionModifier =
@@ -12571,12 +13425,13 @@ module __utilities_keytips_KeytipConfig =
 
     type [<AllowNullLiteral>] IExports =
         /// <summary>Builds a map of ID -> IKeytipProps</summary>
-        /// <param name="config">- IKeytipConfig object</param>
+        /// <param name="config">IKeytipConfig object</param>
+        /// <returns>- Config map</returns>
         abstract buildKeytipConfigMap: config: IKeytipConfig -> IKeytipConfigMap
         /// <summary>Constructs a keytip from an IKeytipConfigItem and puts it in the configMap</summary>
-        /// <param name="configMap">- IKeytipConfigMap to store the keytip in</param>
-        /// <param name="parentSequence">- string of the parent keytip</param>
-        /// <param name="keytip">- IKeytipConfigItem data</param>
+        /// <param name="configMap">IKeytipConfigMap to store the keytip in</param>
+        /// <param name="parentSequence">string of the parent keytip</param>
+        /// <param name="keytip">IKeytipConfigItem data</param>
         abstract constructKeytip: configMap: IKeytipConfigMap * parentSequence: ResizeArray<string> * keytip: IKeytipConfigItem -> unit
 
     type [<AllowNullLiteral>] IKeytipConfig =
@@ -12625,6 +13480,7 @@ module __utilities_keytips_KeytipManager =
     type IKeytipProps = Keytip.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
+        /// This class is responsible for handling registering, updating, and unregistering of keytips
         abstract KeytipManager: KeytipManagerStatic
 
     type [<AllowNullLiteral>] IUniqueKeytip =
@@ -12638,55 +13494,68 @@ module __utilities_keytips_KeytipManager =
         abstract inKeytipMode: bool with get, set
         abstract shouldEnterKeytipMode: bool with get, set
         /// <summary>Registers a keytip</summary>
-        /// <param name="keytipProps">- Keytip to register</param>
-        /// <param name="persisted">- T/F if this keytip should be persisted, default is false</param>
+        /// <param name="keytipProps">Keytip to register</param>
+        /// <param name="persisted">T/F if this keytip should be persisted, default is false</param>
+        /// <returns>Unique ID for this keytip</returns>
         abstract register: keytipProps: IKeytipProps * ?persisted: bool -> string
         /// <summary>Update a keytip</summary>
-        /// <param name="keytipProps">- Keytip to update</param>
-        /// <param name="uniqueID">- Unique ID of this keytip</param>
+        /// <param name="keytipProps">Keytip to update</param>
+        /// <param name="uniqueID">Unique ID of this keytip</param>
         abstract update: keytipProps: IKeytipProps * uniqueID: string -> unit
         /// <summary>Unregisters a keytip</summary>
-        /// <param name="keytipToRemove">- IKeytipProps of the keytip to remove</param>
-        /// <param name="uniqueID">- Unique ID of this keytip</param>
-        /// <param name="persisted">- T/F if this keytip should be persisted, default is false</param>
+        /// <param name="keytipToRemove">IKeytipProps of the keytip to remove</param>
+        /// <param name="uniqueID">Unique ID of this keytip</param>
+        /// <param name="persisted">T/F if this keytip should be persisted, default is false</param>
         abstract unregister: keytipToRemove: IKeytipProps * uniqueID: string * ?persisted: bool -> unit
         /// Manual call to enter keytip mode
         abstract enterKeytipMode: unit -> unit
         /// Manual call to exit keytip mode
         abstract exitKeytipMode: unit -> unit
-        /// Gets all IKeytipProps from this.keytips
+        /// <summary>Gets all IKeytipProps from this.keytips</summary>
+        /// <returns>All keytips stored in the manager</returns>
         abstract getKeytips: unit -> ResizeArray<IKeytipProps>
         /// <summary>Adds the overflowSetSequence to the keytipProps if its parent keytip also has it</summary>
-        /// <param name="keytipProps">- Keytip props to add overflowSetSequence to if necessary</param>
+        /// <param name="keytipProps">Keytip props to add overflowSetSequence to if necessary</param>
+        /// <returns>- Modified keytip props, if needed to be modified</returns>
         abstract addParentOverflow: keytipProps: IKeytipProps -> IKeytipProps
-        /// Public function to bind for overflow items that have a submenu
+        /// <summary>Public function to bind for overflow items that have a submenu</summary>
+        /// <param name="overflowButtonSequences" />
+        /// <param name="keytipSequences" />
         abstract menuExecute: overflowButtonSequences: ResizeArray<string> * keytipSequences: ResizeArray<string> -> unit
 
     /// This class is responsible for handling registering, updating, and unregistering of keytips
     type [<AllowNullLiteral>] KeytipManagerStatic =
         [<EmitConstructor>] abstract Create: unit -> KeytipManager
-        /// Static function to get singleton KeytipManager instance
+        /// <summary>Static function to get singleton KeytipManager instance</summary>
+        /// <returns>Singleton KeytipManager instance</returns>
         abstract getInstance: unit -> KeytipManager
 
 module __utilities_keytips_KeytipUtils =
 
     type [<AllowNullLiteral>] IExports =
-        /// <summary>Converts a whole set of KeySequences into one keytip ID, which will be the ID for the last keytip sequence specified
-        /// keySequences should not include the initial keytip 'start' sequence.</summary>
-        /// <param name="keySequences">- Full path of IKeySequences for one keytip.</param>
+        /// <summary>
+        /// Converts a whole set of KeySequences into one keytip ID, which will be the ID for the last keytip sequence specified
+        /// keySequences should not include the initial keytip 'start' sequence.
+        /// </summary>
+        /// <param name="keySequences">Full path of IKeySequences for one keytip.</param>
+        /// <returns>String to use for the keytip ID.</returns>
         abstract sequencesToID: keySequences: ResizeArray<string> -> string
         /// <summary>Merges an overflow sequence with a key sequence.</summary>
-        /// <param name="keySequences">- Full sequence for one keytip.</param>
-        /// <param name="overflowKeySequences">- Full overflow keytip sequence.</param>
+        /// <param name="keySequences">Full sequence for one keytip.</param>
+        /// <param name="overflowKeySequences">Full overflow keytip sequence.</param>
+        /// <returns>Sequence that will be used by the keytip when in the overflow.</returns>
         abstract mergeOverflows: keySequences: ResizeArray<string> * overflowKeySequences: ResizeArray<string> -> ResizeArray<string>
         /// <summary>Constructs the data-ktp-target attribute selector from a full key sequence.</summary>
-        /// <param name="keySequences">- Full string[] for a Keytip.</param>
+        /// <param name="keySequences">Full string[] for a Keytip.</param>
+        /// <returns>String selector to use to query for the keytip target.</returns>
         abstract ktpTargetFromSequences: keySequences: ResizeArray<string> -> string
         /// <summary>Constructs the data-ktp-execute-target attribute selector from a keytip ID.</summary>
-        /// <param name="keytipId">- ID of the Keytip.</param>
+        /// <param name="keytipId">ID of the Keytip.</param>
+        /// <returns>String selector to use to query for the keytip execute target.</returns>
         abstract ktpTargetFromId: keytipId: string -> string
         /// <summary>Gets the aria-describedby value to put on the component with this keytip.</summary>
-        /// <param name="keySequences">- KeySequences of the keytip.</param>
+        /// <param name="keySequences">KeySequences of the keytip.</param>
+        /// <returns>The aria-describedby value to set on the component with this keytip.</returns>
         abstract getAriaDescribedBy: keySequences: ResizeArray<string> -> string
 
 module __utilities_positioning_positioning =
@@ -12704,12 +13573,31 @@ module __utilities_positioning_positioning =
     type [<AllowNullLiteral>] IExports =
         abstract Rectangle: RectangleStatic
         abstract __positioningTestPackage: IExports__positioningTestPackage
+        /// <param name="props" />
+        /// <param name="hostElement" />
+        /// <param name="elementToPosition" />
+        /// <returns />
+        [<Obsolete("Do not use, this will be removed in 6.0
+use either _positionCallout or _positionElement.")>]
         abstract _getRelativePositions: props: IPositionProps * hostElement: HTMLElement * elementToPosition: HTMLElement -> IRelativePositions
+        /// <param name="props" />
+        /// <param name="hostElement" />
+        /// <param name="calloutElement" />
+        /// <returns />
+        [<Obsolete("Do not use, this will be removed in 6.0.
+Use either positionElement, or positionCallout")>]
         abstract getRelativePositions: props: IPositionProps * hostElement: HTMLElement * calloutElement: HTMLElement -> IRelativePositions
+        /// <summary>
         /// Used to position an element relative to the given positioning props.
         /// If positioning has been completed before, previousPositioningData
         /// can be passed to ensure that the positioning element repositions based on
         /// its previous targets rather than starting with directionalhint.
+        /// </summary>
+        /// <param name="props" />
+        /// <param name="hostElement" />
+        /// <param name="elementToPosition" />
+        /// <param name="previousPositions" />
+        /// <returns />
         abstract positionElement: props: IPositionProps * hostElement: HTMLElement * elementToPosition: HTMLElement * ?previousPositions: IPositionedData -> IPositionedData
         abstract positionCallout: props: IPositionProps * hostElement: HTMLElement * elementToPosition: HTMLElement * ?previousPositions: ICalloutPositionedInfo -> ICalloutPositionedInfo
         /// Get's the maximum height that a rectangle can have in order to fit below or above a target.
@@ -12768,26 +13656,37 @@ module __utilities_positioning_positioning_types =
         abstract target: U3<Element, MouseEvent, IPoint> option with get, set
         /// how the element should be positioned
         abstract directionalHint: DirectionalHint option with get, set
+        /// <summary>
         /// How the element should be positioned in RTL layouts.
-        /// If not specified, a mirror of `directionalHint` will be used instead
+        /// If not specified, a mirror of <c>directionalHint</c> will be used instead
+        /// </summary>
         abstract directionalHintForRTL: DirectionalHint option with get, set
         /// The gap between the callout and the target
         abstract gapSpace: float option with get, set
+        [<Obsolete("this will be removed in 6.0 and will only be available in ICalloutPositionProps.
+The width of the beak.")>]
         abstract beakWidth: float option with get, set
         /// The bounding rectangle for which  the contextual menu can appear in.
         abstract bounds: IRectangle option with get, set
+        [<Obsolete("this will be removed in 6.0 and will only be available in ICalloutPositionProps.
+If true then the beak is visible. If false it will not be shown.")>]
         abstract isBeakVisible: bool option with get, set
         /// If true the position returned will have the menu element cover the target.
         /// If false then it will position next to the target;
         abstract coverTarget: bool option with get, set
+        /// <summary>
         /// If true the position will not change edges in an attempt to fit the rectangle within bounds.
         /// It will still attempt to align it to whatever bounds are given.
+        /// </summary>
+        /// <default>false</default>
         abstract directionalHintFixed: bool option with get, set
 
     type [<AllowNullLiteral>] ICalloutPositionProps =
         inherit IPositionProps
         /// The width of the beak.
         abstract beakWidth: float option with get, set
+        [<Obsolete("this will be removed in 6.0 and will only be available in ICalloutPositionProps.
+If true then the beak is visible. If false it will not be shown.")>]
         abstract isBeakVisible: bool option with get, set
 
     type [<AllowNullLiteral>] IPositionedData =
@@ -12821,6 +13720,8 @@ module __utilities_positioning_positioning_types =
         abstract right: float option with get, set
         [<EmitIndexer>] abstract Item: key: string -> float option with get, set
 
+    [<Obsolete("use IPosition instead.
+This will be removed in 6.0")>]
     type [<AllowNullLiteral>] ICalloutPositon =
         inherit IPosition
 
@@ -12941,11 +13842,12 @@ module __utilities_selectableOption_SelectableOption_types =
         abstract itemType: SelectableOptionMenuItemType option with get, set
         /// Index for this option
         abstract index: float option with get, set
-        /// The aria label for the dropdown option. If not present, the `text` will be used.
+        /// <summary>The aria label for the dropdown option. If not present, the <c>text</c> will be used.</summary>
         abstract ariaLabel: string option with get, set
         /// If option is selected.
         abstract selected: bool option with get, set
-        /// Whether the option is disabled
+        /// <summary>Whether the option is disabled</summary>
+        /// <default>false</default>
         abstract disabled: bool option with get, set
 
     type [<RequireQualifiedAccess>] SelectableOptionMenuItemType =
@@ -13077,6 +13979,7 @@ module __utilities_selection_SelectionZone =
         inherit React.Props<SelectionZone>
         abstract componentRef: (unit -> unit) option with get, set
         abstract selection: ISelection with get, set
+        [<Obsolete("No longer in use, focus is now managed by FocusZone")>]
         abstract layout: ISelectionZonePropsLayout option with get, set
         abstract selectionMode: SelectionMode option with get, set
         abstract selectionPreservedOnEmptyClick: bool option with get, set
@@ -13908,9 +14811,13 @@ module __components_Coachmark_Beak_Beak_types =
         inherit React.Props<Beak>
         /// All props for your component are to be defined here.
         abstract componentRef: (IBeak option -> unit) option with get, set
-        /// Beak width.
+        /// <summary>Beak width.</summary>
+        /// <default>18</default>
+        [<Obsolete("")>]
         abstract width: float option with get, set
-        /// Beak height.
+        /// <summary>Beak height.</summary>
+        /// <default>18</default>
+        [<Obsolete("")>]
         abstract height: float option with get, set
         /// Color of the beak
         abstract color: string option with get, set
@@ -13992,6 +14899,7 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
         abstract componentWillUpdate: newProps: IPositioningContainerTypes -> unit
         abstract render: unit -> JSX.Element option
         /// Deprecated. Use onResize instead.
+        [<Obsolete("")>]
         abstract dismiss: (U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>> -> unit) with get, set
         abstract onResize: (U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>> -> unit) with get, set
         abstract _dismissOnScroll: ev: Event -> unit
@@ -14049,30 +14957,43 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_types =
         /// It can be either an HTMLElement a querySelector string of a valid HTMLElement
         /// or a MouseEvent. If MouseEvent is given then the origin point of the event will be used.
         abstract target: U4<HTMLElement, string, MouseEvent, IPoint> option with get, set
-        /// How the element should be positioned
+        /// <summary>How the element should be positioned</summary>
+        /// <default>DirectionalHint.BottomAutoEdge</default>
         abstract directionalHint: DirectionalHint option with get, set
+        /// <summary>
         /// How the element should be positioned in RTL layouts.
-        /// If not specified, a mirror of `directionalHint` will be used instead
+        /// If not specified, a mirror of <c>directionalHint</c> will be used instead
+        /// </summary>
         abstract directionalHintForRTL: DirectionalHint option with get, set
-        /// The gap between the positioningContainer and the target
+        /// <summary>The gap between the positioningContainer and the target</summary>
+        /// <default>0</default>
         abstract offsetFromTarget: float option with get, set
-        /// Custom width for positioningContainer including borders. If value is 0, no width is applied.
+        /// <summary>Custom width for positioningContainer including borders. If value is 0, no width is applied.</summary>
+        /// <default>0</default>
         abstract positioningContainerWidth: float option with get, set
-        /// The background color of the positioningContainer in hex format ie. #ffffff.
+        /// <summary>The background color of the positioningContainer in hex format ie. #ffffff.</summary>
+        /// <default>$ms-color-white</default>
         abstract backgroundColor: string option with get, set
         /// The bounding rectangle for which the contextual menu can appear in.
         abstract bounds: IRectangle option with get, set
-        /// The minimum distance the positioningContainer will be away from the edge of the screen.
+        /// <summary>The minimum distance the positioningContainer will be away from the edge of the screen.</summary>
+        /// <default>8</default>
         abstract minPagePadding: float option with get, set
         /// If true use a point rather than rectangle to position the positioningContainer.
         /// For example it can be used to position based on a click.
+        [<Obsolete("Use 'target' instead")>]
         abstract useTargetPoint: bool option with get, set
         /// Point used to position the positioningContainer
+        [<Obsolete("Use 'target' instead")>]
         abstract targetPoint: IPoint option with get, set
-        /// If true then the onClose will not not dismiss on scroll
+        /// <summary>If true then the onClose will not not dismiss on scroll</summary>
+        /// <default>false</default>
         abstract preventDismissOnScroll: bool option with get, set
+        /// <summary>
         /// If true the position returned will have the menu element cover the target.
         /// If false then it will position next to the target;
+        /// </summary>
+        /// <default>false</default>
         abstract coverTarget: bool option with get, set
         /// Aria role assigned to the positioningContainer (Eg. dialog, alertdialog).
         abstract role: string option with get, set
@@ -14082,26 +15003,37 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_types =
         abstract ariaLabelledBy: string option with get, set
         /// Defines the element id referencing the element containing the description for the positioningContainer.
         abstract ariaDescribedBy: string option with get, set
-        /// CSS class to apply to the positioningContainer.
+        /// <summary>CSS class to apply to the positioningContainer.</summary>
+        /// <default>null</default>
         abstract className: string option with get, set
         /// Optional callback when the layer content has mounted.
         abstract onLayerMounted: (unit -> unit) option with get, set
-        /// Optional callback that is called once the positioningContainer has been correctly positioned.
+        /// <summary>Optional callback that is called once the positioningContainer has been correctly positioned.</summary>
+        /// <param name="positions">
+        /// gives the user information about how the container is positioned such
+        /// as the element position, the target edge, and the alignment edge of the container.
+        /// </param>
         abstract onPositioned: (IPositionedData -> unit) option with get, set
         /// Callback when the positioningContainer tries to close.
         abstract onDismiss: (obj -> unit) option with get, set
         /// If true do not render on a new layer. If false render on a new layer.
         abstract doNotLayer: bool option with get, set
+        /// <summary>
         /// If true the position will not change sides in an attempt to fit the positioningContainer within bounds.
         /// It will still attempt to align it to whatever bounds are given.
+        /// </summary>
+        /// <default>false</default>
         abstract directionalHintFixed: bool option with get, set
         /// Specify the final height of the content.
         /// To be used when expanding the content dynamically so that positioningContainer can adjust its position.
         abstract finalHeight: float option with get, set
+        /// <summary>
         /// If true then the positioningContainer will attempt to focus the first focusable element that it contains.
         /// If it doesn't find an element, no focus will be set and the method will return false.
         /// This means that it's the contents responsibility to either set focus or have
         /// focusable items.
+        /// </summary>
+        /// <returns>True if focus was set, false if it was not.</returns>
         abstract setInitialFocus: bool option with get, set
         /// Set max height of positioningContainer
         /// When not set the positioningContainer will expand with contents up to the bottom of the screen
@@ -14462,7 +15394,8 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemW
         abstract hasCheckmarks: bool option with get, set
         /// Whether or not the item for the wrapper uses icons.
         abstract hasIcons: bool option with get, set
-        /// Method to override the render of the individual menu items.
+        /// <summary>Method to override the render of the individual menu items.</summary>
+        /// <default>ContextualMenuItem</default>
         abstract contextualMenuItemAs: U2<React.ComponentClass<IContextualMenuItemProps>, React.StatelessComponent<IContextualMenuItemProps>> option with get, set
         /// Callback for when the user's mouse enters the wrapper.
         abstract onItemMouseEnter: (IContextualMenuItem -> React.MouseEvent<HTMLElement> -> HTMLElement -> U2<bool, unit>) option with get, set
@@ -15601,6 +16534,7 @@ module __components_FloatingPicker_Suggestions_SuggestionsControl =
 
     type [<AllowNullLiteral>] IExports =
         abstract SuggestionsHeaderFooterItem: SuggestionsHeaderFooterItemStatic
+        /// Class when used with SuggestionsStore, renders a suggestions control with customizable headers and footers
         abstract SuggestionsControl: SuggestionsControlStatic
 
     type [<RequireQualifiedAccess>] SuggestionItemType =
@@ -15677,6 +16611,7 @@ module __components_FloatingPicker_Suggestions_SuggestionsCore =
     type ISuggestionsCoreProps = __components_FloatingPicker_Suggestions_Suggestions_types.ISuggestionsCoreProps
 
     type [<AllowNullLiteral>] IExports =
+        /// Class when used with SuggestionsStore, renders a basic suggestions control
         abstract SuggestionsCore: SuggestionsCoreStatic
 
     /// Class when used with SuggestionsStore, renders a basic suggestions control
@@ -16871,21 +17806,29 @@ module __components_Persona_PersonaCoin_PersonaCoin_base =
     type IPersonaCoinProps = __components_Persona_Persona_types.IPersonaCoinProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>
+        /// PersonaCoin with no default styles.
+        /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+        /// </summary>
         abstract PersonaCoinBase: PersonaCoinBaseStatic
 
     type [<AllowNullLiteral>] IPersonaState =
         abstract isImageLoaded: bool option with get, set
         abstract isImageError: bool option with get, set
 
+    /// <summary>
     /// PersonaCoin with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] PersonaCoinBase =
         inherit BaseComponent<IPersonaCoinProps, IPersonaState>
         abstract componentWillReceiveProps: nextProps: IPersonaCoinProps -> unit
         abstract render: unit -> JSX.Element option
 
+    /// <summary>
     /// PersonaCoin with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] PersonaCoinBaseStatic =
         abstract defaultProps: IPersonaCoinProps with get, set
         [<EmitConstructor>] abstract Create: props: IPersonaCoinProps -> PersonaCoinBase
@@ -16908,16 +17851,24 @@ module __components_Persona_PersonaPresence_PersonaPresence_base =
     type IPersonaPresenceProps = __components_Persona_Persona_types.IPersonaPresenceProps
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>
+        /// PersonaPresence with no default styles.
+        /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+        /// </summary>
         abstract PersonaPresenceBase: PersonaPresenceBaseStatic
 
+    /// <summary>
     /// PersonaPresence with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] PersonaPresenceBase =
         inherit BaseComponent<IPersonaPresenceProps, PersonaPresenceBaseBaseComponent>
         abstract render: unit -> JSX.Element option
 
+    /// <summary>
     /// PersonaPresence with no default styles.
-    /// [Use the `getStyles` API to add your own styles.](https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling)
+    /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
+    /// </summary>
     type [<AllowNullLiteral>] PersonaPresenceBaseStatic =
         [<EmitConstructor>] abstract Create: props: IPersonaPresenceProps -> PersonaPresenceBase
 
@@ -17039,8 +17990,11 @@ module __components_pickers_PeoplePicker_PeoplePicker =
     type [<AllowNullLiteral>] IExports =
         abstract BasePeoplePicker: BasePeoplePickerStatic
         abstract MemberListPeoplePicker: MemberListPeoplePickerStatic
+        /// Standard People Picker.
         abstract NormalPeoplePicker: NormalPeoplePickerStatic
+        /// Compact layout. It uses small personas when displaying search results.
         abstract CompactPeoplePicker: CompactPeoplePickerStatic
+        /// MemberList layout. The selected people show up below the search box.
         abstract ListPeoplePicker: ListPeoplePickerStatic
         abstract createGenericItem: name: string * currentValidationState: ValidationState * allowPhoneInitials: bool -> obj
 
@@ -17253,7 +18207,8 @@ module __components_pickers_Suggestions_Suggestions_types =
         abstract isMostRecentlyUsedVisible: bool option with get, set
         /// Function to fire when one of the optional remove buttons on a suggestion is clicked.
         abstract onSuggestionRemove: (React.MouseEvent<HTMLElement> -> IPersonaProps -> float -> unit) option with get, set
-        /// Indicates if the text in resultsFooter or resultsFooterFull should be shown at the end of the suggestion list.
+        /// <summary>Indicates if the text in resultsFooter or resultsFooterFull should be shown at the end of the suggestion list.</summary>
+        /// <default>true.</default>
         abstract isResultsFooterVisible: bool option with get, set
         /// Maximum number of suggestions to show in the full suggestion list.
         abstract resultsMaximumNumber: float option with get, set
@@ -17758,6 +18713,7 @@ module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleList =
 
     type [<AllowNullLiteral>] IExports =
         abstract BasePeopleSelectedItemsList: BasePeopleSelectedItemsListStatic
+        /// Standard People Picker.
         abstract SelectedPeopleList: SelectedPeopleListStatic
 
     type [<AllowNullLiteral>] IExtendedPersonaProps =
@@ -17998,21 +18954,25 @@ module __components_Shimmer_ShimmerCircle_ShimmerCircle_types =
         /// Optional callback to access the IShimmerCircle interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IShimmerCircle option -> unit) option with get, set
-        /// Sets the height of the circle.
+        /// <summary>Sets the height of the circle.</summary>
+        /// <default>24px</default>
         abstract height: float option with get, set
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
         /// Call to provide customized styling that will layer on top of the variant rules.
         abstract getStyles: IStyleFunction<IShimmerCircleStyleProps, IShimmerCircleStyles> option with get, set
         /// Use to set custom styling of the shimmerCircle borders.
+        [<Obsolete("Use 'styles' prop to leverage mergeStyle API.")>]
         abstract borderStyle: IRawStyle option with get, set
 
+    /// Props needed to construct styles.
     type [<AllowNullLiteral>] IShimmerCircleStyleProps =
         /// Theme values passed to the component.
         abstract theme: ITheme with get, set
         /// Needed to provide a height to the root of the control.
         abstract height: float option with get, set
         /// Styles to override borderStyles with custom ones.
+        [<Obsolete("in favor of mergeStyles API.")>]
         abstract borderStyle: IRawStyle option with get, set
 
     /// Represents the stylable areas of the control.
@@ -18072,7 +19032,8 @@ module __components_Shimmer_ShimmerElementsGroup_ShimmerElementsGroup_types =
         abstract rowHeight: float option with get, set
         /// Elements to render in one group of the Shimmer.
         abstract shimmerElements: ResizeArray<IShimmerElement> option with get, set
-        /// Optional boolean for enabling flexWrap of the container containing the shimmerElements.
+        /// <summary>Optional boolean for enabling flexWrap of the container containing the shimmerElements.</summary>
+        /// <default>false</default>
         abstract flexWrap: bool option with get, set
         /// Optional width for ShimmerElements container.
         abstract width: string option with get, set
@@ -18133,23 +19094,28 @@ module __components_Shimmer_ShimmerGap_ShimmerGap_types =
         /// Optional callback to access the IShimmerGap interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IShimmerGap option -> unit) option with get, set
-        /// Sets the height of the gap.
+        /// <summary>Sets the height of the gap.</summary>
+        /// <default>16px</default>
         abstract height: float option with get, set
-        /// Sets width value of the gap.
+        /// <summary>Sets width value of the gap.</summary>
+        /// <default>10px</default>
         abstract width: U2<float, string> option with get, set
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
         /// Call to provide customized styling that will layer on top of the variant rules.
         abstract getStyles: IStyleFunction<IShimmerGapStyleProps, IShimmerGapStyles> option with get, set
         /// Use to set custom styling of the shimmerGap borders.
+        [<Obsolete("Use 'styles' prop to leverage mergeStyle API.")>]
         abstract borderStyle: IRawStyle option with get, set
 
+    /// Props needed to construct styles.
     type [<AllowNullLiteral>] IShimmerGapStyleProps =
         /// Theme values passed to the component.
         abstract theme: ITheme with get, set
         /// Needed to provide a height to the root of the control.
         abstract height: float option with get, set
         /// Styles to override borderStyles with custom ones.
+        [<Obsolete("in favor of mergeStyles API.")>]
         abstract borderStyle: IRawStyle option with get, set
 
     /// Represents the stylable areas of the control.
@@ -18202,23 +19168,28 @@ module __components_Shimmer_ShimmerLine_ShimmerLine_types =
         /// Optional callback to access the IShimmerLine interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
         abstract componentRef: (IShimmerLine option -> unit) option with get, set
-        /// Sets the height of the rectangle.
+        /// <summary>Sets the height of the rectangle.</summary>
+        /// <default>16px</default>
         abstract height: float option with get, set
-        /// Sets width value of the line.
+        /// <summary>Sets width value of the line.</summary>
+        /// <default>100%</default>
         abstract width: U2<float, string> option with get, set
         /// Theme provided by High-Order Component.
         abstract theme: ITheme option with get, set
         /// Call to provide customized styling that will layer on top of the variant rules.
         abstract getStyles: IStyleFunction<IShimmerLineStyleProps, IShimmerLineStyles> option with get, set
         /// Use to set custom styling of the shimmerLine borders.
+        [<Obsolete("Use 'styles' prop to leverage mergeStyle API.")>]
         abstract borderStyle: IRawStyle option with get, set
 
+    /// Props needed to construct styles.
     type [<AllowNullLiteral>] IShimmerLineStyleProps =
         /// Theme values passed to the component.
         abstract theme: ITheme with get, set
         /// Needed to provide a height to the root of the control.
         abstract height: float option with get, set
         /// Styles to override borderStyles with custom ones.
+        [<Obsolete("in favor of mergeStyles API.")>]
         abstract borderStyle: IRawStyle option with get, set
 
     /// Represents the stylable areas of the control.
@@ -18718,6 +19689,7 @@ module __components_TextField_MaskedTextField_MaskedTextField =
         abstract componentWillReceiveProps: newProps: ITextFieldProps -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
+        /// <returns>The value of all filled format characters or undefined if not all format characters are filled</returns>
         abstract value: string option
         abstract setValue: newValue: string -> unit
         abstract focus: unit -> unit
@@ -18822,7 +19794,9 @@ module __utilities_selection_examples_Selection_Basic_Example =
     type SelectionMode = __utilities_selection_examples_office_ui_fabric_react_lib_Selection.SelectionMode
 
     type [<AllowNullLiteral>] IExports =
+        /// The SelectionItemExample controls and displays the selection state of a single item
         abstract SelectionItemExample: SelectionItemExampleStatic
+        /// The SelectionBasicExample controls the selection state of all items
         abstract SelectionBasicExample: SelectionBasicExampleStatic
 
     type [<AllowNullLiteral>] ISelectionBasicExampleState =
