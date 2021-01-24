@@ -9,6 +9,21 @@ type Error = System.Exception
 type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
 
 module PropTypes = Prop_types
+/// <summary>
+/// <c>AppRegistry</c> is the JS entry point to running all React Native apps.  App
+/// root components should register themselves with
+/// <c>AppRegistry.registerComponent</c>, then the native system can load the bundle
+/// for the app and then actually run the app when it's ready by invoking
+/// <c>AppRegistry.runApplication</c>.
+/// 
+/// To "stop" an application when a view should be destroyed, call
+/// <c>AppRegistry.unmountApplicationComponentAtRootTag</c> with the tag that was
+/// pass into <c>runApplication</c>. These should always be used as a pair.
+/// 
+/// <c>AppRegistry</c> should be <c>require</c>d early in the <c>require</c> sequence to make
+/// sure the JS execution environment is setup before other modules are
+/// <c>require</c>d.
+/// </summary>
 let [<Import("AppRegistry","react-native")>] appRegistry: AppRegistry.IExports = jsNative
 let [<Import("StyleSheet","react-native")>] styleSheet: StyleSheet.IExports = jsNative
 let [<Import("Animated","react-native")>] animated: Animated.IExports = jsNative
@@ -63,6 +78,7 @@ let [<Import("CameraRoll","react-native")>] CameraRoll: CameraRollStatic = jsNat
 let [<Import("Clipboard","react-native")>] Clipboard: ClipboardStatic = jsNative
 let [<Import("DatePickerAndroid","react-native")>] DatePickerAndroid: DatePickerAndroidStatic = jsNative
 let [<Import("Geolocation","react-native")>] Geolocation: GeolocationStatic = jsNative
+/// <summary><see href="http://facebook.github.io/react-native/blog/2016/08/19/right-to-left-support-for-react-native-apps.html" /></summary>
 let [<Import("I18nManager","react-native")>] I18nManager: I18nManagerStatic = jsNative
 let [<Import("ImageEditor","react-native")>] ImageEditor: ImageEditorStatic = jsNative
 let [<Import("ImageStore","react-native")>] ImageStore: ImageStoreStatic = jsNative
@@ -84,12 +100,35 @@ let [<Import("ToastAndroid","react-native")>] ToastAndroid: ToastAndroidStatic =
 let [<Import("UIManager","react-native")>] UIManager: UIManagerStatic = jsNative
 let [<Import("VibrationIOS","react-native")>] VibrationIOS: VibrationIOSStatic = jsNative
 let [<Import("Vibration","react-native")>] Vibration: VibrationStatic = jsNative
+/// <summary>
+/// Initial dimensions are set before <c>runApplication</c> is called so they should
+/// be available before any other require's are run, but may be updated later.
+/// 
+/// Note: Although dimensions are available immediately, they may change (e.g
+/// due to device rotation) so any rendering logic or styles that depend on
+/// these constants should try to call this function on every render, rather
+/// than caching the value (for example, using inline styles rather than
+/// setting a value in a <c>StyleSheet</c>).
+/// 
+/// Example: <c>const {height, width} = Dimensions.get('window');</c>
+/// </summary>
 let [<Import("Dimensions","react-native")>] Dimensions: Dimensions = jsNative
 let [<Import("ShadowPropTypesIOS","react-native")>] ShadowPropTypesIOS: ShadowPropTypesIOSStatic = jsNative
 let [<Import("Easing","react-native")>] Easing: EasingStatic = jsNative
 let [<Import("DeviceEventEmitter","react-native")>] DeviceEventEmitter: DeviceEventEmitterStatic = jsNative
+/// Abstract base class for implementing event-emitting modules. This implements
+/// a subset of the standard EventEmitter node module API.
 let [<Import("NativeEventEmitter","react-native")>] NativeEventEmitter: NativeEventEmitter = jsNative
+/// Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+/// adding all event listeners directly to RCTNativeAppEventEmitter.
 let [<Import("NativeAppEventEmitter","react-native")>] NativeAppEventEmitter: RCTNativeAppEventEmitter = jsNative
+/// <summary>
+/// Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
+/// Define lazy getters for each module. These will return the module if already loaded, or load it if not.
+/// See <see href="https://facebook.github.io/react-native/docs/native-modules-ios.html" />
+/// Use:
+/// <code>const MyModule = NativeModules.ModuleName</code>
+/// </summary>
 let [<Import("NativeModules","react-native")>] NativeModules: NativeModulesStatic = jsNative
 let [<Import("Platform","react-native")>] Platform: PlatformStatic = jsNative
 let [<Import("PlatformIOS","react-native")>] PlatformIOS: PlatformIOSStatic = jsNative
@@ -101,52 +140,162 @@ let [<Import("PointPropType","react-native")>] PointPropType: React.Validator<Po
 let [<Import("ViewPropTypes","react-native")>] ViewPropTypes: React.ValidationMap<ViewProps> = jsNative
 
 type [<AllowNullLiteral>] IExports =
+    /// EventSubscription represents a subscription to a particular event. It can
+    /// remove its own subscription.
     abstract EventSubscription: EventSubscriptionStatic
+    /// EmitterSubscription represents a subscription with listener and context data.
     abstract EmitterSubscription: EmitterSubscriptionStatic
     abstract EventEmitter: EventEmitterStatic
     abstract createElement: ``type``: React.ReactType * ?props: 'P * [<ParamArray>] children: React.ReactNode[] -> React.ReactElement<'P>
+    /// A React component for displaying text which supports nesting, styling, and touch handling.
     abstract TextComponent: TextComponentStatic
     abstract Text: TextStatic
+    /// DocumentSelectionState is responsible for maintaining selection information
+    /// for a document.
+    /// 
+    /// It is intended for use by AbstractTextEditor-based components for
+    /// identifying the appropriate start/end positions to modify the
+    /// DocumentContent, and for programatically setting browser selection when
+    /// components re-render.
     abstract DocumentSelectionState: DocumentSelectionStateStatic
+    /// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#methods" />
     abstract TextInputComponent: TextInputComponentStatic
     abstract TextInput: TextInputStatic
+    /// <summary>
+    /// React component that wraps the Android-only [<c>Toolbar</c> widget][0]. A Toolbar can display a logo,
+    /// navigation icon (e.g. hamburger menu), a title & subtitle and a list of actions. The title and
+    /// subtitle are expanded so the logo and navigation icons are displayed on the left, title and
+    /// subtitle in the middle and the actions on the right.
+    /// 
+    /// If the toolbar has an only child, it will be displayed between the title and actions.
+    /// 
+    /// Although the Toolbar supports remote images for the logo, navigation and action icons, this
+    /// should only be used in DEV mode where <c>require('./some_icon.png')</c> translates into a packager
+    /// URL. In release mode you should always use a drawable resource for these icons. Using
+    /// <c>require('./some_icon.png')</c> will do this automatically for you, so as long as you don't
+    /// explicitly use e.g. <c>{uri: 'http://...'}</c>, you will be good.
+    /// 
+    /// [0]: <see href="https://developer.android.com/reference/android/support/v7/widget/Toolbar.html" />
+    /// </summary>
     abstract ToolbarAndroidComponent: ToolbarAndroidComponentStatic
     abstract ToolbarAndroid: ToolbarAndroidStatic
+    /// The most fundamental component for building UI, View is a container that supports layout with flexbox, style, some touch handling,
+    /// and accessibility controls, and is designed to be nested inside other views and to have 0 to many children of any type.
+    /// View maps directly to the native view equivalent on whatever platform React is running on,
+    /// whether that is a UIView, <div>, android.view, etc.
     abstract ViewComponent: ViewComponentStatic
     abstract View: ViewStatic
     abstract ViewPagerAndroidComponent: ViewPagerAndroidComponentStatic
     abstract ViewPagerAndroid: ViewPagerAndroidStatic
+    /// It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard.
+    /// It can automatically adjust either its position or bottom padding based on the position of the keyboard.
     abstract KeyboardAvoidingViewComponent: KeyboardAvoidingViewComponentStatic
     abstract KeyboardAvoidingView: KeyboardAvoidingViewStatic
     abstract WebView: WebViewStatic
+    /// Renders nested content and automatically applies paddings reflect the portion of the view
+    /// that is not covered by navigation bars, tab bars, toolbars, and other ancestor views.
+    /// Moreover, and most importantly, Safe Area's paddings feflect physical limitation of the screen,
+    /// such as rounded corners or camera notches (aka sensor housing area on iPhone X).
     abstract SafeAreaViewComponent: SafeAreaViewComponentStatic
     abstract SafeAreaView: SafeAreaViewStatic
+    /// A component which enables customization of the keyboard input accessory view on iOS. The input accessory view is
+    /// displayed above the keyboard whenever a TextInput has focus. This component can be used to create custom toolbars.
+    /// 
+    /// To use this component wrap your custom toolbar with the InputAccessoryView component, and set a nativeID. Then, pass
+    /// that nativeID as the inputAccessoryViewID of whatever TextInput you desire.
     abstract InputAccessoryView: InputAccessoryViewStatic
+    /// <summary>
+    /// Use <c>SegmentedControlIOS</c> to render a UISegmentedControl iOS.
+    /// 
+    /// #### Programmatically changing selected index
+    /// 
+    /// The selected index can be changed on the fly by assigning the
+    /// selectIndex prop to a state variable, then changing that variable.
+    /// Note that the state variable would need to be updated as the user
+    /// selects a value and changes the index, as shown in the example below.
+    /// 
+    /// <code language="`">
+    /// <SegmentedControlIOS
+    ///    values={['One', 'Two']}
+    ///    selectedIndex={this.state.selectedIndex}
+    ///    onChange={(event) => {
+    ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+    ///    }}
+    /// />
+    /// </code>
+    /// </summary>
     abstract SegmentedControlIOSComponent: SegmentedControlIOSComponentStatic
     abstract SegmentedControlIOS: SegmentedControlIOSStatic
+    /// <summary>
+    /// A navigator is an object of navigation functions that a view can call.
+    /// It is passed as a prop to any component rendered by NavigatorIOS.
+    /// 
+    /// Navigator functions are also available on the NavigatorIOS component:
+    /// </summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/navigatorios.html#navigator" />
     abstract NavigatorIOS: NavigatorIOSStatic
     abstract ActivityIndicatorComponent: ActivityIndicatorComponentStatic
     abstract ActivityIndicator: ActivityIndicatorStatic
+    [<Obsolete("since version 0.28.0")>]
     abstract ActivityIndicatorIOS: ActivityIndicatorIOSStatic
     abstract DatePickerIOSComponent: DatePickerIOSComponentStatic
     abstract DatePickerIOS: DatePickerIOSStatic
     abstract DrawerLayoutAndroidComponent: DrawerLayoutAndroidComponentStatic
     abstract DrawerLayoutAndroid: DrawerLayoutAndroidStatic
+    /// <seealso cref="PickerIOS.ios.js" />
     abstract PickerIOSItem: PickerIOSItemStatic
     abstract PickerItem: PickerItemStatic
+    /// <seealso href="https://facebook.github.io/react-native/docs/picker.html" />
+    /// <seealso cref="Picker.js" />
     abstract Picker: PickerStatic
+    /// <seealso href="https://facebook.github.io/react-native/docs/pickerios.html" />
+    /// <seealso cref="PickerIOS.ios.js" />
     abstract PickerIOSComponent: PickerIOSComponentStatic
     abstract PickerIOS: PickerIOSStatic
+    /// <summary>
+    /// React component that wraps the Android-only <c>ProgressBar</c>. This component is used to indicate
+    /// that the app is loading or there is some activity in the app.
+    /// </summary>
     abstract ProgressBarAndroidComponent: ProgressBarAndroidComponentStatic
     abstract ProgressBarAndroid: ProgressBarAndroidStatic
     abstract ProgressViewIOSComponent: ProgressViewIOSComponentStatic
     abstract ProgressViewIOS: ProgressViewIOSStatic
+    /// <summary>
+    /// This component is used inside a ScrollView or ListView to add pull to refresh
+    /// functionality. When the ScrollView is at <c>scrollY: 0</c>, swiping down
+    /// triggers an <c>onRefresh</c> event.
+    /// 
+    /// __Note:__ <c>refreshing</c> is a controlled prop, this is why it needs to be set to true
+    /// in the <c>onRefresh</c> function otherwise the refresh indicator will stop immediately.
+    /// </summary>
     abstract RefreshControlComponent: RefreshControlComponentStatic
     abstract RefreshControl: RefreshControlStatic
+    /// <summary>
+    /// Wrapper around android native recycler view.
+    /// 
+    /// It simply renders rows passed as children in a separate recycler view cells
+    /// similarly to how <c>ScrollView</c> is doing it. Thanks to the fact that it uses
+    /// native <c>RecyclerView</c> though, rows that are out of sight are going to be
+    /// automatically detached (similarly on how this would work with
+    /// <c>removeClippedSubviews = true</c> on a <c>ScrollView.js</c>).
+    /// 
+    /// CAUTION: This is an experimental component and should only be used together
+    /// with javascript implementation of list view (see ListView.js). In order to
+    /// use it pass this component as <c>renderScrollComponent</c> to the list view. For
+    /// now only horizontal scrolling is supported.
+    /// </summary>
     abstract RecyclerViewBackedScrollViewComponent: RecyclerViewBackedScrollViewComponentStatic
     abstract RecyclerViewBackedScrollView: RecyclerViewBackedScrollViewStatic
+    /// A component used to select a single value from a range of values.
     abstract SliderComponent: SliderComponentStatic
     abstract Slider: SliderStatic
+    /// <summary>
+    /// Use SwitchIOS to render a boolean input on iOS.
+    /// 
+    /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
+    /// otherwise the user's change will be reverted immediately to reflect props.value as the source of truth.
+    /// </summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/switchios.html" />
     abstract SwitchIOS: SwitchIOSStatic
     abstract ImageComponent: ImageComponentStatic
     abstract Image: ImageStatic
@@ -155,31 +304,108 @@ type [<AllowNullLiteral>] IExports =
     abstract FlatList: FlatListStatic
     abstract ListViewComponent: ListViewComponentStatic
     abstract ListView: ListViewStatic
+    /// <seealso href="https://facebook.github.io/react-native/docs/mapview.html#content" />
     abstract MapViewComponent: MapViewComponentStatic
     abstract MapView: MapViewStatic
+    /// <seealso href="https://facebook.github.io/react-native/docs/maskedviewios.html" />
     abstract MaskedViewComponent: MaskedViewComponentStatic
     abstract MaskedViewIOS: MaskedViewIOSStatic
     abstract Modal: ModalStatic
+    /// <summary>
+    /// Do not use unless you have a very good reason.
+    /// All the elements that respond to press should have a visual feedback when touched.
+    /// This is one of the primary reason a "web" app doesn't feel "native".
+    /// </summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/touchablewithoutfeedback.html" />
     abstract TouchableWithoutFeedbackComponent: TouchableWithoutFeedbackComponentStatic
     abstract TouchableWithoutFeedback: TouchableWithoutFeedbackStatic
+    /// <summary>
+    /// A wrapper for making views respond properly to touches.
+    /// On press down, the opacity of the wrapped view is decreased,
+    /// which allows the underlay color to show through, darkening or tinting the view.
+    /// The underlay comes from adding a view to the view hierarchy,
+    /// which can sometimes cause unwanted visual artifacts if not used correctly,
+    /// for example if the backgroundColor of the wrapped view isn't explicitly set to an opaque color.
+    /// 
+    /// NOTE: TouchableHighlight supports only one child
+    /// If you wish to have several child components, wrap them in a View.
+    /// </summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/touchablehighlight.html" />
     abstract TouchableHighlightComponent: TouchableHighlightComponentStatic
     abstract TouchableHighlight: TouchableHighlightStatic
+    /// <summary>
+    /// A wrapper for making views respond properly to touches.
+    /// On press down, the opacity of the wrapped view is decreased, dimming it.
+    /// This is done without actually changing the view hierarchy,
+    /// and in general is easy to add to an app without weird side-effects.
+    /// </summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/touchableopacity.html" />
     abstract TouchableOpacityComponent: TouchableOpacityComponentStatic
     abstract TouchableOpacity: TouchableOpacityStatic
+    /// <summary>
+    /// A wrapper for making views respond properly to touches (Android only).
+    /// On Android this component uses native state drawable to display touch feedback.
+    /// At the moment it only supports having a single View instance as a child node,
+    /// as it's implemented by replacing that View with another instance of RCTView node with some additional properties set.
+    /// 
+    /// Background drawable of native feedback touchable can be customized with background property.
+    /// </summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/touchablenativefeedback.html#content" />
     abstract TouchableNativeFeedbackComponent: TouchableNativeFeedbackComponentStatic
     abstract TouchableNativeFeedback: TouchableNativeFeedbackStatic
+    /// <summary>
+    /// Provides efficient data processing and access to the
+    /// <c>ListView</c> component.  A <c>ListViewDataSource</c> is created with functions for
+    /// extracting data from the input blob, and comparing elements (with default
+    /// implementations for convenience).  The input blob can be as simple as an
+    /// array of strings, or an object with rows nested inside section objects.
+    /// 
+    /// To update the data in the datasource, use <c>cloneWithRows</c> (or
+    /// <c>cloneWithRowsAndSections</c> if you care about sections).  The data in the
+    /// data source is immutable, so you can't modify it directly.  The clone methods
+    /// suck in the new data and compute a diff for each row so ListView knows
+    /// whether to re-render it or not.
+    /// </summary>
     abstract ListViewDataSource: ListViewDataSourceStatic
     abstract TabBarIOSItem: TabBarIOSItemStatic
     abstract TabBarIOS: TabBarIOSStatic
+    /// Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+    /// adding all event listeners directly to RCTDeviceEventEmitter.
     abstract DeviceEventEmitter: DeviceEventEmitterStaticStatic
     abstract ScrollViewComponent: ScrollViewComponentStatic
     abstract ScrollView: ScrollViewStatic
     abstract SnapshotViewIOSComponent: SnapshotViewIOSComponentStatic
     abstract SnapshotViewIOS: SnapshotViewIOSStatic
+    /// <summary>
+    /// A container component that renders multiple SwipeableRow's in a ListView
+    /// implementation. This is designed to be a drop-in replacement for the
+    /// standard React Native <c>ListView</c>, so use it as if it were a ListView, but
+    /// with extra props, i.e.
+    /// 
+    /// let ds = SwipeableListView.getNewDataSource();
+    /// ds.cloneWithRowsAndSections(dataBlob, ?sectionIDs, ?rowIDs);
+    /// // ..
+    /// <SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} />
+    /// 
+    /// SwipeableRow can be used independently of this component, but the main
+    /// benefit of using this component is
+    /// 
+    /// - It ensures that at most 1 row is swiped open (auto closes others)
+    /// - It can bounce the 1st row of the list so users know it's swipeable
+    /// - More to come
+    /// </summary>
     abstract SwipeableListView: SwipeableListViewStatic
     abstract Button: ButtonStatic
     abstract PermissionsAndroid: PermissionsAndroidStaticStatic
     abstract StatusBar: StatusBarStatic
+    /// <summary>
+    /// Renders a boolean input.
+    /// 
+    /// This is a controlled component that requires an <c>onValueChange</c> callback that
+    /// updates the <c>value</c> prop in order for the component to reflect user actions.
+    /// If the <c>value</c> prop is not updated, the component will continue to render
+    /// the supplied <c>value</c> prop instead of the expected result of any user actions.
+    /// </summary>
     abstract SwitchComponent: SwitchComponentStatic
     abstract Switch: SwitchStatic
     abstract ClippingRectangle: ClippingRectangleStatic
@@ -187,19 +413,21 @@ type [<AllowNullLiteral>] IExports =
     abstract Shape: ShapeStatic
     abstract Surface: SurfaceStatic
     abstract ARTText: ARTTextStatic
+    /// <summary>
     /// Used to create React components that directly wrap native component
     /// implementations.  Config information is extracted from data exported from the
     /// UIManager module.  You should also wrap the native component in a
     /// hand-written component with full propTypes definitions and other
-    /// documentation - pass the hand-written component in as `componentInterface` to
-    /// verify all the native props are documented via `propTypes`.
+    /// documentation - pass the hand-written component in as <c>componentInterface</c> to
+    /// verify all the native props are documented via <c>propTypes</c>.
     /// 
     /// If some native props shouldn't be exposed in the wrapper interface, you can
-    /// pass null for `componentInterface` and call `verifyPropTypes` directly
-    /// with `nativePropsToIgnore`;
+    /// pass null for <c>componentInterface</c> and call <c>verifyPropTypes</c> directly
+    /// with <c>nativePropsToIgnore</c>;
     /// 
     /// Common types are lined up with the appropriate prop differs with
-    /// `TypeToDifferMap`.  Non-scalar types not in the map default to `deepDiffer`.
+    /// <c>TypeToDifferMap</c>.  Non-scalar types not in the map default to <c>deepDiffer</c>.
+    /// </summary>
     abstract requireNativeComponent: viewName: string * ?componentInterface: ComponentInterface<'P> * ?extraConfig: RequireNativeComponentExtraConfig -> React.ComponentClass<obj>
     abstract findNodeHandle: componentOrHandle: U3<float, React.Component<obj option, obj option>, React.ComponentClass<obj option>> option -> float option
     abstract processColor: color: obj option -> float
@@ -239,8 +467,10 @@ type [<AllowNullLiteral>] EventSubscription =
 /// EventSubscription represents a subscription to a particular event. It can
 /// remove its own subscription.
 type [<AllowNullLiteral>] EventSubscriptionStatic =
-    /// <param name="subscriber">the subscriber that controls
-    /// this subscription.</param>
+    /// <param name="subscriber">
+    /// the subscriber that controls
+    /// this subscription.
+    /// </param>
     [<EmitConstructor>] abstract Create: subscriber: EventSubscriptionVendor -> EventSubscription
 
 /// EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -250,11 +480,15 @@ type [<AllowNullLiteral>] EventSubscriptionVendor =
     /// Adds a subscription keyed by an event type.
     abstract addSubscription: eventType: string * subscription: EventSubscription -> EventSubscription
     /// <summary>Removes a bulk set of the subscriptions.</summary>
-    /// <param name="eventType">- Optional name of the event type whose
-    /// registered supscriptions to remove, if null remove all subscriptions.</param>
+    /// <param name="eventType">
+    /// Optional name of the event type whose
+    /// registered supscriptions to remove, if null remove all subscriptions.
+    /// </param>
     abstract removeAllSubscriptions: ?eventType: string -> unit
+    /// <summary>
     /// Removes a specific subscription. Instead of calling this function, call
-    /// `subscription.remove()` directly.
+    /// <c>subscription.remove()</c> directly.
+    /// </summary>
     abstract removeSubscription: subscription: obj option -> unit
     /// Returns the array of subscriptions that are currently registered for the
     /// given event type.
@@ -269,87 +503,154 @@ type [<AllowNullLiteral>] EmitterSubscription =
     abstract emitter: EventEmitter with get, set
     abstract listener: (unit -> obj option) with get, set
     abstract context: obj option with get, set
+    /// <summary>
     /// Removes this subscription from the emitter that registered it.
-    /// Note: we're overriding the `remove()` method of EventSubscription here
-    /// but deliberately not calling `super.remove()` as the responsibility
+    /// Note: we're overriding the <c>remove()</c> method of EventSubscription here
+    /// but deliberately not calling <c>super.remove()</c> as the responsibility
     /// for removing the subscription lies with the EventEmitter.
+    /// </summary>
     abstract remove: unit -> unit
 
 /// EmitterSubscription represents a subscription with listener and context data.
 type [<AllowNullLiteral>] EmitterSubscriptionStatic =
-    /// <param name="emitter">- The event emitter that registered this
-    /// subscription</param>
-    /// <param name="subscriber">- The subscriber that controls
-    /// this subscription</param>
-    /// <param name="listener">- Function to invoke when the specified event is
-    /// emitted</param>
-    /// <param name="context">- Optional context object to use when invoking the
-    /// listener</param>
+    /// <param name="emitter">
+    /// The event emitter that registered this
+    /// subscription
+    /// </param>
+    /// <param name="subscriber">
+    /// The subscriber that controls
+    /// this subscription
+    /// </param>
+    /// <param name="listener">
+    /// Function to invoke when the specified event is
+    /// emitted
+    /// </param>
+    /// <param name="context">
+    /// Optional context object to use when invoking the
+    /// listener
+    /// </param>
     [<EmitConstructor>] abstract Create: emitter: EventEmitter * subscriber: EventSubscriptionVendor * listener: (unit -> obj option) * context: obj option -> EmitterSubscription
 
 type [<AllowNullLiteral>] EventEmitterListener =
-    /// <summary>Adds a listener to be invoked when events of the specified type are
+    /// <summary>
+    /// Adds a listener to be invoked when events of the specified type are
     /// emitted. An optional calling context may be provided. The data arguments
-    /// emitted will be passed to the listener function.</summary>
-    /// <param name="eventType">- Name of the event to listen to</param>
-    /// <param name="listener">- Function to invoke when the specified event is
-    /// emitted</param>
-    /// <param name="context">- Optional context object to use when invoking the
-    /// listener</param>
+    /// emitted will be passed to the listener function.
+    /// </summary>
+    /// <param name="eventType">Name of the event to listen to</param>
+    /// <param name="listener">
+    /// Function to invoke when the specified event is
+    /// emitted
+    /// </param>
+    /// <param name="context">
+    /// Optional context object to use when invoking the
+    /// listener
+    /// </param>
     abstract addListener: eventType: string * listener: (ResizeArray<obj option> -> obj option) * ?context: obj -> EmitterSubscription
 
 type [<AllowNullLiteral>] EventEmitter =
     inherit EventEmitterListener
-    /// <summary>Similar to addListener, except that the listener is removed after it is
-    /// invoked once.</summary>
-    /// <param name="eventType">- Name of the event to listen to</param>
-    /// <param name="listener">- Function to invoke only once when the
-    /// specified event is emitted</param>
-    /// <param name="context">- Optional context object to use when invoking the
-    /// listener</param>
+    /// <summary>
+    /// Similar to addListener, except that the listener is removed after it is
+    /// invoked once.
+    /// </summary>
+    /// <param name="eventType">Name of the event to listen to</param>
+    /// <param name="listener">
+    /// Function to invoke only once when the
+    /// specified event is emitted
+    /// </param>
+    /// <param name="context">
+    /// Optional context object to use when invoking the
+    /// listener
+    /// </param>
     abstract once: eventType: string * listener: (ResizeArray<obj option> -> obj option) * context: obj option -> EmitterSubscription
-    /// <summary>Removes all of the registered listeners, including those registered as
-    /// listener maps.</summary>
-    /// <param name="eventType">- Optional name of the event whose registered
-    /// listeners to remove</param>
+    /// <summary>
+    /// Removes all of the registered listeners, including those registered as
+    /// listener maps.
+    /// </summary>
+    /// <param name="eventType">
+    /// Optional name of the event whose registered
+    /// listeners to remove
+    /// </param>
     abstract removeAllListeners: ?eventType: string -> unit
+    /// <summary>
     /// Provides an API that can be called during an eventing cycle to remove the
     /// last listener that was invoked. This allows a developer to provide an event
     /// object that can remove the listener (or listener map) during the
     /// invocation.
     /// 
     /// If it is called when not inside of an emitting cycle it will throw.
+    /// </summary>
+    /// <exception cref="Error"> When called not during an eventing cycle</exception>
+    /// <example>
+    ///   const subscription = emitter.addListenerMap({
+    ///     someEvent: function(data, event) {
+    ///       console.log(data);
+    ///       emitter.removeCurrentListener();
+    ///     }
+    ///   });
+    /// 
+    ///   emitter.emit('someEvent', 'abc'); // logs 'abc'
+    ///   emitter.emit('someEvent', 'def'); // does not log anything
+    /// </example>
     abstract removeCurrentListener: unit -> unit
-    /// Removes a specific subscription. Called by the `remove()` method of the
+    /// <summary>
+    /// Removes a specific subscription. Called by the <c>remove()</c> method of the
     /// subscription itself to ensure any necessary cleanup is performed.
+    /// </summary>
     abstract removeSubscription: subscription: EmitterSubscription -> unit
-    /// <summary>Returns an array of listeners that are currently registered for the given
-    /// event.</summary>
-    /// <param name="eventType">- Name of the event to query</param>
+    /// <summary>
+    /// Returns an array of listeners that are currently registered for the given
+    /// event.
+    /// </summary>
+    /// <param name="eventType">Name of the event to query</param>
     abstract listeners: eventType: string -> ResizeArray<EmitterSubscription>
-    /// <summary>Emits an event of the given type with the given data. All handlers of that
-    /// particular type will be notified.</summary>
-    /// <param name="eventType">- Name of the event to emit</param>
+    /// <summary>
+    /// Emits an event of the given type with the given data. All handlers of that
+    /// particular type will be notified.
+    /// </summary>
+    /// <param name="eventType">Name of the event to emit</param>
+    /// <param name="Arbitrary">arguments to be passed to each registered listener</param>
+    /// <example>
+    ///   emitter.addListener('someEvent', function(message) {
+    ///     console.log(message);
+    ///   });
+    /// 
+    ///   emitter.emit('someEvent', 'abc'); // logs 'abc'
+    /// </example>
     abstract emit: eventType: string * [<ParamArray>] ``params``: obj option[] -> unit
     /// <summary>Removes the given listener for event of specific type.</summary>
-    /// <param name="eventType">- Name of the event to emit</param>
-    /// <param name="listener">- Function to invoke when the specified event is
-    /// emitted</param>
+    /// <param name="eventType">Name of the event to emit</param>
+    /// <param name="listener">
+    /// Function to invoke when the specified event is
+    /// emitted
+    /// </param>
+    /// <example>
+    ///   emitter.removeListener('someEvent', function(message) {
+    ///     console.log(message);
+    ///   }); // removes the listener if already registered
+    /// </example>
     abstract removeListener: eventType: string * listener: (ResizeArray<obj option> -> obj option) -> unit
 
 type [<AllowNullLiteral>] EventEmitterStatic =
-    /// <param name="subscriber">- Optional subscriber instance
-    /// to use. If omitted, a new subscriber will be created for the emitter.</param>
+    /// <param name="subscriber">
+    /// Optional subscriber instance
+    /// to use. If omitted, a new subscriber will be created for the emitter.
+    /// </param>
     [<EmitConstructor>] abstract Create: ?subscriber: EventSubscriptionVendor -> EventEmitter
 
+/// <summary>
 /// NativeMethodsMixin provides methods to access the underlying native component directly.
 /// This can be useful in cases when you want to focus a view or measure its on-screen dimensions,
 /// for example.
 /// The methods described here are available on most of the default components provided by React Native.
 /// Note, however, that they are not available on composite components that aren't directly backed by a
 /// native view. This will generally include most components that you define in your own app.
-/// For more information, see [Direct Manipulation](http://facebook.github.io/react-native/docs/direct-manipulation.html).
+/// For more information, see <see href="http://facebook.github.io/react-native/docs/direct-manipulation.html">Direct Manipulation</see>.
+/// </summary>
+/// <seealso href="https://github.com/facebook/react-native/blob/master/Libraries/ReactIOS/NativeMethodsMixin.js" />
 type [<AllowNullLiteral>] NativeMethodsMixinStatic =
+    /// <summary>
     /// Determines the location on screen, width, and height of the given view and
     /// returns the values via an async callback. If successful, the callback will
     /// be called with the following arguments:
@@ -363,8 +664,9 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// 
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native. If you need the measurements as soon as
-    /// possible, consider using the [`onLayout`
+    /// possible, consider using the [<c>onLayout</c>
     /// prop](docs/view.html#onlayout) instead.
+    /// </summary>
     abstract ``measure``: callback: MeasureOnSuccessCallback -> unit
     /// Determines the location of the given view in the window and returns the
     /// values via an async callback. If the React root view is embedded in
@@ -380,12 +682,14 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native.
     abstract measureInWindow: callback: MeasureInWindowOnSuccessCallback -> unit
-    /// Like [`measure()`](#measure), but measures the view relative an ancestor,
-    /// specified as `relativeToNativeNode`. This means that the returned x, y
+    /// <summary>
+    /// Like [<c>measure()</c>](#measure), but measures the view relative an ancestor,
+    /// specified as <c>relativeToNativeNode</c>. This means that the returned x, y
     /// are relative to the origin x, y of the ancestor view.
     /// 
     /// As always, to obtain a native node handle for a component, you can use
-    /// `React.findNodeHandle(component)`.
+    /// <c>React.findNodeHandle(component)</c>.
+    /// </summary>
     abstract measureLayout: relativeToNativeNode: float * onSuccess: MeasureLayoutOnSuccessCallback * onFail: (unit -> unit) -> unit
     /// This function sends props straight to native. They will not participate in
     /// future diff process - this means that if you do not include them in the
@@ -395,7 +699,7 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// Requests focus for the given input or view. The exact behavior triggered
     /// will depend on the platform and type of view.
     abstract focus: unit -> unit
-    /// Removes focus from an input or view. This is the opposite of `focus()`.
+    /// <summary>Removes focus from an input or view. This is the opposite of <c>focus()</c>.</summary>
     abstract blur: unit -> unit
     abstract refs: NativeMethodsMixinStaticRefs with get, set
 
@@ -461,7 +765,8 @@ type [<AllowNullLiteral>] Insets =
     abstract bottom: float option with get, set
     abstract right: float option with get, set
 
-/// //FIXME: need to find documentation on which component is a TTouchable and can implement that interface
+/// <summary>//FIXME: need to find documentation on which component is a TTouchable and can implement that interface</summary>
+/// <seealso cref="React.DOMAtributes" />
 type [<AllowNullLiteral>] Touchable =
     abstract onTouchStart: (GestureResponderEvent -> unit) option with get, set
     abstract onTouchMove: (GestureResponderEvent -> unit) option with get, set
@@ -477,6 +782,21 @@ type [<AllowNullLiteral>] AppConfig =
     abstract ``component``: ComponentProvider option with get, set
     abstract run: Runnable option with get, set
 
+/// <summary>
+/// <c>AppRegistry</c> is the JS entry point to running all React Native apps.  App
+/// root components should register themselves with
+/// <c>AppRegistry.registerComponent</c>, then the native system can load the bundle
+/// for the app and then actually run the app when it's ready by invoking
+/// <c>AppRegistry.runApplication</c>.
+/// 
+/// To "stop" an application when a view should be destroyed, call
+/// <c>AppRegistry.unmountApplicationComponentAtRootTag</c> with the tag that was
+/// pass into <c>runApplication</c>. These should always be used as a pair.
+/// 
+/// <c>AppRegistry</c> should be <c>require</c>d early in the <c>require</c> sequence to make
+/// sure the JS execution environment is setup before other modules are
+/// <c>require</c>d.
+/// </summary>
 module AppRegistry =
 
     type [<AllowNullLiteral>] IExports =
@@ -518,7 +838,14 @@ type [<AllowNullLiteral>] LayoutAnimationConfig =
 /// A common way to use this API is to call LayoutAnimation.configureNext before
 /// calling setState.
 type [<AllowNullLiteral>] LayoutAnimationStatic =
-    /// Schedules an animation to happen on the next layout.
+    /// <summary>Schedules an animation to happen on the next layout.</summary>
+    /// <param name="config">
+    /// Specifies animation properties:
+    /// <c>duration</c> in milliseconds
+    /// <c>create</c>, config for animating in new views (see Anim type)
+    /// <c>update</c>, config for animating views that have been updated (see Anim type)
+    /// </param>
+    /// <param name="onAnimationDidEnd">Called when the animation finished. Only supported on iOS.</param>
     abstract configureNext: (LayoutAnimationConfig -> (unit -> unit) -> unit) with get, set
     /// Helper for creating a config for configureNext.
     abstract create: (float -> string -> string -> LayoutAnimationConfig) with get, set
@@ -537,7 +864,10 @@ type [<StringEnum>] [<RequireQualifiedAccess>] FlexAlignType =
     | Stretch
     | Baseline
 
-/// Flex Prop Types
+/// <summary>Flex Prop Types</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/flexbox.html#proptypes" />
+/// <seealso href="https://facebook.github.io/react-native/docs/layout-props.html" />
+/// <seealso href="https://github.com/facebook/react-native/blob/master/Libraries/StyleSheet/LayoutPropTypes.js" />
 type [<AllowNullLiteral>] FlexStyle =
     abstract alignContent: FlexStyleAlignContent option with get, set
     abstract alignItems: FlexAlignType option with get, set
@@ -593,14 +923,15 @@ type [<AllowNullLiteral>] FlexStyle =
     abstract zIndex: float option with get, set
     abstract direction: FlexStyleDirection option with get, set
 
+/// <seealso cref="ShadowPropTypesIOS.js" />
 type [<AllowNullLiteral>] ShadowPropTypesIOSStatic =
-    /// Sets the drop shadow color
+    /// <summary>Sets the drop shadow color</summary>
     abstract shadowColor: string with get, set
-    /// Sets the drop shadow offset
+    /// <summary>Sets the drop shadow offset</summary>
     abstract shadowOffset: ShadowPropTypesIOSStaticShadowOffset with get, set
-    /// Sets the drop shadow opacity (multiplied by the color's alpha component)
+    /// <summary>Sets the drop shadow opacity (multiplied by the color's alpha component)</summary>
     abstract shadowOpacity: float with get, set
-    /// Sets the drop shadow blur radius
+    /// <summary>Sets the drop shadow blur radius</summary>
     abstract shadowRadius: float with get, set
 
 type [<AllowNullLiteral>] GeoConfiguration =
@@ -723,8 +1054,10 @@ type [<AllowNullLiteral>] TextPropsIOS =
     abstract adjustsFontSizeToFit: bool option with get, set
     /// Specifies smallest possible scale a font can reach when adjustsFontSizeToFit is enabled. (values 0.01-1.0).
     abstract minimumFontScale: float option with get, set
-    /// When `true`, no visual change is made when text is pressed down. By
+    /// <summary>
+    /// When <c>true</c>, no visual change is made when text is pressed down. By
     /// default, a gray oval highlights the text on press down.
+    /// </summary>
     abstract suppressHighlighting: bool option with get, set
 
 type [<AllowNullLiteral>] TextPropsAndroid =
@@ -732,41 +1065,49 @@ type [<AllowNullLiteral>] TextPropsAndroid =
     abstract selectable: bool option with get, set
     /// The highlight color of the text.
     abstract selectionColor: string option with get, set
+    /// <summary>
     /// Set text break strategy on Android API Level 23+
-    /// default is `highQuality`.
+    /// default is <c>highQuality</c>.
+    /// </summary>
     abstract textBreakStrategy: TextPropsAndroidTextBreakStrategy option with get, set
 
 type [<AllowNullLiteral>] TextProps =
     inherit TextPropsIOS
     inherit TextPropsAndroid
     inherit AccessibilityProps
+    /// <summary>
     /// Specifies whether fonts should scale to respect Text Size accessibility settings.
-    /// The default is `true`.
+    /// The default is <c>true</c>.
+    /// </summary>
     abstract allowFontScaling: bool option with get, set
+    /// <summary>
     /// This can be one of the following values:
     /// 
-    /// - `head` - The line is displayed so that the end fits in the container and the missing text
+    /// - <c>head</c> - The line is displayed so that the end fits in the container and the missing text
     /// at the beginning of the line is indicated by an ellipsis glyph. e.g., "...wxyz"
-    /// - `middle` - The line is displayed so that the beginning and end fit in the container and the
+    /// - <c>middle</c> - The line is displayed so that the beginning and end fit in the container and the
     /// missing text in the middle is indicated by an ellipsis glyph. "ab...yz"
-    /// - `tail` - The line is displayed so that the beginning fits in the container and the
+    /// - <c>tail</c> - The line is displayed so that the beginning fits in the container and the
     /// missing text at the end of the line is indicated by an ellipsis glyph. e.g., "abcd..."
-    /// - `clip` - Lines are not drawn past the edge of the text container.
+    /// - <c>clip</c> - Lines are not drawn past the edge of the text container.
     /// 
-    /// The default is `tail`.
+    /// The default is <c>tail</c>.
     /// 
-    /// `numberOfLines` must be set in conjunction with this prop.
+    /// <c>numberOfLines</c> must be set in conjunction with this prop.
     /// 
-    /// > `clip` is working only for iOS
+    /// > <c>clip</c> is working only for iOS
+    /// </summary>
     abstract ellipsizeMode: TextPropsEllipsizeMode option with get, set
     /// Line Break mode. Works only with numberOfLines.
     /// clip is working only for iOS
     abstract lineBreakMode: TextPropsEllipsizeMode option with get, set
+    /// <summary>
     /// Used to truncate the text with an ellipsis after computing the text
     /// layout, including line wrapping, such that the total number of lines
     /// does not exceed this number.
     /// 
-    /// This prop is commonly used with `ellipsizeMode`.
+    /// This prop is commonly used with <c>ellipsizeMode</c>.
+    /// </summary>
     abstract numberOfLines: float option with get, set
     /// Invoked on mount and layout changes with
     /// 
@@ -775,9 +1116,12 @@ type [<AllowNullLiteral>] TextProps =
     /// This function is called on press.
     /// Text intrinsically supports press handling with a default highlight state (which can be disabled with suppressHighlighting).
     abstract onPress: (GestureResponderEvent -> unit) option with get, set
+    /// <summary>
     /// This function is called on long press.
-    /// e.g., `onLongPress={this.increaseSize}>``
+    /// e.g., <c>onLongPress={this.increaseSize}></c>`
+    /// </summary>
     abstract onLongPress: (GestureResponderEvent -> unit) option with get, set
+    /// <seealso href="https://facebook.github.io/react-native/docs/text.html#style" />
     abstract style: StyleProp<TextStyle> option with get, set
     /// Used to locate this view in end-to-end tests.
     abstract testID: string option with get, set
@@ -813,8 +1157,10 @@ type [<StringEnum>] [<RequireQualifiedAccess>] DataDetectorTypes =
 /// components re-render.
 type [<AllowNullLiteral>] DocumentSelectionState =
     inherit EventEmitter
+    /// <summary>
     /// Apply an update to the state. If either offset value has changed,
-    /// set the values and emit the `change` event. Otherwise no-op.
+    /// set the values and emit the <c>change</c> event. Otherwise no-op.
+    /// </summary>
     abstract update: anchor: float * focus: float -> unit
     /// Given a max text length, constrain our selection offsets to ensure
     /// that the selection remains strictly within the text range.
@@ -840,27 +1186,30 @@ type [<AllowNullLiteral>] DocumentSelectionState =
 type [<AllowNullLiteral>] DocumentSelectionStateStatic =
     [<EmitConstructor>] abstract Create: anchor: float * focus: float -> DocumentSelectionState
 
-/// IOS Specific properties for TextInput
+/// <summary>IOS Specific properties for TextInput</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#props" />
 type [<AllowNullLiteral>] TextInputIOSProps =
     /// enum('never', 'while-editing', 'unless-editing', 'always')
     /// When the clear button should appear on the right side of the text view
     abstract clearButtonMode: TextInputIOSPropsClearButtonMode option with get, set
     /// If true, clears the text field automatically when editing begins
     abstract clearTextOnFocus: bool option with get, set
+    /// <summary>
     /// Determines the types of data converted to clickable URLs in the text input.
-    /// Only valid if `multiline={true}` and `editable={false}`.
+    /// Only valid if <c>multiline={true}</c> and <c>editable={false}</c>.
     /// By default no data types are detected.
     /// 
     /// You can provide one type or an array of many types.
     /// 
-    /// Possible values for `dataDetectorTypes` are:
+    /// Possible values for <c>dataDetectorTypes</c> are:
     /// 
-    /// - `'phoneNumber'`
-    /// - `'link'`
-    /// - `'address'`
-    /// - `'calendarEvent'`
-    /// - `'none'`
-    /// - `'all'`
+    /// - <c>'phoneNumber'</c>
+    /// - <c>'link'</c>
+    /// - <c>'address'</c>
+    /// - <c>'calendarEvent'</c>
+    /// - <c>'none'</c>
+    /// - <c>'all'</c>
+    /// </summary>
     abstract dataDetectorTypes: U2<DataDetectorTypes, ResizeArray<DataDetectorTypes>> option with get, set
     /// If true, the keyboard disables the return key when there is no text and automatically enables it when there is text.
     /// The default value is false.
@@ -871,45 +1220,48 @@ type [<AllowNullLiteral>] TextInputIOSProps =
     abstract selectionState: DocumentSelectionState option with get, set
     /// If false, disables spell-check style (i.e. red underlines). The default value is inherited from autoCorrect
     abstract spellCheck: bool option with get, set
+    /// <summary>
     /// Give the keyboard and the system information about the expected
     /// semantic meaning for the content that users enter.
     /// 
-    /// For iOS 11+ you can set `textContentType` to `username` or `password` to
+    /// For iOS 11+ you can set <c>textContentType</c> to <c>username</c> or <c>password</c> to
     /// enable autofill of login details from the device keychain.
     /// 
-    /// To disable autofill, set textContentType to `none`.
+    /// To disable autofill, set textContentType to <c>none</c>.
     /// 
-    /// Possible values for `textContentType` are:
+    /// Possible values for <c>textContentType</c> are:
     /// 
-    ///   - `'none'`
-    ///   - `'URL'`
-    ///   - `'addressCity'`
-    ///   - `'addressCityAndState'`
-    ///   - `'addressState'`
-    ///   - `'countryName'`
-    ///   - `'creditCardNumber'`
-    ///   - `'emailAddress'`
-    ///   - `'familyName'`
-    ///   - `'fullStreetAddress'`
-    ///   - `'givenName'`
-    ///   - `'jobTitle'`
-    ///   - `'location'`
-    ///   - `'middleName'`
-    ///   - `'name'`
-    ///   - `'namePrefix'`
-    ///   - `'nameSuffix'`
-    ///   - `'nickname'`
-    ///   - `'organizationName'`
-    ///   - `'postalCode'`
-    ///   - `'streetAddressLine1'`
-    ///   - `'streetAddressLine2'`
-    ///   - `'sublocality'`
-    ///   - `'telephoneNumber'`
-    ///   - `'username'`
-    ///   - `'password'`
+    ///   - <c>'none'</c>
+    ///   - <c>'URL'</c>
+    ///   - <c>'addressCity'</c>
+    ///   - <c>'addressCityAndState'</c>
+    ///   - <c>'addressState'</c>
+    ///   - <c>'countryName'</c>
+    ///   - <c>'creditCardNumber'</c>
+    ///   - <c>'emailAddress'</c>
+    ///   - <c>'familyName'</c>
+    ///   - <c>'fullStreetAddress'</c>
+    ///   - <c>'givenName'</c>
+    ///   - <c>'jobTitle'</c>
+    ///   - <c>'location'</c>
+    ///   - <c>'middleName'</c>
+    ///   - <c>'name'</c>
+    ///   - <c>'namePrefix'</c>
+    ///   - <c>'nameSuffix'</c>
+    ///   - <c>'nickname'</c>
+    ///   - <c>'organizationName'</c>
+    ///   - <c>'postalCode'</c>
+    ///   - <c>'streetAddressLine1'</c>
+    ///   - <c>'streetAddressLine2'</c>
+    ///   - <c>'sublocality'</c>
+    ///   - <c>'telephoneNumber'</c>
+    ///   - <c>'username'</c>
+    ///   - <c>'password'</c>
+    /// </summary>
     abstract textContentType: TextInputIOSPropsTextContentType option with get, set
 
-/// Android Specific properties for TextInput
+/// <summary>Android Specific properties for TextInput</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#props" />
 type [<AllowNullLiteral>] TextInputAndroidProps =
     /// When false, if there is a small amount of space available around a text input (e.g. landscape orientation on a phone),
     ///    the OS may choose to have the user edit the text inside of a full screen text input mode.
@@ -923,7 +1275,7 @@ type [<AllowNullLiteral>] TextInputAndroidProps =
     /// Sets the number of lines for a TextInput.
     /// Use it with multiline set to true to be able to fill the lines.
     abstract numberOfLines: float option with get, set
-    /// Sets the return key to the label. Use it instead of `returnKeyType`.
+    /// <summary>Sets the return key to the label. Use it instead of <c>returnKeyType</c>.</summary>
     abstract returnKeyLabel: string option with get, set
     /// Set text break strategy on Android API Level 23+, possible values are simple, highQuality, balanced
     /// The default value is simple.
@@ -975,50 +1327,63 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ReturnKeyTypeIOS =
 type ReturnKeyTypeOptions =
     U3<ReturnKeyType, ReturnKeyTypeAndroid, ReturnKeyTypeIOS>
 
+/// <seealso cref="TextInputProps.onFocus" />
 type [<AllowNullLiteral>] TextInputFocusEventData =
     abstract target: float with get, set
     abstract text: string with get, set
     abstract eventCount: float with get, set
 
+/// <seealso cref="TextInputProps.onScroll" />
 type [<AllowNullLiteral>] TextInputScrollEventData =
     abstract contentOffset: TextInputScrollEventDataContentOffset with get, set
 
+/// <seealso cref="TextInputProps.onSelectionChange" />
 type [<AllowNullLiteral>] TextInputSelectionChangeEventData =
     abstract selection: TextInputSelectionChangeEventDataSelection with get, set
     abstract target: float with get, set
 
+/// <seealso cref="TextInputProps.onKeyPress" />
 type [<AllowNullLiteral>] TextInputKeyPressEventData =
     abstract key: string with get, set
 
+/// <seealso cref="TextInputProps.onChange" />
 type [<AllowNullLiteral>] TextInputChangeEventData =
     abstract eventCount: float with get, set
     abstract target: float with get, set
     abstract text: string with get, set
 
+/// <seealso cref="TextInputProps.onContentSizeChange" />
 type [<AllowNullLiteral>] TextInputContentSizeChangeEventData =
     abstract contentSize: ShadowPropTypesIOSStaticShadowOffset with get, set
 
+/// <seealso cref="TextInputProps.onEndEditing" />
 type [<AllowNullLiteral>] TextInputEndEditingEventData =
     abstract text: string with get, set
 
+/// <seealso cref="TextInputProps.onSubmitEditing" />
 type [<AllowNullLiteral>] TextInputSubmitEditingEventData =
     abstract text: string with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#props" />
 type [<AllowNullLiteral>] TextInputProps =
     inherit ViewProps
     inherit TextInputIOSProps
     inherit TextInputAndroidProps
     inherit AccessibilityProps
+    /// <summary>
     /// Specifies whether fonts should scale to respect Text Size accessibility settings.
-    /// The default is `true`.
+    /// The default is <c>true</c>.
+    /// </summary>
     abstract allowFontScaling: bool option with get, set
+    /// <summary>
     /// Can tell TextInput to automatically capitalize certain characters.
     ///       characters: all characters,
     ///       words: first letter of each word
     ///       sentences: first letter of each sentence (default)
     ///       none: don't auto capitalize anything
     /// 
-    /// https://facebook.github.io/react-native/docs/textinput.html#autocapitalize
+    /// <see href="https://facebook.github.io/react-native/docs/textinput.html#autocapitalize" />
+    /// </summary>
     abstract autoCapitalize: TextInputPropsAutoCapitalize option with get, set
     /// If false, disables auto-correct.
     /// The default value is true.
@@ -1058,11 +1423,13 @@ type [<AllowNullLiteral>] TextInputProps =
     /// Callback that is called when the text input's text changes.
     /// Changed text is passed as an argument to the callback handler.
     abstract onChangeText: (string -> unit) option with get, set
+    /// <summary>
     /// Callback that is called when the text input's content size changes.
     /// This will be called with
-    /// `{ nativeEvent: { contentSize: { width, height } } }`.
+    /// <c>{ nativeEvent: { contentSize: { width, height } } }</c>.
     /// 
     /// Only called for multiline text inputs.
+    /// </summary>
     abstract onContentSizeChange: (NativeSyntheticEvent<TextInputContentSizeChangeEventData> -> unit) option with get, set
     /// Callback that is called when text input ends.
     abstract onEndEditing: (NativeSyntheticEvent<TextInputEndEditingEventData> -> unit) option with get, set
@@ -1072,18 +1439,22 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract onSelectionChange: (NativeSyntheticEvent<TextInputSelectionChangeEventData> -> unit) option with get, set
     /// Callback that is called when the text input's submit button is pressed.
     abstract onSubmitEditing: (NativeSyntheticEvent<TextInputSubmitEditingEventData> -> unit) option with get, set
+    /// <summary>
     /// Invoked on content scroll with
-    ///   `{ nativeEvent: { contentOffset: { x, y } } }`.
+    ///   <c>{ nativeEvent: { contentOffset: { x, y } } }</c>.
     /// 
     /// May also contain other properties from ScrollEvent but on Android contentSize is not provided for performance reasons.
+    /// </summary>
     abstract onScroll: (NativeSyntheticEvent<TextInputScrollEventData> -> unit) option with get, set
+    /// <summary>
     /// Callback that is called when a key is pressed.
     /// This will be called with
-    ///   `{ nativeEvent: { key: keyValue } }`
+    ///   <c>{ nativeEvent: { key: keyValue } }</c>
     /// where keyValue is 'Enter' or 'Backspace' for respective keys and the typed-in character otherwise including ' ' for space.
     /// 
     /// Fires before onChange callbacks.
     /// Note: on Android only the inputs from soft keyboard are handled, not the hardware keyboard inputs.
+    /// </summary>
     abstract onKeyPress: (NativeSyntheticEvent<TextInputKeyPressEventData> -> unit) option with get, set
     /// The string that will be rendered before text input has been entered
     abstract placeholder: string option with get, set
@@ -1106,9 +1477,11 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract style: StyleProp<TextStyle> option with get, set
     /// Used to locate this view in end-to-end tests
     abstract testID: string option with get, set
+    /// <summary>
     /// Used to connect to an InputAccessoryView. Not part of react-natives documentation, but present in examples and
     /// code.
-    /// See https://facebook.github.io/react-native/docs/inputaccessoryview.html for more information.
+    /// See <see href="https://facebook.github.io/react-native/docs/inputaccessoryview.html" /> for more information.
+    /// </summary>
     abstract inputAccessoryViewID: string option with get, set
     /// The value to show for the text input. TextInput is a controlled component,
     /// which means the native value will be forced to match this value prop if provided.
@@ -1124,15 +1497,26 @@ type [<AllowNullLiteral>] TextInputState =
     /// Returns the ID of the currently focused text field, if one exists
     /// If no text field is focused it returns null
     abstract currentlyFocusedField: unit -> float
+    /// <param name="TextInputID">
+    /// id of the text field to focus
+    /// Focuses the specified text field
+    /// noop if the text field was already focused
+    /// </param>
+    [<Obsolete("")>]
     abstract focusTextInput: ?textFieldID: float -> unit
-    /// <param name="textFieldID">id of the text field to focus
+    /// <param name="textFieldID">
+    /// id of the text field to focus
     /// Unfocuses the specified text field
-    /// noop if it wasn't focused</param>
+    /// noop if it wasn't focused
+    /// </param>
+    [<Obsolete("")>]
     abstract blurTextInput: ?textFieldID: float -> unit
 
+/// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#methods" />
 type [<AllowNullLiteral>] TextInputComponent =
     inherit React.Component<TextInputProps>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#methods" />
 type [<AllowNullLiteral>] TextInputComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> TextInputComponent
 
@@ -1160,17 +1544,19 @@ type [<AllowNullLiteral>] ToolbarAndroidAction =
 
 type [<AllowNullLiteral>] ToolbarAndroidProps =
     inherit ViewProps
+    /// <summary>
     /// Sets possible actions on the toolbar as part of the action menu. These are displayed as icons
     /// or text on the right side of the widget. If they don't fit they are placed in an 'overflow'
     /// menu.
     /// 
     /// This property takes an array of objects, where each object has the following keys:
     /// 
-    /// * `title`: **required**, the title of this action
-    /// * `icon`: the icon for this action, e.g. `require('./some_icon.png')`
-    /// * `show`: when to show this action as an icon or hide it in the overflow menu: `always`,
-    /// `ifRoom` or `never`
-    /// * `showWithText`: boolean, whether to show text alongside the icon or not
+    /// * <c>title</c>: **required**, the title of this action
+    /// * <c>icon</c>: the icon for this action, e.g. <c>require('./some_icon.png')</c>
+    /// * <c>show</c>: when to show this action as an icon or hide it in the overflow menu: <c>always</c>,
+    /// <c>ifRoom</c> or <c>never</c>
+    /// * <c>showWithText</c>: boolean, whether to show text alongside the icon or not
+    /// </summary>
     abstract actions: ResizeArray<ToolbarAndroidAction> option with get, set
     /// Sets the content inset for the toolbar ending edge.
     /// The content inset affects the valid area for Toolbar content other
@@ -1214,7 +1600,8 @@ type [<AllowNullLiteral>] ToolbarAndroidProps =
     /// Sets the toolbar title color.
     abstract titleColor: string option with get, set
 
-/// React component that wraps the Android-only [`Toolbar` widget][0]. A Toolbar can display a logo,
+/// <summary>
+/// React component that wraps the Android-only [<c>Toolbar</c> widget][0]. A Toolbar can display a logo,
 /// navigation icon (e.g. hamburger menu), a title & subtitle and a list of actions. The title and
 /// subtitle are expanded so the logo and navigation icons are displayed on the left, title and
 /// subtitle in the middle and the actions on the right.
@@ -1222,16 +1609,18 @@ type [<AllowNullLiteral>] ToolbarAndroidProps =
 /// If the toolbar has an only child, it will be displayed between the title and actions.
 /// 
 /// Although the Toolbar supports remote images for the logo, navigation and action icons, this
-/// should only be used in DEV mode where `require('./some_icon.png')` translates into a packager
+/// should only be used in DEV mode where <c>require('./some_icon.png')</c> translates into a packager
 /// URL. In release mode you should always use a drawable resource for these icons. Using
-/// `require('./some_icon.png')` will do this automatically for you, so as long as you don't
-/// explicitly use e.g. `{uri: 'http://...'}`, you will be good.
+/// <c>require('./some_icon.png')</c> will do this automatically for you, so as long as you don't
+/// explicitly use e.g. <c>{uri: 'http://...'}</c>, you will be good.
 /// 
-/// [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
+/// [0]: <see href="https://developer.android.com/reference/android/support/v7/widget/Toolbar.html" />
+/// </summary>
 type [<AllowNullLiteral>] ToolbarAndroidComponent =
     inherit React.Component<ToolbarAndroidProps>
 
-/// React component that wraps the Android-only [`Toolbar` widget][0]. A Toolbar can display a logo,
+/// <summary>
+/// React component that wraps the Android-only [<c>Toolbar</c> widget][0]. A Toolbar can display a logo,
 /// navigation icon (e.g. hamburger menu), a title & subtitle and a list of actions. The title and
 /// subtitle are expanded so the logo and navigation icons are displayed on the left, title and
 /// subtitle in the middle and the actions on the right.
@@ -1239,12 +1628,13 @@ type [<AllowNullLiteral>] ToolbarAndroidComponent =
 /// If the toolbar has an only child, it will be displayed between the title and actions.
 /// 
 /// Although the Toolbar supports remote images for the logo, navigation and action icons, this
-/// should only be used in DEV mode where `require('./some_icon.png')` translates into a packager
+/// should only be used in DEV mode where <c>require('./some_icon.png')</c> translates into a packager
 /// URL. In release mode you should always use a drawable resource for these icons. Using
-/// `require('./some_icon.png')` will do this automatically for you, so as long as you don't
-/// explicitly use e.g. `{uri: 'http://...'}`, you will be good.
+/// <c>require('./some_icon.png')</c> will do this automatically for you, so as long as you don't
+/// explicitly use e.g. <c>{uri: 'http://...'}</c>, you will be good.
 /// 
-/// [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
+/// [0]: <see href="https://developer.android.com/reference/android/support/v7/widget/Toolbar.html" />
+/// </summary>
 type [<AllowNullLiteral>] ToolbarAndroidComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> ToolbarAndroidComponent
 
@@ -1326,6 +1716,8 @@ type [<AllowNullLiteral>] GestureResponderHandlers =
     /// it should have a onStartShouldSetResponderCapture handler which returns true.
     abstract onMoveShouldSetResponderCapture: (GestureResponderEvent -> bool) option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/view.html#style" />
+/// <seealso href="https://github.com/facebook/react-native/blob/master/Libraries/Components/View/ViewStylePropTypes.js" />
 type [<AllowNullLiteral>] ViewStyle =
     inherit FlexStyle
     inherit ShadowStyleIOS
@@ -1356,19 +1748,23 @@ type [<AllowNullLiteral>] ViewStyle =
     abstract borderWidth: float option with get, set
     abstract opacity: float option with get, set
     abstract testID: string option with get, set
+    /// <summary>
     /// Sets the elevation of a view, using Android's underlying
-    /// [elevation API](https://developer.android.com/training/material/shadows-clipping.html#Elevation).
+    /// <see href="https://developer.android.com/training/material/shadows-clipping.html#Elevation">elevation API</see>.
     /// This adds a drop shadow to the item and affects z-order for overlapping views.
     /// Only supported on Android 5.0+, has no effect on earlier versions.
+    /// </summary>
     abstract elevation: float option with get, set
 
 type [<AllowNullLiteral>] ViewPropsIOS =
-    /// A Boolean value indicating whether VoiceOver should ignore the elements within views that are siblings of the receiver.
+    /// <summary>A Boolean value indicating whether VoiceOver should ignore the elements within views that are siblings of the receiver.</summary>
     abstract accessibilityViewIsModal: bool option with get, set
-    /// Provides an array of custom actions available for accessibility.
+    /// <summary>Provides an array of custom actions available for accessibility.</summary>
     abstract accessibilityActions: Array<string> option with get, set
-    /// When `accessible` is true, the system will try to invoke this function
+    /// <summary>
+    /// When <c>accessible</c> is true, the system will try to invoke this function
     /// when the user performs an accessibility custom action.
+    /// </summary>
     abstract onAccessibilityAction: (unit -> unit) option with get, set
     /// Whether this view should be rendered as a bitmap before compositing.
     /// 
@@ -1411,12 +1807,14 @@ type Falsy =
 type [<AllowNullLiteral>] RecursiveArray<'T> =
     inherit Array<U2<'T, RecursiveArray<'T>>>
 
+/// <summary>Keep a brand of 'T' so that calls to <c>StyleSheet.flatten</c> can take <c>RegisteredStyle<T></c> and return <c>T</c>.</summary>
 type [<AllowNullLiteral>] RegisteredStyle<'T> =
     interface end
 
 type StyleProp<'T> =
     U4<'T, RegisteredStyle<'T>, RecursiveArray<U3<'T, RegisteredStyle<'T>, Falsy>>, Falsy>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/accessibility.html#accessibility-properties" />
 type [<AllowNullLiteral>] AccessibilityProps =
     inherit AccessibilityPropsAndroid
     inherit AccessibilityPropsIOS
@@ -1428,36 +1826,46 @@ type [<AllowNullLiteral>] AccessibilityProps =
     abstract accessibilityLabel: string option with get, set
 
 type [<AllowNullLiteral>] AccessibilityPropsAndroid =
+    /// <summary>
     /// In some cases, we also want to alert the end user of the type of selected component (i.e., that it is a “button”).
     /// If we were using native buttons, this would work automatically. Since we are using javascript, we need to
     /// provide a bit more context for TalkBack. To do so, you must specify the ‘accessibilityComponentType’ property
     /// for any UI component. For instances, we support ‘button’, ‘radiobutton_checked’ and ‘radiobutton_unchecked’ and so on.
+    /// </summary>
     abstract accessibilityComponentType: AccessibilityPropsAndroidAccessibilityComponentType option with get, set
+    /// <summary>
     /// Indicates to accessibility services whether the user should be notified when this view changes.
     /// Works for Android API >= 19 only.
-    /// See http://developer.android.com/reference/android/view/View.html#attr_android:accessibilityLiveRegion for references.
+    /// See <see href="http://developer.android.com/reference/android/view/View.html#attr_android:accessibilityLiveRegion" /> for references.
+    /// </summary>
     abstract accessibilityLiveRegion: AccessibilityPropsAndroidAccessibilityLiveRegion option with get, set
+    /// <summary>
     /// Controls how view is important for accessibility which is if it fires accessibility events
     /// and if it is reported to accessibility services that query the screen.
-    /// Works for Android only. See http://developer.android.com/reference/android/R.attr.html#importantForAccessibility for references.
+    /// Works for Android only. See <see href="http://developer.android.com/reference/android/R.attr.html#importantForAccessibility" /> for references.
     /// 
     /// Possible values:
     ///       'auto' - The system determines whether the view is important for accessibility - default (recommended).
     ///       'yes' - The view is important for accessibility.
     ///       'no' - The view is not important for accessibility.
     ///       'no-hide-descendants' - The view is not important for accessibility, nor are any of its descendant views.
+    /// </summary>
     abstract importantForAccessibility: AccessibilityPropsAndroidImportantForAccessibility option with get, set
 
 type [<AllowNullLiteral>] AccessibilityPropsIOS =
+    /// <summary>
     /// A Boolean value indicating whether the accessibility elements contained within this accessibility element
     /// are hidden to the screen reader.
+    /// </summary>
     abstract accessibilityElementsHidden: bool option with get, set
+    /// <summary>
     /// Accessibility traits tell a person using VoiceOver what kind of element they have selected.
     /// Is this element a label? A button? A header? These questions are answered by accessibilityTraits.
+    /// </summary>
     abstract accessibilityTraits: U2<AccessibilityTrait, ResizeArray<AccessibilityTrait>> option with get, set
-    /// When `accessible` is true, the system will try to invoke this function when the user performs accessibility tap gesture.
+    /// <summary>When <c>accessible</c> is true, the system will try to invoke this function when the user performs accessibility tap gesture.</summary>
     abstract onAccessibilityTap: (unit -> unit) option with get, set
-    /// When accessible is true, the system will invoke this function when the user performs the magic tap gesture.
+    /// <summary>When accessible is true, the system will invoke this function when the user performs the magic tap gesture.</summary>
     abstract onMagicTap: (unit -> unit) option with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityTrait =
@@ -1479,6 +1887,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityTrait =
     | AllowsDirectInteraction
     | PageTurn
 
+/// <seealso href="https://facebook.github.io/react-native/docs/view.html#props" />
 type [<AllowNullLiteral>] ViewProps =
     inherit ViewPropsAndroid
     inherit ViewPropsIOS
@@ -1546,9 +1955,10 @@ type [<AllowNullLiteral>] View =
 
 type [<AllowNullLiteral>] ViewStatic =
     [<EmitConstructor>] abstract Create: unit -> View
-    /// Is 3D Touch / Force Touch available (i.e. will touch events include `force`)
+    /// <summary>Is 3D Touch / Force Touch available (i.e. will touch events include <c>force</c>)</summary>
     abstract forceTouchAvailable: bool with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/viewpagerandroid.html#props" />
 type [<AllowNullLiteral>] ViewPagerAndroidOnPageScrollEventData =
     abstract position: float with get, set
     abstract offset: float with get, set
@@ -1558,24 +1968,30 @@ type [<AllowNullLiteral>] ViewPagerAndroidOnPageSelectedEventData =
 
 type [<AllowNullLiteral>] ViewPagerAndroidProps =
     inherit ViewProps
-    /// Index of initial page that should be selected. Use `setPage` method to
-    /// update the page, and `onPageSelected` to monitor page changes
+    /// <summary>
+    /// Index of initial page that should be selected. Use <c>setPage</c> method to
+    /// update the page, and <c>onPageSelected</c> to monitor page changes
+    /// </summary>
     abstract initialPage: float option with get, set
     /// When false, the content does not scroll.
     /// The default value is true.
     abstract scrollEnabled: bool option with get, set
+    /// <summary>
     /// Executed when transitioning between pages (ether because of animation for
     /// the requested page change or when user is swiping/dragging between pages)
-    /// The `event.nativeEvent` object for this callback will carry following data:
+    /// The <c>event.nativeEvent</c> object for this callback will carry following data:
     ///   - position - index of first page from the left that is currently visible
     ///   - offset - value from range [0,1) describing stage between page transitions.
     ///     Value x means that (1 - x) fraction of the page at "position" index is
     ///     visible, and x fraction of the next page is visible.
+    /// </summary>
     abstract onPageScroll: (NativeSyntheticEvent<ViewPagerAndroidOnPageScrollEventData> -> unit) option with get, set
+    /// <summary>
     /// This callback will be called once ViewPager finish navigating to selected page
-    /// (when user swipes between pages). The `event.nativeEvent` object passed to this
+    /// (when user swipes between pages). The <c>event.nativeEvent</c> object passed to this
     /// callback will have following fields:
     ///   - position - index of page that has been selected
+    /// </summary>
     abstract onPageSelected: (NativeSyntheticEvent<ViewPagerAndroidOnPageSelectedEventData> -> unit) option with get, set
     /// Function called when the page scrolling state has changed.
     /// The page scrolling state can be in 3 states:
@@ -1688,22 +2104,26 @@ type [<AllowNullLiteral>] WebViewPropsIOS =
     /// in the HTML document must also include the webkit-playsinline
     /// attribute."
     abstract allowsInlineMediaPlayback: bool option with get, set
+    /// <summary>
     /// Boolean value that determines whether the web view bounces
-    /// when it reaches the edge of the content. The default value is `true`.
+    /// when it reaches the edge of the content. The default value is <c>true</c>.
+    /// </summary>
     abstract bounces: bool option with get, set
+    /// <summary>
     /// Determines the types of data converted to clickable URLs in
     /// the web view’s content. By default only phone numbers are detected.
     /// 
     /// You can provide one type or an array of many types.
     /// 
-    /// Possible values for `dataDetectorTypes` are:
+    /// Possible values for <c>dataDetectorTypes</c> are:
     /// 
-    /// - `'phoneNumber'`
-    /// - `'link'`
-    /// - `'address'`
-    /// - `'calendarEvent'`
-    /// - `'none'`
-    /// - `'all'`
+    /// - <c>'phoneNumber'</c>
+    /// - <c>'link'</c>
+    /// - <c>'address'</c>
+    /// - <c>'calendarEvent'</c>
+    /// - <c>'none'</c>
+    /// - <c>'all'</c>
+    /// </summary>
     abstract dataDetectorTypes: U2<DataDetectorTypes, ResizeArray<DataDetectorTypes>> option with get, set
     /// A floating-point number that determines how quickly the scroll
     /// view decelerates after the user lifts their finger. You may also
@@ -1716,8 +2136,10 @@ type [<AllowNullLiteral>] WebViewPropsIOS =
     /// Return true or false from this method to continue loading the
     /// request.
     abstract onShouldStartLoadWithRequest: (WebViewIOSLoadRequestEvent -> bool) option with get, set
+    /// <summary>
     /// Boolean value that determines whether scrolling is enabled in the
-    /// `WebView`. The default value is `true`.
+    /// <c>WebView</c>. The default value is <c>true</c>.
+    /// </summary>
     abstract scrollEnabled: bool option with get, set
 
 type [<AllowNullLiteral>] WebViewUriSource =
@@ -1735,17 +2157,21 @@ type [<AllowNullLiteral>] WebViewNativeConfig =
     abstract props: obj option with get, set
     abstract viewManager: obj option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/webview.html#props" />
 type [<AllowNullLiteral>] WebViewProps =
     inherit ViewProps
     inherit WebViewPropsAndroid
     inherit WebViewPropsIOS
+    /// <summary>
     /// Controls whether to adjust the content inset for web views that are
     /// placed behind a navigation bar, tab bar, or toolbar. The default value
-    /// is `true`.
+    /// is <c>true</c>.
+    /// </summary>
     abstract automaticallyAdjustContentInsets: bool option with get, set
     /// The amount by which the web view content is inset from the edges of
     /// the scroll view. Defaults to {top: 0, left: 0, bottom: 0, right: 0}.
     abstract contentInset: Insets option with get, set
+    [<Obsolete("")>]
     abstract html: string option with get, set
     /// Set this to provide JavaScript that will be injected into the web page
     /// when the view loads.
@@ -1760,14 +2186,16 @@ type [<AllowNullLiteral>] WebViewProps =
     abstract onLoadStart: (NavState -> unit) option with get, set
     /// Invoked when window.postMessage is called from WebView.
     abstract onMessage: (NativeSyntheticEvent<WebViewMessageEventData> -> unit) option with get, set
-    /// Function that is invoked when the `WebView` loading starts or ends.
+    /// <summary>Function that is invoked when the <c>WebView</c> loading starts or ends.</summary>
     abstract onNavigationStateChange: (NavState -> unit) option with get, set
     /// Function that returns a view to show if there's an error.
     abstract renderError: (unit -> React.ReactElement<ViewProps>) option with get, set
     /// Function that returns a loading indicator.
     abstract renderLoading: (unit -> React.ReactElement<ViewProps>) option with get, set
-    /// Boolean value that forces the `WebView` to show the loading view
+    /// <summary>
+    /// Boolean value that forces the <c>WebView</c> to show the loading view
     /// on the first load.
+    /// </summary>
     abstract startInLoadingState: bool option with get, set
     abstract style: StyleProp<ViewStyle> option with get, set
     abstract url: string option with get, set
@@ -1777,10 +2205,12 @@ type [<AllowNullLiteral>] WebViewProps =
     abstract mediaPlaybackRequiresUserAction: bool option with get, set
     /// sets whether the webpage scales to fit the view and the user can change the scale
     abstract scalesPageToFit: bool option with get, set
+    /// <summary>
     /// List of origin strings to allow being navigated to.
     /// The strings allow wildcards and get matched against just the origin (not the full URL).
     /// If the user taps to navigate to a new page but the new page is not in this whitelist, the URL will be handled by the OS.
-    /// The default whitelisted origins are "http://" and "https://".
+    /// The default whitelisted origins are "<see href="http://"" /> and "<see href="https://"." />
+    /// </summary>
     abstract originWhitelist: ResizeArray<string> option with get, set
     /// Override the native component used to render the WebView. Enables a custom native
     /// WebView which uses the same JavaScript as the original WebView.
@@ -1806,6 +2236,8 @@ type [<AllowNullLiteral>] WebView =
 type [<AllowNullLiteral>] WebViewStatic =
     [<EmitConstructor>] abstract Create: unit -> WebView
 
+/// <seealso href="https://facebook.github.io/react-native/docs/segmentedcontrolios.html" />
+/// <seealso cref="SegmentedControlIOS.ios.js" />
 type [<AllowNullLiteral>] NativeSegmentedControlIOSChangeEvent =
     abstract value: string with get, set
     abstract selectedSegmentIndex: float with get, set
@@ -1872,7 +2304,8 @@ type [<AllowNullLiteral>] InputAccessoryViewProps =
     abstract nativeID: string option with get, set
     abstract style: StyleProp<ViewStyle> option with get, set
 
-/// Use `SegmentedControlIOS` to render a UISegmentedControl iOS.
+/// <summary>
+/// Use <c>SegmentedControlIOS</c> to render a UISegmentedControl iOS.
 /// 
 /// #### Programmatically changing selected index
 /// 
@@ -1881,7 +2314,7 @@ type [<AllowNullLiteral>] InputAccessoryViewProps =
 /// Note that the state variable would need to be updated as the user
 /// selects a value and changes the index, as shown in the example below.
 /// 
-/// ````
+/// <code language="`">
 /// <SegmentedControlIOS
 ///    values={['One', 'Two']}
 ///    selectedIndex={this.state.selectedIndex}
@@ -1889,11 +2322,13 @@ type [<AllowNullLiteral>] InputAccessoryViewProps =
 ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
 ///    }}
 /// />
-/// ````
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] SegmentedControlIOSComponent =
     inherit React.Component<SegmentedControlIOSProps>
 
-/// Use `SegmentedControlIOS` to render a UISegmentedControl iOS.
+/// <summary>
+/// Use <c>SegmentedControlIOS</c> to render a UISegmentedControl iOS.
 /// 
 /// #### Programmatically changing selected index
 /// 
@@ -1902,7 +2337,7 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 /// Note that the state variable would need to be updated as the user
 /// selects a value and changes the index, as shown in the example below.
 /// 
-/// ````
+/// <code language="`">
 /// <SegmentedControlIOS
 ///    values={['One', 'Two']}
 ///    selectedIndex={this.state.selectedIndex}
@@ -1910,7 +2345,8 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
 ///    }}
 /// />
-/// ````
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] SegmentedControlIOSComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> SegmentedControlIOSComponent
 
@@ -1929,6 +2365,7 @@ type [<AllowNullLiteral>] NavigatorIOSProps =
     /// The default wrapper style for components in the navigator.
     /// A common use case is to set the backgroundColor for every page
     abstract itemWrapperStyle: StyleProp<ViewStyle> option with get, set
+    /// <summary>
     /// Boolean value that indicates whether the interactive pop gesture is
     /// enabled. This is useful for enabling/disabling the back swipe navigation
     /// gesture.
@@ -1936,8 +2373,9 @@ type [<AllowNullLiteral>] NavigatorIOSProps =
     /// If this prop is not provided, the default behavior is for the back swipe
     /// gesture to be enabled when the navigation bar is shown and disabled when
     /// the navigation bar is hidden. Once you've provided the
-    /// `interactivePopGestureEnabled` prop, you can never restore the default
+    /// <c>interactivePopGestureEnabled</c> prop, you can never restore the default
     /// behavior.
+    /// </summary>
     abstract interactivePopGestureEnabled: bool option with get, set
     /// A Boolean value that indicates whether the navigation bar is hidden
     abstract navigationBarHidden: bool option with get, set
@@ -1952,10 +2390,13 @@ type [<AllowNullLiteral>] NavigatorIOSProps =
     /// NOT IN THE DOC BUT IN THE EXAMPLES
     abstract style: StyleProp<ViewStyle> option with get, set
 
+/// <summary>
 /// A navigator is an object of navigation functions that a view can call.
 /// It is passed as a prop to any component rendered by NavigatorIOS.
 /// 
 /// Navigator functions are also available on the NavigatorIOS component:
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/navigatorios.html#navigator" />
 type [<AllowNullLiteral>] NavigatorIOS =
     inherit React.Component<NavigatorIOSProps>
     /// Navigate forward to a new route
@@ -1977,13 +2418,17 @@ type [<AllowNullLiteral>] NavigatorIOS =
     /// Go back to the top item
     abstract popToTop: unit -> unit
 
+/// <summary>
 /// A navigator is an object of navigation functions that a view can call.
 /// It is passed as a prop to any component rendered by NavigatorIOS.
 /// 
 /// Navigator functions are also available on the NavigatorIOS component:
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/navigatorios.html#navigator" />
 type [<AllowNullLiteral>] NavigatorIOSStatic =
     [<EmitConstructor>] abstract Create: unit -> NavigatorIOS
 
+/// <seealso href="https://facebook.github.io/react-native/docs/activityindicator.html#props" />
 type [<AllowNullLiteral>] ActivityIndicatorProps =
     inherit ViewProps
     /// Whether to show the indicator (true, the default) or hide it (false).
@@ -2011,6 +2456,7 @@ type [<AllowNullLiteral>] ActivityIndicator =
 type [<AllowNullLiteral>] ActivityIndicatorStatic =
     [<EmitConstructor>] abstract Create: unit -> ActivityIndicator
 
+/// <seealso href="https://facebook.github.io/react-native/docs/activityindicatorios.html#props" />
 type [<AllowNullLiteral>] ActivityIndicatorIOSProps =
     inherit ViewProps
     /// Whether to show the indicator (true, the default) or hide it (false).
@@ -2028,9 +2474,11 @@ type [<AllowNullLiteral>] ActivityIndicatorIOSProps =
     abstract size: ActivityIndicatorIOSPropsSize option with get, set
     abstract style: StyleProp<ViewStyle> option with get, set
 
+[<Obsolete("since version 0.28.0")>]
 type [<AllowNullLiteral>] ActivityIndicatorIOS =
     inherit React.Component<ActivityIndicatorIOSProps>
 
+[<Obsolete("since version 0.28.0")>]
 type [<AllowNullLiteral>] ActivityIndicatorIOSStatic =
     [<EmitConstructor>] abstract Create: unit -> ActivityIndicatorIOS
 
@@ -2076,6 +2524,7 @@ type [<AllowNullLiteral>] DatePickerIOSStatic =
 type [<AllowNullLiteral>] DrawerSlideEvent =
     inherit NativeSyntheticEvent<NativeTouchEvent>
 
+/// <seealso cref="DrawerLayoutAndroid.android.js" />
 type [<AllowNullLiteral>] DrawerLayoutAndroidProps =
     inherit ViewProps
     /// Specifies the background color of the drawer. The default value
@@ -2155,16 +2604,20 @@ type [<AllowNullLiteral>] DrawerLayoutAndroid =
 type [<AllowNullLiteral>] DrawerLayoutAndroidStatic =
     [<EmitConstructor>] abstract Create: unit -> DrawerLayoutAndroid
 
+/// <seealso cref="PickerIOS.ios.js" />
 type [<AllowNullLiteral>] PickerIOSItemProps =
     abstract value: U2<string, float> option with get, set
     abstract label: string option with get, set
 
+/// <seealso cref="PickerIOS.ios.js" />
 type [<AllowNullLiteral>] PickerIOSItem =
     inherit React.Component<PickerIOSItemProps>
 
+/// <seealso cref="PickerIOS.ios.js" />
 type [<AllowNullLiteral>] PickerIOSItemStatic =
     [<EmitConstructor>] abstract Create: unit -> PickerIOSItem
 
+/// <seealso cref="Picker.js" />
 type [<AllowNullLiteral>] PickerItemProps =
     abstract testID: string option with get, set
     abstract color: string option with get, set
@@ -2179,22 +2632,28 @@ type [<AllowNullLiteral>] PickerItemStatic =
 
 type [<AllowNullLiteral>] PickerPropsIOS =
     inherit ViewProps
-    /// Style to apply to each of the item labels.
+    /// <summary>Style to apply to each of the item labels.</summary>
     abstract itemStyle: StyleProp<ViewStyle> option with get, set
 
 type [<AllowNullLiteral>] PickerPropsAndroid =
     inherit ViewProps
+    /// <summary>
     /// If set to false, the picker will be disabled, i.e. the user will not be able to make a
     /// selection.
+    /// </summary>
     abstract enabled: bool option with get, set
+    /// <summary>
     /// On Android, specifies how to display the selection items when the user taps on the picker:
     /// 
     ///    - 'dialog': Show a modal dialog. This is the default.
     ///    - 'dropdown': Shows a dropdown anchored to the picker view
+    /// </summary>
     abstract mode: PickerPropsAndroidMode option with get, set
-    /// Prompt string for this picker, used on Android in dialog mode as the title of the dialog.
+    /// <summary>Prompt string for this picker, used on Android in dialog mode as the title of the dialog.</summary>
     abstract prompt: string option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/picker.html" />
+/// <seealso cref="Picker.js" />
 type [<AllowNullLiteral>] PickerProps =
     inherit PickerPropsIOS
     inherit PickerPropsAndroid
@@ -2210,9 +2669,13 @@ type [<AllowNullLiteral>] PickerProps =
     /// Used to locate this view in end-to-end tests.
     abstract testId: string option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/picker.html" />
+/// <seealso cref="Picker.js" />
 type [<AllowNullLiteral>] Picker =
     inherit React.Component<PickerProps>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/picker.html" />
+/// <seealso cref="Picker.js" />
 type [<AllowNullLiteral>] PickerStatic =
     [<EmitConstructor>] abstract Create: unit -> Picker
     /// On Android, display the options in a dialog.
@@ -2221,15 +2684,21 @@ type [<AllowNullLiteral>] PickerStatic =
     abstract MODE_DROPDOWN: string with get, set
     abstract Item: obj with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/pickerios.html" />
+/// <seealso cref="PickerIOS.ios.js" />
 type [<AllowNullLiteral>] PickerIOSProps =
     inherit ViewProps
     abstract itemStyle: StyleProp<TextStyle> option with get, set
     abstract onValueChange: (U2<string, float> -> unit) option with get, set
     abstract selectedValue: U2<string, float> option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/pickerios.html" />
+/// <seealso cref="PickerIOS.ios.js" />
 type [<AllowNullLiteral>] PickerIOSComponent =
     inherit React.Component<PickerIOSProps>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/pickerios.html" />
+/// <seealso cref="PickerIOS.ios.js" />
 type [<AllowNullLiteral>] PickerIOSComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> PickerIOSComponent
 
@@ -2240,6 +2709,8 @@ type [<AllowNullLiteral>] PickerIOSStatic =
     [<EmitConstructor>] abstract Create: unit -> PickerIOS
     abstract Item: obj with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/progressbarandroid.html" />
+/// <seealso cref="ProgressBarAndroid.android.js" />
 type [<AllowNullLiteral>] ProgressBarAndroidProps =
     inherit ViewProps
     /// Style of the ProgressBar. One of:
@@ -2261,13 +2732,17 @@ type [<AllowNullLiteral>] ProgressBarAndroidProps =
     /// Used to locate this view in end-to-end tests.
     abstract testID: string option with get, set
 
-/// React component that wraps the Android-only `ProgressBar`. This component is used to indicate
+/// <summary>
+/// React component that wraps the Android-only <c>ProgressBar</c>. This component is used to indicate
 /// that the app is loading or there is some activity in the app.
+/// </summary>
 type [<AllowNullLiteral>] ProgressBarAndroidComponent =
     inherit React.Component<ProgressBarAndroidProps>
 
-/// React component that wraps the Android-only `ProgressBar`. This component is used to indicate
+/// <summary>
+/// React component that wraps the Android-only <c>ProgressBar</c>. This component is used to indicate
 /// that the app is loading or there is some activity in the app.
+/// </summary>
 type [<AllowNullLiteral>] ProgressBarAndroidComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> ProgressBarAndroidComponent
 
@@ -2277,6 +2752,8 @@ type [<AllowNullLiteral>] ProgressBarAndroid =
 type [<AllowNullLiteral>] ProgressBarAndroidStatic =
     [<EmitConstructor>] abstract Create: unit -> ProgressBarAndroid
 
+/// <seealso href="https://facebook.github.io/react-native/docs/progressviewios.html" />
+/// <seealso cref="ProgressViewIOS.ios.js" />
 type [<AllowNullLiteral>] ProgressViewIOSProps =
     inherit ViewProps
     /// The progress bar style.
@@ -2323,7 +2800,7 @@ type [<AllowNullLiteral>] RefreshControlPropsAndroid =
     abstract progressBackgroundColor: string option with get, set
     /// Size of the refresh indicator, see RefreshControl.SIZE.
     abstract size: float option with get, set
-    /// Progress view top offset
+    /// <summary>Progress view top offset</summary>
     abstract progressViewOffset: float option with get, set
 
 type [<AllowNullLiteral>] RefreshControlProps =
@@ -2334,21 +2811,25 @@ type [<AllowNullLiteral>] RefreshControlProps =
     /// Whether the view should be indicating an active refresh.
     abstract refreshing: bool with get, set
 
+/// <summary>
 /// This component is used inside a ScrollView or ListView to add pull to refresh
-/// functionality. When the ScrollView is at `scrollY: 0`, swiping down
-/// triggers an `onRefresh` event.
+/// functionality. When the ScrollView is at <c>scrollY: 0</c>, swiping down
+/// triggers an <c>onRefresh</c> event.
 /// 
-/// __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
-/// in the `onRefresh` function otherwise the refresh indicator will stop immediately.
+/// __Note:__ <c>refreshing</c> is a controlled prop, this is why it needs to be set to true
+/// in the <c>onRefresh</c> function otherwise the refresh indicator will stop immediately.
+/// </summary>
 type [<AllowNullLiteral>] RefreshControlComponent =
     inherit React.Component<RefreshControlProps>
 
+/// <summary>
 /// This component is used inside a ScrollView or ListView to add pull to refresh
-/// functionality. When the ScrollView is at `scrollY: 0`, swiping down
-/// triggers an `onRefresh` event.
+/// functionality. When the ScrollView is at <c>scrollY: 0</c>, swiping down
+/// triggers an <c>onRefresh</c> event.
 /// 
-/// __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
-/// in the `onRefresh` function otherwise the refresh indicator will stop immediately.
+/// __Note:__ <c>refreshing</c> is a controlled prop, this is why it needs to be set to true
+/// in the <c>onRefresh</c> function otherwise the refresh indicator will stop immediately.
+/// </summary>
 type [<AllowNullLiteral>] RefreshControlComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> RefreshControlComponent
 
@@ -2362,33 +2843,37 @@ type [<AllowNullLiteral>] RefreshControlStatic =
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewProps =
     inherit ScrollViewProps
 
+/// <summary>
 /// Wrapper around android native recycler view.
 /// 
 /// It simply renders rows passed as children in a separate recycler view cells
-/// similarly to how `ScrollView` is doing it. Thanks to the fact that it uses
-/// native `RecyclerView` though, rows that are out of sight are going to be
+/// similarly to how <c>ScrollView</c> is doing it. Thanks to the fact that it uses
+/// native <c>RecyclerView</c> though, rows that are out of sight are going to be
 /// automatically detached (similarly on how this would work with
-/// `removeClippedSubviews = true` on a `ScrollView.js`).
+/// <c>removeClippedSubviews = true</c> on a <c>ScrollView.js</c>).
 /// 
 /// CAUTION: This is an experimental component and should only be used together
 /// with javascript implementation of list view (see ListView.js). In order to
-/// use it pass this component as `renderScrollComponent` to the list view. For
+/// use it pass this component as <c>renderScrollComponent</c> to the list view. For
 /// now only horizontal scrolling is supported.
+/// </summary>
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponent =
     inherit React.Component<RecyclerViewBackedScrollViewProps>
 
+/// <summary>
 /// Wrapper around android native recycler view.
 /// 
 /// It simply renders rows passed as children in a separate recycler view cells
-/// similarly to how `ScrollView` is doing it. Thanks to the fact that it uses
-/// native `RecyclerView` though, rows that are out of sight are going to be
+/// similarly to how <c>ScrollView</c> is doing it. Thanks to the fact that it uses
+/// native <c>RecyclerView</c> though, rows that are out of sight are going to be
 /// automatically detached (similarly on how this would work with
-/// `removeClippedSubviews = true` on a `ScrollView.js`).
+/// <c>removeClippedSubviews = true</c> on a <c>ScrollView.js</c>).
 /// 
 /// CAUTION: This is an experimental component and should only be used together
 /// with javascript implementation of list view (see ListView.js). In order to
-/// use it pass this component as `renderScrollComponent` to the list view. For
+/// use it pass this component as <c>renderScrollComponent</c> to the list view. For
 /// now only horizontal scrolling is supported.
+/// </summary>
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> RecyclerViewBackedScrollViewComponent
 
@@ -2404,10 +2889,12 @@ type [<AllowNullLiteral>] RecyclerViewBackedScrollView =
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
     abstract scrollTo: ?y: U2<float, RecyclerViewBackedScrollViewScrollTo> * ?x: float * ?animated: bool -> unit
+    /// <summary>
     /// Returns a reference to the underlying scroll responder, which supports
-    /// operations like `scrollTo`. All ScrollView-like components should
+    /// operations like <c>scrollTo</c>. All ScrollView-like components should
     /// implement this method so that they can be composed while providing access
     /// to the underlying scroll responder's methods.
+    /// </summary>
     abstract getScrollResponder: unit -> JSX.Element
 
 type [<AllowNullLiteral>] RecyclerViewBackedScrollViewStatic =
@@ -2483,7 +2970,7 @@ type [<AllowNullLiteral>] SliderStatic =
 type SliderIOS =
     Slider
 
-/// https://facebook.github.io/react-native/docs/switchios.html#props
+/// <summary><see href="https://facebook.github.io/react-native/docs/switchios.html#props" /></summary>
 type [<AllowNullLiteral>] SwitchIOSProps =
     inherit ViewProps
     /// If true the user won't be able to toggle the switch. Default value is false.
@@ -2499,17 +2986,23 @@ type [<AllowNullLiteral>] SwitchIOSProps =
     /// The value of the switch, if true the switch will be turned on. Default value is false.
     abstract value: bool option with get, set
 
+/// <summary>
 /// Use SwitchIOS to render a boolean input on iOS.
 /// 
 /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
 /// otherwise the user's change will be reverted immediately to reflect props.value as the source of truth.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/switchios.html" />
 type [<AllowNullLiteral>] SwitchIOS =
     inherit React.Component<SwitchIOSProps>
 
+/// <summary>
 /// Use SwitchIOS to render a boolean input on iOS.
 /// 
 /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
 /// otherwise the user's change will be reverted immediately to reflect props.value as the source of truth.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/switchios.html" />
 type [<AllowNullLiteral>] SwitchIOSStatic =
     [<EmitConstructor>] abstract Create: unit -> SwitchIOS
 
@@ -2520,6 +3013,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ImageResizeMode =
     | Repeat
     | Center
 
+/// <seealso cref="ImageResizeMode.js" />
 type [<AllowNullLiteral>] ImageResizeModeStatic =
     /// contain - The image will be resized such that it will be completely
     /// visible, contained within the frame of the View.
@@ -2545,7 +3039,9 @@ type [<AllowNullLiteral>] ShadowStyleIOS =
     abstract shadowOpacity: float option with get, set
     abstract shadowRadius: float option with get, set
 
-/// Image style
+/// <summary>Image style</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/image.html#style" />
+/// <seealso href="https://github.com/facebook/react-native/blob/master/Libraries/Image/ImageStylePropTypes.js" />
 type [<AllowNullLiteral>] ImageStyle =
     inherit FlexStyle
     inherit ShadowStyleIOS
@@ -2566,57 +3062,72 @@ type [<AllowNullLiteral>] ImageStyle =
     abstract opacity: float option with get, set
 
 type [<AllowNullLiteral>] ImageURISource =
-    /// `uri` is a string representing the resource identifier for the image, which
+    /// <summary>
+    /// <c>uri</c> is a string representing the resource identifier for the image, which
     /// could be an http address, a local file path, or the name of a static image
-    /// resource (which should be wrapped in the `require('./path/to/image.png')`
+    /// resource (which should be wrapped in the <c>require('./path/to/image.png')</c>
     /// function).
+    /// </summary>
     abstract uri: string option with get, set
-    /// `bundle` is the iOS asset bundle which the image is included in. This
+    /// <summary>
+    /// <c>bundle</c> is the iOS asset bundle which the image is included in. This
     /// will default to [NSBundle mainBundle] if not set.
+    /// </summary>
     abstract bundle: string option with get, set
-    /// `method` is the HTTP Method to use. Defaults to GET if not specified.
+    /// <summary><c>method</c> is the HTTP Method to use. Defaults to GET if not specified.</summary>
     abstract ``method``: string option with get, set
-    /// `headers` is an object representing the HTTP headers to send along with the
+    /// <summary>
+    /// <c>headers</c> is an object representing the HTTP headers to send along with the
     /// request for a remote image.
+    /// </summary>
     abstract headers: ImageURISourceHeaders option with get, set
-    /// `cache` determines how the requests handles potentially cached
+    /// <summary>
+    /// <c>cache</c> determines how the requests handles potentially cached
     /// responses.
     /// 
-    /// - `default`: Use the native platforms default strategy. `useProtocolCachePolicy` on iOS.
+    /// - <c>default</c>: Use the native platforms default strategy. <c>useProtocolCachePolicy</c> on iOS.
     /// 
-    /// - `reload`: The data for the URL will be loaded from the originating source.
+    /// - <c>reload</c>: The data for the URL will be loaded from the originating source.
     /// No existing cache data should be used to satisfy a URL load request.
     /// 
-    /// - `force-cache`: The existing cached data will be used to satisfy the request,
+    /// - <c>force-cache</c>: The existing cached data will be used to satisfy the request,
     /// regardless of its age or expiration date. If there is no existing data in the cache
     /// corresponding the request, the data is loaded from the originating source.
     /// 
-    /// - `only-if-cached`: The existing cache data will be used to satisfy a request, regardless of
+    /// - <c>only-if-cached</c>: The existing cache data will be used to satisfy a request, regardless of
     /// its age or expiration date. If there is no existing data in the cache corresponding
     /// to a URL load request, no attempt is made to load the data from the originating source,
     /// and the load is considered to have failed.
+    /// </summary>
     abstract cache: ImageURISourceCache option with get, set
-    /// `body` is the HTTP body to send with the request. This must be a valid
+    /// <summary>
+    /// <c>body</c> is the HTTP body to send with the request. This must be a valid
     /// UTF-8 string, and will be sent exactly as specified, with no
     /// additional encoding (e.g. URL-escaping or base64) applied.
+    /// </summary>
     abstract body: string option with get, set
-    /// `width` and `height` can be specified if known at build time, in which case
-    /// these will be used to set the default `<Image/>` component dimensions.
+    /// <summary>
+    /// <c>width</c> and <c>height</c> can be specified if known at build time, in which case
+    /// these will be used to set the default <c><Image/></c> component dimensions.
+    /// </summary>
     abstract width: float option with get, set
     abstract height: float option with get, set
-    /// `scale` is used to indicate the scale factor of the image. Defaults to 1.0 if
+    /// <summary>
+    /// <c>scale</c> is used to indicate the scale factor of the image. Defaults to 1.0 if
     /// unspecified, meaning that one image pixel equates to one display point / DIP.
+    /// </summary>
     abstract scale: float option with get, set
 
 type ImageRequireSource =
     float
 
+/// <seealso cref="ImagePropsIOS.onProgress" />
 type [<AllowNullLiteral>] ImageProgressEventDataIOS =
     abstract loaded: float with get, set
     abstract total: float with get, set
 
 type [<AllowNullLiteral>] ImagePropsIOS =
-    /// blurRadius: the blur radius of the blur filter added to the image
+    /// <summary>blurRadius: the blur radius of the blur filter added to the image</summary>
     abstract blurRadius: float option with get, set
     /// When the image is resized, the corners of the size specified by capInsets will stay a fixed size,
     /// but the center content and borders of the image will be stretched.
@@ -2625,9 +3136,11 @@ type [<AllowNullLiteral>] ImagePropsIOS =
     abstract capInsets: Insets option with get, set
     /// Invoked on download progress with {nativeEvent: {loaded, total}}
     abstract onProgress: (NativeSyntheticEvent<ImageProgressEventDataIOS> -> unit) option with get, set
+    /// <summary>
     /// Invoked when a partial load of the image is complete. The definition of
     /// what constitutes a "partial load" is loader specific though this is meant
     /// for progressive JPEG loads.
+    /// </summary>
     abstract onPartialLoad: (unit -> unit) option with get, set
 
 type [<AllowNullLiteral>] ImagePropsAndroid =
@@ -2646,9 +3159,11 @@ type [<AllowNullLiteral>] ImagePropsAndroid =
     /// Duration of fade in animation.
     abstract fadeDuration: float option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/image.html#source" />
 type ImageSourcePropType =
     U3<ImageURISource, ResizeArray<ImageURISource>, ImageRequireSource>
 
+/// <seealso cref="ImagePropsBase.onLoad" />
 type [<AllowNullLiteral>] ImageLoadEventDataAndroid =
     abstract uri: string option with get, set
 
@@ -2659,12 +3174,14 @@ type [<AllowNullLiteral>] ImageLoadEventData =
 type [<AllowNullLiteral>] ImageErrorEventData =
     abstract error: obj option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/image.html#resolveassetsource" />
 type [<AllowNullLiteral>] ImageResolvedAssetSource =
     abstract height: float with get, set
     abstract width: float with get, set
     abstract scale: float with get, set
     abstract uri: string with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/image.html" />
 type [<AllowNullLiteral>] ImagePropsBase =
     inherit ImagePropsIOS
     inherit ImagePropsAndroid
@@ -2711,21 +3228,23 @@ type [<AllowNullLiteral>] ImagePropsBase =
     /// if bigger than the area of the view.
     /// The image will not be scaled up.
     abstract resizeMode: ImageResizeMode option with get, set
+    /// <summary>
     /// The mechanism that should be used to resize the image when the image's dimensions
-    /// differ from the image view's dimensions. Defaults to `auto`.
+    /// differ from the image view's dimensions. Defaults to <c>auto</c>.
     /// 
-    /// - `auto`: Use heuristics to pick between `resize` and `scale`.
+    /// - <c>auto</c>: Use heuristics to pick between <c>resize</c> and <c>scale</c>.
     /// 
-    /// - `resize`: A software operation which changes the encoded image in memory before it
-    /// gets decoded. This should be used instead of `scale` when the image is much larger
+    /// - <c>resize</c>: A software operation which changes the encoded image in memory before it
+    /// gets decoded. This should be used instead of <c>scale</c> when the image is much larger
     /// than the view.
     /// 
-    /// - `scale`: The image gets drawn downscaled or upscaled. Compared to `resize`, `scale` is
+    /// - <c>scale</c>: The image gets drawn downscaled or upscaled. Compared to <c>resize</c>, <c>scale</c> is
     /// faster (usually hardware accelerated) and produces higher quality images. This
     /// should be used if the image is smaller than the view. It should also be used if the
     /// image is slightly bigger than the view.
     /// 
-    /// More details about `resize` and `scale` can be found at http://frescolib.org/docs/resizing-rotating.html.
+    /// More details about <c>resize</c> and <c>scale</c> can be found at <see href="http://frescolib.org/docs/resizing-rotating.html." />
+    /// </summary>
     abstract resizeMethod: ImagePropsAndroidResizeMethod option with get, set
     /// The image source (either a remote URL or a local file resource).
     /// 
@@ -2735,9 +3254,11 @@ type [<AllowNullLiteral>] ImagePropsBase =
     /// 
     /// The currently supported formats are png, jpg, jpeg, bmp, gif, webp (Android only), psd (iOS only).
     abstract source: ImageSourcePropType with get, set
-    /// similarly to `source`, this property represents the resource used to render
+    /// <summary>
+    /// similarly to <c>source</c>, this property represents the resource used to render
     /// the loading indicator for the image, displayed until image is ready to be
     /// displayed, typically after when it got downloaded from network.
+    /// </summary>
     abstract loadingIndicatorSource: ImageURISource option with get, set
     /// A unique identifier for this element to be used in UI Automation testing scripts.
     abstract testID: string option with get, set
@@ -2764,6 +3285,7 @@ type [<AllowNullLiteral>] ImageStatic =
     abstract prefetch: url: string -> obj option
     abstract abortPrefetch: requestId: float -> unit
     abstract queryCache: urls: ResizeArray<string> -> Promise<Map<string, ImageStaticQueryCachePromiseMap>>
+    /// <seealso href="https://facebook.github.io/react-native/docs/image.html#resolveassetsource" />
     abstract resolveAssetSource: source: ImageSourcePropType -> ImageResolvedAssetSource
 
 type [<AllowNullLiteral>] ImageBackgroundProps =
@@ -2806,11 +3328,15 @@ type [<AllowNullLiteral>] ViewabilityConfig =
     /// that a single pixel in the viewport makes the item viewable, and a value of 100 means that
     /// an item must be either entirely visible or cover the entire viewport to count as viewable.
     abstract viewAreaCoveragePercentThreshold: float option with get, set
-    /// Similar to `viewAreaPercentThreshold`, but considers the percent of the item that is visible,
+    /// <summary>
+    /// Similar to <c>viewAreaPercentThreshold</c>, but considers the percent of the item that is visible,
     /// rather than the fraction of the viewable area it covers.
+    /// </summary>
     abstract itemVisiblePercentThreshold: float option with get, set
-    /// Nothing is considered viewable until the user scrolls or `recordInteraction` is called after
+    /// <summary>
+    /// Nothing is considered viewable until the user scrolls or <c>recordInteraction</c> is called after
     /// render.
+    /// </summary>
     abstract waitForInteraction: bool option with get, set
 
 type [<AllowNullLiteral>] ViewabilityConfigCallbackPair =
@@ -2820,6 +3346,7 @@ type [<AllowNullLiteral>] ViewabilityConfigCallbackPair =
 type ViewabilityConfigCallbackPairs =
     ResizeArray<ViewabilityConfigCallbackPair>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/flatlist.html#props" />
 type [<AllowNullLiteral>] ListRenderItemInfo<'ItemT> =
     abstract item: 'ItemT with get, set
     abstract index: float with get, set
@@ -2848,20 +3375,24 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// For simplicity, data is just a plain array. If you want to use something else,
     /// like an immutable list, use the underlying VirtualizedList directly.
     abstract data: ReadonlyArray<'ItemT> option with get, set
+    /// <summary>
     /// A marker property for telling the list to re-render (since it implements PureComponent).
-    /// If any of your `renderItem`, Header, Footer, etc. functions depend on anything outside of the `data` prop,
+    /// If any of your <c>renderItem</c>, Header, Footer, etc. functions depend on anything outside of the <c>data</c> prop,
     /// stick it here and treat it immutably.
+    /// </summary>
     abstract extraData: obj option with get, set
-    /// `getItemLayout` is an optional optimization that lets us skip measurement of dynamic
+    /// <summary>
+    /// <c>getItemLayout</c> is an optional optimization that lets us skip measurement of dynamic
     /// content if you know the height of items a priori. getItemLayout is the most efficient,
     /// and is easy to use if you have fixed height items, for example:
-    /// ```
+    /// <code>
     /// getItemLayout={(data, index) => (
     ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
-    /// ```
+    /// </code>
     /// Remember to include separator length (height or width) in your offset calculation if you specify
-    /// `ItemSeparatorComponent`.
+    /// <c>ItemSeparatorComponent</c>.
+    /// </summary>
     abstract getItemLayout: (Array<'ItemT> option -> float -> FlatListPropsGetItemLayout) option with get, set
     /// If true, renders items next to each other horizontally instead of stacked vertically.
     abstract horizontal: bool option with get, set
@@ -2869,30 +3400,37 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     abstract initialNumToRender: float option with get, set
     /// Instead of starting at the top with the first item, start at initialScrollIndex
     abstract initialScrollIndex: float option with get, set
+    /// <summary>
     /// Used to extract a unique key for a given item at the specified index. Key is used for caching
-    /// and as the react key to track item re-ordering. The default extractor checks `item.key`, then
+    /// and as the react key to track item re-ordering. The default extractor checks <c>item.key</c>, then
     /// falls back to using the index, like React does.
+    /// </summary>
     abstract keyExtractor: ('ItemT -> float -> string) option with get, set
     abstract legacyImplementation: bool option with get, set
-    /// Multiple columns can only be rendered with `horizontal={false}` and will zig-zag like a `flexWrap` layout.
+    /// <summary>
+    /// Multiple columns can only be rendered with <c>horizontal={false}</c> and will zig-zag like a <c>flexWrap</c> layout.
     /// Items should all be the same height - masonry layouts are not supported.
+    /// </summary>
     abstract numColumns: float option with get, set
     /// Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
     abstract onEndReached: (FlatListPropsOnEndReached -> unit) option with get, set
+    /// <summary>
     /// How far from the end (in units of visible length of the list) the bottom edge of the
-    /// list must be from the end of the content to trigger the `onEndReached` callback.
-    /// Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
+    /// list must be from the end of the content to trigger the <c>onEndReached</c> callback.
+    /// Thus a value of 0.5 will trigger <c>onEndReached</c> when the end of the content is
     /// within half the visible length of the list.
+    /// </summary>
     abstract onEndReachedThreshold: float option with get, set
     /// If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality.
     /// Make sure to also set the refreshing prop correctly.
     abstract onRefresh: (unit -> unit) option with get, set
-    /// Called when the viewability of rows changes, as defined by the `viewablePercentThreshold` prop.
+    /// <summary>Called when the viewability of rows changes, as defined by the <c>viewablePercentThreshold</c> prop.</summary>
     abstract onViewableItemsChanged: (ViewabilityConfigCallbackPairOnViewableItemsChanged -> unit) option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
+    /// <summary>
     /// Takes an item from data and renders it into the list. Typical usage:
-    /// ```
+    /// <code>
     /// _renderItem = ({item}) => (
     ///    <TouchableOpacity onPress={() => this._onPress(item)}>
     ///      <Text>{item.title}</Text>
@@ -2900,10 +3438,11 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// );
     /// ...
     /// <FlatList data={[{title: 'Title Text', key: 'item1'}]} renderItem={this._renderItem} />
-    /// ```
-    /// Provides additional metadata like `index` if you need it.
+    /// </code>
+    /// Provides additional metadata like <c>index</c> if you need it.
+    /// </summary>
     abstract renderItem: ListRenderItem<'ItemT> with get, set
-    /// See `ViewabilityHelper` for flow type and further documentation.
+    /// <summary>See <c>ViewabilityHelper</c> for flow type and further documentation.</summary>
     abstract viewabilityConfig: obj option with get, set
     /// Note: may have bugs (missing content) in some circumstances - use at your own risk.
     /// 
@@ -2914,16 +3453,18 @@ type [<AllowNullLiteral>] FlatList<'ItemT> =
     inherit React.Component<FlatListProps<'ItemT>>
     /// Exports some data, e.g. for perf investigations or analytics.
     abstract getMetrics: (unit -> FlatListGetMetrics) with get, set
-    /// Scrolls to the end of the content. May be janky without `getItemLayout` prop.
+    /// <summary>Scrolls to the end of the content. May be janky without <c>getItemLayout</c> prop.</summary>
     abstract scrollToEnd: (FlatListScrollToEnd -> unit) with get, set
     /// Scrolls to the item at the specified index such that it is positioned in the viewable area
     /// such that viewPosition 0 places it at the top, 1 at the bottom, and 0.5 centered in the middle.
     /// Cannot scroll to locations outside the render window without specifying the getItemLayout prop.
     abstract scrollToIndex: (FlatListScrollToIndex -> unit) with get, set
-    /// Requires linear scan through data - use `scrollToIndex` instead if possible.
-    /// May be janky without `getItemLayout` prop.
+    /// <summary>
+    /// Requires linear scan through data - use <c>scrollToIndex</c> instead if possible.
+    /// May be janky without <c>getItemLayout</c> prop.
+    /// </summary>
     abstract scrollToItem: (FlatListScrollToItem<'ItemT> -> unit) with get, set
-    /// Scroll to a specific content pixel offset, like a normal `ScrollView`.
+    /// <summary>Scroll to a specific content pixel offset, like a normal <c>ScrollView</c>.</summary>
     abstract scrollToOffset: (FlatListScrollToOffset -> unit) with get, set
     /// Tells the list an interaction has occured, which should trigger viewability calculations,
     /// e.g. if waitForInteractions is true and the user has not scrolled. This is typically called
@@ -2933,6 +3474,7 @@ type [<AllowNullLiteral>] FlatList<'ItemT> =
 type [<AllowNullLiteral>] FlatListStatic =
     [<EmitConstructor>] abstract Create: unit -> FlatList<'ItemT>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/sectionlist.html" />
 type [<AllowNullLiteral>] SectionBase<'ItemT> =
     abstract data: ResizeArray<'ItemT> with get, set
     abstract key: string option with get, set
@@ -2944,6 +3486,7 @@ type [<AllowNullLiteral>] SectionListData<'ItemT> =
     inherit SectionBase<'ItemT>
     [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/sectionlist.html#props" />
 type [<AllowNullLiteral>] SectionListRenderItemInfo<'ItemT> =
     inherit ListRenderItemInfo<'ItemT>
     abstract section: SectionListData<'ItemT> with get, set
@@ -2963,40 +3506,50 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     abstract ListHeaderComponent: U3<React.ComponentClass<obj option>, React.ReactElement<obj option>, (unit -> React.ReactElement<obj option>)> option with get, set
     /// Rendered in between each section.
     abstract SectionSeparatorComponent: U2<React.ComponentClass<obj option>, (unit -> React.ReactElement<obj option>)> option with get, set
+    /// <summary>
     /// A marker property for telling the list to re-render (since it implements PureComponent).
-    /// If any of your `renderItem`, Header, Footer, etc. functions depend on anything outside of the `data` prop,
+    /// If any of your <c>renderItem</c>, Header, Footer, etc. functions depend on anything outside of the <c>data</c> prop,
     /// stick it here and treat it immutably.
+    /// </summary>
     abstract extraData: obj option with get, set
-    /// `getItemLayout` is an optional optimization that lets us skip measurement of dynamic
+    /// <summary>
+    /// <c>getItemLayout</c> is an optional optimization that lets us skip measurement of dynamic
     /// content if you know the height of items a priori. getItemLayout is the most efficient,
     /// and is easy to use if you have fixed height items, for example:
-    /// ```
+    /// <code>
     /// getItemLayout={(data, index) => (
     ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
-    /// ```
+    /// </code>
+    /// </summary>
     abstract getItemLayout: (ResizeArray<SectionListData<'ItemT>> option -> float -> FlatListPropsGetItemLayout) option with get, set
     /// How many items to render in the initial batch
     abstract initialNumToRender: float option with get, set
     /// Reverses the direction of scroll. Uses scale transforms of -1.
     abstract inverted: bool option with get, set
+    /// <summary>
     /// Used to extract a unique key for a given item at the specified index. Key is used for caching
-    /// and as the react key to track item re-ordering. The default extractor checks `item.key`, then
+    /// and as the react key to track item re-ordering. The default extractor checks <c>item.key</c>, then
     /// falls back to using the index, like React does.
+    /// </summary>
     abstract keyExtractor: ('ItemT -> float -> string) option with get, set
     /// Called once when the scroll position gets within onEndReachedThreshold of the rendered content.
     abstract onEndReached: (FlatListPropsOnEndReached -> unit) option with get, set
+    /// <summary>
     /// How far from the end (in units of visible length of the list) the bottom edge of the
-    /// list must be from the end of the content to trigger the `onEndReached` callback.
-    /// Thus a value of 0.5 will trigger `onEndReached` when the end of the content is
+    /// list must be from the end of the content to trigger the <c>onEndReached</c> callback.
+    /// Thus a value of 0.5 will trigger <c>onEndReached</c> when the end of the content is
     /// within half the visible length of the list.
+    /// </summary>
     abstract onEndReachedThreshold: float option with get, set
     /// If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality.
     /// Make sure to also set the refreshing prop correctly.
     abstract onRefresh: (unit -> unit) option with get, set
+    /// <summary>
     /// Used to handle failures when scrolling to an index that has not been measured yet.
-    /// Recommended action is to either compute your own offset and `scrollTo` it, or scroll as far
+    /// Recommended action is to either compute your own offset and <c>scrollTo</c> it, or scroll as far
     /// as possible and then try again after more items have been rendered.
+    /// </summary>
     abstract onScrollToIndexFailed: (SectionListPropsOnScrollToIndexFailed -> unit) option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
@@ -3008,7 +3561,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     abstract renderSectionFooter: (SectionListPropsRenderSectionHeader<'ItemT> -> React.ReactElement<obj option> option) option with get, set
     /// An array of objects with data for each section.
     abstract sections: ResizeArray<SectionListData<'ItemT>> with get, set
-    /// Render a custom scroll component, e.g. with a differently styled `RefreshControl`.
+    /// <summary>Render a custom scroll component, e.g. with a differently styled <c>RefreshControl</c>.</summary>
     abstract renderScrollComponent: (ScrollViewProps -> React.ReactElement<ScrollViewProps>) option with get, set
     /// Note: may have bugs (missing content) in some circumstances - use at your own risk.
     /// 
@@ -3032,6 +3585,7 @@ type [<AllowNullLiteral>] SectionListStatic<'SectionT> =
     /// (and may be covered by a sticky header), 1 at the bottom, and 0.5 centered in the middle.
     abstract scrollToLocation: ``params``: SectionListScrollParams -> unit
 
+/// <seealso href="https://facebook.github.io/react-native/docs/virtualizedlist.html#props" />
 type [<AllowNullLiteral>] VirtualizedListProps<'ItemT> =
     inherit VirtualizedListWithoutRenderItemProps<'ItemT>
     abstract renderItem: ListRenderItem<'ItemT> with get, set
@@ -3050,16 +3604,20 @@ type [<AllowNullLiteral>] VirtualizedListWithoutRenderItemProps<'ItemT> =
     /// The default accessor functions assume this is an Array<{key: string}> but you can override
     /// getItem, getItemCount, and keyExtractor to handle any type of index-based data.
     abstract data: obj option with get, set
-    /// `debug` will turn on extra logging and visual overlays to aid with debugging both usage and
+    /// <summary>
+    /// <c>debug</c> will turn on extra logging and visual overlays to aid with debugging both usage and
     /// implementation, but with a significant perf hit.
+    /// </summary>
     abstract debug: bool option with get, set
     /// DEPRECATED: Virtualization provides significant performance and memory optimizations, but fully
     /// unmounts react instances that are outside of the render window. You should only need to disable
     /// this for debugging purposes.
     abstract disableVirtualization: bool option with get, set
-    /// A marker property for telling the list to re-render (since it implements `PureComponent`). If
-    /// any of your `renderItem`, Header, Footer, etc. functions depend on anything outside of the
-    /// `data` prop, stick it here and treat it immutably.
+    /// <summary>
+    /// A marker property for telling the list to re-render (since it implements <c>PureComponent</c>). If
+    /// any of your <c>renderItem</c>, Header, Footer, etc. functions depend on anything outside of the
+    /// <c>data</c> prop, stick it here and treat it immutably.
+    /// </summary>
     abstract extraData: obj option with get, set
     /// A generic accessor for extracting an item from any sort of data blob.
     abstract getItem: (obj option -> float -> 'ItemT) option with get, set
@@ -3073,10 +3631,12 @@ type [<AllowNullLiteral>] VirtualizedListWithoutRenderItemProps<'ItemT> =
     /// much more. Note these items will never be unmounted as part of the windowed rendering in order
     /// to improve perceived performance of scroll-to-top actions.
     abstract initialNumToRender: float option with get, set
-    /// Instead of starting at the top with the first item, start at `initialScrollIndex`. This
-    /// disables the "scroll to top" optimization that keeps the first `initialNumToRender` items
+    /// <summary>
+    /// Instead of starting at the top with the first item, start at <c>initialScrollIndex</c>. This
+    /// disables the "scroll to top" optimization that keeps the first <c>initialNumToRender</c> items
     /// always rendered and immediately renders the items starting at this initial index. Requires
-    /// `getItemLayout` to be implemented.
+    /// <c>getItemLayout</c> to be implemented.
+    /// </summary>
     abstract initialScrollIndex: float option with get, set
     /// Reverses the direction of scroll. Uses scale transforms of -1.
     abstract inverted: bool option with get, set
@@ -3092,17 +3652,23 @@ type [<AllowNullLiteral>] VirtualizedListWithoutRenderItemProps<'ItemT> =
     /// 
     /// {nativeEvent: { layout: {x, y, width, height}}}.
     abstract onLayout: (LayoutChangeEvent -> unit) option with get, set
+    /// <summary>
     /// If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make
-    /// sure to also set the `refreshing` prop correctly.
+    /// sure to also set the <c>refreshing</c> prop correctly.
+    /// </summary>
     abstract onRefresh: (unit -> unit) option with get, set
+    /// <summary>
     /// Used to handle failures when scrolling to an index that has not been measured yet.
-    /// Recommended action is to either compute your own offset and `scrollTo` it, or scroll as far
+    /// Recommended action is to either compute your own offset and <c>scrollTo</c> it, or scroll as far
     /// as possible and then try again after more items have been rendered.
+    /// </summary>
     abstract onScrollToIndexFailed: (SectionListPropsOnScrollToIndexFailed -> unit) option with get, set
+    /// <summary>
     /// Called when the viewability of rows changes, as defined by the
-    /// `viewabilityConfig` prop.
+    /// <c>viewabilityConfig</c> prop.
+    /// </summary>
     abstract onViewableItemsChanged: (ViewabilityConfigCallbackPairOnViewableItemsChanged -> unit) option with get, set
-    /// Set this when offset is needed for the loading indicator to show correctly.
+    /// <summary>Set this when offset is needed for the loading indicator to show correctly.</summary>
     abstract progressViewOffset: float option with get, set
     /// Set this true while waiting for new data from a refresh.
     abstract refreshing: bool option with get, set
@@ -3110,23 +3676,28 @@ type [<AllowNullLiteral>] VirtualizedListWithoutRenderItemProps<'ItemT> =
     /// 
     /// This may improve scroll performance for large lists.
     abstract removeClippedSubviews: bool option with get, set
-    /// Render a custom scroll component, e.g. with a differently styled `RefreshControl`.
+    /// <summary>Render a custom scroll component, e.g. with a differently styled <c>RefreshControl</c>.</summary>
     abstract renderScrollComponent: (ScrollViewProps -> React.ReactElement<ScrollViewProps>) option with get, set
+    /// <summary>
     /// Amount of time between low-pri item render batches, e.g. for rendering items quite a ways off
-    /// screen. Similar fill rate/responsiveness tradeoff as `maxToRenderPerBatch`.
+    /// screen. Similar fill rate/responsiveness tradeoff as <c>maxToRenderPerBatch</c>.
+    /// </summary>
     abstract updateCellsBatchingPeriod: float option with get, set
     abstract viewabilityConfig: ViewabilityConfig option with get, set
     abstract viewabilityConfigCallbackPairs: ViewabilityConfigCallbackPairs option with get, set
+    /// <summary>
     /// Determines the maximum number of items rendered outside of the visible area, in units of
-    /// visible lengths. So if your list fills the screen, then `windowSize={21}` (the default) will
+    /// visible lengths. So if your list fills the screen, then <c>windowSize={21}</c> (the default) will
     /// render the visible screen area plus up to 10 screens above and 10 below the viewport. Reducing
     /// this number will reduce memory consumption and may improve performance, but will increase the
     /// chance that fast scrolling may reveal momentary blank areas of unrendered content.
+    /// </summary>
     abstract windowSize: float option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/listview.html#props" />
 type [<AllowNullLiteral>] ListViewProps =
     inherit ScrollViewProps
-    /// An instance of [ListView.DataSource](docs/listviewdatasource.html) to use
+    /// <summary>An instance of <see cref="docs/listviewdatasource.html">ListView.DataSource</see> to use</summary>
     abstract dataSource: ListViewDataSource with get, set
     /// Flag indicating whether empty section headers should be rendered.
     /// In the future release empty section headers will be rendered by
@@ -3138,13 +3709,15 @@ type [<AllowNullLiteral>] ListViewProps =
     /// it so that the first screen worth of data apears at one time instead of
     /// over the course of multiple frames.
     abstract initialListSize: float option with get, set
+    /// <summary>
     /// (visibleRows, changedRows) => void
     /// 
-    /// Called when the set of visible rows changes.  `visibleRows` maps
+    /// Called when the set of visible rows changes.  <c>visibleRows</c> maps
     /// { sectionID: { rowID: true }} for all the visible rows, and
-    /// `changedRows` maps { sectionID: { rowID: true | false }} for the rows
+    /// <c>changedRows</c> maps { sectionID: { rowID: true | false }} for the rows
     /// that have changed their visibility, with true indicating visible, and
     /// false indicating the view has moved out of view.
+    /// </summary>
     abstract onChangeVisibleRows: (Array<ListViewPropsOnChangeVisibleRowsArray> -> Array<ListViewPropsOnChangeVisibleRowsArray> -> unit) option with get, set
     /// Called when all rows have been rendered and the list has been scrolled
     /// to within onEndReachedThreshold of the bottom.  The native scroll
@@ -3197,17 +3770,21 @@ type [<AllowNullLiteral>] ListViewProps =
     /// How early to start rendering rows before they come on screen, in
     /// pixels.
     abstract scrollRenderAheadDistance: float option with get, set
+    /// <summary>
     /// An array of child indices determining which children get docked to the
     /// top of the screen when scrolling. For example, passing
-    /// `stickyHeaderIndices={[0]}` will cause the first child to be fixed to the
+    /// <c>stickyHeaderIndices={[0]}</c> will cause the first child to be fixed to the
     /// top of the scroll view. This property is not supported in conjunction
-    /// with `horizontal={true}`.
+    /// with <c>horizontal={true}</c>.
+    /// </summary>
     abstract stickyHeaderIndices: ResizeArray<float> option with get, set
+    /// <summary>
     /// Makes the sections headers sticky. The sticky behavior means that it will scroll with the
     /// content at the top of the section until it reaches the top of the screen, at which point it
     /// will stick to the top until it is pushed off the screen by the next section header. This
-    /// property is not supported in conjunction with `horizontal={true}`. Only enabled by default
+    /// property is not supported in conjunction with <c>horizontal={true}</c>. Only enabled by default
     /// on iOS because of typical platform standards.
+    /// </summary>
     abstract stickySectionHeadersEnabled: bool option with get, set
 
 type [<AllowNullLiteral>] TimerMixin =
@@ -3232,9 +3809,11 @@ type [<AllowNullLiteral>] ListView =
     abstract getMetrics: (unit -> FlatListGetMetrics) with get, set
     /// Provides a handle to the underlying scroll responder.
     abstract getScrollResponder: (unit -> obj option) with get, set
+    /// <summary>
     /// Scrolls to a given x, y offset, either immediately or with a smooth animation.
     /// 
-    /// See `ScrollView#scrollTo`.
+    /// See <c>ScrollView#scrollTo</c>.
+    /// </summary>
     abstract scrollTo: (U2<float, RecyclerViewBackedScrollViewScrollTo> -> float -> bool -> unit) with get, set
 
 type [<AllowNullLiteral>] ListViewStatic =
@@ -3342,9 +3921,11 @@ type [<AllowNullLiteral>] MapViewProps =
     /// Default value is true.
     abstract zoomEnabled: bool option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/mapview.html#content" />
 type [<AllowNullLiteral>] MapViewComponent =
     inherit React.Component<MapViewProps>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/mapview.html#content" />
 type [<AllowNullLiteral>] MapViewComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> MapViewComponent
 
@@ -3359,9 +3940,11 @@ type [<AllowNullLiteral>] MaskedViewIOSProps =
     inherit ViewProps
     abstract maskElement: React.ReactElement<obj option> with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/maskedviewios.html" />
 type [<AllowNullLiteral>] MaskedViewComponent =
     inherit React.Component<MaskedViewIOSProps>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/maskedviewios.html" />
 type [<AllowNullLiteral>] MaskedViewComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> MaskedViewComponent
 
@@ -3373,33 +3956,43 @@ type [<AllowNullLiteral>] MaskedViewIOSStatic =
 
 type [<AllowNullLiteral>] ModalBaseProps =
     abstract animated: bool option with get, set
-    /// The `animationType` prop controls how the modal animates.
+    /// <summary>
+    /// The <c>animationType</c> prop controls how the modal animates.
     /// 
-    /// - `slide` slides in from the bottom
-    /// - `fade` fades into view
-    /// - `none` appears without an animation
+    /// - <c>slide</c> slides in from the bottom
+    /// - <c>fade</c> fades into view
+    /// - <c>none</c> appears without an animation
+    /// </summary>
     abstract animationType: ModalBasePropsAnimationType option with get, set
-    /// The `transparent` prop determines whether your modal will fill the entire view.
-    /// Setting this to `true` will render the modal over a transparent background.
+    /// <summary>
+    /// The <c>transparent</c> prop determines whether your modal will fill the entire view.
+    /// Setting this to <c>true</c> will render the modal over a transparent background.
+    /// </summary>
     abstract transparent: bool option with get, set
-    /// The `visible` prop determines whether your modal is visible.
+    /// <summary>The <c>visible</c> prop determines whether your modal is visible.</summary>
     abstract visible: bool option with get, set
-    /// The `onRequestClose` prop allows passing a function that will be called once the modal has been dismissed.
+    /// <summary>
+    /// The <c>onRequestClose</c> prop allows passing a function that will be called once the modal has been dismissed.
     /// _On the Android platform, this is a required function._
+    /// </summary>
     abstract onRequestClose: (unit -> unit) option with get, set
-    /// The `onShow` prop allows passing a function that will be called once the modal has been shown.
+    /// <summary>The <c>onShow</c> prop allows passing a function that will be called once the modal has been shown.</summary>
     abstract onShow: (NativeSyntheticEvent<obj option> -> unit) option with get, set
 
 type [<AllowNullLiteral>] ModalPropsIOS =
-    /// The `presentationStyle` determines the style of modal to show
+    /// <summary>The <c>presentationStyle</c> determines the style of modal to show</summary>
     abstract presentationStyle: ModalPropsIOSPresentationStyle option with get, set
-    /// The `supportedOrientations` prop allows the modal to be rotated to any of the specified orientations.
+    /// <summary>
+    /// The <c>supportedOrientations</c> prop allows the modal to be rotated to any of the specified orientations.
     /// On iOS, the modal is still restricted by what's specified in your app's Info.plist's UISupportedInterfaceOrientations field.
+    /// </summary>
     abstract supportedOrientations: Array<ModalPropsIOSSupportedOrientationsArray> option with get, set
-    /// The `onDismiss` prop allows passing a function that will be called once the modal has been dismissed.
+    /// <summary>The <c>onDismiss</c> prop allows passing a function that will be called once the modal has been dismissed.</summary>
     abstract onDismiss: (unit -> unit) option with get, set
-    /// The `onOrientationChange` callback is called when the orientation changes while the modal is being displayed.
+    /// <summary>
+    /// The <c>onOrientationChange</c> callback is called when the orientation changes while the modal is being displayed.
     /// The orientation provided is only 'portrait' or 'landscape'. This callback is also called on initial render, regardless of the current orientation.
+    /// </summary>
     abstract onOrientationChange: (NativeSyntheticEvent<obj option> -> unit) option with get, set
 
 type [<AllowNullLiteral>] ModalPropsAndroid =
@@ -3415,34 +4008,45 @@ type [<AllowNullLiteral>] Modal =
 type [<AllowNullLiteral>] ModalStatic =
     [<EmitConstructor>] abstract Create: unit -> Modal
 
+/// <seealso href="https://github.com/facebook/react-native/blob/0.34-stable\Libraries\Components\Touchable\Touchable.js" />
 type [<AllowNullLiteral>] TouchableMixin =
+    /// <summary>
     /// Invoked when the item should be highlighted. Mixers should implement this
-    /// to visually distinguish the `VisualRect` so that the user knows that
+    /// to visually distinguish the <c>VisualRect</c> so that the user knows that
     /// releasing a touch will result in a "selection" (analog to click).
+    /// </summary>
     abstract touchableHandleActivePressIn: e: GestureResponderEvent -> unit
+    /// <summary>
     /// Invoked when the item is "active" (in that it is still eligible to become
-    /// a "select") but the touch has left the `PressRect`. Usually the mixer will
-    /// want to unhighlight the `VisualRect`. If the user (while pressing) moves
-    /// back into the `PressRect` `touchableHandleActivePressIn` will be invoked
-    /// again and the mixer should probably highlight the `VisualRect` again. This
-    /// event will not fire on an `touchEnd/mouseUp` event, only move events while
+    /// a "select") but the touch has left the <c>PressRect</c>. Usually the mixer will
+    /// want to unhighlight the <c>VisualRect</c>. If the user (while pressing) moves
+    /// back into the <c>PressRect</c> <c>touchableHandleActivePressIn</c> will be invoked
+    /// again and the mixer should probably highlight the <c>VisualRect</c> again. This
+    /// event will not fire on an <c>touchEnd/mouseUp</c> event, only move events while
     /// the user is depressing the mouse/touch.
+    /// </summary>
     abstract touchableHandleActivePressOut: e: GestureResponderEvent -> unit
+    /// <summary>
     /// Invoked when the item is "selected" - meaning the interaction ended by
     /// letting up while the item was either in the state
-    /// `RESPONDER_ACTIVE_PRESS_IN` or `RESPONDER_INACTIVE_PRESS_IN`.
+    /// <c>RESPONDER_ACTIVE_PRESS_IN</c> or <c>RESPONDER_INACTIVE_PRESS_IN</c>.
+    /// </summary>
     abstract touchableHandlePress: e: GestureResponderEvent -> unit
+    /// <summary>
     /// Invoked when the item is long pressed - meaning the interaction ended by
-    /// letting up while the item was in `RESPONDER_ACTIVE_LONG_PRESS_IN`. If
-    /// `touchableHandleLongPress` is *not* provided, `touchableHandlePress` will
-    /// be called as it normally is. If `touchableHandleLongPress` is provided, by
-    /// default any `touchableHandlePress` callback will not be invoked. To
-    /// override this default behavior, override `touchableLongPressCancelsPress`
-    /// to return false. As a result, `touchableHandlePress` will be called when
-    /// lifting up, even if `touchableHandleLongPress` has also been called.
+    /// letting up while the item was in <c>RESPONDER_ACTIVE_LONG_PRESS_IN</c>. If
+    /// <c>touchableHandleLongPress</c> is *not* provided, <c>touchableHandlePress</c> will
+    /// be called as it normally is. If <c>touchableHandleLongPress</c> is provided, by
+    /// default any <c>touchableHandlePress</c> callback will not be invoked. To
+    /// override this default behavior, override <c>touchableLongPressCancelsPress</c>
+    /// to return false. As a result, <c>touchableHandlePress</c> will be called when
+    /// lifting up, even if <c>touchableHandleLongPress</c> has also been called.
+    /// </summary>
     abstract touchableHandleLongPress: e: GestureResponderEvent -> unit
-    /// Returns the amount to extend the `HitRect` into the `PressRect`. Positive
+    /// <summary>
+    /// Returns the amount to extend the <c>HitRect</c> into the <c>PressRect</c>. Positive
     /// numbers mean the size expands outwards.
+    /// </summary>
     abstract touchableGetPressRectOffset: unit -> Insets
     /// Returns the number of millis to wait before triggering a highlight.
     abstract touchableGetHighlightDelayMS: unit -> float
@@ -3450,6 +4054,7 @@ type [<AllowNullLiteral>] TouchableMixin =
     abstract touchableGetPressOutDelayMS: unit -> float
     abstract touchableGetHitSlop: unit -> Insets
 
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablewithoutfeedback.html#props" />
 type [<AllowNullLiteral>] TouchableWithoutFeedbackProps =
     inherit AccessibilityProps
     /// Delay in ms, from onPressIn, before onLongPress is called.
@@ -3487,15 +4092,21 @@ type [<AllowNullLiteral>] TouchableWithoutFeedbackProps =
     /// Used to locate this view in end-to-end tests.
     abstract testID: string option with get, set
 
+/// <summary>
 /// Do not use unless you have a very good reason.
 /// All the elements that respond to press should have a visual feedback when touched.
 /// This is one of the primary reason a "web" app doesn't feel "native".
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablewithoutfeedback.html" />
 type [<AllowNullLiteral>] TouchableWithoutFeedbackComponent =
     inherit React.Component<TouchableWithoutFeedbackProps>
 
+/// <summary>
 /// Do not use unless you have a very good reason.
 /// All the elements that respond to press should have a visual feedback when touched.
 /// This is one of the primary reason a "web" app doesn't feel "native".
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablewithoutfeedback.html" />
 type [<AllowNullLiteral>] TouchableWithoutFeedbackComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> TouchableWithoutFeedbackComponent
 
@@ -3505,6 +4116,7 @@ type [<AllowNullLiteral>] TouchableWithoutFeedback =
 type [<AllowNullLiteral>] TouchableWithoutFeedbackStatic =
     [<EmitConstructor>] abstract Create: unit -> TouchableWithoutFeedback
 
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablehighlight.html#props" />
 type [<AllowNullLiteral>] TouchableHighlightProps =
     inherit TouchableWithoutFeedbackProps
     /// Determines what the opacity of the wrapped view should be when touch is active.
@@ -3513,11 +4125,13 @@ type [<AllowNullLiteral>] TouchableHighlightProps =
     abstract onHideUnderlay: (unit -> unit) option with get, set
     /// Called immediately after the underlay is shown
     abstract onShowUnderlay: (unit -> unit) option with get, set
-    /// //FIXME: not in doc but available in examples
+    /// <summary>//FIXME: not in doc but available in examples</summary>
+    /// <seealso href="https://facebook.github.io/react-native/docs/view.html#style" />
     abstract style: StyleProp<ViewStyle> option with get, set
     /// The color of the underlay that will show through when the touch is active.
     abstract underlayColor: string option with get, set
 
+/// <summary>
 /// A wrapper for making views respond properly to touches.
 /// On press down, the opacity of the wrapped view is decreased,
 /// which allows the underlay color to show through, darkening or tinting the view.
@@ -3527,9 +4141,12 @@ type [<AllowNullLiteral>] TouchableHighlightProps =
 /// 
 /// NOTE: TouchableHighlight supports only one child
 /// If you wish to have several child components, wrap them in a View.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablehighlight.html" />
 type [<AllowNullLiteral>] TouchableHighlightComponent =
     inherit React.Component<TouchableHighlightProps>
 
+/// <summary>
 /// A wrapper for making views respond properly to touches.
 /// On press down, the opacity of the wrapped view is decreased,
 /// which allows the underlay color to show through, darkening or tinting the view.
@@ -3539,6 +4156,8 @@ type [<AllowNullLiteral>] TouchableHighlightComponent =
 /// 
 /// NOTE: TouchableHighlight supports only one child
 /// If you wish to have several child components, wrap them in a View.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablehighlight.html" />
 type [<AllowNullLiteral>] TouchableHighlightComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> TouchableHighlightComponent
 
@@ -3548,23 +4167,30 @@ type [<AllowNullLiteral>] TouchableHighlight =
 type [<AllowNullLiteral>] TouchableHighlightStatic =
     [<EmitConstructor>] abstract Create: unit -> TouchableHighlight
 
+/// <seealso href="https://facebook.github.io/react-native/docs/touchableopacity.html#props" />
 type [<AllowNullLiteral>] TouchableOpacityProps =
     inherit TouchableWithoutFeedbackProps
     /// Determines what the opacity of the wrapped view should be when touch is active.
     /// Defaults to 0.2
     abstract activeOpacity: float option with get, set
 
+/// <summary>
 /// A wrapper for making views respond properly to touches.
 /// On press down, the opacity of the wrapped view is decreased, dimming it.
 /// This is done without actually changing the view hierarchy,
 /// and in general is easy to add to an app without weird side-effects.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchableopacity.html" />
 type [<AllowNullLiteral>] TouchableOpacityComponent =
     inherit React.Component<TouchableOpacityProps>
 
+/// <summary>
 /// A wrapper for making views respond properly to touches.
 /// On press down, the opacity of the wrapped view is decreased, dimming it.
 /// This is done without actually changing the view hierarchy,
 /// and in general is easy to add to an app without weird side-effects.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchableopacity.html" />
 type [<AllowNullLiteral>] TouchableOpacityComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> TouchableOpacityComponent
 
@@ -3593,6 +4219,7 @@ type [<AllowNullLiteral>] ThemeAttributeBackgroundPropType =
 type BackgroundPropType =
     U2<RippleBackgroundPropType, ThemeAttributeBackgroundPropType>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/touchableopacity.html#props" />
 type [<AllowNullLiteral>] TouchableNativeFeedbackProps =
     inherit TouchableWithoutFeedbackProps
     /// Determines the type of background drawable that's going to be used to display feedback.
@@ -3610,21 +4237,27 @@ type [<AllowNullLiteral>] TouchableNativeFeedbackProps =
     abstract background: BackgroundPropType option with get, set
     abstract useForeground: bool option with get, set
 
+/// <summary>
 /// A wrapper for making views respond properly to touches (Android only).
 /// On Android this component uses native state drawable to display touch feedback.
 /// At the moment it only supports having a single View instance as a child node,
 /// as it's implemented by replacing that View with another instance of RCTView node with some additional properties set.
 /// 
 /// Background drawable of native feedback touchable can be customized with background property.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablenativefeedback.html#content" />
 type [<AllowNullLiteral>] TouchableNativeFeedbackComponent =
     inherit React.Component<TouchableNativeFeedbackProps>
 
+/// <summary>
 /// A wrapper for making views respond properly to touches (Android only).
 /// On Android this component uses native state drawable to display touch feedback.
 /// At the moment it only supports having a single View instance as a child node,
 /// as it's implemented by replacing that View with another instance of RCTView node with some additional properties set.
 /// 
 /// Background drawable of native feedback touchable can be customized with background property.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/touchablenativefeedback.html#content" />
 type [<AllowNullLiteral>] TouchableNativeFeedbackComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> TouchableNativeFeedbackComponent
 
@@ -3640,11 +4273,13 @@ type [<AllowNullLiteral>] TouchableNativeFeedbackStatic =
     /// selectable elements (?android:attr/selectableItemBackgroundBorderless).
     /// Available on android API level 21+.
     abstract SelectableBackgroundBorderless: unit -> ThemeAttributeBackgroundPropType
-    /// <summary>Creates an object that represents ripple drawable with specified color (as a
-    /// string). If property `borderless` evaluates to true the ripple will
+    /// <summary>
+    /// Creates an object that represents ripple drawable with specified color (as a
+    /// string). If property <c>borderless</c> evaluates to true the ripple will
     /// render outside of the view bounds (see native actionbar buttons as an
     /// example of that behavior). This background type is available on Android
-    /// API level 21+.</summary>
+    /// API level 21+.
+    /// </summary>
     /// <param name="color">The ripple color</param>
     /// <param name="borderless">If the ripple can render outside it's bounds</param>
     abstract Ripple: color: string * ?borderless: bool -> RippleBackgroundPropType
@@ -3671,12 +4306,14 @@ type [<AllowNullLiteral>] InteractionMixin =
     abstract runAfterInteractions: callback: (unit -> obj option) -> unit
 
 type [<AllowNullLiteral>] SubscribableMixin =
-    /// <summary>Special form of calling `addListener` that *guarantees* that a
+    /// <summary>
+    /// Special form of calling <c>addListener</c> that *guarantees* that a
     /// subscription *must* be tied to a component instance, and therefore will
     /// be cleaned up when the component is unmounted. It is impossible to create
     /// the subscription and pass it in - this method must be the one to create
     /// the subscription and therefore can guarantee it is retained in a way that
-    /// will be cleaned up.</summary>
+    /// will be cleaned up.
+    /// </summary>
     /// <param name="eventEmitter">emitter to subscribe to.</param>
     /// <param name="eventType">Type of event to listen to.</param>
     /// <param name="listener">Function to invoke when event occurs.</param>
@@ -3688,6 +4325,7 @@ module StyleSheet =
     type [<AllowNullLiteral>] IExports =
         /// Creates a StyleSheet style reference from the given object.
         abstract create: styles: 'T -> obj when 'T :> NamedStyles<'T>
+        /// <summary>
         /// Flattens an array of style objects, into one aggregated style object.
         /// Alternatively, this method can be used to lookup IDs, returned by
         /// StyleSheet.register.
@@ -3699,7 +4337,7 @@ module StyleSheet =
         /// > to style objects directly will deprive you of these optimizations.
         /// 
         /// Example:
-        /// ```
+        /// <code>
         /// const styles = StyleSheet.create({
         ///    listItem: {
         ///      flex: 1,
@@ -3713,18 +4351,19 @@ module StyleSheet =
         /// 
         /// StyleSheet.flatten([styles.listItem, styles.selectedListItem])
         /// // returns { flex: 1, fontSize: 16, color: 'green' }
-        /// ```
+        /// </code>
         /// Alternative use:
-        /// ```
+        /// <code>
         /// StyleSheet.flatten(styles.listItem);
         /// // return { flex: 1, fontSize: 16, color: 'white' }
         /// // Simply styles.listItem would return its ID (number)
-        /// ```
-        /// This method internally uses `StyleSheetRegistry.getStyleByID(style)`
+        /// </code>
+        /// This method internally uses <c>StyleSheetRegistry.getStyleByID(style)</c>
         /// to resolve style objects represented by IDs. Thus, an array of style
         /// objects (instances of StyleSheet.create), are individually resolved to,
         /// their respective objects, merged as one and then returned. This also explains
         /// the alternative use.
+        /// </summary>
         abstract flatten: ?style: RegisteredStyle<'T> -> 'T
         abstract flatten: ?style: StyleProp<TextStyle> -> TextStyle
         abstract flatten: ?style: StyleProp<ImageStyle> -> ImageStyle
@@ -3771,12 +4410,17 @@ type [<AllowNullLiteral>] SystraceStatic =
     /// therefore async variant of profiling is used
     abstract attachToRelayProfiler: relayProfiler: RelayProfiler -> unit
     abstract swizzleJSON: unit -> unit
-    /// <summary>Measures multiple methods of a class. For example, you can do:
-    /// Systrace.measureMethods(JSON, 'JSON', ['parse', 'stringify']);</summary>
+    /// <summary>
+    /// Measures multiple methods of a class. For example, you can do:
+    /// Systrace.measureMethods(JSON, 'JSON', ['parse', 'stringify']);
+    /// </summary>
     /// <param name="methodNames">Map from method names to method display names.</param>
     abstract measureMethods: ``object``: obj option * objectName: string * methodNames: Array<string> -> unit
+    /// <summary>
     /// Returns an profiled version of the input function. For example, you can:
     /// JSON.parse = Systrace.measure('JSON', 'parse', JSON.parse);
+    /// </summary>
+    /// <returns>replacement function</returns>
     abstract ``measure``: objName: string * fnName: string * func: 'T -> 'T
 
 /// //FIXME: Could not find docs. Inferred from examples and jscode : ListViewDataSource.js
@@ -3786,24 +4430,27 @@ type [<AllowNullLiteral>] DataSourceAssetCallback =
     abstract getRowData: (obj option -> U2<float, string> -> U2<float, string> -> obj option) option with get, set
     abstract getSectionHeaderData: (obj option -> U2<float, string> -> obj option) option with get, set
 
+/// <summary>
 /// Provides efficient data processing and access to the
-/// `ListView` component.  A `ListViewDataSource` is created with functions for
+/// <c>ListView</c> component.  A <c>ListViewDataSource</c> is created with functions for
 /// extracting data from the input blob, and comparing elements (with default
 /// implementations for convenience).  The input blob can be as simple as an
 /// array of strings, or an object with rows nested inside section objects.
 /// 
-/// To update the data in the datasource, use `cloneWithRows` (or
-/// `cloneWithRowsAndSections` if you care about sections).  The data in the
+/// To update the data in the datasource, use <c>cloneWithRows</c> (or
+/// <c>cloneWithRowsAndSections</c> if you care about sections).  The data in the
 /// data source is immutable, so you can't modify it directly.  The clone methods
 /// suck in the new data and compute a diff for each row so ListView knows
 /// whether to re-render it or not.
+/// </summary>
 type [<AllowNullLiteral>] ListViewDataSource =
-    /// Clones this `ListViewDataSource` with the specified `dataBlob` and
-    /// `rowIdentities`. The `dataBlob` is just an aribitrary blob of data. At
+    /// <summary>
+    /// Clones this <c>ListViewDataSource</c> with the specified <c>dataBlob</c> and
+    /// <c>rowIdentities</c>. The <c>dataBlob</c> is just an aribitrary blob of data. At
     /// construction an extractor to get the interesting informatoin was defined
     /// (or the default was used).
     /// 
-    /// The `rowIdentities` is is a 2D array of identifiers for rows.
+    /// The <c>rowIdentities</c> is is a 2D array of identifiers for rows.
     /// ie. [['a1', 'a2'], ['b1', 'b2', 'b3'], ...].  If not provided, it's
     /// assumed that the keys of the section data are the row identities.
     /// 
@@ -3811,17 +4458,20 @@ type [<AllowNullLiteral>] ListViewDataSource =
     /// passes the functions defined at construction to a new data source with
     /// the data specified. If you wish to maintain the existing data you must
     /// handle merging of old and new data separately and then pass that into
-    /// this function as the `dataBlob`.
+    /// this function as the <c>dataBlob</c>.
+    /// </summary>
     abstract cloneWithRows: dataBlob: U2<Array<obj option>, LayoutAnimationStaticConfigChecker> * ?rowIdentities: Array<U2<string, float>> -> ListViewDataSource
-    /// This performs the same function as the `cloneWithRows` function but here
-    /// you also specify what your `sectionIdentities` are. If you don't care
-    /// about sections you should safely be able to use `cloneWithRows`.
+    /// <summary>
+    /// This performs the same function as the <c>cloneWithRows</c> function but here
+    /// you also specify what your <c>sectionIdentities</c> are. If you don't care
+    /// about sections you should safely be able to use <c>cloneWithRows</c>.
     /// 
-    /// `sectionIdentities` is an array of identifiers for  sections.
+    /// <c>sectionIdentities</c> is an array of identifiers for  sections.
     /// ie. ['s1', 's2', ...].  If not provided, it's assumed that the
     /// keys of dataBlob are the section identities.
     /// 
     /// Note: this returns a new object!
+    /// </summary>
     abstract cloneWithRowsAndSections: dataBlob: U2<Array<obj option>, LayoutAnimationStaticConfigChecker> * ?sectionIdentities: Array<U2<string, float>> * ?rowIdentities: Array<Array<U2<string, float>>> -> ListViewDataSource
     abstract getRowCount: unit -> float
     abstract getRowAndSectionCount: unit -> float
@@ -3842,21 +4492,24 @@ type [<AllowNullLiteral>] ListViewDataSource =
     /// Gets the data required to render the section header
     abstract getSectionHeaderData: sectionIndex: float -> obj option
 
+/// <summary>
 /// Provides efficient data processing and access to the
-/// `ListView` component.  A `ListViewDataSource` is created with functions for
+/// <c>ListView</c> component.  A <c>ListViewDataSource</c> is created with functions for
 /// extracting data from the input blob, and comparing elements (with default
 /// implementations for convenience).  The input blob can be as simple as an
 /// array of strings, or an object with rows nested inside section objects.
 /// 
-/// To update the data in the datasource, use `cloneWithRows` (or
-/// `cloneWithRowsAndSections` if you care about sections).  The data in the
+/// To update the data in the datasource, use <c>cloneWithRows</c> (or
+/// <c>cloneWithRowsAndSections</c> if you care about sections).  The data in the
 /// data source is immutable, so you can't modify it directly.  The clone methods
 /// suck in the new data and compute a diff for each row so ListView knows
 /// whether to re-render it or not.
+/// </summary>
 type [<AllowNullLiteral>] ListViewDataSourceStatic =
-    /// You can provide custom extraction and `hasChanged` functions for section
+    /// <summary>
+    /// You can provide custom extraction and <c>hasChanged</c> functions for section
     /// headers and rows.  If absent, data will be extracted with the
-    /// `defaultGetRowData` and `defaultGetSectionHeaderData` functions.
+    /// <c>defaultGetRowData</c> and <c>defaultGetSectionHeaderData</c> functions.
     /// 
     /// The default extractor expects data of one of the following forms:
     /// 
@@ -3877,8 +4530,10 @@ type [<AllowNullLiteral>] ListViewDataSourceStatic =
     /// - getSectionHeaderData(dataBlob, sectionID);
     /// - rowHasChanged(prevRowData, nextRowData);
     /// - sectionHeaderHasChanged(prevSectionData, nextSectionData);
+    /// </summary>
     [<EmitConstructor>] abstract Create: onAsset: DataSourceAssetCallback -> ListViewDataSource
 
+/// <seealso href="https://facebook.github.io/react-native/docs/tabbarios-item.html#props" />
 type [<AllowNullLiteral>] TabBarIOSItemProps =
     inherit ViewProps
     /// Little red bubble that sits at the top right of the icon.
@@ -3914,17 +4569,20 @@ type [<AllowNullLiteral>] TabBarIOSItem =
 type [<AllowNullLiteral>] TabBarIOSItemStatic =
     [<EmitConstructor>] abstract Create: unit -> TabBarIOSItem
 
+/// <seealso href="https://facebook.github.io/react-native/docs/tabbarios.html#props" />
 type [<AllowNullLiteral>] TabBarIOSProps =
     inherit ViewProps
     /// Background color of the tab bar
     abstract barTintColor: string option with get, set
+    /// <summary>
     /// Specifies tab bar item positioning. Available values are:
     /// - fill - distributes items across the entire width of the tab bar
     /// - center - centers item in the available tab bar space
     /// - auto (default) - distributes items dynamically according to the
     /// user interface idiom. In a horizontally compact environment (e.g. iPhone 5)
-    /// this value defaults to `fill`, in a horizontally regular one (e.g. iPad)
+    /// this value defaults to <c>fill</c>, in a horizontally regular one (e.g. iPad)
     /// it defaults to center.
+    /// </summary>
     abstract itemPositioning: TabBarIOSPropsItemPositioning option with get, set
     /// Color of the currently selected tab icon
     abstract tintColor: string option with get, set
@@ -3957,6 +4615,7 @@ type [<AllowNullLiteral>] PixelRatioStatic =
     /// No-op for iOS, but used on the web. Should not be documented. [sic]
     abstract startDetecting: unit -> unit
 
+/// <seealso href="https://facebook.github.io/react-native/docs/platform-specific-code.html#content" />
 type [<StringEnum>] [<RequireQualifiedAccess>] PlatformOSType =
     | Ios
     | Android
@@ -3967,6 +4626,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] PlatformOSType =
 type [<AllowNullLiteral>] PlatformStatic =
     abstract OS: PlatformOSType with get, set
     abstract Version: U2<float, string> with get, set
+    /// <seealso href="https://facebook.github.io/react-native/docs/platform-specific-code.html#content" />
     abstract select: specifics: obj -> 'T
 
 type [<AllowNullLiteral>] PlatformIOSStatic =
@@ -3995,18 +4655,24 @@ type [<AllowNullLiteral>] ScaledSize =
     abstract scale: float with get, set
     abstract fontScale: float with get, set
 
-/// Initial dimensions are set before `runApplication` is called so they should
+/// <summary>
+/// Initial dimensions are set before <c>runApplication</c> is called so they should
 /// be available before any other require's are run, but may be updated later.
 /// 
 /// Note: Although dimensions are available immediately, they may change (e.g
 /// due to device rotation) so any rendering logic or styles that depend on
 /// these constants should try to call this function on every render, rather
 /// than caching the value (for example, using inline styles rather than
-/// setting a value in a `StyleSheet`).
+/// setting a value in a <c>StyleSheet</c>).
 /// 
-/// Example: `const {height, width} = Dimensions.get('window');`
+/// Example: <c>const {height, width} = Dimensions.get('window');</c>
+/// </summary>
+/// <param name="dim">Name of dimension as defined when calling <c>set</c>.</param>
+/// <returns>Value for the dimension.</returns>
+/// <seealso href="https://facebook.github.io/react-native/docs/dimensions.html#content" />
 type [<AllowNullLiteral>] Dimensions =
-    /// <summary>Initial dimensions are set before runApplication is called so they
+    /// <summary>
+    /// Initial dimensions are set before runApplication is called so they
     /// should be available before any other require's are run, but may be
     /// updated later.
     /// Note: Although dimensions are available immediately, they may
@@ -4015,16 +4681,20 @@ type [<AllowNullLiteral>] Dimensions =
     /// function on every render, rather than caching the value (for
     /// example, using inline styles rather than setting a value in a
     /// StyleSheet).
-    /// Example: const {height, width} = Dimensions.get('window');</summary>
+    /// Example: const {height, width} = Dimensions.get('window');
+    /// </summary>
     /// <param name="dim">Name of dimension as defined when calling set.</param>
+    /// <returns>Value for the dimension.</returns>
     abstract get: dim: DimensionsGetDim -> ScaledSize
     /// <summary>This should only be called from native code by sending the didUpdateDimensions event.</summary>
     /// <param name="dims">Simple string-keyed object of dimensions to set</param>
     abstract set: dims: DimensionsSetDims -> unit
     /// <summary>Add an event listener for dimension changes</summary>
+    /// <param name="type">the type of event to listen to</param>
     /// <param name="handler">the event handler</param>
     [<Emit "$0.addEventListener('change',$1)">] abstract addEventListener_change: handler: (DimensionsAddEventListener_change -> unit) -> unit
     /// <summary>Remove an event listener</summary>
+    /// <param name="type">the type of event</param>
     /// <param name="handler">the event handler</param>
     [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: (DimensionsAddEventListener_change -> unit) -> unit
 
@@ -4071,20 +4741,21 @@ type [<AllowNullLiteral>] ScrollResponderEvent =
 
 type [<AllowNullLiteral>] ScrollResponderMixin =
     inherit SubscribableMixin
-    /// Invoke this from an `onScroll` event.
+    /// <summary>Invoke this from an <c>onScroll</c> event.</summary>
     abstract scrollResponderHandleScrollShouldSetResponder: unit -> bool
+    /// <summary>
     /// Merely touch starting is not sufficient for a scroll view to become the
     /// responder. Being the "responder" means that the very next touch move/end
     /// event will result in an action/movement.
     /// 
-    /// Invoke this from an `onStartShouldSetResponder` event.
+    /// Invoke this from an <c>onStartShouldSetResponder</c> event.
     /// 
-    /// `onStartShouldSetResponder` is used when the next move/end will trigger
+    /// <c>onStartShouldSetResponder</c> is used when the next move/end will trigger
     /// some UI movement/action, but when you want to yield priority to views
     /// nested inside of the view.
     /// 
-    /// There may be some cases where scroll views actually should return `true`
-    /// from `onStartShouldSetResponder`: Any time we are detecting a standard tap
+    /// There may be some cases where scroll views actually should return <c>true</c>
+    /// from <c>onStartShouldSetResponder</c>: Any time we are detecting a standard tap
     /// that gives priority to nested views.
     /// 
     /// - If a single tap on the scroll view triggers an action such as
@@ -4093,27 +4764,32 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     ///    from this method when there is a single touch.
     /// 
     /// - Similar to the previous case, if a two finger "tap" should trigger a
-    ///    zoom, we would check the `touches` count, and if `>= 2`, we would return
+    ///    zoom, we would check the <c>touches</c> count, and if <c>>= 2</c>, we would return
     ///    true.
+    /// </summary>
     abstract scrollResponderHandleStartShouldSetResponder: unit -> bool
+    /// <summary>
     /// There are times when the scroll view wants to become the responder
-    /// (meaning respond to the next immediate `touchStart/touchEnd`), in a way
+    /// (meaning respond to the next immediate <c>touchStart/touchEnd</c>), in a way
     /// that *doesn't* give priority to nested views (hence the capture phase):
     /// 
     /// - Currently animating.
     /// - Tapping anywhere that is not the focused input, while the keyboard is
     ///    up (which should dismiss the keyboard).
     /// 
-    /// Invoke this from an `onStartShouldSetResponderCapture` event.
+    /// Invoke this from an <c>onStartShouldSetResponderCapture</c> event.
+    /// </summary>
     abstract scrollResponderHandleStartShouldSetResponderCapture: e: ScrollResponderEvent -> bool
-    /// Invoke this from an `onResponderReject` event.
+    /// <summary>
+    /// Invoke this from an <c>onResponderReject</c> event.
     /// 
     /// Some other element is not yielding its role as responder. Normally, we'd
-    /// just disable the `UIScrollView`, but a touch has already began on it, the
-    /// `UIScrollView` will not accept being disabled after that. The easiest
+    /// just disable the <c>UIScrollView</c>, but a touch has already began on it, the
+    /// <c>UIScrollView</c> will not accept being disabled after that. The easiest
     /// solution for now is to accept the limitation of disallowing this
-    /// altogether. To improve this, find a way to disable the `UIScrollView` after
+    /// altogether. To improve this, find a way to disable the <c>UIScrollView</c> after
     /// a touch has already started.
+    /// </summary>
     abstract scrollResponderHandleResponderReject: unit -> obj option
     /// We will allow the scroll view to give up its lock iff it acquired the lock
     /// during an animation. This is a very useful default that happens to satisfy
@@ -4129,51 +4805,59 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     ///    navigation of a swipe gesture higher in the view hierarchy, should be
     ///    rejected.
     abstract scrollResponderHandleTerminationRequest: unit -> bool
-    /// <summary>Invoke this from an `onTouchEnd` event.</summary>
+    /// <summary>Invoke this from an <c>onTouchEnd</c> event.</summary>
     /// <param name="e">Event.</param>
     abstract scrollResponderHandleTouchEnd: e: ScrollResponderEvent -> unit
-    /// Invoke this from an `onResponderRelease` event.
+    /// <summary>Invoke this from an <c>onResponderRelease</c> event.</summary>
     abstract scrollResponderHandleResponderRelease: e: ScrollResponderEvent -> unit
     abstract scrollResponderHandleScroll: e: ScrollResponderEvent -> unit
-    /// Invoke this from an `onResponderGrant` event.
+    /// <summary>Invoke this from an <c>onResponderGrant</c> event.</summary>
     abstract scrollResponderHandleResponderGrant: e: ScrollResponderEvent -> unit
-    /// Unfortunately, `onScrollBeginDrag` also fires when *stopping* the scroll
+    /// <summary>
+    /// Unfortunately, <c>onScrollBeginDrag</c> also fires when *stopping* the scroll
     /// animation, and there's not an easy way to distinguish a drag vs. stopping
     /// momentum.
     /// 
-    /// Invoke this from an `onScrollBeginDrag` event.
+    /// Invoke this from an <c>onScrollBeginDrag</c> event.
+    /// </summary>
     abstract scrollResponderHandleScrollBeginDrag: e: ScrollResponderEvent -> unit
-    /// Invoke this from an `onScrollEndDrag` event.
+    /// <summary>Invoke this from an <c>onScrollEndDrag</c> event.</summary>
     abstract scrollResponderHandleScrollEndDrag: e: ScrollResponderEvent -> unit
-    /// Invoke this from an `onMomentumScrollBegin` event.
+    /// <summary>Invoke this from an <c>onMomentumScrollBegin</c> event.</summary>
     abstract scrollResponderHandleMomentumScrollBegin: e: ScrollResponderEvent -> unit
-    /// Invoke this from an `onMomentumScrollEnd` event.
+    /// <summary>Invoke this from an <c>onMomentumScrollEnd</c> event.</summary>
     abstract scrollResponderHandleMomentumScrollEnd: e: ScrollResponderEvent -> unit
-    /// <summary>Invoke this from an `onTouchStart` event.
+    /// <summary>
+    /// Invoke this from an <c>onTouchStart</c> event.
     /// 
-    /// Since we know that the `SimpleEventPlugin` occurs later in the plugin
-    /// order, after `ResponderEventPlugin`, we can detect that we were *not*
+    /// Since we know that the <c>SimpleEventPlugin</c> occurs later in the plugin
+    /// order, after <c>ResponderEventPlugin</c>, we can detect that we were *not*
     /// permitted to be the responder (presumably because a contained view became
-    /// responder). The `onResponderReject` won't fire in that case - it only
-    /// fires when a *current* responder rejects our request.</summary>
+    /// responder). The <c>onResponderReject</c> won't fire in that case - it only
+    /// fires when a *current* responder rejects our request.
+    /// </summary>
     /// <param name="e">Touch Start event.</param>
     abstract scrollResponderHandleTouchStart: e: ScrollResponderEvent -> unit
-    /// <summary>Invoke this from an `onTouchMove` event.
+    /// <summary>
+    /// Invoke this from an <c>onTouchMove</c> event.
     /// 
-    /// Since we know that the `SimpleEventPlugin` occurs later in the plugin
-    /// order, after `ResponderEventPlugin`, we can detect that we were *not*
+    /// Since we know that the <c>SimpleEventPlugin</c> occurs later in the plugin
+    /// order, after <c>ResponderEventPlugin</c>, we can detect that we were *not*
     /// permitted to be the responder (presumably because a contained view became
-    /// responder). The `onResponderReject` won't fire in that case - it only
-    /// fires when a *current* responder rejects our request.</summary>
+    /// responder). The <c>onResponderReject</c> won't fire in that case - it only
+    /// fires when a *current* responder rejects our request.
+    /// </summary>
     /// <param name="e">Touch Start event.</param>
     abstract scrollResponderHandleTouchMove: e: ScrollResponderEvent -> unit
     /// A helper function for this class that lets us quickly determine if the
     /// view is currently animating. This is particularly useful to know when
     /// a touch has just started or ended.
     abstract scrollResponderIsAnimating: unit -> bool
+    /// <summary>
     /// Returns the node that represents native view that can be scrolled.
-    /// Components can pass what node to use by defining a `getScrollableNode`
-    /// function otherwise `this` is used.
+    /// Components can pass what node to use by defining a <c>getScrollableNode</c>
+    /// function otherwise <c>this</c> is used.
+    /// </summary>
     abstract scrollResponderGetScrollableNode: unit -> obj option
     /// A helper function to scroll to a specific point  in the scrollview.
     /// This is currently used to help focus on child textviews, but can also
@@ -4185,33 +4869,48 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// the function also accepts separate arguments as as alternative to the options object.
     /// This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
     abstract scrollResponderScrollTo: ?x: U2<float, RecyclerViewBackedScrollViewScrollTo> * ?y: float * ?animated: bool -> unit
+    /// <summary>
     /// A helper function to zoom to a specific rect in the scrollview. The argument has the shape
     /// {x: number; y: number; width: number; height: number; animated: boolean = true}
+    /// </summary>
     abstract scrollResponderZoomTo: rect: ScrollResponderMixinScrollResponderZoomToRect * ?animated: bool -> unit
-    /// <summary>This method should be used as the callback to onFocus in a TextInputs'
+    /// <summary>
+    /// This method should be used as the callback to onFocus in a TextInputs'
     /// parent view. Note that any module using this mixin needs to return
-    /// the parent view's ref in getScrollViewRef() in order to use this method.</summary>
+    /// the parent view's ref in getScrollViewRef() in order to use this method.
+    /// </summary>
     /// <param name="nodeHandle">The TextInput node handle</param>
-    /// <param name="additionalOffset">The scroll view's top "contentInset".
-    /// Default is 0.</param>
+    /// <param name="additionalOffset">
+    /// The scroll view's top "contentInset".
+    /// Default is 0.
+    /// </param>
+    /// <param name="preventNegativeScrolling">
+    /// Whether to allow pulling the content
+    /// down to make it meet the keyboard's top. Default is false.
+    /// </param>
     abstract scrollResponderScrollNativeHandleToKeyboard: nodeHandle: obj option * ?additionalOffset: float * ?preventNegativeScrollOffset: bool -> unit
-    /// <summary>The calculations performed here assume the scroll view takes up the entire
+    /// <summary>
+    /// The calculations performed here assume the scroll view takes up the entire
     /// screen - even if has some content inset. We then measure the offsets of the
-    /// keyboard, and compensate both for the scroll view's "contentInset".</summary>
+    /// keyboard, and compensate both for the scroll view's "contentInset".
+    /// </summary>
     /// <param name="left">Position of input w.r.t. table view.</param>
     /// <param name="top">Position of input w.r.t. table view.</param>
     /// <param name="width">Width of the text input.</param>
     /// <param name="height">Height of the text input.</param>
     abstract scrollResponderInputMeasureAndScrollToKeyboard: left: float * top: float * width: float * height: float -> unit
     abstract scrollResponderTextInputFocusError: e: ScrollResponderEvent -> unit
-    /// `componentWillMount` is the closest thing to a  standard "constructor" for
+    /// <summary>
+    /// <c>componentWillMount</c> is the closest thing to a  standard "constructor" for
     /// React components.
     /// 
-    /// The `keyboardWillShow` is called before input focus.
+    /// The <c>keyboardWillShow</c> is called before input focus.
+    /// </summary>
     abstract componentWillMount: unit -> unit
+    /// <summary>
     /// Warning, this may be called several times for a single keyboard opening.
     /// It's best to store the information in this method and then take any action
-    /// at a later point (either in `keyboardDidShow` or other).
+    /// at a later point (either in <c>keyboardDidShow</c> or other).
     /// 
     /// Here's the order that events occur in:
     /// - focus
@@ -4221,20 +4920,21 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// - willHide {startCoordinates, endCoordinates} several times
     /// - didHide several times
     /// 
-    /// The `ScrollResponder` providesModule callbacks for each of these events.
+    /// The <c>ScrollResponder</c> providesModule callbacks for each of these events.
     /// Even though any user could have easily listened to keyboard events
-    /// themselves, using these `props` callbacks ensures that ordering of events
+    /// themselves, using these <c>props</c> callbacks ensures that ordering of events
     /// is consistent - and not dependent on the order that the keyboard events are
     /// subscribed to. This matters when telling the scroll view to scroll to where
     /// the keyboard is headed - the scroll responder better have been notified of
     /// the keyboard destination before being instructed to scroll to where the
-    /// keyboard will be. Stick to the `ScrollResponder` callbacks, and everything
+    /// keyboard will be. Stick to the <c>ScrollResponder</c> callbacks, and everything
     /// will work.
     /// 
     /// WARNING: These callbacks will fire even if a keyboard is displayed in a
     /// different navigation pane. Filter out the events to determine if they are
     /// relevant to you. (For example, only if you receive these callbacks after
     /// you had explicitly focused a node etc).
+    /// </summary>
     abstract scrollResponderKeyboardWillShow: e: ScrollResponderEvent -> unit
     abstract scrollResponderKeyboardWillHide: e: ScrollResponderEvent -> unit
     abstract scrollResponderKeyboardDidShow: e: ScrollResponderEvent -> unit
@@ -4248,21 +4948,27 @@ type [<AllowNullLiteral>] ScrollResponderMixinScrollResponderZoomToRect =
     abstract animated: bool option with get, set
 
 type [<AllowNullLiteral>] ScrollViewPropsIOS =
+    /// <summary>
     /// When true the scroll view bounces horizontally when it reaches the end
     /// even if the content is smaller than the scroll view itself. The default
-    /// value is true when `horizontal={true}` and false otherwise.
+    /// value is true when <c>horizontal={true}</c> and false otherwise.
+    /// </summary>
     abstract alwaysBounceHorizontal: bool option with get, set
+    /// <summary>
     /// When true the scroll view bounces vertically when it reaches the end
     /// even if the content is smaller than the scroll view itself. The default
-    /// value is false when `horizontal={true}` and true otherwise.
+    /// value is false when <c>horizontal={true}</c> and true otherwise.
+    /// </summary>
     abstract alwaysBounceVertical: bool option with get, set
     /// Controls whether iOS should automatically adjust the content inset for scroll views that are placed behind a navigation bar or tab bar/ toolbar.
     /// The default value is true.
     abstract automaticallyAdjustContentInsets: bool option with get, set
+    /// <summary>
     /// When true the scroll view bounces when it reaches the end of the
     /// content if the content is larger then the scroll view along the axis of
     /// the scroll direction. When false it disables all bouncing even if
-    /// the `alwaysBounce*` props are true. The default value is true.
+    /// the <c>alwaysBounce*</c> props are true. The default value is true.
+    /// </summary>
     abstract bounces: bool option with get, set
     /// When true gestures can drive zoom past min/max and the zoom will animate
     /// to the min/max value at gesture end otherwise the zoom will not exceed
@@ -4330,11 +5036,13 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     /// This can be used for paginating through children that have lengths smaller than the scroll view.
     /// Used in combination with snapToAlignment.
     abstract snapToInterval: float option with get, set
+    /// <summary>
     /// An array of child indices determining which children get docked to the
     /// top of the screen when scrolling. For example passing
-    /// `stickyHeaderIndices={[0]}` will cause the first child to be fixed to the
+    /// <c>stickyHeaderIndices={[0]}</c> will cause the first child to be fixed to the
     /// top of the scroll view. This property is not supported in conjunction
-    /// with `horizontal={true}`.
+    /// with <c>horizontal={true}</c>.
+    /// </summary>
     abstract stickyHeaderIndices: ResizeArray<float> option with get, set
     /// The current scale of the scroll view content. The default value is 1.0.
     abstract zoomScale: float option with get, set
@@ -4346,10 +5054,12 @@ type [<AllowNullLiteral>] ScrollViewPropsAndroid =
     /// unnecessary overdraw. This is an advanced optimization that is not
     /// needed in the general case.
     abstract endFillColor: string option with get, set
+    /// <summary>
     /// Tag used to log scroll performance on this scroll view. Will force
     /// momentum events to be turned on (see sendMomentumEvents). This doesn't do
     /// anything out of the box and you need to implement a custom native
     /// FpsListener for it to be useful.
+    /// </summary>
     abstract scrollPerfTag: string option with get, set
     /// Used to override default value of overScroll mode.
     /// 
@@ -4416,10 +5126,12 @@ type [<AllowNullLiteral>] ScrollViewProps =
     abstract pagingEnabled: bool option with get, set
     /// When false, the content does not scroll. The default value is true
     abstract scrollEnabled: bool option with get, set
-    /// Experimental: When true offscreen child views (whose `overflow` value is
-    /// `hidden`) are removed from their native backing superview when offscreen.
+    /// <summary>
+    /// Experimental: When true offscreen child views (whose <c>overflow</c> value is
+    /// <c>hidden</c>) are removed from their native backing superview when offscreen.
     /// This canimprove scrolling performance on long lists. The default value is
     /// false.
+    /// </summary>
     abstract removeClippedSubviews: bool option with get, set
     /// When true, shows a horizontal scroll indicator.
     abstract showsHorizontalScrollIndicator: bool option with get, set
@@ -4455,10 +5167,12 @@ type [<AllowNullLiteral>] ScrollView =
     /// The options object has an animated prop, that enables the scrolling animation or not.
     /// The animated prop defaults to true
     abstract scrollToEnd: ?options: ScrollViewScrollToEndOptions -> unit
+    /// <summary>
     /// Returns a reference to the underlying scroll responder, which supports
-    /// operations like `scrollTo`. All ScrollView-like components should
+    /// operations like <c>scrollTo</c>. All ScrollView-like components should
     /// implement this method so that they can be composed while providing access
     /// to the underlying scroll responder's methods.
+    /// </summary>
     abstract getScrollResponder: unit -> JSX.Element
     abstract getScrollableNode: unit -> obj option
     abstract getInnerViewNode: unit -> obj option
@@ -4513,12 +5227,14 @@ type [<AllowNullLiteral>] SnapshotViewIOS =
 type [<AllowNullLiteral>] SnapshotViewIOSStatic =
     [<EmitConstructor>] abstract Create: unit -> SnapshotViewIOS
 
+/// <summary>
 /// Data source wrapper around ListViewDataSource to allow for tracking of
 /// which row is swiped open and close opened row(s) when another row is swiped
 /// open.
 /// 
-/// See https://github.com/facebook/react-native/pull/5602 for why
+/// See <see href="https://github.com/facebook/react-native/pull/5602" /> for why
 /// ListViewDataSource is not subclassed.
+/// </summary>
 type [<AllowNullLiteral>] SwipeableListViewDataSource =
     abstract cloneWithRowsAndSections: dataBlob: obj option * ?sectionIdentities: Array<string> * ?rowIdentities: Array<Array<string>> -> SwipeableListViewDataSource
     abstract getDataSource: unit -> ListViewDataSource
@@ -4530,16 +5246,19 @@ type [<AllowNullLiteral>] SwipeableListViewProps =
     /// To alert the user that swiping is possible, the first row can bounce
     /// on component mount.
     abstract bounceFirstRowOnMount: bool with get, set
-    /// Use `SwipeableListView.getNewDataSource()` to get a data source to use,
+    /// <summary>
+    /// Use <c>SwipeableListView.getNewDataSource()</c> to get a data source to use,
     /// then use it just like you would a normal ListView data source
+    /// </summary>
     abstract dataSource: SwipeableListViewDataSource with get, set
     abstract maxSwipeDistance: float with get, set
     abstract renderRow: (obj option -> U2<string, float> -> U2<string, float> -> bool -> React.ReactElement<obj option>) with get, set
     abstract renderQuickActions: rowData: obj option * sectionID: U2<string, float> * rowID: U2<string, float> -> React.ReactElement<obj option>
 
+/// <summary>
 /// A container component that renders multiple SwipeableRow's in a ListView
 /// implementation. This is designed to be a drop-in replacement for the
-/// standard React Native `ListView`, so use it as if it were a ListView, but
+/// standard React Native <c>ListView</c>, so use it as if it were a ListView, but
 /// with extra props, i.e.
 /// 
 /// let ds = SwipeableListView.getNewDataSource();
@@ -4553,12 +5272,14 @@ type [<AllowNullLiteral>] SwipeableListViewProps =
 /// - It ensures that at most 1 row is swiped open (auto closes others)
 /// - It can bounce the 1st row of the list so users know it's swipeable
 /// - More to come
+/// </summary>
 type [<AllowNullLiteral>] SwipeableListView =
     inherit React.Component<SwipeableListViewProps>
 
+/// <summary>
 /// A container component that renders multiple SwipeableRow's in a ListView
 /// implementation. This is designed to be a drop-in replacement for the
-/// standard React Native `ListView`, so use it as if it were a ListView, but
+/// standard React Native <c>ListView</c>, so use it as if it were a ListView, but
 /// with extra props, i.e.
 /// 
 /// let ds = SwipeableListView.getNewDataSource();
@@ -4572,10 +5293,12 @@ type [<AllowNullLiteral>] SwipeableListView =
 /// - It ensures that at most 1 row is swiped open (auto closes others)
 /// - It can bounce the 1st row of the list so users know it's swipeable
 /// - More to come
+/// </summary>
 type [<AllowNullLiteral>] SwipeableListViewStatic =
     [<EmitConstructor>] abstract Create: unit -> SwipeableListView
     abstract getNewDataSource: unit -> SwipeableListViewDataSource
 
+/// <seealso cref=":"><see href="http://facebook.github.io/react-native/docs/actionsheetios.html#content" /></seealso>
 type [<AllowNullLiteral>] ActionSheetIOSOptions =
     abstract title: string option with get, set
     abstract options: ResizeArray<string> with get, set
@@ -4592,27 +5315,32 @@ type [<AllowNullLiteral>] ShareActionSheetIOSOptions =
     /// For example: ['com.apple.UIKit.activity.PostToTwitter']
     abstract excludedActivityTypes: ResizeArray<string> option with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/actionsheetios.html#content" />
 type [<AllowNullLiteral>] ActionSheetIOSStatic =
-    /// Display an iOS action sheet. The `options` object must contain one or more
+    /// <summary>
+    /// Display an iOS action sheet. The <c>options</c> object must contain one or more
     /// of:
-    /// - `options` (array of strings) - a list of button titles (required)
-    /// - `cancelButtonIndex` (int) - index of cancel button in `options`
-    /// - `destructiveButtonIndex` (int) - index of destructive button in `options`
-    /// - `title` (string) - a title to show above the action sheet
-    /// - `message` (string) - a message to show below the title
+    /// - <c>options</c> (array of strings) - a list of button titles (required)
+    /// - <c>cancelButtonIndex</c> (int) - index of cancel button in <c>options</c>
+    /// - <c>destructiveButtonIndex</c> (int) - index of destructive button in <c>options</c>
+    /// - <c>title</c> (string) - a title to show above the action sheet
+    /// - <c>message</c> (string) - a message to show below the title
+    /// </summary>
     abstract showActionSheetWithOptions: (ActionSheetIOSOptions -> (float -> unit) -> unit) with get, set
-    /// Display the iOS share sheet. The `options` object should contain
-    /// one or both of `message` and `url` and can additionally have
-    /// a `subject` or `excludedActivityTypes`:
+    /// <summary>
+    /// Display the iOS share sheet. The <c>options</c> object should contain
+    /// one or both of <c>message</c> and <c>url</c> and can additionally have
+    /// a <c>subject</c> or <c>excludedActivityTypes</c>:
     /// 
-    /// - `url` (string) - a URL to share
-    /// - `message` (string) - a message to share
-    /// - `subject` (string) - a subject for the message
-    /// - `excludedActivityTypes` (array) - the activities to exclude from the ActionSheet
+    /// - <c>url</c> (string) - a URL to share
+    /// - <c>message</c> (string) - a message to share
+    /// - <c>subject</c> (string) - a subject for the message
+    /// - <c>excludedActivityTypes</c> (array) - the activities to exclude from the ActionSheet
     /// 
-    /// NOTE: if `url` points to a local file, or is a base64-encoded
+    /// NOTE: if <c>url</c> points to a local file, or is a base64-encoded
     /// uri, the file it points to will be loaded and shared directly.
     /// In this way, you can share images, videos, PDF files, etc.
+    /// </summary>
     abstract showShareActionSheetWithOptions: (ShareActionSheetIOSOptions -> (Error -> unit) -> (bool -> string -> unit) -> unit) with get, set
 
 type ShareContent =
@@ -4624,22 +5352,23 @@ type [<AllowNullLiteral>] ShareOptions =
     abstract tintColor: string option with get, set
 
 type [<AllowNullLiteral>] ShareStatic =
+    /// <summary>
     /// Open a dialog to share text content.
     /// 
-    /// In iOS, Returns a Promise which will be invoked an object containing `action`, `activityType`.
-    /// If the user dismissed the dialog, the Promise will still be resolved with action being `Share.dismissedAction`
+    /// In iOS, Returns a Promise which will be invoked an object containing <c>action</c>, <c>activityType</c>.
+    /// If the user dismissed the dialog, the Promise will still be resolved with action being <c>Share.dismissedAction</c>
     /// and all the other keys being undefined.
     /// 
-    /// In Android, Returns a Promise which always be resolved with action being `Share.sharedAction`.
+    /// In Android, Returns a Promise which always be resolved with action being <c>Share.sharedAction</c>.
     /// 
     /// ### Content
     /// 
-    ///   - `message` - a message to share
-    ///   - `title` - title of the message
+    ///   - <c>message</c> - a message to share
+    ///   - <c>title</c> - title of the message
     /// 
     /// #### iOS
     /// 
-    ///   - `url` - an URL to share
+    ///   - <c>url</c> - an URL to share
     /// 
     /// At least one of URL and message is required.
     /// 
@@ -4647,12 +5376,13 @@ type [<AllowNullLiteral>] ShareStatic =
     /// 
     /// #### iOS
     /// 
-    /// - `excludedActivityTypes`
-    /// - `tintColor`
+    /// - <c>excludedActivityTypes</c>
+    /// - <c>tintColor</c>
     /// 
     /// #### Android
     /// 
-    /// - `dialogTitle`
+    /// - <c>dialogTitle</c>
+    /// </summary>
     abstract share: content: ShareContent * ?options: ShareOptions -> Promise<Object>
     abstract sharedAction: string with get, set
     abstract dismissedAction: string with get, set
@@ -4671,6 +5401,7 @@ type [<AllowNullLiteral>] AccessibilityAnnoucementFinishedEvent =
 type AccessibilityEvent =
     U2<AccessibilityChangeEvent, AccessibilityAnnoucementFinishedEvent>
 
+/// <seealso href="https://facebook.github.io/react-native/docs/accessibilityinfo.html" />
 type [<AllowNullLiteral>] AccessibilityInfoStatic =
     /// Query whether a screen reader is currently enabled.
     /// Returns a promise which resolves to a boolean. The result is true when a screen reader is enabled and false otherwise.
@@ -4687,11 +5418,12 @@ type [<AllowNullLiteral>] AccessibilityInfoStatic =
     abstract addEventListener: (AccessibilityEventName -> (AccessibilityEvent -> unit) -> unit) with get, set
     /// Remove an event handler.
     abstract removeEventListener: (AccessibilityEventName -> (AccessibilityEvent -> unit) -> unit) with get, set
-    /// Set acessibility focus to a react component.
+    /// <summary>Set acessibility focus to a react component.</summary>
     abstract setAccessibilityFocus: (float -> unit) with get, set
-    /// Post a string to be announced by the screen reader.
+    /// <summary>Post a string to be announced by the screen reader.</summary>
     abstract announceForAccessibility: (string -> unit) with get, set
 
+/// <seealso href="https://facebook.github.io/react-native/docs/alert.html#content" />
 type [<AllowNullLiteral>] AlertButton =
     abstract text: string option with get, set
     abstract onPress: (unit -> unit) option with get, set
@@ -4701,6 +5433,7 @@ type [<AllowNullLiteral>] AlertOptions =
     abstract cancelable: bool option with get, set
     abstract onDismiss: (unit -> unit) option with get, set
 
+/// <summary>
 /// Launches an alert dialog with the specified title and message.
 /// 
 /// Optionally provide a list of buttons. Tapping any button will fire the
@@ -4709,7 +5442,7 @@ type [<AllowNullLiteral>] AlertOptions =
 /// 
 /// This is an API that works both on iOS and Android and can show static
 /// alerts. To show an alert that prompts the user to enter some information,
-/// see `AlertIOS`; entering text in an alert is common on iOS only.
+/// see <c>AlertIOS</c>; entering text in an alert is common on iOS only.
 /// 
 /// ## iOS
 /// 
@@ -4725,7 +5458,7 @@ type [<AllowNullLiteral>] AlertOptions =
 ///    - Two buttons mean 'negative', 'positive' (such as 'Cancel', 'OK')
 ///    - Three buttons mean 'neutral', 'negative', 'positive' (such as 'Later', 'Cancel', 'OK')
 /// 
-/// ```
+/// <code>
 /// // Works on both iOS and Android
 /// Alert.alert(
 ///    'Alert Title',
@@ -4736,7 +5469,8 @@ type [<AllowNullLiteral>] AlertOptions =
 ///      {text: 'OK', onPress: () => console.log('OK Pressed')},
 ///    ]
 /// )
-/// ```
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] AlertStatic =
     abstract alert: (string -> string -> ResizeArray<AlertButton> -> AlertOptions -> string -> unit) with get, set
 
@@ -4760,12 +5494,70 @@ type [<StringEnum>] [<RequireQualifiedAccess>] AlertType =
     | [<CompiledName "secure-text">] SecureText
     | [<CompiledName "login-password">] LoginPassword
 
+/// <summary>
+/// <c>AlertIOS</c> provides functionality to create an iOS alert dialog with a
+/// message or create a prompt for user input.
+/// 
+/// We recommend using the <see cref="/docs/alert.html"><c>Alert.alert</c></see> method for
+/// cross-platform support if you don't need to create iOS-only prompts.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/alertios.html#content" />
 type [<AllowNullLiteral>] AlertIOSStatic =
-    /// Create and display a popup alert.
+    /// <summary>Create and display a popup alert.</summary>
+    /// <param name="title">The dialog's title.</param>
+    /// <param name="message">
+    /// An optional message that appears below
+    /// the dialog's title.
+    /// </param>
+    /// <param name="callbackOrButtons">
+    /// This optional argument should
+    /// be either a single-argument function or an array of buttons. If passed
+    /// a function, it will be called when the user taps 'OK'.
+    /// 
+    /// If passed an array of button configurations, each button should include
+    /// a <c>text</c> key, as well as optional <c>onPress</c> and <c>style</c> keys. <c>style</c>
+    /// should be one of 'default', 'cancel' or 'destructive'.
+    /// </param>
+    /// <param name="type">Deprecated, do not use.</param>
     abstract alert: (string -> string -> U2<(unit -> unit), Array<AlertIOSButton>> -> AlertType -> unit) with get, set
-    /// Create and display a prompt to enter some text.
+    /// <summary>Create and display a prompt to enter some text.</summary>
+    /// <param name="title">The dialog's title.</param>
+    /// <param name="message">
+    /// An optional message that appears above the text
+    /// input.
+    /// </param>
+    /// <param name="callbackOrButtons">
+    /// This optional argument should
+    /// be either a single-argument function or an array of buttons. If passed
+    /// a function, it will be called with the prompt's value when the user
+    /// taps 'OK'.
+    /// 
+    /// If passed an array of button configurations, each button should include
+    /// a <c>text</c> key, as well as optional <c>onPress</c> and <c>style</c> keys (see
+    /// example). <c>style</c> should be one of 'default', 'cancel' or 'destructive'.
+    /// </param>
+    /// <param name="type">
+    /// This configures the text input. One of 'plain-text',
+    /// 'secure-text' or 'login-password'.
+    /// </param>
+    /// <param name="defaultValue">The default text in text input.</param>
     abstract prompt: (string -> string -> U2<(string -> unit), Array<AlertIOSButton>> -> AlertType -> string -> U2<KeyboardType, KeyboardTypeIOS> -> unit) with get, set
 
+/// <summary>
+/// AppStateIOS can tell you if the app is in the foreground or background,
+/// and notify you when the state changes.
+/// 
+/// AppStateIOS is frequently used to determine the intent and proper behavior
+/// when handling push notifications.
+/// 
+/// iOS App States
+///       active - The app is running in the foreground
+///       background - The app is running in the background. The user is either in another app or on the home screen
+///       inactive - This is a transition state that currently never happens for typical React Native apps.
+/// 
+/// For more information, see Apple's documentation: <see href="https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html" />
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/appstateios.html#content" />
 type [<StringEnum>] [<RequireQualifiedAccess>] AppStateEvent =
     | Change
     | MemoryWarning
@@ -4783,17 +5575,20 @@ type [<AllowNullLiteral>] AppStateStatic =
     /// Remove a handler by passing the change event type and the handler
     abstract removeEventListener: ``type``: AppStateEvent * listener: (AppStateStatus -> unit) -> unit
 
+/// <summary>
 /// AsyncStorage is a simple, unencrypted, asynchronous, persistent, key-value storage
 /// system that is global to the app.  It should be used instead of LocalStorage.
 /// 
-/// It is recommended that you use an abstraction on top of `AsyncStorage`
-/// instead of `AsyncStorage` directly for anything more than light usage since
+/// It is recommended that you use an abstraction on top of <c>AsyncStorage</c>
+/// instead of <c>AsyncStorage</c> directly for anything more than light usage since
 /// it operates globally.
 /// 
-/// On iOS, `AsyncStorage` is backed by native code that stores small values in a
+/// On iOS, <c>AsyncStorage</c> is backed by native code that stores small values in a
 /// serialized dictionary and larger values in separate files. On Android,
-/// `AsyncStorage` will use either [RocksDB](http://rocksdb.org/) or SQLite
+/// <c>AsyncStorage</c> will use either <see href="http://rocksdb.org/">RocksDB</see> or SQLite
 /// based on what is available.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/asyncstorage.html#content" />
 type [<AllowNullLiteral>] AsyncStorageStatic =
     /// Fetches key and passes the result to callback, along with an Error if there is any.
     abstract getItem: key: string * ?callback: (Error -> string -> unit) -> Promise<string option>
@@ -4904,26 +5699,31 @@ type [<AllowNullLiteral>] GetPhotosReturnType =
     abstract edges: ResizeArray<GetPhotosReturnTypeEdges> with get, set
     abstract page_info: GetPhotosReturnTypePage_info with get, set
 
+/// <summary>
 /// CameraRoll provides access to the local camera roll / gallery.
 /// Before using this you must link the RCTCameraRoll library.
-/// You can refer to (Linking)[https://facebook.github.io/react-native/docs/linking-libraries-ios.html] for help.
+/// You can refer to (Linking)[<see href="https://facebook.github.io/react-native/docs/linking-libraries-ios.html]" /> for help.
+/// </summary>
 type [<AllowNullLiteral>] CameraRollStatic =
     abstract GroupTypesOptions: ResizeArray<CameraRollGroupType> with get, set
     abstract AssetTypeOptions: ResizeArray<CameraRollAssetType> with get, set
-    /// Saves the image to the camera roll / gallery.
+    /// <summary>Saves the image to the camera roll / gallery.</summary>
+    [<Obsolete("use saveToCameraRoll instead")>]
     abstract saveImageWithTag: tag: string -> Promise<string>
+    /// <summary>
     /// Saves the photo or video to the camera roll / gallery.
     /// 
-    /// On Android, the tag must be a local image or video URI, such as `"file:///sdcard/img.png"`.
+    /// On Android, the tag must be a local image or video URI, such as <c>"file:///sdcard/img.png"</c>.
     /// 
     /// On iOS, the tag can be any image URI (including local, remote asset-library and base64 data URIs)
     /// or a local video file URI (remote or data URIs are not supported for saving video at this time).
     /// 
     /// If the tag has a file extension of .mov or .mp4, it will be inferred as a video. Otherwise
     /// it will be treated as a photo. To override the automatic choice, you can pass an optional
-    /// `type` parameter that must be one of 'photo' or 'video'.
+    /// <c>type</c> parameter that must be one of 'photo' or 'video'.
     /// 
     /// Returns a Promise which will resolve with the new URI.
+    /// </summary>
     abstract saveToCameraRoll: tag: string * ?``type``: CameraRollStaticSaveToCameraRollType -> Promise<string>
     /// <summary>Invokes callback with photo identifier objects from the local camera roll of the device matching shape defined by getPhotosReturnChecker.</summary>
     /// <param name="params">See getPhotosParamChecker.</param>
@@ -4974,60 +5774,86 @@ type [<AllowNullLiteral>] DatePickerAndroidStatic =
     abstract dismissedAction: string with get, set
 
 type [<AllowNullLiteral>] IntentAndroidStatic =
+    /// <summary>
     /// Starts a corresponding external activity for the given URL.
     /// 
-    ///   For example, if the URL is "https://www.facebook.com", the system browser will be opened, or the "choose application" dialog will be shown.
+    ///   For example, if the URL is "<see href="https://www.facebook.com"," /> the system browser will be opened, or the "choose application" dialog will be shown.
     /// 
     ///   You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
     /// 
     ///   NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
     /// 
-    ///   NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
+    ///   NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
+    /// </summary>
+    [<Obsolete("")>]
     abstract openURL: url: string -> unit
+    /// <summary>
     /// Determine whether or not an installed app can handle a given URL.
     /// 
     ///   You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
     /// 
-    ///   NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
+    ///   NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
+    /// </summary>
+    /// <param name="URL">the URL to open</param>
+    [<Obsolete("")>]
     abstract canOpenURL: url: string * callback: (bool -> unit) -> unit
+    /// <summary>
     /// If the app launch was triggered by an app link with {@code Intent.ACTION_VIEW}, it will give the link url, otherwise it will give null
     /// 
-    ///   Refer http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents
+    ///   Refer <see href="http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents" />
+    /// </summary>
+    [<Obsolete("")>]
     abstract getInitialURL: callback: (string -> unit) -> unit
 
 type [<AllowNullLiteral>] LinkingStatic =
     inherit NativeEventEmitter
-    /// Add a handler to Linking changes by listening to the `url` event type
+    /// <summary>
+    /// Add a handler to Linking changes by listening to the <c>url</c> event type
     /// and providing the handler
+    /// </summary>
     abstract addEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
-    /// Remove a handler by passing the `url` event type and the handler
+    /// <summary>Remove a handler by passing the <c>url</c> event type and the handler</summary>
     abstract removeEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
+    /// <summary>
     /// Try to open the given url with any of the installed apps.
     /// You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with the installed apps.
     /// NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
-    /// NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
+    /// NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
+    /// </summary>
     abstract openURL: url: string -> Promise<obj option>
+    /// <summary>
     /// Determine whether or not an installed app can handle a given URL.
-    /// NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
+    /// NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
     /// NOTE: As of iOS 9, your app needs to provide the LSApplicationQueriesSchemes key inside Info.plist.
+    /// </summary>
+    /// <param name="URL">the URL to open</param>
     abstract canOpenURL: url: string -> Promise<bool>
+    /// <summary>
     /// If the app launch was triggered by an app link with, it will give the link url, otherwise it will give null
-    /// NOTE: To support deep linking on Android, refer http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents
+    /// NOTE: To support deep linking on Android, refer <see href="http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents" />
+    /// </summary>
     abstract getInitialURL: unit -> Promise<string>
 
 type [<AllowNullLiteral>] LinkingIOSStatic =
     /// Add a handler to LinkingIOS changes by listening to the url event type and providing the handler
+    [<Obsolete("")>]
     abstract addEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
     /// Remove a handler by passing the url event type and the handler
+    [<Obsolete("")>]
     abstract removeEventListener: ``type``: string * handler: (LinkingStaticAddEventListener -> unit) -> unit
     /// Try to open the given url with any of the installed apps.
+    [<Obsolete("")>]
     abstract openURL: url: string -> unit
     /// Determine whether or not an installed app can handle a given URL. The callback function will be called with bool supported as the only argument
     /// NOTE: As of iOS 9, your app needs to provide the LSApplicationQueriesSchemes key inside Info.plist.
+    [<Obsolete("")>]
     abstract canOpenURL: url: string * callback: (bool -> unit) -> unit
     /// If the app launch was triggered by an app link, it will pop the link url, otherwise it will return null
+    [<Obsolete("")>]
     abstract popInitialURL: unit -> string
 
+/// <summary>NetInfo exposes info about online/offline status</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/netinfo.html#content" />
 type [<StringEnum>] [<RequireQualifiedAccess>] ConnectionType =
     | None
     | Wifi
@@ -5065,24 +5891,30 @@ type [<AllowNullLiteral>] ConnectionInfo =
     abstract effectiveType: EffectiveConnectionType with get, set
 
 type [<AllowNullLiteral>] NetInfoStatic =
-    /// This function is deprecated. Use `getConnectionInfo` instead. Returns a promise that
+    /// <summary>
+    /// This function is deprecated. Use <c>getConnectionInfo</c> instead. Returns a promise that
     /// resolves with one of the deprecated connectivity types listed above.
+    /// </summary>
     abstract fetch: (unit -> Promise<ConnectionType>) with get, set
+    /// <summary>
     /// Adds an event handler. Supported events:
     /// 
-    /// - `connectionChange`: Fires when the network status changes. The argument to the event
+    /// - <c>connectionChange</c>: Fires when the network status changes. The argument to the event
     ///    handler is an object with keys:
-    ///    - `type`: A `DeprecatedConnectionType` (listed above)
-    ///    - `effectiveType`: An `EffectiveConnectionType` (listed above)
-    /// - `change`: This event is deprecated. Listen to `connectionChange` instead. Fires when
+    ///    - <c>type</c>: A <c>DeprecatedConnectionType</c> (listed above)
+    ///    - <c>effectiveType</c>: An <c>EffectiveConnectionType</c> (listed above)
+    /// - <c>change</c>: This event is deprecated. Listen to <c>connectionChange</c> instead. Fires when
     ///    the network status changes. The argument to the event handler is one of the deprecated
     ///    connectivity types listed above.
+    /// </summary>
     abstract addEventListener: (string -> (U2<ConnectionInfo, ConnectionType> -> unit) -> unit) with get, set
     /// Removes the listener for network status changes.
     abstract removeEventListener: (string -> (U2<ConnectionInfo, ConnectionType> -> unit) -> unit) with get, set
-    /// Returns a promise that resolves to an object with `type` and `effectiveType` keys
-    /// whose values are a `ConnectionType` and an `EffectiveConnectionType`, (described above),
+    /// <summary>
+    /// Returns a promise that resolves to an object with <c>type</c> and <c>effectiveType</c> keys
+    /// whose values are a <c>ConnectionType</c> and an <c>EffectiveConnectionType</c>, (described above),
     /// respectively.
+    /// </summary>
     abstract getConnectionInfo: (unit -> Promise<ConnectionInfo>) with get, set
     /// An object with the same methods as above but the listener receives a
     /// boolean which represents the internet connectivity.
@@ -5118,6 +5950,7 @@ type [<AllowNullLiteral>] PanResponderGestureState =
     abstract numberActiveTouches: float with get, set
     abstract _accountsForMovesUpTo: float with get, set
 
+/// <seealso cref="documentation">of GestureResponderHandlers</seealso>
 type [<AllowNullLiteral>] PanResponderCallbacks =
     abstract onMoveShouldSetPanResponder: (GestureResponderEvent -> PanResponderGestureState -> bool) option with get, set
     abstract onStartShouldSetPanResponder: (GestureResponderEvent -> PanResponderGestureState -> bool) option with get, set
@@ -5143,36 +5976,38 @@ type [<AllowNullLiteral>] PanResponderInstance =
 /// It provides a predictable wrapper of the responder handlers provided by the gesture responder system.
 /// For each handler, it provides a new gestureState object alongside the normal event.
 type [<AllowNullLiteral>] PanResponderStatic =
-    /// <param name="config">Enhanced versions of all of the responder callbacks
-    /// that provide not only the typical `ResponderSyntheticEvent`, but also the
-    /// `PanResponder` gesture state.  Simply replace the word `Responder` with
-    /// `PanResponder` in each of the typical `onResponder*` callbacks. For
-    /// example, the `config` object would look like:
+    /// <param name="config">
+    /// Enhanced versions of all of the responder callbacks
+    /// that provide not only the typical <c>ResponderSyntheticEvent</c>, but also the
+    /// <c>PanResponder</c> gesture state.  Simply replace the word <c>Responder</c> with
+    /// <c>PanResponder</c> in each of the typical <c>onResponder*</c> callbacks. For
+    /// example, the <c>config</c> object would look like:
     /// 
-    /// - `onMoveShouldSetPanResponder: (e, gestureState) => {...}`
-    /// - `onMoveShouldSetPanResponderCapture: (e, gestureState) => {...}`
-    /// - `onStartShouldSetPanResponder: (e, gestureState) => {...}`
-    /// - `onStartShouldSetPanResponderCapture: (e, gestureState) => {...}`
-    /// - `onPanResponderReject: (e, gestureState) => {...}`
-    /// - `onPanResponderGrant: (e, gestureState) => {...}`
-    /// - `onPanResponderStart: (e, gestureState) => {...}`
-    /// - `onPanResponderEnd: (e, gestureState) => {...}`
-    /// - `onPanResponderRelease: (e, gestureState) => {...}`
-    /// - `onPanResponderMove: (e, gestureState) => {...}`
-    /// - `onPanResponderTerminate: (e, gestureState) => {...}`
-    /// - `onPanResponderTerminationRequest: (e, gestureState) => {...}`
-    /// - `onShouldBlockNativeResponder: (e, gestureState) => {...}`
+    /// - <c>onMoveShouldSetPanResponder: (e, gestureState) => {...}</c>
+    /// - <c>onMoveShouldSetPanResponderCapture: (e, gestureState) => {...}</c>
+    /// - <c>onStartShouldSetPanResponder: (e, gestureState) => {...}</c>
+    /// - <c>onStartShouldSetPanResponderCapture: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderReject: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderGrant: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderStart: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderEnd: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderRelease: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderMove: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderTerminate: (e, gestureState) => {...}</c>
+    /// - <c>onPanResponderTerminationRequest: (e, gestureState) => {...}</c>
+    /// - <c>onShouldBlockNativeResponder: (e, gestureState) => {...}</c>
     /// 
     /// In general, for events that have capture equivalents, we update the
     /// gestureState once in the capture phase and can use it in the bubble phase
     /// as well.
     /// 
     /// Be careful with onStartShould* callbacks. They only reflect updated
-    /// `gestureState` for start/end events that bubble/capture to the Node.
+    /// <c>gestureState</c> for start/end events that bubble/capture to the Node.
     /// Once the node is the responder, you can rely on every start/end event
-    /// being processed by the gesture and `gestureState` being updated
+    /// being processed by the gesture and <c>gestureState</c> being updated
     /// accordingly. (numberActiveTouches) may not be totally accurate unless you
-    /// are the responder.</param>
+    /// are the responder.
+    /// </param>
     abstract create: config: PanResponderCallbacks -> PanResponderInstance
 
 type [<AllowNullLiteral>] Rationale =
@@ -5222,14 +6057,16 @@ type [<AllowNullLiteral>] PermissionsAndroidStatic =
     abstract check: permission: Permission -> Promise<bool>
     /// Deprecated
     abstract requestPermission: permission: Permission * ?rationale: Rationale -> Promise<bool>
+    /// <summary>
     /// Prompts the user to enable a permission and returns a promise resolving to a
     /// string value indicating whether the user allowed or denied the request
     /// 
     /// If the optional rationale argument is included (which is an object with a
     /// title and message), this function checks with the OS whether it is necessary
     /// to show a dialog explaining why the permission is needed
-    /// (https://developer.android.com/training/permissions/requesting.html#explain)
+    /// (<see href="https://developer.android.com/training/permissions/requesting.html#explain)" />
     /// and then shows the system permission dialog
+    /// </summary>
     abstract request: permission: Permission * ?rationale: Rationale -> Promise<string>
     /// Prompts the user to enable multiple permissions in the same dialog and
     /// returns an object with the permissions as keys and strings as values
@@ -5245,13 +6082,13 @@ type [<AllowNullLiteral>] PushNotificationPermissions =
     abstract sound: bool option with get, set
 
 type [<AllowNullLiteral>] PushNotification =
-    /// An alias for `getAlert` to get the notification's main message string
+    /// <summary>An alias for <c>getAlert</c> to get the notification's main message string</summary>
     abstract getMessage: unit -> U2<string, Object>
-    /// Gets the sound string from the `aps` object
+    /// <summary>Gets the sound string from the <c>aps</c> object</summary>
     abstract getSound: unit -> string
-    /// Gets the notification's main message from the `aps` object
+    /// <summary>Gets the notification's main message from the <c>aps</c> object</summary>
     abstract getAlert: unit -> U2<string, Object>
-    /// Gets the badge count number from the `aps` object
+    /// <summary>Gets the badge count number from the <c>aps</c> object</summary>
     abstract getBadgeCount: unit -> float
     /// Gets the data object on the notif
     abstract getData: unit -> Object
@@ -5287,7 +6124,11 @@ type [<AllowNullLiteral>] FetchResult =
     abstract NoData: string with get, set
     abstract ResultFailed: string with get, set
 
-/// Handle push notifications for your app, including permission handling and icon badge number.
+/// <summary>Handle push notifications for your app, including permission handling and icon badge number.</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/pushnotificationios.html#content">
+/// 
+/// //FIXME: BGR: The documentation seems completely off compared to the actual js implementation. I could never get the example to run
+/// </seealso>
 type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// Schedules the localNotification for immediate presentation.
     /// details is an object containing:
@@ -5319,12 +6160,14 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     abstract getApplicationIconBadgeNumber: callback: (float -> unit) -> unit
     /// Gets the local notifications that are currently scheduled.
     abstract getScheduledLocalNotifications: callback: (ResizeArray<ScheduleLocalNotificationDetails> -> unit) -> unit
+    /// <summary>
     /// Attaches a listener to remote notifications while the app is running in the
     /// foreground or the background.
     /// 
-    /// The handler will get be invoked with an instance of `PushNotificationIOS`
+    /// The handler will get be invoked with an instance of <c>PushNotificationIOS</c>
     /// 
     /// The type MUST be 'notification'
+    /// </summary>
     abstract addEventListener: ``type``: PushNotificationIOSStaticAddEventListenerType * handler: (PushNotification -> unit) -> unit
     /// Fired when the user registers for remote notifications.
     /// 
@@ -5339,8 +6182,10 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// 
     /// The type MUST be 'registrationError'
     [<Emit "$0.addEventListener('registrationError',$1)">] abstract addEventListener_registrationError: handler: (PushNotificationIOSStaticAddEventListener_registrationError -> unit) -> unit
-    /// Removes the event listener. Do this in `componentWillUnmount` to prevent
+    /// <summary>
+    /// Removes the event listener. Do this in <c>componentWillUnmount</c> to prevent
     /// memory leaks
+    /// </summary>
     abstract removeEventListener: ``type``: PushNotificationEventName * handler: U3<(PushNotification -> unit), (string -> unit), (PushNotificationIOSStaticAddEventListener_registrationError -> unit)> -> unit
     /// Requests all notification permissions from iOS, prompting the user's
     /// dialog box.
@@ -5357,18 +6202,24 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// Settings app. Apps unregistered through this method can always
     /// re-register.
     abstract abandonPermissions: unit -> unit
-    /// See what push permissions are currently enabled. `callback` will be
-    /// invoked with a `permissions` object:
+    /// <summary>
+    /// See what push permissions are currently enabled. <c>callback</c> will be
+    /// invoked with a <c>permissions</c> object:
     /// 
-    ///   - `alert` :boolean
-    ///   - `badge` :boolean
-    ///   - `sound` :boolean
+    ///   - <c>alert</c> :boolean
+    ///   - <c>badge</c> :boolean
+    ///   - <c>sound</c> :boolean
+    /// </summary>
     abstract checkPermissions: callback: (PushNotificationPermissions -> unit) -> unit
+    /// <summary>
     /// This method returns a promise that resolves to either the notification
-    /// object if the app was launched by a push notification, or `null` otherwise.
+    /// object if the app was launched by a push notification, or <c>null</c> otherwise.
+    /// </summary>
     abstract getInitialNotification: unit -> Promise<PushNotification>
+    /// <summary>
     /// iOS fetch results that best describe the result of a finished remote notification handler.
-    /// For a list of possible values, see `PushNotificationIOS.FetchResult`.
+    /// For a list of possible values, see <c>PushNotificationIOS.FetchResult</c>.
+    /// </summary>
     abstract FetchResult: FetchResult with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] PushNotificationIOSStaticAddEventListenerType =
@@ -5422,21 +6273,34 @@ type [<AllowNullLiteral>] StatusBar =
 
 type [<AllowNullLiteral>] StatusBarStatic =
     [<EmitConstructor>] abstract Create: unit -> StatusBar
-    /// The current height of the status bar on the device.
+    /// <summary>The current height of the status bar on the device.</summary>
     abstract currentHeight: float option with get, set
-    /// Show or hide the status bar
+    /// <summary>Show or hide the status bar</summary>
+    /// <param name="hidden">The dialog's title.</param>
+    /// <param name="animation">
+    /// Optional animation when
+    /// changing the status bar hidden property.
+    /// </param>
     abstract setHidden: (bool -> StatusBarAnimation -> unit) with get, set
-    /// Set the status bar style
+    /// <summary>Set the status bar style</summary>
+    /// <param name="style">Status bar style to set</param>
+    /// <param name="animated">Animate the style change.</param>
     abstract setBarStyle: (StatusBarStyle -> bool -> unit) with get, set
-    /// Control the visibility of the network activity indicator
+    /// <summary>Control the visibility of the network activity indicator</summary>
+    /// <param name="visible">Show the indicator.</param>
     abstract setNetworkActivityIndicatorVisible: (bool -> unit) with get, set
-    /// Set the background color for the status bar
+    /// <summary>Set the background color for the status bar</summary>
+    /// <param name="color">Background color.</param>
+    /// <param name="animated">Animate the style change.</param>
     abstract setBackgroundColor: (string -> bool -> unit) with get, set
-    /// Control the translucency of the status bar
+    /// <summary>Control the translucency of the status bar</summary>
+    /// <param name="translucent">Set as translucent.</param>
     abstract setTranslucent: (bool -> unit) with get, set
 
+/// <summary>
 /// StatusBarIOS is deprecated.
-/// Use `StatusBar` for mutating the status bar.
+/// Use <c>StatusBar</c> for mutating the status bar.
+/// </summary>
 type [<AllowNullLiteral>] StatusBarIOSStatic =
     inherit NativeEventEmitter
 
@@ -5446,11 +6310,12 @@ type [<AllowNullLiteral>] TimePickerAndroidOpenOptions =
     abstract is24Hour: bool option with get, set
     abstract mode: TimePickerAndroidOpenOptionsMode option with get, set
 
+/// <summary>
 /// Opens the standard Android time picker dialog.
 /// 
 /// ### Example
 /// 
-/// ```
+/// <code>
 /// try {
 ///    const {action, hour, minute} = await TimePickerAndroid.open({
 ///      hour: 14,
@@ -5463,45 +6328,50 @@ type [<AllowNullLiteral>] TimePickerAndroidOpenOptions =
 /// } catch ({code, message}) {
 ///    console.warn('Cannot open time picker', message);
 /// }
-/// ```
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] TimePickerAndroidStatic =
+    /// <summary>
     /// Opens the standard Android time picker dialog.
     /// 
-    /// The available keys for the `options` object are:
-    ///    * `hour` (0-23) - the hour to show, defaults to the current time
-    ///    * `minute` (0-59) - the minute to show, defaults to the current time
-    ///    * `is24Hour` (boolean) - If `true`, the picker uses the 24-hour format. If `false`,
+    /// The available keys for the <c>options</c> object are:
+    ///    * <c>hour</c> (0-23) - the hour to show, defaults to the current time
+    ///    * <c>minute</c> (0-59) - the minute to show, defaults to the current time
+    ///    * <c>is24Hour</c> (boolean) - If <c>true</c>, the picker uses the 24-hour format. If <c>false</c>,
     ///      the picker shows an AM/PM chooser. If undefined, the default for the current locale
     ///      is used.
-    ///    * `mode` (enum('clock', 'spinner', 'default')) - set the time picker mode
+    ///    * <c>mode</c> (enum('clock', 'spinner', 'default')) - set the time picker mode
     ///      * 'clock': Show a time picker in clock mode.
     ///      * 'spinner': Show a time picker in spinner mode.
     ///      * 'default': Show a default time picker based on Android versions.
     /// 
-    /// Returns a Promise which will be invoked an object containing `action`, `hour` (0-23),
-    /// `minute` (0-59) if the user picked a time. If the user dismissed the dialog, the Promise will
-    /// still be resolved with action being `TimePickerAndroid.dismissedAction` and all the other keys
-    /// being undefined. **Always** check whether the `action` before reading the values.
+    /// Returns a Promise which will be invoked an object containing <c>action</c>, <c>hour</c> (0-23),
+    /// <c>minute</c> (0-59) if the user picked a time. If the user dismissed the dialog, the Promise will
+    /// still be resolved with action being <c>TimePickerAndroid.dismissedAction</c> and all the other keys
+    /// being undefined. **Always** check whether the <c>action</c> before reading the values.
+    /// </summary>
     abstract ``open``: options: TimePickerAndroidOpenOptions -> Promise<TimePickerAndroidStaticOpenPromise>
     /// A time has been selected.
     abstract timeSetAction: string with get, set
     /// The dialog has been dismissed.
     abstract dismissedAction: string with get, set
 
+/// <summary>
 /// This exposes the native ToastAndroid module as a JS module. This has a function 'show'
 /// which takes the following parameters:
 /// 
 /// 1. String message: A string with the text to toast
 /// 2. int duration: The duration of the toast. May be ToastAndroid.SHORT or ToastAndroid.LONG
 /// 
-/// There is also a function `showWithGravity` to specify the layout gravity. May be
+/// There is also a function <c>showWithGravity</c> to specify the layout gravity. May be
 /// ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER
+/// </summary>
 type [<AllowNullLiteral>] ToastAndroidStatic =
     /// String message: A string with the text to toast
     /// int duration: The duration of the toast.
     /// May be ToastAndroid.SHORT or ToastAndroid.LONG
     abstract show: message: string * duration: float -> unit
-    /// `gravity` may be ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER
+    /// <summary><c>gravity</c> may be ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER</summary>
     abstract showWithGravity: message: string * duration: float * gravity: float -> unit
     abstract SHORT: float with get, set
     abstract LONG: float with get, set
@@ -5510,21 +6380,24 @@ type [<AllowNullLiteral>] ToastAndroidStatic =
     abstract CENTER: float with get, set
 
 type [<AllowNullLiteral>] UIManagerStatic =
+    /// <summary>
     /// Capture an image of the screen, window or an individual view. The image
     /// will be stored in a temporary file that will only exist for as long as the
     /// app is running.
     /// 
-    /// The `view` argument can be the literal string `window` if you want to
+    /// The <c>view</c> argument can be the literal string <c>window</c> if you want to
     /// capture the entire window, or it can be a reference to a specific
     /// React Native component.
     /// 
-    /// The `options` argument may include:
+    /// The <c>options</c> argument may include:
     /// - width/height (number) - the width and height of the image to capture.
     /// - format (string) - either 'png' or 'jpeg'. Defaults to 'png'.
     /// - quality (number) - the quality when using jpeg. 0.0 - 1.0 (default).
     /// 
     /// Returns a Promise<string> (tempFilePath)
+    /// </summary>
     abstract takeSnapshot: (U3<React.ReactElement<obj option>, float, string> -> UIManagerStaticTakeSnapshot -> Promise<string>) with get, set
+    /// <summary>
     /// Determines the location on screen, width, and height of the given view and
     /// returns the values via an async callback. If successful, the callback will
     /// be called with the following arguments:
@@ -5538,8 +6411,9 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// 
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native. If you need the measurements as soon as
-    /// possible, consider using the [`onLayout`
+    /// possible, consider using the [<c>onLayout</c>
     /// prop](docs/view.html#onlayout) instead.
+    /// </summary>
     abstract ``measure``: node: float * callback: MeasureOnSuccessCallback -> unit
     /// Determines the location of the given view in the window and returns the
     /// values via an async callback. If the React root view is embedded in
@@ -5555,21 +6429,25 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native.
     abstract measureInWindow: node: float * callback: MeasureInWindowOnSuccessCallback -> unit
-    /// Like [`measure()`](#measure), but measures the view relative an ancestor,
-    /// specified as `relativeToNativeNode`. This means that the returned x, y
+    /// <summary>
+    /// Like [<c>measure()</c>](#measure), but measures the view relative an ancestor,
+    /// specified as <c>relativeToNativeNode</c>. This means that the returned x, y
     /// are relative to the origin x, y of the ancestor view.
     /// 
     /// As always, to obtain a native node handle for a component, you can use
-    /// `React.findNodeHandle(component)`.
+    /// <c>React.findNodeHandle(component)</c>.
+    /// </summary>
     abstract measureLayout: node: float * relativeToNativeNode: float * onFail: (unit -> unit) * onSuccess: MeasureLayoutOnSuccessCallback -> unit
+    /// <summary>
     /// Automatically animates views to their new positions when the
     /// next layout happens.
     /// 
-    /// A common way to use this API is to call it before calling `setState`.
+    /// A common way to use this API is to call it before calling <c>setState</c>.
     /// 
-    /// Note that in order to get this to work on **Android** you need to set the following flags via `UIManager`:
+    /// Note that in order to get this to work on **Android** you need to set the following flags via <c>UIManager</c>:
     /// 
     ///      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    /// </summary>
     abstract setLayoutAnimationEnabledExperimental: value: bool -> unit
 
 type [<AllowNullLiteral>] SwitchPropsIOS =
@@ -5595,21 +6473,25 @@ type [<AllowNullLiteral>] SwitchProps =
     abstract value: bool option with get, set
     abstract style: StyleProp<ViewStyle> option with get, set
 
+/// <summary>
 /// Renders a boolean input.
 /// 
-/// This is a controlled component that requires an `onValueChange` callback that
-/// updates the `value` prop in order for the component to reflect user actions.
-/// If the `value` prop is not updated, the component will continue to render
-/// the supplied `value` prop instead of the expected result of any user actions.
+/// This is a controlled component that requires an <c>onValueChange</c> callback that
+/// updates the <c>value</c> prop in order for the component to reflect user actions.
+/// If the <c>value</c> prop is not updated, the component will continue to render
+/// the supplied <c>value</c> prop instead of the expected result of any user actions.
+/// </summary>
 type [<AllowNullLiteral>] SwitchComponent =
     inherit React.Component<SwitchProps>
 
+/// <summary>
 /// Renders a boolean input.
 /// 
-/// This is a controlled component that requires an `onValueChange` callback that
-/// updates the `value` prop in order for the component to reflect user actions.
-/// If the `value` prop is not updated, the component will continue to render
-/// the supplied `value` prop instead of the expected result of any user actions.
+/// This is a controlled component that requires an <c>onValueChange</c> callback that
+/// updates the <c>value</c> prop in order for the component to reflect user actions.
+/// If the <c>value</c> prop is not updated, the component will continue to render
+/// the supplied <c>value</c> prop instead of the expected result of any user actions.
+/// </summary>
 type [<AllowNullLiteral>] SwitchComponentStatic =
     [<EmitConstructor>] abstract Create: unit -> SwitchComponent
 
@@ -5619,7 +6501,8 @@ type [<AllowNullLiteral>] Switch =
 type [<AllowNullLiteral>] SwitchStatic =
     [<EmitConstructor>] abstract Create: unit -> Switch
 
-/// NOTE: `VibrationIOS` is being deprecated. Use `Vibration` instead.
+/// <summary>
+/// NOTE: <c>VibrationIOS</c> is being deprecated. Use <c>Vibration</c> instead.
 /// 
 /// The Vibration API is exposed at VibrationIOS.vibrate().
 /// On iOS, calling this function will trigger a one second vibration.
@@ -5628,16 +6511,20 @@ type [<AllowNullLiteral>] SwitchStatic =
 /// There will be no effect on devices that do not support Vibration, eg. the iOS simulator.
 /// 
 /// Vibration patterns are currently unsupported.
+/// </summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/vibrationios.html#content" />
 type [<AllowNullLiteral>] VibrationIOSStatic =
+    [<Obsolete("")>]
     abstract vibrate: unit -> unit
 
-/// The Vibration API is exposed at `Vibration.vibrate()`.
+/// <summary>
+/// The Vibration API is exposed at <c>Vibration.vibrate()</c>.
 /// The vibration is asynchronous so this method will return immediately.
 /// 
 /// There will be no effect on devices that do not support Vibration, eg. the simulator.
 /// 
 /// **Note for android**
-/// add `<uses-permission android:name="android.permission.VIBRATE"/>` to `AndroidManifest.xml`
+/// add <c><uses-permission android:name="android.permission.VIBRATE"/></c> to <c>AndroidManifest.xml</c>
 /// 
 /// **Android Usage:**
 /// 
@@ -5652,12 +6539,23 @@ type [<AllowNullLiteral>] VibrationIOSStatic =
 /// 
 /// [0, 1000, 2000, 3000]
 /// V(fixed) --wait(1s)--> V(fixed) --wait(2s)--> V(fixed) --wait(3s)--> V(fixed)
+/// </summary>
 type [<AllowNullLiteral>] VibrationStatic =
     abstract vibrate: pattern: U2<float, ResizeArray<float>> * repeat: bool -> unit
     /// Stop vibration
     abstract cancel: unit -> unit
 
+/// <summary>
+/// This class implements common easing functions. The math is pretty obscure,
+/// but this cool website has nice visual illustrations of what they represent:
+/// <see href="http://xaedes.de/dev/transitions/" />
+/// </summary>
 type [<AllowNullLiteral>] EasingFunction =
+    /// <summary>
+    /// This class implements common easing functions. The math is pretty obscure,
+    /// but this cool website has nice visual illustrations of what they represent:
+    /// <see href="http://xaedes.de/dev/transitions/" />
+    /// </summary>
     [<Emit "$0($1...)">] abstract Invoke: value: float -> float
 
 type [<AllowNullLiteral>] EasingStatic =
@@ -5685,7 +6583,18 @@ module Animated =
         abstract Animated: AnimatedStatic
         abstract AnimatedWithChildren: AnimatedWithChildrenStatic
         abstract AnimatedInterpolation: AnimatedInterpolationStatic
+        /// <summary>
+        /// Standard value for driving animations.  One <c>Animated.Value</c> can drive
+        /// multiple properties in a synchronized fashion, but can only be driven by one
+        /// mechanism at a time.  Using a new mechanism (e.g. starting a new animation,
+        /// or calling <c>setValue</c>) will stop any previous ones.
+        /// </summary>
         abstract Value: ValueStatic
+        /// <summary>
+        /// 2D Value for driving 2D animations, such as pan gestures.  Almost identical
+        /// API to normal <c>Animated.Value</c>, but multiplexed.  Contains two regular
+        /// <c>Animated.Value</c>s under the hood.
+        /// </summary>
         abstract ValueXY: ValueXYStatic
         /// Animates a value from an initial velocity to zero based on a decay
         /// coefficient.
@@ -5707,13 +6616,15 @@ module Animated =
         /// provided Animated value
         abstract modulo: a: Animated * modulus: float -> AnimatedModulo
         abstract AnimatedModulo: AnimatedModuloStatic
+        /// <summary>
         /// Create a new Animated value that is limited between 2 values. It uses the
         /// difference between the last value so even if the value is far from the bounds
         /// it will start changing when the value starts getting closer again.
-        /// (`value = clamp(value + diff, min, max)`).
+        /// (<c>value = clamp(value + diff, min, max)</c>).
         /// 
         /// This is useful with scroll events, for example, to show the navbar when
         /// scrolling up and to hide it when scrolling down.
+        /// </summary>
         abstract diffClamp: a: Animated * min: float * max: float -> AnimatedDiffClamp
         abstract AnimatedDiffClamp: AnimatedDiffClampStatic
         /// Starts an animation after the given delay.
@@ -5730,17 +6641,22 @@ module Animated =
         /// loop using the key 'iterations' in the config. Will loop without blocking
         /// the UI thread if the child animation is set to 'useNativeDriver'.
         abstract loop: animation: CompositeAnimation * ?config: LoopAnimationConfig -> CompositeAnimation
+        /// <summary>
         /// Spring animation based on Rebound and Origami.  Tracks velocity state to
-        /// create fluid motions as the `toValue` updates, and can be chained together.
+        /// create fluid motions as the <c>toValue</c> updates, and can be chained together.
+        /// </summary>
         abstract spring: value: U2<AnimatedValue, AnimatedValueXY> * config: SpringAnimationConfig -> CompositeAnimation
+        /// <summary>
         /// Starts an array of animations all at the same time.  By default, if one
         /// of the animations is stopped, they will all be stopped.  You can override
-        /// this with the `stopTogether` flag.
+        /// this with the <c>stopTogether</c> flag.
+        /// </summary>
         abstract ``parallel``: animations: Array<CompositeAnimation> * ?config: ParallelConfig -> CompositeAnimation
+        /// <summary>
         /// Takes an array of mappings and extracts values from each arg accordingly,
-        /// then calls `setValue` on the mapped outputs.  e.g.
+        /// then calls <c>setValue</c> on the mapped outputs.  e.g.
         /// 
-        /// ```javascript
+        /// <code language="javascript">
         /// onScroll={Animated.event(
         ///    [{nativeEvent: {contentOffset: {x: this._scrollX}}}]
         ///    {listener},          // Optional async listener
@@ -5750,9 +6666,10 @@ module Animated =
         ///    null,                // raw event arg ignored
         ///    {dx: this._panX},    // gestureState arg
         /// ]),
-        /// ```
+        /// </code>
+        /// </summary>
         abstract ``event``: argMapping: Array<Mapping option> * ?config: EventConfig<'T> -> (ResizeArray<obj option> -> unit)
-        /// Make any React component Animatable.  Used to create `Animated.View`, etc.
+        /// <summary>Make any React component Animatable.  Used to create <c>Animated.View</c>, etc.</summary>
         abstract createAnimatedComponent: ``component``: obj option -> obj option
         abstract View: obj option
         abstract Image: obj option
@@ -5806,18 +6723,22 @@ module Animated =
     type [<AllowNullLiteral>] ValueListenerCallbackInvokeState =
         abstract value: float with get, set
 
-    /// Standard value for driving animations.  One `Animated.Value` can drive
+    /// <summary>
+    /// Standard value for driving animations.  One <c>Animated.Value</c> can drive
     /// multiple properties in a synchronized fashion, but can only be driven by one
     /// mechanism at a time.  Using a new mechanism (e.g. starting a new animation,
-    /// or calling `setValue`) will stop any previous ones.
+    /// or calling <c>setValue</c>) will stop any previous ones.
+    /// </summary>
     type [<AllowNullLiteral>] Value =
         inherit AnimatedWithChildren
         /// Directly set the value.  This will stop any animations running on the value
         /// and update all the bound properties.
         abstract setValue: value: float -> unit
+        /// <summary>
         /// Sets an offset that is applied on top of whatever value is set, whether via
-        /// `setValue`, an animation, or `Animated.event`.  Useful for compensating
+        /// <c>setValue</c>, an animation, or <c>Animated.event</c>.  Useful for compensating
         /// things like the start of a pan gesture.
+        /// </summary>
         abstract setOffset: offset: float -> unit
         /// Merges the offset value into the base value and resets the offset to zero.
         /// The final output of the value is unchanged.
@@ -5831,18 +6752,22 @@ module Animated =
         abstract addListener: callback: ValueListenerCallback -> string
         abstract removeListener: id: string -> unit
         abstract removeAllListeners: unit -> unit
-        /// Stops any running animation or tracking.  `callback` is invoked with the
+        /// <summary>
+        /// Stops any running animation or tracking.  <c>callback</c> is invoked with the
         /// final value after stopping the animation, which is useful for updating
         /// state to match the animation position with layout.
+        /// </summary>
         abstract stopAnimation: ?callback: (float -> unit) -> unit
         /// Interpolates the value before updating the property, e.g. mapping 0-1 to
         /// 0-10.
         abstract interpolate: config: InterpolationConfigType -> AnimatedInterpolation
 
-    /// Standard value for driving animations.  One `Animated.Value` can drive
+    /// <summary>
+    /// Standard value for driving animations.  One <c>Animated.Value</c> can drive
     /// multiple properties in a synchronized fashion, but can only be driven by one
     /// mechanism at a time.  Using a new mechanism (e.g. starting a new animation,
-    /// or calling `setValue`) will stop any previous ones.
+    /// or calling <c>setValue</c>) will stop any previous ones.
+    /// </summary>
     type [<AllowNullLiteral>] ValueStatic =
         [<EmitConstructor>] abstract Create: value: float -> Value
 
@@ -5853,9 +6778,11 @@ module Animated =
         abstract x: float with get, set
         abstract y: float with get, set
 
+    /// <summary>
     /// 2D Value for driving 2D animations, such as pan gestures.  Almost identical
-    /// API to normal `Animated.Value`, but multiplexed.  Contains two regular
-    /// `Animated.Value`s under the hood.
+    /// API to normal <c>Animated.Value</c>, but multiplexed.  Contains two regular
+    /// <c>Animated.Value</c>s under the hood.
+    /// </summary>
     type [<AllowNullLiteral>] ValueXY =
         inherit AnimatedWithChildren
         abstract x: AnimatedValue with get, set
@@ -5867,19 +6794,23 @@ module Animated =
         abstract stopAnimation: ?callback: (ValueXYStopAnimation -> unit) -> unit
         abstract addListener: callback: ValueXYListenerCallback -> string
         abstract removeListener: id: string -> unit
-        /// Converts `{x, y}` into `{left, top}` for use in style, e.g.
+        /// <summary>
+        /// Converts <c>{x, y}</c> into <c>{left, top}</c> for use in style, e.g.
         /// 
-        /// ```javascript
+        /// <code language="javascript">
         ///   style={this.state.anim.getLayout()}
-        /// ```
+        /// </code>
+        /// </summary>
         abstract getLayout: unit -> ValueXYGetLayoutReturn
-        /// Converts `{x, y}` into a useable translation transform, e.g.
+        /// <summary>
+        /// Converts <c>{x, y}</c> into a useable translation transform, e.g.
         /// 
-        /// ```javascript
+        /// <code language="javascript">
         ///   style={{
         ///     transform: this.state.anim.getTranslateTransform()
         ///   }}
-        /// ```
+        /// </code>
+        /// </summary>
         abstract getTranslateTransform: unit -> ResizeArray<ValueXYGetTranslateTransform>
 
     type [<AllowNullLiteral>] ValueXYSetValueValue =
@@ -5893,9 +6824,11 @@ module Animated =
     type [<AllowNullLiteral>] ValueXYGetLayoutReturn =
         [<EmitIndexer>] abstract Item: key: string -> AnimatedValue with get, set
 
+    /// <summary>
     /// 2D Value for driving 2D animations, such as pan gestures.  Almost identical
-    /// API to normal `Animated.Value`, but multiplexed.  Contains two regular
-    /// `Animated.Value`s under the hood.
+    /// API to normal <c>Animated.Value</c>, but multiplexed.  Contains two regular
+    /// <c>Animated.Value</c>s under the hood.
+    /// </summary>
     type [<AllowNullLiteral>] ValueXYStatic =
         [<EmitConstructor>] abstract Create: ?valueIn: ValueXYStaticValueIn -> ValueXY
 
@@ -6023,6 +6956,7 @@ type [<AllowNullLiteral>] OpenSelectDialogOptions =
     /// Defaults to false
     abstract showVideos: bool option with get, set
 
+/// [imageURL|tempImageTag, height, width]
 type ImagePickerResult =
     string * float * float
 
@@ -6033,23 +6967,28 @@ type [<AllowNullLiteral>] ImagePickerIOSStatic =
     abstract openSelectDialog: config: OpenSelectDialogOptions * successCallback: (ImagePickerResult -> unit) * cancelCallback: (ResizeArray<obj option> -> unit) -> unit
 
 type [<AllowNullLiteral>] ImageStoreStatic =
-    /// Check if the ImageStore contains image data for the specified URI.
+    /// <summary>Check if the ImageStore contains image data for the specified URI.</summary>
     abstract hasImageForTag: uri: string * callback: (bool -> unit) -> unit
+    /// <summary>
     /// Delete an image from the ImageStore. Images are stored in memory and
     /// must be manually removed when you are finished with them, otherwise they
     /// will continue to use up RAM until the app is terminated. It is safe to
-    /// call `removeImageForTag()` without first calling `hasImageForTag()`, it
+    /// call <c>removeImageForTag()</c> without first calling <c>hasImageForTag()</c>, it
     /// will simply fail silently.
+    /// </summary>
     abstract removeImageForTag: uri: string -> unit
+    /// <summary>
     /// Stores a base64-encoded image in the ImageStore, and returns a URI that
     /// can be used to access or display the image later. Images are stored in
     /// memory only, and must be manually deleted when you are finished with
-    /// them by calling `removeImageForTag()`.
+    /// them by calling <c>removeImageForTag()</c>.
     /// 
     /// Note that it is very inefficient to transfer large quantities of binary
     /// data between JS and native code, so you should avoid calling this more
     /// than necessary.
+    /// </summary>
     abstract addImageFromBase64: base64ImageData: string * success: (string -> unit) * failure: (obj option -> unit) -> unit
+    /// <summary>
     /// Retrieves the base64-encoded data for an image in the ImageStore. If the
     /// specified URI does not match an image in the store, the failure callback
     /// will be called.
@@ -6057,14 +6996,22 @@ type [<AllowNullLiteral>] ImageStoreStatic =
     /// Note that it is very inefficient to transfer large quantities of binary
     /// data between JS and native code, so you should avoid calling this more
     /// than necessary. To display an image in the ImageStore, you can just pass
-    /// the URI to an `<Image/>` component; there is no need to retrieve the
+    /// the URI to an <c><Image/></c> component; there is no need to retrieve the
     /// base64 data.
+    /// </summary>
     abstract getBase64ForTag: uri: string * success: (string -> unit) * failure: (obj option -> unit) -> unit
 
 type [<AllowNullLiteral>] NativeEventSubscription =
     /// Call this method to un-subscribe from a native-event
     abstract remove: unit -> unit
 
+/// <summary>
+/// Receive events from native-code
+/// Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+/// adding all event listeners directly to RCTNativeAppEventEmitter.
+/// </summary>
+/// <seealso href="https://github.com/facebook/react-native/blob/0.34-stable\Libraries\EventEmitter\RCTNativeAppEventEmitter.js" />
+/// <seealso href="https://facebook.github.io/react-native/docs/native-modules-ios.html#sending-events-to-javascript" />
 type RCTNativeAppEventEmitter =
     DeviceEventEmitterStatic
 
@@ -6077,8 +7024,10 @@ type [<AllowNullLiteral>] ImageCropData =
     abstract size: ShadowPropTypesIOSStaticShadowOffset with get, set
     /// (Optional) size to scale the cropped image to.
     abstract displaySize: ShadowPropTypesIOSStaticShadowOffset option with get, set
+    /// <summary>
     /// (Optional) the resizing mode to use when scaling the image. If the
-    /// `displaySize` param is not specified, this has no effect.
+    /// <c>displaySize</c> param is not specified, this has no effect.
+    /// </summary>
     abstract resizeMode: ImageCropDataResizeMode option with get, set
 
 type [<AllowNullLiteral>] ImageEditorStatic =
@@ -6243,6 +7192,7 @@ type DatePickerAndroid =
 type Geolocation =
     GeolocationStatic
 
+/// <summary><see href="http://facebook.github.io/react-native/blog/2016/08/19/right-to-left-support-for-react-native-apps.html" /></summary>
 type I18nManager =
     I18nManagerStatic
 
@@ -6338,7 +7288,8 @@ module Addons =
     type TestModule =
         TestModuleStatic
 
-/// Console polyfill
+/// <summary>Console polyfill</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/javascript-environment.html#polyfills" />
 type [<AllowNullLiteral>] Console =
     abstract error: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
     abstract info: ?message: obj * [<ParamArray>] optionalParams: obj option[] -> unit
@@ -6350,7 +7301,8 @@ type [<AllowNullLiteral>] Console =
     abstract disableYellowBox: bool with get, set
     abstract ignoredYellowBox: ResizeArray<string> with get, set
 
-/// Navigator object for accessing location API
+/// <summary>Navigator object for accessing location API</summary>
+/// <seealso href="https://facebook.github.io/react-native/docs/javascript-environment.html#polyfills" />
 type [<AllowNullLiteral>] Navigator =
     abstract product: string
     abstract geolocation: Geolocation
@@ -6891,9 +7843,9 @@ type [<AllowNullLiteral>] LinkingStaticAddEventListener =
 
 type [<AllowNullLiteral>] NetInfoStaticIsConnected =
     abstract fetch: (unit -> Promise<bool>) with get, set
-    /// eventName is expected to be `change`(deprecated) or `connectionChange`
+    /// <summary>eventName is expected to be <c>change</c>(deprecated) or <c>connectionChange</c></summary>
     abstract addEventListener: (string -> (bool -> unit) -> unit) with get, set
-    /// eventName is expected to be `change`(deprecated) or `connectionChange`
+    /// <summary>eventName is expected to be <c>change</c>(deprecated) or <c>connectionChange</c></summary>
     abstract removeEventListener: (string -> (bool -> unit) -> unit) with get, set
 
 type [<AllowNullLiteral>] PermissionsAndroidStaticRESULTS =

@@ -274,38 +274,53 @@ module React =
     type [<AllowNullLiteral>] ClassicComponentClassStatic =
         [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> ClassicComponentClass<'P>
 
+    /// <summary>
+    /// We use an intersection type to infer multiple type parameters from
+    /// a single argument, which is useful for many top-level API defs.
+    /// See <see href="https://github.com/Microsoft/TypeScript/issues/7234" /> for more info.
+    /// </summary>
     type [<AllowNullLiteral>] ClassType<'P, 'T, 'C when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>> =
         interface end
 
     type [<AllowNullLiteral>] ComponentLifecycle<'P, 'S> =
-        /// Called immediately before mounting occurs, and before `Component#render`.
+        /// <summary>
+        /// Called immediately before mounting occurs, and before <c>Component#render</c>.
         /// Avoid introducing any side-effects or subscriptions in this method.
+        /// </summary>
         abstract componentWillMount: unit -> unit
         /// Called immediately after a compoment is mounted. Setting state here will trigger re-rendering.
         abstract componentDidMount: unit -> unit
+        /// <summary>
         /// Called when the component may be receiving new props.
         /// React may call this even if props have not changed, so be sure to compare new and existing
         /// props if you only want to handle changes.
         /// 
-        /// Calling `Component#setState` generally does not trigger this method.
+        /// Calling <c>Component#setState</c> generally does not trigger this method.
+        /// </summary>
         abstract componentWillReceiveProps: nextProps: obj * nextContext: obj option -> unit
+        /// <summary>
         /// Called to determine whether the change in props and state should trigger a re-render.
         /// 
-        /// `Component` always returns true.
-        /// `PureComponent` implements a shallow comparison on props and state and returns true if any
+        /// <c>Component</c> always returns true.
+        /// <c>PureComponent</c> implements a shallow comparison on props and state and returns true if any
         /// props or states have changed.
         /// 
-        /// If false is returned, `Component#render`, `componentWillUpdate`
-        /// and `componentDidUpdate` will not be called.
+        /// If false is returned, <c>Component#render</c>, <c>componentWillUpdate</c>
+        /// and <c>componentDidUpdate</c> will not be called.
+        /// </summary>
         abstract shouldComponentUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> bool
+        /// <summary>
         /// Called immediately before rendering when new props or state is received. Not called for the initial render.
         /// 
-        /// Note: You cannot call `Component#setState` here.
+        /// Note: You cannot call <c>Component#setState</c> here.
+        /// </summary>
         abstract componentWillUpdate: nextProps: obj * nextState: obj * nextContext: obj option -> unit
         /// Called immediately after updating occurs. Not called for the initial render.
         abstract componentDidUpdate: prevProps: obj * prevState: obj * prevContext: obj option -> unit
+        /// <summary>
         /// Called immediately before a component is destroyed. Perform any necessary cleanup in this method, such as
-        /// cancelled network requests, or cleaning up any DOM elements created in `componentDidMount`.
+        /// cancelled network requests, or cleaning up any DOM elements created in <c>componentDidMount</c>.
+        /// </summary>
         abstract componentWillUnmount: unit -> unit
         /// Catches exceptions generated in descendant components. Unhandled exceptions will cause
         /// the entire component tree to unmount.
@@ -494,6 +509,18 @@ module React =
     type TransitionEventHandler<'T> =
         EventHandler<TransitionEvent<'T>>
 
+    [<Obsolete(". This was used to allow clients to pass `ref` and `key`
+to `createElement`, which is no longer necessary due to intersection
+types. If you need to declare a props object before passing it to
+`createElement` or a factory, use `ClassAttributes<T>`:
+
+```ts
+var b: Button | null;
+var props: ButtonProps & ClassAttributes<Button> = {
+ref: b => button = b, // ok!
+label: \"I'm a Button\"
+};
+```")>]
     type [<AllowNullLiteral>] Props<'T> =
         abstract children: ReactNode option with get, set
         abstract key: Key option with get, set
@@ -693,10 +720,12 @@ module React =
         /// background-origin, background-position, background-repeat,
         /// background-size, and background-attachment.
         abstract background: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// If a background-image is specified, this property determines
         /// whether that image's position is fixed within the viewport,
         /// or scrolls along with its containing block.
-        /// See CSS 3 background-attachment property https://drafts.csswg.org/css-backgrounds-3/#the-background-attachment
+        /// See CSS 3 background-attachment property <see href="https://drafts.csswg.org/css-backgrounds-3/#the-background-attachment" />
+        /// </summary>
         abstract backgroundAttachment: U2<CSSWideKeyword, string> option with get, set
         /// This property describes how the element's background images should blend with each other and the element's background color.
         /// The value is a list of blend modes that corresponds to each background image. Each element in the list will apply to the
@@ -848,8 +877,10 @@ module React =
         abstract boxFlex: U2<CSSWideKeyword, float> option with get, set
         /// Deprecated.
         abstract boxFlexGroup: U2<CSSWideKeyword, float> option with get, set
+        /// <summary>
         /// Cast a drop shadow from the frame of almost any element.
-        /// MDN: https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
+        /// MDN: <see href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow" />
+        /// </summary>
         abstract boxShadow: U2<CSSWideKeyword, obj option> option with get, set
         /// The CSS break-after property allows you to force a break on multi-column layouts.
         /// More specifically, it allows you to force a break after an element.
@@ -875,8 +906,10 @@ module React =
         /// The color property sets the color of an element's foreground content (usually text),
         /// accepting any standard CSS color from keywords and hex values to RGB(a) and HSL(a).
         abstract color: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// Describes the number of columns of the element.
-        /// See CSS 3 column-count property https://www.w3.org/TR/css3-multicol/#cc
+        /// See CSS 3 column-count property <see href="https://www.w3.org/TR/css3-multicol/#cc" />
+        /// </summary>
         abstract columnCount: U3<CSSWideKeyword, float, string> option with get, set
         /// Specifies how to fill columns (balanced or sequential).
         abstract columnFill: U2<CSSWideKeyword, obj option> option with get, set
@@ -924,8 +957,10 @@ module React =
         /// and the interior is determined according to the rules associated with the current value of the ‘fill-rule’ property.
         /// The zero-width geometric outline of a shape is included in the area to be painted.
         abstract fill: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// SVG: Specifies the opacity of the color or the content the current object is filled with.
-        /// See SVG 1.1 https://www.w3.org/TR/SVG/painting.html#FillOpacityProperty
+        /// See SVG 1.1 <see href="https://www.w3.org/TR/SVG/painting.html#FillOpacityProperty" />
+        /// </summary>
         abstract fillOpacity: U2<CSSWideKeyword, float> option with get, set
         /// The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are included inside the shape.
         /// For a simple, non-intersecting path, it is intuitively clear what region lies "inside";
@@ -935,7 +970,7 @@ module React =
         abstract fillRule: U2<CSSWideKeyword, obj option> option with get, set
         /// Applies various image processing effects. This property is largely unsupported. See Compatibility section for more information.
         abstract filter: U2<CSSWideKeyword, obj option> option with get, set
-        /// Shorthand for `flex-grow`, `flex-shrink`, and `flex-basis`.
+        /// <summary>Shorthand for <c>flex-grow</c>, <c>flex-shrink</c>, and <c>flex-basis</c>.</summary>
         abstract flex: U3<CSSWideKeyword, float, string> option with get, set
         /// Obsolete, do not use. This property has been renamed to align-items.
         /// Specifies the alignment (perpendicular to the layout axis defined by the flex-direction property) of child elements of the object.
@@ -947,8 +982,10 @@ module React =
         abstract flexDirection: U2<CSSWideKeyword, string> option with get, set
         /// The flex-flow CSS property defines the flex container's main and cross axis. It is a shorthand property for the flex-direction and flex-wrap properties.
         abstract flexFlow: U2<CSSWideKeyword, string> option with get, set
+        /// <summary>
         /// Specifies the flex grow factor of a flex item.
-        /// See CSS flex-grow property https://drafts.csswg.org/css-flexbox-1/#flex-grow-property
+        /// See CSS flex-grow property <see href="https://drafts.csswg.org/css-flexbox-1/#flex-grow-property" />
+        /// </summary>
         abstract flexGrow: U2<CSSWideKeyword, float> option with get, set
         /// Do not use. This property has been renamed to align-self
         /// Specifies the alignment (perpendicular to the layout axis defined by flex-direction) of child elements of the object.
@@ -958,12 +995,16 @@ module React =
         abstract flexLinePack: U2<CSSWideKeyword, obj option> option with get, set
         /// Gets or sets a value that specifies the ordinal group that a flexbox element belongs to. This ordinal value identifies the display order for the group.
         abstract flexOrder: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// Specifies the flex shrink factor of a flex item.
-        /// See CSS flex-shrink property https://drafts.csswg.org/css-flexbox-1/#flex-shrink-property
+        /// See CSS flex-shrink property <see href="https://drafts.csswg.org/css-flexbox-1/#flex-shrink-property" />
+        /// </summary>
         abstract flexShrink: U2<CSSWideKeyword, float> option with get, set
+        /// <summary>
         /// Specifies whether flex items are forced into a single line or can be wrapped onto multiple lines.
         /// If wrapping is allowed, this property also enables you to control the direction in which lines are stacked.
-        /// See CSS flex-wrap property https://drafts.csswg.org/css-flexbox-1/#flex-wrap-property
+        /// See CSS flex-wrap property <see href="https://drafts.csswg.org/css-flexbox-1/#flex-wrap-property" />
+        /// </summary>
         abstract flexWrap: U2<CSSWideKeyword, string> option with get, set
         /// Elements which have the style float are floated horizontally.
         /// These elements can move as far to the left or right of the containing element.
@@ -981,21 +1022,29 @@ module React =
         /// The font-kerning property allows contextual adjustment of inter-glyph spacing, i.e. the spaces between the characters in text.
         /// This property controls <bold>metric kerning</bold> - that utilizes adjustment data contained in the font. Optical Kerning is not supported as yet.
         abstract fontKerning: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// Specifies the size of the font. Used to compute em and ex units.
-        /// See CSS 3 font-size property https://www.w3.org/TR/css-fonts-3/#propdef-font-size
+        /// See CSS 3 font-size property <see href="https://www.w3.org/TR/css-fonts-3/#propdef-font-size" />
+        /// </summary>
         abstract fontSize: U4<CSSWideKeyword, CSSLength, CSSPercentage, string> option with get, set
+        /// <summary>
         /// The font-size-adjust property adjusts the font-size of the fallback fonts defined with font-family,
         /// so that the x-height is the same no matter what font is used.
         /// This preserves the readability of the text when fallback happens.
-        /// See CSS 3 font-size-adjust property https://www.w3.org/TR/css-fonts-3/#propdef-font-size-adjust
+        /// See CSS 3 font-size-adjust property <see href="https://www.w3.org/TR/css-fonts-3/#propdef-font-size-adjust" />
+        /// </summary>
         abstract fontSizeAdjust: U3<CSSWideKeyword, float, string> option with get, set
+        /// <summary>
         /// Allows you to expand or condense the widths for a normal, condensed, or expanded font face.
-        /// See CSS 3 font-stretch property https://drafts.csswg.org/css-fonts-3/#propdef-font-stretch
+        /// See CSS 3 font-stretch property <see href="https://drafts.csswg.org/css-fonts-3/#propdef-font-stretch" />
+        /// </summary>
         abstract fontStretch: U2<CSSWideKeyword, string> option with get, set
+        /// <summary>
         /// The font-style property allows normal, italic, or oblique faces to be selected.
         /// Italic forms are generally cursive in nature while oblique faces are typically sloped versions of the regular face.
         /// Oblique faces can be simulated by artificially sloping the glyphs of the regular face.
-        /// See CSS 3 font-style property https://www.w3.org/TR/css-fonts-3/#propdef-font-style
+        /// See CSS 3 font-style property <see href="https://www.w3.org/TR/css-fonts-3/#propdef-font-style" />
+        /// </summary>
         abstract fontStyle: U2<CSSWideKeyword, string> option with get, set
         /// This value specifies whether the user agent is allowed to synthesize bold or oblique font faces when a font family lacks bold or italic faces.
         abstract fontSynthesis: U2<CSSWideKeyword, obj option> option with get, set
@@ -1003,8 +1052,10 @@ module React =
         abstract fontVariant: U2<CSSWideKeyword, obj option> option with get, set
         /// Fonts can provide alternate glyphs in addition to default glyph for a character. This property provides control over the selection of these alternate glyphs.
         abstract fontVariantAlternates: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// Specifies the weight or boldness of the font.
-        /// See CSS 3 'font-weight' property https://www.w3.org/TR/css-fonts-3/#propdef-font-weight
+        /// See CSS 3 'font-weight' property <see href="https://www.w3.org/TR/css-fonts-3/#propdef-font-weight" />
+        /// </summary>
         abstract fontWeight: U3<CSSWideKeyword, string, float> option with get, set
         /// Lays out one or more grid items bound by 4 grid lines. Shorthand for setting grid-column-start, grid-column-end, grid-row-start, and grid-row-end in a single declaration.
         abstract gridArea: U2<CSSWideKeyword, obj option> option with get, set
@@ -1049,9 +1100,11 @@ module React =
         /// Specifies whether or not words in a sentence can be split by the use of a manual or automatic hyphenation mechanism.
         abstract hyphens: U2<CSSWideKeyword, obj option> option with get, set
         abstract imeMode: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// Defines how the browser distributes space between and around flex items
         /// along the main-axis of their container.
-        /// See CSS justify-content property https://www.w3.org/TR/css-flexbox-1/#justify-content-property
+        /// See CSS justify-content property <see href="https://www.w3.org/TR/css-flexbox-1/#justify-content-property" />
+        /// </summary>
         abstract justifyContent: U2<CSSWideKeyword, string> option with get, set
         abstract layoutGrid: U2<CSSWideKeyword, obj option> option with get, set
         abstract layoutGridChar: U2<CSSWideKeyword, obj option> option with get, set
@@ -1065,8 +1118,10 @@ module React =
         /// Deprecated. Gets or sets line-breaking rules for text in selected languages such as Japanese, Chinese, and Korean.
         abstract lineBreak: U2<CSSWideKeyword, obj option> option with get, set
         abstract lineClamp: U2<CSSWideKeyword, float> option with get, set
+        /// <summary>
         /// Specifies the height of an inline block level element.
-        /// See CSS 2.1 line-height property https://www.w3.org/TR/CSS21/visudet.html#propdef-line-height
+        /// See CSS 2.1 line-height property <see href="https://www.w3.org/TR/CSS21/visudet.html#propdef-line-height" />
+        /// </summary>
         abstract lineHeight: U5<CSSWideKeyword, float, CSSLength, CSSPercentage, string> option with get, set
         /// Shorthand property that sets the list-style-type, list-style-position and list-style-image properties in one declaration.
         abstract listStyle: U2<CSSWideKeyword, obj option> option with get, set
@@ -1134,16 +1189,22 @@ module React =
         abstract minHeight: U2<CSSWideKeyword, obj option> option with get, set
         /// Sets the minimum width of an element. It limits the width property to be not smaller than the value specified in min-width.
         abstract minWidth: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// Specifies the transparency of an element.
-        /// See CSS 3 opacity property https://drafts.csswg.org/css-color-3/#opacity
+        /// See CSS 3 opacity property <see href="https://drafts.csswg.org/css-color-3/#opacity" />
+        /// </summary>
         abstract opacity: U2<CSSWideKeyword, float> option with get, set
+        /// <summary>
         /// Specifies the order used to lay out flex items in their flex container.
         /// Elements are laid out in the ascending order of the order value.
-        /// See CSS order property https://drafts.csswg.org/css-flexbox-1/#order-property
+        /// See CSS order property <see href="https://drafts.csswg.org/css-flexbox-1/#order-property" />
+        /// </summary>
         abstract order: U2<CSSWideKeyword, float> option with get, set
+        /// <summary>
         /// In paged media, this property defines the minimum number of lines in
         /// a block container that must be left at the bottom of the page.
-        /// See CSS 3 orphans, widows properties https://drafts.csswg.org/css-break-3/#widows-orphans
+        /// See CSS 3 orphans, widows properties <see href="https://drafts.csswg.org/css-break-3/#widows-orphans" />
+        /// </summary>
         abstract orphans: U2<CSSWideKeyword, float> option with get, set
         /// The CSS outline property is a shorthand property for setting one or more of the individual outline properties outline-style,
         /// outline-width and outline-color in a single rule. In most cases the use of this shortcut is preferable and more convenient.
@@ -1251,8 +1312,10 @@ module React =
         /// Defines the alpha channel threshold used to extract a shape from an image. Can be thought of as a "minimum opacity" threshold;
         /// that is, a value of 0.5 means that the shape will enclose all the pixels that are more than 50% opaque.
         abstract shapeImageThreshold: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// A future level of CSS Shapes will define a shape-inside property, which will define a shape to wrap content within the element.
-        /// See Editor's Draft <http://dev.w3.org/csswg/css-shapes/> and CSSWG wiki page on next-level plans <http://wiki.csswg.org/spec/css-shapes>
+        /// See Editor's Draft <<see href="http://dev.w3.org/csswg/css-shapes/>" /> and CSSWG wiki page on next-level plans <<see href="http://wiki.csswg.org/spec/css-shapes>" />
+        /// </summary>
         abstract shapeInside: U2<CSSWideKeyword, obj option> option with get, set
         /// Adds a margin to a shape-outside. In effect, defines a new shape that is the smallest contour around all the points
         /// that are the shape-margin distance outward perpendicular to each point on the underlying shape.
@@ -1268,11 +1331,15 @@ module React =
         /// The speak-as property determines how the speech synthesizer interprets the content: words as whole words or as a sequence of letters,
         /// numbers as a numerical value or a sequence of digits, punctuation as pauses in speech or named punctuation characters.
         abstract speakAs: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// SVG: Specifies the opacity of the outline on the current object.
-        /// See SVG 1.1 https://www.w3.org/TR/SVG/painting.html#StrokeOpacityProperty
+        /// See SVG 1.1 <see href="https://www.w3.org/TR/SVG/painting.html#StrokeOpacityProperty" />
+        /// </summary>
         abstract strokeOpacity: U2<CSSWideKeyword, float> option with get, set
+        /// <summary>
         /// SVG: Specifies the width of the outline on the current object.
-        /// See SVG 1.1 https://www.w3.org/TR/SVG/painting.html#StrokeWidthProperty
+        /// See SVG 1.1 <see href="https://www.w3.org/TR/SVG/painting.html#StrokeWidthProperty" />
+        /// </summary>
         abstract strokeWidth: U3<CSSWideKeyword, CSSPercentage, CSSLength> option with get, set
         /// The tab-size CSS property is used to customise the width of a tab (U+0009) character.
         abstract tabSize: U2<CSSWideKeyword, obj option> option with get, set
@@ -1433,9 +1500,11 @@ module React =
         abstract whiteSpace: U2<CSSWideKeyword, obj option> option with get, set
         /// Obsolete: unsupported.
         abstract whiteSpaceTreatment: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// In paged media, this property defines the mimimum number of lines
         /// that must be left at the top of the second page.
-        /// See CSS 3 orphans, widows properties https://drafts.csswg.org/css-break-3/#widows-orphans
+        /// See CSS 3 orphans, widows properties <see href="https://drafts.csswg.org/css-break-3/#widows-orphans" />
+        /// </summary>
         abstract widows: U2<CSSWideKeyword, float> option with get, set
         /// Specifies the width of the content area of an element. The content area of the element width does not include the padding, border, and margin of the element.
         abstract width: U2<CSSWideKeyword, obj option> option with get, set
@@ -1455,12 +1524,16 @@ module React =
         abstract wrapOption: U2<CSSWideKeyword, obj option> option with get, set
         /// writing-mode specifies if lines of text are laid out horizontally or vertically, and the direction which lines of text and blocks progress.
         abstract writingMode: U2<CSSWideKeyword, obj option> option with get, set
+        /// <summary>
         /// The z-index property specifies the z-order of an element and its descendants.
         /// When elements overlap, z-order determines which one covers the other.
-        /// See CSS 2 z-index property https://www.w3.org/TR/CSS2/visuren.html#z-index
+        /// See CSS 2 z-index property <see href="https://www.w3.org/TR/CSS2/visuren.html#z-index" />
+        /// </summary>
         abstract zIndex: U3<CSSWideKeyword, float, string> option with get, set
+        /// <summary>
         /// Sets the initial zoom factor of a document defined by @viewport.
-        /// See CSS zoom descriptor https://drafts.csswg.org/css-device-adapt/#zoom-desc
+        /// See CSS zoom descriptor <see href="https://drafts.csswg.org/css-device-adapt/#zoom-desc" />
+        /// </summary>
         abstract zoom: U4<CSSWideKeyword, float, CSSPercentage, string> option with get, set
         [<EmitIndexer>] abstract Item: propertyName: string -> obj option with get, set
 

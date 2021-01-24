@@ -166,13 +166,23 @@ type [<AllowNullLiteral>] IziToastSettings =
     /// Default toast closing mobile transition.
     /// Default value: 'fadeOutDown'
     abstract transitionOutMobile: IziToastTransitionOut option with get, set
-    /// Callback function triggered when opening the toast.
+    /// <summary>Callback function triggered when opening the toast.</summary>
+    /// <param name="settings">Settings of opening toast.</param>
+    /// <param name="toast">Toast DOM element.</param>
     abstract onOpening: (IziToastSettings -> HTMLDivElement -> unit) option with get, set
-    /// Callback function triggered when opened the toast.
+    /// <summary>Callback function triggered when opened the toast.</summary>
+    /// <param name="settings">Settings of opening toast.</param>
+    /// <param name="toast">Toast DOM element.</param>
     abstract onOpened: (IziToastSettings -> HTMLDivElement -> unit) option with get, set
-    /// Callback function triggered when closing the toast.
+    /// <summary>Callback function triggered when closing the toast.</summary>
+    /// <param name="settings">Settings of closing toast.</param>
+    /// <param name="toast">Toast DOM element.</param>
+    /// <param name="closedBy">Closed by info set by hide method.</param>
     abstract onClosing: (IziToastSettings -> HTMLDivElement -> string -> unit) option with get, set
-    /// Callback function triggered when closed the toast.
+    /// <summary>Callback function triggered when closed the toast.</summary>
+    /// <param name="settings">Settings of closing toast.</param>
+    /// <param name="toast">Toast DOM element.</param>
+    /// <param name="closedBy">Closed by info set by hide method. (default: drag | timeout | button | overlay | esc | toast)</param>
     abstract onClosed: (IziToastSettings -> HTMLDivElement -> string -> unit) option with get, set
 
 type [<AllowNullLiteral>] IziToastProgress =
@@ -187,7 +197,8 @@ type [<AllowNullLiteral>] IziToast =
     abstract settings: settings: IziToastSettings -> unit
     /// Destroys all toasts.
     abstract destroy: unit -> unit
-    /// Opens the toast.
+    /// <summary>Opens the toast.</summary>
+    /// <returns>Returns false if toast can not be opened.</returns>
     abstract show: settings: IziToastSettings -> U2<unit, bool>
     /// <summary>Closes the specific toast.</summary>
     /// <param name="settings">Settings for this toast.</param>

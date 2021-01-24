@@ -87,7 +87,7 @@ type [<AllowNullLiteral>] Mocha =
     abstract enableTimeouts: value: bool -> Mocha
     abstract asyncOnly: value: bool -> Mocha
     abstract noHighlighting: value: bool -> Mocha
-    /// Runs tests and invokes `onComplete()` when finished.
+    /// <summary>Runs tests and invokes <c>onComplete()</c> when finished.</summary>
     abstract run: ?onComplete: (float -> unit) -> Mocha.IRunner
 
 type [<AllowNullLiteral>] MochaStatic =
@@ -122,7 +122,7 @@ module Mocha =
         abstract slow: ms: float -> ITestCallbackContext
         [<EmitIndexer>] abstract Item: index: string -> obj option with get, set
 
-    /// Partial interface for Mocha's `Runnable` class.
+    /// <summary>Partial interface for Mocha's <c>Runnable</c> class.</summary>
     type [<AllowNullLiteral>] IRunnable =
         abstract title: string with get, set
         abstract fn: Function with get, set
@@ -132,13 +132,13 @@ module Mocha =
         abstract timeout: n: U2<float, string> -> IRunnable
         abstract duration: float option with get, set
 
-    /// Partial interface for Mocha's `Suite` class.
+    /// <summary>Partial interface for Mocha's <c>Suite</c> class.</summary>
     type [<AllowNullLiteral>] ISuite =
         abstract parent: ISuite with get, set
         abstract title: string with get, set
         abstract fullTitle: unit -> string
 
-    /// Partial interface for Mocha's `Test` class.
+    /// <summary>Partial interface for Mocha's <c>Test</c> class.</summary>
     type [<AllowNullLiteral>] ITest =
         inherit IRunnable
         abstract parent: ISuite with get, set
@@ -160,7 +160,7 @@ module Mocha =
         abstract ``end``: DateTime option with get, set
         abstract duration: DateTime option with get, set
 
-    /// Partial interface for Mocha's `Runner` class.
+    /// <summary>Partial interface for Mocha's <c>Runner</c> class.</summary>
     type [<AllowNullLiteral>] IRunner =
         abstract stats: IStats option with get, set
         abstract started: bool with get, set
@@ -289,6 +289,10 @@ module Mocha =
             inherit Base
 
         type [<AllowNullLiteral>] ProgressStatic =
+            /// <param name="options.open">String used to indicate the start of the progress bar.</param>
+            /// <param name="options.complete">String used to indicate a complete test on the progress bar.</param>
+            /// <param name="options.incomplete">String used to indicate an incomplete test on the progress bar.</param>
+            /// <param name="options.close">String used to indicate the end of the progress bar.</param>
             [<EmitConstructor>] abstract Create: runner: IRunner * ?options: ProgressStaticOptions -> Progress
 
         type [<AllowNullLiteral>] ProgressStaticOptions =

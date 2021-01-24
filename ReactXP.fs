@@ -287,6 +287,12 @@ module __common_AccessibilityUtil =
 module __common_AppConfig =
 
     type [<AllowNullLiteral>] IExports =
+        /// AppConfig.tsx
+        /// 
+        /// Copyright (c) Microsoft Corporation. All rights reserved.
+        /// Licensed under the MIT license.
+        /// 
+        /// A simple class to store application config.
         abstract AppConfig: AppConfigStatic
         abstract _default: AppConfig
 
@@ -318,9 +324,11 @@ module __common_assert =
 module __common_Bezier =
 
     type [<AllowNullLiteral>] IExports =
-        /// https://github.com/gre/bezier-easing
+        /// <summary>
+        /// <see href="https://github.com/gre/bezier-easing" />
         /// BezierEasing - use bezier curve for transition easing function
         /// by Gaëtan Renaudeau 2014 - 2015 – MIT License
+        /// </summary>
         abstract bezier: mX1: float * mY1: float * mX2: float * mY2: float -> (float -> float)
 
 module __common_Easing =
@@ -4491,6 +4499,13 @@ module __web_ScrollView =
 module __web_ScrollViewConfig =
 
     type [<AllowNullLiteral>] IExports =
+        /// ScrollViewConfig.ts
+        /// 
+        /// Copyright (c) Microsoft Corporation. All rights reserved.
+        /// Licensed under the MIT license.
+        /// 
+        /// Web-specific scroll view configuration, required to avoid circular
+        /// dependency between application and ScrollView.
         abstract ScrollViewConfig: ScrollViewConfigStatic
         abstract _default: ScrollViewConfig
 
@@ -5355,6 +5370,16 @@ module __common_utils_FocusManager =
 module __common_utils_Timers =
 
     type [<AllowNullLiteral>] IExports =
+        /// Timers.ts
+        /// 
+        /// Copyright (c) Microsoft Corporation. All rights reserved.
+        /// Licensed under the MIT license.
+        /// 
+        /// Utility functions for creating timers. We wrap the normal
+        /// global timer methods because they are defined in both
+        /// the node and lib type definition files, and the definitions
+        /// don't match. Depending on which one TypeScript picks up,
+        /// we can get compiler errors.
         abstract Timers: TimersStatic
 
     /// Timers.ts

@@ -15,13 +15,33 @@ module Monaco =
     let [<Import("languages","monaco-editor/monaco")>] languages: Languages.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        /// A helper that allows to emit and listen to typed events
         abstract Emitter: EmitterStatic
+        /// A Promise implementation that supports progress and cancelation.
         abstract Promise: PromiseStatic
         abstract CancellationTokenSource: CancellationTokenSourceStatic
+        /// <summary>
+        /// Uniform Resource Identifier (Uri) <see href="http://tools.ietf.org/html/rfc3986." />
+        /// This class is a simple parser which creates the basic component paths
+        /// (<see href="http://tools.ietf.org/html/rfc3986#section-3)" /> with minimal validation
+        /// and encoding.
+        /// 
+        ///        <see href="foo://example.com:8042/over/there?name=ferret#nose" />
+        ///        \_/   \______________/\_________/ \_________/ \__/
+        ///         |           |            |            |        |
+        ///      scheme     authority       path        query   fragment
+        ///         |   _____________________|__
+        ///        / \ /                        \
+        ///        urn:example:animal:ferret:nose
+        /// </summary>
         abstract Uri: UriStatic
         abstract KeyMod: KeyModStatic
+        /// A position in the editor.
         abstract Position: PositionStatic
+        /// A range in the editor. (startLineNumber,startColumn) is <= (endLineNumber,endColumn)
         abstract Range: RangeStatic
+        /// A selection in the editor.
+        /// The selection is a range that has an orientation.
         abstract Selection: SelectionStatic
         abstract Token: TokenStatic
 
@@ -29,6 +49,7 @@ module Monaco =
         /// <summary>Attaches callbacks for the resolution and/or rejection of the Promise.</summary>
         /// <param name="onfulfilled">The callback to execute when the Promise is resolved.</param>
         /// <param name="onrejected">The callback to execute when the Promise is rejected.</param>
+        /// <returns>A Promise for the completion of which ever callback is executed.</returns>
         abstract ``then``: ?onfulfilled: ('T -> U2<'TResult, Thenable<'TResult>>) * ?onrejected: (obj option -> U2<'TResult, Thenable<'TResult>>) -> Thenable<'TResult>
         abstract ``then``: ?onfulfilled: ('T -> U2<'TResult, Thenable<'TResult>>) * ?onrejected: (obj option -> unit) -> Thenable<'TResult>
 
@@ -109,33 +130,39 @@ module Monaco =
 
     type [<AllowNullLiteral>] CancellationToken =
         abstract isCancellationRequested: bool
-        /// An event emitted when cancellation is requested
+        /// <summary>An event emitted when cancellation is requested</summary>
         abstract onCancellationRequested: IEvent<obj option>
 
-    /// Uniform Resource Identifier (Uri) http://tools.ietf.org/html/rfc3986.
+    /// <summary>
+    /// Uniform Resource Identifier (Uri) <see href="http://tools.ietf.org/html/rfc3986." />
     /// This class is a simple parser which creates the basic component paths
-    /// (http://tools.ietf.org/html/rfc3986#section-3) with minimal validation
+    /// (<see href="http://tools.ietf.org/html/rfc3986#section-3)" /> with minimal validation
     /// and encoding.
     /// 
-    ///        foo://example.com:8042/over/there?name=ferret#nose
+    ///        <see href="foo://example.com:8042/over/there?name=ferret#nose" />
     ///        \_/   \______________/\_________/ \_________/ \__/
     ///         |           |            |            |        |
     ///      scheme     authority       path        query   fragment
     ///         |   _____________________|__
     ///        / \ /                        \
     ///        urn:example:animal:ferret:nose
+    /// </summary>
     type [<AllowNullLiteral>] Uri =
-        /// scheme is the 'http' part of 'http://www.msft.com/some/path?query#fragment'.
+        /// <summary>
+        /// scheme is the 'http' part of '<see href="http://www.msft.com/some/path?query#fragment'." />
         /// The part before the first colon.
+        /// </summary>
         abstract scheme: string
-        /// authority is the 'www.msft.com' part of 'http://www.msft.com/some/path?query#fragment'.
+        /// <summary>
+        /// authority is the 'www.msft.com' part of '<see href="http://www.msft.com/some/path?query#fragment'." />
         /// The part between the first double slashes and the next slash.
+        /// </summary>
         abstract authority: string
-        /// path is the '/some/path' part of 'http://www.msft.com/some/path?query#fragment'.
+        /// <summary>path is the '/some/path' part of '<see href="http://www.msft.com/some/path?query#fragment'." /></summary>
         abstract path: string
-        /// query is the 'query' part of 'http://www.msft.com/some/path?query#fragment'.
+        /// <summary>query is the 'query' part of '<see href="http://www.msft.com/some/path?query#fragment'." /></summary>
         abstract query: string
-        /// fragment is the 'fragment' part of 'http://www.msft.com/some/path?query#fragment'.
+        /// <summary>fragment is the 'fragment' part of '<see href="http://www.msft.com/some/path?query#fragment'." /></summary>
         abstract fragment: string
         /// Returns a string representing the corresponding file system path of this Uri.
         /// Will handle UNC paths and normalize windows drive letters to lower-case. Also
@@ -143,7 +170,7 @@ module Monaco =
         /// invalid characters and semantics. Will *not* look at the scheme of this Uri.
         abstract fsPath: string
         abstract ``with``: change: UriWithChange -> Uri
-        /// <param name="skipEncoding">Do not encode the result, default is `false`</param>
+        /// <param name="skipEncoding">Do not encode the result, default is <c>false</c></param>
         abstract toString: ?skipEncoding: bool -> string
         abstract toJSON: unit -> obj option
 
@@ -154,18 +181,20 @@ module Monaco =
         abstract query: string option with get, set
         abstract fragment: string option with get, set
 
-    /// Uniform Resource Identifier (Uri) http://tools.ietf.org/html/rfc3986.
+    /// <summary>
+    /// Uniform Resource Identifier (Uri) <see href="http://tools.ietf.org/html/rfc3986." />
     /// This class is a simple parser which creates the basic component paths
-    /// (http://tools.ietf.org/html/rfc3986#section-3) with minimal validation
+    /// (<see href="http://tools.ietf.org/html/rfc3986#section-3)" /> with minimal validation
     /// and encoding.
     /// 
-    ///        foo://example.com:8042/over/there?name=ferret#nose
+    ///        <see href="foo://example.com:8042/over/there?name=ferret#nose" />
     ///        \_/   \______________/\_________/ \_________/ \__/
     ///         |           |            |            |        |
     ///      scheme     authority       path        query   fragment
     ///         |   _____________________|__
     ///        / \ /                        \
     ///        urn:example:animal:ferret:nose
+    /// </summary>
     type [<AllowNullLiteral>] UriStatic =
         [<EmitConstructor>] abstract Create: unit -> Uri
         abstract isUri: thing: obj option -> bool
@@ -181,7 +210,13 @@ module Monaco =
         abstract query: string option with get, set
         abstract fragment: string option with get, set
 
+    /// <summary>
+    /// Virtual Key Codes, the value does not hold any inherent meaning.
+    /// Inspired somewhat from <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx" />
+    /// But these are "more general", as they should work across browsers & OS`s.
+    /// </summary>
     type [<RequireQualifiedAccess>] KeyCode =
+        /// Placed first to cover the 0 value of the enum.
         | Unknown = 0
         | Backspace = 1
         | Tab = 2
@@ -262,18 +297,42 @@ module Monaco =
         | F19 = 77
         | NumLock = 78
         | ScrollLock = 79
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the ';:' key
         | US_SEMICOLON = 80
+        /// For any country/region, the '+' key
+        /// For the US standard keyboard, the '=+' key
         | US_EQUAL = 81
+        /// For any country/region, the ',' key
+        /// For the US standard keyboard, the ',<' key
         | US_COMMA = 82
+        /// For any country/region, the '-' key
+        /// For the US standard keyboard, the '-_' key
         | US_MINUS = 83
+        /// For any country/region, the '.' key
+        /// For the US standard keyboard, the '.>' key
         | US_DOT = 84
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the '/?' key
         | US_SLASH = 85
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the '`~' key
         | US_BACKTICK = 86
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the '[{' key
         | US_OPEN_SQUARE_BRACKET = 87
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the '\|' key
         | US_BACKSLASH = 88
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the ']}' key
         | US_CLOSE_SQUARE_BRACKET = 89
+        /// Used for miscellaneous characters; it can vary by keyboard.
+        /// For the US standard keyboard, the ''"' key
         | US_QUOTE = 90
+        /// Used for miscellaneous characters; it can vary by keyboard.
         | OEM_8 = 91
+        /// Either the angle bracket key or the backslash key on the RT 102-key keyboard.
         | OEM_102 = 92
         | NUMPAD_0 = 93
         | NUMPAD_1 = 94
@@ -291,9 +350,12 @@ module Monaco =
         | NUMPAD_SUBTRACT = 106
         | NUMPAD_DECIMAL = 107
         | NUMPAD_DIVIDE = 108
+        /// Cover all key codes when IME is processing input.
         | KEY_IN_COMPOSITION = 109
         | ABNT_C1 = 110
         | ABNT_C2 = 111
+        /// Placed last to cover the length of the enum.
+        /// Please do not depend on this value!
         | MAX_VALUE = 112
 
     type [<AllowNullLiteral>] KeyMod =
@@ -307,6 +369,9 @@ module Monaco =
         abstract WinCtrl: float
         abstract chord: firstPart: float * secondPart: float -> float
 
+    /// MarkedString can be used to render human readable text. It is either a markdown string
+    /// or a code-block that provides a language and a code snippet. Note that
+    /// markdown strings will be sanitized - that means html will be escaped.
     type MarkedString =
         U3<string, string, string>
 
@@ -379,41 +444,45 @@ module Monaco =
     /// A position in the editor.
     type [<AllowNullLiteral>] PositionStatic =
         [<EmitConstructor>] abstract Create: lineNumber: float * column: float -> Position
-        /// Test if position `a` equals position `b`
+        /// <summary>Test if position <c>a</c> equals position <c>b</c></summary>
         abstract equals: a: IPosition * b: IPosition -> bool
-        /// Test if position `a` is before position `b`.
+        /// <summary>
+        /// Test if position <c>a</c> is before position <c>b</c>.
         /// If the two positions are equal, the result will be false.
+        /// </summary>
         abstract isBefore: a: IPosition * b: IPosition -> bool
-        /// Test if position `a` is before position `b`.
+        /// <summary>
+        /// Test if position <c>a</c> is before position <c>b</c>.
         /// If the two positions are equal, the result will be true.
+        /// </summary>
         abstract isBeforeOrEqual: a: IPosition * b: IPosition -> bool
         /// A function that compares positions, useful for sorting
         abstract compare: a: IPosition * b: IPosition -> float
-        /// Create a `Position` from an `IPosition`.
+        /// <summary>Create a <c>Position</c> from an <c>IPosition</c>.</summary>
         abstract lift: pos: IPosition -> Position
-        /// Test if `obj` is an `IPosition`.
+        /// <summary>Test if <c>obj</c> is an <c>IPosition</c>.</summary>
         abstract isIPosition: obj: obj option -> bool
 
     /// A range in the editor. This interface is suitable for serialization.
     type [<AllowNullLiteral>] IRange =
         /// Line number on which the range starts (starts at 1).
         abstract startLineNumber: float
-        /// Column on which the range starts in line `startLineNumber` (starts at 1).
+        /// <summary>Column on which the range starts in line <c>startLineNumber</c> (starts at 1).</summary>
         abstract startColumn: float
         /// Line number on which the range ends.
         abstract endLineNumber: float
-        /// Column on which the range ends in line `endLineNumber`.
+        /// <summary>Column on which the range ends in line <c>endLineNumber</c>.</summary>
         abstract endColumn: float
 
     /// A range in the editor. (startLineNumber,startColumn) is <= (endLineNumber,endColumn)
     type [<AllowNullLiteral>] Range =
         /// Line number on which the range starts (starts at 1).
         abstract startLineNumber: float
-        /// Column on which the range starts in line `startLineNumber` (starts at 1).
+        /// <summary>Column on which the range starts in line <c>startLineNumber</c> (starts at 1).</summary>
         abstract startColumn: float
         /// Line number on which the range ends.
         abstract endLineNumber: float
-        /// Column on which the range ends in line `endLineNumber`.
+        /// <summary>Column on which the range ends in line <c>endLineNumber</c>.</summary>
         abstract endColumn: float
         /// Test if this range is empty.
         abstract isEmpty: unit -> bool
@@ -446,25 +515,25 @@ module Monaco =
     /// A range in the editor. (startLineNumber,startColumn) is <= (endLineNumber,endColumn)
     type [<AllowNullLiteral>] RangeStatic =
         [<EmitConstructor>] abstract Create: startLineNumber: float * startColumn: float * endLineNumber: float * endColumn: float -> Range
-        /// Test if `range` is empty.
+        /// <summary>Test if <c>range</c> is empty.</summary>
         abstract isEmpty: range: IRange -> bool
-        /// Test if `position` is in `range`. If the position is at the edges, will return true.
+        /// <summary>Test if <c>position</c> is in <c>range</c>. If the position is at the edges, will return true.</summary>
         abstract containsPosition: range: IRange * position: IPosition -> bool
-        /// Test if `otherRange` is in `range`. If the ranges are equal, will return true.
+        /// <summary>Test if <c>otherRange</c> is in <c>range</c>. If the ranges are equal, will return true.</summary>
         abstract containsRange: range: IRange * otherRange: IRange -> bool
         /// A reunion of the two ranges.
         /// The smallest position will be used as the start point, and the largest one as the end point.
         abstract plusRange: a: IRange * b: IRange -> Range
         /// A intersection of the two ranges.
         abstract intersectRanges: a: IRange * b: IRange -> Range
-        /// Test if range `a` equals `b`.
+        /// <summary>Test if range <c>a</c> equals <c>b</c>.</summary>
         abstract equalsRange: a: IRange * b: IRange -> bool
         /// Create a new empty range using this range's start position.
         abstract collapseToStart: range: IRange -> Range
         abstract fromPositions: start: IPosition * ?``end``: IPosition -> Range
-        /// Create a `Range` from an `IRange`.
+        /// <summary>Create a <c>Range</c> from an <c>IRange</c>.</summary>
         abstract lift: range: IRange -> Range
-        /// Test if `obj` is an `IRange`.
+        /// <summary>Test if <c>obj</c> is an <c>IRange</c>.</summary>
         abstract isIRange: obj: obj option -> bool
         /// Test if the two ranges are touching in any way.
         abstract areIntersectingOrTouching: a: IRange * b: IRange -> bool
@@ -482,11 +551,11 @@ module Monaco =
     type [<AllowNullLiteral>] ISelection =
         /// The line number on which the selection has started.
         abstract selectionStartLineNumber: float
-        /// The column on `selectionStartLineNumber` where the selection has started.
+        /// <summary>The column on <c>selectionStartLineNumber</c> where the selection has started.</summary>
         abstract selectionStartColumn: float
         /// The line number on which the selection has ended.
         abstract positionLineNumber: float
-        /// The column on `positionLineNumber` where the selection has ended.
+        /// <summary>The column on <c>positionLineNumber</c> where the selection has ended.</summary>
         abstract positionColumn: float
 
     /// A selection in the editor.
@@ -495,11 +564,11 @@ module Monaco =
         inherit Range
         /// The line number on which the selection has started.
         abstract selectionStartLineNumber: float
-        /// The column on `selectionStartLineNumber` where the selection has started.
+        /// <summary>The column on <c>selectionStartLineNumber</c> where the selection has started.</summary>
         abstract selectionStartColumn: float
         /// The line number on which the selection has ended.
         abstract positionLineNumber: float
-        /// The column on `positionLineNumber` where the selection has ended.
+        /// <summary>The column on <c>positionLineNumber</c> where the selection has ended.</summary>
         abstract positionColumn: float
         /// Clone this selection.
         abstract clone: unit -> Selection
@@ -509,11 +578,11 @@ module Monaco =
         abstract equalsSelection: other: ISelection -> bool
         /// Get directions (LTR or RTL).
         abstract getDirection: unit -> SelectionDirection
-        /// Create a new selection with a different `positionLineNumber` and `positionColumn`.
+        /// <summary>Create a new selection with a different <c>positionLineNumber</c> and <c>positionColumn</c>.</summary>
         abstract setEndPosition: endLineNumber: float * endColumn: float -> Selection
-        /// Get the position at `positionLineNumber` and `positionColumn`.
+        /// <summary>Get the position at <c>positionLineNumber</c> and <c>positionColumn</c>.</summary>
         abstract getPosition: unit -> Position
-        /// Create a new selection with a different `selectionStartLineNumber` and `selectionStartColumn`.
+        /// <summary>Create a new selection with a different <c>selectionStartLineNumber</c> and <c>selectionStartColumn</c>.</summary>
         abstract setStartPosition: startLineNumber: float * startColumn: float -> Selection
 
     /// A selection in the editor.
@@ -522,19 +591,22 @@ module Monaco =
         [<EmitConstructor>] abstract Create: selectionStartLineNumber: float * selectionStartColumn: float * positionLineNumber: float * positionColumn: float -> Selection
         /// Test if the two selections are equal.
         abstract selectionsEqual: a: ISelection * b: ISelection -> bool
-        /// Create a `Selection` from one or two positions
+        /// <summary>Create a <c>Selection</c> from one or two positions</summary>
         abstract fromPositions: start: IPosition * ?``end``: IPosition -> Selection
-        /// Create a `Selection` from an `ISelection`.
+        /// <summary>Create a <c>Selection</c> from an <c>ISelection</c>.</summary>
         abstract liftSelection: sel: ISelection -> Selection
-        /// `a` equals `b`.
+        /// <summary><c>a</c> equals <c>b</c>.</summary>
         abstract selectionsArrEqual: a: ResizeArray<ISelection> * b: ResizeArray<ISelection> -> bool
-        /// Test if `obj` is an `ISelection`.
+        /// <summary>Test if <c>obj</c> is an <c>ISelection</c>.</summary>
         abstract isISelection: obj: obj option -> bool
         /// Create with a direction.
         abstract createWithDirection: startLineNumber: float * startColumn: float * endLineNumber: float * endColumn: float * direction: SelectionDirection -> Selection
 
+    /// The direction of a selection.
     type [<RequireQualifiedAccess>] SelectionDirection =
+        /// The selection starts above where it ends.
         | LTR = 0
+        /// The selection starts below where it ends.
         | RTL = 1
 
     type [<AllowNullLiteral>] Token =
@@ -550,47 +622,59 @@ module Monaco =
     module Editor =
 
         type [<AllowNullLiteral>] IExports =
-            /// Create a new editor under `domElement`.
-            /// `domElement` should be empty (not contain other dom nodes).
-            /// The editor will read the size of `domElement`.
+            /// <summary>
+            /// Create a new editor under <c>domElement</c>.
+            /// <c>domElement</c> should be empty (not contain other dom nodes).
+            /// The editor will read the size of <c>domElement</c>.
+            /// </summary>
             abstract create: domElement: HTMLElement * ?options: IEditorConstructionOptions * ?``override``: IEditorOverrideServices -> IStandaloneCodeEditor
+            /// <summary>
             /// Emitted when an editor is created.
             /// Creating a diff editor might cause this listener to be invoked with the two editors.
+            /// </summary>
             abstract onDidCreateEditor: listener: (ICodeEditor -> unit) -> IDisposable
-            /// Create a new diff editor under `domElement`.
-            /// `domElement` should be empty (not contain other dom nodes).
-            /// The editor will read the size of `domElement`.
+            /// <summary>
+            /// Create a new diff editor under <c>domElement</c>.
+            /// <c>domElement</c> should be empty (not contain other dom nodes).
+            /// The editor will read the size of <c>domElement</c>.
+            /// </summary>
             abstract createDiffEditor: domElement: HTMLElement * ?options: IDiffEditorConstructionOptions * ?``override``: IEditorOverrideServices -> IStandaloneDiffEditor
             abstract createDiffNavigator: diffEditor: IStandaloneDiffEditor * ?opts: IDiffNavigatorOptions -> IDiffNavigator
+            /// <summary>
             /// Create a new editor model.
-            /// You can specify the language that should be set for this model or let the language be inferred from the `uri`.
+            /// You can specify the language that should be set for this model or let the language be inferred from the <c>uri</c>.
+            /// </summary>
             abstract createModel: value: string * ?language: string * ?uri: Uri -> IModel
             /// Change the language for a model.
             abstract setModelLanguage: model: IModel * language: string -> unit
             /// Set the markers for a model.
             abstract setModelMarkers: model: IModel * owner: string * markers: ResizeArray<IMarkerData> -> unit
-            /// Get markers for owner ant/or resource
+            /// <summary>Get markers for owner ant/or resource</summary>
+            /// <returns>list of markers</returns>
+            /// <param name="filter" />
             abstract getModelMarkers: filter: GetModelMarkersFilter -> ResizeArray<IMarker>
-            /// Get the model that has `uri` if it exists.
+            /// <summary>Get the model that has <c>uri</c> if it exists.</summary>
             abstract getModel: uri: Uri -> IModel
             /// Get all the created models.
             abstract getModels: unit -> ResizeArray<IModel>
-            /// Emitted when a model is created.
+            /// <summary>Emitted when a model is created.</summary>
             abstract onDidCreateModel: listener: (IModel -> unit) -> IDisposable
-            /// Emitted right before a model is disposed.
+            /// <summary>Emitted right before a model is disposed.</summary>
             abstract onWillDisposeModel: listener: (IModel -> unit) -> IDisposable
-            /// Emitted when a different language is set to a model.
+            /// <summary>Emitted when a different language is set to a model.</summary>
             abstract onDidChangeModelLanguage: listener: (IExportsOnDidChangeModelLanguage -> unit) -> IDisposable
+            /// <summary>
             /// Create a new web worker that has model syncing capabilities built in.
-            /// Specify an AMD module to load that will `create` an object that will be proxied.
+            /// Specify an AMD module to load that will <c>create</c> an object that will be proxied.
+            /// </summary>
             abstract createWebWorker: opts: IWebWorkerOptions -> MonacoWebWorker<'T>
-            /// Colorize the contents of `domNode` using attribute `data-lang`.
+            /// <summary>Colorize the contents of <c>domNode</c> using attribute <c>data-lang</c>.</summary>
             abstract colorizeElement: domNode: HTMLElement * options: IColorizerElementOptions -> Promise<unit>
-            /// Colorize `text` using language `languageId`.
+            /// <summary>Colorize <c>text</c> using language <c>languageId</c>.</summary>
             abstract colorize: text: string * languageId: string * options: IColorizerOptions -> Promise<string>
             /// Colorize a line in a model.
             abstract colorizeModelLine: model: IModel * lineNumber: float * ?tabSize: float -> string
-            /// Tokenize `text` using language `languageId`
+            /// <summary>Tokenize <c>text</c> using language <c>languageId</c></summary>
             abstract tokenize: text: string * languageId: string -> ResizeArray<ResizeArray<Token>>
             /// Define a new theme.
             abstract defineTheme: themeName: string * themeData: IStandaloneThemeData -> unit
@@ -599,6 +683,7 @@ module Monaco =
             abstract TextModelResolvedOptions: TextModelResolvedOptionsStatic
             abstract FindMatch: FindMatchStatic
             abstract EditorType: IExportsEditorType
+            /// Internal configuration options (transformed or computed) for the editor.
             abstract InternalEditorOptions: InternalEditorOptionsStatic
             abstract FontInfo: FontInfoStatic
             abstract BareFontInfo: BareFontInfoStatic
@@ -646,13 +731,17 @@ module Monaco =
             abstract dispose: unit -> unit
             /// Get a proxy to the arbitrary loaded code.
             abstract getProxy: unit -> Promise<'T>
-            /// Synchronize (send) the models at `resources` to the web worker,
+            /// <summary>
+            /// Synchronize (send) the models at <c>resources</c> to the web worker,
             /// making them available in the monaco.worker.getMirrorModels().
+            /// </summary>
             abstract withSyncedResources: resources: ResizeArray<Uri> -> Promise<'T>
 
         type [<AllowNullLiteral>] IWebWorkerOptions =
+            /// <summary>
             /// The AMD moduleId to load.
-            /// It should export a function `create` that should return the exported proxy.
+            /// It should export a function <c>create</c> that should return the exported proxy.
+            /// </summary>
             abstract moduleId: string with get, set
             /// The data to send over when calling create on the module.
             abstract createData: obj option with get, set
@@ -664,30 +753,40 @@ module Monaco =
             inherit IEditorOptions
             /// The initial model associated with this code editor.
             abstract model: IModel option with get, set
+            /// <summary>
             /// The initial value of the auto created model in the editor.
-            /// To not create automatically a model, use `model: null`.
+            /// To not create automatically a model, use <c>model: null</c>.
+            /// </summary>
             abstract value: string option with get, set
+            /// <summary>
             /// The initial language of the auto created model in the editor.
-            /// To not create automatically a model, use `model: null`.
+            /// To not create automatically a model, use <c>model: null</c>.
+            /// </summary>
             abstract language: string option with get, set
+            /// <summary>
             /// Initial theme to be used for rendering.
             /// The current out-of-the-box available themes are: 'vs' (default), 'vs-dark', 'hc-black'.
-            /// You can create custom themes via `monaco.editor.defineTheme`.
-            /// To switch a theme, use `monaco.editor.setTheme`
+            /// You can create custom themes via <c>monaco.editor.defineTheme</c>.
+            /// To switch a theme, use <c>monaco.editor.setTheme</c>
+            /// </summary>
             abstract theme: string option with get, set
+            /// <summary>
             /// An URL to open when Ctrl+H (Windows and Linux) or Cmd+H (OSX) is pressed in
             /// the accessibility help dialog in the editor.
             /// 
-            /// Defaults to "https://go.microsoft.com/fwlink/?linkid=852450"
+            /// Defaults to "<see href="https://go.microsoft.com/fwlink/?linkid=852450"" />
+            /// </summary>
             abstract accessibilityHelpUrl: string option with get, set
 
         /// The options to create a diff editor.
         type [<AllowNullLiteral>] IDiffEditorConstructionOptions =
             inherit IDiffEditorOptions
+            /// <summary>
             /// Initial theme to be used for rendering.
             /// The current out-of-the-box available themes are: 'vs' (default), 'vs-dark', 'hc-black'.
-            /// You can create custom themes via `monaco.editor.defineTheme`.
-            /// To switch a theme, use `monaco.editor.setTheme`
+            /// You can create custom themes via <c>monaco.editor.defineTheme</c>.
+            /// To switch a theme, use <c>monaco.editor.setTheme</c>
+            /// </summary>
             abstract theme: string option with get, set
 
         type [<AllowNullLiteral>] IStandaloneCodeEditor =
@@ -701,9 +800,9 @@ module Monaco =
             abstract addCommand: keybinding: float * handler: ICommandHandler * context: string -> string
             abstract createContextKey: key: string * defaultValue: 'T -> IContextKey<'T>
             abstract addAction: descriptor: IActionDescriptor -> IDisposable
-            /// Get the `original` editor.
+            /// <summary>Get the <c>original</c> editor.</summary>
             abstract getOriginalEditor: unit -> IStandaloneCodeEditor
-            /// Get the `modified` editor.
+            /// <summary>Get the <c>modified</c> editor.</summary>
             abstract getModifiedEditor: unit -> IStandaloneCodeEditor
 
         type [<AllowNullLiteral>] ICommandHandler =
@@ -756,6 +855,7 @@ module Monaco =
         type [<AllowNullLiteral>] ThemeColor =
             abstract id: string with get, set
 
+        /// Vertical Lane in the overview ruler of the editor.
         type [<RequireQualifiedAccess>] OverviewRulerLane =
             | Left = 1
             | Center = 2
@@ -797,9 +897,11 @@ module Monaco =
             abstract linesDecorationsClassName: string option with get, set
             /// If set, the decoration will be rendered in the margin (covering its full width) with this CSS class name.
             abstract marginClassName: string option with get, set
+            /// <summary>
             /// If set, the decoration will be rendered inline with the text with this CSS class name.
-            /// Please use this only for CSS rules that must impact the text. For example, use `className`
+            /// Please use this only for CSS rules that must impact the text. For example, use <c>className</c>
             /// to have a background color decoration.
+            /// </summary>
             abstract inlineClassName: string option with get, set
             /// If set, the decoration will be rendered before the text with this CSS class name.
             abstract beforeContentClassName: string option with get, set
@@ -835,17 +937,27 @@ module Monaco =
             /// The column where the word ends.
             abstract endColumn: float
 
+        /// End of line character preference.
         type [<RequireQualifiedAccess>] EndOfLinePreference =
+            /// Use the end of line character identified in the text buffer.
             | TextDefined = 0
+            /// Use line feed (\n) as the end of line character.
             | LF = 1
+            /// Use carriage return and line feed (\r\n) as the end of line character.
             | CRLF = 2
 
+        /// The default end of line to use when instantiating models.
         type [<RequireQualifiedAccess>] DefaultEndOfLine =
+            /// Use line feed (\n) as the end of line character.
             | LF = 1
+            /// Use carriage return and line feed (\r\n) as the end of line character.
             | CRLF = 2
 
+        /// End of line character preference.
         type [<RequireQualifiedAccess>] EndOfLineSequence =
+            /// Use line feed (\n) as the end of line character.
             | LF = 0
+            /// Use carriage return and line feed (\r\n) as the end of line character.
             | CRLF = 1
 
         /// An identifier for a single edit operation.
@@ -861,17 +973,24 @@ module Monaco =
             /// <param name="range">The range to replace (delete). May be empty to represent a simple insert.</param>
             /// <param name="text">The text to replace with. May be null to represent a simple delete.</param>
             abstract addEditOperation: range: Range * text: string -> unit
-            /// <summary>Add a new edit operation (a replace operation).
-            /// The inverse edits will be accessible in `ICursorStateComputerData.getInverseEditOperations()`</summary>
+            /// <summary>
+            /// Add a new edit operation (a replace operation).
+            /// The inverse edits will be accessible in <c>ICursorStateComputerData.getInverseEditOperations()</c>
+            /// </summary>
             /// <param name="range">The range to replace (delete). May be empty to represent a simple insert.</param>
             /// <param name="text">The text to replace with. May be null to represent a simple delete.</param>
             abstract addTrackedEditOperation: range: Range * text: string -> unit
-            /// <summary>Track `selection` when applying edit operations.
+            /// <summary>
+            /// Track <c>selection</c> when applying edit operations.
             /// A best effort will be made to not grow/expand the selection.
-            /// An empty selection will clamp to a nearby character.</summary>
+            /// An empty selection will clamp to a nearby character.
+            /// </summary>
             /// <param name="selection">The selection to track.</param>
-            /// <param name="trackPreviousOnEmpty">If set, and the selection is empty, indicates whether the selection
-            /// should clamp to the previous or the next character.</param>
+            /// <param name="trackPreviousOnEmpty">
+            /// If set, and the selection is empty, indicates whether the selection
+            /// should clamp to the previous or the next character.
+            /// </param>
+            /// <returns>A unique identifer.</returns>
             abstract trackSelection: selection: Selection * ?trackPreviousOnEmpty: bool -> string
 
         /// A helper for computing cursor state after a command.
@@ -879,7 +998,8 @@ module Monaco =
             /// Get the inverse edit operations of the added edit operations.
             abstract getInverseEditOperations: unit -> ResizeArray<IIdentifiedSingleEditOperation>
             /// <summary>Get a previously tracked selection.</summary>
-            /// <param name="id">The unique identifier returned by `trackSelection`.</param>
+            /// <param name="id">The unique identifier returned by <c>trackSelection</c>.</param>
+            /// <returns>The selection.</returns>
             abstract getTrackedSelection: id: string -> Selection
 
         /// A command that modifies text / cursor state on a model.
@@ -891,17 +1011,22 @@ module Monaco =
             /// <summary>Compute the cursor state after the edit operations were applied.</summary>
             /// <param name="model">The model the commad has executed on.</param>
             /// <param name="helper">A helper to get inverse edit operations and to get previously tracked selections.</param>
+            /// <returns>The cursor state after the command executed.</returns>
             abstract computeCursorState: model: ITokenizedModel * helper: ICursorStateComputerData -> Selection
 
+        /// <summary>
         /// A single edit operation, that acts as a simple replace.
-        /// i.e. Replace text at `range` with `text` in model.
+        /// i.e. Replace text at <c>range</c> with <c>text</c> in model.
+        /// </summary>
         type [<AllowNullLiteral>] ISingleEditOperation =
             /// The range to replace. This can be empty to emulate a simple insert.
             abstract range: IRange with get, set
             /// The text to replace with. This can be null to emulate a simple delete.
             abstract text: string with get, set
+            /// <summary>
             /// This indicates that this operation has "insert" semantics.
-            /// i.e. forceMoveMarkers = true => if `range` is collapsed, all markers at the position will be moved.
+            /// i.e. forceMoveMarkers = true => if <c>range</c> is collapsed, all markers at the position will be moved.
+            /// </summary>
             abstract forceMoveMarkers: bool option with get, set
 
         /// A single edit operation, that has an identifier.
@@ -912,11 +1037,15 @@ module Monaco =
             abstract range: Range with get, set
             /// The text to replace with. This can be null to emulate a simple delete.
             abstract text: string with get, set
+            /// <summary>
             /// This indicates that this operation has "insert" semantics.
-            /// i.e. forceMoveMarkers = true => if `range` is collapsed, all markers at the position will be moved.
+            /// i.e. forceMoveMarkers = true => if <c>range</c> is collapsed, all markers at the position will be moved.
+            /// </summary>
             abstract forceMoveMarkers: bool with get, set
+            /// <summary>
             /// This indicates that this operation is inserting automatic whitespace
-            /// that can be removed on next model edit operation if `config.trimAutoWhitespace` is true.
+            /// that can be removed on next model edit operation if <c>config.trimAutoWhitespace</c> is true.
+            /// </summary>
             abstract isAutoWhitespaceEdit: bool option with get, set
 
         /// A callback that can compute the cursor state after applying a series of edit operations.
@@ -954,16 +1083,20 @@ module Monaco =
             /// Replace the entire text buffer value contained in this model.
             abstract setValue: newValue: string -> unit
             /// <summary>Get the text stored in this model.</summary>
-            /// <param name="eol">The end of line character preference. Defaults to `EndOfLinePreference.TextDefined`.</param>
+            /// <param name="eol">The end of line character preference. Defaults to <c>EndOfLinePreference.TextDefined</c>.</param>
+            /// <param name="preserverBOM">Preserve a BOM character if it was detected when the model was constructed.</param>
+            /// <returns>The text.</returns>
             abstract getValue: ?eol: EndOfLinePreference * ?preserveBOM: bool -> string
             /// Get the length of the text stored in this model.
             abstract getValueLength: ?eol: EndOfLinePreference * ?preserveBOM: bool -> float
             /// <summary>Get the text in a certain range.</summary>
             /// <param name="range">The range describing what text to get.</param>
-            /// <param name="eol">The end of line character preference. This will only be used for multiline ranges. Defaults to `EndOfLinePreference.TextDefined`.</param>
+            /// <param name="eol">The end of line character preference. This will only be used for multiline ranges. Defaults to <c>EndOfLinePreference.TextDefined</c>.</param>
+            /// <returns>The text.</returns>
             abstract getValueInRange: range: IRange * ?eol: EndOfLinePreference -> string
             /// <summary>Get the length of text in a certain range.</summary>
             /// <param name="range">The range describing what text length to get.</param>
+            /// <returns>The text length.</returns>
             abstract getValueLengthInRange: range: IRange -> float
             /// Get the number of lines in the model.
             abstract getLineCount: unit -> float
@@ -971,19 +1104,24 @@ module Monaco =
             abstract getLineContent: lineNumber: float -> string
             /// Get the text for all lines.
             abstract getLinesContent: unit -> ResizeArray<string>
-            /// Get the end of line sequence predominantly used in the text buffer.
+            /// <summary>Get the end of line sequence predominantly used in the text buffer.</summary>
+            /// <returns>EOL char sequence (e.g.: '\n' or '\r\n').</returns>
             abstract getEOL: unit -> string
             /// Change the end of line sequence used in the text buffer.
             abstract setEOL: eol: EndOfLineSequence -> unit
-            /// Get the minimum legal column for line at `lineNumber`
+            /// <summary>Get the minimum legal column for line at <c>lineNumber</c></summary>
             abstract getLineMinColumn: lineNumber: float -> float
-            /// Get the maximum legal column for line at `lineNumber`
+            /// <summary>Get the maximum legal column for line at <c>lineNumber</c></summary>
             abstract getLineMaxColumn: lineNumber: float -> float
-            /// Returns the column before the first non whitespace character for line at `lineNumber`.
+            /// <summary>
+            /// Returns the column before the first non whitespace character for line at <c>lineNumber</c>.
             /// Returns 0 if line is empty or contains only whitespace.
+            /// </summary>
             abstract getLineFirstNonWhitespaceColumn: lineNumber: float -> float
-            /// Returns the column after the last non whitespace character for line at `lineNumber`.
+            /// <summary>
+            /// Returns the column after the last non whitespace character for line at <c>lineNumber</c>.
             /// Returns 0 if line is empty or contains only whitespace.
+            /// </summary>
             abstract getLineLastNonWhitespaceColumn: lineNumber: float -> float
             /// Create a valid position,
             abstract validatePosition: position: IPosition -> Position
@@ -998,51 +1136,59 @@ module Monaco =
             abstract modifyPosition: position: IPosition * offset: float -> Position
             /// Create a valid range.
             abstract validateRange: range: IRange -> Range
-            /// <summary>Converts the position to a zero-based offset.
+            /// <summary>
+            /// Converts the position to a zero-based offset.
             /// 
-            /// The position will be [adjusted](#TextDocument.validatePosition).</summary>
+            /// The position will be <see cref="TextDocument.validatePosition">adjusted</see>.
+            /// </summary>
             /// <param name="position">A position.</param>
+            /// <returns>A valid zero-based offset.</returns>
             abstract getOffsetAt: position: IPosition -> float
             /// <summary>Converts a zero-based offset to a position.</summary>
             /// <param name="offset">A zero-based offset.</param>
+            /// <returns>A valid <see cref="Position">position</see>.</returns>
             abstract getPositionAt: offset: float -> Position
             /// Get a range covering the entire model
             abstract getFullModelRange: unit -> Range
             /// Returns iff the model was disposed or not.
             abstract isDisposed: unit -> bool
             /// <summary>Search the model.</summary>
-            /// <param name="searchString">The string used to search. If it is a regular expression, set `isRegex` to true.</param>
+            /// <param name="searchString">The string used to search. If it is a regular expression, set <c>isRegex</c> to true.</param>
             /// <param name="searchOnlyEditableRange">Limit the searching to only search inside the editable range of the model.</param>
-            /// <param name="isRegex">Used to indicate that `searchString` is a regular expression.</param>
+            /// <param name="isRegex">Used to indicate that <c>searchString</c> is a regular expression.</param>
             /// <param name="matchCase">Force the matching to match lower/upper case exactly.</param>
             /// <param name="wordSeparators">Force the matching to match entire words only. Pass null otherwise.</param>
             /// <param name="captureMatches">The result will contain the captured groups.</param>
             /// <param name="limitResultCount">Limit the number of results</param>
+            /// <returns>The ranges where the matches are. It is empty if not matches have been found.</returns>
             abstract findMatches: searchString: string * searchOnlyEditableRange: bool * isRegex: bool * matchCase: bool * wordSeparators: string * captureMatches: bool * ?limitResultCount: float -> ResizeArray<FindMatch>
             /// <summary>Search the model.</summary>
-            /// <param name="searchString">The string used to search. If it is a regular expression, set `isRegex` to true.</param>
+            /// <param name="searchString">The string used to search. If it is a regular expression, set <c>isRegex</c> to true.</param>
             /// <param name="searchScope">Limit the searching to only search inside this range.</param>
-            /// <param name="isRegex">Used to indicate that `searchString` is a regular expression.</param>
+            /// <param name="isRegex">Used to indicate that <c>searchString</c> is a regular expression.</param>
             /// <param name="matchCase">Force the matching to match lower/upper case exactly.</param>
             /// <param name="wordSeparators">Force the matching to match entire words only. Pass null otherwise.</param>
             /// <param name="captureMatches">The result will contain the captured groups.</param>
             /// <param name="limitResultCount">Limit the number of results</param>
+            /// <returns>The ranges where the matches are. It is empty if no matches have been found.</returns>
             abstract findMatches: searchString: string * searchScope: IRange * isRegex: bool * matchCase: bool * wordSeparators: string * captureMatches: bool * ?limitResultCount: float -> ResizeArray<FindMatch>
             /// <summary>Search the model for the next match. Loops to the beginning of the model if needed.</summary>
-            /// <param name="searchString">The string used to search. If it is a regular expression, set `isRegex` to true.</param>
+            /// <param name="searchString">The string used to search. If it is a regular expression, set <c>isRegex</c> to true.</param>
             /// <param name="searchStart">Start the searching at the specified position.</param>
-            /// <param name="isRegex">Used to indicate that `searchString` is a regular expression.</param>
+            /// <param name="isRegex">Used to indicate that <c>searchString</c> is a regular expression.</param>
             /// <param name="matchCase">Force the matching to match lower/upper case exactly.</param>
             /// <param name="wordSeparators">Force the matching to match entire words only. Pass null otherwise.</param>
             /// <param name="captureMatches">The result will contain the captured groups.</param>
+            /// <returns>The range where the next match is. It is null if no next match has been found.</returns>
             abstract findNextMatch: searchString: string * searchStart: IPosition * isRegex: bool * matchCase: bool * wordSeparators: string * captureMatches: bool -> FindMatch
             /// <summary>Search the model for the previous match. Loops to the end of the model if needed.</summary>
-            /// <param name="searchString">The string used to search. If it is a regular expression, set `isRegex` to true.</param>
+            /// <param name="searchString">The string used to search. If it is a regular expression, set <c>isRegex</c> to true.</param>
             /// <param name="searchStart">Start the searching at the specified position.</param>
-            /// <param name="isRegex">Used to indicate that `searchString` is a regular expression.</param>
+            /// <param name="isRegex">Used to indicate that <c>searchString</c> is a regular expression.</param>
             /// <param name="matchCase">Force the matching to match lower/upper case exactly.</param>
             /// <param name="wordSeparators">Force the matching to match entire words only. Pass null otherwise.</param>
             /// <param name="captureMatches">The result will contain the captured groups.</param>
+            /// <returns>The range where the previous match is. It is null if no previous match has been found.</returns>
             abstract findPreviousMatch: searchString: string * searchStart: IPosition * isRegex: bool * matchCase: bool * wordSeparators: string * captureMatches: bool -> FindMatch
 
         type [<AllowNullLiteral>] FindMatch =
@@ -1059,11 +1205,15 @@ module Monaco =
             abstract uri: Uri
             /// Get the language associated with this model.
             abstract getModeId: unit -> string
-            /// <summary>Get the word under or besides `position`.</summary>
+            /// <summary>Get the word under or besides <c>position</c>.</summary>
             /// <param name="position">The position to look for a word.</param>
+            /// <param name="skipSyntaxTokens">Ignore syntax tokens, as identified by the mode.</param>
+            /// <returns>The word under or besides <c>position</c>. Might be null.</returns>
             abstract getWordAtPosition: position: IPosition -> IWordAtPosition
-            /// <summary>Get the word under or besides `position` trimmed to `position`.column</summary>
+            /// <summary>Get the word under or besides <c>position</c> trimmed to <c>position</c>.column</summary>
             /// <param name="position">The position to look for a word.</param>
+            /// <param name="skipSyntaxTokens">Ignore syntax tokens, as identified by the mode.</param>
+            /// <returns>The word under or besides <c>position</c>. Will never be null.</returns>
             abstract getWordUntilPosition: position: IPosition -> IWordAtPosition
 
         /// A model that is tokenized.
@@ -1071,17 +1221,25 @@ module Monaco =
             inherit ITextModel
             /// Get the language associated with this model.
             abstract getModeId: unit -> string
-            /// <summary>Get the word under or besides `position`.</summary>
+            /// <summary>Get the word under or besides <c>position</c>.</summary>
             /// <param name="position">The position to look for a word.</param>
+            /// <param name="skipSyntaxTokens">Ignore syntax tokens, as identified by the mode.</param>
+            /// <returns>The word under or besides <c>position</c>. Might be null.</returns>
             abstract getWordAtPosition: position: IPosition -> IWordAtPosition
-            /// <summary>Get the word under or besides `position` trimmed to `position`.column</summary>
+            /// <summary>Get the word under or besides <c>position</c> trimmed to <c>position</c>.column</summary>
             /// <param name="position">The position to look for a word.</param>
+            /// <param name="skipSyntaxTokens">Ignore syntax tokens, as identified by the mode.</param>
+            /// <returns>The word under or besides <c>position</c>. Will never be null.</returns>
             abstract getWordUntilPosition: position: IPosition -> IWordAtPosition
 
         /// A model that can track markers.
         type [<AllowNullLiteral>] ITextModelWithMarkers =
             inherit ITextModel
 
+        /// <summary>
+        /// Describes the behavior of decorations when typing/editing near their edges.
+        /// Note: Please do not edit the values, as they very carefully match <c>DecorationRangeBehavior</c>
+        /// </summary>
         type [<RequireQualifiedAccess>] TrackedRangeStickiness =
             | AlwaysGrowsWhenTypingAtEdges = 0
             | NeverGrowsWhenTypingAtEdges = 1
@@ -1090,35 +1248,45 @@ module Monaco =
 
         /// A model that can have decorations.
         type [<AllowNullLiteral>] ITextModelWithDecorations =
-            /// <summary>Perform a minimum ammount of operations, in order to transform the decorations
-            /// identified by `oldDecorations` to the decorations described by `newDecorations`
-            /// and returns the new identifiers associated with the resulting decorations.</summary>
+            /// <summary>
+            /// Perform a minimum ammount of operations, in order to transform the decorations
+            /// identified by <c>oldDecorations</c> to the decorations described by <c>newDecorations</c>
+            /// and returns the new identifiers associated with the resulting decorations.
+            /// </summary>
             /// <param name="oldDecorations">Array containing previous decorations identifiers.</param>
             /// <param name="newDecorations">Array describing what decorations should result after the call.</param>
-            /// <param name="ownerId">Identifies the editor id in which these decorations should appear. If no `ownerId` is provided, the decorations will appear in all editors that attach this model.</param>
+            /// <param name="ownerId">Identifies the editor id in which these decorations should appear. If no <c>ownerId</c> is provided, the decorations will appear in all editors that attach this model.</param>
+            /// <returns>An array containing the new decorations identifiers.</returns>
             abstract deltaDecorations: oldDecorations: ResizeArray<string> * newDecorations: ResizeArray<IModelDeltaDecoration> * ?ownerId: float -> ResizeArray<string>
             /// <summary>Get the options associated with a decoration.</summary>
             /// <param name="id">The decoration id.</param>
+            /// <returns>The decoration options or null if the decoration was not found.</returns>
             abstract getDecorationOptions: id: string -> IModelDecorationOptions
             /// <summary>Get the range associated with a decoration.</summary>
             /// <param name="id">The decoration id.</param>
+            /// <returns>The decoration range or null if the decoration was not found.</returns>
             abstract getDecorationRange: id: string -> Range
-            /// <summary>Gets all the decorations for the line `lineNumber` as an array.</summary>
+            /// <summary>Gets all the decorations for the line <c>lineNumber</c> as an array.</summary>
             /// <param name="lineNumber">The line number</param>
             /// <param name="ownerId">If set, it will ignore decorations belonging to other owners.</param>
             /// <param name="filterOutValidation">If set, it will ignore decorations specific to validation (i.e. warnings, errors).</param>
+            /// <returns>An array with the decorations</returns>
             abstract getLineDecorations: lineNumber: float * ?ownerId: float * ?filterOutValidation: bool -> ResizeArray<IModelDecoration>
-            /// <summary>Gets all the decorations for the lines between `startLineNumber` and `endLineNumber` as an array.</summary>
+            /// <summary>Gets all the decorations for the lines between <c>startLineNumber</c> and <c>endLineNumber</c> as an array.</summary>
             /// <param name="startLineNumber">The start line number</param>
             /// <param name="endLineNumber">The end line number</param>
             /// <param name="ownerId">If set, it will ignore decorations belonging to other owners.</param>
             /// <param name="filterOutValidation">If set, it will ignore decorations specific to validation (i.e. warnings, errors).</param>
+            /// <returns>An array with the decorations</returns>
             abstract getLinesDecorations: startLineNumber: float * endLineNumber: float * ?ownerId: float * ?filterOutValidation: bool -> ResizeArray<IModelDecoration>
-            /// <summary>Gets all the deocorations in a range as an array. Only `startLineNumber` and `endLineNumber` from `range` are used for filtering.
-            /// So for now it returns all the decorations on the same line as `range`.</summary>
+            /// <summary>
+            /// Gets all the deocorations in a range as an array. Only <c>startLineNumber</c> and <c>endLineNumber</c> from <c>range</c> are used for filtering.
+            /// So for now it returns all the decorations on the same line as <c>range</c>.
+            /// </summary>
             /// <param name="range">The range to search in</param>
             /// <param name="ownerId">If set, it will ignore decorations belonging to other owners.</param>
             /// <param name="filterOutValidation">If set, it will ignore decorations specific to validation (i.e. warnings, errors).</param>
+            /// <returns>An array with the decorations</returns>
             abstract getDecorationsInRange: range: IRange * ?ownerId: float * ?filterOutValidation: bool -> ResizeArray<IModelDecoration>
             /// <summary>Gets all the decorations as an array.</summary>
             /// <param name="ownerId">If set, it will ignore decorations belonging to other owners.</param>
@@ -1136,19 +1304,27 @@ module Monaco =
             abstract updateOptions: newOpts: ITextModelUpdateOptions -> unit
             /// Detect the indentation options for this model from its content.
             abstract detectIndentation: defaultInsertSpaces: bool * defaultTabSize: float -> unit
+            /// <summary>
             /// Push a stack element onto the undo stack. This acts as an undo/redo point.
-            /// The idea is to use `pushEditOperations` to edit the model and then to
-            /// `pushStackElement` to create an undo/redo stop point.
+            /// The idea is to use <c>pushEditOperations</c> to edit the model and then to
+            /// <c>pushStackElement</c> to create an undo/redo stop point.
+            /// </summary>
             abstract pushStackElement: unit -> unit
-            /// <summary>Push edit operations, basically editing the model. This is the preferred way
-            /// of editing the model. The edit operations will land on the undo stack.</summary>
-            /// <param name="beforeCursorState">The cursor state before the edit operaions. This cursor state will be returned when `undo` or `redo` are invoked.</param>
+            /// <summary>
+            /// Push edit operations, basically editing the model. This is the preferred way
+            /// of editing the model. The edit operations will land on the undo stack.
+            /// </summary>
+            /// <param name="beforeCursorState">The cursor state before the edit operaions. This cursor state will be returned when <c>undo</c> or <c>redo</c> are invoked.</param>
             /// <param name="editOperations">The edit operations.</param>
             /// <param name="cursorStateComputer">A callback that can compute the resulting cursors state after the edit operations have been executed.</param>
+            /// <returns>The cursor state returned by the <c>cursorStateComputer</c>.</returns>
             abstract pushEditOperations: beforeCursorState: ResizeArray<Selection> * editOperations: ResizeArray<IIdentifiedSingleEditOperation> * cursorStateComputer: ICursorStateComputer -> ResizeArray<Selection>
-            /// <summary>Edit the model without adding the edits to the undo stack.
-            /// This can have dire consequences on the undo stack! See @pushEditOperations for the preferred way.</summary>
+            /// <summary>
+            /// Edit the model without adding the edits to the undo stack.
+            /// This can have dire consequences on the undo stack! See @pushEditOperations for the preferred way.
+            /// </summary>
             /// <param name="operations">The edit operations.</param>
+            /// <returns>The inverse edit operations, that, when applied, will bring the model back to the previous state.</returns>
             abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> -> ResizeArray<IIdentifiedSingleEditOperation>
 
         /// A model.
@@ -1158,15 +1334,15 @@ module Monaco =
             inherit ITextModelWithMarkers
             inherit ITokenizedModel
             inherit ITextModelWithDecorations
-            /// An event emitted when the contents of the model have changed.
+            /// <summary>An event emitted when the contents of the model have changed.</summary>
             abstract onDidChangeContent: listener: (IModelContentChangedEvent -> unit) -> IDisposable
-            /// An event emitted when decorations of the model have changed.
+            /// <summary>An event emitted when decorations of the model have changed.</summary>
             abstract onDidChangeDecorations: listener: (IModelDecorationsChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the model options have changed.
+            /// <summary>An event emitted when the model options have changed.</summary>
             abstract onDidChangeOptions: listener: (IModelOptionsChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the language associated with the model has changed.
+            /// <summary>An event emitted when the language associated with the model has changed.</summary>
             abstract onDidChangeLanguage: listener: (IModelLanguageChangedEvent -> unit) -> IDisposable
-            /// An event emitted right before disposing the model.
+            /// <summary>An event emitted right before disposing the model.</summary>
             abstract onWillDispose: listener: (unit -> unit) -> IDisposable
             /// A unique identifier associated with this model.
             abstract id: string
@@ -1181,11 +1357,11 @@ module Monaco =
             /// Modified model.
             abstract modified: IModel with get, set
 
-        /// An event describing that an editor has had its model reset (i.e. `editor.setModel()`).
+        /// <summary>An event describing that an editor has had its model reset (i.e. <c>editor.setModel()</c>).</summary>
         type [<AllowNullLiteral>] IModelChangedEvent =
-            /// The `uri` of the previous model or null.
+            /// <summary>The <c>uri</c> of the previous model or null.</summary>
             abstract oldModelUrl: Uri
-            /// The `uri` of the new model or null.
+            /// <summary>The <c>uri</c> of the new model or null.</summary>
             abstract newModelUrl: Uri
 
         type [<AllowNullLiteral>] IDimension =
@@ -1279,19 +1455,22 @@ module Monaco =
             abstract original: ICodeEditorViewState with get, set
             abstract modified: ICodeEditorViewState with get, set
 
+        /// An editor view state.
         type IEditorViewState =
             U2<ICodeEditorViewState, IDiffEditorViewState>
 
         /// An editor.
         type [<AllowNullLiteral>] IEditor =
-            /// An event emitted when the editor has been disposed.
+            /// <summary>An event emitted when the editor has been disposed.</summary>
             abstract onDidDispose: listener: (unit -> unit) -> IDisposable
             /// Dispose the editor.
             abstract dispose: unit -> unit
             /// Get a unique id for this editor instance.
             abstract getId: unit -> string
-            /// Get the editor type. Please see `EditorType`.
+            /// <summary>
+            /// Get the editor type. Please see <c>EditorType</c>.
             /// This is to avoid an instanceof check
+            /// </summary>
             abstract getEditorType: unit -> string
             /// Update the editor's options after the editor has been created.
             abstract updateOptions: newOptions: IEditorOptions -> unit
@@ -1308,7 +1487,7 @@ module Monaco =
             abstract getSupportedActions: unit -> ResizeArray<IEditorAction>
             /// Saves current view state of the editor in a serializable object.
             abstract saveViewState: unit -> IEditorViewState
-            /// Restores the view state of the editor from a serializable object generated by `saveViewState`.
+            /// <summary>Restores the view state of the editor from a serializable object generated by <c>saveViewState</c>.</summary>
             abstract restoreViewState: state: IEditorViewState -> unit
             /// Given a position, returns a column number that takes tab-widths into account.
             abstract getVisibleColumnFromPosition: position: IPosition -> float
@@ -1390,45 +1569,48 @@ module Monaco =
 
         type [<AllowNullLiteral>] ICommonCodeEditor =
             inherit IEditor
-            /// An event emitted when the content of the current model has changed.
+            /// <summary>An event emitted when the content of the current model has changed.</summary>
             abstract onDidChangeModelContent: listener: (IModelContentChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the language of the current model has changed.
+            /// <summary>An event emitted when the language of the current model has changed.</summary>
             abstract onDidChangeModelLanguage: listener: (IModelLanguageChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the options of the current model has changed.
+            /// <summary>An event emitted when the options of the current model has changed.</summary>
             abstract onDidChangeModelOptions: listener: (IModelOptionsChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the configuration of the editor has changed. (e.g. `editor.updateOptions()`)
+            /// <summary>An event emitted when the configuration of the editor has changed. (e.g. <c>editor.updateOptions()</c>)</summary>
             abstract onDidChangeConfiguration: listener: (IConfigurationChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the cursor position has changed.
+            /// <summary>An event emitted when the cursor position has changed.</summary>
             abstract onDidChangeCursorPosition: listener: (ICursorPositionChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the cursor selection has changed.
+            /// <summary>An event emitted when the cursor selection has changed.</summary>
             abstract onDidChangeCursorSelection: listener: (ICursorSelectionChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the model of this editor has changed (e.g. `editor.setModel()`).
+            /// <summary>An event emitted when the model of this editor has changed (e.g. <c>editor.setModel()</c>).</summary>
             abstract onDidChangeModel: listener: (IModelChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the decorations of the current model have changed.
+            /// <summary>An event emitted when the decorations of the current model have changed.</summary>
             abstract onDidChangeModelDecorations: listener: (IModelDecorationsChangedEvent -> unit) -> IDisposable
-            /// An event emitted when the text inside this editor gained focus (i.e. cursor blinking).
+            /// <summary>An event emitted when the text inside this editor gained focus (i.e. cursor blinking).</summary>
             abstract onDidFocusEditorText: listener: (unit -> unit) -> IDisposable
-            /// An event emitted when the text inside this editor lost focus.
+            /// <summary>An event emitted when the text inside this editor lost focus.</summary>
             abstract onDidBlurEditorText: listener: (unit -> unit) -> IDisposable
-            /// An event emitted when the text inside this editor or an editor widget gained focus.
+            /// <summary>An event emitted when the text inside this editor or an editor widget gained focus.</summary>
             abstract onDidFocusEditor: listener: (unit -> unit) -> IDisposable
-            /// An event emitted when the text inside this editor or an editor widget lost focus.
+            /// <summary>An event emitted when the text inside this editor or an editor widget lost focus.</summary>
             abstract onDidBlurEditor: listener: (unit -> unit) -> IDisposable
             /// Saves current view state of the editor in a serializable object.
             abstract saveViewState: unit -> ICodeEditorViewState
-            /// Restores the view state of the editor from a serializable object generated by `saveViewState`.
+            /// <summary>Restores the view state of the editor from a serializable object generated by <c>saveViewState</c>.</summary>
             abstract restoreViewState: state: ICodeEditorViewState -> unit
             /// Returns true if this editor or one of its widgets has keyboard focus.
             abstract hasWidgetFocus: unit -> bool
-            /// Get a contribution of this editor.
+            /// <summary>Get a contribution of this editor.</summary>
+            /// <returns>The contribution or null if contribution not found.</returns>
             abstract getContribution: id: string -> 'T when 'T :> IEditorContribution
             /// Type the getModel() of IEditor.
             abstract getModel: unit -> IModel
             /// Returns the current editor's configuration
             abstract getConfiguration: unit -> InternalEditorOptions
-            /// Get value of the current model attached to this editor.
+            /// <summary>Get value of the current model attached to this editor.</summary>
+            /// <seealso cref="IModel.getValue" />
             abstract getValue: ?options: ICommonCodeEditorGetValueOptions -> string
-            /// Set the value of the current model attached to this editor.
+            /// <summary>Set the value of the current model attached to this editor.</summary>
+            /// <seealso cref="IModel.setValue" />
             abstract setValue: newValue: string -> unit
             /// Get the scrollWidth of the editor's viewport.
             abstract getScrollWidth: unit -> float
@@ -1444,27 +1626,34 @@ module Monaco =
             abstract setScrollTop: newScrollTop: float -> unit
             /// Change the scroll position of the editor's viewport.
             abstract setScrollPosition: position: INewScrollPosition -> unit
-            /// Get an action that is a contribution to this editor.
+            /// <summary>Get an action that is a contribution to this editor.</summary>
+            /// <returns>The action or null if action not found.</returns>
             abstract getAction: id: string -> IEditorAction
-            /// <summary>Execute a command on the editor.
-            /// The edits will land on the undo-redo stack, but no "undo stop" will be pushed.</summary>
+            /// <summary>
+            /// Execute a command on the editor.
+            /// The edits will land on the undo-redo stack, but no "undo stop" will be pushed.
+            /// </summary>
             /// <param name="source">The source of the call.</param>
             /// <param name="command">The command to execute</param>
             abstract executeCommand: source: string * command: ICommand -> unit
             /// Push an "undo stop" in the undo-redo stack.
             abstract pushUndoStop: unit -> bool
-            /// <summary>Execute edits on the editor.
-            /// The edits will land on the undo-redo stack, but no "undo stop" will be pushed.</summary>
+            /// <summary>
+            /// Execute edits on the editor.
+            /// The edits will land on the undo-redo stack, but no "undo stop" will be pushed.
+            /// </summary>
             /// <param name="source">The source of the call.</param>
             /// <param name="edits">The edits to execute.</param>
             /// <param name="endCursoState">Cursor state after the edits were applied.</param>
             abstract executeEdits: source: string * edits: ResizeArray<IIdentifiedSingleEditOperation> * ?endCursoState: ResizeArray<Selection> -> bool
             /// <summary>Execute multiple (concommitent) commands on the editor.</summary>
             /// <param name="source">The source of the call.</param>
+            /// <param name="command">The commands to execute</param>
             abstract executeCommands: source: string * commands: ResizeArray<ICommand> -> unit
             /// Get all the decorations on a line (filtering out decorations from other editors).
             abstract getLineDecorations: lineNumber: float -> ResizeArray<IModelDecoration>
-            /// All decorations added through this call will get the ownerId of this editor.
+            /// <summary>All decorations added through this call will get the ownerId of this editor.</summary>
+            /// <seealso cref="IModel.deltaDecorations" />
             abstract deltaDecorations: oldDecorations: ResizeArray<string> * newDecorations: ResizeArray<IModelDeltaDecoration> -> ResizeArray<string>
             /// Get the layout info for the editor.
             abstract getLayoutInfo: unit -> EditorLayoutInfo
@@ -1475,17 +1664,17 @@ module Monaco =
 
         type [<AllowNullLiteral>] ICommonDiffEditor =
             inherit IEditor
-            /// An event emitted when the diff information computed by this diff editor has been updated.
+            /// <summary>An event emitted when the diff information computed by this diff editor has been updated.</summary>
             abstract onDidUpdateDiff: listener: (unit -> unit) -> IDisposable
             /// Saves current view state of the editor in a serializable object.
             abstract saveViewState: unit -> IDiffEditorViewState
-            /// Restores the view state of the editor from a serializable object generated by `saveViewState`.
+            /// <summary>Restores the view state of the editor from a serializable object generated by <c>saveViewState</c>.</summary>
             abstract restoreViewState: state: IDiffEditorViewState -> unit
             /// Type the getModel() of IEditor.
             abstract getModel: unit -> IDiffEditorModel
-            /// Get the `original` editor.
+            /// <summary>Get the <c>original</c> editor.</summary>
             abstract getOriginalEditor: unit -> ICommonCodeEditor
-            /// Get the `modified` editor.
+            /// <summary>Get the <c>modified</c> editor.</summary>
             abstract getModifiedEditor: unit -> ICommonCodeEditor
             /// Get the computed diff information.
             abstract getLineChanges: unit -> ResizeArray<ILineChange>
@@ -1495,6 +1684,7 @@ module Monaco =
             /// Get information based on computed diff about a line number from the modified model.
             /// If the diff computation is not finished or the model is missing, will return null.
             abstract getDiffLineInformationForModified: lineNumber: float -> IDiffLineInformation
+            /// <seealso cref="ICodeEditor.getValue" />
             abstract getValue: ?options: ICommonDiffEditorGetValueOptions -> string
 
         type [<AllowNullLiteral>] ICommonDiffEditorGetValueOptions =
@@ -1549,13 +1739,21 @@ module Monaco =
             abstract insertSpaces: bool
             abstract trimAutoWhitespace: bool
 
+        /// Describes the reason the cursor has changed its position.
         type [<RequireQualifiedAccess>] CursorChangeReason =
+            /// Unknown or not set.
             | NotSet = 0
+            /// <summary>A <c>model.setValue()</c> was called.</summary>
             | ContentFlush = 1
+            /// <summary>The <c>model</c> has been changed outside of this cursor and the cursor recovers its position from associated markers.</summary>
             | RecoverFromMarkers = 2
+            /// There was an explicit user gesture.
             | Explicit = 3
+            /// There was a Paste.
             | Paste = 4
+            /// There was an Undo.
             | Undo = 5
+            /// There was a Redo.
             | Redo = 6
 
         /// An event describing that the cursor position has changed.
@@ -1611,11 +1809,15 @@ module Monaco =
             /// Width in pixels for the vertical scrollbar.
             /// Defaults to 10 (px).
             abstract verticalScrollbarSize: float option with get, set
+            /// <summary>
             /// Width in pixels for the vertical slider.
-            /// Defaults to `verticalScrollbarSize`.
+            /// Defaults to <c>verticalScrollbarSize</c>.
+            /// </summary>
             abstract verticalSliderSize: float option with get, set
+            /// <summary>
             /// Height in pixels for the horizontal slider.
-            /// Defaults to `horizontalScrollbarSize`.
+            /// Defaults to <c>horizontalScrollbarSize</c>.
+            /// </summary>
             abstract horizontalSliderSize: float option with get, set
 
         /// Configuration options for editor find widget
@@ -1691,14 +1893,18 @@ module Monaco =
             abstract minimap: IEditorMinimapOptions option with get, set
             /// Control the behavior of the find widget.
             abstract find: IEditorFindOptions option with get, set
-            /// Display overflow widgets as `fixed`.
-            /// Defaults to `false`.
+            /// <summary>
+            /// Display overflow widgets as <c>fixed</c>.
+            /// Defaults to <c>false</c>.
+            /// </summary>
             abstract fixedOverflowWidgets: bool option with get, set
             /// The number of vertical lanes the overview ruler should render.
             /// Defaults to 2.
             abstract overviewRulerLanes: float option with get, set
+            /// <summary>
             /// Controls if a border should be drawn around the overview ruler.
-            /// Defaults to `true`.
+            /// Defaults to <c>true</c>.
+            /// </summary>
             abstract overviewRulerBorder: bool option with get, set
             /// Control the cursor animation style, possible values are 'blink', 'smooth', 'phase', 'expand' and 'solid'.
             /// Defaults to 'blink'.
@@ -1712,9 +1918,11 @@ module Monaco =
             /// Enable font ligatures.
             /// Defaults to false.
             abstract fontLigatures: bool option with get, set
-            /// Disable the use of `will-change` for the editor margin and lines layers.
-            /// The usage of `will-change` acts as a hint for browsers to create an extra layer.
+            /// <summary>
+            /// Disable the use of <c>will-change</c> for the editor margin and lines layers.
+            /// The usage of <c>will-change</c> acts as a hint for browsers to create an extra layer.
             /// Defaults to false.
+            /// </summary>
             abstract disableLayerHinting: bool option with get, set
             /// Disable the optimizations for monospace fonts.
             /// Defaults to false.
@@ -1729,19 +1937,23 @@ module Monaco =
             /// Enabling this might have a severe performance impact.
             /// Defaults to false.
             abstract automaticLayout: bool option with get, set
+            /// <summary>
             /// Control the wrapping of the editor.
-            /// When `wordWrap` = "off", the lines will never wrap.
-            /// When `wordWrap` = "on", the lines will wrap at the viewport width.
-            /// When `wordWrap` = "wordWrapColumn", the lines will wrap at `wordWrapColumn`.
-            /// When `wordWrap` = "bounded", the lines will wrap at min(viewport width, wordWrapColumn).
+            /// When <c>wordWrap</c> = "off", the lines will never wrap.
+            /// When <c>wordWrap</c> = "on", the lines will wrap at the viewport width.
+            /// When <c>wordWrap</c> = "wordWrapColumn", the lines will wrap at <c>wordWrapColumn</c>.
+            /// When <c>wordWrap</c> = "bounded", the lines will wrap at min(viewport width, wordWrapColumn).
             /// Defaults to "off".
+            /// </summary>
             abstract wordWrap: IEditorOptionsWordWrap option with get, set
+            /// <summary>
             /// Control the wrapping of the editor.
-            /// When `wordWrap` = "off", the lines will never wrap.
-            /// When `wordWrap` = "on", the lines will wrap at the viewport width.
-            /// When `wordWrap` = "wordWrapColumn", the lines will wrap at `wordWrapColumn`.
-            /// When `wordWrap` = "bounded", the lines will wrap at min(viewport width, wordWrapColumn).
+            /// When <c>wordWrap</c> = "off", the lines will never wrap.
+            /// When <c>wordWrap</c> = "on", the lines will wrap at the viewport width.
+            /// When <c>wordWrap</c> = "wordWrapColumn", the lines will wrap at <c>wordWrapColumn</c>.
+            /// When <c>wordWrap</c> = "bounded", the lines will wrap at min(viewport width, wordWrapColumn).
             /// Defaults to 80.
+            /// </summary>
             abstract wordWrapColumn: float option with get, set
             /// Force word wrapping when the text appears to be of a minified/generated file.
             /// Defaults to true.
@@ -1755,8 +1967,10 @@ module Monaco =
             /// Configure word wrapping characters. A break will be introduced after these characters.
             /// Defaults to ' \t})]?|&,;'.
             abstract wordWrapBreakAfterCharacters: string option with get, set
-            /// Configure word wrapping characters. A break will be introduced after these characters only if no `wordWrapBreakBeforeCharacters` or `wordWrapBreakAfterCharacters` were found.
+            /// <summary>
+            /// Configure word wrapping characters. A break will be introduced after these characters only if no <c>wordWrapBreakBeforeCharacters</c> or <c>wordWrapBreakAfterCharacters</c> were found.
             /// Defaults to '.'.
+            /// </summary>
             abstract wordWrapBreakObtrusiveCharacters: string option with get, set
             /// Performance guard: Stop rendering a line after x characters.
             /// Defaults to 10000.
@@ -1771,8 +1985,10 @@ module Monaco =
             /// Enable custom contextmenu.
             /// Defaults to true.
             abstract contextmenu: bool option with get, set
-            /// A multiplier to be used on the `deltaX` and `deltaY` of mouse wheel scroll events.
+            /// <summary>
+            /// A multiplier to be used on the <c>deltaX</c> and <c>deltaY</c> of mouse wheel scroll events.
             /// Defaults to 1.
+            /// </summary>
             abstract mouseWheelScrollSensitivity: float option with get, set
             /// The modifier to be used to add multiple cursors with the mouse.
             /// Defaults to 'alt'
@@ -1896,25 +2112,43 @@ module Monaco =
             | SmallBlocks = 3
             | LargeBlocks = 4
 
+        /// Describes how to indent wrapped lines.
         type [<RequireQualifiedAccess>] WrappingIndent =
+            /// No indentation => wrapped lines begin at column 1.
             | None = 0
+            /// Same => wrapped lines get the same indentation as the parent.
             | Same = 1
+            /// Indent => wrapped lines get +1 indentation as the parent.
             | Indent = 2
 
+        /// The kind of animation in which the editor's cursor should be rendered.
         type [<RequireQualifiedAccess>] TextEditorCursorBlinkingStyle =
+            /// Hidden
             | Hidden = 0
+            /// Blinking
             | Blink = 1
+            /// Blinking with smooth fading
             | Smooth = 2
+            /// Blinking with prolonged filled state and smooth fading
             | Phase = 3
+            /// Expand collapse animation on the y axis
             | Expand = 4
+            /// No-Blinking
             | Solid = 5
 
+        /// The style in which the editor's cursor should be rendered.
         type [<RequireQualifiedAccess>] TextEditorCursorStyle =
+            /// As a vertical line (sitting between two characters).
             | Line = 1
+            /// As a block (sitting on top of a character).
             | Block = 2
+            /// As a horizontal line (sitting under a character).
             | Underline = 3
+            /// As a thin vertical line (sitting between two characters).
             | LineThin = 4
+            /// As an outlined block (sitting on top of a character).
             | BlockOutline = 5
+            /// As a thin horizontal line (sitting under a character).
             | UnderlineThin = 6
 
         type [<AllowNullLiteral>] InternalEditorScrollbarOptions =
@@ -2115,20 +2349,26 @@ module Monaco =
             /// The line number after which this zone should appear.
             /// Use 0 to place a view zone before the first line number.
             abstract afterLineNumber: float with get, set
+            /// <summary>
             /// The column after which this zone should appear.
-            /// If not set, the maxLineColumn of `afterLineNumber` will be used.
+            /// If not set, the maxLineColumn of <c>afterLineNumber</c> will be used.
+            /// </summary>
             abstract afterColumn: float option with get, set
             /// Suppress mouse down events.
             /// If set, the editor will attach a mouse down listener to the view zone and .preventDefault on it.
             /// Defaults to false
             abstract suppressMouseDown: bool option with get, set
+            /// <summary>
             /// The height in lines of the view zone.
-            /// If specified, `heightInPx` will be used instead of this.
-            /// If neither `heightInPx` nor `heightInLines` is specified, a default of `heightInLines` = 1 will be chosen.
+            /// If specified, <c>heightInPx</c> will be used instead of this.
+            /// If neither <c>heightInPx</c> nor <c>heightInLines</c> is specified, a default of <c>heightInLines</c> = 1 will be chosen.
+            /// </summary>
             abstract heightInLines: float option with get, set
+            /// <summary>
             /// The height in px of the view zone.
-            /// If this is set, the editor will give preference to it rather than `heightInLines` above.
-            /// If neither `heightInPx` nor `heightInLines` is specified, a default of `heightInLines` = 1 will be chosen.
+            /// If this is set, the editor will give preference to it rather than <c>heightInLines</c> above.
+            /// If neither <c>heightInPx</c> nor <c>heightInLines</c> is specified, a default of <c>heightInLines</c> = 1 will be chosen.
+            /// </summary>
             abstract heightInPx: float option with get, set
             /// The dom node of the view zone
             abstract domNode: HTMLElement with get, set
@@ -2143,23 +2383,32 @@ module Monaco =
         type [<AllowNullLiteral>] IViewZoneChangeAccessor =
             /// <summary>Create a new view zone.</summary>
             /// <param name="zone">Zone to create</param>
+            /// <returns>A unique identifier to the view zone.</returns>
             abstract addZone: zone: IViewZone -> float
             /// <summary>Remove a zone</summary>
-            /// <param name="id">A unique identifier to the view zone, as returned by the `addZone` call.</param>
+            /// <param name="id">A unique identifier to the view zone, as returned by the <c>addZone</c> call.</param>
             abstract removeZone: id: float -> unit
+            /// <summary>
             /// Change a zone's position.
-            /// The editor will rescan the `afterLineNumber` and `afterColumn` properties of a view zone.
+            /// The editor will rescan the <c>afterLineNumber</c> and <c>afterColumn</c> properties of a view zone.
+            /// </summary>
             abstract layoutZone: id: float -> unit
 
+        /// A positioning preference for rendering content widgets.
         type [<RequireQualifiedAccess>] ContentWidgetPositionPreference =
+            /// Place the content widget exactly at a position
             | EXACT = 0
+            /// Place the content widget above a position
             | ABOVE = 1
+            /// Place the content widget below a position
             | BELOW = 2
 
         /// A position for rendering content widgets.
         type [<AllowNullLiteral>] IContentWidgetPosition =
+            /// <summary>
             /// Desired position for the content widget.
-            /// `preference` will also affect the placement.
+            /// <c>preference</c> will also affect the placement.
+            /// </summary>
             abstract position: IPosition with get, set
             /// Placement preference for position, in order of preference.
             abstract preference: ResizeArray<ContentWidgetPositionPreference> with get, set
@@ -2177,9 +2426,13 @@ module Monaco =
             /// If null is returned, the content widget will be placed off screen.
             abstract getPosition: unit -> IContentWidgetPosition
 
+        /// A positioning preference for rendering overlay widgets.
         type [<RequireQualifiedAccess>] OverlayWidgetPositionPreference =
+            /// Position the overlay widget in the top right corner
             | TOP_RIGHT_CORNER = 0
+            /// Position the overlay widget in the bottom right corner
             | BOTTOM_RIGHT_CORNER = 1
+            /// Position the overlay widget in the top center
             | TOP_CENTER = 2
 
         /// A position for rendering overlay widgets.
@@ -2197,20 +2450,35 @@ module Monaco =
             /// If null is returned, the overlay widget is responsible to place itself.
             abstract getPosition: unit -> IOverlayWidgetPosition
 
+        /// Type of hit element with the mouse in the editor.
         type [<RequireQualifiedAccess>] MouseTargetType =
+            /// Mouse is on top of an unknown element.
             | UNKNOWN = 0
+            /// Mouse is on top of the textarea used for input.
             | TEXTAREA = 1
+            /// Mouse is on top of the glyph margin
             | GUTTER_GLYPH_MARGIN = 2
+            /// Mouse is on top of the line numbers
             | GUTTER_LINE_NUMBERS = 3
+            /// Mouse is on top of the line decorations
             | GUTTER_LINE_DECORATIONS = 4
+            /// Mouse is on top of the whitespace left in the gutter by a view zone.
             | GUTTER_VIEW_ZONE = 5
+            /// Mouse is on top of text in the content.
             | CONTENT_TEXT = 6
+            /// Mouse is on top of empty space in the content (e.g. after line text or below last line)
             | CONTENT_EMPTY = 7
+            /// Mouse is on top of a view zone in the content.
             | CONTENT_VIEW_ZONE = 8
+            /// Mouse is on top of a content widget.
             | CONTENT_WIDGET = 9
+            /// Mouse is on top of the decorations overview ruler.
             | OVERVIEW_RULER = 10
+            /// Mouse is on top of a scrollbar.
             | SCROLLBAR = 11
+            /// Mouse is on top of an overlay widget.
             | OVERLAY_WIDGET = 12
+            /// Mouse is outside of the editor.
             | OUTSIDE_EDITOR = 13
 
         /// Target hit with the mouse in the editor.
@@ -2236,23 +2504,23 @@ module Monaco =
         /// A rich code editor.
         type [<AllowNullLiteral>] ICodeEditor =
             inherit ICommonCodeEditor
-            /// An event emitted on a "mouseup".
+            /// <summary>An event emitted on a "mouseup".</summary>
             abstract onMouseUp: listener: (IEditorMouseEvent -> unit) -> IDisposable
-            /// An event emitted on a "mousedown".
+            /// <summary>An event emitted on a "mousedown".</summary>
             abstract onMouseDown: listener: (IEditorMouseEvent -> unit) -> IDisposable
-            /// An event emitted on a "contextmenu".
+            /// <summary>An event emitted on a "contextmenu".</summary>
             abstract onContextMenu: listener: (IEditorMouseEvent -> unit) -> IDisposable
-            /// An event emitted on a "mousemove".
+            /// <summary>An event emitted on a "mousemove".</summary>
             abstract onMouseMove: listener: (IEditorMouseEvent -> unit) -> IDisposable
-            /// An event emitted on a "mouseleave".
+            /// <summary>An event emitted on a "mouseleave".</summary>
             abstract onMouseLeave: listener: (IEditorMouseEvent -> unit) -> IDisposable
-            /// An event emitted on a "keyup".
+            /// <summary>An event emitted on a "keyup".</summary>
             abstract onKeyUp: listener: (IKeyboardEvent -> unit) -> IDisposable
-            /// An event emitted on a "keydown".
+            /// <summary>An event emitted on a "keydown".</summary>
             abstract onKeyDown: listener: (IKeyboardEvent -> unit) -> IDisposable
-            /// An event emitted when the layout of the editor has changed.
+            /// <summary>An event emitted when the layout of the editor has changed.</summary>
             abstract onDidLayoutChange: listener: (EditorLayoutInfo -> unit) -> IDisposable
-            /// An event emitted when the scroll in the editor has changed.
+            /// <summary>An event emitted when the scroll in the editor has changed.</summary>
             abstract onDidScrollChange: listener: (IScrollEvent -> unit) -> IDisposable
             /// Returns the editor's dom node
             abstract getDomNode: unit -> HTMLElement
@@ -2274,9 +2542,11 @@ module Monaco =
             abstract changeViewZones: callback: (IViewZoneChangeAccessor -> unit) -> unit
             /// Returns the range that is currently centered in the view port.
             abstract getCenteredRangeInViewport: unit -> Range
+            /// <summary>
             /// Get the horizontal position (left offset) for the column w.r.t to the beginning of the line.
-            /// This method works only if the line `lineNumber` is currently rendered (in the editor's viewport).
+            /// This method works only if the line <c>lineNumber</c> is currently rendered (in the editor's viewport).
             /// Use this method with caution.
+            /// </summary>
             abstract getOffsetForColumn: lineNumber: float * column: float -> float
             /// Force an editor render now.
             abstract render: unit -> unit
@@ -2284,16 +2554,21 @@ module Monaco =
             abstract getTopForLineNumber: lineNumber: float -> float
             /// Get the vertical position (top offset) for the position w.r.t. to the first line.
             abstract getTopForPosition: lineNumber: float * column: float -> float
-            /// Get the hit test target at coordinates `clientX` and `clientY`.
+            /// <summary>
+            /// Get the hit test target at coordinates <c>clientX</c> and <c>clientY</c>.
             /// The coordinates are relative to the top-left of the viewport.
+            /// </summary>
+            /// <returns>Hit test target or null if the coordinates fall outside the editor or the editor has no model.</returns>
             abstract getTargetAtClientPoint: clientX: float * clientY: float -> IMouseTarget
-            /// Get the visible position for `position`.
+            /// <summary>
+            /// Get the visible position for <c>position</c>.
             /// The result position takes scrolling into account and is relative to the top left corner of the editor.
-            /// Explanation 1: the results of this method will change for the same `position` if the user scrolls the editor.
+            /// Explanation 1: the results of this method will change for the same <c>position</c> if the user scrolls the editor.
             /// Explanation 2: the results of this method will not change if the container of the editor gets repositioned.
             /// Warning: the results of this method are innacurate for positions that are outside the current editor viewport.
+            /// </summary>
             abstract getScrolledVisiblePosition: position: IPosition -> ICodeEditorGetScrolledVisiblePositionReturn
-            /// Apply the same font settings as the editor to `target`.
+            /// <summary>Apply the same font settings as the editor to <c>target</c>.</summary>
             abstract applyFontInfo: target: HTMLElement -> unit
 
         type [<AllowNullLiteral>] ICodeEditorGetScrolledVisiblePositionReturn =
@@ -2304,6 +2579,7 @@ module Monaco =
         /// A rich diff editor.
         type [<AllowNullLiteral>] IDiffEditor =
             inherit ICommonDiffEditor
+            /// <seealso cref="ICodeEditor.getDomNode" />
             abstract getDomNode: unit -> HTMLElement
 
         type [<AllowNullLiteral>] FontInfo =
@@ -2427,7 +2703,7 @@ module Monaco =
             abstract register: language: ILanguageExtensionPoint -> unit
             /// Get the information of all the registered languages.
             abstract getLanguages: unit -> ResizeArray<ILanguageExtensionPoint>
-            /// An event emitted when a language is first time needed (e.g. a model has it set).
+            /// <summary>An event emitted when a language is first time needed (e.g. a model has it set).</summary>
             abstract onLanguage: languageId: string * callback: (unit -> unit) -> IDisposable
             /// Set the editing configuration for a language.
             abstract setLanguageConfiguration: languageId: string * configuration: LanguageConfiguration -> IDisposable
@@ -2488,18 +2764,23 @@ module Monaco =
             /// Tokenize a line given the state at the beginning of the line.
             abstract tokenize: line: string * state: IState -> ILineTokens
 
+        /// <summary>
         /// Contains additional diagnostic information about the context in which
-        /// a [code action](#CodeActionProvider.provideCodeActions) is run.
+        /// a <see cref="CodeActionProvider.provideCodeActions">code action</see> is run.
+        /// </summary>
         type [<AllowNullLiteral>] CodeActionContext =
-            /// An array of diagnostics.
+            /// <summary>An array of diagnostics.</summary>
             abstract markers: ResizeArray<Editor.IMarkerData>
 
+        /// <summary>
         /// The code action interface defines the contract between extensions and
-        /// the [light bulb](https://code.visualstudio.com/docs/editor/editingevolved#_code-action) feature.
+        /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_code-action">light bulb</see> feature.
+        /// </summary>
         type [<AllowNullLiteral>] CodeActionProvider =
             /// Provide commands for the given document and range.
             abstract provideCodeActions: model: Editor.IReadOnlyModel * range: Range * context: CodeActionContext * token: CancellationToken -> U2<ResizeArray<Command>, Thenable<ResizeArray<Command>>>
 
+        /// Completion item kinds.
         type [<RequireQualifiedAccess>] CompletionItemKind =
             | Text = 0
             | Method = 1
@@ -2521,14 +2802,16 @@ module Monaco =
             | Reference = 17
             | Folder = 18
 
+        /// <summary>
         /// A snippet string is a template which allows to insert text
         /// and to control the editor cursor when insertion happens.
         /// 
-        /// A snippet can define tab stops and placeholders with `$1`, `$2`
-        /// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
-        /// the end of the snippet. Variables are defined with `$name` and
-        /// `${name:default value}`. The full snippet syntax is documented
-        /// [here](http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets).
+        /// A snippet can define tab stops and placeholders with <c>$1</c>, <c>$2</c>
+        /// and <c>${3:foo}</c>. <c>$0</c> defines the final tab stop, it defaults to
+        /// the end of the snippet. Variables are defined with <c>$name</c> and
+        /// <c>${name:default value}</c>. The full snippet syntax is documented
+        /// <see href="http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets">here</see>.
+        /// </summary>
         type [<AllowNullLiteral>] SnippetString =
             /// The snippet string.
             abstract value: string with get, set
@@ -2548,30 +2831,48 @@ module Monaco =
             abstract detail: string option with get, set
             /// A human-readable string that represents a doc-comment.
             abstract documentation: string option with get, set
+            /// <summary>
             /// A string that should be used when comparing this item
-            /// with other items. When `falsy` the [label](#CompletionItem.label)
+            /// with other items. When <c>falsy</c> the <see cref="CompletionItem.label">label</see>
             /// is used.
+            /// </summary>
             abstract sortText: string option with get, set
+            /// <summary>
             /// A string that should be used when filtering a set of
-            /// completion items. When `falsy` the [label](#CompletionItem.label)
+            /// completion items. When <c>falsy</c> the <see cref="CompletionItem.label">label</see>
             /// is used.
+            /// </summary>
             abstract filterText: string option with get, set
+            /// <summary>
             /// A string or snippet that should be inserted in a document when selecting
-            /// this completion. When `falsy` the [label](#CompletionItem.label)
+            /// this completion. When <c>falsy</c> the <see cref="CompletionItem.label">label</see>
             /// is used.
+            /// </summary>
             abstract insertText: U2<string, SnippetString> option with get, set
+            /// <summary>
             /// A range of text that should be replaced by this completion item.
             /// 
-            /// Defaults to a range from the start of the [current word](#TextDocument.getWordRangeAtPosition) to the
+            /// Defaults to a range from the start of the <see cref="TextDocument.getWordRangeAtPosition">current word</see> to the
             /// current position.
             /// 
-            /// *Note:* The range must be a [single line](#Range.isSingleLine) and it must
-            /// [contain](#Range.contains) the position at which completion has been [requested](#CompletionItemProvider.provideCompletionItems).
+            /// *Note:* The range must be a <see cref="Range.isSingleLine">single line</see> and it must
+            /// <see cref="Range.contains">contain</see> the position at which completion has been <see cref="CompletionItemProvider.provideCompletionItems">requested</see>.
+            /// </summary>
             abstract range: Range option with get, set
+            [<Obsolete("*Deprecated** in favor of `CompletionItem.insertText` and `CompletionItem.range`.
+
+~~An [edit](#TextEdit) which is applied to a document when selecting
+this completion. When an edit is provided the value of
+[insertText](#CompletionItem.insertText) is ignored.~~
+
+~~The [range](#Range) of the edit must be single-line and on the same
+line completions were [requested](#CompletionItemProvider.provideCompletionItems) at.~~")>]
             abstract textEdit: Editor.ISingleEditOperation option with get, set
 
-        /// Represents a collection of [completion items](#CompletionItem) to be presented
+        /// <summary>
+        /// Represents a collection of <see cref="CompletionItem">completion items</see> to be presented
         /// in the editor.
+        /// </summary>
         type [<AllowNullLiteral>] CompletionList =
             /// This list it not complete. Further typing should result in recomputing
             /// this list.
@@ -2579,30 +2880,34 @@ module Monaco =
             /// The completion items.
             abstract items: ResizeArray<CompletionItem> with get, set
 
+        /// <summary>
         /// The completion item provider interface defines the contract between extensions and
-        /// the [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense).
+        /// the <see href="https://code.visualstudio.com/docs/editor/intellisense">IntelliSense</see>.
         /// 
         /// When computing *complete* completion items is expensive, providers can optionally implement
-        /// the `resolveCompletionItem`-function. In that case it is enough to return completion
-        /// items with a [label](#CompletionItem.label) from the
-        /// [provideCompletionItems](#CompletionItemProvider.provideCompletionItems)-function. Subsequently,
+        /// the <c>resolveCompletionItem</c>-function. In that case it is enough to return completion
+        /// items with a <see cref="CompletionItem.label">label</see> from the
+        /// <see cref="CompletionItemProvider.provideCompletionItems">provideCompletionItems</see>-function. Subsequently,
         /// when a completion item is shown in the UI and gains focus this provider is asked to resolve
-        /// the item, like adding [doc-comment](#CompletionItem.documentation) or [details](#CompletionItem.detail).
+        /// the item, like adding <see cref="CompletionItem.documentation">doc-comment</see> or <see cref="CompletionItem.detail">details</see>.
+        /// </summary>
         type [<AllowNullLiteral>] CompletionItemProvider =
             abstract triggerCharacters: ResizeArray<string> option with get, set
             /// Provide completion items for the given position and document.
             abstract provideCompletionItems: model: Editor.IReadOnlyModel * position: Position * token: CancellationToken -> U4<ResizeArray<CompletionItem>, Thenable<ResizeArray<CompletionItem>>, CompletionList, Thenable<CompletionList>>
-            /// Given a completion item fill in more data, like [doc-comment](#CompletionItem.documentation)
-            /// or [details](#CompletionItem.detail).
+            /// <summary>
+            /// Given a completion item fill in more data, like <see cref="CompletionItem.documentation">doc-comment</see>
+            /// or <see cref="CompletionItem.detail">details</see>.
             /// 
             /// The editor will only resolve a completion item once.
+            /// </summary>
             abstract resolveCompletionItem: item: CompletionItem * token: CancellationToken -> U2<CompletionItem, Thenable<CompletionItem>>
 
         /// Describes how comments for a language work.
         type [<AllowNullLiteral>] CommentRule =
-            /// The line comment token, like `// this is a comment`
+            /// <summary>The line comment token, like <c>// this is a comment</c></summary>
             abstract lineComment: string option with get, set
-            /// The block comment character pair, like `/* block comment *&#47;`
+            /// <summary>The block comment character pair, like <c>/* block comment *&#47;</c></summary>
             abstract blockComment: CharacterPair option with get, set
 
         /// The language configuration interface defines the contract between extensions and
@@ -2631,6 +2936,7 @@ module Monaco =
             /// settings will be used.
             abstract surroundingPairs: ResizeArray<IAutoClosingPair> option with get, set
             /// **Deprecated** Do not use.
+            [<Obsolete("Will be replaced by a better API soon.")>]
             abstract __electricCharacterSupport: IBracketElectricCharacterContribution option with get, set
 
         /// Describes indentation rules for a language.
@@ -2663,6 +2969,8 @@ module Monaco =
             /// The string that appears on the last line and closes the doc comment (e.g. ' * /').
             abstract close: string with get, set
 
+        /// A tuple of two characters, like a pair of
+        /// opening and closing brackets.
         type CharacterPair =
             string * string
 
@@ -2674,10 +2982,17 @@ module Monaco =
             inherit IAutoClosingPair
             abstract notIn: ResizeArray<string> option with get, set
 
+        /// Describes what to do with the indentation when pressing Enter.
         type [<RequireQualifiedAccess>] IndentAction =
+            /// Insert new line and copy the previous line's indentation.
             | None = 0
+            /// Insert new line and indent once (relative to the previous line's indentation).
             | Indent = 1
+            /// Insert two new lines:
+            ///   - the first one indented which will hold the cursor
+            ///   - the second one at the same indentation level
             | IndentOutdent = 2
+            /// Insert new line and outdent once (relative to the previous line's indentation).
             | Outdent = 3
 
         /// Describes what to do when pressing Enter.
@@ -2708,8 +3023,10 @@ module Monaco =
             /// current position itself.
             abstract range: IRange with get, set
 
+        /// <summary>
         /// The hover provider interface defines the contract between extensions and
-        /// the [hover](https://code.visualstudio.com/docs/editor/intellisense)-feature.
+        /// the <see href="https://code.visualstudio.com/docs/editor/intellisense">hover</see>-feature.
+        /// </summary>
         type [<AllowNullLiteral>] HoverProvider =
             /// Provide a hover for the given position and document. Multiple hovers at the same
             /// position will be merged by the editor. A hover can have a range which defaults
@@ -2750,16 +3067,22 @@ module Monaco =
             /// The active parameter of the active signature.
             abstract activeParameter: float with get, set
 
+        /// <summary>
         /// The signature help provider interface defines the contract between extensions and
-        /// the [parameter hints](https://code.visualstudio.com/docs/editor/intellisense)-feature.
+        /// the <see href="https://code.visualstudio.com/docs/editor/intellisense">parameter hints</see>-feature.
+        /// </summary>
         type [<AllowNullLiteral>] SignatureHelpProvider =
             abstract signatureHelpTriggerCharacters: ResizeArray<string> with get, set
             /// Provide help for the signature at the given position and document.
             abstract provideSignatureHelp: model: Editor.IReadOnlyModel * position: Position * token: CancellationToken -> U2<SignatureHelp, Thenable<SignatureHelp>>
 
+        /// A document highlight kind.
         type [<RequireQualifiedAccess>] DocumentHighlightKind =
+            /// A textual occurrence.
             | Text = 0
+            /// Read-access of a symbol, like reading a variable.
             | Read = 1
+            /// Write-access of a symbol, like writing to a variable.
             | Write = 2
 
         /// A document highlight is a range inside a text document which deserves
@@ -2768,7 +3091,7 @@ module Monaco =
         type [<AllowNullLiteral>] DocumentHighlight =
             /// The range this highlight applies to.
             abstract range: IRange with get, set
-            /// The highlight kind, default is [text](#DocumentHighlightKind.Text).
+            /// <summary>The highlight kind, default is <see cref="DocumentHighlightKind.Text">text</see>.</summary>
             abstract kind: DocumentHighlightKind with get, set
 
         /// The document highlight provider interface defines the contract between extensions and
@@ -2784,8 +3107,10 @@ module Monaco =
             /// Include the declaration of the current symbol.
             abstract includeDeclaration: bool with get, set
 
+        /// <summary>
         /// The reference provider interface defines the contract between extensions and
-        /// the [find references](https://code.visualstudio.com/docs/editor/editingevolved#_peek)-feature.
+        /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_peek">find references</see>-feature.
+        /// </summary>
         type [<AllowNullLiteral>] ReferenceProvider =
             /// Provide a set of project-wide references for the given position and document.
             abstract provideReferences: model: Editor.IReadOnlyModel * position: Position * context: ReferenceContext * token: CancellationToken -> U2<ResizeArray<Location>, Thenable<ResizeArray<Location>>>
@@ -2798,12 +3123,19 @@ module Monaco =
             /// The document range of this locations.
             abstract range: IRange with get, set
 
+        /// <summary>
+        /// The definition of a symbol represented as one or many <see cref="Location">locations</see>.
+        /// For most programming languages there is only one location at which a symbol is
+        /// defined.
+        /// </summary>
         type Definition =
             U2<Location, ResizeArray<Location>>
 
+        /// <summary>
         /// The definition provider interface defines the contract between extensions and
-        /// the [go to definition](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition)
+        /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition">go to definition</see>
         /// and peek definition features.
+        /// </summary>
         type [<AllowNullLiteral>] DefinitionProvider =
             /// Provide the definition of the symbol at the given position and document.
             abstract provideDefinition: model: Editor.IReadOnlyModel * position: Position * token: CancellationToken -> U2<Definition, Thenable<Definition>>
@@ -2820,6 +3152,7 @@ module Monaco =
             /// Provide the type definition of the symbol at the given position and document.
             abstract provideTypeDefinition: model: Editor.IReadOnlyModel * position: Position * token: CancellationToken -> U2<Definition, Thenable<Definition>>
 
+        /// A symbol kind.
         type [<RequireQualifiedAccess>] SymbolKind =
             | File = 0
             | Module = 1
@@ -2860,8 +3193,10 @@ module Monaco =
             /// The location of this symbol.
             abstract location: Location with get, set
 
+        /// <summary>
         /// The document symbol provider interface defines the contract between extensions and
-        /// the [go to symbol](https://code.visualstudio.com/docs/editor/editingevolved#_goto-symbol)-feature.
+        /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_goto-symbol">go to symbol</see>-feature.
+        /// </summary>
         type [<AllowNullLiteral>] DocumentSymbolProvider =
             /// Provide symbol information for the given document.
             abstract provideDocumentSymbols: model: Editor.IReadOnlyModel * token: CancellationToken -> U2<ResizeArray<SymbolInformation>, Thenable<ResizeArray<SymbolInformation>>>
@@ -2898,11 +3233,13 @@ module Monaco =
         /// the formatting-feature.
         type [<AllowNullLiteral>] OnTypeFormattingEditProvider =
             abstract autoFormatTriggerCharacters: ResizeArray<string> with get, set
+            /// <summary>
             /// Provide formatting edits after a character has been typed.
             /// 
             /// The given position and character should hint to the provider
-            /// what range the position to expand to, like find the matching `{`
-            /// when `}` has been entered.
+            /// what range the position to expand to, like find the matching <c>{</c>
+            /// when <c>}</c> has been entered.
+            /// </summary>
             abstract provideOnTypeFormattingEdits: model: Editor.IReadOnlyModel * position: Position * ch: string * options: FormattingOptions * token: CancellationToken -> U2<ResizeArray<TextEdit>, Thenable<ResizeArray<TextEdit>>>
 
         /// A link inside the editor.
@@ -3120,11 +3457,17 @@ module Monaco =
                 abstract noSyntaxValidation: bool option with get, set
 
             type [<AllowNullLiteral>] LanguageServiceDefaults =
-                /// <summary>Add an additional source file to the language service. Use this
+                /// <summary>
+                /// Add an additional source file to the language service. Use this
                 /// for typescript (definition) files that won't be loaded as editor
-                /// document, like `jquery.d.ts`.</summary>
+                /// document, like <c>jquery.d.ts</c>.
+                /// </summary>
                 /// <param name="content">The file content</param>
                 /// <param name="filePath">An optional file path</param>
+                /// <returns>
+                /// A disposabled which will remove the file from the
+                /// language service upon disposal.
+                /// </returns>
                 abstract addExtraLib: content: string * ?filePath: string -> IDisposable
                 /// Set TypeScript compiler options.
                 abstract setCompilerOptions: options: CompilerOptions -> unit
@@ -3132,8 +3475,10 @@ module Monaco =
                 /// be performed
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
                 /// <summary>Configure when the worker shuts down. By default that is 2mins.</summary>
-                /// <param name="value">The maximun idle time in milliseconds. Values less than one
-                /// mean never shut down.</param>
+                /// <param name="value">
+                /// The maximun idle time in milliseconds. Values less than one
+                /// mean never shut down.
+                /// </param>
                 abstract setMaximunWorkerIdleTime: value: float -> unit
                 /// Configure if all existing models should be eagerly sync'd
                 /// to the worker on start or restart.

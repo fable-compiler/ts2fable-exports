@@ -13,65 +13,338 @@ type RegExp = System.Text.RegularExpressions.Regex
 let [<Import("*","vscode")>] vscode: Vscode.IExports = jsNative
 
 module Vscode =
+    /// Namespace for tasks functionality.
     let [<Import("tasks","vscode")>] tasks: Tasks.IExports = jsNative
+    /// Namespace describing the environment the editor runs in.
     let [<Import("env","vscode")>] env: Env.IExports = jsNative
+    /// <summary>
+    /// Namespace for dealing with commands. In short, a command is a function with a
+    /// unique identifier. The function is sometimes also called _command handler_.
+    /// 
+    /// Commands can be added to the editor using the <see cref="commands.registerCommand">registerCommand</see>
+    /// and <see cref="commands.registerTextEditorCommand">registerTextEditorCommand</see> functions. Commands
+    /// can be executed <see cref="commands.executeCommand">manually</see> or from a UI gesture. Those are:
+    /// 
+    /// * palette - Use the <c>commands</c>-section in <c>package.json</c> to make a command show in
+    /// the <see href="https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette">command palette</see>.
+    /// * keybinding - Use the <c>keybindings</c>-section in <c>package.json</c> to enable
+    /// <see href="https://code.visualstudio.com/docs/getstarted/keybindings#_customizing-shortcuts">keybindings</see>
+    /// for your extension.
+    /// 
+    /// Commands from other extensions and from the editor itself are accessible to an extension. However,
+    /// when invoking an editor command not all argument types are supported.
+    /// 
+    /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
+    /// register a command handler with the identifier <c>extension.sayHello</c>.
+    /// <code language="javascript">
+    /// commands.registerCommand('extension.sayHello', () => {
+    ///  	window.showInformationMessage('Hello World!');
+    /// });
+    /// </code>
+    /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
+    /// <code language="json">
+    /// {
+    ///  	"contributes": {
+    ///  		"commands": [{
+    ///  			"command": "extension.sayHello",
+    ///  			"title": "Hello World"
+    ///  		}]
+    ///  	}
+    /// }
+    /// </code>
+    /// </summary>
     let [<Import("commands","vscode")>] commands: Commands.IExports = jsNative
+    /// Namespace for dealing with the current window of the editor. That is visible
+    /// and active editors, as well as, UI elements to show messages, selections, and
+    /// asking for user input.
     let [<Import("window","vscode")>] window: Window.IExports = jsNative
+    /// <summary>
+    /// Namespace for dealing with the current workspace. A workspace is the representation
+    /// of the folder that has been opened. There is no workspace when just a file but not a
+    /// folder has been opened.
+    /// 
+    /// The workspace offers support for <see cref="workspace.createFileSystemWatcher">listening</see> to fs
+    /// events and for <see cref="workspace.findFiles">finding</see> files. Both perform well and run _outside_
+    /// the editor-process so that they should be always used instead of nodejs-equivalents.
+    /// </summary>
     let [<Import("workspace","vscode")>] workspace: Workspace.IExports = jsNative
+    /// <summary>
+    /// Namespace for participating in language-specific editor <see href="https://code.visualstudio.com/docs/editor/editingevolved">features</see>,
+    /// like IntelliSense, code actions, diagnostics etc.
+    /// 
+    /// Many programming languages exist and there is huge variety in syntaxes, semantics, and paradigms. Despite that, features
+    /// like automatic word-completion, code navigation, or code checking have become popular across different tools for different
+    /// programming languages.
+    /// 
+    /// The editor provides an API that makes it simple to provide such common features by having all UI and actions already in place and
+    /// by allowing you to participate by providing data only. For instance, to contribute a hover all you have to do is provide a function
+    /// that can be called with a <see cref="TextDocument">TextDocument</see> and a <see cref="Position">Position</see> returning hover info. The rest, like tracking the
+    /// mouse, positioning the hover, keeping the hover stable etc. is taken care of by the editor.
+    /// 
+    /// <code language="javascript">
+    /// languages.registerHoverProvider('javascript', {
+    ///  	provideHover(document, position, token) {
+    ///  		return new Hover('I am a hover!');
+    ///  	}
+    /// });
+    /// </code>
+    /// 
+    /// Registration is done using a <see cref="DocumentSelector">document selector</see> which is either a language id, like <c>javascript</c> or
+    /// a more complex <see cref="DocumentFilter">filter</see> like <c>{ language: 'typescript', scheme: 'file' }</c>. Matching a document against such
+    /// a selector will result in a <see cref="languages.match">score</see> that is used to determine if and how a provider shall be used. When
+    /// scores are equal the provider that came last wins. For features that allow full arity, like <see cref="languages.registerHoverProvider">hover</see>,
+    /// the score is only checked to be <c>>0</c>, for other features, like <see cref="languages.registerCompletionItemProvider">IntelliSense</see> the
+    /// score is used for determining the order in which providers are asked to participate.
+    /// </summary>
     let [<Import("languages","vscode")>] languages: Languages.IExports = jsNative
     let [<Import("scm","vscode")>] scm: Scm.IExports = jsNative
+    /// Namespace for debug functionality.
     let [<Import("debug","vscode")>] debug: Debug.IExports = jsNative
+    /// <summary>
+    /// Namespace for dealing with installed extensions. Extensions are represented
+    /// by an <see cref="Extension">extension</see>-interface which enables reflection on them.
+    /// 
+    /// Extension writers can provide APIs to other extensions by returning their API public
+    /// surface from the <c>activate</c>-call.
+    /// 
+    /// <code language="javascript">
+    /// export function activate(context: vscode.ExtensionContext) {
+    ///  	let api = {
+    ///  		sum(a, b) {
+    ///  			return a + b;
+    ///  		},
+    ///  		mul(a, b) {
+    ///  			return a * b;
+    ///  		}
+    ///  	};
+    ///  	// 'export' public api-surface
+    ///  	return api;
+    /// }
+    /// </code>
+    /// When depending on the API of another extension add an <c>extensionDependency</c>-entry
+    /// to <c>package.json</c>, and use the <see cref="extensions.getExtension">getExtension</see>-function
+    /// and the <see cref="Extension.exports">exports</see>-property, like below:
+    /// 
+    /// <code language="javascript">
+    /// let mathExt = extensions.getExtension('genius.math');
+    /// let importedApi = mathExt.exports;
+    /// 
+    /// console.log(importedApi.mul(42, 1));
+    /// </code>
+    /// </summary>
     let [<Import("extensions","vscode")>] extensions: Extensions.IExports = jsNative
     let [<Import("comments","vscode")>] comments: Comments.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract version: string
+        /// <summary>
+        /// Represents a line and character position, such as
+        /// the position of the cursor.
+        /// 
+        /// Position objects are __immutable__. Use the <see cref="Position.with">with</see> or
+        /// <see cref="Position.translate">translate</see> methods to derive new positions
+        /// from an existing position.
+        /// </summary>
         abstract Position: PositionStatic
+        /// <summary>
+        /// A range represents an ordered pair of two positions.
+        /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end)">end</see>
+        /// 
+        /// Range objects are __immutable__. Use the <see cref="Range.with">with</see>,
+        /// <see cref="Range.intersection">intersection</see>, or <see cref="Range.union">union</see> methods
+        /// to derive new ranges from an existing range.
+        /// </summary>
         abstract Range: RangeStatic
+        /// Represents a text selection in an editor.
         abstract Selection: SelectionStatic
+        /// <summary>
+        /// A reference to one of the workbench colors as defined in <see href="https://code.visualstudio.com/docs/getstarted/theme-color-reference." />
+        /// Using a theme color is preferred over a custom color as it gives theme authors and users the possibility to change the color.
+        /// </summary>
         abstract ThemeColor: ThemeColorStatic
+        /// <summary>
+        /// A reference to a named icon. Currently only <see cref="ThemeIcon.File">File</see> and <see cref="ThemeIcon.Folder">Folder</see> are supported.
+        /// Using a theme icon is preferred over a custom icon as it gives theme authors the possibility to change the icons.
+        /// </summary>
         abstract ThemeIcon: ThemeIconStatic
+        /// A universal resource identifier representing either a file on disk
+        /// or another resource, like untitled resources.
         abstract Uri: UriStatic
+        /// <summary>A cancellation source creates and controls a <see cref="CancellationToken">cancellation token</see>.</summary>
         abstract CancellationTokenSource: CancellationTokenSourceStatic
+        /// Represents a type which can release resources, such
+        /// as event listening or a timer.
         abstract Disposable: DisposableStatic
+        /// <summary>
+        /// An event emitter can be used to create and manage an <see cref="Event">event</see> for others
+        /// to subscribe to. One emitter always owns one event.
+        /// 
+        /// Use this class if you want to provide event from within your extension, for instance
+        /// inside a <see cref="TextDocumentContentProvider">TextDocumentContentProvider</see> or when providing
+        /// API to other extensions.
+        /// </summary>
         abstract EventEmitter: EventEmitterStatic
+        /// <summary>
+        /// A relative pattern is a helper to construct glob patterns that are matched
+        /// relatively to a base path. The base path can either be an absolute file path
+        /// or a <see cref="WorkspaceFolder">workspace folder</see>.
+        /// </summary>
         abstract RelativePattern: RelativePatternStatic
+        /// <summary>
+        /// Kind of a code action.
+        /// 
+        /// Kinds are a hierarchical list of identifiers separated by <c>.</c>, e.g. <c>"refactor.extract.function"</c>.
+        /// 
+        /// Code action kinds are used by VS Code for UI elements such as the refactoring context menu. Users
+        /// can also trigger code actions with a specific kind with the <c>editor.action.codeAction</c> command.
+        /// </summary>
         abstract CodeActionKind: CodeActionKindStatic
+        /// <summary>
+        /// A code action represents a change that can be performed in code, e.g. to fix a problem or
+        /// to refactor code.
+        /// 
+        /// A CodeAction must set either <see cref="CodeAction.edit"><c>edit</c></see> and/or a <see cref="CodeAction.command"><c>command</c></see>. If both are supplied, the <c>edit</c> is applied first, then the command is executed.
+        /// </summary>
         abstract CodeAction: CodeActionStatic
+        /// <summary>
+        /// A code lens represents a <see cref="Command">command</see> that should be shown along with
+        /// source text, like the number of references, a way to run tests, etc.
+        /// 
+        /// A code lens is _unresolved_ when no command is associated to it. For performance
+        /// reasons the creation of a code lens and resolving should be done to two stages.
+        /// </summary>
+        /// <seealso cref="CodeLensProvider.provideCodeLenses">CodeLensProvider.provideCodeLenses</seealso>
+        /// <seealso cref="CodeLensProvider.resolveCodeLens">CodeLensProvider.resolveCodeLens</seealso>
         abstract CodeLens: CodeLensStatic
+        /// The MarkdownString represents human readable text that supports formatting via the
+        /// markdown syntax. Standard markdown is supported, also tables, but no embedded html.
         abstract MarkdownString: MarkdownStringStatic
+        /// A hover represents additional information for a symbol or word. Hovers are
+        /// rendered in a tooltip-like widget.
         abstract Hover: HoverStatic
+        /// A document highlight is a range inside a text document which deserves
+        /// special attention. Usually a document highlight is visualized by changing
+        /// the background color of its range.
         abstract DocumentHighlight: DocumentHighlightStatic
+        /// Represents information about programming constructs like variables, classes,
+        /// interfaces etc.
         abstract SymbolInformation: SymbolInformationStatic
+        /// Represents programming constructs like variables, classes, interfaces etc. that appear in a document. Document
+        /// symbols can be hierarchical and they have two ranges: one that encloses its definition and one that points to
+        /// its most interesting range, e.g. the range of an identifier.
         abstract DocumentSymbol: DocumentSymbolStatic
+        /// A text edit represents edits that should be applied
+        /// to a document.
         abstract TextEdit: TextEditStatic
+        /// <summary>
+        /// A workspace edit is a collection of textual and files changes for
+        /// multiple resources and documents.
+        /// 
+        /// Use the <see cref="workspace.applyEdit">applyEdit</see>-function to apply a workspace edit.
+        /// </summary>
         abstract WorkspaceEdit: WorkspaceEditStatic
+        /// <summary>
+        /// A snippet string is a template which allows to insert text
+        /// and to control the editor cursor when insertion happens.
+        /// 
+        /// A snippet can define tab stops and placeholders with <c>$1</c>, <c>$2</c>
+        /// and <c>${3:foo}</c>. <c>$0</c> defines the final tab stop, it defaults to
+        /// the end of the snippet. Variables are defined with <c>$name</c> and
+        /// <c>${name:default value}</c>. The full snippet syntax is documented
+        /// <see href="http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets">here</see>.
+        /// </summary>
         abstract SnippetString: SnippetStringStatic
+        /// Represents a parameter of a callable-signature. A parameter can
+        /// have a label and a doc-comment.
         abstract ParameterInformation: ParameterInformationStatic
+        /// Represents the signature of something callable. A signature
+        /// can have a label, like a function-name, a doc-comment, and
+        /// a set of parameters.
         abstract SignatureInformation: SignatureInformationStatic
+        /// Signature help represents the signature of something
+        /// callable. There can be multiple signatures but only one
+        /// active and only one active parameter.
         abstract SignatureHelp: SignatureHelpStatic
+        /// <summary>
+        /// A completion item represents a text snippet that is proposed to complete text that is being typed.
+        /// 
+        /// It is sufficient to create a completion item from just a <see cref="CompletionItem.label">label</see>. In that
+        /// case the completion item will replace the <see cref="TextDocument.getWordRangeAtPosition">word</see>
+        /// until the cursor with the given label or <see cref="CompletionItem.insertText">insertText</see>. Otherwise the
+        /// given <see cref="CompletionItem.textEdit">edit</see> is used.
+        /// 
+        /// When selecting a completion item in the editor its defined or synthesized text edit will be applied
+        /// to *all* cursors/selections whereas <see cref="CompletionItem.additionalTextEdits">additionalTextEdits</see> will be
+        /// applied as provided.
+        /// </summary>
+        /// <seealso cref="CompletionItemProvider.provideCompletionItems">CompletionItemProvider.provideCompletionItems</seealso>
+        /// <seealso cref="CompletionItemProvider.resolveCompletionItem">CompletionItemProvider.resolveCompletionItem</seealso>
         abstract CompletionItem: CompletionItemStatic
+        /// <summary>
+        /// Represents a collection of <see cref="CompletionItem">completion items</see> to be presented
+        /// in the editor.
+        /// </summary>
         abstract CompletionList: CompletionListStatic
+        /// A document link is a range in a text document that links to an internal or external resource, like another
+        /// text document or a web site.
         abstract DocumentLink: DocumentLinkStatic
+        /// Represents a color in RGBA space.
         abstract Color: ColorStatic
+        /// Represents a color range from a document.
         abstract ColorInformation: ColorInformationStatic
+        /// <summary>
+        /// A color presentation object describes how a <see cref="Color"><c>color</c></see> should be represented as text and what
+        /// edits are required to refer to it from source code.
+        /// 
+        /// For some languages one color can have multiple presentations, e.g. css can represent the color red with
+        /// the constant <c>Red</c>, the hex-value <c>#ff0000</c>, or in rgba and hsla forms. In csharp other representations
+        /// apply, e.g <c>System.Drawing.Color.Red</c>.
+        /// </summary>
         abstract ColorPresentation: ColorPresentationStatic
+        /// A line based folding range. To be valid, start and end line must be bigger than zero and smaller than the number of lines in the document.
+        /// Invalid ranges will be ignored.
         abstract FoldingRange: FoldingRangeStatic
+        /// A selection range represents a part of a selection hierarchy. A selection range
+        /// may have a parent selection range that contains it.
         abstract SelectionRange: SelectionRangeStatic
+        /// Represents a location inside a resource, such as a line
+        /// inside a text file.
         abstract Location: LocationStatic
+        /// Represents a related message and source code location for a diagnostic. This should be
+        /// used to point to code locations that cause or related to a diagnostics, e.g when duplicating
+        /// a symbol in a scope.
         abstract DiagnosticRelatedInformation: DiagnosticRelatedInformationStatic
+        /// Represents a diagnostic, such as a compiler error or warning. Diagnostic objects
+        /// are only valid in the scope of a file.
         abstract Diagnostic: DiagnosticStatic
+        /// A grouping for tasks. The editor by default supports the
+        /// 'Clean', 'Build', 'RebuildAll' and 'Test' group.
         abstract TaskGroup: TaskGroupStatic
+        /// The execution of a task happens as an external process
+        /// without shell interaction.
         abstract ProcessExecution: ProcessExecutionStatic
         abstract ShellExecution: ShellExecutionStatic
+        /// A task to execute
         abstract Task: TaskStatic
+        /// <summary>
+        /// A type that filesystem providers should use to signal errors.
+        /// 
+        /// This class has factory methods for common error-cases, like <c>FileNotFound</c> when
+        /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.FileNotFound(someUri);</c>
+        /// </summary>
         abstract FileSystemError: FileSystemErrorStatic
         abstract TreeItem: TreeItemStatic
+        /// <summary>Predefined buttons for <see cref="QuickPick">QuickPick</see> and <see cref="InputBox">InputBox</see>.</summary>
         abstract QuickInputButtons: QuickInputButtonsStatic
+        /// Represents a debug adapter executable and optional arguments and runtime options passed to it.
         abstract DebugAdapterExecutable: DebugAdapterExecutableStatic
+        /// Represents a debug adapter running as a socket based server.
         abstract DebugAdapterServer: DebugAdapterServerStatic
+        /// The base class of all breakpoint types.
         abstract Breakpoint: BreakpointStatic
+        /// A breakpoint specified by a source location.
         abstract SourceBreakpoint: SourceBreakpointStatic
+        /// A breakpoint specified by a function name.
         abstract FunctionBreakpoint: FunctionBreakpointStatic
 
     /// Represents a reference to a command. Provides a title which
@@ -79,9 +352,10 @@ module Vscode =
     /// an array of arguments which will be passed to the command handler
     /// function when invoked.
     type [<AllowNullLiteral>] Command =
-        /// Title of the command, like `save`.
+        /// <summary>Title of the command, like <c>save</c>.</summary>
         abstract title: string with get, set
-        /// The identifier of the actual command handler.
+        /// <summary>The identifier of the actual command handler.</summary>
+        /// <seealso cref="commands.registerCommand">commands.registerCommand .</seealso>
         abstract command: string with get, set
         /// A tooltip for the command, when represented in the UI.
         abstract tooltip: string option with get, set
@@ -89,10 +363,12 @@ module Vscode =
         /// invoked with.
         abstract arguments: ResizeArray<obj option> option with get, set
 
+    /// <summary>
     /// Represents a line of text, such as a line of source code.
     /// 
-    /// TextLine objects are __immutable__. When a [document](#TextDocument) changes,
+    /// TextLine objects are __immutable__. When a <see cref="TextDocument">document</see> changes,
     /// previously retrieved lines will not represent the latest state.
+    /// </summary>
     type [<AllowNullLiteral>] TextLine =
         /// The zero-based line number.
         abstract lineNumber: float
@@ -102,133 +378,215 @@ module Vscode =
         abstract range: Range
         /// The range this line covers with the line separator characters.
         abstract rangeIncludingLineBreak: Range
+        /// <summary>
         /// The offset of the first character which is not a whitespace character as defined
-        /// by `/\s/`. **Note** that if a line is all whitespace the length of the line is returned.
+        /// by <c>/\s/</c>. **Note** that if a line is all whitespace the length of the line is returned.
+        /// </summary>
         abstract firstNonWhitespaceCharacterIndex: float
+        /// <summary>
         /// Whether this line is whitespace only, shorthand
-        /// for [TextLine.firstNonWhitespaceCharacterIndex](#TextLine.firstNonWhitespaceCharacterIndex) === [TextLine.text.length](#TextLine.text).
+        /// for <see cref="TextLine.firstNonWhitespaceCharacterIndex">TextLine.firstNonWhitespaceCharacterIndex</see> === <see cref="TextLine.text">TextLine.text.length</see>.
+        /// </summary>
         abstract isEmptyOrWhitespace: bool
 
+    /// <summary>
     /// Represents a text document, such as a source file. Text documents have
-    /// [lines](#TextLine) and knowledge about an underlying resource like a file.
+    /// <see cref="TextLine">lines</see> and knowledge about an underlying resource like a file.
+    /// </summary>
     type [<AllowNullLiteral>] TextDocument =
+        /// <summary>
         /// The associated uri for this document.
         /// 
-        /// *Note* that most documents use the `file`-scheme, which means they are files on disk. However, **not** all documents are
-        /// saved on disk and therefore the `scheme` must be checked before trying to access the underlying file or siblings on disk.
+        /// *Note* that most documents use the <c>file</c>-scheme, which means they are files on disk. However, **not** all documents are
+        /// saved on disk and therefore the <c>scheme</c> must be checked before trying to access the underlying file or siblings on disk.
+        /// </summary>
+        /// <seealso cref="FileSystemProvider">FileSystemProvider</seealso>
+        /// <seealso cref="TextDocumentContentProvider">TextDocumentContentProvider</seealso>
         abstract uri: Uri
+        /// <summary>
         /// The file system path of the associated resource. Shorthand
-        /// notation for [TextDocument.uri.fsPath](#TextDocument.uri). Independent of the uri scheme.
+        /// notation for <see cref="TextDocument.uri">TextDocument.uri.fsPath</see>. Independent of the uri scheme.
+        /// </summary>
         abstract fileName: string
+        /// <summary>
         /// Is this document representing an untitled file which has never been saved yet. *Note* that
-        /// this does not mean the document will be saved to disk, use [`uri.scheme`](#Uri.scheme)
-        /// to figure out where a document will be [saved](#FileSystemProvider), e.g. `file`, `ftp` etc.
+        /// this does not mean the document will be saved to disk, use <see cref="Uri.scheme"><c>uri.scheme</c></see>
+        /// to figure out where a document will be <see cref="FileSystemProvider">saved</see>, e.g. <c>file</c>, <c>ftp</c> etc.
+        /// </summary>
         abstract isUntitled: bool
         /// The identifier of the language associated with this document.
         abstract languageId: string
         /// The version number of this document (it will strictly increase after each
         /// change, including undo/redo).
         abstract version: float
-        /// `true` if there are unpersisted changes.
+        /// <summary><c>true</c> if there are unpersisted changes.</summary>
         abstract isDirty: bool
-        /// `true` if the document have been closed. A closed document isn't synchronized anymore
+        /// <summary>
+        /// <c>true</c> if the document have been closed. A closed document isn't synchronized anymore
         /// and won't be re-used when the same resource is opened again.
+        /// </summary>
         abstract isClosed: bool
-        /// Save the underlying file.
+        /// <summary>Save the underlying file.</summary>
+        /// <returns>
+        /// A promise that will resolve to true when the file
+        /// has been saved. If the file was not dirty or the save failed,
+        /// will return false.
+        /// </returns>
         abstract save: unit -> Thenable<bool>
-        /// The [end of line](#EndOfLine) sequence that is predominately
+        /// <summary>
+        /// The <see cref="EndOfLine">end of line</see> sequence that is predominately
         /// used in this document.
+        /// </summary>
         abstract eol: EndOfLine
         /// The number of lines in this document.
         abstract lineCount: float
-        /// <summary>Returns a text line denoted by the line number. Note
+        /// <summary>
+        /// Returns a text line denoted by the line number. Note
         /// that the returned object is *not* live and changes to the
-        /// document are not reflected.</summary>
+        /// document are not reflected.
+        /// </summary>
         /// <param name="line">A line number in [0, lineCount).</param>
+        /// <returns>A <see cref="TextLine">line</see>.</returns>
         abstract lineAt: line: float -> TextLine
-        /// <summary>Returns a text line denoted by the position. Note
+        /// <summary>
+        /// Returns a text line denoted by the position. Note
         /// that the returned object is *not* live and changes to the
         /// document are not reflected.
         /// 
-        /// The position will be [adjusted](#TextDocument.validatePosition).</summary>
+        /// The position will be <see cref="TextDocument.validatePosition">adjusted</see>.
+        /// </summary>
+        /// <seealso cref="TextDocument.lineAt">TextDocument.lineAt</seealso>
         /// <param name="position">A position.</param>
+        /// <returns>A <see cref="TextLine">line</see>.</returns>
         abstract lineAt: position: Position -> TextLine
-        /// <summary>Converts the position to a zero-based offset.
+        /// <summary>
+        /// Converts the position to a zero-based offset.
         /// 
-        /// The position will be [adjusted](#TextDocument.validatePosition).</summary>
+        /// The position will be <see cref="TextDocument.validatePosition">adjusted</see>.
+        /// </summary>
         /// <param name="position">A position.</param>
+        /// <returns>A valid zero-based offset.</returns>
         abstract offsetAt: position: Position -> float
         /// <summary>Converts a zero-based offset to a position.</summary>
         /// <param name="offset">A zero-based offset.</param>
+        /// <returns>A valid <see cref="Position">position</see>.</returns>
         abstract positionAt: offset: float -> Position
-        /// <summary>Get the text of this document. A substring can be retrieved by providing
-        /// a range. The range will be [adjusted](#TextDocument.validateRange).</summary>
+        /// <summary>
+        /// Get the text of this document. A substring can be retrieved by providing
+        /// a range. The range will be <see cref="TextDocument.validateRange">adjusted</see>.
+        /// </summary>
         /// <param name="range">Include only the text included by the range.</param>
+        /// <returns>The text inside the provided range or the entire text.</returns>
         abstract getText: ?range: Range -> string
-        /// <summary>Get a word-range at the given position. By default words are defined by
+        /// <summary>
+        /// Get a word-range at the given position. By default words are defined by
         /// common separators, like space, -, _, etc. In addition, per language custom
-        /// [word definitions](#LanguageConfiguration.wordPattern) can be defined. It
+        /// <see cref="LanguageConfiguration.wordPattern">word definitions</see> can be defined. It
         /// is also possible to provide a custom regular expression.
         /// 
         /// * *Note 1:* A custom regular expression must not match the empty string and
         /// if it does, it will be ignored.
         /// * *Note 2:* A custom regular expression will fail to match multiline strings
         /// and in the name of speed regular expressions should not match words with
-        /// spaces. Use [`TextLine.text`](#TextLine.text) for more complex, non-wordy, scenarios.
+        /// spaces. Use <see cref="TextLine.text"><c>TextLine.text</c></see> for more complex, non-wordy, scenarios.
         /// 
-        /// The position will be [adjusted](#TextDocument.validatePosition).</summary>
+        /// The position will be <see cref="TextDocument.validatePosition">adjusted</see>.
+        /// </summary>
         /// <param name="position">A position.</param>
         /// <param name="regex">Optional regular expression that describes what a word is.</param>
+        /// <returns>A range spanning a word, or <c>undefined</c>.</returns>
         abstract getWordRangeAtPosition: position: Position * ?regex: RegExp -> Range option
         /// <summary>Ensure a range is completely contained in this document.</summary>
         /// <param name="range">A range.</param>
+        /// <returns>The given range or a new, adjusted range.</returns>
         abstract validateRange: range: Range -> Range
         /// <summary>Ensure a position is contained in the range of this document.</summary>
         /// <param name="position">A position.</param>
+        /// <returns>The given position or a new, adjusted position.</returns>
         abstract validatePosition: position: Position -> Position
 
+    /// <summary>
     /// Represents a line and character position, such as
     /// the position of the cursor.
     /// 
-    /// Position objects are __immutable__. Use the [with](#Position.with) or
-    /// [translate](#Position.translate) methods to derive new positions
+    /// Position objects are __immutable__. Use the <see cref="Position.with">with</see> or
+    /// <see cref="Position.translate">translate</see> methods to derive new positions
     /// from an existing position.
+    /// </summary>
     type [<AllowNullLiteral>] Position =
         /// The zero-based line value.
         abstract line: float
         /// The zero-based character value.
         abstract character: float
-        /// <summary>Check if this position is before `other`.</summary>
+        /// <summary>Check if this position is before <c>other</c>.</summary>
         /// <param name="other">A position.</param>
+        /// <returns>
+        /// <c>true</c> if position is on a smaller line
+        /// or on the same line on a smaller character.
+        /// </returns>
         abstract isBefore: other: Position -> bool
-        /// <summary>Check if this position is before or equal to `other`.</summary>
+        /// <summary>Check if this position is before or equal to <c>other</c>.</summary>
         /// <param name="other">A position.</param>
+        /// <returns>
+        /// <c>true</c> if position is on a smaller line
+        /// or on the same line on a smaller or equal character.
+        /// </returns>
         abstract isBeforeOrEqual: other: Position -> bool
-        /// <summary>Check if this position is after `other`.</summary>
+        /// <summary>Check if this position is after <c>other</c>.</summary>
         /// <param name="other">A position.</param>
+        /// <returns>
+        /// <c>true</c> if position is on a greater line
+        /// or on the same line on a greater character.
+        /// </returns>
         abstract isAfter: other: Position -> bool
-        /// <summary>Check if this position is after or equal to `other`.</summary>
+        /// <summary>Check if this position is after or equal to <c>other</c>.</summary>
         /// <param name="other">A position.</param>
+        /// <returns>
+        /// <c>true</c> if position is on a greater line
+        /// or on the same line on a greater or equal character.
+        /// </returns>
         abstract isAfterOrEqual: other: Position -> bool
-        /// <summary>Check if this position is equal to `other`.</summary>
+        /// <summary>Check if this position is equal to <c>other</c>.</summary>
         /// <param name="other">A position.</param>
+        /// <returns>
+        /// <c>true</c> if the line and character of the given position are equal to
+        /// the line and character of this position.
+        /// </returns>
         abstract isEqual: other: Position -> bool
-        /// <summary>Compare this to `other`.</summary>
+        /// <summary>Compare this to <c>other</c>.</summary>
         /// <param name="other">A position.</param>
+        /// <returns>
+        /// A number smaller than zero if this position is before the given position,
+        /// a number greater than zero if this position is after the given position, or zero when
+        /// this and the given position are equal.
+        /// </returns>
         abstract compareTo: other: Position -> float
         /// <summary>Create a new position relative to this position.</summary>
-        /// <param name="lineDelta">Delta value for the line value, default is `0`.</param>
-        /// <param name="characterDelta">Delta value for the character value, default is `0`.</param>
+        /// <param name="lineDelta">Delta value for the line value, default is <c>0</c>.</param>
+        /// <param name="characterDelta">Delta value for the character value, default is <c>0</c>.</param>
+        /// <returns>
+        /// A position which line and character is the sum of the current line and
+        /// character and the corresponding deltas.
+        /// </returns>
         abstract translate: ?lineDelta: float * ?characterDelta: float -> Position
         /// <summary>Derived a new position relative to this position.</summary>
         /// <param name="change">An object that describes a delta to this position.</param>
+        /// <returns>
+        /// A position that reflects the given delta. Will return <c>this</c> position if the change
+        /// is not changing anything.
+        /// </returns>
         abstract translate: change: PositionTranslateChange -> Position
         /// <summary>Create a new position derived from this position.</summary>
-        /// <param name="line">Value that should be used as line value, default is the [existing value](#Position.line)</param>
-        /// <param name="character">Value that should be used as character value, default is the [existing value](#Position.character)</param>
+        /// <param name="line">Value that should be used as line value, default is the <see cref="Position.line">existing value</see></param>
+        /// <param name="character">Value that should be used as character value, default is the <see cref="Position.character">existing value</see></param>
+        /// <returns>A position where line and character are replaced by the given values.</returns>
         abstract ``with``: ?line: float * ?character: float -> Position
         /// <summary>Derived a new position from this position.</summary>
         /// <param name="change">An object that describes a change to this position.</param>
+        /// <returns>
+        /// A position that reflects the given change. Will return <c>this</c> position if the change
+        /// is not changing anything.
+        /// </returns>
         abstract ``with``: change: PositionWithChange -> Position
 
     type [<AllowNullLiteral>] PositionTranslateChange =
@@ -239,71 +597,104 @@ module Vscode =
         abstract line: float option with get, set
         abstract character: float option with get, set
 
+    /// <summary>
     /// Represents a line and character position, such as
     /// the position of the cursor.
     /// 
-    /// Position objects are __immutable__. Use the [with](#Position.with) or
-    /// [translate](#Position.translate) methods to derive new positions
+    /// Position objects are __immutable__. Use the <see cref="Position.with">with</see> or
+    /// <see cref="Position.translate">translate</see> methods to derive new positions
     /// from an existing position.
+    /// </summary>
     type [<AllowNullLiteral>] PositionStatic =
         /// <param name="line">A zero-based line value.</param>
         /// <param name="character">A zero-based character value.</param>
         [<EmitConstructor>] abstract Create: line: float * character: float -> Position
 
+    /// <summary>
     /// A range represents an ordered pair of two positions.
-    /// It is guaranteed that [start](#Range.start).isBeforeOrEqual([end](#Range.end))
+    /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end)">end</see>
     /// 
-    /// Range objects are __immutable__. Use the [with](#Range.with),
-    /// [intersection](#Range.intersection), or [union](#Range.union) methods
+    /// Range objects are __immutable__. Use the <see cref="Range.with">with</see>,
+    /// <see cref="Range.intersection">intersection</see>, or <see cref="Range.union">union</see> methods
     /// to derive new ranges from an existing range.
+    /// </summary>
     type [<AllowNullLiteral>] Range =
-        /// The start position. It is before or equal to [end](#Range.end).
+        /// <summary>The start position. It is before or equal to <see cref="Range.end">end</see>.</summary>
         abstract start: Position
-        /// The end position. It is after or equal to [start](#Range.start).
+        /// <summary>The end position. It is after or equal to <see cref="Range.start">start</see>.</summary>
         abstract ``end``: Position
-        /// `true` if `start` and `end` are equal.
+        /// <summary><c>true</c> if <c>start</c> and <c>end</c> are equal.</summary>
         abstract isEmpty: bool with get, set
-        /// `true` if `start.line` and `end.line` are equal.
+        /// <summary><c>true</c> if <c>start.line</c> and <c>end.line</c> are equal.</summary>
         abstract isSingleLine: bool with get, set
         /// <summary>Check if a position or a range is contained in this range.</summary>
         /// <param name="positionOrRange">A position or a range.</param>
+        /// <returns>
+        /// <c>true</c> if the position or range is inside or equal
+        /// to this range.
+        /// </returns>
         abstract contains: positionOrRange: U2<Position, Range> -> bool
-        /// <summary>Check if `other` equals this range.</summary>
+        /// <summary>Check if <c>other</c> equals this range.</summary>
         /// <param name="other">A range.</param>
+        /// <returns>
+        /// <c>true</c> when start and end are <see cref="Position.isEqual">equal</see> to
+        /// start and end of this range.
+        /// </returns>
         abstract isEqual: other: Range -> bool
-        /// <summary>Intersect `range` with this range and returns a new range or `undefined`
-        /// if the ranges have no overlap.</summary>
+        /// <summary>
+        /// Intersect <c>range</c> with this range and returns a new range or <c>undefined</c>
+        /// if the ranges have no overlap.
+        /// </summary>
         /// <param name="range">A range.</param>
+        /// <returns>
+        /// A range of the greater start and smaller end positions. Will
+        /// return undefined when there is no overlap.
+        /// </returns>
         abstract intersection: range: Range -> Range option
-        /// <summary>Compute the union of `other` with this range.</summary>
+        /// <summary>Compute the union of <c>other</c> with this range.</summary>
         /// <param name="other">A range.</param>
+        /// <returns>A range of smaller start position and the greater end position.</returns>
         abstract union: other: Range -> Range
         /// <summary>Derived a new range from this range.</summary>
-        /// <param name="start">A position that should be used as start. The default value is the [current start](#Range.start).</param>
-        /// <param name="end">A position that should be used as end. The default value is the [current end](#Range.end).</param>
+        /// <param name="start">A position that should be used as start. The default value is the <see cref="Range.start">current start</see>.</param>
+        /// <param name="end">A position that should be used as end. The default value is the <see cref="Range.end">current end</see>.</param>
+        /// <returns>
+        /// A range derived from this range with the given start and end position.
+        /// If start and end are not different <c>this</c> range will be returned.
+        /// </returns>
         abstract ``with``: ?start: Position * ?``end``: Position -> Range
         /// <summary>Derived a new range from this range.</summary>
         /// <param name="change">An object that describes a change to this range.</param>
+        /// <returns>
+        /// A range that reflects the given change. Will return <c>this</c> range if the change
+        /// is not changing anything.
+        /// </returns>
         abstract ``with``: change: RangeWithChange -> Range
 
     type [<AllowNullLiteral>] RangeWithChange =
         abstract start: Position option with get, set
         abstract ``end``: Position option with get, set
 
+    /// <summary>
     /// A range represents an ordered pair of two positions.
-    /// It is guaranteed that [start](#Range.start).isBeforeOrEqual([end](#Range.end))
+    /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end)">end</see>
     /// 
-    /// Range objects are __immutable__. Use the [with](#Range.with),
-    /// [intersection](#Range.intersection), or [union](#Range.union) methods
+    /// Range objects are __immutable__. Use the <see cref="Range.with">with</see>,
+    /// <see cref="Range.intersection">intersection</see>, or <see cref="Range.union">union</see> methods
     /// to derive new ranges from an existing range.
+    /// </summary>
     type [<AllowNullLiteral>] RangeStatic =
-        /// <summary>Create a new range from two positions. If `start` is not
-        /// before or equal to `end`, the values will be swapped.</summary>
+        /// <summary>
+        /// Create a new range from two positions. If <c>start</c> is not
+        /// before or equal to <c>end</c>, the values will be swapped.
+        /// </summary>
         /// <param name="start">A position.</param>
         /// <param name="end">A position.</param>
         [<EmitConstructor>] abstract Create: start: Position * ``end``: Position -> Range
-        /// <summary>Create a new range from number coordinates. It is a shorter equivalent of
-        /// using `new Range(new Position(startLine, startCharacter), new Position(endLine, endCharacter))`</summary>
+        /// <summary>
+        /// Create a new range from number coordinates. It is a shorter equivalent of
+        /// using <c>new Range(new Position(startLine, startCharacter), new Position(endLine, endCharacter))</c>
+        /// </summary>
         /// <param name="startLine">A zero-based line value.</param>
         /// <param name="startCharacter">A zero-based character value.</param>
         /// <param name="endLine">A zero-based line value.</param>
@@ -313,13 +704,17 @@ module Vscode =
     /// Represents a text selection in an editor.
     type [<AllowNullLiteral>] Selection =
         inherit Range
+        /// <summary>
         /// The position at which the selection starts.
-        /// This position might be before or after [active](#Selection.active).
+        /// This position might be before or after <see cref="Selection.active">active</see>.
+        /// </summary>
         abstract anchor: Position with get, set
+        /// <summary>
         /// The position of the cursor.
-        /// This position might be before or after [anchor](#Selection.anchor).
+        /// This position might be before or after <see cref="Selection.anchor">anchor</see>.
+        /// </summary>
         abstract active: Position with get, set
-        /// A selection is reversed if [active](#Selection.active).isBefore([anchor](#Selection.anchor)).
+        /// <summary>A selection is reversed if <see cref="Selection.active">active</see>.isBefore(<see cref="Selection.anchor)">anchor</see>.</summary>
         abstract isReversed: bool with get, set
 
     /// Represents a text selection in an editor.
@@ -335,67 +730,88 @@ module Vscode =
         /// <param name="activeCharacter">A zero-based character value.</param>
         [<EmitConstructor>] abstract Create: anchorLine: float * anchorCharacter: float * activeLine: float * activeCharacter: float -> Selection
 
+    /// <summary>Represents sources that can cause <see cref="window.onDidChangeTextEditorSelection">selection change events</see>.</summary>
     type [<RequireQualifiedAccess>] TextEditorSelectionChangeKind =
+        /// Selection changed due to typing in the editor.
         | Keyboard = 1
+        /// Selection change due to clicking in the editor.
         | Mouse = 2
+        /// Selection changed because a command ran.
         | Command = 3
 
-    /// Represents an event describing the change in a [text editor's selections](#TextEditor.selections).
+    /// <summary>Represents an event describing the change in a <see cref="TextEditor.selections">text editor's selections</see>.</summary>
     type [<AllowNullLiteral>] TextEditorSelectionChangeEvent =
-        /// The [text editor](#TextEditor) for which the selections have changed.
+        /// <summary>The <see cref="TextEditor">text editor</see> for which the selections have changed.</summary>
         abstract textEditor: TextEditor with get, set
-        /// The new value for the [text editor's selections](#TextEditor.selections).
+        /// <summary>The new value for the <see cref="TextEditor.selections">text editor's selections</see>.</summary>
         abstract selections: ResizeArray<Selection> with get, set
-        /// The [change kind](#TextEditorSelectionChangeKind) which has triggered this
-        /// event. Can be `undefined`.
+        /// <summary>
+        /// The <see cref="TextEditorSelectionChangeKind">change kind</see> which has triggered this
+        /// event. Can be <c>undefined</c>.
+        /// </summary>
         abstract kind: TextEditorSelectionChangeKind option with get, set
 
-    /// Represents an event describing the change in a [text editor's visible ranges](#TextEditor.visibleRanges).
+    /// <summary>Represents an event describing the change in a <see cref="TextEditor.visibleRanges">text editor's visible ranges</see>.</summary>
     type [<AllowNullLiteral>] TextEditorVisibleRangesChangeEvent =
-        /// The [text editor](#TextEditor) for which the visible ranges have changed.
+        /// <summary>The <see cref="TextEditor">text editor</see> for which the visible ranges have changed.</summary>
         abstract textEditor: TextEditor with get, set
-        /// The new value for the [text editor's visible ranges](#TextEditor.visibleRanges).
+        /// <summary>The new value for the <see cref="TextEditor.visibleRanges">text editor's visible ranges</see>.</summary>
         abstract visibleRanges: ResizeArray<Range> with get, set
 
-    /// Represents an event describing the change in a [text editor's options](#TextEditor.options).
+    /// <summary>Represents an event describing the change in a <see cref="TextEditor.options">text editor's options</see>.</summary>
     type [<AllowNullLiteral>] TextEditorOptionsChangeEvent =
-        /// The [text editor](#TextEditor) for which the options have changed.
+        /// <summary>The <see cref="TextEditor">text editor</see> for which the options have changed.</summary>
         abstract textEditor: TextEditor with get, set
-        /// The new value for the [text editor's options](#TextEditor.options).
+        /// <summary>The new value for the <see cref="TextEditor.options">text editor's options</see>.</summary>
         abstract options: TextEditorOptions with get, set
 
-    /// Represents an event describing the change of a [text editor's view column](#TextEditor.viewColumn).
+    /// <summary>Represents an event describing the change of a <see cref="TextEditor.viewColumn">text editor's view column</see>.</summary>
     type [<AllowNullLiteral>] TextEditorViewColumnChangeEvent =
-        /// The [text editor](#TextEditor) for which the view column has changed.
+        /// <summary>The <see cref="TextEditor">text editor</see> for which the view column has changed.</summary>
         abstract textEditor: TextEditor with get, set
-        /// The new value for the [text editor's view column](#TextEditor.viewColumn).
+        /// <summary>The new value for the <see cref="TextEditor.viewColumn">text editor's view column</see>.</summary>
         abstract viewColumn: ViewColumn with get, set
 
+    /// Rendering style of the cursor.
     type [<RequireQualifiedAccess>] TextEditorCursorStyle =
+        /// Render the cursor as a vertical thick line.
         | Line = 1
+        /// Render the cursor as a block filled.
         | Block = 2
+        /// Render the cursor as a thick horizontal line.
         | Underline = 3
+        /// Render the cursor as a vertical thin line.
         | LineThin = 4
+        /// Render the cursor as a block outlined.
         | BlockOutline = 5
+        /// Render the cursor as a thin horizontal line.
         | UnderlineThin = 6
 
+    /// Rendering style of the line numbers.
     type [<RequireQualifiedAccess>] TextEditorLineNumbersStyle =
+        /// Do not render the line numbers.
         | Off = 0
+        /// Render the line numbers.
         | On = 1
+        /// Render the line numbers with values relative to the primary cursor location.
         | Relative = 2
 
-    /// Represents a [text editor](#TextEditor)'s [options](#TextEditor.options).
+    /// <summary>Represents a <see cref="TextEditor">text editor</see>'s <see cref="TextEditor.options">options</see>.</summary>
     type [<AllowNullLiteral>] TextEditorOptions =
+        /// <summary>
         /// The size in spaces a tab takes. This is used for two purposes:
         ///   - the rendering width of a tab character;
-        ///   - the number of spaces to insert when [insertSpaces](#TextEditorOptions.insertSpaces) is true.
+        ///   - the number of spaces to insert when <see cref="TextEditorOptions.insertSpaces">insertSpaces</see> is true.
         /// 
         /// When getting a text editor's options, this property will always be a number (resolved).
-        /// When setting a text editor's options, this property is optional and it can be a number or `"auto"`.
+        /// When setting a text editor's options, this property is optional and it can be a number or <c>"auto"</c>.
+        /// </summary>
         abstract tabSize: U2<float, string> option with get, set
-        /// When pressing Tab insert [n](#TextEditorOptions.tabSize) spaces.
+        /// <summary>
+        /// When pressing Tab insert <see cref="TextEditorOptions.tabSize">n</see> spaces.
         /// When getting a text editor's options, this property will always be a boolean (resolved).
-        /// When setting a text editor's options, this property is optional and it can be a boolean or `"auto"`.
+        /// When setting a text editor's options, this property is optional and it can be a boolean or <c>"auto"</c>.
+        /// </summary>
         abstract insertSpaces: U2<bool, string> option with get, set
         /// The rendering style of the cursor in this editor.
         /// When getting a text editor's options, this property will always be present.
@@ -406,80 +822,111 @@ module Vscode =
         /// When setting a text editor's options, this property is optional.
         abstract lineNumbers: TextEditorLineNumbersStyle option with get, set
 
+    /// <summary>
     /// Represents a handle to a set of decorations
-    /// sharing the same [styling options](#DecorationRenderOptions) in a [text editor](#TextEditor).
+    /// sharing the same <see cref="DecorationRenderOptions">styling options</see> in a <see cref="TextEditor">text editor</see>.
     /// 
-    /// To get an instance of a `TextEditorDecorationType` use
-    /// [createTextEditorDecorationType](#window.createTextEditorDecorationType).
+    /// To get an instance of a <c>TextEditorDecorationType</c> use
+    /// <see cref="window.createTextEditorDecorationType">createTextEditorDecorationType</see>.
+    /// </summary>
     type [<AllowNullLiteral>] TextEditorDecorationType =
         /// Internal representation of the handle.
         abstract key: string
         /// Remove this decoration type and all decorations on all text editors using it.
         abstract dispose: unit -> unit
 
+    /// <summary>Represents different <see cref="TextEditor.revealRange">reveal</see> strategies in a text editor.</summary>
     type [<RequireQualifiedAccess>] TextEditorRevealType =
+        /// The range will be revealed with as little scrolling as possible.
         | Default = 0
+        /// The range will always be revealed in the center of the viewport.
         | InCenter = 1
+        /// If the range is outside the viewport, it will be revealed in the center of the viewport.
+        /// Otherwise, it will be revealed with as little scrolling as possible.
         | InCenterIfOutsideViewport = 2
+        /// The range will always be revealed at the top of the viewport.
         | AtTop = 3
 
+    /// <summary>
+    /// Represents different positions for rendering a decoration in an <see cref="DecorationRenderOptions.overviewRulerLane">overview ruler</see>.
+    /// The overview ruler supports three lanes.
+    /// </summary>
     type [<RequireQualifiedAccess>] OverviewRulerLane =
         | Left = 1
         | Center = 2
         | Right = 4
         | Full = 7
 
+    /// Describes the behavior of decorations when typing/editing at their edges.
     type [<RequireQualifiedAccess>] DecorationRangeBehavior =
+        /// The decoration's range will widen when edits occur at the start or end.
         | OpenOpen = 0
+        /// The decoration's range will not widen when edits occur at the start of end.
         | ClosedClosed = 1
+        /// The decoration's range will widen when edits occur at the start, but not at the end.
         | OpenClosed = 2
+        /// The decoration's range will widen when edits occur at the end, but not at the start.
         | ClosedOpen = 3
 
-    /// Represents options to configure the behavior of showing a [document](#TextDocument) in an [editor](#TextEditor).
+    /// <summary>Represents options to configure the behavior of showing a <see cref="TextDocument">document</see> in an <see cref="TextEditor">editor</see>.</summary>
     type [<AllowNullLiteral>] TextDocumentShowOptions =
-        /// An optional view column in which the [editor](#TextEditor) should be shown.
-        /// The default is the [active](#ViewColumn.Active), other values are adjusted to
-        /// be `Min(column, columnCount + 1)`, the [active](#ViewColumn.Active)-column is
-        /// not adjusted. Use [`ViewColumn.Beside`](#ViewColumn.Beside) to open the
+        /// <summary>
+        /// An optional view column in which the <see cref="TextEditor">editor</see> should be shown.
+        /// The default is the <see cref="ViewColumn.Active">active</see>, other values are adjusted to
+        /// be <c>Min(column, columnCount + 1)</c>, the <see cref="ViewColumn.Active">active</see>-column is
+        /// not adjusted. Use <see cref="ViewColumn.Beside"><c>ViewColumn.Beside</c></see> to open the
         /// editor to the side of the currently active one.
+        /// </summary>
         abstract viewColumn: ViewColumn option with get, set
-        /// An optional flag that when `true` will stop the [editor](#TextEditor) from taking focus.
+        /// <summary>An optional flag that when <c>true</c> will stop the <see cref="TextEditor">editor</see> from taking focus.</summary>
         abstract preserveFocus: bool option with get, set
-        /// An optional flag that controls if an [editor](#TextEditor)-tab will be replaced
+        /// <summary>
+        /// An optional flag that controls if an <see cref="TextEditor">editor</see>-tab will be replaced
         /// with the next editor or if it will be kept.
+        /// </summary>
         abstract preview: bool option with get, set
-        /// An optional selection to apply for the document in the [editor](#TextEditor).
+        /// <summary>An optional selection to apply for the document in the <see cref="TextEditor">editor</see>.</summary>
         abstract selection: Range option with get, set
 
-    /// A reference to one of the workbench colors as defined in https://code.visualstudio.com/docs/getstarted/theme-color-reference.
+    /// <summary>
+    /// A reference to one of the workbench colors as defined in <see href="https://code.visualstudio.com/docs/getstarted/theme-color-reference." />
     /// Using a theme color is preferred over a custom color as it gives theme authors and users the possibility to change the color.
+    /// </summary>
     type [<AllowNullLiteral>] ThemeColor =
         interface end
 
-    /// A reference to one of the workbench colors as defined in https://code.visualstudio.com/docs/getstarted/theme-color-reference.
+    /// <summary>
+    /// A reference to one of the workbench colors as defined in <see href="https://code.visualstudio.com/docs/getstarted/theme-color-reference." />
     /// Using a theme color is preferred over a custom color as it gives theme authors and users the possibility to change the color.
+    /// </summary>
     type [<AllowNullLiteral>] ThemeColorStatic =
         /// <summary>Creates a reference to a theme color.</summary>
-        /// <param name="id">of the color. The available colors are listed in https://code.visualstudio.com/docs/getstarted/theme-color-reference.</param>
+        /// <param name="id">of the color. The available colors are listed in <see href="https://code.visualstudio.com/docs/getstarted/theme-color-reference." /></param>
         [<EmitConstructor>] abstract Create: id: string -> ThemeColor
 
-    /// A reference to a named icon. Currently only [File](#ThemeIcon.File) and [Folder](#ThemeIcon.Folder) are supported.
+    /// <summary>
+    /// A reference to a named icon. Currently only <see cref="ThemeIcon.File">File</see> and <see cref="ThemeIcon.Folder">Folder</see> are supported.
     /// Using a theme icon is preferred over a custom icon as it gives theme authors the possibility to change the icons.
+    /// </summary>
     type [<AllowNullLiteral>] ThemeIcon =
         interface end
 
-    /// A reference to a named icon. Currently only [File](#ThemeIcon.File) and [Folder](#ThemeIcon.Folder) are supported.
+    /// <summary>
+    /// A reference to a named icon. Currently only <see cref="ThemeIcon.File">File</see> and <see cref="ThemeIcon.Folder">Folder</see> are supported.
     /// Using a theme icon is preferred over a custom icon as it gives theme authors the possibility to change the icons.
+    /// </summary>
     type [<AllowNullLiteral>] ThemeIconStatic =
         /// Reference to a icon representing a file. The icon is taken from the current file icon theme or a placeholder icon.
         abstract File: ThemeIcon
         /// Reference to a icon representing a folder. The icon is taken from the current file icon theme or a placeholder icon.
         abstract Folder: ThemeIcon
 
-    /// Represents theme specific rendering styles for a [text editor decoration](#TextEditorDecorationType).
+    /// <summary>Represents theme specific rendering styles for a <see cref="TextEditorDecorationType">text editor decoration</see>.</summary>
     type [<AllowNullLiteral>] ThemableDecorationRenderOptions =
+        /// <summary>
         /// Background color of the decoration. Use rgba() and define transparent background colors to play well with other decorations.
-        /// Alternatively a color from the color registry can be [referenced](#ThemeColor).
+        /// Alternatively a color from the color registry can be <see cref="ThemeColor">referenced</see>.
+        /// </summary>
         abstract backgroundColor: U2<string, ThemeColor> option with get, set
         /// CSS styling property that will be applied to text enclosed by a decoration.
         abstract outline: string option with get, set
@@ -525,9 +972,11 @@ module Vscode =
         abstract letterSpacing: string option with get, set
         /// An **absolute path** or an URI to an image to be rendered in the gutter.
         abstract gutterIconPath: U2<string, Uri> option with get, set
+        /// <summary>
         /// Specifies the size of the gutter icon.
         /// Available values are 'auto', 'contain', 'cover' and any percentage value.
-        /// For further information: https://msdn.microsoft.com/en-us/library/jj127316(v=vs.85).aspx
+        /// For further information: <see href="https://msdn.microsoft.com/en-us/library/jj127316(v=vs.85).aspx" />
+        /// </summary>
         abstract gutterIconSize: string option with get, set
         /// The color of the decoration in the overview ruler. Use rgba() and define transparent colors to play well with other decorations.
         abstract overviewRulerColor: U2<string, ThemeColor> option with get, set
@@ -563,14 +1012,18 @@ module Vscode =
         /// CSS styling property that will be applied to the decoration attachment.
         abstract height: string option with get, set
 
-    /// Represents rendering styles for a [text editor decoration](#TextEditorDecorationType).
+    /// <summary>Represents rendering styles for a <see cref="TextEditorDecorationType">text editor decoration</see>.</summary>
     type [<AllowNullLiteral>] DecorationRenderOptions =
         inherit ThemableDecorationRenderOptions
+        /// <summary>
         /// Should the decoration be rendered also on the whitespace after the line text.
-        /// Defaults to `false`.
+        /// Defaults to <c>false</c>.
+        /// </summary>
         abstract isWholeLine: bool option with get, set
+        /// <summary>
         /// Customize the growing behavior of the decoration when edits occur at the edges of the decoration's range.
-        /// Defaults to `DecorationRangeBehavior.OpenOpen`.
+        /// Defaults to <c>DecorationRangeBehavior.OpenOpen</c>.
+        /// </summary>
         abstract rangeBehavior: DecorationRangeBehavior option with get, set
         /// The position in the overview ruler where the decoration should be rendered.
         abstract overviewRulerLane: OverviewRulerLane option with get, set
@@ -579,7 +1032,7 @@ module Vscode =
         /// Overwrite options for dark themes.
         abstract dark: ThemableDecorationRenderOptions option with get, set
 
-    /// Represents options for a specific decoration in a [decoration set](#TextEditorDecorationType).
+    /// <summary>Represents options for a specific decoration in a <see cref="TextEditorDecorationType">decoration set</see>.</summary>
     type [<AllowNullLiteral>] DecorationOptions =
         /// Range to which this decoration is applied. The range must not be empty.
         abstract range: Range with get, set
@@ -602,11 +1055,11 @@ module Vscode =
         /// Overwrite options for dark themes.
         abstract dark: ThemableDecorationInstanceRenderOptions option with get, set
 
-    /// Represents an editor that is attached to a [document](#TextDocument).
+    /// <summary>Represents an editor that is attached to a <see cref="TextDocument">document</see>.</summary>
     type [<AllowNullLiteral>] TextEditor =
         /// The document associated with this text editor. The document will be the same for the entire lifetime of this text editor.
         abstract document: TextDocument
-        /// The primary selection on this text editor. Shorthand for `TextEditor.selections[0]`.
+        /// <summary>The primary selection on this text editor. Shorthand for <c>TextEditor.selections[0]</c>.</summary>
         abstract selection: Selection with get, set
         /// The selections in this text editor. The primary selection is always at index 0.
         abstract selections: ResizeArray<Selection> with get, set
@@ -615,39 +1068,58 @@ module Vscode =
         abstract visibleRanges: ResizeArray<Range>
         /// Text editor options.
         abstract options: TextEditorOptions with get, set
-        /// The column in which this editor shows. Will be `undefined` in case this
+        /// <summary>
+        /// The column in which this editor shows. Will be <c>undefined</c> in case this
         /// isn't one of the main editors, e.g an embedded editor, or when the editor
         /// column is larger than three.
+        /// </summary>
         abstract viewColumn: ViewColumn option with get, set
-        /// <summary>Perform an edit on the document associated with this text editor.
+        /// <summary>
+        /// Perform an edit on the document associated with this text editor.
         /// 
-        /// The given callback-function is invoked with an [edit-builder](#TextEditorEdit) which must
+        /// The given callback-function is invoked with an <see cref="TextEditorEdit">edit-builder</see> which must
         /// be used to make edits. Note that the edit-builder is only valid while the
-        /// callback executes.</summary>
-        /// <param name="callback">A function which can create edits using an [edit-builder](#TextEditorEdit).</param>
+        /// callback executes.
+        /// </summary>
+        /// <param name="callback">A function which can create edits using an <see cref="TextEditorEdit">edit-builder</see>.</param>
         /// <param name="options">The undo/redo behavior around this edit. By default, undo stops will be created before and after this edit.</param>
+        /// <returns>A promise that resolves with a value indicating if the edits could be applied.</returns>
         abstract edit: callback: (TextEditorEdit -> unit) * ?options: TextEditorEditOptions -> Thenable<bool>
-        /// <summary>Insert a [snippet](#SnippetString) and put the editor into snippet mode. "Snippet mode"
+        /// <summary>
+        /// Insert a <see cref="SnippetString">snippet</see> and put the editor into snippet mode. "Snippet mode"
         /// means the editor adds placeholders and additional cursors so that the user can complete
-        /// or accept the snippet.</summary>
+        /// or accept the snippet.
+        /// </summary>
         /// <param name="snippet">The snippet to insert in this edit.</param>
         /// <param name="location">Position or range at which to insert the snippet, defaults to the current editor selection or selections.</param>
         /// <param name="options">The undo/redo behavior around this edit. By default, undo stops will be created before and after this edit.</param>
+        /// <returns>
+        /// A promise that resolves with a value indicating if the snippet could be inserted. Note that the promise does not signal
+        /// that the snippet is completely filled-in or accepted.
+        /// </returns>
         abstract insertSnippet: snippet: SnippetString * ?location: U4<Position, Range, ResizeArray<Position>, ResizeArray<Range>> * ?options: TextEditorInsertSnippetOptions -> Thenable<bool>
-        /// <summary>Adds a set of decorations to the text editor. If a set of decorations already exists with
-        /// the given [decoration type](#TextEditorDecorationType), they will be replaced.</summary>
+        /// <summary>
+        /// Adds a set of decorations to the text editor. If a set of decorations already exists with
+        /// the given <see cref="TextEditorDecorationType">decoration type</see>, they will be replaced.
+        /// </summary>
+        /// <seealso cref="window.createTextEditorDecorationType">createTextEditorDecorationType .</seealso>
         /// <param name="decorationType">A decoration type.</param>
-        /// <param name="rangesOrOptions">Either [ranges](#Range) or more detailed [options](#DecorationOptions).</param>
+        /// <param name="rangesOrOptions">Either <see cref="Range">ranges</see> or more detailed <see cref="DecorationOptions">options</see>.</param>
         abstract setDecorations: decorationType: TextEditorDecorationType * rangesOrOptions: U2<ResizeArray<Range>, ResizeArray<DecorationOptions>> -> unit
-        /// <summary>Scroll as indicated by `revealType` in order to reveal the given range.</summary>
+        /// <summary>Scroll as indicated by <c>revealType</c> in order to reveal the given range.</summary>
         /// <param name="range">A range.</param>
-        /// <param name="revealType">The scrolling strategy for revealing `range`.</param>
+        /// <param name="revealType">The scrolling strategy for revealing <c>range</c>.</param>
         abstract revealRange: range: Range * ?revealType: TextEditorRevealType -> unit
         /// <summary>~~Show the text editor.~~</summary>
-        /// <param name="column">The [column](#ViewColumn) in which to show this editor.
-        /// This method shows unexpected behavior and will be removed in the next major update.</param>
+        /// <param name="column">
+        /// The <see cref="ViewColumn">column</see> in which to show this editor.
+        /// This method shows unexpected behavior and will be removed in the next major update.
+        /// </param>
+        [<Obsolete("Use [window.showTextDocument](#window.showTextDocument) instead.")>]
         abstract show: ?column: ViewColumn -> unit
         /// ~~Hide the text editor.~~
+        [<Obsolete("Use the command `workbench.action.closeActiveEditor` instead.
+This method shows unexpected behavior and will be removed in the next major update.")>]
         abstract hide: unit -> unit
 
     type [<AllowNullLiteral>] TextEditorEditOptions =
@@ -658,22 +1130,31 @@ module Vscode =
         abstract undoStopBefore: bool with get, set
         abstract undoStopAfter: bool with get, set
 
+    /// <summary>Represents an end of line character sequence in a <see cref="TextDocument">document</see>.</summary>
     type [<RequireQualifiedAccess>] EndOfLine =
+        /// <summary>The line feed <c>\n</c> character.</summary>
         | LF = 1
+        /// <summary>The carriage return line feed <c>\r\n</c> sequence.</summary>
         | CRLF = 2
 
+    /// <summary>
     /// A complex edit that will be applied in one transaction on a TextEditor.
     /// This holds a description of the edits and if the edits are valid (i.e. no overlapping regions, document was not changed in the meantime, etc.)
-    /// they can be applied on a [document](#TextDocument) associated with a [text editor](#TextEditor).
+    /// they can be applied on a <see cref="TextDocument">document</see> associated with a <see cref="TextEditor">text editor</see>.
+    /// </summary>
     type [<AllowNullLiteral>] TextEditorEdit =
-        /// <summary>Replace a certain text region with a new value.
-        /// You can use \r\n or \n in `value` and they will be normalized to the current [document](#TextDocument).</summary>
+        /// <summary>
+        /// Replace a certain text region with a new value.
+        /// You can use \r\n or \n in <c>value</c> and they will be normalized to the current <see cref="TextDocument">document</see>.
+        /// </summary>
         /// <param name="location">The range this operation should remove.</param>
-        /// <param name="value">The new text this operation should insert after removing `location`.</param>
+        /// <param name="value">The new text this operation should insert after removing <c>location</c>.</param>
         abstract replace: location: U3<Position, Range, Selection> * value: string -> unit
-        /// <summary>Insert text at a location.
-        /// You can use \r\n or \n in `value` and they will be normalized to the current [document](#TextDocument).
-        /// Although the equivalent text edit can be made with [replace](#TextEditorEdit.replace), `insert` will produce a different resulting selection (it will get moved).</summary>
+        /// <summary>
+        /// Insert text at a location.
+        /// You can use \r\n or \n in <c>value</c> and they will be normalized to the current <see cref="TextDocument">document</see>.
+        /// Although the equivalent text edit can be made with <see cref="TextEditorEdit.replace), `insert` will produce a different resulting selection (it will get moved">replace</see>.
+        /// </summary>
         /// <param name="location">The position where the new text should be inserted.</param>
         /// <param name="value">The new text this operation should insert.</param>
         abstract insert: location: Position * value: string -> unit
@@ -681,24 +1162,29 @@ module Vscode =
         /// <param name="location">The range this operation should remove.</param>
         abstract delete: location: U2<Range, Selection> -> unit
         /// <summary>Set the end of line sequence.</summary>
-        /// <param name="endOfLine">The new end of line for the [document](#TextDocument).</param>
+        /// <param name="endOfLine">The new end of line for the <see cref="TextDocument">document</see>.</param>
         abstract setEndOfLine: endOfLine: EndOfLine -> unit
 
     /// A universal resource identifier representing either a file on disk
     /// or another resource, like untitled resources.
     type [<AllowNullLiteral>] Uri =
-        /// Scheme is the `http` part of `http://www.msft.com/some/path?query#fragment`.
+        /// <summary>
+        /// Scheme is the <c>http</c> part of <c>http://www.msft.com/some/path?query#fragment</c>.
         /// The part before the first colon.
+        /// </summary>
         abstract scheme: string
-        /// Authority is the `www.msft.com` part of `http://www.msft.com/some/path?query#fragment`.
+        /// <summary>
+        /// Authority is the <c>www.msft.com</c> part of <c>http://www.msft.com/some/path?query#fragment</c>.
         /// The part between the first double slashes and the next slash.
+        /// </summary>
         abstract authority: string
-        /// Path is the `/some/path` part of `http://www.msft.com/some/path?query#fragment`.
+        /// <summary>Path is the <c>/some/path</c> part of <c>http://www.msft.com/some/path?query#fragment</c>.</summary>
         abstract path: string
-        /// Query is the `query` part of `http://www.msft.com/some/path?query#fragment`.
+        /// <summary>Query is the <c>query</c> part of <c>http://www.msft.com/some/path?query#fragment</c>.</summary>
         abstract query: string
-        /// Fragment is the `fragment` part of `http://www.msft.com/some/path?query#fragment`.
+        /// <summary>Fragment is the <c>fragment</c> part of <c>http://www.msft.com/some/path?query#fragment</c>.</summary>
         abstract fragment: string
+        /// <summary>
         /// The string representing the corresponding file system path of this Uri.
         /// 
         /// Will handle UNC paths and normalize windows drive letters to lower-case. Also
@@ -707,42 +1193,57 @@ module Vscode =
         /// * Will *not* validate the path for invalid characters and semantics.
         /// * Will *not* look at the scheme of this Uri.
         /// * The resulting string shall *not* be used for display purposes but
-        /// for disk operations, like `readFile` et al.
+        /// for disk operations, like <c>readFile</c> et al.
         /// 
-        /// The *difference* to the [`path`](#Uri.path)-property is the use of the platform specific
+        /// The *difference* to the <see cref="Uri.path"><c>path</c></see>-property is the use of the platform specific
         /// path separator and the handling of UNC paths. The sample below outlines the difference:
-        /// ```ts
+        /// <code language="ts">
         /// const u = URI.parse('file://server/c$/folder/file.txt')
         /// u.authority === 'server'
         /// u.path === '/shares/c$/file.txt'
         /// u.fsPath === '\\server\c$\folder\file.txt'
-        /// ```
+        /// </code>
+        /// </summary>
         abstract fsPath: string
-        /// <summary>Derive a new Uri from this Uri.
+        /// <summary>
+        /// Derive a new Uri from this Uri.
         /// 
-        /// ```ts
+        /// <code language="ts">
         /// let file = Uri.parse('before:some/file/path');
         /// let other = file.with({ scheme: 'after' });
         /// assert.ok(other.toString() === 'after:some/file/path');
-        /// ```</summary>
-        /// <param name="change">An object that describes a change to this Uri. To unset components use `null` or
-        /// the empty string.</param>
+        /// </code>
+        /// </summary>
+        /// <param name="change">
+        /// An object that describes a change to this Uri. To unset components use <c>null</c> or
+        /// the empty string.
+        /// </param>
+        /// <returns>
+        /// A new Uri that reflects the given change. Will return <c>this</c> Uri if the change
+        /// is not changing anything.
+        /// </returns>
         abstract ``with``: change: UriWithChange -> Uri
-        /// <summary>Returns a string representation of this Uri. The representation and normalization
+        /// <summary>
+        /// Returns a string representation of this Uri. The representation and normalization
         /// of a URI depends on the scheme.
         /// 
-        /// * The resulting string can be safely used with [Uri.parse](#Uri.parse).
+        /// * The resulting string can be safely used with <see cref="Uri.parse">Uri.parse</see>.
         /// * The resulting string shall *not* be used for display purposes.
         /// 
         /// *Note* that the implementation will encode _aggressive_ which often leads to unexpected,
-        /// but not incorrect, results. For instance, colons are encoded to `%3A` which might be unexpected
-        /// in file-uri. Also `&` and `=` will be encoded which might be unexpected for http-uris. For stability
+        /// but not incorrect, results. For instance, colons are encoded to <c>%3A</c> which might be unexpected
+        /// in file-uri. Also <c>&</c> and <c>=</c> will be encoded which might be unexpected for http-uris. For stability
         /// reasons this cannot be changed anymore. If you suffer from too aggressive encoding you should use
-        /// the `skipEncoding`-argument: `uri.toString(true)`.</summary>
-        /// <param name="skipEncoding">Do not percentage-encode the result, defaults to `false`. Note that
-        /// the `#` and `?` characters occurring in the path will always be encoded.</param>
+        /// the <c>skipEncoding</c>-argument: <c>uri.toString(true)</c>.
+        /// </summary>
+        /// <param name="skipEncoding">
+        /// Do not percentage-encode the result, defaults to <c>false</c>. Note that
+        /// the <c>#</c> and <c>?</c> characters occurring in the path will always be encoded.
+        /// </param>
+        /// <returns>A string representation of this Uri.</returns>
         abstract toString: ?skipEncoding: bool -> string
-        /// Returns a JSON representation of this Uri.
+        /// <summary>Returns a JSON representation of this Uri.</summary>
+        /// <returns>An object.</returns>
         abstract toJSON: unit -> obj option
 
     type [<AllowNullLiteral>] UriWithChange =
@@ -755,23 +1256,28 @@ module Vscode =
     /// A universal resource identifier representing either a file on disk
     /// or another resource, like untitled resources.
     type [<AllowNullLiteral>] UriStatic =
-        /// <summary>Create an URI from a string, e.g. `http://www.msft.com/some/path`,
-        /// `file:///usr/home`, or `scheme:with/path`.
+        /// <summary>
+        /// Create an URI from a string, e.g. <c>http://www.msft.com/some/path</c>,
+        /// <c>file:///usr/home</c>, or <c>scheme:with/path</c>.
         /// 
-        /// *Note* that for a while uris without a `scheme` were accepted. That is not correct
+        /// *Note* that for a while uris without a <c>scheme</c> were accepted. That is not correct
         /// as all uris should have a scheme. To avoid breakage of existing code the optional
-        /// `strict`-argument has been added. We *strongly* advise to use it, e.g. `Uri.parse('my:uri', true)`</summary>
+        /// <c>strict</c>-argument has been added. We *strongly* advise to use it, e.g. <c>Uri.parse('my:uri', true)</c>
+        /// </summary>
+        /// <seealso cref="Uri.toString">Uri.toString</seealso>
         /// <param name="value">The string value of an Uri.</param>
-        /// <param name="strict">Throw an error when `value` is empty or when no `scheme` can be parsed.</param>
+        /// <param name="strict">Throw an error when <c>value</c> is empty or when no <c>scheme</c> can be parsed.</param>
+        /// <returns>A new Uri instance.</returns>
         abstract parse: value: string * ?strict: bool -> Uri
-        /// <summary>Create an URI from a file system path. The [scheme](#Uri.scheme)
-        /// will be `file`.
+        /// <summary>
+        /// Create an URI from a file system path. The <see cref="Uri.scheme">scheme</see>
+        /// will be <c>file</c>.
         /// 
-        /// The *difference* between `Uri#parse` and `Uri#file` is that the latter treats the argument
-        /// as path, not as stringified-uri. E.g. `Uri.file(path)` is *not* the same as
-        /// `Uri.parse('file://' + path)` because the path might contain characters that are
+        /// The *difference* between <c>Uri#parse</c> and <c>Uri#file</c> is that the latter treats the argument
+        /// as path, not as stringified-uri. E.g. <c>Uri.file(path)</c> is *not* the same as
+        /// <c>Uri.parse('file://' + path)</c> because the path might contain characters that are
         /// interpreted (# and ?). See the following sample:
-        /// ```ts
+        /// <code language="ts">
         /// const good = URI.file('/coding/c#/project1');
         /// good.scheme === 'file';
         /// good.path === '/coding/c#/project1';
@@ -781,23 +1287,27 @@ module Vscode =
         /// bad.scheme === 'file';
         /// bad.path === '/coding/c'; // path is now broken
         /// bad.fragment === '/project1';
-        /// ```</summary>
+        /// </code>
+        /// </summary>
         /// <param name="path">A file system or UNC path.</param>
+        /// <returns>A new Uri instance.</returns>
         abstract file: path: string -> Uri
 
+    /// <summary>
     /// A cancellation token is passed to an asynchronous or long running
     /// operation to request cancellation, like cancelling a request
     /// for completion items because the user continued to type.
     /// 
-    /// To get an instance of a `CancellationToken` use a
-    /// [CancellationTokenSource](#CancellationTokenSource).
+    /// To get an instance of a <c>CancellationToken</c> use a
+    /// <see cref="CancellationTokenSource">CancellationTokenSource</see>.
+    /// </summary>
     type [<AllowNullLiteral>] CancellationToken =
-        /// Is `true` when the token has been cancelled, `false` otherwise.
+        /// <summary>Is <c>true</c> when the token has been cancelled, <c>false</c> otherwise.</summary>
         abstract isCancellationRequested: bool with get, set
-        /// An [event](#Event) which fires upon cancellation.
+        /// <summary>An <see cref="Event">event</see> which fires upon cancellation.</summary>
         abstract onCancellationRequested: Event<obj option> with get, set
 
-    /// A cancellation source creates and controls a [cancellation token](#CancellationToken).
+    /// <summary>A cancellation source creates and controls a <see cref="CancellationToken">cancellation token</see>.</summary>
     type [<AllowNullLiteral>] CancellationTokenSource =
         /// The cancellation token of this source.
         abstract token: CancellationToken with get, set
@@ -806,7 +1316,7 @@ module Vscode =
         /// Dispose object and free resources.
         abstract dispose: unit -> unit
 
-    /// A cancellation source creates and controls a [cancellation token](#CancellationToken).
+    /// <summary>A cancellation source creates and controls a <see cref="CancellationToken">cancellation token</see>.</summary>
     type [<AllowNullLiteral>] CancellationTokenSourceStatic =
         [<EmitConstructor>] abstract Create: unit -> CancellationTokenSource
 
@@ -819,58 +1329,79 @@ module Vscode =
     /// Represents a type which can release resources, such
     /// as event listening or a timer.
     type [<AllowNullLiteral>] DisposableStatic =
-        /// <summary>Combine many disposable-likes into one. Use this method
+        /// <summary>
+        /// Combine many disposable-likes into one. Use this method
         /// when having objects with a dispose function which are not
-        /// instances of Disposable.</summary>
-        /// <param name="disposableLikes">Objects that have at least a `dispose`-function member.</param>
+        /// instances of Disposable.
+        /// </summary>
+        /// <param name="disposableLikes">Objects that have at least a <c>dispose</c>-function member.</param>
+        /// <returns>
+        /// Returns a new disposable which, upon dispose, will
+        /// dispose all provided disposables.
+        /// </returns>
         abstract from: [<ParamArray>] disposableLikes: DisposableStaticFrom[] -> Disposable
-        /// <summary>Creates a new Disposable calling the provided function
-        /// on dispose.</summary>
+        /// <summary>
+        /// Creates a new Disposable calling the provided function
+        /// on dispose.
+        /// </summary>
         /// <param name="callOnDispose">Function that disposes something.</param>
         [<EmitConstructor>] abstract Create: callOnDispose: Function -> Disposable
 
+    /// <summary>
     /// Represents a typed event.
     /// 
     /// A function that represents an event to which you subscribe by calling it with
     /// a listener function as argument.
+    /// </summary>
     type [<AllowNullLiteral>] Event<'T> =
-        /// <summary>A function that represents an event to which you subscribe by calling it with
-        /// a listener function as argument.</summary>
+        /// <summary>
+        /// A function that represents an event to which you subscribe by calling it with
+        /// a listener function as argument.
+        /// </summary>
         /// <param name="listener">The listener function will be called when the event happens.</param>
-        /// <param name="thisArgs">The `this`-argument which will be used when calling the event listener.</param>
-        /// <param name="disposables">An array to which a [disposable](#Disposable) will be added.</param>
+        /// <param name="thisArgs">The <c>this</c>-argument which will be used when calling the event listener.</param>
+        /// <param name="disposables">An array to which a <see cref="Disposable">disposable</see> will be added.</param>
+        /// <returns>A disposable which unsubscribes the event listener.</returns>
         [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArgs: obj * ?disposables: ResizeArray<Disposable> -> Disposable
 
-    /// An event emitter can be used to create and manage an [event](#Event) for others
+    /// <summary>
+    /// An event emitter can be used to create and manage an <see cref="Event">event</see> for others
     /// to subscribe to. One emitter always owns one event.
     /// 
     /// Use this class if you want to provide event from within your extension, for instance
-    /// inside a [TextDocumentContentProvider](#TextDocumentContentProvider) or when providing
+    /// inside a <see cref="TextDocumentContentProvider">TextDocumentContentProvider</see> or when providing
     /// API to other extensions.
+    /// </summary>
     type [<AllowNullLiteral>] EventEmitter<'T> =
         /// The event listeners can subscribe to.
         abstract ``event``: Event<'T> with get, set
-        /// <summary>Notify all subscribers of the [event](#EventEmitter.event). Failure
-        /// of one or more listener will not fail this function call.</summary>
+        /// <summary>
+        /// Notify all subscribers of the <see cref="EventEmitter.event">event</see>. Failure
+        /// of one or more listener will not fail this function call.
+        /// </summary>
         /// <param name="data">The event object.</param>
         abstract fire: ?data: 'T -> unit
         /// Dispose this object and free resources.
         abstract dispose: unit -> unit
 
-    /// An event emitter can be used to create and manage an [event](#Event) for others
+    /// <summary>
+    /// An event emitter can be used to create and manage an <see cref="Event">event</see> for others
     /// to subscribe to. One emitter always owns one event.
     /// 
     /// Use this class if you want to provide event from within your extension, for instance
-    /// inside a [TextDocumentContentProvider](#TextDocumentContentProvider) or when providing
+    /// inside a <see cref="TextDocumentContentProvider">TextDocumentContentProvider</see> or when providing
     /// API to other extensions.
+    /// </summary>
     type [<AllowNullLiteral>] EventEmitterStatic =
         [<EmitConstructor>] abstract Create: unit -> EventEmitter<'T>
 
+    /// <summary>
     /// A file system watcher notifies about changes to files and folders
     /// on disk.
     /// 
-    /// To get an instance of a `FileSystemWatcher` use
-    /// [createFileSystemWatcher](#workspace.createFileSystemWatcher).
+    /// To get an instance of a <c>FileSystemWatcher</c> use
+    /// <see cref="workspace.createFileSystemWatcher">createFileSystemWatcher</see>.
+    /// </summary>
     type [<AllowNullLiteral>] FileSystemWatcher =
         inherit Disposable
         /// true if this file system watcher has been created such that
@@ -889,26 +1420,31 @@ module Vscode =
         /// An event which fires on file/folder deletion.
         abstract onDidDelete: Event<Uri> with get, set
 
+    /// <summary>
     /// A text document content provider allows to add readonly documents
     /// to the editor, such as source from a dll or generated html from md.
     /// 
-    /// Content providers are [registered](#workspace.registerTextDocumentContentProvider)
-    /// for a [uri-scheme](#Uri.scheme). When a uri with that scheme is to
-    /// be [loaded](#workspace.openTextDocument) the content provider is
+    /// Content providers are <see cref="workspace.registerTextDocumentContentProvider">registered</see>
+    /// for a <see cref="Uri.scheme">uri-scheme</see>. When a uri with that scheme is to
+    /// be <see cref="workspace.openTextDocument">loaded</see> the content provider is
     /// asked.
+    /// </summary>
     type [<AllowNullLiteral>] TextDocumentContentProvider =
         /// An event to signal a resource has changed.
         abstract onDidChange: Event<Uri> option with get, set
-        /// <summary>Provide textual content for a given uri.
+        /// <summary>
+        /// Provide textual content for a given uri.
         /// 
         /// The editor will use the returned string-content to create a readonly
-        /// [document](#TextDocument). Resources allocated should be released when
-        /// the corresponding document has been [closed](#workspace.onDidCloseTextDocument).
+        /// <see cref="TextDocument">document</see>. Resources allocated should be released when
+        /// the corresponding document has been <see cref="workspace.onDidCloseTextDocument">closed</see>.
         /// 
-        /// **Note**: The contents of the created [document](#TextDocument) might not be
-        /// identical to the provided text due to end-of-line-sequence normalization.</summary>
-        /// <param name="uri">An uri which scheme matches the scheme this provider was [registered](#workspace.registerTextDocumentContentProvider) for.</param>
+        /// **Note**: The contents of the created <see cref="TextDocument">document</see> might not be
+        /// identical to the provided text due to end-of-line-sequence normalization.
+        /// </summary>
+        /// <param name="uri">An uri which scheme matches the scheme this provider was <see cref="workspace.registerTextDocumentContentProvider">registered</see> for.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>A string or a thenable that resolves to such.</returns>
         abstract provideTextDocumentContent: uri: Uri * token: CancellationToken -> ProviderResult<string>
 
     /// Represents an item that can be selected from
@@ -920,8 +1456,11 @@ module Vscode =
         abstract description: string option with get, set
         /// A human readable string which is rendered less prominent.
         abstract detail: string option with get, set
+        /// <summary>
         /// Optional flag indicating if this item is picked initially.
         /// (Only honored when the picker allows multiple selections.)
+        /// </summary>
+        /// <seealso cref="QuickPickOptions.canPickMany">QuickPickOptions.canPickMany</seealso>
         abstract picked: bool option with get, set
         /// Always show this item.
         abstract alwaysShow: bool option with get, set
@@ -934,45 +1473,47 @@ module Vscode =
         abstract matchOnDetail: bool option with get, set
         /// An optional string to show as place holder in the input box to guide the user what to pick on.
         abstract placeHolder: string option with get, set
-        /// Set to `true` to keep the picker open when focus moves to another part of the editor or to another window.
+        /// <summary>Set to <c>true</c> to keep the picker open when focus moves to another part of the editor or to another window.</summary>
         abstract ignoreFocusOut: bool option with get, set
         /// An optional flag to make the picker accept multiple selections, if true the result is an array of picks.
         abstract canPickMany: bool option with get, set
         /// An optional function that is invoked whenever an item is selected.
         abstract onDidSelectItem: item: U2<QuickPickItem, string> -> obj option
 
-    /// Options to configure the behaviour of the [workspace folder](#WorkspaceFolder) pick UI.
+    /// <summary>Options to configure the behaviour of the <see cref="WorkspaceFolder">workspace folder</see> pick UI.</summary>
     type [<AllowNullLiteral>] WorkspaceFolderPickOptions =
         /// An optional string to show as place holder in the input box to guide the user what to pick on.
         abstract placeHolder: string option with get, set
-        /// Set to `true` to keep the picker open when focus moves to another part of the editor or to another window.
+        /// <summary>Set to <c>true</c> to keep the picker open when focus moves to another part of the editor or to another window.</summary>
         abstract ignoreFocusOut: bool option with get, set
 
+    /// <summary>
     /// Options to configure the behaviour of a file open dialog.
     /// 
     /// * Note 1: A dialog can select files, folders, or both. This is not true for Windows
     /// which enforces to open either files or folder, but *not both*.
-    /// * Note 2: Explicitly setting `canSelectFiles` and `canSelectFolders` to `false` is futile
+    /// * Note 2: Explicitly setting <c>canSelectFiles</c> and <c>canSelectFolders</c> to <c>false</c> is futile
     /// and the editor then silently adjusts the options to select files.
+    /// </summary>
     type [<AllowNullLiteral>] OpenDialogOptions =
         /// The resource the dialog shows when opened.
         abstract defaultUri: Uri option with get, set
         /// A human-readable string for the open button.
         abstract openLabel: string option with get, set
-        /// Allow to select files, defaults to `true`.
+        /// <summary>Allow to select files, defaults to <c>true</c>.</summary>
         abstract canSelectFiles: bool option with get, set
-        /// Allow to select folders, defaults to `false`.
+        /// <summary>Allow to select folders, defaults to <c>false</c>.</summary>
         abstract canSelectFolders: bool option with get, set
         /// Allow to select many files or folders.
         abstract canSelectMany: bool option with get, set
         /// A set of file filters that are used by the dialog. Each entry is a human readable label,
         /// like "TypeScript", and an array of extensions, e.g.
-        /// ```ts
+        /// <code language="ts">
         /// {
         ///  	'Images': ['png', 'jpg']
         ///  	'TypeScript': ['ts', 'tsx']
         /// }
-        /// ```
+        /// </code>
         abstract filters: OpenDialogOptionsFilters option with get, set
 
     /// Options to configure the behaviour of a file save dialog.
@@ -983,16 +1524,21 @@ module Vscode =
         abstract saveLabel: string option with get, set
         /// A set of file filters that are used by the dialog. Each entry is a human readable label,
         /// like "TypeScript", and an array of extensions, e.g.
-        /// ```ts
+        /// <code language="ts">
         /// {
         ///  	'Images': ['png', 'jpg']
         ///  	'TypeScript': ['ts', 'tsx']
         /// }
-        /// ```
+        /// </code>
         abstract filters: OpenDialogOptionsFilters option with get, set
 
+    /// <summary>
     /// Represents an action that is shown with an information, warning, or
     /// error message.
+    /// </summary>
+    /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
+    /// <seealso cref="window.showWarningMessage">showWarningMessage</seealso>
+    /// <seealso cref="window.showErrorMessage">showErrorMessage</seealso>
     type [<AllowNullLiteral>] MessageItem =
         /// A short title like 'Retry', 'Open Log' etc.
         abstract title: string with get, set
@@ -1003,7 +1549,10 @@ module Vscode =
         /// Note: this option is ignored for non-modal messages.
         abstract isCloseAffordance: bool option with get, set
 
-    /// Options to configure the behavior of the message.
+    /// <summary>Options to configure the behavior of the message.</summary>
+    /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
+    /// <seealso cref="window.showWarningMessage">showWarningMessage</seealso>
+    /// <seealso cref="window.showErrorMessage">showErrorMessage</seealso>
     type [<AllowNullLiteral>] MessageOptions =
         /// Indicates that this message should be modal.
         abstract modal: bool option with get, set
@@ -1012,113 +1561,204 @@ module Vscode =
     type [<AllowNullLiteral>] InputBoxOptions =
         /// The value to prefill in the input box.
         abstract value: string option with get, set
-        /// Selection of the prefilled [`value`](#InputBoxOptions.value). Defined as tuple of two number where the
-        /// first is the inclusive start index and the second the exclusive end index. When `undefined` the whole
+        /// <summary>
+        /// Selection of the prefilled <see cref="InputBoxOptions.value"><c>value</c></see>. Defined as tuple of two number where the
+        /// first is the inclusive start index and the second the exclusive end index. When <c>undefined</c> the whole
         /// word will be selected, when empty (start equals end) only the cursor will be set,
         /// otherwise the defined range will be selected.
+        /// </summary>
         abstract valueSelection: float * float option with get, set
         /// The text to display underneath the input box.
         abstract prompt: string option with get, set
         /// An optional string to show as place holder in the input box to guide the user what to type.
         abstract placeHolder: string option with get, set
-        /// Set to `true` to show a password prompt that will not show the typed value.
+        /// <summary>Set to <c>true</c> to show a password prompt that will not show the typed value.</summary>
         abstract password: bool option with get, set
-        /// Set to `true` to keep the input box open when focus moves to another part of the editor or to another window.
+        /// <summary>Set to <c>true</c> to keep the input box open when focus moves to another part of the editor or to another window.</summary>
         abstract ignoreFocusOut: bool option with get, set
-        /// <summary>An optional function that will be called to validate input and to give a hint
-        /// to the user.</summary>
+        /// <summary>
+        /// An optional function that will be called to validate input and to give a hint
+        /// to the user.
+        /// </summary>
         /// <param name="value">The current value of the input box.</param>
+        /// <returns>
+        /// A human readable string which is presented as diagnostic message.
+        /// Return <c>undefined</c>, <c>null</c>, or the empty string when 'value' is valid.
+        /// </returns>
         abstract validateInput: value: string -> U2<string, Thenable<string option>> option
 
+    /// <summary>
     /// A relative pattern is a helper to construct glob patterns that are matched
     /// relatively to a base path. The base path can either be an absolute file path
-    /// or a [workspace folder](#WorkspaceFolder).
+    /// or a <see cref="WorkspaceFolder">workspace folder</see>.
+    /// </summary>
     type [<AllowNullLiteral>] RelativePattern =
         /// A base file path to which this pattern will be matched against relatively.
         abstract ``base``: string with get, set
-        /// A file glob pattern like `*.{ts,js}` that will be matched on file paths
+        /// <summary>
+        /// A file glob pattern like <c>*.{ts,js}</c> that will be matched on file paths
         /// relative to the base path.
         /// 
-        /// Example: Given a base of `/home/work/folder` and a file path of `/home/work/folder/index.js`,
-        /// the file glob pattern will match on `index.js`.
+        /// Example: Given a base of <c>/home/work/folder</c> and a file path of <c>/home/work/folder/index.js</c>,
+        /// the file glob pattern will match on <c>index.js</c>.
+        /// </summary>
         abstract pattern: string with get, set
 
+    /// <summary>
     /// A relative pattern is a helper to construct glob patterns that are matched
     /// relatively to a base path. The base path can either be an absolute file path
-    /// or a [workspace folder](#WorkspaceFolder).
+    /// or a <see cref="WorkspaceFolder">workspace folder</see>.
+    /// </summary>
     type [<AllowNullLiteral>] RelativePatternStatic =
-        /// <summary>Creates a new relative pattern object with a base path and pattern to match. This pattern
-        /// will be matched on file paths relative to the base path.</summary>
+        /// <summary>
+        /// Creates a new relative pattern object with a base path and pattern to match. This pattern
+        /// will be matched on file paths relative to the base path.
+        /// </summary>
         /// <param name="base">A base file path to which this pattern will be matched against relatively.</param>
-        /// <param name="pattern">A file glob pattern like `*.{ts,js}` that will be matched on file paths
-        /// relative to the base path.</param>
+        /// <param name="pattern">
+        /// A file glob pattern like <c>*.{ts,js}</c> that will be matched on file paths
+        /// relative to the base path.
+        /// </param>
         [<EmitConstructor>] abstract Create: ``base``: U2<WorkspaceFolder, string> * pattern: string -> RelativePattern
 
+    /// <summary>
+    /// A file glob pattern to match file paths against. This can either be a glob pattern string
+    /// (like <c>**​/*.{ts,js}</c> or <c>*.{ts,js}</c>) or a <see cref="RelativePattern">relative pattern</see>.
+    /// 
+    /// Glob patterns can have the following syntax:
+    /// * <c>*</c> to match one or more characters in a path segment
+    /// * <c>?</c> to match on one character in a path segment
+    /// * <c>**</c> to match any number of path segments, including none
+    /// * <c>{}</c> to group conditions (e.g. <c>**​/*.{ts,js}</c> matches all TypeScript and JavaScript files)
+    /// * <c>[]</c> to declare a range of characters to match in a path segment (e.g., <c>example.[0-9]</c> to match on <c>example.0</c>, <c>example.1</c>, …)
+    /// * <c>[!...]</c> to negate a range of characters to match in a path segment (e.g., <c>example.[!0-9]</c> to match on <c>example.a</c>, <c>example.b</c>, but not <c>example.0</c>)
+    /// 
+    /// Note: a backslash (<c>\</c>) is not valid within a glob pattern. If you have an existing file
+    /// path to match against, consider to use the <see cref="RelativePattern">relative pattern</see> support
+    /// that takes care of converting any backslash into slash. Otherwise, make sure to convert
+    /// any backslash to slash when creating the glob pattern.
+    /// </summary>
     type GlobPattern =
         U2<string, RelativePattern>
 
+    /// <summary>
     /// A document filter denotes a document by different properties like
-    /// the [language](#TextDocument.languageId), the [scheme](#Uri.scheme) of
-    /// its resource, or a glob-pattern that is applied to the [path](#TextDocument.fileName).
+    /// the <see cref="TextDocument.languageId">language</see>, the <see cref="Uri.scheme">scheme</see> of
+    /// its resource, or a glob-pattern that is applied to the <see cref="TextDocument.fileName">path</see>.
+    /// </summary>
     type [<AllowNullLiteral>] DocumentFilter =
-        /// A language id, like `typescript`.
+        /// <summary>A language id, like <c>typescript</c>.</summary>
         abstract language: string option with get, set
-        /// A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+        /// <summary>A Uri <see cref="Uri.scheme">scheme</see>, like <c>file</c> or <c>untitled</c>.</summary>
         abstract scheme: string option with get, set
-        /// A [glob pattern](#GlobPattern) that is matched on the absolute path of the document. Use a [relative pattern](#RelativePattern)
-        /// to filter documents to a [workspace folder](#WorkspaceFolder).
+        /// <summary>
+        /// A <see cref="GlobPattern">glob pattern</see> that is matched on the absolute path of the document. Use a <see cref="RelativePattern">relative pattern</see>
+        /// to filter documents to a <see cref="WorkspaceFolder">workspace folder</see>.
+        /// </summary>
         abstract pattern: GlobPattern option with get, set
 
+    /// <summary>
+    /// A language selector is the combination of one or many language identifiers
+    /// and <see cref="DocumentFilter">language filters</see>.
+    /// 
+    /// *Note* that a document selector that is just a language identifier selects *all*
+    /// documents, even those that are not saved on disk. Only use such selectors when
+    /// a feature works without further context, e.g without the need to resolve related
+    /// 'files'.
+    /// </summary>
     type DocumentSelector =
         U3<DocumentFilter, string, Array<U2<DocumentFilter, string>>>
 
+    /// <summary>
+    /// A provider result represents the values a provider, like the <see cref="HoverProvider"><c>HoverProvider</c></see>,
+    /// may return. For once this is the actual result type <c>T</c>, like <c>Hover</c>, or a thenable that resolves
+    /// to that type <c>T</c>. In addition, <c>null</c> and <c>undefined</c> can be returned - either directly or from a
+    /// thenable.
+    /// 
+    /// The snippets below are all valid implementations of the <see cref="HoverProvider"><c>HoverProvider</c></see>:
+    /// 
+    /// <code language="ts">
+    /// let a: HoverProvider = {
+    ///  	provideHover(doc, pos, token): ProviderResult<Hover> {
+    ///  		return new Hover('Hello World');
+    ///  	}
+    /// }
+    /// 
+    /// let b: HoverProvider = {
+    ///  	provideHover(doc, pos, token): ProviderResult<Hover> {
+    ///  		return new Promise(resolve => {
+    ///  			resolve(new Hover('Hello World'));
+    ///  	 	});
+    ///  	}
+    /// }
+    /// 
+    /// let c: HoverProvider = {
+    ///  	provideHover(doc, pos, token): ProviderResult<Hover> {
+    ///  		return; // undefined
+    ///  	}
+    /// }
+    /// </code>
+    /// </summary>
     type ProviderResult<'T> =
         U2<'T, Thenable<'T option>> option
 
+    /// <summary>
     /// Kind of a code action.
     /// 
-    /// Kinds are a hierarchical list of identifiers separated by `.`, e.g. `"refactor.extract.function"`.
+    /// Kinds are a hierarchical list of identifiers separated by <c>.</c>, e.g. <c>"refactor.extract.function"</c>.
     /// 
     /// Code action kinds are used by VS Code for UI elements such as the refactoring context menu. Users
-    /// can also trigger code actions with a specific kind with the `editor.action.codeAction` command.
+    /// can also trigger code actions with a specific kind with the <c>editor.action.codeAction</c> command.
+    /// </summary>
     type [<AllowNullLiteral>] CodeActionKind =
-        /// String value of the kind, e.g. `"refactor.extract.function"`.
+        /// <summary>String value of the kind, e.g. <c>"refactor.extract.function"</c>.</summary>
         abstract value: string
         /// Create a new kind by appending a more specific selector to the current kind.
         /// 
         /// Does not modify the current kind.
         abstract append: parts: string -> CodeActionKind
-        /// <summary>Checks if this code action kind intersects `other`.
+        /// <summary>
+        /// Checks if this code action kind intersects <c>other</c>.
         /// 
-        /// The kind `"refactor.extract"` for example intersects `refactor`, `"refactor.extract"` and ``"refactor.extract.function"`,
-        /// but not `"unicorn.refactor.extract"`, or `"refactor.extractAll"`.</summary>
+        /// The kind <c>"refactor.extract"</c> for example intersects <c>refactor</c>, <c>"refactor.extract"</c> and <c></c>"refactor.extract.function"`,
+        /// but not <c>"unicorn.refactor.extract"</c>, or <c>"refactor.extractAll"</c>.
+        /// </summary>
         /// <param name="other">Kind to check.</param>
         abstract intersects: other: CodeActionKind -> bool
-        /// <summary>Checks if `other` is a sub-kind of this `CodeActionKind`.
+        /// <summary>
+        /// Checks if <c>other</c> is a sub-kind of this <c>CodeActionKind</c>.
         /// 
-        /// The kind `"refactor.extract"` for example contains `"refactor.extract"` and ``"refactor.extract.function"`,
-        /// but not `"unicorn.refactor.extract"`, or `"refactor.extractAll"` or `refactor`.</summary>
+        /// The kind <c>"refactor.extract"</c> for example contains <c>"refactor.extract"</c> and <c></c>"refactor.extract.function"`,
+        /// but not <c>"unicorn.refactor.extract"</c>, or <c>"refactor.extractAll"</c> or <c>refactor</c>.
+        /// </summary>
         /// <param name="other">Kind to check.</param>
         abstract contains: other: CodeActionKind -> bool
 
+    /// <summary>
     /// Kind of a code action.
     /// 
-    /// Kinds are a hierarchical list of identifiers separated by `.`, e.g. `"refactor.extract.function"`.
+    /// Kinds are a hierarchical list of identifiers separated by <c>.</c>, e.g. <c>"refactor.extract.function"</c>.
     /// 
     /// Code action kinds are used by VS Code for UI elements such as the refactoring context menu. Users
-    /// can also trigger code actions with a specific kind with the `editor.action.codeAction` command.
+    /// can also trigger code actions with a specific kind with the <c>editor.action.codeAction</c> command.
+    /// </summary>
     type [<AllowNullLiteral>] CodeActionKindStatic =
         /// Empty kind.
         abstract Empty: CodeActionKind
-        /// Base kind for quickfix actions: `quickfix`.
+        /// <summary>
+        /// Base kind for quickfix actions: <c>quickfix</c>.
         /// 
         /// Quick fix actions address a problem in the code and are shown in the normal code action context menu.
+        /// </summary>
         abstract QuickFix: CodeActionKind
-        /// Base kind for refactoring actions: `refactor`
+        /// <summary>
+        /// Base kind for refactoring actions: <c>refactor</c>
         /// 
         /// Refactoring actions are shown in the refactoring context menu.
+        /// </summary>
         abstract Refactor: CodeActionKind
-        /// Base kind for refactoring extraction actions: `refactor.extract`
+        /// <summary>
+        /// Base kind for refactoring extraction actions: <c>refactor.extract</c>
         /// 
         /// Example extract actions:
         /// 
@@ -1127,8 +1767,10 @@ module Vscode =
         /// - Extract variable
         /// - Extract interface from class
         /// - ...
+        /// </summary>
         abstract RefactorExtract: CodeActionKind
-        /// Base kind for refactoring inline actions: `refactor.inline`
+        /// <summary>
+        /// Base kind for refactoring inline actions: <c>refactor.inline</c>
         /// 
         /// Example inline actions:
         /// 
@@ -1136,8 +1778,10 @@ module Vscode =
         /// - Inline variable
         /// - Inline constant
         /// - ...
+        /// </summary>
         abstract RefactorInline: CodeActionKind
-        /// Base kind for refactoring rewrite actions: `refactor.rewrite`
+        /// <summary>
+        /// Base kind for refactoring rewrite actions: <c>refactor.rewrite</c>
         /// 
         /// Example rewrite actions:
         /// 
@@ -1147,22 +1791,29 @@ module Vscode =
         /// - Make method static
         /// - Move method to base class
         /// - ...
+        /// </summary>
         abstract RefactorRewrite: CodeActionKind
-        /// Base kind for source actions: `source`
+        /// <summary>
+        /// Base kind for source actions: <c>source</c>
         /// 
         /// Source code actions apply to the entire file and can be run on save
-        /// using `editor.codeActionsOnSave`. They also are shown in `source` context menu.
+        /// using <c>editor.codeActionsOnSave</c>. They also are shown in <c>source</c> context menu.
+        /// </summary>
         abstract Source: CodeActionKind
-        /// Base kind for an organize imports source action: `source.organizeImports`.
+        /// <summary>Base kind for an organize imports source action: <c>source.organizeImports</c>.</summary>
         abstract SourceOrganizeImports: CodeActionKind
-        /// Base kind for auto-fix source actions: `source.fixAll`.
+        /// <summary>
+        /// Base kind for auto-fix source actions: <c>source.fixAll</c>.
         /// 
         /// Fix all actions automatically fix errors that have a clear fix that do not require user input.
         /// They should not suppress errors or perform unsafe fixes such as generating new types or classes.
+        /// </summary>
         abstract SourceFixAll: CodeActionKind
 
+    /// <summary>
     /// Contains additional diagnostic information about the context in which
-    /// a [code action](#CodeActionProvider.provideCodeActions) is run.
+    /// a <see cref="CodeActionProvider.provideCodeActions">code action</see> is run.
+    /// </summary>
     type [<AllowNullLiteral>] CodeActionContext =
         /// An array of diagnostics.
         abstract diagnostics: ResizeArray<Diagnostic>
@@ -1171,119 +1822,175 @@ module Vscode =
         /// Actions not of this kind are filtered out before being shown by the lightbulb.
         abstract only: CodeActionKind option
 
+    /// <summary>
     /// A code action represents a change that can be performed in code, e.g. to fix a problem or
     /// to refactor code.
     /// 
-    /// A CodeAction must set either [`edit`](#CodeAction.edit) and/or a [`command`](#CodeAction.command). If both are supplied, the `edit` is applied first, then the command is executed.
+    /// A CodeAction must set either <see cref="CodeAction.edit"><c>edit</c></see> and/or a <see cref="CodeAction.command"><c>command</c></see>. If both are supplied, the <c>edit</c> is applied first, then the command is executed.
+    /// </summary>
     type [<AllowNullLiteral>] CodeAction =
         /// A short, human-readable, title for this code action.
         abstract title: string with get, set
-        /// A [workspace edit](#WorkspaceEdit) this code action performs.
+        /// <summary>A <see cref="WorkspaceEdit">workspace edit</see> this code action performs.</summary>
         abstract edit: WorkspaceEdit option with get, set
-        /// [Diagnostics](#Diagnostic) that this code action resolves.
+        /// <summary><see cref="Diagnostic">Diagnostics</see> that this code action resolves.</summary>
         abstract diagnostics: ResizeArray<Diagnostic> option with get, set
-        /// A [command](#Command) this code action executes.
+        /// <summary>A <see cref="Command">command</see> this code action executes.</summary>
         abstract command: Command option with get, set
-        /// [Kind](#CodeActionKind) of the code action.
+        /// <summary>
+        /// <see cref="CodeActionKind">Kind</see> of the code action.
         /// 
         /// Used to filter code actions.
+        /// </summary>
         abstract kind: CodeActionKind option with get, set
-        /// Marks this as a preferred action. Preferred actions are used by the `auto fix` command and can be targeted
+        /// <summary>
+        /// Marks this as a preferred action. Preferred actions are used by the <c>auto fix</c> command and can be targeted
         /// by keybindings.
         /// 
         /// A quick fix should be marked preferred if it properly addresses the underlying error.
         /// A refactoring should be marked preferred if it is the most reasonable choice of actions to take.
+        /// </summary>
         abstract isPreferred: bool option with get, set
 
+    /// <summary>
     /// A code action represents a change that can be performed in code, e.g. to fix a problem or
     /// to refactor code.
     /// 
-    /// A CodeAction must set either [`edit`](#CodeAction.edit) and/or a [`command`](#CodeAction.command). If both are supplied, the `edit` is applied first, then the command is executed.
+    /// A CodeAction must set either <see cref="CodeAction.edit"><c>edit</c></see> and/or a <see cref="CodeAction.command"><c>command</c></see>. If both are supplied, the <c>edit</c> is applied first, then the command is executed.
+    /// </summary>
     type [<AllowNullLiteral>] CodeActionStatic =
-        /// <summary>Creates a new code action.
+        /// <summary>
+        /// Creates a new code action.
         /// 
-        /// A code action must have at least a [title](#CodeAction.title) and [edits](#CodeAction.edit)
-        /// and/or a [command](#CodeAction.command).</summary>
+        /// A code action must have at least a <see cref="CodeAction.title">title</see> and <see cref="CodeAction.edit">edits</see>
+        /// and/or a <see cref="CodeAction.command">command</see>.
+        /// </summary>
         /// <param name="title">The title of the code action.</param>
         /// <param name="kind">The kind of the code action.</param>
         [<EmitConstructor>] abstract Create: title: string * ?kind: CodeActionKind -> CodeAction
 
+    /// <summary>
     /// The code action interface defines the contract between extensions and
-    /// the [light bulb](https://code.visualstudio.com/docs/editor/editingevolved#_code-action) feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_code-action">light bulb</see> feature.
     /// 
-    /// A code action can be any command that is [known](#commands.getCommands) to the system.
+    /// A code action can be any command that is <see cref="commands.getCommands">known</see> to the system.
+    /// </summary>
     type [<AllowNullLiteral>] CodeActionProvider =
         /// <summary>Provide commands for the given document and range.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
-        /// <param name="range">The selector or range for which the command was invoked. This will always be a selection if
-        /// there is a currently active editor.</param>
+        /// <param name="range">
+        /// The selector or range for which the command was invoked. This will always be a selection if
+        /// there is a currently active editor.
+        /// </param>
         /// <param name="context">Context carrying additional information.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of commands, quick fixes, or refactorings or a thenable of such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideCodeActions: document: TextDocument * range: U2<Range, Selection> * context: CodeActionContext * token: CancellationToken -> ProviderResult<ResizeArray<U2<Command, CodeAction>>>
 
-    /// Metadata about the type of code actions that a [CodeActionProvider](#CodeActionProvider) providers
+    /// <summary>Metadata about the type of code actions that a <see cref="CodeActionProvider">CodeActionProvider</see> providers</summary>
     type [<AllowNullLiteral>] CodeActionProviderMetadata =
-        /// [CodeActionKinds](#CodeActionKind) that this provider may return.
+        /// <summary>
+        /// <see cref="CodeActionKind">CodeActionKinds</see> that this provider may return.
         /// 
-        /// The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the provider
-        /// may list our every specific kind they provide, such as `CodeActionKind.Refactor.Extract.append('function`)`
+        /// The list of kinds may be generic, such as <c>CodeActionKind.Refactor</c>, or the provider
+        /// may list our every specific kind they provide, such as <c>CodeActionKind.Refactor.Extract.append('function</c>)`
+        /// </summary>
         abstract providedCodeActionKinds: ReadonlyArray<CodeActionKind> option
 
-    /// A code lens represents a [command](#Command) that should be shown along with
+    /// <summary>
+    /// A code lens represents a <see cref="Command">command</see> that should be shown along with
     /// source text, like the number of references, a way to run tests, etc.
     /// 
     /// A code lens is _unresolved_ when no command is associated to it. For performance
     /// reasons the creation of a code lens and resolving should be done to two stages.
+    /// </summary>
+    /// <seealso cref="CodeLensProvider.provideCodeLenses">CodeLensProvider.provideCodeLenses</seealso>
+    /// <seealso cref="CodeLensProvider.resolveCodeLens">CodeLensProvider.resolveCodeLens</seealso>
     type [<AllowNullLiteral>] CodeLens =
         /// The range in which this code lens is valid. Should only span a single line.
         abstract range: Range with get, set
         /// The command this code lens represents.
         abstract command: Command option with get, set
-        /// `true` when there is a command associated.
+        /// <summary><c>true</c> when there is a command associated.</summary>
         abstract isResolved: bool
 
-    /// A code lens represents a [command](#Command) that should be shown along with
+    /// <summary>
+    /// A code lens represents a <see cref="Command">command</see> that should be shown along with
     /// source text, like the number of references, a way to run tests, etc.
     /// 
     /// A code lens is _unresolved_ when no command is associated to it. For performance
     /// reasons the creation of a code lens and resolving should be done to two stages.
+    /// </summary>
+    /// <seealso cref="CodeLensProvider.provideCodeLenses">CodeLensProvider.provideCodeLenses</seealso>
+    /// <seealso cref="CodeLensProvider.resolveCodeLens">CodeLensProvider.resolveCodeLens</seealso>
     type [<AllowNullLiteral>] CodeLensStatic =
         /// <summary>Creates a new code lens object.</summary>
         /// <param name="range">The range to which this code lens applies.</param>
         /// <param name="command">The command associated to this code lens.</param>
         [<EmitConstructor>] abstract Create: range: Range * ?command: Command -> CodeLens
 
-    /// A code lens provider adds [commands](#Command) to source text. The commands will be shown
+    /// <summary>
+    /// A code lens provider adds <see cref="Command">commands</see> to source text. The commands will be shown
     /// as dedicated horizontal lines in between the source text.
+    /// </summary>
     type [<AllowNullLiteral>] CodeLensProvider =
         /// An optional event to signal that the code lenses from this provider have changed.
         abstract onDidChangeCodeLenses: Event<unit> option with get, set
-        /// <summary>Compute a list of [lenses](#CodeLens). This call should return as fast as possible and if
+        /// <summary>
+        /// Compute a list of <see cref="CodeLens">lenses</see>. This call should return as fast as possible and if
         /// computing the commands is expensive implementors should only return code lens objects with the
-        /// range set and implement [resolve](#CodeLensProvider.resolveCodeLens).</summary>
+        /// range set and implement <see cref="CodeLensProvider.resolveCodeLens">resolve</see>.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of code lenses or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideCodeLenses: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<CodeLens>>
-        /// <summary>This function will be called for each visible code lens, usually when scrolling and after
-        /// calls to [compute](#CodeLensProvider.provideCodeLenses)-lenses.</summary>
+        /// <summary>
+        /// This function will be called for each visible code lens, usually when scrolling and after
+        /// calls to <see cref="CodeLensProvider.provideCodeLenses">compute</see>-lenses.
+        /// </summary>
         /// <param name="codeLens">code lens that must be resolved.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>The given, resolved code lens or thenable that resolves to such.</returns>
         abstract resolveCodeLens: codeLens: CodeLens * token: CancellationToken -> ProviderResult<CodeLens>
 
+    /// <summary>
+    /// Information about where a symbol is defined.
+    /// 
+    /// Provides additional metadata over normal <see cref="Location">location</see> definitions, including the range of
+    /// the defining symbol
+    /// </summary>
     type DefinitionLink =
         LocationLink
 
+    /// <summary>
+    /// The definition of a symbol represented as one or many <see cref="Location">locations</see>.
+    /// For most programming languages there is only one location at which a symbol is
+    /// defined.
+    /// </summary>
     type Definition =
         U2<Location, ResizeArray<Location>>
 
+    /// <summary>
     /// The definition provider interface defines the contract between extensions and
-    /// the [go to definition](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition)
+    /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition">go to definition</see>
     /// and peek definition features.
+    /// </summary>
     type [<AllowNullLiteral>] DefinitionProvider =
         /// <summary>Provide the definition of the symbol at the given position and document.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A definition or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideDefinition: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<U2<Definition, ResizeArray<DefinitionLink>>>
 
     /// The implementation provider interface defines the contract between extensions and
@@ -1293,6 +2000,10 @@ module Vscode =
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A definition or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideImplementation: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<U2<Definition, ResizeArray<DefinitionLink>>>
 
     /// The type definition provider defines the contract between extensions and
@@ -1302,8 +2013,16 @@ module Vscode =
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A definition or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideTypeDefinition: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<U2<Definition, ResizeArray<DefinitionLink>>>
 
+    /// <summary>
+    /// The declaration of a symbol representation as one or many <see cref="Location">locations</see>
+    /// or [location links][#LocationLink].
+    /// </summary>
     type Declaration =
         U3<Location, ResizeArray<Location>, ResizeArray<LocationLink>>
 
@@ -1314,6 +2033,10 @@ module Vscode =
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A declaration or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideDeclaration: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<Declaration>
 
     /// The MarkdownString represents human readable text that supports formatting via the
@@ -1321,8 +2044,10 @@ module Vscode =
     type [<AllowNullLiteral>] MarkdownString =
         /// The markdown string.
         abstract value: string with get, set
+        /// <summary>
         /// Indicates that this markdown string is from a trusted source. Only *trusted*
-        /// markdown supports links that execute commands, e.g. `[Run it](command:myCommandId)`.
+        /// markdown supports links that execute commands, e.g. <c>[Run it](command:myCommandId)</c>.
+        /// </summary>
         abstract isTrusted: bool option with get, set
         /// <summary>Appends and escapes the given string to this markdown string.</summary>
         /// <param name="value">Plain text.</param>
@@ -1332,7 +2057,7 @@ module Vscode =
         abstract appendMarkdown: value: string -> MarkdownString
         /// <summary>Appends the given string as codeblock using the provided language.</summary>
         /// <param name="value">A code snippet.</param>
-        /// <param name="language">An optional [language identifier](#languages.getLanguages).</param>
+        /// <param name="language">An optional <see cref="languages.getLanguages">language identifier</see>.</param>
         abstract appendCodeblock: value: string * ?language: string -> MarkdownString
 
     /// The MarkdownString represents human readable text that supports formatting via the
@@ -1342,6 +2067,10 @@ module Vscode =
         /// <param name="value">Optional, initial value.</param>
         [<EmitConstructor>] abstract Create: ?value: string -> MarkdownString
 
+    /// ~~MarkedString can be used to render human readable text. It is either a markdown string
+    /// or a code-block that provides a language and a code snippet. Note that
+    /// markdown strings will be sanitized - that means html will be escaped.~~
+    [<Obsolete("This type is deprecated, please use [`MarkdownString`](#MarkdownString) instead.")>]
     type MarkedString =
         U4<MarkdownString, string, string, string>
 
@@ -1363,20 +2092,32 @@ module Vscode =
         /// <param name="range">The range to which the hover applies.</param>
         [<EmitConstructor>] abstract Create: contents: U2<MarkedString, ResizeArray<MarkedString>> * ?range: Range -> Hover
 
+    /// <summary>
     /// The hover provider interface defines the contract between extensions and
-    /// the [hover](https://code.visualstudio.com/docs/editor/intellisense)-feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/intellisense">hover</see>-feature.
+    /// </summary>
     type [<AllowNullLiteral>] HoverProvider =
-        /// <summary>Provide a hover for the given position and document. Multiple hovers at the same
+        /// <summary>
+        /// Provide a hover for the given position and document. Multiple hovers at the same
         /// position will be merged by the editor. A hover can have a range which defaults
-        /// to the word range at the position when omitted.</summary>
+        /// to the word range at the position when omitted.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A hover or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideHover: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<Hover>
 
+    /// A document highlight kind.
     type [<RequireQualifiedAccess>] DocumentHighlightKind =
+        /// A textual occurrence.
         | Text = 0
+        /// Read-access of a symbol, like reading a variable.
         | Read = 1
+        /// Write-access of a symbol, like writing to a variable.
         | Write = 2
 
     /// A document highlight is a range inside a text document which deserves
@@ -1385,7 +2126,7 @@ module Vscode =
     type [<AllowNullLiteral>] DocumentHighlight =
         /// The range this highlight applies to.
         abstract range: Range with get, set
-        /// The highlight kind, default is [text](#DocumentHighlightKind.Text).
+        /// <summary>The highlight kind, default is <see cref="DocumentHighlightKind.Text">text</see>.</summary>
         abstract kind: DocumentHighlightKind option with get, set
 
     /// A document highlight is a range inside a text document which deserves
@@ -1394,19 +2135,26 @@ module Vscode =
     type [<AllowNullLiteral>] DocumentHighlightStatic =
         /// <summary>Creates a new document highlight object.</summary>
         /// <param name="range">The range the highlight applies to.</param>
-        /// <param name="kind">The highlight kind, default is [text](#DocumentHighlightKind.Text).</param>
+        /// <param name="kind">The highlight kind, default is <see cref="DocumentHighlightKind.Text">text</see>.</param>
         [<EmitConstructor>] abstract Create: range: Range * ?kind: DocumentHighlightKind -> DocumentHighlight
 
     /// The document highlight provider interface defines the contract between extensions and
     /// the word-highlight-feature.
     type [<AllowNullLiteral>] DocumentHighlightProvider =
-        /// <summary>Provide a set of document highlights, like all occurrences of a variable or
-        /// all exit-points of a function.</summary>
+        /// <summary>
+        /// Provide a set of document highlights, like all occurrences of a variable or
+        /// all exit-points of a function.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of document highlights or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideDocumentHighlights: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<ResizeArray<DocumentHighlight>>
 
+    /// A symbol kind.
     type [<RequireQualifiedAccess>] SymbolKind =
         | File = 0
         | Module = 1
@@ -1462,6 +2210,7 @@ module Vscode =
         /// <param name="range">The range of the location of the symbol.</param>
         /// <param name="uri">The resource of the location of symbol, defaults to the current document.</param>
         /// <param name="containerName">The name of the symbol containing the symbol.</param>
+        [<Obsolete("Please use the constructor taking a [location](#Location) object.")>]
         [<EmitConstructor>] abstract Create: name: string * kind: SymbolKind * range: Range * ?uri: Uri * ?containerName: string -> SymbolInformation
 
     /// Represents programming constructs like variables, classes, interfaces etc. that appear in a document. Document
@@ -1476,8 +2225,10 @@ module Vscode =
         abstract kind: SymbolKind with get, set
         /// The range enclosing this symbol not including leading/trailing whitespace but everything else, e.g comments and code.
         abstract range: Range with get, set
+        /// <summary>
         /// The range that should be selected and reveal when this symbol is being picked, e.g the name of a function.
-        /// Must be contained by the [`range`](#DocumentSymbol.range).
+        /// Must be contained by the <see cref="DocumentSymbol.range"><c>range</c></see>.
+        /// </summary>
         abstract selectionRange: Range with get, set
         /// Children of this symbol, e.g. properties of a class.
         abstract children: ResizeArray<DocumentSymbol> with get, set
@@ -1494,12 +2245,18 @@ module Vscode =
         /// <param name="selectionRange">The range that should be reveal.</param>
         [<EmitConstructor>] abstract Create: name: string * detail: string * kind: SymbolKind * range: Range * selectionRange: Range -> DocumentSymbol
 
+    /// <summary>
     /// The document symbol provider interface defines the contract between extensions and
-    /// the [go to symbol](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-symbol)-feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-symbol">go to symbol</see>-feature.
+    /// </summary>
     type [<AllowNullLiteral>] DocumentSymbolProvider =
         /// <summary>Provide symbol information for the given document.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of document highlights or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideDocumentSymbols: document: TextDocument * token: CancellationToken -> ProviderResult<U2<ResizeArray<SymbolInformation>, ResizeArray<DocumentSymbol>>>
 
     /// Metadata about a document symbol provider.
@@ -1507,29 +2264,45 @@ module Vscode =
         /// A human readable string that is shown when multiple outlines trees show for one document.
         abstract label: string option with get, set
 
+    /// <summary>
     /// The workspace symbol provider interface defines the contract between extensions and
-    /// the [symbol search](https://code.visualstudio.com/docs/editor/editingevolved#_open-symbol-by-name)-feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_open-symbol-by-name">symbol search</see>-feature.
+    /// </summary>
     type [<AllowNullLiteral>] WorkspaceSymbolProvider =
-        /// <summary>Project-wide search for a symbol matching the given query string.
+        /// <summary>
+        /// Project-wide search for a symbol matching the given query string.
         /// 
-        /// The `query`-parameter should be interpreted in a *relaxed way* as the editor will apply its own highlighting
+        /// The <c>query</c>-parameter should be interpreted in a *relaxed way* as the editor will apply its own highlighting
         /// and scoring on the results. A good rule of thumb is to match case-insensitive and to simply check that the
         /// characters of *query* appear in their order in a candidate symbol. Don't use prefix, substring, or similar
         /// strict matching.
         /// 
-        /// To improve performance implementors can implement `resolveWorkspaceSymbol` and then provide symbols with partial
-        /// [location](#SymbolInformation.location)-objects, without a `range` defined. The editor will then call
-        /// `resolveWorkspaceSymbol` for selected symbols only, e.g. when opening a workspace symbol.</summary>
+        /// To improve performance implementors can implement <c>resolveWorkspaceSymbol</c> and then provide symbols with partial
+        /// <see cref="SymbolInformation.location">location</see>-objects, without a <c>range</c> defined. The editor will then call
+        /// <c>resolveWorkspaceSymbol</c> for selected symbols only, e.g. when opening a workspace symbol.
+        /// </summary>
         /// <param name="query">A query string, can be the empty string in which case all symbols should be returned.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of document highlights or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideWorkspaceSymbols: query: string * token: CancellationToken -> ProviderResult<ResizeArray<SymbolInformation>>
-        /// <summary>Given a symbol fill in its [location](#SymbolInformation.location). This method is called whenever a symbol
+        /// <summary>
+        /// Given a symbol fill in its <see cref="SymbolInformation.location">location</see>. This method is called whenever a symbol
         /// is selected in the UI. Providers can implement this method and return incomplete symbols from
-        /// [`provideWorkspaceSymbols`](#WorkspaceSymbolProvider.provideWorkspaceSymbols) which often helps to improve
-        /// performance.</summary>
-        /// <param name="symbol">The symbol that is to be resolved. Guaranteed to be an instance of an object returned from an
-        /// earlier call to `provideWorkspaceSymbols`.</param>
+        /// <see cref="WorkspaceSymbolProvider.provideWorkspaceSymbols"><c>provideWorkspaceSymbols</c></see> which often helps to improve
+        /// performance.
+        /// </summary>
+        /// <param name="symbol">
+        /// The symbol that is to be resolved. Guaranteed to be an instance of an object returned from an
+        /// earlier call to <c>provideWorkspaceSymbols</c>.
+        /// </param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// The resolved symbol or a thenable that resolves to that. When no result is returned,
+        /// the given <c>symbol</c> is used.
+        /// </returns>
         abstract resolveWorkspaceSymbol: symbol: SymbolInformation * token: CancellationToken -> ProviderResult<SymbolInformation>
 
     /// Value-object that contains additional information when
@@ -1538,13 +2311,19 @@ module Vscode =
         /// Include the declaration of the current symbol.
         abstract includeDeclaration: bool with get, set
 
+    /// <summary>
     /// The reference provider interface defines the contract between extensions and
-    /// the [find references](https://code.visualstudio.com/docs/editor/editingevolved#_peek)-feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_peek">find references</see>-feature.
+    /// </summary>
     type [<AllowNullLiteral>] ReferenceProvider =
         /// <summary>Provide a set of project-wide references for the given position and document.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of locations or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideReferences: document: TextDocument * position: Position * context: ReferenceContext * token: CancellationToken -> ProviderResult<ResizeArray<Location>>
 
     /// A text edit represents edits that should be applied
@@ -1566,26 +2345,32 @@ module Vscode =
         /// <summary>Utility to create a replace edit.</summary>
         /// <param name="range">A range.</param>
         /// <param name="newText">A string.</param>
+        /// <returns>A new text edit object.</returns>
         abstract replace: range: Range * newText: string -> TextEdit
         /// <summary>Utility to create an insert edit.</summary>
         /// <param name="position">A position, will become an empty range.</param>
         /// <param name="newText">A string.</param>
+        /// <returns>A new text edit object.</returns>
         abstract insert: position: Position * newText: string -> TextEdit
         /// <summary>Utility to create a delete edit.</summary>
         /// <param name="range">A range.</param>
+        /// <returns>A new text edit object.</returns>
         abstract delete: range: Range -> TextEdit
         /// <summary>Utility to create an eol-edit.</summary>
         /// <param name="eol">An eol-sequence</param>
+        /// <returns>A new text edit object.</returns>
         abstract setEndOfLine: eol: EndOfLine -> TextEdit
         /// <summary>Create a new TextEdit.</summary>
         /// <param name="range">A range.</param>
         /// <param name="newText">A string.</param>
         [<EmitConstructor>] abstract Create: range: Range * newText: string -> TextEdit
 
+    /// <summary>
     /// A workspace edit is a collection of textual and files changes for
     /// multiple resources and documents.
     /// 
-    /// Use the [applyEdit](#workspace.applyEdit)-function to apply a workspace edit.
+    /// Use the <see cref="workspace.applyEdit">applyEdit</see>-function to apply a workspace edit.
+    /// </summary>
     type [<AllowNullLiteral>] WorkspaceEdit =
         /// The number of affected resources of textual or resource changes.
         abstract size: float
@@ -1605,6 +2390,7 @@ module Vscode =
         abstract delete: uri: Uri * range: Range -> unit
         /// <summary>Check if a text edit for a resource exists.</summary>
         /// <param name="uri">A resource identifier.</param>
+        /// <returns><c>true</c> if the given resource will be touched by this edit.</returns>
         abstract has: uri: Uri -> bool
         /// <summary>Set (and replace) text edits for a resource.</summary>
         /// <param name="uri">A resource identifier.</param>
@@ -1612,11 +2398,14 @@ module Vscode =
         abstract set: uri: Uri * edits: ResizeArray<TextEdit> -> unit
         /// <summary>Get the text edits for a resource.</summary>
         /// <param name="uri">A resource identifier.</param>
+        /// <returns>An array of text edits.</returns>
         abstract get: uri: Uri -> ResizeArray<TextEdit>
         /// <summary>Create a regular file.</summary>
         /// <param name="uri">Uri of the new file..</param>
-        /// <param name="options">Defines if an existing file should be overwritten or be
-        /// ignored. When overwrite and ignoreIfExists are both set overwrite wins.</param>
+        /// <param name="options">
+        /// Defines if an existing file should be overwritten or be
+        /// ignored. When overwrite and ignoreIfExists are both set overwrite wins.
+        /// </param>
         abstract createFile: uri: Uri * ?options: WorkspaceEditCreateFileOptions -> unit
         /// <summary>Delete a file or folder.</summary>
         /// <param name="uri">The uri of the file that is to be deleted.</param>
@@ -1624,10 +2413,13 @@ module Vscode =
         /// <summary>Rename a file or folder.</summary>
         /// <param name="oldUri">The existing file.</param>
         /// <param name="newUri">The new location.</param>
-        /// <param name="options">Defines if existing files should be overwritten or be
-        /// ignored. When overwrite and ignoreIfExists are both set overwrite wins.</param>
+        /// <param name="options">
+        /// Defines if existing files should be overwritten or be
+        /// ignored. When overwrite and ignoreIfExists are both set overwrite wins.
+        /// </param>
         abstract renameFile: oldUri: Uri * newUri: Uri * ?options: WorkspaceEditRenameFileOptions -> unit
-        /// Get all text edits grouped by resource.
+        /// <summary>Get all text edits grouped by resource.</summary>
+        /// <returns>A shallow copy of <c>[Uri, TextEdit[]]</c>-tuples.</returns>
         abstract entries: unit -> ResizeArray<Uri * ResizeArray<TextEdit>>
 
     type [<AllowNullLiteral>] WorkspaceEditCreateFileOptions =
@@ -1642,74 +2434,111 @@ module Vscode =
         abstract overwrite: bool option with get, set
         abstract ignoreIfExists: bool option with get, set
 
+    /// <summary>
     /// A workspace edit is a collection of textual and files changes for
     /// multiple resources and documents.
     /// 
-    /// Use the [applyEdit](#workspace.applyEdit)-function to apply a workspace edit.
+    /// Use the <see cref="workspace.applyEdit">applyEdit</see>-function to apply a workspace edit.
+    /// </summary>
     type [<AllowNullLiteral>] WorkspaceEditStatic =
         [<EmitConstructor>] abstract Create: unit -> WorkspaceEdit
 
+    /// <summary>
     /// A snippet string is a template which allows to insert text
     /// and to control the editor cursor when insertion happens.
     /// 
-    /// A snippet can define tab stops and placeholders with `$1`, `$2`
-    /// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
-    /// the end of the snippet. Variables are defined with `$name` and
-    /// `${name:default value}`. The full snippet syntax is documented
-    /// [here](http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets).
+    /// A snippet can define tab stops and placeholders with <c>$1</c>, <c>$2</c>
+    /// and <c>${3:foo}</c>. <c>$0</c> defines the final tab stop, it defaults to
+    /// the end of the snippet. Variables are defined with <c>$name</c> and
+    /// <c>${name:default value}</c>. The full snippet syntax is documented
+    /// <see href="http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets">here</see>.
+    /// </summary>
     type [<AllowNullLiteral>] SnippetString =
         /// The snippet string.
         abstract value: string with get, set
-        /// <summary>Builder-function that appends the given string to
-        /// the [`value`](#SnippetString.value) of this snippet string.</summary>
+        /// <summary>
+        /// Builder-function that appends the given string to
+        /// the <see cref="SnippetString.value"><c>value</c></see> of this snippet string.
+        /// </summary>
         /// <param name="string">A value to append 'as given'. The string will be escaped.</param>
+        /// <returns>This snippet string.</returns>
         abstract appendText: string: string -> SnippetString
-        /// <summary>Builder-function that appends a tabstop (`$1`, `$2` etc) to
-        /// the [`value`](#SnippetString.value) of this snippet string.</summary>
-        /// <param name="number">The number of this tabstop, defaults to an auto-increment
-        /// value starting at 1.</param>
+        /// <summary>
+        /// Builder-function that appends a tabstop (<c>$1</c>, <c>$2</c> etc) to
+        /// the <see cref="SnippetString.value"><c>value</c></see> of this snippet string.
+        /// </summary>
+        /// <param name="number">
+        /// The number of this tabstop, defaults to an auto-increment
+        /// value starting at 1.
+        /// </param>
+        /// <returns>This snippet string.</returns>
         abstract appendTabstop: ?number: float -> SnippetString
-        /// <summary>Builder-function that appends a placeholder (`${1:value}`) to
-        /// the [`value`](#SnippetString.value) of this snippet string.</summary>
-        /// <param name="value">The value of this placeholder - either a string or a function
-        /// with which a nested snippet can be created.</param>
-        /// <param name="number">The number of this tabstop, defaults to an auto-increment
-        /// value starting at 1.</param>
+        /// <summary>
+        /// Builder-function that appends a placeholder (<c>${1:value}</c>) to
+        /// the <see cref="SnippetString.value"><c>value</c></see> of this snippet string.
+        /// </summary>
+        /// <param name="value">
+        /// The value of this placeholder - either a string or a function
+        /// with which a nested snippet can be created.
+        /// </param>
+        /// <param name="number">
+        /// The number of this tabstop, defaults to an auto-increment
+        /// value starting at 1.
+        /// </param>
+        /// <returns>This snippet string.</returns>
         abstract appendPlaceholder: value: U2<string, (SnippetString -> obj option)> * ?number: float -> SnippetString
-        /// <summary>Builder-function that appends a variable (`${VAR}`) to
-        /// the [`value`](#SnippetString.value) of this snippet string.</summary>
-        /// <param name="name">The name of the variable - excluding the `$`.</param>
-        /// <param name="defaultValue">The default value which is used when the variable name cannot
-        /// be resolved - either a string or a function with which a nested snippet can be created.</param>
+        /// <summary>
+        /// Builder-function that appends a variable (<c>${VAR}</c>) to
+        /// the <see cref="SnippetString.value"><c>value</c></see> of this snippet string.
+        /// </summary>
+        /// <param name="name">The name of the variable - excluding the <c>$</c>.</param>
+        /// <param name="defaultValue">
+        /// The default value which is used when the variable name cannot
+        /// be resolved - either a string or a function with which a nested snippet can be created.
+        /// </param>
+        /// <returns>This snippet string.</returns>
         abstract appendVariable: name: string * defaultValue: U2<string, (SnippetString -> obj option)> -> SnippetString
 
+    /// <summary>
     /// A snippet string is a template which allows to insert text
     /// and to control the editor cursor when insertion happens.
     /// 
-    /// A snippet can define tab stops and placeholders with `$1`, `$2`
-    /// and `${3:foo}`. `$0` defines the final tab stop, it defaults to
-    /// the end of the snippet. Variables are defined with `$name` and
-    /// `${name:default value}`. The full snippet syntax is documented
-    /// [here](http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets).
+    /// A snippet can define tab stops and placeholders with <c>$1</c>, <c>$2</c>
+    /// and <c>${3:foo}</c>. <c>$0</c> defines the final tab stop, it defaults to
+    /// the end of the snippet. Variables are defined with <c>$name</c> and
+    /// <c>${name:default value}</c>. The full snippet syntax is documented
+    /// <see href="http://code.visualstudio.com/docs/editor/userdefinedsnippets#_creating-your-own-snippets">here</see>.
+    /// </summary>
     type [<AllowNullLiteral>] SnippetStringStatic =
         [<EmitConstructor>] abstract Create: ?value: string -> SnippetString
 
+    /// <summary>
     /// The rename provider interface defines the contract between extensions and
-    /// the [rename](https://code.visualstudio.com/docs/editor/editingevolved#_rename-symbol)-feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/editingevolved#_rename-symbol">rename</see>-feature.
+    /// </summary>
     type [<AllowNullLiteral>] RenameProvider =
-        /// <summary>Provide an edit that describes changes that have to be made to one
-        /// or many resources to rename a symbol to a different name.</summary>
+        /// <summary>
+        /// Provide an edit that describes changes that have to be made to one
+        /// or many resources to rename a symbol to a different name.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="newName">The new name of the symbol. If the given name is not valid, the provider must return a rejected promise.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A workspace edit or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideRenameEdits: document: TextDocument * position: Position * newName: string * token: CancellationToken -> ProviderResult<WorkspaceEdit>
-        /// <summary>Optional function for resolving and validating a position *before* running rename. The result can
+        /// <summary>
+        /// Optional function for resolving and validating a position *before* running rename. The result can
         /// be a range or a range and a placeholder text. The placeholder text should be the identifier of the symbol
-        /// which is being renamed - when omitted the text in the returned range is used.</summary>
+        /// which is being renamed - when omitted the text in the returned range is used.
+        /// </summary>
         /// <param name="document">The document in which rename will be invoked.</param>
         /// <param name="position">The position at which rename will be invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>The range or range and placeholder text of the identifier that is to be renamed. The lack of a result can signaled by returning <c>undefined</c> or <c>null</c>.</returns>
         abstract prepareRename: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<U2<Range, RenameProviderPrepareRenameProviderResult>>
 
     /// Value-object describing what options formatting should use.
@@ -1728,45 +2557,63 @@ module Vscode =
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="options">Options controlling formatting.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A set of text edits or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideDocumentFormattingEdits: document: TextDocument * options: FormattingOptions * token: CancellationToken -> ProviderResult<ResizeArray<TextEdit>>
 
     /// The document formatting provider interface defines the contract between extensions and
     /// the formatting-feature.
     type [<AllowNullLiteral>] DocumentRangeFormattingEditProvider =
-        /// <summary>Provide formatting edits for a range in a document.
+        /// <summary>
+        /// Provide formatting edits for a range in a document.
         /// 
         /// The given range is a hint and providers can decide to format a smaller
         /// or larger range. Often this is done by adjusting the start and end
-        /// of the range to full syntax nodes.</summary>
+        /// of the range to full syntax nodes.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="range">The range which should be formatted.</param>
         /// <param name="options">Options controlling formatting.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A set of text edits or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideDocumentRangeFormattingEdits: document: TextDocument * range: Range * options: FormattingOptions * token: CancellationToken -> ProviderResult<ResizeArray<TextEdit>>
 
     /// The document formatting provider interface defines the contract between extensions and
     /// the formatting-feature.
     type [<AllowNullLiteral>] OnTypeFormattingEditProvider =
-        /// <summary>Provide formatting edits after a character has been typed.
+        /// <summary>
+        /// Provide formatting edits after a character has been typed.
         /// 
         /// The given position and character should hint to the provider
-        /// what range the position to expand to, like find the matching `{`
-        /// when `}` has been entered.</summary>
+        /// what range the position to expand to, like find the matching <c>{</c>
+        /// when <c>}</c> has been entered.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="ch">The character that has been typed.</param>
         /// <param name="options">Options controlling formatting.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// A set of text edits or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideOnTypeFormattingEdits: document: TextDocument * position: Position * ch: string * options: FormattingOptions * token: CancellationToken -> ProviderResult<ResizeArray<TextEdit>>
 
     /// Represents a parameter of a callable-signature. A parameter can
     /// have a label and a doc-comment.
     type [<AllowNullLiteral>] ParameterInformation =
+        /// <summary>
         /// The label of this signature.
         /// 
         /// Either a string or inclusive start and exclusive end offsets within its containing
-        /// [signature label](#SignatureInformation.label). *Note*: A label of type string must be
-        /// a substring of its containing signature information's [label](#SignatureInformation.label).
+        /// <see cref="SignatureInformation.label">signature label</see>. *Note*: A label of type string must be
+        /// a substring of its containing signature information's <see cref="SignatureInformation.label">label</see>.
+        /// </summary>
         abstract label: U2<string, float * float> with get, set
         /// The human-readable doc-comment of this signature. Will be shown
         /// in the UI but can be omitted.
@@ -1819,43 +2666,61 @@ module Vscode =
     type [<AllowNullLiteral>] SignatureHelpStatic =
         [<EmitConstructor>] abstract Create: unit -> SignatureHelp
 
+    /// <summary>How a <see cref="SignatureHelpProvider"><c>SignatureHelpProvider</c></see> was triggered.</summary>
     type [<RequireQualifiedAccess>] SignatureHelpTriggerKind =
+        /// Signature help was invoked manually by the user or by a command.
         | Invoke = 1
+        /// Signature help was triggered by a trigger character.
         | TriggerCharacter = 2
+        /// Signature help was triggered by the cursor moving or by the document content changing.
         | ContentChange = 3
 
+    /// <summary>
     /// Additional information about the context in which a
-    /// [`SignatureHelpProvider`](#SignatureHelpProvider.provideSignatureHelp) was triggered.
+    /// <see cref="SignatureHelpProvider.provideSignatureHelp"><c>SignatureHelpProvider</c></see> was triggered.
+    /// </summary>
     type [<AllowNullLiteral>] SignatureHelpContext =
         /// Action that caused signature help to be triggered.
         abstract triggerKind: SignatureHelpTriggerKind
+        /// <summary>
         /// Character that caused signature help to be triggered.
         /// 
-        /// This is `undefined` when signature help is not triggered by typing, such as when manually invoking
+        /// This is <c>undefined</c> when signature help is not triggered by typing, such as when manually invoking
         /// signature help or when moving the cursor.
+        /// </summary>
         abstract triggerCharacter: string option
-        /// `true` if signature help was already showing when it was triggered.
+        /// <summary>
+        /// <c>true</c> if signature help was already showing when it was triggered.
         /// 
         /// Retriggers occur when the signature help is already active and can be caused by actions such as
         /// typing a trigger character, a cursor move, or document content changes.
+        /// </summary>
         abstract isRetrigger: bool
-        /// The currently active [`SignatureHelp`](#SignatureHelp).
+        /// <summary>
+        /// The currently active <see cref="SignatureHelp"><c>SignatureHelp</c></see>.
         /// 
-        /// The `activeSignatureHelp` has its [`SignatureHelp.activeSignature`] field updated based on
+        /// The <c>activeSignatureHelp</c> has its [<c>SignatureHelp.activeSignature</c>] field updated based on
         /// the user arrowing through available signatures.
+        /// </summary>
         abstract activeSignatureHelp: SignatureHelp option
 
+    /// <summary>
     /// The signature help provider interface defines the contract between extensions and
-    /// the [parameter hints](https://code.visualstudio.com/docs/editor/intellisense)-feature.
+    /// the <see href="https://code.visualstudio.com/docs/editor/intellisense">parameter hints</see>-feature.
+    /// </summary>
     type [<AllowNullLiteral>] SignatureHelpProvider =
         /// <summary>Provide help for the signature at the given position and document.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
         /// <param name="context">Information about how signature help was triggered.</param>
+        /// <returns>
+        /// Signature help or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideSignatureHelp: document: TextDocument * position: Position * token: CancellationToken * context: SignatureHelpContext -> ProviderResult<SignatureHelp>
 
-    /// Metadata about a registered [`SignatureHelpProvider`](#SignatureHelpProvider).
+    /// <summary>Metadata about a registered <see cref="SignatureHelpProvider"><c>SignatureHelpProvider</c></see>.</summary>
     type [<AllowNullLiteral>] SignatureHelpProviderMetadata =
         /// List of characters that trigger signature help.
         abstract triggerCharacters: ReadonlyArray<string>
@@ -1865,6 +2730,7 @@ module Vscode =
         /// are also counted as re-trigger characters.
         abstract retriggerCharacters: ReadonlyArray<string>
 
+    /// Completion item kinds.
     type [<RequireQualifiedAccess>] CompletionItemKind =
         | Text = 0
         | Method = 1
@@ -1892,16 +2758,20 @@ module Vscode =
         | Operator = 23
         | TypeParameter = 24
 
+    /// <summary>
     /// A completion item represents a text snippet that is proposed to complete text that is being typed.
     /// 
-    /// It is sufficient to create a completion item from just a [label](#CompletionItem.label). In that
-    /// case the completion item will replace the [word](#TextDocument.getWordRangeAtPosition)
-    /// until the cursor with the given label or [insertText](#CompletionItem.insertText). Otherwise the
-    /// given [edit](#CompletionItem.textEdit) is used.
+    /// It is sufficient to create a completion item from just a <see cref="CompletionItem.label">label</see>. In that
+    /// case the completion item will replace the <see cref="TextDocument.getWordRangeAtPosition">word</see>
+    /// until the cursor with the given label or <see cref="CompletionItem.insertText">insertText</see>. Otherwise the
+    /// given <see cref="CompletionItem.textEdit">edit</see> is used.
     /// 
     /// When selecting a completion item in the editor its defined or synthesized text edit will be applied
-    /// to *all* cursors/selections whereas [additionalTextEdits](#CompletionItem.additionalTextEdits) will be
+    /// to *all* cursors/selections whereas <see cref="CompletionItem.additionalTextEdits">additionalTextEdits</see> will be
     /// applied as provided.
+    /// </summary>
+    /// <seealso cref="CompletionItemProvider.provideCompletionItems">CompletionItemProvider.provideCompletionItems</seealso>
+    /// <seealso cref="CompletionItemProvider.resolveCompletionItem">CompletionItemProvider.resolveCompletionItem</seealso>
     type [<AllowNullLiteral>] CompletionItem =
         /// The label of this completion item. By default
         /// this is also the text that is inserted when selecting
@@ -1915,69 +2785,101 @@ module Vscode =
         abstract detail: string option with get, set
         /// A human-readable string that represents a doc-comment.
         abstract documentation: U2<string, MarkdownString> option with get, set
+        /// <summary>
         /// A string that should be used when comparing this item
-        /// with other items. When `falsy` the [label](#CompletionItem.label)
+        /// with other items. When <c>falsy</c> the <see cref="CompletionItem.label">label</see>
         /// is used.
+        /// </summary>
         abstract sortText: string option with get, set
+        /// <summary>
         /// A string that should be used when filtering a set of
-        /// completion items. When `falsy` the [label](#CompletionItem.label)
+        /// completion items. When <c>falsy</c> the <see cref="CompletionItem.label">label</see>
         /// is used.
+        /// </summary>
         abstract filterText: string option with get, set
         /// Select this item when showing. *Note* that only one completion item can be selected and
         /// that the editor decides which item that is. The rule is that the *first* item of those
         /// that match best is selected.
         abstract preselect: bool option with get, set
+        /// <summary>
         /// A string or snippet that should be inserted in a document when selecting
-        /// this completion. When `falsy` the [label](#CompletionItem.label)
+        /// this completion. When <c>falsy</c> the <see cref="CompletionItem.label">label</see>
         /// is used.
+        /// </summary>
         abstract insertText: U2<string, SnippetString> option with get, set
+        /// <summary>
         /// A range of text that should be replaced by this completion item.
         /// 
-        /// Defaults to a range from the start of the [current word](#TextDocument.getWordRangeAtPosition) to the
+        /// Defaults to a range from the start of the <see cref="TextDocument.getWordRangeAtPosition">current word</see> to the
         /// current position.
         /// 
-        /// *Note:* The range must be a [single line](#Range.isSingleLine) and it must
-        /// [contain](#Range.contains) the position at which completion has been [requested](#CompletionItemProvider.provideCompletionItems).
+        /// *Note:* The range must be a <see cref="Range.isSingleLine">single line</see> and it must
+        /// <see cref="Range.contains">contain</see> the position at which completion has been <see cref="CompletionItemProvider.provideCompletionItems">requested</see>.
+        /// </summary>
         abstract range: Range option with get, set
+        /// <summary>
         /// An optional set of characters that when pressed while this completion is active will accept it first and
-        /// then type that character. *Note* that all commit characters should have `length=1` and that superfluous
+        /// then type that character. *Note* that all commit characters should have <c>length=1</c> and that superfluous
         /// characters will be ignored.
+        /// </summary>
         abstract commitCharacters: ResizeArray<string> option with get, set
-        /// Keep whitespace of the [insertText](#CompletionItem.insertText) as is. By default, the editor adjusts leading
+        /// <summary>
+        /// Keep whitespace of the <see cref="CompletionItem.insertText">insertText</see> as is. By default, the editor adjusts leading
         /// whitespace of new lines so that they match the indentation of the line for which the item is accepted - setting
-        /// this to `true` will prevent that.
+        /// this to <c>true</c> will prevent that.
+        /// </summary>
         abstract keepWhitespace: bool option with get, set
+        [<Obsolete("Use `CompletionItem.insertText` and `CompletionItem.range` instead.
+
+~~An [edit](#TextEdit) which is applied to a document when selecting
+this completion. When an edit is provided the value of
+[insertText](#CompletionItem.insertText) is ignored.~~
+
+~~The [range](#Range) of the edit must be single-line and on the same
+line completions were [requested](#CompletionItemProvider.provideCompletionItems) at.~~")>]
         abstract textEdit: TextEdit option with get, set
-        /// An optional array of additional [text edits](#TextEdit) that are applied when
-        /// selecting this completion. Edits must not overlap with the main [edit](#CompletionItem.textEdit)
+        /// <summary>
+        /// An optional array of additional <see cref="TextEdit">text edits</see> that are applied when
+        /// selecting this completion. Edits must not overlap with the main <see cref="CompletionItem.textEdit">edit</see>
         /// nor with themselves.
+        /// </summary>
         abstract additionalTextEdits: ResizeArray<TextEdit> option with get, set
-        /// An optional [command](#Command) that is executed *after* inserting this completion. *Note* that
+        /// <summary>
+        /// An optional <see cref="Command">command</see> that is executed *after* inserting this completion. *Note* that
         /// additional modifications to the current document should be described with the
-        /// [additionalTextEdits](#CompletionItem.additionalTextEdits)-property.
+        /// <see cref="CompletionItem.additionalTextEdits">additionalTextEdits</see>-property.
+        /// </summary>
         abstract command: Command option with get, set
 
+    /// <summary>
     /// A completion item represents a text snippet that is proposed to complete text that is being typed.
     /// 
-    /// It is sufficient to create a completion item from just a [label](#CompletionItem.label). In that
-    /// case the completion item will replace the [word](#TextDocument.getWordRangeAtPosition)
-    /// until the cursor with the given label or [insertText](#CompletionItem.insertText). Otherwise the
-    /// given [edit](#CompletionItem.textEdit) is used.
+    /// It is sufficient to create a completion item from just a <see cref="CompletionItem.label">label</see>. In that
+    /// case the completion item will replace the <see cref="TextDocument.getWordRangeAtPosition">word</see>
+    /// until the cursor with the given label or <see cref="CompletionItem.insertText">insertText</see>. Otherwise the
+    /// given <see cref="CompletionItem.textEdit">edit</see> is used.
     /// 
     /// When selecting a completion item in the editor its defined or synthesized text edit will be applied
-    /// to *all* cursors/selections whereas [additionalTextEdits](#CompletionItem.additionalTextEdits) will be
+    /// to *all* cursors/selections whereas <see cref="CompletionItem.additionalTextEdits">additionalTextEdits</see> will be
     /// applied as provided.
+    /// </summary>
+    /// <seealso cref="CompletionItemProvider.provideCompletionItems">CompletionItemProvider.provideCompletionItems</seealso>
+    /// <seealso cref="CompletionItemProvider.resolveCompletionItem">CompletionItemProvider.resolveCompletionItem</seealso>
     type [<AllowNullLiteral>] CompletionItemStatic =
-        /// <summary>Creates a new completion item.
+        /// <summary>
+        /// Creates a new completion item.
         /// 
-        /// Completion items must have at least a [label](#CompletionItem.label) which then
-        /// will be used as insert text as well as for sorting and filtering.</summary>
+        /// Completion items must have at least a <see cref="CompletionItem.label">label</see> which then
+        /// will be used as insert text as well as for sorting and filtering.
+        /// </summary>
         /// <param name="label">The label of the completion.</param>
-        /// <param name="kind">The [kind](#CompletionItemKind) of the completion.</param>
+        /// <param name="kind">The <see cref="CompletionItemKind">kind</see> of the completion.</param>
         [<EmitConstructor>] abstract Create: label: string * ?kind: CompletionItemKind -> CompletionItem
 
-    /// Represents a collection of [completion items](#CompletionItem) to be presented
+    /// <summary>
+    /// Represents a collection of <see cref="CompletionItem">completion items</see> to be presented
     /// in the editor.
+    /// </summary>
     type [<AllowNullLiteral>] CompletionList =
         /// This list is not complete. Further typing should result in recomputing
         /// this list.
@@ -1985,55 +2887,77 @@ module Vscode =
         /// The completion items.
         abstract items: ResizeArray<CompletionItem> with get, set
 
-    /// Represents a collection of [completion items](#CompletionItem) to be presented
+    /// <summary>
+    /// Represents a collection of <see cref="CompletionItem">completion items</see> to be presented
     /// in the editor.
+    /// </summary>
     type [<AllowNullLiteral>] CompletionListStatic =
         /// <summary>Creates a new completion list.</summary>
         /// <param name="items">The completion items.</param>
         /// <param name="isIncomplete">The list is not complete.</param>
         [<EmitConstructor>] abstract Create: ?items: ResizeArray<CompletionItem> * ?isIncomplete: bool -> CompletionList
 
+    /// <summary>How a <see cref="CompletionItemProvider">completion provider</see> was triggered</summary>
     type [<RequireQualifiedAccess>] CompletionTriggerKind =
+        /// Completion was triggered normally.
         | Invoke = 0
+        /// Completion was triggered by a trigger character.
         | TriggerCharacter = 1
+        /// Completion was re-triggered as current completion list is incomplete
         | TriggerForIncompleteCompletions = 2
 
+    /// <summary>
     /// Contains additional information about the context in which
-    /// [completion provider](#CompletionItemProvider.provideCompletionItems) is triggered.
+    /// <see cref="CompletionItemProvider.provideCompletionItems">completion provider</see> is triggered.
+    /// </summary>
     type [<AllowNullLiteral>] CompletionContext =
         /// How the completion was triggered.
         abstract triggerKind: CompletionTriggerKind
+        /// <summary>
         /// Character that triggered the completion item provider.
         /// 
-        /// `undefined` if provider was not triggered by a character.
+        /// <c>undefined</c> if provider was not triggered by a character.
         /// 
         /// The trigger character is already in the document when the completion provider is triggered.
+        /// </summary>
         abstract triggerCharacter: string option
 
+    /// <summary>
     /// The completion item provider interface defines the contract between extensions and
-    /// [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense).
+    /// <see href="https://code.visualstudio.com/docs/editor/intellisense">IntelliSense</see>.
     /// 
-    /// Providers can delay the computation of the [`detail`](#CompletionItem.detail)
-    /// and [`documentation`](#CompletionItem.documentation) properties by implementing the
-    /// [`resolveCompletionItem`](#CompletionItemProvider.resolveCompletionItem)-function. However, properties that
-    /// are needed for the initial sorting and filtering, like `sortText`, `filterText`, `insertText`, and `range`, must
+    /// Providers can delay the computation of the <see cref="CompletionItem.detail"><c>detail</c></see>
+    /// and <see cref="CompletionItem.documentation"><c>documentation</c></see> properties by implementing the
+    /// <see cref="CompletionItemProvider.resolveCompletionItem"><c>resolveCompletionItem</c></see>-function. However, properties that
+    /// are needed for the initial sorting and filtering, like <c>sortText</c>, <c>filterText</c>, <c>insertText</c>, and <c>range</c>, must
     /// not be changed during resolve.
     /// 
     /// Providers are asked for completions either explicitly by a user gesture or -depending on the configuration-
     /// implicitly when typing words or trigger characters.
+    /// </summary>
     type [<AllowNullLiteral>] CompletionItemProvider =
         /// <summary>Provide completion items for the given position and document.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="position">The position at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
         /// <param name="context">How the completion was triggered.</param>
+        /// <returns>
+        /// An array of completions, a <see cref="CompletionList">completion list</see>, or a thenable that resolves to either.
+        /// The lack of a result can be signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideCompletionItems: document: TextDocument * position: Position * token: CancellationToken * context: CompletionContext -> ProviderResult<U2<ResizeArray<CompletionItem>, CompletionList>>
-        /// <summary>Given a completion item fill in more data, like [doc-comment](#CompletionItem.documentation)
-        /// or [details](#CompletionItem.detail).
+        /// <summary>
+        /// Given a completion item fill in more data, like <see cref="CompletionItem.documentation">doc-comment</see>
+        /// or <see cref="CompletionItem.detail">details</see>.
         /// 
-        /// The editor will only resolve a completion item once.</summary>
+        /// The editor will only resolve a completion item once.
+        /// </summary>
         /// <param name="item">A completion item currently active in the UI.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// The resolved completion item or a thenable that resolves to of such. It is OK to return the given
+        /// <c>item</c>. When no result is returned, the given <c>item</c> will be used.
+        /// </returns>
         abstract resolveCompletionItem: item: CompletionItem * token: CancellationToken -> ProviderResult<CompletionItem>
 
     /// A document link is a range in a text document that links to an internal or external resource, like another
@@ -2055,15 +2979,23 @@ module Vscode =
     /// The document link provider defines the contract between extensions and feature of showing
     /// links in the editor.
     type [<AllowNullLiteral>] DocumentLinkProvider =
-        /// <summary>Provide links for the given document. Note that the editor ships with a default provider that detects
-        /// `http(s)` and `file` links.</summary>
+        /// <summary>
+        /// Provide links for the given document. Note that the editor ships with a default provider that detects
+        /// <c>http(s)</c> and <c>file</c> links.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of <see cref="DocumentLink">document links</see> or a thenable that resolves to such. The lack of a result
+        /// can be signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideDocumentLinks: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<DocumentLink>>
-        /// <summary>Given a link fill in its [target](#DocumentLink.target). This method is called when an incomplete
+        /// <summary>
+        /// Given a link fill in its <see cref="DocumentLink.target">target</see>. This method is called when an incomplete
         /// link is selected in the UI. Providers can implement this method and return incomplete links
-        /// (without target) from the [`provideDocumentLinks`](#DocumentLinkProvider.provideDocumentLinks) method which
-        /// often helps to improve performance.</summary>
+        /// (without target) from the <see cref="DocumentLinkProvider.provideDocumentLinks"><c>provideDocumentLinks</c></see> method which
+        /// often helps to improve performance.
+        /// </summary>
         /// <param name="link">The link that is to be resolved.</param>
         /// <param name="token">A cancellation token.</param>
         abstract resolveDocumentLink: link: DocumentLink * token: CancellationToken -> ProviderResult<DocumentLink>
@@ -2100,33 +3032,42 @@ module Vscode =
         /// <summary>Creates a new color range.</summary>
         /// <param name="range">The range the color appears in. Must not be empty.</param>
         /// <param name="color">The value of the color.</param>
+        /// <param name="format">The format in which this color is currently formatted.</param>
         [<EmitConstructor>] abstract Create: range: Range * color: Color -> ColorInformation
 
-    /// A color presentation object describes how a [`color`](#Color) should be represented as text and what
+    /// <summary>
+    /// A color presentation object describes how a <see cref="Color"><c>color</c></see> should be represented as text and what
     /// edits are required to refer to it from source code.
     /// 
     /// For some languages one color can have multiple presentations, e.g. css can represent the color red with
-    /// the constant `Red`, the hex-value `#ff0000`, or in rgba and hsla forms. In csharp other representations
-    /// apply, e.g `System.Drawing.Color.Red`.
+    /// the constant <c>Red</c>, the hex-value <c>#ff0000</c>, or in rgba and hsla forms. In csharp other representations
+    /// apply, e.g <c>System.Drawing.Color.Red</c>.
+    /// </summary>
     type [<AllowNullLiteral>] ColorPresentation =
         /// The label of this color presentation. It will be shown on the color
         /// picker header. By default this is also the text that is inserted when selecting
         /// this color presentation.
         abstract label: string with get, set
-        /// An [edit](#TextEdit) which is applied to a document when selecting
-        /// this presentation for the color.  When `falsy` the [label](#ColorPresentation.label)
+        /// <summary>
+        /// An <see cref="TextEdit">edit</see> which is applied to a document when selecting
+        /// this presentation for the color.  When <c>falsy</c> the <see cref="ColorPresentation.label">label</see>
         /// is used.
+        /// </summary>
         abstract textEdit: TextEdit option with get, set
-        /// An optional array of additional [text edits](#TextEdit) that are applied when
-        /// selecting this color presentation. Edits must not overlap with the main [edit](#ColorPresentation.textEdit) nor with themselves.
+        /// <summary>
+        /// An optional array of additional <see cref="TextEdit">text edits</see> that are applied when
+        /// selecting this color presentation. Edits must not overlap with the main <see cref="ColorPresentation.textEdit">edit</see> nor with themselves.
+        /// </summary>
         abstract additionalTextEdits: ResizeArray<TextEdit> option with get, set
 
-    /// A color presentation object describes how a [`color`](#Color) should be represented as text and what
+    /// <summary>
+    /// A color presentation object describes how a <see cref="Color"><c>color</c></see> should be represented as text and what
     /// edits are required to refer to it from source code.
     /// 
     /// For some languages one color can have multiple presentations, e.g. css can represent the color red with
-    /// the constant `Red`, the hex-value `#ff0000`, or in rgba and hsla forms. In csharp other representations
-    /// apply, e.g `System.Drawing.Color.Red`.
+    /// the constant <c>Red</c>, the hex-value <c>#ff0000</c>, or in rgba and hsla forms. In csharp other representations
+    /// apply, e.g <c>System.Drawing.Color.Red</c>.
+    /// </summary>
     type [<AllowNullLiteral>] ColorPresentationStatic =
         /// <summary>Creates a new color presentation.</summary>
         /// <param name="label">The label of this color presentation.</param>
@@ -2138,11 +3079,19 @@ module Vscode =
         /// <summary>Provide colors for the given document.</summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of <see cref="ColorInformation">color information</see> or a thenable that resolves to such. The lack of a result
+        /// can be signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideDocumentColors: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<ColorInformation>>
-        /// <summary>Provide [representations](#ColorPresentation) for a color.</summary>
+        /// <summary>Provide <see cref="ColorPresentation">representations</see> for a color.</summary>
         /// <param name="color">The color to show and insert.</param>
         /// <param name="context">A context object with additional information</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// An array of color presentations or a thenable that resolves to such. The lack of a result
+        /// can be signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
+        /// </returns>
         abstract provideColorPresentations: color: Color * context: DocumentColorProviderProvideColorPresentationsContext * token: CancellationToken -> ProviderResult<ResizeArray<ColorPresentation>>
 
     type [<AllowNullLiteral>] DocumentColorProviderProvideColorPresentationsContext =
@@ -2158,11 +3107,13 @@ module Vscode =
         /// The zero-based end line of the range to fold. The folded area ends with the line's last character.
         /// To be valid, the end must be zero or larger and smaller than the number of lines in the document.
         abstract ``end``: float with get, set
-        /// Describes the [Kind](#FoldingRangeKind) of the folding range such as [Comment](#FoldingRangeKind.Comment) or
-        /// [Region](#FoldingRangeKind.Region). The kind is used to categorize folding ranges and used by commands
+        /// <summary>
+        /// Describes the <see cref="FoldingRangeKind">Kind</see> of the folding range such as <see cref="FoldingRangeKind.Comment">Comment</see> or
+        /// <see cref="FoldingRangeKind.Region">Region</see>. The kind is used to categorize folding ranges and used by commands
         /// like 'Fold all comments'. See
-        /// [FoldingRangeKind](#FoldingRangeKind) for an enumeration of all kinds.
+        /// <see cref="FoldingRangeKind">FoldingRangeKind</see> for an enumeration of all kinds.
         /// If not set, the range is originated from a syntax element.
+        /// </summary>
         abstract kind: FoldingRangeKind option with get, set
 
     /// A line based folding range. To be valid, start and end line must be bigger than zero and smaller than the number of lines in the document.
@@ -2174,20 +3125,33 @@ module Vscode =
         /// <param name="kind">The kind of the folding range.</param>
         [<EmitConstructor>] abstract Create: start: float * ``end``: float * ?kind: FoldingRangeKind -> FoldingRange
 
+    /// <summary>
+    /// An enumeration of specific folding range kinds. The kind is an optional field of a <see cref="FoldingRange">FoldingRange</see>
+    /// and is used to distinguish specific folding ranges such as ranges originated from comments. The kind is used by commands like
+    /// <c>Fold all comments</c> or <c>Fold all regions</c>.
+    /// If the kind is not set on the range, the range originated from a syntax element other than comments, imports or region markers.
+    /// </summary>
     type [<RequireQualifiedAccess>] FoldingRangeKind =
+        /// Kind for folding range representing a comment.
         | Comment = 1
+        /// Kind for folding range representing a import.
         | Imports = 2
+        /// <summary>Kind for folding range representing regions originating from folding markers like <c>#region</c> and <c>#endregion</c>.</summary>
         | Region = 3
 
     /// Folding context (for future use)
     type [<AllowNullLiteral>] FoldingContext =
         interface end
 
+    /// <summary>
     /// The folding range provider interface defines the contract between extensions and
-    /// [Folding](https://code.visualstudio.com/docs/editor/codebasics#_folding) in the editor.
+    /// <see href="https://code.visualstudio.com/docs/editor/codebasics#_folding">Folding</see> in the editor.
+    /// </summary>
     type [<AllowNullLiteral>] FoldingRangeProvider =
-        /// <summary>Returns a list of folding ranges or null and undefined if the provider
-        /// does not want to participate or was cancelled.</summary>
+        /// <summary>
+        /// Returns a list of folding ranges or null and undefined if the provider
+        /// does not want to participate or was cancelled.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="context">Additional context information (for future use)</param>
         /// <param name="token">A cancellation token.</param>
@@ -2196,7 +3160,7 @@ module Vscode =
     /// A selection range represents a part of a selection hierarchy. A selection range
     /// may have a parent selection range that contains it.
     type [<AllowNullLiteral>] SelectionRange =
-        /// The [range](#Range) of this selection range.
+        /// <summary>The <see cref="Range">range</see> of this selection range.</summary>
         abstract range: Range with get, set
         /// The parent selection range containing this range.
         abstract parent: SelectionRange option with get, set
@@ -2210,24 +3174,32 @@ module Vscode =
         [<EmitConstructor>] abstract Create: range: Range * ?parent: SelectionRange -> SelectionRange
 
     type [<AllowNullLiteral>] SelectionRangeProvider =
-        /// <summary>Provide selection ranges for the given positions.
+        /// <summary>
+        /// Provide selection ranges for the given positions.
         /// 
         /// Selection ranges should be computed individually and independend for each postion. The editor will merge
         /// and deduplicate ranges but providers must return hierarchies of selection ranges so that a range
-        /// is [contained](#Range.contains) by its parent.</summary>
+        /// is <see cref="Range.contains">contained</see> by its parent.
+        /// </summary>
         /// <param name="document">The document in which the command was invoked.</param>
         /// <param name="positions">The positions at which the command was invoked.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>
+        /// Selection ranges or a thenable that resolves to such. The lack of a result can be
+        /// signaled by returning <c>undefined</c> or <c>null</c>.
+        /// </returns>
         abstract provideSelectionRanges: document: TextDocument * positions: ResizeArray<Position> * token: CancellationToken -> ProviderResult<ResizeArray<SelectionRange>>
 
+    /// A tuple of two characters, like a pair of
+    /// opening and closing brackets.
     type CharacterPair =
         string * string
 
     /// Describes how comments for a language work.
     type [<AllowNullLiteral>] CommentRule =
-        /// The line comment token, like `// this is a comment`
+        /// <summary>The line comment token, like <c>// this is a comment</c></summary>
         abstract lineComment: string option with get, set
-        /// The block comment character pair, like `/* block comment *&#47;`
+        /// <summary>The block comment character pair, like <c>/* block comment *&#47;</c></summary>
         abstract blockComment: CharacterPair option with get, set
 
     /// Describes indentation rules for a language.
@@ -2241,10 +3213,17 @@ module Vscode =
         /// If a line matches this pattern, then its indentation should not be changed and it should not be evaluated against the other rules.
         abstract unIndentedLinePattern: RegExp option with get, set
 
+    /// Describes what to do with the indentation when pressing Enter.
     type [<RequireQualifiedAccess>] IndentAction =
+        /// Insert new line and copy the previous line's indentation.
         | None = 0
+        /// Insert new line and indent once (relative to the previous line's indentation).
         | Indent = 1
+        /// Insert two new lines:
+        ///   - the first one indented which will hold the cursor
+        ///   - the second one at the same indentation level
         | IndentOutdent = 2
+        /// Insert new line and outdent once (relative to the previous line's indentation).
         | Outdent = 3
 
     /// Describes what to do when pressing Enter.
@@ -2284,15 +3263,22 @@ module Vscode =
         /// The language's rules to be evaluated when pressing Enter.
         abstract onEnterRules: ResizeArray<OnEnterRule> option with get, set
         /// **Deprecated** Do not use.
+        [<Obsolete("Will be replaced by a better API soon.")>]
         abstract __electricCharacterSupport: LanguageConfiguration__electricCharacterSupport option with get, set
         /// **Deprecated** Do not use.
+        [<Obsolete("Use the autoClosingPairs property in the language configuration file instead.")>]
         abstract __characterPairSupport: LanguageConfiguration__characterPairSupport option with get, set
 
+    /// The configuration target
     type [<RequireQualifiedAccess>] ConfigurationTarget =
+        /// Global configuration
         | Global = 1
+        /// Workspace configuration
         | Workspace = 2
+        /// Workspace folder configuration
         | WorkspaceFolder = 3
 
+    /// <summary>
     /// Represents the configuration. It is a merged view of
     /// 
     /// - Default configuration
@@ -2304,77 +3290,88 @@ module Vscode =
     /// 
     /// *Workspace configuration* comes from Workspace Settings and shadows Global configuration.
     /// 
-    /// *Workspace Folder configuration* comes from `.vscode` folder under one of the [workspace folders](#workspace.workspaceFolders).
+    /// *Workspace Folder configuration* comes from <c>.vscode</c> folder under one of the <see cref="workspace.workspaceFolders">workspace folders</see>.
     /// 
-    /// *Note:* Workspace and Workspace Folder configurations contains `launch` and `tasks` settings. Their basename will be
+    /// *Note:* Workspace and Workspace Folder configurations contains <c>launch</c> and <c>tasks</c> settings. Their basename will be
     /// part of the section identifier. The following snippets shows how to retrieve all configurations
-    /// from `launch.json`:
+    /// from <c>launch.json</c>:
     /// 
-    /// ```ts
+    /// <code language="ts">
     /// // launch.json configuration
     /// const config = workspace.getConfiguration('launch', vscode.window.activeTextEditor.document.uri);
     /// 
     /// // retrieve values
     /// const values = config.get('configurations');
-    /// ```
+    /// </code>
     /// 
-    /// Refer to [Settings](https://code.visualstudio.com/docs/getstarted/settings) for more information.
+    /// Refer to <see href="https://code.visualstudio.com/docs/getstarted/settings">Settings</see> for more information.
+    /// </summary>
     type [<AllowNullLiteral>] WorkspaceConfiguration =
         /// <summary>Return a value from this configuration.</summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
+        /// <returns>The value <c>section</c> denotes or <c>undefined</c>.</returns>
         abstract get: section: string -> 'T option
         /// <summary>Return a value from this configuration.</summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
-        /// <param name="defaultValue">A value should be returned when no value could be found, is `undefined`.</param>
+        /// <param name="defaultValue">A value should be returned when no value could be found, is <c>undefined</c>.</param>
+        /// <returns>The value <c>section</c> denotes or the default.</returns>
         abstract get: section: string * defaultValue: 'T -> 'T
         /// <summary>Check if this configuration has a certain value.</summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
+        /// <returns><c>true</c> if the section doesn't resolve to <c>undefined</c>.</returns>
         abstract has: section: string -> bool
-        /// <summary>Retrieve all information about a configuration setting. A configuration value
+        /// <summary>
+        /// Retrieve all information about a configuration setting. A configuration value
         /// often consists of a *default* value, a global or installation-wide value,
         /// a workspace-specific value and a folder-specific value.
         /// 
-        /// The *effective* value (returned by [`get`](#WorkspaceConfiguration.get))
-        /// is computed like this: `defaultValue` overwritten by `globalValue`,
-        /// `globalValue` overwritten by `workspaceValue`. `workspaceValue` overwritten by `workspaceFolderValue`.
-        /// Refer to [Settings Inheritance](https://code.visualstudio.com/docs/getstarted/settings)
+        /// The *effective* value (returned by <see cref="WorkspaceConfiguration.get)"><c>get</c></see>
+        /// is computed like this: <c>defaultValue</c> overwritten by <c>globalValue</c>,
+        /// <c>globalValue</c> overwritten by <c>workspaceValue</c>. <c>workspaceValue</c> overwritten by <c>workspaceFolderValue</c>.
+        /// Refer to <see href="https://code.visualstudio.com/docs/getstarted/settings">Settings Inheritance</see>
         /// for more information.
         /// 
         /// *Note:* The configuration name must denote a leaf in the configuration tree
-        /// (`editor.fontSize` vs `editor`) otherwise no result is returned.</summary>
+        /// (<c>editor.fontSize</c> vs <c>editor</c>) otherwise no result is returned.
+        /// </summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
+        /// <returns>Information about a configuration setting or <c>undefined</c>.</returns>
         abstract inspect: section: string -> WorkspaceConfigurationInspect<'T> option
-        /// <summary>Update a configuration value. The updated configuration values are persisted.
+        /// <summary>
+        /// Update a configuration value. The updated configuration values are persisted.
         /// 
         /// A value can be changed in
         /// 
-        /// - [Global configuration](#ConfigurationTarget.Global): Changes the value for all instances of the editor.
-        /// - [Workspace configuration](#ConfigurationTarget.Workspace): Changes the value for current workspace, if available.
-        /// - [Workspace folder configuration](#ConfigurationTarget.WorkspaceFolder): Changes the value for the
-        /// [Workspace folder](#workspace.workspaceFolders) to which the current [configuration](#WorkspaceConfiguration) is scoped to.
+        /// - <see cref="ConfigurationTarget.Global">Global configuration</see>: Changes the value for all instances of the editor.
+        /// - <see cref="ConfigurationTarget.Workspace">Workspace configuration</see>: Changes the value for current workspace, if available.
+        /// - <see cref="ConfigurationTarget.WorkspaceFolder">Workspace folder configuration</see>: Changes the value for the
+        /// <see cref="workspace.workspaceFolders">Workspace folder</see> to which the current <see cref="WorkspaceConfiguration">configuration</see> is scoped to.
         /// 
         /// *Note 1:* Setting a global value in the presence of a more specific workspace value
         /// has no observable effect in that workspace, but in others. Setting a workspace value
         /// in the presence of a more specific folder value has no observable effect for the resources
-        /// under respective [folder](#workspace.workspaceFolders), but in others. Refer to
-        /// [Settings Inheritance](https://code.visualstudio.com/docs/getstarted/settings) for more information.
+        /// under respective <see cref="workspace.workspaceFolders">folder</see>, but in others. Refer to
+        /// <see href="https://code.visualstudio.com/docs/getstarted/settings">Settings Inheritance</see> for more information.
         /// 
-        /// *Note 2:* To remove a configuration value use `undefined`, like so: `config.update('somekey', undefined)`
+        /// *Note 2:* To remove a configuration value use <c>undefined</c>, like so: <c>config.update('somekey', undefined)</c>
         /// 
         /// Will throw error when
         /// - Writing a configuration which is not registered.
         /// - Writing a configuration to workspace or folder target when no workspace is opened
         /// - Writing a configuration to folder target when there is no folder settings
-        /// - Writing to folder target without passing a resource when getting the configuration (`workspace.getConfiguration(section, resource)`)
-        /// - Writing a window configuration to folder target</summary>
+        /// - Writing to folder target without passing a resource when getting the configuration (<c>workspace.getConfiguration(section, resource)</c>)
+        /// - Writing a window configuration to folder target
+        /// </summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
         /// <param name="value">The new value.</param>
-        /// <param name="configurationTarget">The [configuration target](#ConfigurationTarget) or a boolean value.
-        /// - If `true` configuration target is `ConfigurationTarget.Global`.
-        /// - If `false` configuration target is `ConfigurationTarget.Workspace`.
-        /// - If `undefined` or `null` configuration target is
-        /// `ConfigurationTarget.WorkspaceFolder` when configuration is resource specific
-        /// `ConfigurationTarget.Workspace` otherwise.</param>
+        /// <param name="configurationTarget">
+        /// The <see cref="ConfigurationTarget">configuration target</see> or a boolean value.
+        /// - If <c>true</c> configuration target is <c>ConfigurationTarget.Global</c>.
+        /// - If <c>false</c> configuration target is <c>ConfigurationTarget.Workspace</c>.
+        /// - If <c>undefined</c> or <c>null</c> configuration target is
+        /// <c>ConfigurationTarget.WorkspaceFolder</c> when configuration is resource specific
+        /// <c>ConfigurationTarget.Workspace</c> otherwise.
+        /// </param>
         abstract update: section: string * value: obj option * ?configurationTarget: U2<ConfigurationTarget, bool> -> Thenable<unit>
         /// Readable dictionary that backs this configuration.
         [<EmitIndexer>] abstract Item: key: string -> obj option
@@ -2395,8 +3392,10 @@ module Vscode =
         /// <param name="rangeOrPosition">The range or position. Positions will be converted to an empty range.</param>
         [<EmitConstructor>] abstract Create: uri: Uri * rangeOrPosition: U2<Range, Position> -> Location
 
-    /// Represents the connection of two locations. Provides additional metadata over normal [locations](#Location),
+    /// <summary>
+    /// Represents the connection of two locations. Provides additional metadata over normal <see cref="Location">locations</see>,
     /// including an origin range.
+    /// </summary>
     type [<AllowNullLiteral>] LocationLink =
         /// Span of the origin of this link.
         /// 
@@ -2415,10 +3414,16 @@ module Vscode =
         /// An array of resources for which diagnostics have changed.
         abstract uris: ResizeArray<Uri>
 
+    /// Represents the severity of diagnostics.
     type [<RequireQualifiedAccess>] DiagnosticSeverity =
+        /// Something not allowed by the rules of a language or other means.
         | Error = 0
+        /// Something suspicious but allowed.
         | Warning = 1
+        /// Something to inform about but not a problem.
         | Information = 2
+        /// Something to hint to a better way of doing it, like proposing
+        /// a refactoring.
         | Hint = 3
 
     /// Represents a related message and source code location for a diagnostic. This should be
@@ -2439,7 +3444,18 @@ module Vscode =
         /// <param name="message">The message.</param>
         [<EmitConstructor>] abstract Create: location: Location * message: string -> DiagnosticRelatedInformation
 
+    /// Additional metadata about the type of a diagnostic.
     type [<RequireQualifiedAccess>] DiagnosticTag =
+        /// <summary>
+        /// Unused or unnecessary code.
+        /// 
+        /// Diagnostics with this tag are rendered faded out. The amount of fading
+        /// is controlled by the <c>"editorUnnecessaryCode.opacity"</c> theme color. For
+        /// example, <c>"editorUnnecessaryCode.opacity": "#000000c0"</c> will render the
+        /// code with 75% opacity. For high contrast themes, use the
+        /// <c>"editorUnnecessaryCode.border"</c> theme color to underline unnecessary code
+        /// instead of fading it out.
+        /// </summary>
         | Unnecessary = 1
 
     /// Represents a diagnostic, such as a compiler error or warning. Diagnostic objects
@@ -2449,13 +3465,15 @@ module Vscode =
         abstract range: Range with get, set
         /// The human-readable message.
         abstract message: string with get, set
-        /// The severity, default is [error](#DiagnosticSeverity.Error).
+        /// <summary>The severity, default is <see cref="DiagnosticSeverity.Error">error</see>.</summary>
         abstract severity: DiagnosticSeverity with get, set
         /// A human-readable string describing the source of this
         /// diagnostic, e.g. 'typescript' or 'super lint'.
         abstract source: string option with get, set
+        /// <summary>
         /// A code or identifier for this diagnostic.
-        /// Should be used for later processing, e.g. when providing [code actions](#CodeActionContext).
+        /// Should be used for later processing, e.g. when providing <see cref="CodeActionContext">code actions</see>.
+        /// </summary>
         abstract code: U2<string, float> option with get, set
         /// An array of related diagnostic information, e.g. when symbol-names within
         /// a scope collide all definitions can be marked via this property.
@@ -2469,99 +3487,149 @@ module Vscode =
         /// <summary>Creates a new diagnostic object.</summary>
         /// <param name="range">The range to which this diagnostic applies.</param>
         /// <param name="message">The human-readable message.</param>
-        /// <param name="severity">The severity, default is [error](#DiagnosticSeverity.Error).</param>
+        /// <param name="severity">The severity, default is <see cref="DiagnosticSeverity.Error">error</see>.</param>
         [<EmitConstructor>] abstract Create: range: Range * message: string * ?severity: DiagnosticSeverity -> Diagnostic
 
+    /// <summary>
     /// A diagnostics collection is a container that manages a set of
-    /// [diagnostics](#Diagnostic). Diagnostics are always scopes to a
+    /// <see cref="Diagnostic">diagnostics</see>. Diagnostics are always scopes to a
     /// diagnostics collection and a resource.
     /// 
-    /// To get an instance of a `DiagnosticCollection` use
-    /// [createDiagnosticCollection](#languages.createDiagnosticCollection).
+    /// To get an instance of a <c>DiagnosticCollection</c> use
+    /// <see cref="languages.createDiagnosticCollection">createDiagnosticCollection</see>.
+    /// </summary>
     type [<AllowNullLiteral>] DiagnosticCollection =
-        /// The name of this diagnostic collection, for instance `typescript`. Every diagnostic
+        /// <summary>
+        /// The name of this diagnostic collection, for instance <c>typescript</c>. Every diagnostic
         /// from this collection will be associated with this name. Also, the task framework uses this
-        /// name when defining [problem matchers](https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher).
+        /// name when defining <see href="https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher">problem matchers</see>.
+        /// </summary>
         abstract name: string
-        /// <summary>Assign diagnostics for given resource. Will replace
-        /// existing diagnostics for that resource.</summary>
+        /// <summary>
+        /// Assign diagnostics for given resource. Will replace
+        /// existing diagnostics for that resource.
+        /// </summary>
         /// <param name="uri">A resource identifier.</param>
-        /// <param name="diagnostics">Array of diagnostics or `undefined`</param>
+        /// <param name="diagnostics">Array of diagnostics or <c>undefined</c></param>
         abstract set: uri: Uri * diagnostics: ResizeArray<Diagnostic> option -> unit
-        /// <summary>Replace all entries in this collection.
+        /// <summary>
+        /// Replace all entries in this collection.
         /// 
         /// Diagnostics of multiple tuples of the same uri will be merged, e.g
-        /// `[[file1, [d1]], [file1, [d2]]]` is equivalent to `[[file1, [d1, d2]]]`.
-        /// If a diagnostics item is `undefined` as in `[file1, undefined]`
-        /// all previous but not subsequent diagnostics are removed.</summary>
-        /// <param name="entries">An array of tuples, like `[[file1, [d1, d2]], [file2, [d3, d4, d5]]]`, or `undefined`.</param>
+        /// <c>[[file1, [d1]], [file1, [d2]]]</c> is equivalent to <c>[[file1, [d1, d2]]]</c>.
+        /// If a diagnostics item is <c>undefined</c> as in <c>[file1, undefined]</c>
+        /// all previous but not subsequent diagnostics are removed.
+        /// </summary>
+        /// <param name="entries">An array of tuples, like <c>[[file1, [d1, d2]], [file2, [d3, d4, d5]]]</c>, or <c>undefined</c>.</param>
         abstract set: entries: ResizeArray<Uri * ResizeArray<Diagnostic> option> -> unit
-        /// <summary>Remove all diagnostics from this collection that belong
-        /// to the provided `uri`. The same as `#set(uri, undefined)`.</summary>
+        /// <summary>
+        /// Remove all diagnostics from this collection that belong
+        /// to the provided <c>uri</c>. The same as <c>#set(uri, undefined)</c>.
+        /// </summary>
         /// <param name="uri">A resource identifier.</param>
         abstract delete: uri: Uri -> unit
+        /// <summary>
         /// Remove all diagnostics from this collection. The same
-        /// as calling `#set(undefined)`;
+        /// as calling <c>#set(undefined)</c>;
+        /// </summary>
         abstract clear: unit -> unit
         /// <summary>Iterate over each entry in this collection.</summary>
         /// <param name="callback">Function to execute for each entry.</param>
-        /// <param name="thisArg">The `this` context used when invoking the handler function.</param>
+        /// <param name="thisArg">The <c>this</c> context used when invoking the handler function.</param>
         abstract forEach: callback: (Uri -> ResizeArray<Diagnostic> -> DiagnosticCollection -> obj option) * ?thisArg: obj -> unit
-        /// <summary>Get the diagnostics for a given resource. *Note* that you cannot
-        /// modify the diagnostics-array returned from this call.</summary>
+        /// <summary>
+        /// Get the diagnostics for a given resource. *Note* that you cannot
+        /// modify the diagnostics-array returned from this call.
+        /// </summary>
         /// <param name="uri">A resource identifier.</param>
+        /// <returns>An immutable array of <see cref="Diagnostic">diagnostics</see> or <c>undefined</c>.</returns>
         abstract get: uri: Uri -> ResizeArray<Diagnostic> option
-        /// <summary>Check if this collection contains diagnostics for a
-        /// given resource.</summary>
+        /// <summary>
+        /// Check if this collection contains diagnostics for a
+        /// given resource.
+        /// </summary>
         /// <param name="uri">A resource identifier.</param>
+        /// <returns><c>true</c> if this collection has diagnostic for the given resource.</returns>
         abstract has: uri: Uri -> bool
+        /// <summary>
         /// Dispose and free associated resources. Calls
-        /// [clear](#DiagnosticCollection.clear).
+        /// <see cref="DiagnosticCollection.clear">clear</see>.
+        /// </summary>
         abstract dispose: unit -> unit
 
+    /// Denotes a location of an editor in the window. Editors can be arranged in a grid
+    /// and each column represents one editor location in that grid by counting the editors
+    /// in order of their appearance.
     type [<RequireQualifiedAccess>] ViewColumn =
+        /// <summary>
+        /// A *symbolic* editor column representing the currently active column. This value
+        /// can be used when opening editors, but the *resolved* <see cref="TextEditor.viewColumn">viewColumn</see>-value
+        /// of editors will always be <c>One</c>, <c>Two</c>, <c>Three</c>,... or <c>undefined</c> but never <c>Active</c>.
+        /// </summary>
         | Active = -1
+        /// <summary>
+        /// A *symbolic* editor column representing the column to the side of the active one. This value
+        /// can be used when opening editors, but the *resolved* <see cref="TextEditor.viewColumn">viewColumn</see>-value
+        /// of editors will always be <c>One</c>, <c>Two</c>, <c>Three</c>,... or <c>undefined</c> but never <c>Beside</c>.
+        /// </summary>
         | Beside = -2
+        /// The first editor column.
         | One = 1
+        /// The second editor column.
         | Two = 2
+        /// The third editor column.
         | Three = 3
+        /// The fourth editor column.
         | Four = 4
+        /// The fifth editor column.
         | Five = 5
+        /// The sixth editor column.
         | Six = 6
+        /// The seventh editor column.
         | Seven = 7
+        /// The eighth editor column.
         | Eight = 8
+        /// The ninth editor column.
         | Nine = 9
 
+    /// <summary>
     /// An output channel is a container for readonly textual information.
     /// 
-    /// To get an instance of an `OutputChannel` use
-    /// [createOutputChannel](#window.createOutputChannel).
+    /// To get an instance of an <c>OutputChannel</c> use
+    /// <see cref="window.createOutputChannel">createOutputChannel</see>.
+    /// </summary>
     type [<AllowNullLiteral>] OutputChannel =
         /// The human-readable name of this output channel.
         abstract name: string
         /// <summary>Append the given value to the channel.</summary>
         /// <param name="value">A string, falsy values will not be printed.</param>
         abstract append: value: string -> unit
-        /// <summary>Append the given value and a line feed character
-        /// to the channel.</summary>
+        /// <summary>
+        /// Append the given value and a line feed character
+        /// to the channel.
+        /// </summary>
         /// <param name="value">A string, falsy values will be printed.</param>
         abstract appendLine: value: string -> unit
         /// Removes all output from the channel.
         abstract clear: unit -> unit
         /// <summary>Reveal this channel in the UI.</summary>
-        /// <param name="preserveFocus">When `true` the channel will not take focus.</param>
+        /// <param name="preserveFocus">When <c>true</c> the channel will not take focus.</param>
         abstract show: ?preserveFocus: bool -> unit
         /// <summary>~~Reveal this channel in the UI.~~</summary>
         /// <param name="column">This argument is **deprecated** and will be ignored.</param>
-        /// <param name="preserveFocus">When `true` the channel will not take focus.</param>
+        /// <param name="preserveFocus">When <c>true</c> the channel will not take focus.</param>
+        [<Obsolete("Use the overload with just one parameter (`show(preserveFocus?: boolean): void`).")>]
         abstract show: ?column: ViewColumn * ?preserveFocus: bool -> unit
         /// Hide this channel from the UI.
         abstract hide: unit -> unit
         /// Dispose and free associated resources.
         abstract dispose: unit -> unit
 
+    /// Represents the alignment of status bar items.
     type [<RequireQualifiedAccess>] StatusBarAlignment =
+        /// Aligned to the left side.
         | Left = 1
+        /// Aligned to the right side.
         | Right = 2
 
     /// A status bar item is a status bar contribution that can
@@ -2572,33 +3640,41 @@ module Vscode =
         /// The priority of this item. Higher value means the item should
         /// be shown more to the left.
         abstract priority: float option
+        /// <summary>
         /// The text to show for the entry. You can embed icons in the text by leveraging the syntax:
         /// 
-        /// `My text $(icon-name) contains icons like $(icon-name) this one.`
+        /// <c>My text $(icon-name) contains icons like $(icon-name) this one.</c>
         /// 
-        /// Where the icon-name is taken from the [octicon](https://octicons.github.com) icon set, e.g.
-        /// `light-bulb`, `thumbsup`, `zap` etc.
+        /// Where the icon-name is taken from the <see href="https://octicons.github.com">octicon</see> icon set, e.g.
+        /// <c>light-bulb</c>, <c>thumbsup</c>, <c>zap</c> etc.
+        /// </summary>
         abstract text: string with get, set
         /// The tooltip text when you hover over this entry.
         abstract tooltip: string option with get, set
         /// The foreground color for this entry.
         abstract color: U2<string, ThemeColor> option with get, set
+        /// <summary>
         /// The identifier of a command to run on click. The command must be
-        /// [known](#commands.getCommands).
+        /// <see cref="commands.getCommands">known</see>.
+        /// </summary>
         abstract command: string option with get, set
         /// Shows the entry in the status bar.
         abstract show: unit -> unit
         /// Hide the entry in the status bar.
         abstract hide: unit -> unit
+        /// <summary>
         /// Dispose and free associated resources. Call
-        /// [hide](#StatusBarItem.hide).
+        /// <see cref="StatusBarItem.hide">hide</see>.
+        /// </summary>
         abstract dispose: unit -> unit
 
     /// Defines a generalized way of reporting progress updates.
     type [<AllowNullLiteral>] Progress<'T> =
         /// <summary>Report a progress update.</summary>
-        /// <param name="value">A progress item, like a message and/or an
-        /// report on how much work finished</param>
+        /// <param name="value">
+        /// A progress item, like a message and/or an
+        /// report on how much work finished
+        /// </param>
         abstract report: value: 'T -> unit
 
     /// An individual terminal instance within the integrated terminal.
@@ -2607,71 +3683,89 @@ module Vscode =
         abstract name: string
         /// The process ID of the shell process.
         abstract processId: Thenable<float>
-        /// <summary>Send text to the terminal. The text is written to the stdin of the underlying pty process
-        /// (shell) of the terminal.</summary>
+        /// <summary>
+        /// Send text to the terminal. The text is written to the stdin of the underlying pty process
+        /// (shell) of the terminal.
+        /// </summary>
         /// <param name="text">The text to send.</param>
-        /// <param name="addNewLine">Whether to add a new line to the text being sent, this is normally
+        /// <param name="addNewLine">
+        /// Whether to add a new line to the text being sent, this is normally
         /// required to run a command in the terminal. The character(s) added are \n or \r\n
-        /// depending on the platform. This defaults to `true`.</param>
+        /// depending on the platform. This defaults to <c>true</c>.
+        /// </param>
         abstract sendText: text: string * ?addNewLine: bool -> unit
         /// <summary>Show the terminal panel and reveal this terminal in the UI.</summary>
-        /// <param name="preserveFocus">When `true` the terminal will not take focus.</param>
+        /// <param name="preserveFocus">When <c>true</c> the terminal will not take focus.</param>
         abstract show: ?preserveFocus: bool -> unit
         /// Hide the terminal panel if this terminal is currently showing.
         abstract hide: unit -> unit
         /// Dispose and free associated resources.
         abstract dispose: unit -> unit
 
+    /// <summary>
     /// Represents an extension.
     /// 
-    /// To get an instance of an `Extension` use [getExtension](#extensions.getExtension).
+    /// To get an instance of an <c>Extension</c> use <see cref="extensions.getExtension">getExtension</see>.
+    /// </summary>
     type [<AllowNullLiteral>] Extension<'T> =
-        /// The canonical extension identifier in the form of: `publisher.name`.
+        /// <summary>The canonical extension identifier in the form of: <c>publisher.name</c>.</summary>
         abstract id: string
         /// The absolute file path of the directory containing this extension.
         abstract extensionPath: string
-        /// `true` if the extension has been activated.
+        /// <summary><c>true</c> if the extension has been activated.</summary>
         abstract isActive: bool
         /// The parsed contents of the extension's package.json.
         abstract packageJSON: obj option
         /// The public API exported by this extension. It is an invalid action
         /// to access this field before this extension has been activated.
         abstract exports: 'T
-        /// Activates this extension and returns its public API.
+        /// <summary>Activates this extension and returns its public API.</summary>
+        /// <returns>A promise that will resolve when this extension has been activated.</returns>
         abstract activate: unit -> Thenable<'T>
 
+    /// <summary>
     /// An extension context is a collection of utilities private to an
     /// extension.
     /// 
-    /// An instance of an `ExtensionContext` is provided as the first
-    /// parameter to the `activate`-call of an extension.
+    /// An instance of an <c>ExtensionContext</c> is provided as the first
+    /// parameter to the <c>activate</c>-call of an extension.
+    /// </summary>
     type [<AllowNullLiteral>] ExtensionContext =
         /// An array to which disposables can be added. When this
         /// extension is deactivated the disposables will be disposed.
         abstract subscriptions: ResizeArray<ExtensionContextSubscriptions> with get, set
+        /// <summary>
         /// A memento object that stores state in the context
-        /// of the currently opened [workspace](#workspace.workspaceFolders).
+        /// of the currently opened <see cref="workspace.workspaceFolders">workspace</see>.
+        /// </summary>
         abstract workspaceState: Memento with get, set
+        /// <summary>
         /// A memento object that stores state independent
-        /// of the current opened [workspace](#workspace.workspaceFolders).
+        /// of the current opened <see cref="workspace.workspaceFolders">workspace</see>.
+        /// </summary>
         abstract globalState: Memento with get, set
         /// The absolute file path of the directory containing the extension.
         abstract extensionPath: string with get, set
         /// <summary>Get the absolute path of a resource contained in the extension.</summary>
         /// <param name="relativePath">A relative path to a resource contained in the extension.</param>
+        /// <returns>The absolute path of the resource.</returns>
         abstract asAbsolutePath: relativePath: string -> string
+        /// <summary>
         /// An absolute file path of a workspace specific directory in which the extension
         /// can store private state. The directory might not exist on disk and creation is
         /// up to the extension. However, the parent directory is guaranteed to be existent.
         /// 
-        /// Use [`workspaceState`](#ExtensionContext.workspaceState) or
-        /// [`globalState`](#ExtensionContext.globalState) to store key value data.
+        /// Use <see cref="ExtensionContext.workspaceState"><c>workspaceState</c></see> or
+        /// <see cref="ExtensionContext.globalState"><c>globalState</c></see> to store key value data.
+        /// </summary>
         abstract storagePath: string option with get, set
+        /// <summary>
         /// An absolute file path in which the extension can store global state.
         /// The directory might not exist on disk and creation is
         /// up to the extension. However, the parent directory is guaranteed to be existent.
         /// 
-        /// Use [`globalState`](#ExtensionContext.globalState) to store key value data.
+        /// Use <see cref="ExtensionContext.globalState"><c>globalState</c></see> to store key value data.
+        /// </summary>
         abstract globalStoragePath: string with get, set
         /// An absolute file path of a directory in which the extension can create log files.
         /// The directory might not exist on disk and creation is up to the extension. However,
@@ -2683,40 +3777,58 @@ module Vscode =
     type [<AllowNullLiteral>] Memento =
         /// <summary>Return a value.</summary>
         /// <param name="key">A string.</param>
+        /// <returns>The stored value or <c>undefined</c>.</returns>
         abstract get: key: string -> 'T option
         /// <summary>Return a value.</summary>
         /// <param name="key">A string.</param>
-        /// <param name="defaultValue">A value that should be returned when there is no
-        /// value (`undefined`) with the given key.</param>
+        /// <param name="defaultValue">
+        /// A value that should be returned when there is no
+        /// value (<c>undefined</c>) with the given key.
+        /// </param>
+        /// <returns>The stored value or the defaultValue.</returns>
         abstract get: key: string * defaultValue: 'T -> 'T
         /// <summary>Store a value. The value must be JSON-stringifyable.</summary>
         /// <param name="key">A string.</param>
         /// <param name="value">A value. MUST not contain cyclic references.</param>
         abstract update: key: string * value: obj option -> Thenable<unit>
 
+    /// Controls the behaviour of the terminal's visibility.
     type [<RequireQualifiedAccess>] TaskRevealKind =
+        /// Always brings the terminal to front if the task is executed.
         | Always = 1
+        /// Only brings the terminal to front if a problem is detected executing the task
+        /// (e.g. the task couldn't be started because).
         | Silent = 2
+        /// The terminal never comes to front when the task is executed.
         | Never = 3
 
+    /// Controls how the task channel is used between tasks
     type [<RequireQualifiedAccess>] TaskPanelKind =
+        /// Shares a panel with other tasks. This is the default.
         | Shared = 1
+        /// Uses a dedicated panel for this tasks. The panel is not
+        /// shared with other tasks.
         | Dedicated = 2
+        /// Creates a new panel whenever this task is executed.
         | New = 3
 
     /// Controls how the task is presented in the UI.
     type [<AllowNullLiteral>] TaskPresentationOptions =
+        /// <summary>
         /// Controls whether the task output is reveal in the user interface.
-        /// Defaults to `RevealKind.Always`.
+        /// Defaults to <c>RevealKind.Always</c>.
+        /// </summary>
         abstract reveal: TaskRevealKind option with get, set
         /// Controls whether the command associated with the task is echoed
         /// in the user interface.
         abstract echo: bool option with get, set
         /// Controls whether the panel showing the task output is taking focus.
         abstract focus: bool option with get, set
+        /// <summary>
         /// Controls if the task panel is used for this task only (dedicated),
         /// shared between tasks (shared) or if a new panel is created on
-        /// every task execution (new). Defaults to `TaskInstanceKind.Shared`
+        /// every task execution (new). Defaults to <c>TaskInstanceKind.Shared</c>
+        /// </summary>
         abstract panel: TaskPanelKind option with get, set
         /// Controls whether to show the "Terminal will be reused by tasks, press any key to close it" message.
         abstract showReuseMessage: bool option with get, set
@@ -2748,11 +3860,11 @@ module Vscode =
         /// a task. They need to be defined in the package.json of the
         /// extension under the 'taskDefinitions' extension point. The npm
         /// task definition for example looks like this
-        /// ```typescript
+        /// <code language="typescript">
         /// interface NpmTaskDefinition extends TaskDefinition {
         ///      script: string;
         /// }
-        /// ```
+        /// </code>
         /// 
         /// Note that type identifier starting with a '$' are reserved for internal
         /// usages and shouldn't be used by extensions.
@@ -2796,9 +3908,11 @@ module Vscode =
 
     /// The shell quoting options.
     type [<AllowNullLiteral>] ShellQuotingOptions =
+        /// <summary>
         /// The character used to do character escaping. If a string is provided only spaces
-        /// are escaped. If a `{ escapeChar, charsToEscape }` literal is provide all characters
-        /// in `charsToEscape` are escaped using the `escapeChar`.
+        /// are escaped. If a <c>{ escapeChar, charsToEscape }</c> literal is provide all characters
+        /// in <c>charsToEscape</c> are escaped using the <c>escapeChar</c>.
+        /// </summary>
         abstract escape: U2<string, ShellQuotingOptionsEscape> option with get, set
         /// The character used for strong quoting. The string's length must be 1.
         abstract strong: string option with get, set
@@ -2809,10 +3923,12 @@ module Vscode =
     type [<AllowNullLiteral>] ShellExecutionOptions =
         /// The shell executable.
         abstract executable: string option with get, set
+        /// <summary>
         /// The arguments to be passed to the shell executable used to run the task. Most shells
-        /// require special arguments to execute a command. For  example `bash` requires the `-c`
-        /// argument to execute a command, `PowerShell` requires `-Command` and `cmd` requires both
-        /// `/d` and `/c`.
+        /// require special arguments to execute a command. For  example <c>bash</c> requires the <c>-c</c>
+        /// argument to execute a command, <c>PowerShell</c> requires <c>-Command</c> and <c>cmd</c> requires both
+        /// <c>/d</c> and <c>/c</c>.
+        /// </summary>
         abstract shellArgs: ResizeArray<string> option with get, set
         /// The shell quotes supported by this shell.
         abstract shellQuoting: ShellQuotingOptions option with get, set
@@ -2824,9 +3940,27 @@ module Vscode =
         /// the parent process' environment.
         abstract env: ProcessExecutionOptionsEnv option with get, set
 
+    /// Defines how an argument should be quoted if it contains
+    /// spaces or unsupported characters.
     type [<RequireQualifiedAccess>] ShellQuoting =
+        /// Character escaping should be used. This for example
+        /// uses \ on bash and ` on PowerShell.
         | Escape = 1
+        /// <summary>
+        /// Strong string quoting should be used. This for example
+        /// uses " for Windows cmd and ' for bash and PowerShell.
+        /// Strong quoting treats arguments as literal strings.
+        /// Under PowerShell echo 'The value is $(2 * 3)' will
+        /// print <c>The value is $(2 * 3)</c>
+        /// </summary>
         | Strong = 2
+        /// <summary>
+        /// Weak string quoting should be used. This for example
+        /// uses " for Windows cmd, bash and PowerShell. Weak quoting
+        /// still performs some kind of evaluation inside the quoted
+        /// string.  Under PowerShell echo "The value is $(2 * 3)"
+        /// will print <c>The value is 6</c>
+        /// </summary>
         | Weak = 3
 
     /// A string that will be quoted depending on the used shell.
@@ -2837,11 +3971,11 @@ module Vscode =
         abstract quoting: ShellQuoting with get, set
 
     type [<AllowNullLiteral>] ShellExecution =
-        /// The shell command line. Is `undefined` if created with a command and arguments.
+        /// <summary>The shell command line. Is <c>undefined</c> if created with a command and arguments.</summary>
         abstract commandLine: string with get, set
-        /// The shell command. Is `undefined` if created with a full command line.
+        /// <summary>The shell command. Is <c>undefined</c> if created with a full command line.</summary>
         abstract command: U2<string, ShellQuotedString> with get, set
-        /// The shell args. Is `undefined` if created with a full command line.
+        /// <summary>The shell args. Is <c>undefined</c> if created with a full command line.</summary>
         abstract args: ResizeArray<U2<string, ShellQuotedString>> with get, set
         /// The shell options used when the command line is executed in a shell.
         /// Defaults to undefined.
@@ -2852,17 +3986,22 @@ module Vscode =
         /// <param name="commandLine">The command line to execute.</param>
         /// <param name="options">Optional options for the started the shell.</param>
         [<EmitConstructor>] abstract Create: commandLine: string * ?options: ShellExecutionOptions -> ShellExecution
-        /// <summary>Creates a shell execution with a command and arguments. For the real execution VS Code will
+        /// <summary>
+        /// Creates a shell execution with a command and arguments. For the real execution VS Code will
         /// construct a command line from the command and the arguments. This is subject to interpretation
         /// especially when it comes to quoting. If full control over the command line is needed please
-        /// use the constructor that creates a `ShellExecution` with the full command line.</summary>
+        /// use the constructor that creates a <c>ShellExecution</c> with the full command line.
+        /// </summary>
         /// <param name="command">The command to execute.</param>
         /// <param name="args">The command arguments.</param>
         /// <param name="options">Optional options for the started the shell.</param>
         [<EmitConstructor>] abstract Create: command: U2<string, ShellQuotedString> * args: ResizeArray<U2<string, ShellQuotedString>> * ?options: ShellExecutionOptions -> ShellExecution
 
+    /// The scope of a task.
     type [<RequireQualifiedAccess>] TaskScope =
+        /// The task is a global task
         | Global = 1
+        /// The task is a workspace task
         | Workspace = 2
 
     /// Run options for a task.
@@ -2901,21 +4040,28 @@ module Vscode =
     /// A task to execute
     type [<AllowNullLiteral>] TaskStatic =
         /// <summary>Creates a new task.</summary>
+        /// <param name="definition">The task definition as defined in the taskDefinitions extension point.</param>
         /// <param name="scope">Specifies the task's scope. It is either a global or a workspace task or a task for a specific workspace folder.</param>
         /// <param name="name">The task's name. Is presented in the user interface.</param>
         /// <param name="source">The task's source (e.g. 'gulp', 'npm', ...). Is presented in the user interface.</param>
         /// <param name="execution">The process or shell execution.</param>
-        /// <param name="problemMatchers">the names of problem matchers to use, like '$tsc'
+        /// <param name="problemMatchers">
+        /// the names of problem matchers to use, like '$tsc'
         /// or '$eslint'. Problem matchers can be contributed by an extension using
-        /// the `problemMatchers` extension point.</param>
+        /// the <c>problemMatchers</c> extension point.
+        /// </param>
         [<EmitConstructor>] abstract Create: taskDefinition: TaskDefinition * scope: U2<WorkspaceFolder, TaskScope> * name: string * source: string * ?execution: U2<ProcessExecution, ShellExecution> * ?problemMatchers: U2<string, ResizeArray<string>> -> Task
         /// <summary>~~Creates a new task.~~</summary>
+        /// <param name="definition">The task definition as defined in the taskDefinitions extension point.</param>
         /// <param name="name">The task's name. Is presented in the user interface.</param>
         /// <param name="source">The task's source (e.g. 'gulp', 'npm', ...). Is presented in the user interface.</param>
         /// <param name="execution">The process or shell execution.</param>
-        /// <param name="problemMatchers">the names of problem matchers to use, like '$tsc'
+        /// <param name="problemMatchers">
+        /// the names of problem matchers to use, like '$tsc'
         /// or '$eslint'. Problem matchers can be contributed by an extension using
-        /// the `problemMatchers` extension point.</param>
+        /// the <c>problemMatchers</c> extension point.
+        /// </param>
+        [<Obsolete("Use the new constructors that allow specifying a scope for the task.")>]
         [<EmitConstructor>] abstract Create: taskDefinition: TaskDefinition * name: string * source: string * ?execution: U2<ProcessExecution, ShellExecution> * ?problemMatchers: U2<string, ResizeArray<string>> -> Task
 
     /// A task provider allows to add tasks to the task service.
@@ -2923,16 +4069,20 @@ module Vscode =
     type [<AllowNullLiteral>] TaskProvider =
         /// <summary>Provides tasks.</summary>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>an array of tasks</returns>
         abstract provideTasks: ?token: CancellationToken -> ProviderResult<ResizeArray<Task>>
-        /// <summary>Resolves a task that has no [`execution`](#Task.execution) set. Tasks are
-        /// often created from information found in the `tasks.json`-file. Such tasks miss
+        /// <summary>
+        /// Resolves a task that has no <see cref="Task.execution"><c>execution</c></see> set. Tasks are
+        /// often created from information found in the <c>tasks.json</c>-file. Such tasks miss
         /// the information on how to execute them and a task provider must fill in
-        /// the missing information in the `resolveTask`-method. This method will not be
-        /// called for tasks returned from the above `provideTasks` method since those
+        /// the missing information in the <c>resolveTask</c>-method. This method will not be
+        /// called for tasks returned from the above <c>provideTasks</c> method since those
         /// tasks are always fully resolved. A valid default implementation for the
-        /// `resolveTask` method is to return `undefined`.</summary>
+        /// <c>resolveTask</c> method is to return <c>undefined</c>.
+        /// </summary>
         /// <param name="task">The task to resolve.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>The resolved task</returns>
         abstract resolveTask: task: Task * ?token: CancellationToken -> ProviderResult<Task>
 
     /// An object representing an executed Task. It can be used
@@ -2982,20 +4132,26 @@ module Vscode =
         /// The task type to return;
         abstract ``type``: string option with get, set
 
+    /// Namespace for tasks functionality.
     module Tasks =
 
         type [<AllowNullLiteral>] IExports =
             /// <summary>Register a task provider.</summary>
             /// <param name="type">The task kind type this provider is registered for.</param>
             /// <param name="provider">A task provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerTaskProvider: ``type``: string * provider: TaskProvider -> Disposable
-            /// <summary>Fetches all tasks available in the systems. This includes tasks
-            /// from `tasks.json` files as well as tasks from task providers
-            /// contributed through extensions.</summary>
+            /// <summary>
+            /// Fetches all tasks available in the systems. This includes tasks
+            /// from <c>tasks.json</c> files as well as tasks from task providers
+            /// contributed through extensions.
+            /// </summary>
             /// <param name="filter">a filter to filter the return tasks.</param>
             abstract fetchTasks: ?filter: TaskFilter -> Thenable<ResizeArray<Task>>
-            /// <summary>Executes a task that is managed by VS Code. The returned
-            /// task execution can be used to terminate the task.</summary>
+            /// <summary>
+            /// Executes a task that is managed by VS Code. The returned
+            /// task execution can be used to terminate the task.
+            /// </summary>
             /// <param name="task">the task to execute</param>
             abstract executeTask: task: Task -> Thenable<TaskExecution>
             abstract taskExecutions: ReadonlyArray<TaskExecution>
@@ -3004,13 +4160,22 @@ module Vscode =
             abstract onDidStartTaskProcess: Event<TaskProcessStartEvent>
             abstract onDidEndTaskProcess: Event<TaskProcessEndEvent>
 
+    /// <summary>
+    /// Enumeration of file types. The types <c>File</c> and <c>Directory</c> can also be
+    /// a symbolic links, in that use <c>FileType.File | FileType.SymbolicLink</c> and
+    /// <c>FileType.Directory | FileType.SymbolicLink</c>.
+    /// </summary>
     type [<RequireQualifiedAccess>] FileType =
+        /// The file type is unknown.
         | Unknown = 0
+        /// A regular file.
         | File = 1
+        /// A directory.
         | Directory = 2
+        /// A symbolic link to a file.
         | SymbolicLink = 64
 
-    /// The `FileStat`-type represents metadata about a file
+    /// <summary>The <c>FileStat</c>-type represents metadata about a file</summary>
     type [<AllowNullLiteral>] FileStat =
         /// The type of the file, e.g. is a regular file, a directory, or symbolic link
         /// to a file.
@@ -3022,23 +4187,29 @@ module Vscode =
         /// The size in bytes.
         abstract size: float with get, set
 
+    /// <summary>
     /// A type that filesystem providers should use to signal errors.
     /// 
-    /// This class has factory methods for common error-cases, like `FileNotFound` when
-    /// a file or folder doesn't exist, use them like so: `throw vscode.FileSystemError.FileNotFound(someUri);`
+    /// This class has factory methods for common error-cases, like <c>FileNotFound</c> when
+    /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.FileNotFound(someUri);</c>
+    /// </summary>
     type [<AllowNullLiteral>] FileSystemError =
         inherit Error
 
+    /// <summary>
     /// A type that filesystem providers should use to signal errors.
     /// 
-    /// This class has factory methods for common error-cases, like `FileNotFound` when
-    /// a file or folder doesn't exist, use them like so: `throw vscode.FileSystemError.FileNotFound(someUri);`
+    /// This class has factory methods for common error-cases, like <c>FileNotFound</c> when
+    /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.FileNotFound(someUri);</c>
+    /// </summary>
     type [<AllowNullLiteral>] FileSystemErrorStatic =
         /// <summary>Create an error to signal that a file or folder wasn't found.</summary>
         /// <param name="messageOrUri">Message or uri.</param>
         abstract FileNotFound: ?messageOrUri: U2<string, Uri> -> FileSystemError
-        /// <summary>Create an error to signal that a file or folder already exists, e.g. when
-        /// creating but not overwriting a file.</summary>
+        /// <summary>
+        /// Create an error to signal that a file or folder already exists, e.g. when
+        /// creating but not overwriting a file.
+        /// </summary>
         /// <param name="messageOrUri">Message or uri.</param>
         abstract FileExists: ?messageOrUri: U2<string, Uri> -> FileSystemError
         /// <summary>Create an error to signal that a file is not a folder.</summary>
@@ -3050,17 +4221,23 @@ module Vscode =
         /// <summary>Create an error to signal that an operation lacks required permissions.</summary>
         /// <param name="messageOrUri">Message or uri.</param>
         abstract NoPermissions: ?messageOrUri: U2<string, Uri> -> FileSystemError
-        /// <summary>Create an error to signal that the file system is unavailable or too busy to
-        /// complete a request.</summary>
+        /// <summary>
+        /// Create an error to signal that the file system is unavailable or too busy to
+        /// complete a request.
+        /// </summary>
         /// <param name="messageOrUri">Message or uri.</param>
         abstract Unavailable: ?messageOrUri: U2<string, Uri> -> FileSystemError
         /// <summary>Creates a new filesystem error.</summary>
         /// <param name="messageOrUri">Message or uri.</param>
         [<EmitConstructor>] abstract Create: ?messageOrUri: U2<string, Uri> -> FileSystemError
 
+    /// Enumeration of file change types.
     type [<RequireQualifiedAccess>] FileChangeType =
+        /// The contents or metadata of a file have changed.
         | Changed = 1
+        /// A file has been created.
         | Created = 2
+        /// A file has been deleted.
         | Deleted = 3
 
     /// The event filesystem providers must use to signal a file change.
@@ -3070,64 +4247,98 @@ module Vscode =
         /// The uri of the file that has changed.
         abstract uri: Uri with get, set
 
+    /// <summary>
     /// The filesystem provider defines what the editor needs to read, write, discover,
     /// and to manage files and folders. It allows extensions to serve files from remote places,
     /// like ftp-servers, and to seamlessly integrate those into the editor.
     /// 
-    /// * *Note 1:* The filesystem provider API works with [uris](#Uri) and assumes hierarchical
-    /// paths, e.g. `foo:/my/path` is a child of `foo:/my/` and a parent of `foo:/my/path/deeper`.
-    /// * *Note 2:* There is an activation event `onFileSystem:<scheme>` that fires when a file
+    /// * *Note 1:* The filesystem provider API works with <see cref="Uri">uris</see> and assumes hierarchical
+    /// paths, e.g. <c>foo:/my/path</c> is a child of <c>foo:/my/</c> and a parent of <c>foo:/my/path/deeper</c>.
+    /// * *Note 2:* There is an activation event <c>onFileSystem:<scheme></c> that fires when a file
     /// or folder is being accessed.
-    /// * *Note 3:* The word 'file' is often used to denote all [kinds](#FileType) of files, e.g.
+    /// * *Note 3:* The word 'file' is often used to denote all <see cref="FileType">kinds</see> of files, e.g.
     /// folders, symbolic links, and regular files.
+    /// </summary>
     type [<AllowNullLiteral>] FileSystemProvider =
+        /// <summary>
         /// An event to signal that a resource has been created, changed, or deleted. This
-        /// event should fire for resources that are being [watched](#FileSystemProvider.watch)
+        /// event should fire for resources that are being <see cref="FileSystemProvider.watch">watched</see>
         /// by clients of this provider.
+        /// </summary>
         abstract onDidChangeFile: Event<ResizeArray<FileChangeEvent>>
-        /// <summary>Subscribe to events in the file or folder denoted by `uri`.
+        /// <summary>
+        /// Subscribe to events in the file or folder denoted by <c>uri</c>.
         /// 
         /// The editor will call this function for files and folders. In the latter case, the
         /// options differ from defaults, e.g. what files/folders to exclude from watching
-        /// and if subfolders, sub-subfolder, etc. should be watched (`recursive`).</summary>
+        /// and if subfolders, sub-subfolder, etc. should be watched (<c>recursive</c>).
+        /// </summary>
         /// <param name="uri">The uri of the file to be watched.</param>
         /// <param name="options">Configures the watch.</param>
+        /// <returns>A disposable that tells the provider to stop watching the <c>uri</c>.</returns>
         abstract watch: uri: Uri * options: FileSystemProviderWatchOptions -> Disposable
-        /// <summary>Retrieve metadata about a file.
+        /// <summary>
+        /// Retrieve metadata about a file.
         /// 
         /// Note that the metadata for symbolic links should be the metadata of the file they refer to.
-        /// Still, the [SymbolicLink](#FileType.SymbolicLink)-type must be used in addition to the actual type, e.g.
-        /// `FileType.SymbolicLink | FileType.Directory`.</summary>
+        /// Still, the <see cref="FileType.SymbolicLink">SymbolicLink</see>-type must be used in addition to the actual type, e.g.
+        /// <c>FileType.SymbolicLink | FileType.Directory</c>.
+        /// </summary>
         /// <param name="uri">The uri of the file to retrieve metadata about.</param>
+        /// <returns>The file metadata about the file.</returns>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>uri</c> doesn't exist.</exception>
         abstract stat: uri: Uri -> U2<FileStat, Thenable<FileStat>>
-        /// <summary>Retrieve all entries of a [directory](#FileType.Directory).</summary>
+        /// <summary>Retrieve all entries of a <see cref="FileType.Directory">directory</see>.</summary>
         /// <param name="uri">The uri of the folder.</param>
+        /// <returns>An array of name/type-tuples or a thenable that resolves to such.</returns>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>uri</c> doesn't exist.</exception>
         abstract readDirectory: uri: Uri -> U2<ResizeArray<string * FileType>, Thenable<ResizeArray<string * FileType>>>
-        /// <summary>Create a new directory (Note, that new files are created via `write`-calls).</summary>
+        /// <summary>Create a new directory (Note, that new files are created via <c>write</c>-calls).</summary>
         /// <param name="uri">The uri of the new folder.</param>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when the parent of <c>uri</c> doesn't exist, e.g. no mkdirp-logic required.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>uri</c> already exists.</exception>
+        /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
         abstract createDirectory: uri: Uri -> U2<unit, Thenable<unit>>
         /// <summary>Read the entire contents of a file.</summary>
         /// <param name="uri">The uri of the file.</param>
+        /// <returns>An array of bytes or a thenable that resolves to such.</returns>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>uri</c> doesn't exist.</exception>
         abstract readFile: uri: Uri -> U2<Uint8Array, Thenable<Uint8Array>>
         /// <summary>Write data to a file, replacing its entire contents.</summary>
         /// <param name="uri">The uri of the file.</param>
         /// <param name="content">The new content of the file.</param>
         /// <param name="options">Defines if missing files should or must be created.</param>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>uri</c> doesn't exist and <c>create</c> is not set.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when the parent of <c>uri</c> doesn't exist and <c>create</c> is set, e.g. no mkdirp-logic required.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>uri</c> already exists, <c>create</c> is set but <c>overwrite</c> is not set.</exception>
+        /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
         abstract writeFile: uri: Uri * content: Uint8Array * options: FileSystemProviderWriteFileOptions -> U2<unit, Thenable<unit>>
         /// <summary>Delete a file.</summary>
         /// <param name="uri">The resource that is to be deleted.</param>
         /// <param name="options">Defines if deletion of folders is recursive.</param>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>uri</c> doesn't exist.</exception>
+        /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
         abstract delete: uri: Uri * options: FileSystemProviderDeleteOptions -> U2<unit, Thenable<unit>>
         /// <summary>Rename a file or folder.</summary>
         /// <param name="oldUri">The existing file.</param>
         /// <param name="newUri">The new location.</param>
         /// <param name="options">Defines if existing files should be overwritten.</param>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>oldUri</c> doesn't exist.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when parent of <c>newUri</c> doesn't exist, e.g. no mkdirp-logic required.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>newUri</c> exists and when the <c>overwrite</c> option is not <c>true</c>.</exception>
+        /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
         abstract rename: oldUri: Uri * newUri: Uri * options: FileSystemProviderRenameOptions -> U2<unit, Thenable<unit>>
-        /// <summary>Copy files or folders. Implementing this function is optional but it will speedup
-        /// the copy operation.</summary>
+        /// <summary>
+        /// Copy files or folders. Implementing this function is optional but it will speedup
+        /// the copy operation.
+        /// </summary>
         /// <param name="source">The existing file.</param>
         /// <param name="destination">The destination location.</param>
         /// <param name="options">Defines if existing files should be overwritten.</param>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>source</c> doesn't exist.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when parent of <c>destination</c> doesn't exist, e.g. no mkdirp-logic required.</exception>
+        /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>destination</c> exists and when the <c>overwrite</c> option is not <c>true</c>.</exception>
+        /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
         abstract copy: source: Uri * destination: Uri * options: FileSystemProviderCopyOptions -> U2<unit, Thenable<unit>>
 
     type [<AllowNullLiteral>] FileSystemProviderWatchOptions =
@@ -3151,7 +4362,7 @@ module Vscode =
     type [<AllowNullLiteral>] WebviewPortMapping =
         /// Localhost port to remap inside the webview.
         abstract webviewPort: float
-        /// Destination port. The `webviewPort` is resolved to this port.
+        /// <summary>Destination port. The <c>webviewPort</c> is resolved to this port.</summary>
         abstract extensionHostPort: float
 
     /// Content settings for a webview.
@@ -3164,12 +4375,15 @@ module Vscode =
         /// 
         /// Defaults to false.
         abstract enableCommandUris: bool option
-        /// Root paths from which the webview can load local (filesystem) resources using the `vscode-resource:` scheme.
+        /// <summary>
+        /// Root paths from which the webview can load local (filesystem) resources using the <c>vscode-resource:</c> scheme.
         /// 
         /// Default to the root folders of the current workspace plus the extension's install directory.
         /// 
         /// Pass in an empty array to disallow access to any local resources.
+        /// </summary>
         abstract localResourceRoots: ReadonlyArray<Uri> option
+        /// <summary>
         /// Mappings of localhost ports used inside the webview.
         /// 
         /// Port mapping allow webviews to transparently define how localhost ports are resolved. This can be used
@@ -3177,10 +4391,11 @@ module Vscode =
         /// running on.
         /// 
         /// If a webview accesses localhost content, we recommend that you specify port mappings even if
-        /// the `webviewPort` and `extensionHostPort` ports are the same.
+        /// the <c>webviewPort</c> and <c>extensionHostPort</c> ports are the same.
         /// 
-        /// *Note* that port mappings only work for `http` or `https` urls. Websocket urls (e.g. `ws://localhost:3000`)
+        /// *Note* that port mappings only work for <c>http</c> or <c>https</c> urls. Websocket urls (e.g. <c>ws://localhost:3000</c>)
         /// cannot be mapped to another port.
+        /// </summary>
         abstract portMapping: ReadonlyArray<WebviewPortMapping> option
 
     /// A webview displays html content, like an iframe.
@@ -3193,9 +4408,11 @@ module Vscode =
         abstract html: string with get, set
         /// Fired when the webview content posts a message.
         abstract onDidReceiveMessage: Event<obj option>
-        /// <summary>Post a message to the webview content.
+        /// <summary>
+        /// Post a message to the webview content.
         /// 
-        /// Messages are only delivered if the webview is visible.</summary>
+        /// Messages are only delivered if the webview is visible.
+        /// </summary>
         /// <param name="message">Body of the message.</param>
         abstract postMessage: message: obj option -> Thenable<bool>
 
@@ -3205,25 +4422,27 @@ module Vscode =
         /// 
         /// Defaults to false.
         abstract enableFindWidget: bool option
+        /// <summary>
         /// Controls if the webview panel's content (iframe) is kept around even when the panel
         /// is no longer visible.
         /// 
         /// Normally the webview panel's html context is created when the panel becomes visible
         /// and destroyed when it is hidden. Extensions that have complex state
-        /// or UI can set the `retainContextWhenHidden` to make VS Code keep the webview
+        /// or UI can set the <c>retainContextWhenHidden</c> to make VS Code keep the webview
         /// context around, even when the webview moves to a background tab. When a webview using
-        /// `retainContextWhenHidden` becomes hidden, its scripts and other dynamic content are suspended.
+        /// <c>retainContextWhenHidden</c> becomes hidden, its scripts and other dynamic content are suspended.
         /// When the panel becomes visible again, the context is automatically restored
         /// in the exact same state it was in originally. You cannot send messages to a
-        /// hidden webview, even with `retainContextWhenHidden` enabled.
+        /// hidden webview, even with <c>retainContextWhenHidden</c> enabled.
         /// 
-        /// `retainContextWhenHidden` has a high memory overhead and should only be used if
+        /// <c>retainContextWhenHidden</c> has a high memory overhead and should only be used if
         /// your panel's context cannot be quickly saved and restored.
+        /// </summary>
         abstract retainContextWhenHidden: bool option
 
     /// A panel that contains a webview.
     type [<AllowNullLiteral>] WebviewPanel =
-        /// Identifies the type of the webview panel, such as `'markdown.preview'`.
+        /// <summary>Identifies the type of the webview panel, such as <c>'markdown.preview'</c>.</summary>
         abstract viewType: string
         /// Title of the panel shown in UI.
         abstract title: string with get, set
@@ -3242,25 +4461,31 @@ module Vscode =
         abstract visible: bool
         /// Fired when the panel's view state changes.
         abstract onDidChangeViewState: Event<WebviewPanelOnDidChangeViewStateEvent>
+        /// <summary>
         /// Fired when the panel is disposed.
         /// 
-        /// This may be because the user closed the panel or because `.dispose()` was
+        /// This may be because the user closed the panel or because <c>.dispose()</c> was
         /// called on it.
         /// 
         /// Trying to use the panel after it has been disposed throws an exception.
+        /// </summary>
         abstract onDidDispose: Event<unit>
-        /// <summary>Show the webview panel in a given column.
+        /// <summary>
+        /// Show the webview panel in a given column.
         /// 
         /// A webview panel may only show in a single column at a time. If it is already showing, this
-        /// method moves it to a new column.</summary>
-        /// <param name="viewColumn">View column to show the panel in. Shows in the current `viewColumn` if undefined.</param>
-        /// <param name="preserveFocus">When `true`, the webview will not take focus.</param>
+        /// method moves it to a new column.
+        /// </summary>
+        /// <param name="viewColumn">View column to show the panel in. Shows in the current <c>viewColumn</c> if undefined.</param>
+        /// <param name="preserveFocus">When <c>true</c>, the webview will not take focus.</param>
         abstract reveal: ?viewColumn: ViewColumn * ?preserveFocus: bool -> unit
+        /// <summary>
         /// Dispose of the webview panel.
         /// 
         /// This closes the panel if it showing and disposes of the resources owned by the webview.
         /// Webview panels are also disposed when the user closes the webview panel. Both cases
-        /// fire the `onDispose` event.
+        /// fire the <c>onDispose</c> event.
+        /// </summary>
         abstract dispose: unit -> obj option
 
     /// Event fired when a webview panel's view state changes.
@@ -3268,6 +4493,7 @@ module Vscode =
         /// Webview panel whose view state changed.
         abstract webviewPanel: WebviewPanel
 
+    /// <summary>
     /// Restore webview panels that have been persisted when vscode shuts down.
     /// 
     /// There are two types of webview persistence:
@@ -3275,14 +4501,14 @@ module Vscode =
     /// - Persistence within a session.
     /// - Persistence across sessions (across restarts of VS Code).
     /// 
-    /// A `WebviewPanelSerializer` is only required for the second case: persisting a webview across sessions.
+    /// A <c>WebviewPanelSerializer</c> is only required for the second case: persisting a webview across sessions.
     /// 
     /// Persistence within a session allows a webview to save its state when it becomes hidden
     /// and restore its content from this state when it becomes visible again. It is powered entirely
-    /// by the webview content itself. To save off a persisted state, call `acquireVsCodeApi().setState()` with
-    /// any json serializable object. To restore the state again, call `getState()`
+    /// by the webview content itself. To save off a persisted state, call <c>acquireVsCodeApi().setState()</c> with
+    /// any json serializable object. To restore the state again, call <c>getState()</c>
     /// 
-    /// ```js
+    /// <code language="js">
     /// // Within the webview
     /// const vscode = acquireVsCodeApi();
     /// 
@@ -3291,28 +4517,37 @@ module Vscode =
     /// 
     /// // Update state
     /// setState({ value: oldState.value + 1 })
-    /// ```
+    /// </code>
     /// 
-    /// A `WebviewPanelSerializer` extends this persistence across restarts of VS Code. When the editor is shutdown,
-    /// VS Code will save off the state from `setState` of all webviews that have a serializer. When the
-    /// webview first becomes visible after the restart, this state is passed to `deserializeWebviewPanel`.
-    /// The extension can then restore the old `WebviewPanel` from this state.
+    /// A <c>WebviewPanelSerializer</c> extends this persistence across restarts of VS Code. When the editor is shutdown,
+    /// VS Code will save off the state from <c>setState</c> of all webviews that have a serializer. When the
+    /// webview first becomes visible after the restart, this state is passed to <c>deserializeWebviewPanel</c>.
+    /// The extension can then restore the old <c>WebviewPanel</c> from this state.
+    /// </summary>
     type [<AllowNullLiteral>] WebviewPanelSerializer =
-        /// <summary>Restore a webview panel from its serialized `state`.
+        /// <summary>
+        /// Restore a webview panel from its serialized <c>state</c>.
         /// 
-        /// Called when a serialized webview first becomes visible.</summary>
-        /// <param name="webviewPanel">Webview panel to restore. The serializer should take ownership of this panel. The
-        /// serializer must restore the webview's `.html` and hook up all webview events.</param>
+        /// Called when a serialized webview first becomes visible.
+        /// </summary>
+        /// <param name="webviewPanel">
+        /// Webview panel to restore. The serializer should take ownership of this panel. The
+        /// serializer must restore the webview's <c>.html</c> and hook up all webview events.
+        /// </param>
         /// <param name="state">Persisted state from the webview content.</param>
+        /// <returns>Thenable indicating that the webview has been fully restored.</returns>
         abstract deserializeWebviewPanel: webviewPanel: WebviewPanel * state: obj option -> Thenable<unit>
 
     /// The clipboard provides read and write access to the system's clipboard.
     type [<AllowNullLiteral>] Clipboard =
-        /// Read the current clipboard contents as text.
+        /// <summary>Read the current clipboard contents as text.</summary>
+        /// <returns>A thenable that resolves to a string.</returns>
         abstract readText: unit -> Thenable<string>
-        /// Writes text into the clipboard.
+        /// <summary>Writes text into the clipboard.</summary>
+        /// <returns>A thenable that resolves when writing happened.</returns>
         abstract writeText: value: string -> Thenable<unit>
 
+    /// Namespace describing the environment the editor runs in.
     module Env =
 
         type [<AllowNullLiteral>] IExports =
@@ -3323,50 +4558,104 @@ module Vscode =
             abstract clipboard: Clipboard
             abstract machineId: string
             abstract sessionId: string
-            /// <summary>Opens an *external* item, e.g. a http(s) or mailto-link, using the
+            /// <summary>
+            /// Opens an *external* item, e.g. a http(s) or mailto-link, using the
             /// default application.
             /// 
-            /// *Note* that [`showTextDocument`](#window.showTextDocument) is the right
-            /// way to open a text document inside the editor, not this function.</summary>
+            /// *Note* that <see cref="window.showTextDocument"><c>showTextDocument</c></see> is the right
+            /// way to open a text document inside the editor, not this function.
+            /// </summary>
             /// <param name="target">The uri that should be opened.</param>
+            /// <returns>A promise indicating if open was successful.</returns>
             abstract openExternal: target: Uri -> Thenable<bool>
 
+    /// <summary>
+    /// Namespace for dealing with commands. In short, a command is a function with a
+    /// unique identifier. The function is sometimes also called _command handler_.
+    /// 
+    /// Commands can be added to the editor using the <see cref="commands.registerCommand">registerCommand</see>
+    /// and <see cref="commands.registerTextEditorCommand">registerTextEditorCommand</see> functions. Commands
+    /// can be executed <see cref="commands.executeCommand">manually</see> or from a UI gesture. Those are:
+    /// 
+    /// * palette - Use the <c>commands</c>-section in <c>package.json</c> to make a command show in
+    /// the <see href="https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette">command palette</see>.
+    /// * keybinding - Use the <c>keybindings</c>-section in <c>package.json</c> to enable
+    /// <see href="https://code.visualstudio.com/docs/getstarted/keybindings#_customizing-shortcuts">keybindings</see>
+    /// for your extension.
+    /// 
+    /// Commands from other extensions and from the editor itself are accessible to an extension. However,
+    /// when invoking an editor command not all argument types are supported.
+    /// 
+    /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
+    /// register a command handler with the identifier <c>extension.sayHello</c>.
+    /// <code language="javascript">
+    /// commands.registerCommand('extension.sayHello', () => {
+    ///  	window.showInformationMessage('Hello World!');
+    /// });
+    /// </code>
+    /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
+    /// <code language="json">
+    /// {
+    ///  	"contributes": {
+    ///  		"commands": [{
+    ///  			"command": "extension.sayHello",
+    ///  			"title": "Hello World"
+    ///  		}]
+    ///  	}
+    /// }
+    /// </code>
+    /// </summary>
     module Commands =
 
         type [<AllowNullLiteral>] IExports =
-            /// <summary>Registers a command that can be invoked via a keyboard shortcut,
+            /// <summary>
+            /// Registers a command that can be invoked via a keyboard shortcut,
             /// a menu item, an action, or directly.
             /// 
             /// Registering a command with an existing command identifier twice
-            /// will cause an error.</summary>
+            /// will cause an error.
+            /// </summary>
             /// <param name="command">A unique identifier for the command.</param>
             /// <param name="callback">A command handler function.</param>
-            /// <param name="thisArg">The `this` context used when invoking the handler function.</param>
+            /// <param name="thisArg">The <c>this</c> context used when invoking the handler function.</param>
+            /// <returns>Disposable which unregisters this command on disposal.</returns>
             abstract registerCommand: command: string * callback: (ResizeArray<obj option> -> obj option) * ?thisArg: obj -> Disposable
-            /// <summary>Registers a text editor command that can be invoked via a keyboard shortcut,
+            /// <summary>
+            /// Registers a text editor command that can be invoked via a keyboard shortcut,
             /// a menu item, an action, or directly.
             /// 
-            /// Text editor commands are different from ordinary [commands](#commands.registerCommand) as
+            /// Text editor commands are different from ordinary <see cref="commands.registerCommand">commands</see> as
             /// they only execute when there is an active editor when the command is called. Also, the
             /// command handler of an editor command has access to the active editor and to an
-            /// [edit](#TextEditorEdit)-builder.</summary>
+            /// <see cref="TextEditorEdit">edit</see>-builder.
+            /// </summary>
             /// <param name="command">A unique identifier for the command.</param>
-            /// <param name="callback">A command handler function with access to an [editor](#TextEditor) and an [edit](#TextEditorEdit).</param>
-            /// <param name="thisArg">The `this` context used when invoking the handler function.</param>
+            /// <param name="callback">A command handler function with access to an <see cref="TextEditor">editor</see> and an <see cref="TextEditorEdit">edit</see>.</param>
+            /// <param name="thisArg">The <c>this</c> context used when invoking the handler function.</param>
+            /// <returns>Disposable which unregisters this command on disposal.</returns>
             abstract registerTextEditorCommand: command: string * callback: (TextEditor -> TextEditorEdit -> ResizeArray<obj option> -> unit) * ?thisArg: obj -> Disposable
-            /// <summary>Executes the command denoted by the given command identifier.
+            /// <summary>
+            /// Executes the command denoted by the given command identifier.
             /// 
             /// * *Note 1:* When executing an editor command not all types are allowed to
-            /// be passed as arguments. Allowed are the primitive types `string`, `boolean`,
-            /// `number`, `undefined`, and `null`, as well as [`Position`](#Position), [`Range`](#Range), [`Uri`](#Uri) and [`Location`](#Location).
+            /// be passed as arguments. Allowed are the primitive types <c>string</c>, <c>boolean</c>,
+            /// <c>number</c>, <c>undefined</c>, and <c>null</c>, as well as <see cref="Position"><c>Position</c></see>, <see cref="Range"><c>Range</c></see>, <see cref="Uri"><c>Uri</c></see> and <see cref="Location"><c>Location</c></see>.
             /// * *Note 2:* There are no restrictions when executing commands that have been contributed
-            /// by extensions.</summary>
+            /// by extensions.
+            /// </summary>
             /// <param name="command">Identifier of the command to execute.</param>
             /// <param name="rest">Parameters passed to the command function.</param>
+            /// <returns>
+            /// A thenable that resolves to the returned value of the given command. <c>undefined</c> when
+            /// the command handler function doesn't return anything.
+            /// </returns>
             abstract executeCommand: command: string * [<ParamArray>] rest: obj option[] -> Thenable<'T option>
-            /// <summary>Retrieve the list of all available commands. Commands starting an underscore are
-            /// treated as internal commands.</summary>
-            /// <param name="filterInternal">Set `true` to not see internal commands (starting with an underscore)</param>
+            /// <summary>
+            /// Retrieve the list of all available commands. Commands starting an underscore are
+            /// treated as internal commands.
+            /// </summary>
+            /// <param name="filterInternal">Set <c>true</c> to not see internal commands (starting with an underscore)</param>
+            /// <returns>Thenable that resolves to a list of command ids.</returns>
             abstract getCommands: ?filterInternal: bool -> Thenable<ResizeArray<string>>
 
     /// Represents the state of a window.
@@ -3374,11 +4663,16 @@ module Vscode =
         /// Whether the current window is focused.
         abstract focused: bool
 
-    /// A uri handler is responsible for handling system-wide [uris](#Uri).
+    /// <summary>A uri handler is responsible for handling system-wide <see cref="Uri">uris</see>.</summary>
+    /// <seealso cref="window.registerUriHandler">window.registerUriHandler .</seealso>
     type [<AllowNullLiteral>] UriHandler =
-        /// Handle the provided system-wide [uri](#Uri).
+        /// <summary>Handle the provided system-wide <see cref="Uri">uri</see>.</summary>
+        /// <seealso cref="window.registerUriHandler">window.registerUriHandler .</seealso>
         abstract handleUri: uri: Uri -> ProviderResult<unit>
 
+    /// Namespace for dealing with the current window of the editor. That is visible
+    /// and active editors, as well as, UI elements to show messages, selections, and
+    /// asking for user input.
     module Window =
 
         type [<AllowNullLiteral>] IExports =
@@ -3397,136 +4691,195 @@ module Vscode =
             abstract onDidCloseTerminal: Event<Terminal>
             abstract state: WindowState
             abstract onDidChangeWindowState: Event<WindowState>
-            /// <summary>Show the given document in a text editor. A [column](#ViewColumn) can be provided
-            /// to control where the editor is being shown. Might change the [active editor](#window.activeTextEditor).</summary>
+            /// <summary>
+            /// Show the given document in a text editor. A <see cref="ViewColumn">column</see> can be provided
+            /// to control where the editor is being shown. Might change the <see cref="window.activeTextEditor">active editor</see>.
+            /// </summary>
             /// <param name="document">A text document to be shown.</param>
-            /// <param name="column">A view column in which the [editor](#TextEditor) should be shown. The default is the [active](#ViewColumn.Active), other values
-            /// are adjusted to be `Min(column, columnCount + 1)`, the [active](#ViewColumn.Active)-column is not adjusted. Use [`ViewColumn.Beside`](#ViewColumn.Beside)
-            /// to open the editor to the side of the currently active one.</param>
-            /// <param name="preserveFocus">When `true` the editor will not take focus.</param>
+            /// <param name="column">
+            /// A view column in which the <see cref="TextEditor">editor</see> should be shown. The default is the <see cref="ViewColumn.Active">active</see>, other values
+            /// are adjusted to be <c>Min(column, columnCount + 1)</c>, the <see cref="ViewColumn.Active">active</see>-column is not adjusted. Use <see cref="ViewColumn.Beside"><c>ViewColumn.Beside</c></see>
+            /// to open the editor to the side of the currently active one.
+            /// </param>
+            /// <param name="preserveFocus">When <c>true</c> the editor will not take focus.</param>
+            /// <returns>A promise that resolves to an <see cref="TextEditor">editor</see>.</returns>
             abstract showTextDocument: document: TextDocument * ?column: ViewColumn * ?preserveFocus: bool -> Thenable<TextEditor>
-            /// <summary>Show the given document in a text editor. [Options](#TextDocumentShowOptions) can be provided
-            /// to control options of the editor is being shown. Might change the [active editor](#window.activeTextEditor).</summary>
+            /// <summary>
+            /// Show the given document in a text editor. <see cref="TextDocumentShowOptions">Options</see> can be provided
+            /// to control options of the editor is being shown. Might change the <see cref="window.activeTextEditor">active editor</see>.
+            /// </summary>
             /// <param name="document">A text document to be shown.</param>
-            /// <param name="options">[Editor options](#TextDocumentShowOptions) to configure the behavior of showing the [editor](#TextEditor).</param>
+            /// <param name="options"><see cref="TextDocumentShowOptions">Editor options</see> to configure the behavior of showing the <see cref="TextEditor">editor</see>.</param>
+            /// <returns>A promise that resolves to an <see cref="TextEditor">editor</see>.</returns>
             abstract showTextDocument: document: TextDocument * ?options: TextDocumentShowOptions -> Thenable<TextEditor>
-            /// <summary>A short-hand for `openTextDocument(uri).then(document => showTextDocument(document, options))`.</summary>
+            /// <summary>A short-hand for <c>openTextDocument(uri).then(document => showTextDocument(document, options))</c>.</summary>
+            /// <seealso cref="openTextDocument">openTextDocument</seealso>
             /// <param name="uri">A resource identifier.</param>
-            /// <param name="options">[Editor options](#TextDocumentShowOptions) to configure the behavior of showing the [editor](#TextEditor).</param>
+            /// <param name="options"><see cref="TextDocumentShowOptions">Editor options</see> to configure the behavior of showing the <see cref="TextEditor">editor</see>.</param>
+            /// <returns>A promise that resolves to an <see cref="TextEditor">editor</see>.</returns>
             abstract showTextDocument: uri: Uri * ?options: TextDocumentShowOptions -> Thenable<TextEditor>
             /// <summary>Create a TextEditorDecorationType that can be used to add decorations to text editors.</summary>
             /// <param name="options">Rendering options for the decoration type.</param>
+            /// <returns>A new decoration type instance.</returns>
             abstract createTextEditorDecorationType: options: DecorationRenderOptions -> TextEditorDecorationType
-            /// <summary>Show an information message to users. Optionally provide an array of items which will be presented as
-            /// clickable buttons.</summary>
+            /// <summary>
+            /// Show an information message to users. Optionally provide an array of items which will be presented as
+            /// clickable buttons.
+            /// </summary>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showInformationMessage: message: string * [<ParamArray>] items: string[] -> Thenable<string option>
-            /// <summary>Show an information message to users. Optionally provide an array of items which will be presented as
-            /// clickable buttons.</summary>
+            /// <summary>
+            /// Show an information message to users. Optionally provide an array of items which will be presented as
+            /// clickable buttons.
+            /// </summary>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an information message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showInformationMessage: message: string * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an information message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showInformationMessage: message: string * options: MessageOptions * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show a warning message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showWarningMessage: message: string * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show a warning message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show a warning message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showWarningMessage: message: string * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show a warning message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showWarningMessage: message: string * options: MessageOptions * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an error message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showErrorMessage: message: string * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an error message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: string[] -> Thenable<string option>
             /// <summary>Show an error message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showErrorMessage: message: string * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Show an error message.</summary>
+            /// <seealso cref="window.showInformationMessage">showInformationMessage</seealso>
             /// <param name="message">The message to show.</param>
             /// <param name="options">Configures the behaviour of the message.</param>
             /// <param name="items">A set of items that will be rendered as actions in the message.</param>
+            /// <returns>A thenable that resolves to the selected item or <c>undefined</c> when being dismissed.</returns>
             abstract showErrorMessage: message: string * options: MessageOptions * [<ParamArray>] items: 'T[] -> Thenable<'T option> when 'T :> MessageItem
             /// <summary>Shows a selection list allowing multiple selections.</summary>
             /// <param name="items">An array of strings, or a promise that resolves to an array of strings.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
+            /// <returns>A promise that resolves to the selected items or <c>undefined</c>.</returns>
             abstract showQuickPick: items: U2<ResizeArray<string>, Thenable<ResizeArray<string>>> * options: obj * ?token: CancellationToken -> Thenable<ResizeArray<string> option>
             /// <summary>Shows a selection list.</summary>
             /// <param name="items">An array of strings, or a promise that resolves to an array of strings.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
+            /// <returns>A promise that resolves to the selection or <c>undefined</c>.</returns>
             abstract showQuickPick: items: U2<ResizeArray<string>, Thenable<ResizeArray<string>>> * ?options: QuickPickOptions * ?token: CancellationToken -> Thenable<string option>
             /// <summary>Shows a selection list allowing multiple selections.</summary>
             /// <param name="items">An array of items, or a promise that resolves to an array of items.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
+            /// <returns>A promise that resolves to the selected items or <c>undefined</c>.</returns>
             abstract showQuickPick: items: U2<ResizeArray<'T>, Thenable<ResizeArray<'T>>> * options: obj * ?token: CancellationToken -> Thenable<ResizeArray<'T> option> when 'T :> QuickPickItem
             /// <summary>Shows a selection list.</summary>
             /// <param name="items">An array of items, or a promise that resolves to an array of items.</param>
             /// <param name="options">Configures the behavior of the selection list.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
+            /// <returns>A promise that resolves to the selected item or <c>undefined</c>.</returns>
             abstract showQuickPick: items: U2<ResizeArray<'T>, Thenable<ResizeArray<'T>>> * ?options: QuickPickOptions * ?token: CancellationToken -> Thenable<'T option> when 'T :> QuickPickItem
-            /// <summary>Shows a selection list of [workspace folders](#workspace.workspaceFolders) to pick from.
-            /// Returns `undefined` if no folder is open.</summary>
+            /// <summary>
+            /// Shows a selection list of <see cref="workspace.workspaceFolders">workspace folders</see> to pick from.
+            /// Returns <c>undefined</c> if no folder is open.
+            /// </summary>
             /// <param name="options">Configures the behavior of the workspace folder list.</param>
+            /// <returns>A promise that resolves to the workspace folder or <c>undefined</c>.</returns>
             abstract showWorkspaceFolderPick: ?options: WorkspaceFolderPickOptions -> Thenable<WorkspaceFolder option>
-            /// <summary>Shows a file open dialog to the user which allows to select a file
-            /// for opening-purposes.</summary>
+            /// <summary>
+            /// Shows a file open dialog to the user which allows to select a file
+            /// for opening-purposes.
+            /// </summary>
             /// <param name="options">Options that control the dialog.</param>
+            /// <returns>A promise that resolves to the selected resources or <c>undefined</c>.</returns>
             abstract showOpenDialog: options: OpenDialogOptions -> Thenable<ResizeArray<Uri> option>
-            /// <summary>Shows a file save dialog to the user which allows to select a file
-            /// for saving-purposes.</summary>
+            /// <summary>
+            /// Shows a file save dialog to the user which allows to select a file
+            /// for saving-purposes.
+            /// </summary>
             /// <param name="options">Options that control the dialog.</param>
+            /// <returns>A promise that resolves to the selected resource or <c>undefined</c>.</returns>
             abstract showSaveDialog: options: SaveDialogOptions -> Thenable<Uri option>
-            /// <summary>Opens an input box to ask the user for input.
+            /// <summary>
+            /// Opens an input box to ask the user for input.
             /// 
-            /// The returned value will be `undefined` if the input box was canceled (e.g. pressing ESC). Otherwise the
+            /// The returned value will be <c>undefined</c> if the input box was canceled (e.g. pressing ESC). Otherwise the
             /// returned value will be the string typed by the user or an empty string if the user did not type
-            /// anything but dismissed the input box with OK.</summary>
+            /// anything but dismissed the input box with OK.
+            /// </summary>
             /// <param name="options">Configures the behavior of the input box.</param>
             /// <param name="token">A token that can be used to signal cancellation.</param>
+            /// <returns>A promise that resolves to a string the user provided or to <c>undefined</c> in case of dismissal.</returns>
             abstract showInputBox: ?options: InputBoxOptions * ?token: CancellationToken -> Thenable<string option>
-            /// Creates a [QuickPick](#QuickPick) to let the user pick an item from a list
+            /// <summary>
+            /// Creates a <see cref="QuickPick">QuickPick</see> to let the user pick an item from a list
             /// of items of type T.
             /// 
-            /// Note that in many cases the more convenient [window.showQuickPick](#window.showQuickPick)
-            /// is easier to use. [window.createQuickPick](#window.createQuickPick) should be used
-            /// when [window.showQuickPick](#window.showQuickPick) does not offer the required flexibility.
+            /// Note that in many cases the more convenient <see cref="window.showQuickPick">window.showQuickPick</see>
+            /// is easier to use. <see cref="window.createQuickPick">window.createQuickPick</see> should be used
+            /// when <see cref="window.showQuickPick">window.showQuickPick</see> does not offer the required flexibility.
+            /// </summary>
+            /// <returns>A new <see cref="QuickPick">QuickPick</see>.</returns>
             abstract createQuickPick: unit -> QuickPick<'T> when 'T :> QuickPickItem
-            /// Creates a [InputBox](#InputBox) to let the user enter some text input.
+            /// <summary>
+            /// Creates a <see cref="InputBox">InputBox</see> to let the user enter some text input.
             /// 
-            /// Note that in many cases the more convenient [window.showInputBox](#window.showInputBox)
-            /// is easier to use. [window.createInputBox](#window.createInputBox) should be used
-            /// when [window.showInputBox](#window.showInputBox) does not offer the required flexibility.
+            /// Note that in many cases the more convenient <see cref="window.showInputBox">window.showInputBox</see>
+            /// is easier to use. <see cref="window.createInputBox">window.createInputBox</see> should be used
+            /// when <see cref="window.showInputBox">window.showInputBox</see> does not offer the required flexibility.
+            /// </summary>
+            /// <returns>A new <see cref="InputBox">InputBox</see>.</returns>
             abstract createInputBox: unit -> InputBox
-            /// <summary>Creates a new [output channel](#OutputChannel) with the given name.</summary>
+            /// <summary>Creates a new <see cref="OutputChannel">output channel</see> with the given name.</summary>
             /// <param name="name">Human-readable string which will be used to represent the channel in the UI.</param>
             abstract createOutputChannel: name: string -> OutputChannel
             /// <summary>Create and show a new webview panel.</summary>
@@ -3534,95 +4887,132 @@ module Vscode =
             /// <param name="title">Title of the panel.</param>
             /// <param name="showOptions">Where to show the webview in the editor. If preserveFocus is set, the new webview will not take focus.</param>
             /// <param name="options">Settings for the new panel.</param>
+            /// <returns>New webview panel.</returns>
             abstract createWebviewPanel: viewType: string * title: string * showOptions: U2<ViewColumn, IExportsCreateWebviewPanel> * ?options: obj -> WebviewPanel
-            /// <summary>Set a message to the status bar. This is a short hand for the more powerful
-            /// status bar [items](#window.createStatusBarItem).</summary>
-            /// <param name="text">The message to show, supports icon substitution as in status bar [items](#StatusBarItem.text).</param>
+            /// <summary>
+            /// Set a message to the status bar. This is a short hand for the more powerful
+            /// status bar <see cref="window.createStatusBarItem">items</see>.
+            /// </summary>
+            /// <param name="text">The message to show, supports icon substitution as in status bar <see cref="StatusBarItem.text">items</see>.</param>
             /// <param name="hideAfterTimeout">Timeout in milliseconds after which the message will be disposed.</param>
+            /// <returns>A disposable which hides the status bar message.</returns>
             abstract setStatusBarMessage: text: string * hideAfterTimeout: float -> Disposable
-            /// <summary>Set a message to the status bar. This is a short hand for the more powerful
-            /// status bar [items](#window.createStatusBarItem).</summary>
-            /// <param name="text">The message to show, supports icon substitution as in status bar [items](#StatusBarItem.text).</param>
+            /// <summary>
+            /// Set a message to the status bar. This is a short hand for the more powerful
+            /// status bar <see cref="window.createStatusBarItem">items</see>.
+            /// </summary>
+            /// <param name="text">The message to show, supports icon substitution as in status bar <see cref="StatusBarItem.text">items</see>.</param>
             /// <param name="hideWhenDone">Thenable on which completion (resolve or reject) the message will be disposed.</param>
+            /// <returns>A disposable which hides the status bar message.</returns>
             abstract setStatusBarMessage: text: string * hideWhenDone: Thenable<obj option> -> Disposable
-            /// <summary>Set a message to the status bar. This is a short hand for the more powerful
-            /// status bar [items](#window.createStatusBarItem).
+            /// <summary>
+            /// Set a message to the status bar. This is a short hand for the more powerful
+            /// status bar <see cref="window.createStatusBarItem">items</see>.
             /// 
             /// *Note* that status bar messages stack and that they must be disposed when no
-            /// longer used.</summary>
-            /// <param name="text">The message to show, supports icon substitution as in status bar [items](#StatusBarItem.text).</param>
+            /// longer used.
+            /// </summary>
+            /// <param name="text">The message to show, supports icon substitution as in status bar <see cref="StatusBarItem.text">items</see>.</param>
+            /// <returns>A disposable which hides the status bar message.</returns>
             abstract setStatusBarMessage: text: string -> Disposable
-            /// <summary>~~Show progress in the Source Control viewlet while running the given callback and while
-            /// its returned promise isn't resolve or rejected.~~</summary>
-            /// <param name="task">A callback returning a promise. Progress increments can be reported with
-            /// the provided [progress](#Progress)-object.</param>
+            /// <summary>
+            /// ~~Show progress in the Source Control viewlet while running the given callback and while
+            /// its returned promise isn't resolve or rejected.~~
+            /// </summary>
+            /// <param name="task">
+            /// A callback returning a promise. Progress increments can be reported with
+            /// the provided <see cref="Progress">progress</see>-object.
+            /// </param>
+            /// <returns>The thenable the task did return.</returns>
+            [<Obsolete("Use `withProgress` instead.")>]
             abstract withScmProgress: task: (Progress<float> -> Thenable<'R>) -> Thenable<'R>
-            /// <summary>Show progress in the editor. Progress is shown while running the given callback
+            /// <summary>
+            /// Show progress in the editor. Progress is shown while running the given callback
             /// and while the promise it returned isn't resolved nor rejected. The location at which
-            /// progress should show (and other details) is defined via the passed [`ProgressOptions`](#ProgressOptions).</summary>
-            /// <param name="task">A callback returning a promise. Progress state can be reported with
-            /// the provided [progress](#Progress)-object.
+            /// progress should show (and other details) is defined via the passed <see cref="ProgressOptions"><c>ProgressOptions</c></see>.
+            /// </summary>
+            /// <param name="task">
+            /// A callback returning a promise. Progress state can be reported with
+            /// the provided <see cref="Progress">progress</see>-object.
             /// 
-            /// To report discrete progress, use `increment` to indicate how much work has been completed. Each call with
-            /// a `increment` value will be summed up and reflected as overall progress until 100% is reached (a value of
-            /// e.g. `10` accounts for `10%` of work done).
-            /// Note that currently only `ProgressLocation.Notification` is capable of showing discrete progress.
+            /// To report discrete progress, use <c>increment</c> to indicate how much work has been completed. Each call with
+            /// a <c>increment</c> value will be summed up and reflected as overall progress until 100% is reached (a value of
+            /// e.g. <c>10</c> accounts for <c>10%</c> of work done).
+            /// Note that currently only <c>ProgressLocation.Notification</c> is capable of showing discrete progress.
             /// 
-            /// To monitor if the operation has been cancelled by the user, use the provided [`CancellationToken`](#CancellationToken).
-            /// Note that currently only `ProgressLocation.Notification` is supporting to show a cancel button to cancel the
-            /// long running operation.</param>
+            /// To monitor if the operation has been cancelled by the user, use the provided <see cref="CancellationToken"><c>CancellationToken</c></see>.
+            /// Note that currently only <c>ProgressLocation.Notification</c> is supporting to show a cancel button to cancel the
+            /// long running operation.
+            /// </param>
+            /// <returns>The thenable the task-callback returned.</returns>
             abstract withProgress: options: ProgressOptions * task: (Progress<IExportsWithProgressProgress> -> CancellationToken -> Thenable<'R>) -> Thenable<'R>
-            /// <summary>Creates a status bar [item](#StatusBarItem).</summary>
+            /// <summary>Creates a status bar <see cref="StatusBarItem">item</see>.</summary>
             /// <param name="alignment">The alignment of the item.</param>
             /// <param name="priority">The priority of the item. Higher values mean the item should be shown more to the left.</param>
+            /// <returns>A new status bar item.</returns>
             abstract createStatusBarItem: ?alignment: StatusBarAlignment * ?priority: float -> StatusBarItem
-            /// <summary>Creates a [Terminal](#Terminal). The cwd of the terminal will be the workspace directory
-            /// if it exists, regardless of whether an explicit customStartPath setting exists.</summary>
+            /// <summary>
+            /// Creates a <see cref="Terminal">Terminal</see>. The cwd of the terminal will be the workspace directory
+            /// if it exists, regardless of whether an explicit customStartPath setting exists.
+            /// </summary>
             /// <param name="name">Optional human-readable string which will be used to represent the terminal in the UI.</param>
             /// <param name="shellPath">Optional path to a custom shell executable to be used in the terminal.</param>
-            /// <param name="shellArgs">Optional args for the custom shell executable. A string can be used on Windows only which
-            /// allows specifying shell args in [command-line format](https://msdn.microsoft.com/en-au/08dfcab2-eb6e-49a4-80eb-87d4076c98c6).</param>
+            /// <param name="shellArgs">
+            /// Optional args for the custom shell executable. A string can be used on Windows only which
+            /// allows specifying shell args in <see href="https://msdn.microsoft.com/en-au/08dfcab2-eb6e-49a4-80eb-87d4076c98c6">command-line format</see>.
+            /// </param>
+            /// <returns>A new Terminal.</returns>
             abstract createTerminal: ?name: string * ?shellPath: string * ?shellArgs: U2<ResizeArray<string>, string> -> Terminal
-            /// <summary>Creates a [Terminal](#Terminal). The cwd of the terminal will be the workspace directory
-            /// if it exists, regardless of whether an explicit customStartPath setting exists.</summary>
+            /// <summary>
+            /// Creates a <see cref="Terminal">Terminal</see>. The cwd of the terminal will be the workspace directory
+            /// if it exists, regardless of whether an explicit customStartPath setting exists.
+            /// </summary>
             /// <param name="options">A TerminalOptions object describing the characteristics of the new terminal.</param>
+            /// <returns>A new Terminal.</returns>
             abstract createTerminal: options: TerminalOptions -> Terminal
-            /// <summary>Register a [TreeDataProvider](#TreeDataProvider) for the view contributed using the extension point `views`.
-            /// This will allow you to contribute data to the [TreeView](#TreeView) and update if the data changes.
+            /// <summary>
+            /// Register a <see cref="TreeDataProvider">TreeDataProvider</see> for the view contributed using the extension point <c>views</c>.
+            /// This will allow you to contribute data to the <see cref="TreeView">TreeView</see> and update if the data changes.
             /// 
-            /// **Note:** To get access to the [TreeView](#TreeView) and perform operations on it, use [createTreeView](#window.createTreeView).</summary>
-            /// <param name="viewId">Id of the view contributed using the extension point `views`.</param>
-            /// <param name="treeDataProvider">A [TreeDataProvider](#TreeDataProvider) that provides tree data for the view</param>
+            /// **Note:** To get access to the <see cref="TreeView">TreeView</see> and perform operations on it, use <see cref="window.createTreeView">createTreeView</see>.
+            /// </summary>
+            /// <param name="viewId">Id of the view contributed using the extension point <c>views</c>.</param>
+            /// <param name="treeDataProvider">A <see cref="TreeDataProvider">TreeDataProvider</see> that provides tree data for the view</param>
             abstract registerTreeDataProvider: viewId: string * treeDataProvider: TreeDataProvider<'T> -> Disposable
-            /// <summary>Create a [TreeView](#TreeView) for the view contributed using the extension point `views`.</summary>
-            /// <param name="viewId">Id of the view contributed using the extension point `views`.</param>
-            /// <param name="options">Options for creating the [TreeView](#TreeView)</param>
+            /// <summary>Create a <see cref="TreeView">TreeView</see> for the view contributed using the extension point <c>views</c>.</summary>
+            /// <param name="viewId">Id of the view contributed using the extension point <c>views</c>.</param>
+            /// <param name="options">Options for creating the <see cref="TreeView">TreeView</see></param>
+            /// <returns>a <see cref="TreeView">TreeView</see>.</returns>
             abstract createTreeView: viewId: string * options: TreeViewOptions<'T> -> TreeView<'T>
-            /// <summary>Registers a [uri handler](#UriHandler) capable of handling system-wide [uris](#Uri).
+            /// <summary>
+            /// Registers a <see cref="UriHandler">uri handler</see> capable of handling system-wide <see cref="Uri">uris</see>.
             /// In case there are multiple windows open, the topmost window will handle the uri.
             /// A uri handler is scoped to the extension it is contributed from; it will only
             /// be able to handle uris which are directed to the extension itself. A uri must respect
             /// the following rules:
             /// 
-            /// - The uri-scheme must be `vscode.env.uriScheme`;
-            /// - The uri-authority must be the extension id (eg. `my.extension`);
+            /// - The uri-scheme must be <c>vscode.env.uriScheme</c>;
+            /// - The uri-authority must be the extension id (eg. <c>my.extension</c>);
             /// - The uri-path, -query and -fragment parts are arbitrary.
             /// 
-            /// For example, if the `my.extension` extension registers a uri handler, it will only
-            /// be allowed to handle uris with the prefix `product-name://my.extension`.
+            /// For example, if the <c>my.extension</c> extension registers a uri handler, it will only
+            /// be allowed to handle uris with the prefix <c>product-name://my.extension</c>.
             /// 
             /// An extension can only register a single uri handler in its entire activation lifetime.
             /// 
-            /// * *Note:* There is an activation event `onUri` that fires when a uri directed for
-            /// the current extension is about to be handled.</summary>
+            /// * *Note:* There is an activation event <c>onUri</c> that fires when a uri directed for
+            /// the current extension is about to be handled.
+            /// </summary>
             /// <param name="handler">The uri handler to register for this extension.</param>
             abstract registerUriHandler: handler: UriHandler -> Disposable
-            /// <summary>Registers a webview panel serializer.
+            /// <summary>
+            /// Registers a webview panel serializer.
             /// 
-            /// Extensions that support reviving should have an `"onWebviewPanel:viewType"` activation event and
-            /// make sure that [registerWebviewPanelSerializer](#registerWebviewPanelSerializer) is called during activation.
+            /// Extensions that support reviving should have an <c>"onWebviewPanel:viewType"</c> activation event and
+            /// make sure that <see cref="registerWebviewPanelSerializer">registerWebviewPanelSerializer</see> is called during activation.
             /// 
-            /// Only a single serializer may be registered at a time for a given `viewType`.</summary>
+            /// Only a single serializer may be registered at a time for a given <c>viewType</c>.
+            /// </summary>
             /// <param name="viewType">Type of the webview panel that can be serialized.</param>
             /// <param name="serializer">Webview serializer.</param>
             abstract registerWebviewPanelSerializer: viewType: string * serializer: WebviewPanelSerializer -> Disposable
@@ -3635,26 +5025,26 @@ module Vscode =
             abstract message: string option with get, set
             abstract increment: float option with get, set
 
-    /// Options for creating a [TreeView](#TreeView)
+    /// <summary>Options for creating a <see cref="TreeView">TreeView</see></summary>
     type [<AllowNullLiteral>] TreeViewOptions<'T> =
         /// A data provider that provides tree data.
         abstract treeDataProvider: TreeDataProvider<'T> with get, set
         /// Whether to show collapse all action or not.
         abstract showCollapseAll: bool option with get, set
 
-    /// The event that is fired when an element in the [TreeView](#TreeView) is expanded or collapsed
+    /// <summary>The event that is fired when an element in the <see cref="TreeView">TreeView</see> is expanded or collapsed</summary>
     type [<AllowNullLiteral>] TreeViewExpansionEvent<'T> =
         /// Element that is expanded or collapsed.
         abstract element: 'T
 
-    /// The event that is fired when there is a change in [tree view's selection](#TreeView.selection)
+    /// <summary>The event that is fired when there is a change in <see cref="TreeView.selection">tree view's selection</see></summary>
     type [<AllowNullLiteral>] TreeViewSelectionChangeEvent<'T> =
         /// Selected elements.
         abstract selection: ResizeArray<'T>
 
-    /// The event that is fired when there is a change in [tree view's visibility](#TreeView.visible)
+    /// <summary>The event that is fired when there is a change in <see cref="TreeView.visible">tree view's visibility</see></summary>
     type [<AllowNullLiteral>] TreeViewVisibilityChangeEvent =
-        /// `true` if the [tree view](#TreeView) is visible otherwise `false`.
+        /// <summary><c>true</c> if the <see cref="TreeView">tree view</see> is visible otherwise <c>false</c>.</summary>
         abstract visible: bool
 
     /// Represents a Tree view
@@ -3666,22 +5056,24 @@ module Vscode =
         abstract onDidCollapseElement: Event<TreeViewExpansionEvent<'T>>
         /// Currently selected elements.
         abstract selection: ResizeArray<'T>
-        /// Event that is fired when the [selection](#TreeView.selection) has changed
+        /// <summary>Event that is fired when the <see cref="TreeView.selection">selection</see> has changed</summary>
         abstract onDidChangeSelection: Event<TreeViewSelectionChangeEvent<'T>>
-        /// `true` if the [tree view](#TreeView) is visible otherwise `false`.
+        /// <summary><c>true</c> if the <see cref="TreeView">tree view</see> is visible otherwise <c>false</c>.</summary>
         abstract visible: bool
-        /// Event that is fired when [visibility](#TreeView.visible) has changed
+        /// <summary>Event that is fired when <see cref="TreeView.visible">visibility</see> has changed</summary>
         abstract onDidChangeVisibility: Event<TreeViewVisibilityChangeEvent>
+        /// <summary>
         /// Reveals the given element in the tree view.
         /// If the tree view is not visible then the tree view is shown and element is revealed.
         /// 
         /// By default revealed element is selected.
-        /// In order to not to select, set the option `select` to `false`.
-        /// In order to focus, set the option `focus` to `true`.
-        /// In order to expand the revealed element, set the option `expand` to `true`. To expand recursively set `expand` to the number of levels to expand.
+        /// In order to not to select, set the option <c>select</c> to <c>false</c>.
+        /// In order to focus, set the option <c>focus</c> to <c>true</c>.
+        /// In order to expand the revealed element, set the option <c>expand</c> to <c>true</c>. To expand recursively set <c>expand</c> to the number of levels to expand.
         /// **NOTE:** You can expand only to 3 levels maximum.
         /// 
-        /// **NOTE:** [TreeDataProvider](#TreeDataProvider) is required to implement [getParent](#TreeDataProvider.getParent) method to access this API.
+        /// **NOTE:** <see cref="TreeDataProvider">TreeDataProvider</see> is required to implement <see cref="TreeDataProvider.getParent">getParent</see> method to access this API.
+        /// </summary>
         abstract reveal: element: 'T * ?options: TreeViewRevealOptions -> Thenable<unit>
 
     type [<AllowNullLiteral>] TreeViewRevealOptions =
@@ -3691,52 +5083,66 @@ module Vscode =
 
     /// A data provider that provides tree data
     type [<AllowNullLiteral>] TreeDataProvider<'T> =
+        /// <summary>
         /// An optional event to signal that an element or root has changed.
         /// This will trigger the view to update the changed element/root and its children recursively (if shown).
-        /// To signal that root has changed, do not pass any argument or pass `undefined` or `null`.
+        /// To signal that root has changed, do not pass any argument or pass <c>undefined</c> or <c>null</c>.
+        /// </summary>
         abstract onDidChangeTreeData: Event<'T option> option with get, set
-        /// <summary>Get [TreeItem](#TreeItem) representation of the `element`</summary>
-        /// <param name="element">The element for which [TreeItem](#TreeItem) representation is asked for.</param>
+        /// <summary>Get <see cref="TreeItem">TreeItem</see> representation of the <c>element</c></summary>
+        /// <param name="element">The element for which <see cref="TreeItem">TreeItem</see> representation is asked for.</param>
+        /// <returns><see cref="TreeItem">TreeItem</see> representation of the element</returns>
         abstract getTreeItem: element: 'T -> U2<TreeItem, Thenable<TreeItem>>
-        /// <summary>Get the children of `element` or root if no element is passed.</summary>
-        /// <param name="element">The element from which the provider gets children. Can be `undefined`.</param>
+        /// <summary>Get the children of <c>element</c> or root if no element is passed.</summary>
+        /// <param name="element">The element from which the provider gets children. Can be <c>undefined</c>.</param>
+        /// <returns>Children of <c>element</c> or root if no element is passed.</returns>
         abstract getChildren: ?element: 'T -> ProviderResult<ResizeArray<'T>>
-        /// <summary>Optional method to return the parent of `element`.
-        /// Return `null` or `undefined` if `element` is a child of root.
+        /// <summary>
+        /// Optional method to return the parent of <c>element</c>.
+        /// Return <c>null</c> or <c>undefined</c> if <c>element</c> is a child of root.
         /// 
-        /// **NOTE:** This method should be implemented in order to access [reveal](#TreeView.reveal) API.</summary>
+        /// **NOTE:** This method should be implemented in order to access <see cref="TreeView.reveal">reveal</see> API.
+        /// </summary>
         /// <param name="element">The element for which the parent has to be returned.</param>
+        /// <returns>Parent of <c>element</c>.</returns>
         abstract getParent: element: 'T -> ProviderResult<'T>
 
     type [<AllowNullLiteral>] TreeItem =
-        /// A human-readable string describing this item. When `falsy`, it is derived from [resourceUri](#TreeItem.resourceUri).
+        /// <summary>A human-readable string describing this item. When <c>falsy</c>, it is derived from <see cref="TreeItem.resourceUri">resourceUri</see>.</summary>
         abstract label: string option with get, set
         /// Optional id for the tree item that has to be unique across tree. The id is used to preserve the selection and expansion state of the tree item.
         /// 
         /// If not provided, an id is generated using the tree item's label. **Note** that when labels change, ids will change and that selection and expansion state cannot be kept stable anymore.
         abstract id: string option with get, set
-        /// The icon path or [ThemeIcon](#ThemeIcon) for the tree item.
-        /// When `falsy`, [Folder Theme Icon](#ThemeIcon.Folder) is assigned, if item is collapsible otherwise [File Theme Icon](#ThemeIcon.File).
-        /// When a [ThemeIcon](#ThemeIcon) is specified, icon is derived from the current file icon theme for the specified theme icon using [resourceUri](#TreeItem.resourceUri) (if provided).
+        /// <summary>
+        /// The icon path or <see cref="ThemeIcon">ThemeIcon</see> for the tree item.
+        /// When <c>falsy</c>, <see cref="ThemeIcon.Folder">Folder Theme Icon</see> is assigned, if item is collapsible otherwise <see cref="ThemeIcon.File">File Theme Icon</see>.
+        /// When a <see cref="ThemeIcon">ThemeIcon</see> is specified, icon is derived from the current file icon theme for the specified theme icon using <see cref="TreeItem.resourceUri) (if provided">resourceUri</see>.
+        /// </summary>
         abstract iconPath: U4<string, Uri, TreeItemIconPath, ThemeIcon> option with get, set
+        /// <summary>
         /// A human readable string which is rendered less prominent.
-        /// When `true`, it is derived from [resourceUri](#TreeItem.resourceUri) and when `falsy`, it is not shown.
+        /// When <c>true</c>, it is derived from <see cref="TreeItem.resourceUri">resourceUri</see> and when <c>falsy</c>, it is not shown.
+        /// </summary>
         abstract description: U2<string, bool> option with get, set
-        /// The [uri](#Uri) of the resource representing this item.
+        /// <summary>
+        /// The <see cref="Uri">uri</see> of the resource representing this item.
         /// 
-        /// Will be used to derive the [label](#TreeItem.label), when it is not provided.
-        /// Will be used to derive the icon from current icon theme, when [iconPath](#TreeItem.iconPath) has [ThemeIcon](#ThemeIcon) value.
+        /// Will be used to derive the <see cref="TreeItem.label">label</see>, when it is not provided.
+        /// Will be used to derive the icon from current icon theme, when <see cref="TreeItem.iconPath">iconPath</see> has <see cref="ThemeIcon">ThemeIcon</see> value.
+        /// </summary>
         abstract resourceUri: Uri option with get, set
         /// The tooltip text when you hover over this item.
         abstract tooltip: string option with get, set
-        /// The [command](#Command) that should be executed when the tree item is selected.
+        /// <summary>The <see cref="Command">command</see> that should be executed when the tree item is selected.</summary>
         abstract command: Command option with get, set
-        /// [TreeItemCollapsibleState](#TreeItemCollapsibleState) of the tree item.
+        /// <summary><see cref="TreeItemCollapsibleState">TreeItemCollapsibleState</see> of the tree item.</summary>
         abstract collapsibleState: TreeItemCollapsibleState option with get, set
+        /// <summary>
         /// Context value of the tree item. This can be used to contribute item specific actions in the tree.
-        /// For example, a tree item is given a context value as `folder`. When contributing actions to `view/item/context`
-        /// using `menus` extension point, you can specify context value for key `viewItem` in `when` expression like `viewItem == folder`.
-        /// ```
+        /// For example, a tree item is given a context value as <c>folder</c>. When contributing actions to <c>view/item/context</c>
+        /// using <c>menus</c> extension point, you can specify context value for key <c>viewItem</c> in <c>when</c> expression like <c>viewItem == folder</c>.
+        /// <code>
         /// "contributes": {
         /// 		"menus": {
         /// 			"view/item/context": [
@@ -3747,21 +5153,26 @@ module Vscode =
         /// 			]
         /// 		}
         /// }
-        /// ```
-        /// This will show action `extension.deleteFolder` only for items with `contextValue` is `folder`.
+        /// </code>
+        /// This will show action <c>extension.deleteFolder</c> only for items with <c>contextValue</c> is <c>folder</c>.
+        /// </summary>
         abstract contextValue: string option with get, set
 
     type [<AllowNullLiteral>] TreeItemStatic =
         /// <param name="label">A human-readable string describing this item</param>
-        /// <param name="collapsibleState">[TreeItemCollapsibleState](#TreeItemCollapsibleState) of the tree item. Default is [TreeItemCollapsibleState.None](#TreeItemCollapsibleState.None)</param>
+        /// <param name="collapsibleState"><see cref="TreeItemCollapsibleState">TreeItemCollapsibleState</see> of the tree item. Default is <see cref="TreeItemCollapsibleState.None">TreeItemCollapsibleState.None</see></param>
         [<EmitConstructor>] abstract Create: label: string * ?collapsibleState: TreeItemCollapsibleState -> TreeItem
-        /// <param name="resourceUri">The [uri](#Uri) of the resource representing this item.</param>
-        /// <param name="collapsibleState">[TreeItemCollapsibleState](#TreeItemCollapsibleState) of the tree item. Default is [TreeItemCollapsibleState.None](#TreeItemCollapsibleState.None)</param>
+        /// <param name="resourceUri">The <see cref="Uri">uri</see> of the resource representing this item.</param>
+        /// <param name="collapsibleState"><see cref="TreeItemCollapsibleState">TreeItemCollapsibleState</see> of the tree item. Default is <see cref="TreeItemCollapsibleState.None">TreeItemCollapsibleState.None</see></param>
         [<EmitConstructor>] abstract Create: resourceUri: Uri * ?collapsibleState: TreeItemCollapsibleState -> TreeItem
 
+    /// Collapsible state of the tree item
     type [<RequireQualifiedAccess>] TreeItemCollapsibleState =
+        /// Determines an item can be neither collapsed nor expanded. Implies it has no children.
         | None = 0
+        /// Determines an item is collapsed
         | Collapsed = 1
+        /// Determines an item is expanded
         | Expanded = 2
 
     /// Value-object describing what options a terminal should use.
@@ -3770,23 +5181,33 @@ module Vscode =
         abstract name: string option with get, set
         /// A path to a custom shell executable to be used in the terminal.
         abstract shellPath: string option with get, set
+        /// <summary>
         /// Args for the custom shell executable. A string can be used on Windows only which allows
-        /// specifying shell args in [command-line format](https://msdn.microsoft.com/en-au/08dfcab2-eb6e-49a4-80eb-87d4076c98c6).
+        /// specifying shell args in <see href="https://msdn.microsoft.com/en-au/08dfcab2-eb6e-49a4-80eb-87d4076c98c6">command-line format</see>.
+        /// </summary>
         abstract shellArgs: U2<ResizeArray<string>, string> option with get, set
         /// A path or Uri for the current working directory to be used for the terminal.
         abstract cwd: U2<string, Uri> option with get, set
         /// Object with environment variables that will be added to the VS Code process.
         abstract env: TerminalOptionsEnv option with get, set
+        /// <summary>
         /// Whether the terminal process environment should be exactly as provided in
-        /// `TerminalOptions.env`. When this is false (default), the environment will be based on the
+        /// <c>TerminalOptions.env</c>. When this is false (default), the environment will be based on the
         /// window's environment and also apply configured platform settings like
-        /// `terminal.integrated.windows.env` on top. When this is true, the complete environment
+        /// <c>terminal.integrated.windows.env</c> on top. When this is true, the complete environment
         /// must be provided as nothing will be inherited from the process or any configuration.
+        /// </summary>
         abstract strictEnv: bool option with get, set
 
+    /// A location in the editor at which progress information can be shown. It depends on the
+    /// location how progress is visually represented.
     type [<RequireQualifiedAccess>] ProgressLocation =
+        /// Show progress for the source control viewlet, as overlay for the icon and as progress bar
+        /// inside the viewlet (when visible). Neither supports cancellation nor discrete progress.
         | SourceControl = 1
+        /// Show progress in the status bar of the editor. Neither supports cancellation nor discrete progress.
         | Window = 10
+        /// Show progress as notification with an optional cancel button. Supports to show infinite and discrete progress.
         | Notification = 15
 
     /// Value-object describing where and how progress should show.
@@ -3796,31 +5217,35 @@ module Vscode =
         /// A human-readable string which will be used to describe the
         /// operation.
         abstract title: string option with get, set
+        /// <summary>
         /// Controls if a cancel button should show to allow the user to
         /// cancel the long running operation.  Note that currently only
-        /// `ProgressLocation.Notification` is supporting to show a cancel
+        /// <c>ProgressLocation.Notification</c> is supporting to show a cancel
         /// button.
+        /// </summary>
         abstract cancellable: bool option with get, set
 
+    /// <summary>
     /// A light-weight user input UI that is initially not visible. After
     /// configuring it through its properties the extension can make it
-    /// visible by calling [QuickInput.show](#QuickInput.show).
+    /// visible by calling <see cref="QuickInput.show">QuickInput.show</see>.
     /// 
     /// There are several reasons why this UI might have to be hidden and
-    /// the extension will be notified through [QuickInput.onDidHide](#QuickInput.onDidHide).
-    /// (Examples include: an explicit call to [QuickInput.hide](#QuickInput.hide),
+    /// the extension will be notified through <see cref="QuickInput.onDidHide">QuickInput.onDidHide</see>.
+    /// (Examples include: an explicit call to <see cref="QuickInput.hide">QuickInput.hide</see>,
     /// the user pressing Esc, some other input UI opening, etc.)
     /// 
     /// A user pressing Enter or some other gesture implying acceptance
     /// of the current state does not automatically hide this UI component.
     /// It is up to the extension to decide whether to accept the user's input
-    /// and if the UI should indeed be hidden through a call to [QuickInput.hide](#QuickInput.hide).
+    /// and if the UI should indeed be hidden through a call to <see cref="QuickInput.hide">QuickInput.hide</see>.
     /// 
     /// When the extension no longer needs this input UI, it should
-    /// [QuickInput.dispose](#QuickInput.dispose) it to allow for freeing up
+    /// <see cref="QuickInput.dispose">QuickInput.dispose</see> it to allow for freeing up
     /// any resources associated with it.
     /// 
-    /// See [QuickPick](#QuickPick) and [InputBox](#InputBox) for concrete UIs.
+    /// See <see cref="QuickPick">QuickPick</see> and <see cref="InputBox">InputBox</see> for concrete UIs.
+    /// </summary>
     type [<AllowNullLiteral>] QuickInput =
         /// An optional title.
         abstract title: string option with get, set
@@ -3840,18 +5265,24 @@ module Vscode =
         abstract busy: bool with get, set
         /// If the UI should stay open even when loosing UI focus. Defaults to false.
         abstract ignoreFocusOut: bool with get, set
+        /// <summary>
         /// Makes the input UI visible in its current configuration. Any other input
-        /// UI will first fire an [QuickInput.onDidHide](#QuickInput.onDidHide) event.
+        /// UI will first fire an <see cref="QuickInput.onDidHide">QuickInput.onDidHide</see> event.
+        /// </summary>
         abstract show: unit -> unit
-        /// Hides this input UI. This will also fire an [QuickInput.onDidHide](#QuickInput.onDidHide)
+        /// <summary>
+        /// Hides this input UI. This will also fire an <see cref="QuickInput.onDidHide">QuickInput.onDidHide</see>
         /// event.
+        /// </summary>
         abstract hide: unit -> unit
+        /// <summary>
         /// An event signaling when this input UI is hidden.
         /// 
         /// There are several reasons why this UI might have to be hidden and
-        /// the extension will be notified through [QuickInput.onDidHide](#QuickInput.onDidHide).
-        /// (Examples include: an explicit call to [QuickInput.hide](#QuickInput.hide),
+        /// the extension will be notified through <see cref="QuickInput.onDidHide">QuickInput.onDidHide</see>.
+        /// (Examples include: an explicit call to <see cref="QuickInput.hide">QuickInput.hide</see>,
         /// the user pressing Esc, some other input UI opening, etc.)
+        /// </summary>
         abstract onDidHide: Event<unit> with get, set
         /// Dispose of this input UI and any associated resources. If it is still
         /// visible, it is first hidden. After this call the input UI is no longer
@@ -3859,14 +5290,16 @@ module Vscode =
         /// accessed. Instead a new input UI should be created.
         abstract dispose: unit -> unit
 
-    /// A concrete [QuickInput](#QuickInput) to let the user pick an item from a
+    /// <summary>
+    /// A concrete <see cref="QuickInput">QuickInput</see> to let the user pick an item from a
     /// list of items of type T. The items can be filtered through a filter text field and
-    /// there is an option [canSelectMany](#QuickPick.canSelectMany) to allow for
+    /// there is an option <see cref="QuickPick.canSelectMany">canSelectMany</see> to allow for
     /// selecting multiple items.
     /// 
-    /// Note that in many cases the more convenient [window.showQuickPick](#window.showQuickPick)
-    /// is easier to use. [window.createQuickPick](#window.createQuickPick) should be used
-    /// when [window.showQuickPick](#window.showQuickPick) does not offer the required flexibility.
+    /// Note that in many cases the more convenient <see cref="window.showQuickPick">window.showQuickPick</see>
+    /// is easier to use. <see cref="window.createQuickPick">window.createQuickPick</see> should be used
+    /// when <see cref="window.showQuickPick">window.showQuickPick</see> does not offer the required flexibility.
+    /// </summary>
     type [<AllowNullLiteral>] QuickPick<'T when 'T :> QuickPickItem> =
         inherit QuickInput
         /// Current value of the filter text.
@@ -3898,11 +5331,13 @@ module Vscode =
         /// An event signaling when the selected items have changed.
         abstract onDidChangeSelection: Event<ResizeArray<'T>>
 
-    /// A concrete [QuickInput](#QuickInput) to let the user input a text value.
+    /// <summary>
+    /// A concrete <see cref="QuickInput">QuickInput</see> to let the user input a text value.
     /// 
-    /// Note that in many cases the more convenient [window.showInputBox](#window.showInputBox)
-    /// is easier to use. [window.createInputBox](#window.createInputBox) should be used
-    /// when [window.showInputBox](#window.showInputBox) does not offer the required flexibility.
+    /// Note that in many cases the more convenient <see cref="window.showInputBox">window.showInputBox</see>
+    /// is easier to use. <see cref="window.createInputBox">window.createInputBox</see> should be used
+    /// when <see cref="window.showInputBox">window.showInputBox</see> does not offer the required flexibility.
+    /// </summary>
     type [<AllowNullLiteral>] InputBox =
         inherit QuickInput
         /// Current input value.
@@ -3924,26 +5359,28 @@ module Vscode =
         /// An optional validation message indicating a problem with the current input value.
         abstract validationMessage: string option with get, set
 
-    /// Button for an action in a [QuickPick](#QuickPick) or [InputBox](#InputBox).
+    /// <summary>Button for an action in a <see cref="QuickPick">QuickPick</see> or <see cref="InputBox">InputBox</see>.</summary>
     type [<AllowNullLiteral>] QuickInputButton =
         /// Icon for the button.
         abstract iconPath: U3<Uri, WebviewPanelIconPath, ThemeIcon>
         /// An optional tooltip.
         abstract tooltip: string option
 
-    /// Predefined buttons for [QuickPick](#QuickPick) and [InputBox](#InputBox).
+    /// <summary>Predefined buttons for <see cref="QuickPick">QuickPick</see> and <see cref="InputBox">InputBox</see>.</summary>
     type [<AllowNullLiteral>] QuickInputButtons =
         interface end
 
-    /// Predefined buttons for [QuickPick](#QuickPick) and [InputBox](#InputBox).
+    /// <summary>Predefined buttons for <see cref="QuickPick">QuickPick</see> and <see cref="InputBox">InputBox</see>.</summary>
     type [<AllowNullLiteral>] QuickInputButtonsStatic =
-        /// A back button for [QuickPick](#QuickPick) and [InputBox](#InputBox).
+        /// <summary>
+        /// A back button for <see cref="QuickPick">QuickPick</see> and <see cref="InputBox">InputBox</see>.
         /// 
         /// When a navigation 'back' button is needed this one should be used for consistency.
         /// It comes with a predefined icon, tooltip and location.
+        /// </summary>
         abstract Back: QuickInputButton
 
-    /// An event describing an individual change in the text of a [document](#TextDocument).
+    /// <summary>An event describing an individual change in the text of a <see cref="TextDocument">document</see>.</summary>
     type [<AllowNullLiteral>] TextDocumentContentChangeEvent =
         /// The range that got replaced.
         abstract range: Range with get, set
@@ -3954,36 +5391,44 @@ module Vscode =
         /// The new text for the range.
         abstract text: string with get, set
 
-    /// An event describing a transactional [document](#TextDocument) change.
+    /// <summary>An event describing a transactional <see cref="TextDocument">document</see> change.</summary>
     type [<AllowNullLiteral>] TextDocumentChangeEvent =
         /// The affected document.
         abstract document: TextDocument with get, set
         /// An array of content changes.
         abstract contentChanges: ResizeArray<TextDocumentContentChangeEvent> with get, set
 
+    /// Represents reasons why a text document is saved.
     type [<RequireQualifiedAccess>] TextDocumentSaveReason =
+        /// Manually triggered, e.g. by the user pressing save, by starting debugging,
+        /// or by an API call.
         | Manual = 1
+        /// Automatic after a delay.
         | AfterDelay = 2
+        /// When the editor lost focus.
         | FocusOut = 3
 
-    /// An event that is fired when a [document](#TextDocument) will be saved.
+    /// <summary>
+    /// An event that is fired when a <see cref="TextDocument">document</see> will be saved.
     /// 
     /// To make modifications to the document before it is being saved, call the
-    /// [`waitUntil`](#TextDocumentWillSaveEvent.waitUntil)-function with a thenable
-    /// that resolves to an array of [text edits](#TextEdit).
+    /// <see cref="TextDocumentWillSaveEvent.waitUntil"><c>waitUntil</c></see>-function with a thenable
+    /// that resolves to an array of <see cref="TextEdit">text edits</see>.
+    /// </summary>
     type [<AllowNullLiteral>] TextDocumentWillSaveEvent =
         /// The document that will be saved.
         abstract document: TextDocument with get, set
         /// The reason why save was triggered.
         abstract reason: TextDocumentSaveReason with get, set
-        /// <summary>Allows to pause the event loop and to apply [pre-save-edits](#TextEdit).
+        /// <summary>
+        /// Allows to pause the event loop and to apply <see cref="TextEdit">pre-save-edits</see>.
         /// Edits of subsequent calls to this function will be applied in order. The
         /// edits will be *ignored* if concurrent modifications of the document happened.
         /// 
         /// *Note:* This function can only be called during event dispatch and not
         /// in an asynchronous manner:
         /// 
-        /// ```ts
+        /// <code language="ts">
         /// workspace.onWillSaveTextDocument(event => {
         ///  	// async, will *throw* an error
         ///  	setTimeout(() => event.waitUntil(promise));
@@ -3991,16 +5436,19 @@ module Vscode =
         ///  	// sync, OK
         ///  	event.waitUntil(promise);
         /// })
-        /// ```</summary>
-        /// <param name="thenable">A thenable that resolves to [pre-save-edits](#TextEdit).</param>
+        /// </code>
+        /// </summary>
+        /// <param name="thenable">A thenable that resolves to <see cref="TextEdit">pre-save-edits</see>.</param>
         abstract waitUntil: thenable: Thenable<ResizeArray<TextEdit>> -> unit
-        /// <summary>Allows to pause the event loop until the provided thenable resolved.
+        /// <summary>
+        /// Allows to pause the event loop until the provided thenable resolved.
         /// 
-        /// *Note:* This function can only be called during event dispatch.</summary>
+        /// *Note:* This function can only be called during event dispatch.
+        /// </summary>
         /// <param name="thenable">A thenable that delays saving.</param>
         abstract waitUntil: thenable: Thenable<obj option> -> unit
 
-    /// An event describing a change to the set of [workspace folders](#workspace.workspaceFolders).
+    /// <summary>An event describing a change to the set of <see cref="workspace.workspaceFolders">workspace folders</see>.</summary>
     type [<AllowNullLiteral>] WorkspaceFoldersChangeEvent =
         /// Added workspace folders.
         abstract added: ResizeArray<WorkspaceFolder>
@@ -4010,17 +5458,30 @@ module Vscode =
     /// A workspace folder is one of potentially many roots opened by the editor. All workspace folders
     /// are equal which means there is no notion of an active or master workspace folder.
     type [<AllowNullLiteral>] WorkspaceFolder =
+        /// <summary>
         /// The associated uri for this workspace folder.
         /// 
-        /// *Note:* The [Uri](#Uri)-type was intentionally chosen such that future releases of the editor can support
-        /// workspace folders that are not stored on the local disk, e.g. `ftp://server/workspaces/foo`.
+        /// *Note:* The <see cref="Uri">Uri</see>-type was intentionally chosen such that future releases of the editor can support
+        /// workspace folders that are not stored on the local disk, e.g. <c>ftp://server/workspaces/foo</c>.
+        /// </summary>
         abstract uri: Uri
+        /// <summary>
         /// The name of this workspace folder. Defaults to
-        /// the basename of its [uri-path](#Uri.path)
+        /// the basename of its <see cref="Uri.path">uri-path</see>
+        /// </summary>
         abstract name: string
         /// The ordinal number of this workspace folder.
         abstract index: float
 
+    /// <summary>
+    /// Namespace for dealing with the current workspace. A workspace is the representation
+    /// of the folder that has been opened. There is no workspace when just a file but not a
+    /// folder has been opened.
+    /// 
+    /// The workspace offers support for <see cref="workspace.createFileSystemWatcher">listening</see> to fs
+    /// events and for <see cref="workspace.findFiles">finding</see> files. Both perform well and run _outside_
+    /// the editor-process so that they should be always used instead of nodejs-equivalents.
+    /// </summary>
     module Workspace =
 
         type [<AllowNullLiteral>] IExports =
@@ -4028,84 +5489,117 @@ module Vscode =
             abstract workspaceFolders: ResizeArray<WorkspaceFolder> option
             abstract name: string option
             abstract onDidChangeWorkspaceFolders: Event<WorkspaceFoldersChangeEvent>
-            /// <summary>Returns the [workspace folder](#WorkspaceFolder) that contains a given uri.
-            /// * returns `undefined` when the given uri doesn't match any workspace folder
-            /// * returns the *input* when the given uri is a workspace folder itself</summary>
+            /// <summary>
+            /// Returns the <see cref="WorkspaceFolder">workspace folder</see> that contains a given uri.
+            /// * returns <c>undefined</c> when the given uri doesn't match any workspace folder
+            /// * returns the *input* when the given uri is a workspace folder itself
+            /// </summary>
             /// <param name="uri">An uri.</param>
+            /// <returns>A workspace folder or <c>undefined</c></returns>
             abstract getWorkspaceFolder: uri: Uri -> WorkspaceFolder option
-            /// <summary>Returns a path that is relative to the workspace folder or folders.
+            /// <summary>
+            /// Returns a path that is relative to the workspace folder or folders.
             /// 
-            /// When there are no [workspace folders](#workspace.workspaceFolders) or when the path
-            /// is not contained in them, the input is returned.</summary>
-            /// <param name="pathOrUri">A path or uri. When a uri is given its [fsPath](#Uri.fsPath) is used.</param>
-            /// <param name="includeWorkspaceFolder">When `true` and when the given path is contained inside a
-            /// workspace folder the name of the workspace is prepended. Defaults to `true` when there are
-            /// multiple workspace folders and `false` otherwise.</param>
+            /// When there are no <see cref="workspace.workspaceFolders">workspace folders</see> or when the path
+            /// is not contained in them, the input is returned.
+            /// </summary>
+            /// <param name="pathOrUri">A path or uri. When a uri is given its <see cref="Uri.fsPath">fsPath</see> is used.</param>
+            /// <param name="includeWorkspaceFolder">
+            /// When <c>true</c> and when the given path is contained inside a
+            /// workspace folder the name of the workspace is prepended. Defaults to <c>true</c> when there are
+            /// multiple workspace folders and <c>false</c> otherwise.
+            /// </param>
+            /// <returns>A path relative to the root or the input.</returns>
             abstract asRelativePath: pathOrUri: U2<string, Uri> * ?includeWorkspaceFolder: bool -> string
-            /// <summary>This method replaces `deleteCount` [workspace folders](#workspace.workspaceFolders) starting at index `start`
-            /// by an optional set of `workspaceFoldersToAdd` on the `vscode.workspace.workspaceFolders` array. This "splice"
+            /// <summary>
+            /// This method replaces <c>deleteCount</c> <see cref="workspace.workspaceFolders">workspace folders</see> starting at index <c>start</c>
+            /// by an optional set of <c>workspaceFoldersToAdd</c> on the <c>vscode.workspace.workspaceFolders</c> array. This "splice"
             /// behavior can be used to add, remove and change workspace folders in a single operation.
             /// 
             /// If the first workspace folder is added, removed or changed, the currently executing extensions (including the
-            /// one that called this method) will be terminated and restarted so that the (deprecated) `rootPath` property is
+            /// one that called this method) will be terminated and restarted so that the (deprecated) <c>rootPath</c> property is
             /// updated to point to the first workspace folder.
             /// 
-            /// Use the [`onDidChangeWorkspaceFolders()`](#onDidChangeWorkspaceFolders) event to get notified when the
+            /// Use the [<c>onDidChangeWorkspaceFolders()</c>](#onDidChangeWorkspaceFolders) event to get notified when the
             /// workspace folders have been updated.
             /// 
             /// **Example:** adding a new workspace folder at the end of workspace folders
-            /// ```typescript
+            /// <code language="typescript">
             /// workspace.updateWorkspaceFolders(workspace.workspaceFolders ? workspace.workspaceFolders.length : 0, null, { uri: ...});
-            /// ```
+            /// </code>
             /// 
             /// **Example:** removing the first workspace folder
-            /// ```typescript
+            /// <code language="typescript">
             /// workspace.updateWorkspaceFolders(0, 1);
-            /// ```
+            /// </code>
             /// 
             /// **Example:** replacing an existing workspace folder with a new one
-            /// ```typescript
+            /// <code language="typescript">
             /// workspace.updateWorkspaceFolders(0, 1, { uri: ...});
-            /// ```
+            /// </code>
             /// 
             /// It is valid to remove an existing workspace folder and add it again with a different name
             /// to rename that folder.
             /// 
             /// **Note:** it is not valid to call [updateWorkspaceFolders()](#updateWorkspaceFolders) multiple times
-            /// without waiting for the [`onDidChangeWorkspaceFolders()`](#onDidChangeWorkspaceFolders) to fire.</summary>
-            /// <param name="start">the zero-based location in the list of currently opened [workspace folders](#WorkspaceFolder)
-            /// from which to start deleting workspace folders.</param>
+            /// without waiting for the [<c>onDidChangeWorkspaceFolders()</c>](#onDidChangeWorkspaceFolders) to fire.
+            /// </summary>
+            /// <param name="start">
+            /// the zero-based location in the list of currently opened <see cref="WorkspaceFolder">workspace folders</see>
+            /// from which to start deleting workspace folders.
+            /// </param>
             /// <param name="deleteCount">the optional number of workspace folders to remove.</param>
-            /// <param name="workspaceFoldersToAdd">the optional variable set of workspace folders to add in place of the deleted ones.
-            /// Each workspace is identified with a mandatory URI and an optional name.</param>
+            /// <param name="workspaceFoldersToAdd">
+            /// the optional variable set of workspace folders to add in place of the deleted ones.
+            /// Each workspace is identified with a mandatory URI and an optional name.
+            /// </param>
+            /// <returns>
+            /// true if the operation was successfully started and false otherwise if arguments were used that would result
+            /// in invalid workspace folder state (e.g. 2 folders with the same URI).
+            /// </returns>
             abstract updateWorkspaceFolders: start: float * deleteCount: float option * [<ParamArray>] workspaceFoldersToAdd: IExportsUpdateWorkspaceFolders[] -> bool
-            /// <summary>Creates a file system watcher.
+            /// <summary>
+            /// Creates a file system watcher.
             /// 
             /// A glob pattern that filters the file events on their absolute path must be provided. Optionally,
             /// flags to ignore certain kinds of events can be provided. To stop listening to events the watcher must be disposed.
             /// 
-            /// *Note* that only files within the current [workspace folders](#workspace.workspaceFolders) can be watched.</summary>
-            /// <param name="globPattern">A [glob pattern](#GlobPattern) that is applied to the absolute paths of created, changed,
-            /// and deleted files. Use a [relative pattern](#RelativePattern) to limit events to a certain [workspace folder](#WorkspaceFolder).</param>
+            /// *Note* that only files within the current <see cref="workspace.workspaceFolders">workspace folders</see> can be watched.
+            /// </summary>
+            /// <param name="globPattern">
+            /// A <see cref="GlobPattern">glob pattern</see> that is applied to the absolute paths of created, changed,
+            /// and deleted files. Use a <see cref="RelativePattern">relative pattern</see> to limit events to a certain <see cref="WorkspaceFolder">workspace folder</see>.
+            /// </param>
             /// <param name="ignoreCreateEvents">Ignore when files have been created.</param>
             /// <param name="ignoreChangeEvents">Ignore when files have been changed.</param>
             /// <param name="ignoreDeleteEvents">Ignore when files have been deleted.</param>
+            /// <returns>A new file system watcher instance.</returns>
             abstract createFileSystemWatcher: globPattern: GlobPattern * ?ignoreCreateEvents: bool * ?ignoreChangeEvents: bool * ?ignoreDeleteEvents: bool -> FileSystemWatcher
-            /// <summary>Find files across all [workspace folders](#workspace.workspaceFolders) in the workspace.</summary>
-            /// <param name="include">A [glob pattern](#GlobPattern) that defines the files to search for. The glob pattern
-            /// will be matched against the file paths of resulting matches relative to their workspace. Use a [relative pattern](#RelativePattern)
-            /// to restrict the search results to a [workspace folder](#WorkspaceFolder).</param>
-            /// <param name="exclude">A [glob pattern](#GlobPattern) that defines files and folders to exclude. The glob pattern
-            /// will be matched against the file paths of resulting matches relative to their workspace. When `undefined` only default excludes will
-            /// apply, when `null` no excludes will apply.</param>
+            /// <summary>Find files across all <see cref="workspace.workspaceFolders">workspace folders</see> in the workspace.</summary>
+            /// <param name="include">
+            /// A <see cref="GlobPattern">glob pattern</see> that defines the files to search for. The glob pattern
+            /// will be matched against the file paths of resulting matches relative to their workspace. Use a <see cref="RelativePattern">relative pattern</see>
+            /// to restrict the search results to a <see cref="WorkspaceFolder">workspace folder</see>.
+            /// </param>
+            /// <param name="exclude">
+            /// A <see cref="GlobPattern">glob pattern</see> that defines files and folders to exclude. The glob pattern
+            /// will be matched against the file paths of resulting matches relative to their workspace. When <c>undefined</c> only default excludes will
+            /// apply, when <c>null</c> no excludes will apply.
+            /// </param>
             /// <param name="maxResults">An upper-bound for the result.</param>
             /// <param name="token">A token that can be used to signal cancellation to the underlying search engine.</param>
+            /// <returns>
+            /// A thenable that resolves to an array of resource identifiers. Will return no results if no
+            /// <see cref="workspace.workspaceFolders">workspace folders</see> are opened.
+            /// </returns>
             abstract findFiles: ``include``: GlobPattern * ?exclude: GlobPattern * ?maxResults: float * ?token: CancellationToken -> Thenable<ResizeArray<Uri>>
             /// <summary>Save all dirty files.</summary>
             /// <param name="includeUntitled">Also save files that have been created during this session.</param>
+            /// <returns>A thenable that resolves when the files have been saved.</returns>
             abstract saveAll: ?includeUntitled: bool -> Thenable<bool>
-            /// <summary>Make changes to one or many resources or create, delete, and rename resources as defined by the given
-            /// [workspace edit](#WorkspaceEdit).
+            /// <summary>
+            /// Make changes to one or many resources or create, delete, and rename resources as defined by the given
+            /// <see cref="WorkspaceEdit">workspace edit</see>.
             /// 
             /// All changes of a workspace edit are applied in the same order in which they have been added. If
             /// multiple textual inserts are made at the same position, these strings appear in the resulting text
@@ -4114,65 +5608,86 @@ module Vscode =
             /// 
             /// When applying a workspace edit that consists only of text edits an 'all-or-nothing'-strategy is used.
             /// A workspace edit with resource creations or deletions aborts the operation, e.g. consecutive edits will
-            /// not be attempted, when a single edit fails.</summary>
+            /// not be attempted, when a single edit fails.
+            /// </summary>
             /// <param name="edit">A workspace edit.</param>
+            /// <returns>A thenable that resolves when the edit could be applied.</returns>
             abstract applyEdit: edit: WorkspaceEdit -> Thenable<bool>
             abstract textDocuments: ResizeArray<TextDocument>
-            /// <summary>Opens a document. Will return early if this document is already open. Otherwise
-            /// the document is loaded and the [didOpen](#workspace.onDidOpenTextDocument)-event fires.
+            /// <summary>
+            /// Opens a document. Will return early if this document is already open. Otherwise
+            /// the document is loaded and the <see cref="workspace.onDidOpenTextDocument">didOpen</see>-event fires.
             /// 
-            /// The document is denoted by an [uri](#Uri). Depending on the [scheme](#Uri.scheme) the
+            /// The document is denoted by an <see cref="Uri">uri</see>. Depending on the <see cref="Uri.scheme">scheme</see> the
             /// following rules apply:
-            /// * `file`-scheme: Open a file on disk, will be rejected if the file does not exist or cannot be loaded.
-            /// * `untitled`-scheme: A new file that should be saved on disk, e.g. `untitled:c:\frodo\new.js`. The language
+            /// * <c>file</c>-scheme: Open a file on disk, will be rejected if the file does not exist or cannot be loaded.
+            /// * <c>untitled</c>-scheme: A new file that should be saved on disk, e.g. <c>untitled:c:\frodo\new.js</c>. The language
             /// will be derived from the file name.
-            /// * For all other schemes the registered text document content [providers](#TextDocumentContentProvider) are consulted.
+            /// * For all other schemes the registered text document content <see cref="TextDocumentContentProvider">providers</see> are consulted.
             /// 
             /// *Note* that the lifecycle of the returned document is owned by the editor and not by the extension. That means an
-            /// [`onDidClose`](#workspace.onDidCloseTextDocument)-event can occur at any time after opening it.</summary>
+            /// <see cref="workspace.onDidCloseTextDocument"><c>onDidClose</c></see>-event can occur at any time after opening it.
+            /// </summary>
             /// <param name="uri">Identifies the resource to open.</param>
+            /// <returns>A promise that resolves to a <see cref="TextDocument">document</see>.</returns>
             abstract openTextDocument: uri: Uri -> Thenable<TextDocument>
-            /// <summary>A short-hand for `openTextDocument(Uri.file(fileName))`.</summary>
+            /// <summary>A short-hand for <c>openTextDocument(Uri.file(fileName))</c>.</summary>
+            /// <seealso cref="openTextDocument">openTextDocument</seealso>
             /// <param name="fileName">A name of a file on disk.</param>
+            /// <returns>A promise that resolves to a <see cref="TextDocument">document</see>.</returns>
             abstract openTextDocument: fileName: string -> Thenable<TextDocument>
-            /// <summary>Opens an untitled text document. The editor will prompt the user for a file
-            /// path when the document is to be saved. The `options` parameter allows to
-            /// specify the *language* and/or the *content* of the document.</summary>
+            /// <summary>
+            /// Opens an untitled text document. The editor will prompt the user for a file
+            /// path when the document is to be saved. The <c>options</c> parameter allows to
+            /// specify the *language* and/or the *content* of the document.
+            /// </summary>
             /// <param name="options">Options to control how the document will be created.</param>
+            /// <returns>A promise that resolves to a <see cref="TextDocument">document</see>.</returns>
             abstract openTextDocument: ?options: OpenTextDocumentOptions -> Thenable<TextDocument>
-            /// <summary>Register a text document content provider.
+            /// <summary>
+            /// Register a text document content provider.
             /// 
-            /// Only one provider can be registered per scheme.</summary>
+            /// Only one provider can be registered per scheme.
+            /// </summary>
             /// <param name="scheme">The uri-scheme to register for.</param>
             /// <param name="provider">A content provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerTextDocumentContentProvider: scheme: string * provider: TextDocumentContentProvider -> Disposable
             abstract onDidOpenTextDocument: Event<TextDocument>
             abstract onDidCloseTextDocument: Event<TextDocument>
             abstract onDidChangeTextDocument: Event<TextDocumentChangeEvent>
             abstract onWillSaveTextDocument: Event<TextDocumentWillSaveEvent>
             abstract onDidSaveTextDocument: Event<TextDocument>
-            /// <summary>Get a workspace configuration object.
+            /// <summary>
+            /// Get a workspace configuration object.
             /// 
             /// When a section-identifier is provided only that part of the configuration
             /// is returned. Dots in the section-identifier are interpreted as child-access,
-            /// like `{ myExt: { setting: { doIt: true }}}` and `getConfiguration('myExt.setting').get('doIt') === true`.
+            /// like <c>{ myExt: { setting: { doIt: true }}}</c> and <c>getConfiguration('myExt.setting').get('doIt') === true</c>.
             /// 
-            /// When a resource is provided, configuration scoped to that resource is returned.</summary>
+            /// When a resource is provided, configuration scoped to that resource is returned.
+            /// </summary>
             /// <param name="section">A dot-separated identifier.</param>
             /// <param name="resource">A resource for which the configuration is asked for</param>
+            /// <returns>The full configuration or a subset.</returns>
             abstract getConfiguration: ?section: string * ?resource: Uri -> WorkspaceConfiguration
             abstract onDidChangeConfiguration: Event<ConfigurationChangeEvent>
             /// <summary>~~Register a task provider.~~</summary>
             /// <param name="type">The task kind type this provider is registered for.</param>
             /// <param name="provider">A task provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
+            [<Obsolete("Use the corresponding function on the `tasks` namespace instead")>]
             abstract registerTaskProvider: ``type``: string * provider: TaskProvider -> Disposable
-            /// <summary>Register a filesystem provider for a given scheme, e.g. `ftp`.
+            /// <summary>
+            /// Register a filesystem provider for a given scheme, e.g. <c>ftp</c>.
             /// 
             /// There can only be one provider per scheme and an error is being thrown when a scheme
-            /// has been claimed by another provider or when it is reserved.</summary>
-            /// <param name="scheme">The uri-[scheme](#Uri.scheme) the provider registers for.</param>
+            /// has been claimed by another provider or when it is reserved.
+            /// </summary>
+            /// <param name="scheme">The uri-<see cref="Uri.scheme">scheme</see> the provider registers for.</param>
             /// <param name="provider">The filesystem provider.</param>
             /// <param name="options">Immutable metadata about the provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerFileSystemProvider: scheme: string * provider: FileSystemProvider * ?options: RegisterFileSystemProviderOptions -> Disposable
 
         type [<AllowNullLiteral>] OpenTextDocumentOptions =
@@ -4189,38 +5704,72 @@ module Vscode =
 
     /// An event describing the change in Configuration
     type [<AllowNullLiteral>] ConfigurationChangeEvent =
-        /// <summary>Returns `true` if the given section for the given resource (if provided) is affected.</summary>
+        /// <summary>Returns <c>true</c> if the given section for the given resource (if provided) is affected.</summary>
         /// <param name="section">Configuration name, supports _dotted_ names.</param>
         /// <param name="resource">A resource Uri.</param>
+        /// <returns><c>true</c> if the given section for the given resource (if provided) is affected.</returns>
         abstract affectsConfiguration: section: string * ?resource: Uri -> bool
 
+    /// <summary>
+    /// Namespace for participating in language-specific editor <see href="https://code.visualstudio.com/docs/editor/editingevolved">features</see>,
+    /// like IntelliSense, code actions, diagnostics etc.
+    /// 
+    /// Many programming languages exist and there is huge variety in syntaxes, semantics, and paradigms. Despite that, features
+    /// like automatic word-completion, code navigation, or code checking have become popular across different tools for different
+    /// programming languages.
+    /// 
+    /// The editor provides an API that makes it simple to provide such common features by having all UI and actions already in place and
+    /// by allowing you to participate by providing data only. For instance, to contribute a hover all you have to do is provide a function
+    /// that can be called with a <see cref="TextDocument">TextDocument</see> and a <see cref="Position">Position</see> returning hover info. The rest, like tracking the
+    /// mouse, positioning the hover, keeping the hover stable etc. is taken care of by the editor.
+    /// 
+    /// <code language="javascript">
+    /// languages.registerHoverProvider('javascript', {
+    ///  	provideHover(document, position, token) {
+    ///  		return new Hover('I am a hover!');
+    ///  	}
+    /// });
+    /// </code>
+    /// 
+    /// Registration is done using a <see cref="DocumentSelector">document selector</see> which is either a language id, like <c>javascript</c> or
+    /// a more complex <see cref="DocumentFilter">filter</see> like <c>{ language: 'typescript', scheme: 'file' }</c>. Matching a document against such
+    /// a selector will result in a <see cref="languages.match">score</see> that is used to determine if and how a provider shall be used. When
+    /// scores are equal the provider that came last wins. For features that allow full arity, like <see cref="languages.registerHoverProvider">hover</see>,
+    /// the score is only checked to be <c>>0</c>, for other features, like <see cref="languages.registerCompletionItemProvider">IntelliSense</see> the
+    /// score is used for determining the order in which providers are asked to participate.
+    /// </summary>
     module Languages =
 
         type [<AllowNullLiteral>] IExports =
-            /// Return the identifiers of all known languages.
+            /// <summary>Return the identifiers of all known languages.</summary>
+            /// <returns>Promise resolving to an array of identifier strings.</returns>
             abstract getLanguages: unit -> Thenable<ResizeArray<string>>
-            /// <summary>Set (and change) the [language](#TextDocument.languageId) that is associated
+            /// <summary>
+            /// Set (and change) the <see cref="TextDocument.languageId">language</see> that is associated
             /// with the given document.
             /// 
-            /// *Note* that calling this function will trigger the [`onDidCloseTextDocument`](#workspace.onDidCloseTextDocument) event
-            /// followed by the [`onDidOpenTextDocument`](#workspace.onDidOpenTextDocument) event.</summary>
+            /// *Note* that calling this function will trigger the <see cref="workspace.onDidCloseTextDocument"><c>onDidCloseTextDocument</c></see> event
+            /// followed by the <see cref="workspace.onDidOpenTextDocument"><c>onDidOpenTextDocument</c></see> event.
+            /// </summary>
             /// <param name="document">The document which language is to be changed</param>
             /// <param name="languageId">The new language identifier.</param>
+            /// <returns>A thenable that resolves with the updated document.</returns>
             abstract setTextDocumentLanguage: document: TextDocument * languageId: string -> Thenable<TextDocument>
-            /// <summary>Compute the match between a document [selector](#DocumentSelector) and a document. Values
+            /// <summary>
+            /// Compute the match between a document <see cref="DocumentSelector">selector</see> and a document. Values
             /// greater than zero mean the selector matches the document.
             /// 
             /// A match is computed according to these rules:
-            /// 1. When [`DocumentSelector`](#DocumentSelector) is an array, compute the match for each contained `DocumentFilter` or language identifier and take the maximum value.
-            /// 2. A string will be desugared to become the `language`-part of a [`DocumentFilter`](#DocumentFilter), so `"fooLang"` is like `{ language: "fooLang" }`.
-            /// 3. A [`DocumentFilter`](#DocumentFilter) will be matched against the document by comparing its parts with the document. The following rules apply:
-            ///   1. When the `DocumentFilter` is empty (`{}`) the result is `0`
-            ///   2. When `scheme`, `language`, or `pattern` are defined but one doesn’t match, the result is `0`
-            ///   3. Matching against `*` gives a score of `5`, matching via equality or via a glob-pattern gives a score of `10`
+            /// 1. When <see cref="DocumentSelector"><c>DocumentSelector</c></see> is an array, compute the match for each contained <c>DocumentFilter</c> or language identifier and take the maximum value.
+            /// 2. A string will be desugared to become the <c>language</c>-part of a <see cref="DocumentFilter"><c>DocumentFilter</c></see>, so <c>"fooLang"</c> is like <c>{ language: "fooLang" }</c>.
+            /// 3. A <see cref="DocumentFilter"><c>DocumentFilter</c></see> will be matched against the document by comparing its parts with the document. The following rules apply:
+            ///   1. When the <c>DocumentFilter</c> is empty (<c>{}</c>) the result is <c>0</c>
+            ///   2. When <c>scheme</c>, <c>language</c>, or <c>pattern</c> are defined but one doesn’t match, the result is <c>0</c>
+            ///   3. Matching against <c>*</c> gives a score of <c>5</c>, matching via equality or via a glob-pattern gives a score of <c>10</c>
             ///   4. The result is the maximum value of each match
             /// 
             /// Samples:
-            /// ```js
+            /// <code language="js">
             /// // default document from disk (file-scheme)
             /// doc.uri; //'file:///my/file.js'
             /// doc.languageId; // 'javascript'
@@ -4237,186 +5786,254 @@ module Vscode =
             /// match('javascript', doc); // 10;
             /// match({language: 'javascript', scheme: 'git'}, doc); // 10;
             /// match('*', doc); // 5
-            /// ```</summary>
+            /// </code>
+            /// </summary>
             /// <param name="selector">A document selector.</param>
             /// <param name="document">A text document.</param>
+            /// <returns>A number <c>>0</c> when the selector matches and <c>0</c> when the selector does not match.</returns>
             abstract ``match``: selector: DocumentSelector * document: TextDocument -> float
             abstract onDidChangeDiagnostics: Event<DiagnosticChangeEvent>
-            /// <summary>Get all diagnostics for a given resource. *Note* that this includes diagnostics from
-            /// all extensions but *not yet* from the task framework.</summary>
+            /// <summary>
+            /// Get all diagnostics for a given resource. *Note* that this includes diagnostics from
+            /// all extensions but *not yet* from the task framework.
+            /// </summary>
             /// <param name="resource">A resource</param>
+            /// <returns>An array of <see cref="Diagnostic">diagnostics</see> objects or an empty array.</returns>
             abstract getDiagnostics: resource: Uri -> ResizeArray<Diagnostic>
+            /// <summary>
             /// Get all diagnostics. *Note* that this includes diagnostics from
             /// all extensions but *not yet* from the task framework.
+            /// </summary>
+            /// <returns>An array of uri-diagnostics tuples or an empty array.</returns>
             abstract getDiagnostics: unit -> ResizeArray<Uri * ResizeArray<Diagnostic>>
             /// <summary>Create a diagnostics collection.</summary>
-            /// <param name="name">The [name](#DiagnosticCollection.name) of the collection.</param>
+            /// <param name="name">The <see cref="DiagnosticCollection.name">name</see> of the collection.</param>
+            /// <returns>A new diagnostic collection.</returns>
             abstract createDiagnosticCollection: ?name: string -> DiagnosticCollection
-            /// <summary>Register a completion provider.
+            /// <summary>
+            /// Register a completion provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and groups of equal score are sequentially asked for
+            /// by their <see cref="languages.match">score</see> and groups of equal score are sequentially asked for
             /// completion items. The process stops when one or many providers of a group return a
             /// result. A failing provider (rejected promise or exception) will not fail the whole
-            /// operation.</summary>
+            /// operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A completion provider.</param>
-            /// <param name="triggerCharacters">Trigger completion when the user types one of the characters, like `.` or `:`.</param>
+            /// <param name="triggerCharacters">Trigger completion when the user types one of the characters, like <c>.</c> or <c>:</c>.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerCompletionItemProvider: selector: DocumentSelector * provider: CompletionItemProvider * [<ParamArray>] triggerCharacters: string[] -> Disposable
-            /// <summary>Register a code action provider.
+            /// <summary>
+            /// Register a code action provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A code action provider.</param>
             /// <param name="metadata">Metadata about the kind of code actions the provider providers.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerCodeActionsProvider: selector: DocumentSelector * provider: CodeActionProvider * ?metadata: CodeActionProviderMetadata -> Disposable
-            /// <summary>Register a code lens provider.
+            /// <summary>
+            /// Register a code lens provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A code lens provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerCodeLensProvider: selector: DocumentSelector * provider: CodeLensProvider -> Disposable
-            /// <summary>Register a definition provider.
+            /// <summary>
+            /// Register a definition provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A definition provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDefinitionProvider: selector: DocumentSelector * provider: DefinitionProvider -> Disposable
-            /// <summary>Register an implementation provider.
+            /// <summary>
+            /// Register an implementation provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">An implementation provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerImplementationProvider: selector: DocumentSelector * provider: ImplementationProvider -> Disposable
-            /// <summary>Register a type definition provider.
+            /// <summary>
+            /// Register a type definition provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A type definition provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerTypeDefinitionProvider: selector: DocumentSelector * provider: TypeDefinitionProvider -> Disposable
-            /// <summary>Register a declaration provider.
+            /// <summary>
+            /// Register a declaration provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A declaration provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDeclarationProvider: selector: DocumentSelector * provider: DeclarationProvider -> Disposable
-            /// <summary>Register a hover provider.
+            /// <summary>
+            /// Register a hover provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A hover provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerHoverProvider: selector: DocumentSelector * provider: HoverProvider -> Disposable
-            /// <summary>Register a document highlight provider.
+            /// <summary>
+            /// Register a document highlight provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and groups sequentially asked for document highlights.
-            /// The process stops when a provider returns a `non-falsy` or `non-failure` result.</summary>
+            /// by their <see cref="languages.match">score</see> and groups sequentially asked for document highlights.
+            /// The process stops when a provider returns a <c>non-falsy</c> or <c>non-failure</c> result.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A document highlight provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDocumentHighlightProvider: selector: DocumentSelector * provider: DocumentHighlightProvider -> Disposable
-            /// <summary>Register a document symbol provider.
+            /// <summary>
+            /// Register a document symbol provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A document symbol provider.</param>
             /// <param name="metaData">metadata about the provider</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDocumentSymbolProvider: selector: DocumentSelector * provider: DocumentSymbolProvider * ?metaData: DocumentSymbolProviderMetadata -> Disposable
-            /// <summary>Register a workspace symbol provider.
+            /// <summary>
+            /// Register a workspace symbol provider.
             /// 
             /// Multiple providers can be registered. In that case providers are asked in parallel and
             /// the results are merged. A failing provider (rejected promise or exception) will not cause
-            /// a failure of the whole operation.</summary>
+            /// a failure of the whole operation.
+            /// </summary>
             /// <param name="provider">A workspace symbol provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerWorkspaceSymbolProvider: provider: WorkspaceSymbolProvider -> Disposable
-            /// <summary>Register a reference provider.
+            /// <summary>
+            /// Register a reference provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A reference provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerReferenceProvider: selector: DocumentSelector * provider: ReferenceProvider -> Disposable
-            /// <summary>Register a rename provider.
+            /// <summary>
+            /// Register a rename provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and the best-matching provider is used. Failure
-            /// of the selected provider will cause a failure of the whole operation.</summary>
+            /// by their <see cref="languages.match">score</see> and the best-matching provider is used. Failure
+            /// of the selected provider will cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A rename provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerRenameProvider: selector: DocumentSelector * provider: RenameProvider -> Disposable
-            /// <summary>Register a formatting provider for a document.
+            /// <summary>
+            /// Register a formatting provider for a document.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and the best-matching provider is used. Failure
-            /// of the selected provider will cause a failure of the whole operation.</summary>
+            /// by their <see cref="languages.match">score</see> and the best-matching provider is used. Failure
+            /// of the selected provider will cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A document formatting edit provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDocumentFormattingEditProvider: selector: DocumentSelector * provider: DocumentFormattingEditProvider -> Disposable
-            /// <summary>Register a formatting provider for a document range.
+            /// <summary>
+            /// Register a formatting provider for a document range.
             /// 
-            /// *Note:* A document range provider is also a [document formatter](#DocumentFormattingEditProvider)
-            /// which means there is no need to [register](#languages.registerDocumentFormattingEditProvider) a document
+            /// *Note:* A document range provider is also a <see cref="DocumentFormattingEditProvider">document formatter</see>
+            /// which means there is no need to <see cref="languages.registerDocumentFormattingEditProvider">register</see> a document
             /// formatter when also registering a range provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and the best-matching provider is used. Failure
-            /// of the selected provider will cause a failure of the whole operation.</summary>
+            /// by their <see cref="languages.match">score</see> and the best-matching provider is used. Failure
+            /// of the selected provider will cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A document range formatting edit provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDocumentRangeFormattingEditProvider: selector: DocumentSelector * provider: DocumentRangeFormattingEditProvider -> Disposable
-            /// <summary>Register a formatting provider that works on type. The provider is active when the user enables the setting `editor.formatOnType`.
+            /// <summary>
+            /// Register a formatting provider that works on type. The provider is active when the user enables the setting <c>editor.formatOnType</c>.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and the best-matching provider is used. Failure
-            /// of the selected provider will cause a failure of the whole operation.</summary>
+            /// by their <see cref="languages.match">score</see> and the best-matching provider is used. Failure
+            /// of the selected provider will cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">An on type formatting edit provider.</param>
-            /// <param name="firstTriggerCharacter">A character on which formatting should be triggered, like `}`.</param>
+            /// <param name="firstTriggerCharacter">A character on which formatting should be triggered, like <c>}</c>.</param>
             /// <param name="moreTriggerCharacter">More trigger characters.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerOnTypeFormattingEditProvider: selector: DocumentSelector * provider: OnTypeFormattingEditProvider * firstTriggerCharacter: string * [<ParamArray>] moreTriggerCharacter: string[] -> Disposable
-            /// <summary>Register a signature help provider.
+            /// <summary>
+            /// Register a signature help provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are sorted
-            /// by their [score](#languages.match) and called sequentially until a provider returns a
-            /// valid result.</summary>
+            /// by their <see cref="languages.match">score</see> and called sequentially until a provider returns a
+            /// valid result.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A signature help provider.</param>
-            /// <param name="triggerCharacters">Trigger signature help when the user types one of the characters, like `,` or `(`.</param>
+            /// <param name="triggerCharacters">Trigger signature help when the user types one of the characters, like <c>,</c> or <c>(</c>.</param>
+            /// <param name="metadata">Information about the provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerSignatureHelpProvider: selector: DocumentSelector * provider: SignatureHelpProvider * [<ParamArray>] triggerCharacters: string[] -> Disposable
             abstract registerSignatureHelpProvider: selector: DocumentSelector * provider: SignatureHelpProvider * metadata: SignatureHelpProviderMetadata -> Disposable
-            /// <summary>Register a document link provider.
+            /// <summary>
+            /// Register a document link provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A document link provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDocumentLinkProvider: selector: DocumentSelector * provider: DocumentLinkProvider -> Disposable
-            /// <summary>Register a color provider.
+            /// <summary>
+            /// Register a color provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A color provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerColorProvider: selector: DocumentSelector * provider: DocumentColorProvider -> Disposable
-            /// <summary>Register a folding range provider.
+            /// <summary>
+            /// Register a folding range provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged.
@@ -4424,21 +6041,27 @@ module Vscode =
             /// If a folding range overlaps with an other range that has a smaller position, it is also ignored.
             /// 
             /// A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A folding range provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerFoldingRangeProvider: selector: DocumentSelector * provider: FoldingRangeProvider -> Disposable
-            /// <summary>Register a selection range provider.
+            /// <summary>
+            /// Register a selection range provider.
             /// 
             /// Multiple providers can be registered for a language. In that case providers are asked in
             /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.</summary>
+            /// not cause a failure of the whole operation.
+            /// </summary>
             /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
             /// <param name="provider">A selection range provider.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerSelectionRangeProvider: selector: DocumentSelector * provider: SelectionRangeProvider -> Disposable
-            /// <summary>Set a [language configuration](#LanguageConfiguration) for a language.</summary>
-            /// <param name="language">A language identifier like `typescript`.</param>
+            /// <summary>Set a <see cref="LanguageConfiguration">language configuration</see> for a language.</summary>
+            /// <param name="language">A language identifier like <c>typescript</c>.</param>
             /// <param name="configuration">Language configuration.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unsets this configuration.</returns>
             abstract setLanguageConfiguration: language: string * configuration: LanguageConfiguration -> Disposable
 
     /// Represents the input box in the Source Control viewlet.
@@ -4449,66 +6072,93 @@ module Vscode =
         abstract placeholder: string with get, set
 
     type [<AllowNullLiteral>] QuickDiffProvider =
-        /// <summary>Provide a [uri](#Uri) to the original resource of any given resource uri.</summary>
+        /// <summary>Provide a <see cref="Uri">uri</see> to the original resource of any given resource uri.</summary>
         /// <param name="uri">The uri of the resource open in a text editor.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>A thenable that resolves to uri of the matching original resource.</returns>
         abstract provideOriginalResource: uri: Uri * token: CancellationToken -> ProviderResult<Uri>
 
+    /// <summary>
     /// The theme-aware decorations for a
-    /// [source control resource state](#SourceControlResourceState).
+    /// <see cref="SourceControlResourceState">source control resource state</see>.
+    /// </summary>
     type [<AllowNullLiteral>] SourceControlResourceThemableDecorations =
+        /// <summary>
         /// The icon path for a specific
-        /// [source control resource state](#SourceControlResourceState).
+        /// <see cref="SourceControlResourceState">source control resource state</see>.
+        /// </summary>
         abstract iconPath: U2<string, Uri> option
 
-    /// The decorations for a [source control resource state](#SourceControlResourceState).
+    /// <summary>
+    /// The decorations for a <see cref="SourceControlResourceState">source control resource state</see>.
     /// Can be independently specified for light and dark themes.
+    /// </summary>
     type [<AllowNullLiteral>] SourceControlResourceDecorations =
         inherit SourceControlResourceThemableDecorations
-        /// Whether the [source control resource state](#SourceControlResourceState) should
+        /// <summary>
+        /// Whether the <see cref="SourceControlResourceState">source control resource state</see> should
         /// be striked-through in the UI.
+        /// </summary>
         abstract strikeThrough: bool option
-        /// Whether the [source control resource state](#SourceControlResourceState) should
+        /// <summary>
+        /// Whether the <see cref="SourceControlResourceState">source control resource state</see> should
         /// be faded in the UI.
+        /// </summary>
         abstract faded: bool option
+        /// <summary>
         /// The title for a specific
-        /// [source control resource state](#SourceControlResourceState).
+        /// <see cref="SourceControlResourceState">source control resource state</see>.
+        /// </summary>
         abstract tooltip: string option
         /// The light theme decorations.
         abstract light: SourceControlResourceThemableDecorations option
         /// The dark theme decorations.
         abstract dark: SourceControlResourceThemableDecorations option
 
+    /// <summary>
     /// An source control resource state represents the state of an underlying workspace
-    /// resource within a certain [source control group](#SourceControlResourceGroup).
+    /// resource within a certain <see cref="SourceControlResourceGroup">source control group</see>.
+    /// </summary>
     type [<AllowNullLiteral>] SourceControlResourceState =
-        /// The [uri](#Uri) of the underlying resource inside the workspace.
+        /// <summary>The <see cref="Uri">uri</see> of the underlying resource inside the workspace.</summary>
         abstract resourceUri: Uri
-        /// The [command](#Command) which should be run when the resource
+        /// <summary>
+        /// The <see cref="Command">command</see> which should be run when the resource
         /// state is open in the Source Control viewlet.
+        /// </summary>
         abstract command: Command option
-        /// The [decorations](#SourceControlResourceDecorations) for this source control
+        /// <summary>
+        /// The <see cref="SourceControlResourceDecorations">decorations</see> for this source control
         /// resource state.
+        /// </summary>
         abstract decorations: SourceControlResourceDecorations option
 
+    /// <summary>
     /// A source control resource group is a collection of
-    /// [source control resource states](#SourceControlResourceState).
+    /// <see cref="SourceControlResourceState">source control resource states</see>.
+    /// </summary>
     type [<AllowNullLiteral>] SourceControlResourceGroup =
         /// The id of this source control resource group.
         abstract id: string
         /// The label of this source control resource group.
         abstract label: string with get, set
+        /// <summary>
         /// Whether this source control resource group is hidden when it contains
-        /// no [source control resource states](#SourceControlResourceState).
+        /// no <see cref="SourceControlResourceState">source control resource states</see>.
+        /// </summary>
         abstract hideWhenEmpty: bool option with get, set
+        /// <summary>
         /// This group's collection of
-        /// [source control resource states](#SourceControlResourceState).
+        /// <see cref="SourceControlResourceState">source control resource states</see>.
+        /// </summary>
         abstract resourceStates: ResizeArray<SourceControlResourceState> with get, set
         /// Dispose this source control resource group.
         abstract dispose: unit -> unit
 
-    /// An source control is able to provide [resource states](#SourceControlResourceState)
+    /// <summary>
+    /// An source control is able to provide <see cref="SourceControlResourceState">resource states</see>
     /// to the editor and interact with the editor in several source control related ways.
+    /// </summary>
     type [<AllowNullLiteral>] SourceControl =
         /// The id of this source control.
         abstract id: string
@@ -4516,15 +6166,17 @@ module Vscode =
         abstract label: string
         /// The (optional) Uri of the root of this source control.
         abstract rootUri: Uri option
-        /// The [input box](#SourceControlInputBox) for this source control.
+        /// <summary>The <see cref="SourceControlInputBox">input box</see> for this source control.</summary>
         abstract inputBox: SourceControlInputBox
-        /// The UI-visible count of [resource states](#SourceControlResourceState) of
+        /// <summary>
+        /// The UI-visible count of <see cref="SourceControlResourceState">resource states</see> of
         /// this source control.
         /// 
-        /// Equals to the total number of [resource state](#SourceControlResourceState)
+        /// Equals to the total number of <see cref="SourceControlResourceState">resource state</see>
         /// of this source control, if undefined.
+        /// </summary>
         abstract count: float option with get, set
-        /// An optional [quick diff provider](#QuickDiffProvider).
+        /// <summary>An optional <see cref="QuickDiffProvider">quick diff provider</see>.</summary>
         abstract quickDiffProvider: QuickDiffProvider option with get, set
         /// Optional commit template string.
         /// 
@@ -4540,7 +6192,7 @@ module Vscode =
         /// 
         /// These commands will be displayed in the editor's status bar.
         abstract statusBarCommands: ResizeArray<Command> option with get, set
-        /// Create a new [resource group](#SourceControlResourceGroup).
+        /// <summary>Create a new <see cref="SourceControlResourceGroup">resource group</see>.</summary>
         abstract createResourceGroup: id: string * label: string -> SourceControlResourceGroup
         /// Dispose this source control.
         abstract dispose: unit -> unit
@@ -4549,10 +6201,11 @@ module Vscode =
 
         type [<AllowNullLiteral>] IExports =
             abstract inputBox: SourceControlInputBox
-            /// <summary>Creates a new [source control](#SourceControl) instance.</summary>
-            /// <param name="id">An `id` for the source control. Something short, eg: `git`.</param>
-            /// <param name="label">A human-readable string for the source control. Eg: `Git`.</param>
-            /// <param name="rootUri">An optional Uri of the root of the source control. Eg: `Uri.parse(workspaceRoot)`.</param>
+            /// <summary>Creates a new <see cref="SourceControl">source control</see> instance.</summary>
+            /// <param name="id">An <c>id</c> for the source control. Something short, eg: <c>git</c>.</param>
+            /// <param name="label">A human-readable string for the source control. Eg: <c>Git</c>.</param>
+            /// <param name="rootUri">An optional Uri of the root of the source control. Eg: <c>Uri.parse(workspaceRoot)</c>.</param>
+            /// <returns>An instance of <see cref="SourceControl">source control</see>.</returns>
             abstract createSourceControl: id: string * label: string * ?rootUri: Uri -> SourceControl
 
     /// Configuration for a debug session.
@@ -4570,23 +6223,25 @@ module Vscode =
     type [<AllowNullLiteral>] DebugSession =
         /// The unique ID of this debug session.
         abstract id: string
-        /// The debug session's type from the [debug configuration](#DebugConfiguration).
+        /// <summary>The debug session's type from the <see cref="DebugConfiguration">debug configuration</see>.</summary>
         abstract ``type``: string
-        /// The debug session's name from the [debug configuration](#DebugConfiguration).
+        /// <summary>The debug session's name from the <see cref="DebugConfiguration">debug configuration</see>.</summary>
         abstract name: string
-        /// The workspace folder of this session or `undefined` for a folderless setup.
+        /// <summary>The workspace folder of this session or <c>undefined</c> for a folderless setup.</summary>
         abstract workspaceFolder: WorkspaceFolder option
-        /// The "resolved" [debug configuration](#DebugConfiguration) of this session.
+        /// <summary>
+        /// The "resolved" <see cref="DebugConfiguration">debug configuration</see> of this session.
         /// "Resolved" means that
         /// - all variables have been substituted and
         /// - platform specific attribute sections have been "flattened" for the matching platform and removed for non-matching platforms.
+        /// </summary>
         abstract configuration: DebugConfiguration
         /// Send a custom request to the debug adapter.
         abstract customRequest: command: string * ?args: obj -> Thenable<obj option>
 
-    /// A custom Debug Adapter Protocol event received from a [debug session](#DebugSession).
+    /// <summary>A custom Debug Adapter Protocol event received from a <see cref="DebugSession">debug session</see>.</summary>
     type [<AllowNullLiteral>] DebugSessionCustomEvent =
-        /// The [debug session](#DebugSession) for which the custom event was received.
+        /// <summary>The <see cref="DebugSession">debug session</see> for which the custom event was received.</summary>
         abstract session: DebugSession with get, set
         /// Type of event.
         abstract ``event``: string with get, set
@@ -4597,19 +6252,25 @@ module Vscode =
     /// and to resolve a launch configuration before it is used to start a new debug session.
     /// A debug configuration provider is registered via #debug.registerDebugConfigurationProvider.
     type [<AllowNullLiteral>] DebugConfigurationProvider =
-        /// <summary>Provides initial [debug configuration](#DebugConfiguration). If more than one debug configuration provider is
-        /// registered for the same type, debug configurations are concatenated in arbitrary order.</summary>
-        /// <param name="folder">The workspace folder for which the configurations are used or `undefined` for a folderless setup.</param>
+        /// <summary>
+        /// Provides initial <see cref="DebugConfiguration">debug configuration</see>. If more than one debug configuration provider is
+        /// registered for the same type, debug configurations are concatenated in arbitrary order.
+        /// </summary>
+        /// <param name="folder">The workspace folder for which the configurations are used or <c>undefined</c> for a folderless setup.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>An array of <see cref="DebugConfiguration">debug configurations</see>.</returns>
         abstract provideDebugConfigurations: folder: WorkspaceFolder option * ?token: CancellationToken -> ProviderResult<ResizeArray<DebugConfiguration>>
-        /// <summary>Resolves a [debug configuration](#DebugConfiguration) by filling in missing values or by adding/changing/removing attributes.
+        /// <summary>
+        /// Resolves a <see cref="DebugConfiguration">debug configuration</see> by filling in missing values or by adding/changing/removing attributes.
         /// If more than one debug configuration provider is registered for the same type, the resolveDebugConfiguration calls are chained
         /// in arbitrary order and the initial debug configuration is piped through the chain.
         /// Returning the value 'undefined' prevents the debug session from starting.
-        /// Returning the value 'null' prevents the debug session from starting and opens the underlying debug configuration instead.</summary>
-        /// <param name="folder">The workspace folder from which the configuration originates from or `undefined` for a folderless setup.</param>
-        /// <param name="debugConfiguration">The [debug configuration](#DebugConfiguration) to resolve.</param>
+        /// Returning the value 'null' prevents the debug session from starting and opens the underlying debug configuration instead.
+        /// </summary>
+        /// <param name="folder">The workspace folder from which the configuration originates from or <c>undefined</c> for a folderless setup.</param>
+        /// <param name="debugConfiguration">The <see cref="DebugConfiguration">debug configuration</see> to resolve.</param>
         /// <param name="token">A cancellation token.</param>
+        /// <returns>The resolved debug configuration or undefined or null.</returns>
         abstract resolveDebugConfiguration: folder: WorkspaceFolder option * debugConfiguration: DebugConfiguration * ?token: CancellationToken -> ProviderResult<DebugConfiguration>
 
     /// Represents a debug adapter executable and optional arguments and runtime options passed to it.
@@ -4657,20 +6318,23 @@ module Vscode =
         U2<DebugAdapterExecutable, DebugAdapterServer>
 
     type [<AllowNullLiteral>] DebugAdapterDescriptorFactory =
-        /// <summary>'createDebugAdapterDescriptor' is called at the start of a debug session to provide details about the debug adapter to use.
-        /// These details must be returned as objects of type [DebugAdapterDescriptor](#DebugAdapterDescriptor).
+        /// <summary>
+        /// 'createDebugAdapterDescriptor' is called at the start of a debug session to provide details about the debug adapter to use.
+        /// These details must be returned as objects of type <see cref="DebugAdapterDescriptor">DebugAdapterDescriptor</see>.
         /// Currently two types of debug adapters are supported:
-        /// - a debug adapter executable is specified as a command path and arguments (see [DebugAdapterExecutable](#DebugAdapterExecutable)),
-        /// - a debug adapter server reachable via a communication port (see [DebugAdapterServer](#DebugAdapterServer)).
+        /// - a debug adapter executable is specified as a command path and arguments (see <see cref="DebugAdapterExecutable)">DebugAdapterExecutable</see>,
+        /// - a debug adapter server reachable via a communication port (see <see cref="DebugAdapterServer)">DebugAdapterServer</see>.
         /// If the method is not implemented the default behavior is this:
         ///    createDebugAdapter(session: DebugSession, executable: DebugAdapterExecutable) {
         ///       if (typeof session.configuration.debugServer === 'number') {
         ///          return new DebugAdapterServer(session.configuration.debugServer);
         ///       }
         ///       return executable;
-        ///    }</summary>
-        /// <param name="session">The [debug session](#DebugSession) for which the debug adapter will be used.</param>
+        ///    }
+        /// </summary>
+        /// <param name="session">The <see cref="DebugSession">debug session</see> for which the debug adapter will be used.</param>
         /// <param name="executable">The debug adapter's executable information as specified in the package.json (or undefined if no such information exists).</param>
+        /// <returns>a <see cref="DebugAdapterDescriptor">debug adapter descriptor</see> or undefined.</returns>
         abstract createDebugAdapterDescriptor: session: DebugSession * executable: DebugAdapterExecutable option -> ProviderResult<DebugAdapterDescriptor>
 
     /// A Debug Adapter Tracker is a means to track the communication between VS Code and a Debug Adapter.
@@ -4689,9 +6353,12 @@ module Vscode =
         abstract onExit: code: float option * signal: string option -> unit
 
     type [<AllowNullLiteral>] DebugAdapterTrackerFactory =
-        /// <summary>The method 'createDebugAdapterTracker' is called at the start of a debug session in order
-        /// to return a "tracker" object that provides read-access to the communication between VS Code and a debug adapter.</summary>
-        /// <param name="session">The [debug session](#DebugSession) for which the debug adapter tracker will be used.</param>
+        /// <summary>
+        /// The method 'createDebugAdapterTracker' is called at the start of a debug session in order
+        /// to return a "tracker" object that provides read-access to the communication between VS Code and a debug adapter.
+        /// </summary>
+        /// <param name="session">The <see cref="DebugSession">debug session</see> for which the debug adapter tracker will be used.</param>
+        /// <returns>A <see cref="DebugAdapterTracker">debug adapter tracker</see> or undefined.</returns>
         abstract createDebugAdapterTracker: session: DebugSession -> ProviderResult<DebugAdapterTracker>
 
     /// Represents the debug console.
@@ -4699,12 +6366,14 @@ module Vscode =
         /// <summary>Append the given value to the debug console.</summary>
         /// <param name="value">A string, falsy values will not be printed.</param>
         abstract append: value: string -> unit
-        /// <summary>Append the given value and a line feed character
-        /// to the debug console.</summary>
+        /// <summary>
+        /// Append the given value and a line feed character
+        /// to the debug console.
+        /// </summary>
         /// <param name="value">A string, falsy values will be printed.</param>
         abstract appendLine: value: string -> unit
 
-    /// An event describing the changes to the set of [breakpoints](#Breakpoint).
+    /// <summary>An event describing the changes to the set of <see cref="Breakpoint">breakpoints</see>.</summary>
     type [<AllowNullLiteral>] BreakpointsChangeEvent =
         /// Added breakpoints.
         abstract added: ResizeArray<Breakpoint>
@@ -4752,6 +6421,7 @@ module Vscode =
         /// Create a new function breakpoint.
         [<EmitConstructor>] abstract Create: functionName: string * ?enabled: bool * ?condition: string * ?hitCondition: string * ?logMessage: string -> FunctionBreakpoint
 
+    /// Namespace for debug functionality.
     module Debug =
 
         type [<AllowNullLiteral>] IExports =
@@ -4763,27 +6433,39 @@ module Vscode =
             abstract onDidReceiveDebugSessionCustomEvent: Event<DebugSessionCustomEvent>
             abstract onDidTerminateDebugSession: Event<DebugSession>
             abstract onDidChangeBreakpoints: Event<BreakpointsChangeEvent>
-            /// <summary>Register a [debug configuration provider](#DebugConfigurationProvider) for a specific debug type.
-            /// More than one provider can be registered for the same type.</summary>
-            /// <param name="provider">The [debug configuration provider](#DebugConfigurationProvider) to register.</param>
+            /// <summary>
+            /// Register a <see cref="DebugConfigurationProvider">debug configuration provider</see> for a specific debug type.
+            /// More than one provider can be registered for the same type.
+            /// </summary>
+            /// <param name="type">The debug type for which the provider is registered.</param>
+            /// <param name="provider">The <see cref="DebugConfigurationProvider">debug configuration provider</see> to register.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerDebugConfigurationProvider: debugType: string * provider: DebugConfigurationProvider -> Disposable
-            /// <summary>Register a [debug adapter descriptor factory](#DebugAdapterDescriptorFactory) for a specific debug type.
+            /// <summary>
+            /// Register a <see cref="DebugAdapterDescriptorFactory">debug adapter descriptor factory</see> for a specific debug type.
             /// An extension is only allowed to register a DebugAdapterDescriptorFactory for the debug type(s) defined by the extension. Otherwise an error is thrown.
-            /// Registering more than one DebugAdapterDescriptorFactory for a debug type results in an error.</summary>
+            /// Registering more than one DebugAdapterDescriptorFactory for a debug type results in an error.
+            /// </summary>
             /// <param name="debugType">The debug type for which the factory is registered.</param>
-            /// <param name="factory">The [debug adapter descriptor factory](#DebugAdapterDescriptorFactory) to register.</param>
+            /// <param name="factory">The <see cref="DebugAdapterDescriptorFactory">debug adapter descriptor factory</see> to register.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this factory when being disposed.</returns>
             abstract registerDebugAdapterDescriptorFactory: debugType: string * factory: DebugAdapterDescriptorFactory -> Disposable
             /// <summary>Register a debug adapter tracker factory for the given debug type.</summary>
             /// <param name="debugType">The debug type for which the factory is registered or '*' for matching all debug types.</param>
-            /// <param name="factory">The [debug adapter tracker factory](#DebugAdapterTrackerFactory) to register.</param>
+            /// <param name="factory">The <see cref="DebugAdapterTrackerFactory">debug adapter tracker factory</see> to register.</param>
+            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this factory when being disposed.</returns>
             abstract registerDebugAdapterTrackerFactory: debugType: string * factory: DebugAdapterTrackerFactory -> Disposable
-            /// <summary>Start debugging by using either a named launch or named compound configuration,
-            /// or by directly passing a [DebugConfiguration](#DebugConfiguration).
+            /// <summary>
+            /// Start debugging by using either a named launch or named compound configuration,
+            /// or by directly passing a <see cref="DebugConfiguration">DebugConfiguration</see>.
             /// The named configurations are looked up in '.vscode/launch.json' found in the given folder.
             /// Before debugging starts, all unsaved files are saved and the launch configurations are brought up-to-date.
-            /// Folder specific variables used in the configuration (e.g. '${workspaceFolder}') are resolved against the given folder.</summary>
-            /// <param name="folder">The [workspace folder](#WorkspaceFolder) for looking up named configurations and resolving variables or `undefined` for a non-folder setup.</param>
-            /// <param name="nameOrConfiguration">Either the name of a debug or compound configuration or a [DebugConfiguration](#DebugConfiguration) object.</param>
+            /// Folder specific variables used in the configuration (e.g. '${workspaceFolder}') are resolved against the given folder.
+            /// </summary>
+            /// <param name="folder">The <see cref="WorkspaceFolder">workspace folder</see> for looking up named configurations and resolving variables or <c>undefined</c> for a non-folder setup.</param>
+            /// <param name="nameOrConfiguration">Either the name of a debug or compound configuration or a <see cref="DebugConfiguration">DebugConfiguration</see> object.</param>
+            /// <param name="parent">If specified the newly created debug session is registered as a "child" session of a "parent" debug session.</param>
+            /// <returns>A thenable that resolves when debugging could be successfully started.</returns>
             abstract startDebugging: folder: WorkspaceFolder option * nameOrConfiguration: U2<string, DebugConfiguration> * ?parentSession: DebugSession -> Thenable<bool>
             /// <summary>Add breakpoints.</summary>
             /// <param name="breakpoints">The breakpoints to add.</param>
@@ -4792,27 +6474,67 @@ module Vscode =
             /// <param name="breakpoints">The breakpoints to remove.</param>
             abstract removeBreakpoints: breakpoints: ResizeArray<Breakpoint> -> unit
 
+    /// <summary>
+    /// Namespace for dealing with installed extensions. Extensions are represented
+    /// by an <see cref="Extension">extension</see>-interface which enables reflection on them.
+    /// 
+    /// Extension writers can provide APIs to other extensions by returning their API public
+    /// surface from the <c>activate</c>-call.
+    /// 
+    /// <code language="javascript">
+    /// export function activate(context: vscode.ExtensionContext) {
+    ///  	let api = {
+    ///  		sum(a, b) {
+    ///  			return a + b;
+    ///  		},
+    ///  		mul(a, b) {
+    ///  			return a * b;
+    ///  		}
+    ///  	};
+    ///  	// 'export' public api-surface
+    ///  	return api;
+    /// }
+    /// </code>
+    /// When depending on the API of another extension add an <c>extensionDependency</c>-entry
+    /// to <c>package.json</c>, and use the <see cref="extensions.getExtension">getExtension</see>-function
+    /// and the <see cref="Extension.exports">exports</see>-property, like below:
+    /// 
+    /// <code language="javascript">
+    /// let mathExt = extensions.getExtension('genius.math');
+    /// let importedApi = mathExt.exports;
+    /// 
+    /// console.log(importedApi.mul(42, 1));
+    /// </code>
+    /// </summary>
     module Extensions =
 
         type [<AllowNullLiteral>] IExports =
-            /// <summary>Get an extension by its full identifier in the form of: `publisher.name`.</summary>
+            /// <summary>Get an extension by its full identifier in the form of: <c>publisher.name</c>.</summary>
             /// <param name="extensionId">An extension identifier.</param>
+            /// <returns>An extension or <c>undefined</c>.</returns>
             abstract getExtension: extensionId: string -> Extension<obj option> option
-            /// <summary>Get an extension its full identifier in the form of: `publisher.name`.</summary>
+            /// <summary>Get an extension its full identifier in the form of: <c>publisher.name</c>.</summary>
             /// <param name="extensionId">An extension identifier.</param>
+            /// <returns>An extension or <c>undefined</c>.</returns>
             abstract getExtension: extensionId: string -> Extension<'T> option
             abstract all: ResizeArray<Extension<obj option>>
             abstract onDidChange: Event<unit>
 
+    /// <summary>Collapsible state of a <see cref="CommentThread">comment thread</see></summary>
     type [<RequireQualifiedAccess>] CommentThreadCollapsibleState =
+        /// Determines an item is collapsed
         | Collapsed = 0
+        /// Determines an item is expanded
         | Expanded = 1
 
+    /// <summary>Comment mode of a <see cref="Comment">comment</see></summary>
     type [<RequireQualifiedAccess>] CommentMode =
+        /// Displays the comment editor
         | Editing = 0
+        /// Displays the preview of the comment
         | Preview = 1
 
-    /// A collection of [comments](#Comment) representing a conversation at a particular range in a document.
+    /// <summary>A collection of <see cref="Comment">comments</see> representing a conversation at a particular range in a document.</summary>
     type [<AllowNullLiteral>] CommentThread =
         /// The uri of the document the thread has been created on.
         abstract uri: Uri
@@ -4824,10 +6546,11 @@ module Vscode =
         /// Whether the thread should be collapsed or expanded when opening the document.
         /// Defaults to Collapsed.
         abstract collapsibleState: CommentThreadCollapsibleState with get, set
+        /// <summary>
         /// Context value of the comment thread. This can be used to contribute thread specific actions.
-        /// For example, a comment thread is given a context value as `editable`. When contributing actions to `comments/commentThread/title`
-        /// using `menus` extension point, you can specify context value for key `commentThread` in `when` expression like `commentThread == editable`.
-        /// ```
+        /// For example, a comment thread is given a context value as <c>editable</c>. When contributing actions to <c>comments/commentThread/title</c>
+        /// using <c>menus</c> extension point, you can specify context value for key <c>commentThread</c> in <c>when</c> expression like <c>commentThread == editable</c>.
+        /// <code>
         /// "contributes": {
         /// 		"menus": {
         /// 			"comments/commentThread/title": [
@@ -4838,17 +6561,18 @@ module Vscode =
         /// 			]
         /// 		}
         /// }
-        /// ```
-        /// This will show action `extension.deleteCommentThread` only for comment threads with `contextValue` is `editable`.
+        /// </code>
+        /// This will show action <c>extension.deleteCommentThread</c> only for comment threads with <c>contextValue</c> is <c>editable</c>.
+        /// </summary>
         abstract contextValue: string option with get, set
-        /// The optional human-readable label describing the [Comment Thread](#CommentThread)
+        /// <summary>The optional human-readable label describing the <see cref="CommentThread">Comment Thread</see></summary>
         abstract label: string option with get, set
         /// Dispose this comment thread.
         /// 
         /// Once disposed, this comment thread will be removed from visible editors and Comment Panel when approriate.
         abstract dispose: unit -> unit
 
-    /// Author information of a [comment](#Comment)
+    /// <summary>Author information of a <see cref="Comment">comment</see></summary>
     type [<AllowNullLiteral>] CommentAuthorInformation =
         /// The display name of the author of the comment
         abstract name: string with get, set
@@ -4859,14 +6583,15 @@ module Vscode =
     type [<AllowNullLiteral>] Comment =
         /// The human-readable comment body
         abstract body: U2<string, MarkdownString> with get, set
-        /// [Comment mode](#CommentMode) of the comment
+        /// <summary><see cref="CommentMode">Comment mode</see> of the comment</summary>
         abstract mode: CommentMode with get, set
-        /// The [author information](#CommentAuthorInformation) of the comment
+        /// <summary>The <see cref="CommentAuthorInformation">author information</see> of the comment</summary>
         abstract author: CommentAuthorInformation with get, set
+        /// <summary>
         /// Context value of the comment. This can be used to contribute comment specific actions.
-        /// For example, a comment is given a context value as `editable`. When contributing actions to `comments/comment/title`
-        /// using `menus` extension point, you can specify context value for key `comment` in `when` expression like `comment == editable`.
-        /// ```
+        /// For example, a comment is given a context value as <c>editable</c>. When contributing actions to <c>comments/comment/title</c>
+        /// using <c>menus</c> extension point, you can specify context value for key <c>comment</c> in <c>when</c> expression like <c>comment == editable</c>.
+        /// <code>
         /// "contributes": {
         /// 		"menus": {
         /// 			"comments/comment/title": [
@@ -4877,54 +6602,66 @@ module Vscode =
         /// 			]
         /// 		}
         /// }
-        /// ```
-        /// This will show action `extension.deleteComment` only for comments with `contextValue` is `editable`.
+        /// </code>
+        /// This will show action <c>extension.deleteComment</c> only for comments with <c>contextValue</c> is <c>editable</c>.
+        /// </summary>
         abstract contextValue: string option with get, set
-        /// Optional label describing the [Comment](#Comment)
+        /// <summary>
+        /// Optional label describing the <see cref="Comment">Comment</see>
         /// Label will be rendered next to authorName if exists.
+        /// </summary>
         abstract label: string option with get, set
 
-    /// Command argument for actions registered in `comments/commentThread/context`.
+    /// <summary>Command argument for actions registered in <c>comments/commentThread/context</c>.</summary>
     type [<AllowNullLiteral>] CommentReply =
-        /// The active [comment thread](#CommentThread)
+        /// <summary>The active <see cref="CommentThread">comment thread</see></summary>
         abstract thread: CommentThread with get, set
         /// The value in the comment editor
         abstract text: string with get, set
 
-    /// Commenting range provider for a [comment controller](#CommentController).
+    /// <summary>Commenting range provider for a <see cref="CommentController">comment controller</see>.</summary>
     type [<AllowNullLiteral>] CommentingRangeProvider =
         /// Provide a list of ranges which allow new comment threads creation or null for a given document
         abstract provideCommentingRanges: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<Range>>
 
-    /// A comment controller is able to provide [comments](#CommentThread) support to the editor and
+    /// <summary>
+    /// A comment controller is able to provide <see cref="CommentThread">comments</see> support to the editor and
     /// provide users various ways to interact with comments.
+    /// </summary>
     type [<AllowNullLiteral>] CommentController =
         /// The id of this comment controller.
         abstract id: string
         /// The human-readable label of this comment controller.
         abstract label: string
-        /// Optional commenting range provider. Provide a list [ranges](#Range) which support commenting to any given resource uri.
+        /// <summary>
+        /// Optional commenting range provider. Provide a list <see cref="Range">ranges</see> which support commenting to any given resource uri.
         /// 
         /// If not provided, users can leave comments in any document opened in the editor.
+        /// </summary>
         abstract commentingRangeProvider: CommentingRangeProvider option with get, set
-        /// <summary>Create a [comment thread](#CommentThread). The comment thread will be displayed in visible text editors (if the resource matches)
-        /// and Comments Panel once created.</summary>
+        /// <summary>
+        /// Create a <see cref="CommentThread). The comment thread will be displayed in visible text editors (if the resource matches">comment thread</see>
+        /// and Comments Panel once created.
+        /// </summary>
         /// <param name="uri">The uri of the document the thread has been created on.</param>
         /// <param name="range">The range the comment thread is located within the document.</param>
         /// <param name="comments">The ordered comments of the thread.</param>
         abstract createCommentThread: uri: Uri * range: Range * comments: ResizeArray<Comment> -> CommentThread
+        /// <summary>
         /// Dispose this comment controller.
         /// 
-        /// Once disposed, all [comment threads](#CommentThread) created by this comment controller will also be removed from the editor
+        /// Once disposed, all <see cref="CommentThread">comment threads</see> created by this comment controller will also be removed from the editor
         /// and Comments Panel.
+        /// </summary>
         abstract dispose: unit -> unit
 
     module Comments =
 
         type [<AllowNullLiteral>] IExports =
-            /// <summary>Creates a new [comment controller](#CommentController) instance.</summary>
-            /// <param name="id">An `id` for the comment controller.</param>
+            /// <summary>Creates a new <see cref="CommentController">comment controller</see> instance.</summary>
+            /// <param name="id">An <c>id</c> for the comment controller.</param>
             /// <param name="label">A human-readable string for the comment controller.</param>
+            /// <returns>An instance of <see cref="CommentController">comment controller</see>.</returns>
             abstract createCommentController: id: string * label: string -> CommentController
 
     type [<AllowNullLiteral>] DisposableStaticFrom =
@@ -4946,10 +6683,12 @@ module Vscode =
     type [<AllowNullLiteral>] LanguageConfiguration__electricCharacterSupport =
         /// This property is deprecated and will be **ignored** from
         /// the editor.
+        [<Obsolete("")>]
         abstract brackets: obj option with get, set
         /// This property is deprecated and not fully supported anymore by
         /// the editor (scope and lineStart are ignored).
         /// Use the autoClosingPairs property in the language configuration file instead.
+        [<Obsolete("")>]
         abstract docComment: LanguageConfiguration__electricCharacterSupportDocComment option with get, set
 
     type [<AllowNullLiteral>] LanguageConfiguration__characterPairSupportAutoClosingPairs =
@@ -4998,5 +6737,6 @@ type [<AllowNullLiteral>] Thenable<'T> =
     /// <summary>Attaches callbacks for the resolution and/or rejection of the Promise.</summary>
     /// <param name="onfulfilled">The callback to execute when the Promise is resolved.</param>
     /// <param name="onrejected">The callback to execute when the Promise is rejected.</param>
+    /// <returns>A Promise for the completion of which ever callback is executed.</returns>
     abstract ``then``: ?onfulfilled: ('T -> U2<'TResult, Thenable<'TResult>>) * ?onrejected: (obj option -> U2<'TResult, Thenable<'TResult>>) -> Thenable<'TResult>
     abstract ``then``: ?onfulfilled: ('T -> U2<'TResult, Thenable<'TResult>>) * ?onrejected: (obj option -> unit) -> Thenable<'TResult>

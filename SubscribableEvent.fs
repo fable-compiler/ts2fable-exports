@@ -6,6 +6,12 @@ open Fable.Core.JS
 
 
 type [<AllowNullLiteral>] IExports =
+    /// SubscribableEvent.ts
+    /// 
+    /// Copyright (c) Microsoft Corporation. All rights reserved.
+    /// Licensed under the MIT license.
+    /// 
+    /// A simple strongly-typed pub/sub/fire eventing system.
     abstract SubscriptionToken: SubscriptionTokenStatic
     abstract SubscribableEvent: SubscribableEventStatic
 
