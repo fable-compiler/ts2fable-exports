@@ -8173,6 +8173,13 @@ module __components_Nav_Nav_base =
         abstract componentWillReceiveProps: newProps: INavProps -> unit
         abstract render: unit -> JSX.Element option
         abstract selectedKey: string option
+        /// <summary>Sets focus to the first tabbable item in the zone.</summary>
+        /// <param name="forceIntoFirstElement">
+        /// If true, focus will be forced into the first element, even
+        /// if focus is already in the focus zone.
+        /// </param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
+        abstract focus: ?forceIntoFirstElement: bool -> bool
 
     type [<AllowNullLiteral>] NavBaseStatic =
         abstract defaultProps: INavProps with get, set
@@ -8222,6 +8229,13 @@ module __components_Nav_Nav_types =
         /// that in order for Nav to properly understand which key is selected all NavItems in
         /// all groups of the Nav must have populated key properties.
         abstract selectedKey: string option with get, set
+        /// <summary>Sets focus to the first tabbable item in the zone.</summary>
+        /// <param name="forceIntoFirstElement">
+        /// If true, focus will be forced into the first element, even
+        /// if focus is already in the focus zone.
+        /// </param>
+        /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
+        abstract focus: (bool -> bool) option with get, set
 
     type [<AllowNullLiteral>] INavProps =
         /// Optional callback to access the INav interface. Use this instead of ref for accessing
@@ -13637,7 +13651,6 @@ Use either positionElement, or positionCallout")>]
 
 module __utilities_positioning_positioning_types =
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
-    type IPoint = __utilities_positioning_positioning_types.IPoint
     type IRectangle = Utilities.IRectangle
 
     type [<RequireQualifiedAccess>] RectangleEdge =

@@ -19,6 +19,9 @@ module Yargs =
     type BuilderCallback<'T, 'R> =
         U2<(Argv<'T> -> Argv<'R>), (Argv<'T> -> unit)>
 
+    type [<AllowNullLiteral>] ParserConfigurationOptions =
+        interface end
+
     /// <summary>
     /// The type parameter <c>T</c> is the expected shape of the parsed options.
     /// <c>Arguments<T></c> is those options plus <c>_</c> and <c>$0</c>, and an indexer falling
@@ -262,7 +265,7 @@ Use '.demandCommand()' or '.demandOption()' instead")>]
         abstract exitProcess: enabled: bool -> Argv<'T>
         /// <summary>Method to execute when a failure occurs, rather than printing the failure message.</summary>
         /// <param name="func">Is called with the failure message that would have been printed, the Error instance originally thrown and yargs state when the failure occurred.</param>
-        abstract fail: func: (string -> Error -> obj option) -> Argv<'T>
+        abstract fail: func: (string -> Error -> Argv<'T> -> obj option) -> Argv<'T>
         /// <summary>Allows to programmatically get completion choices for any line.</summary>
         /// <param name="args">An array of the words in the command line to complete.</param>
         /// <param name="done">The callback to be called with the resulting completions.</param>
@@ -354,8 +357,9 @@ Use '.demandCommand()' or '.demandOption()' instead")>]
         /// Note: Providing a callback to parse() disables the <c>exitProcess</c> setting until after the callback is invoked.
         /// </summary>
         /// <param name="context">Provides a useful mechanism for passing state information to commands</param>
-        abstract parse: unit -> obj
-        abstract parse: arg: U2<string, ResizeArray<string>> * ?context: obj * ?parseCallback: ParseCallback<'T> -> obj
+        abstract parse: ?arg: U2<string, ResizeArray<string>> -> obj
+        abstract parse: arg: U2<string, ResizeArray<string>> * parseCallback: ParseCallback<'T> -> obj
+        abstract parse: arg: U2<string, ResizeArray<string>> * context: obj * ?parseCallback: ParseCallback<'T> -> obj
         /// <summary>
         /// If the arguments have not been parsed, this property is <c>false</c>.
         /// 
@@ -588,6 +592,8 @@ Use 'demandOption' instead")>]
     type [<AllowNullLiteral>] PositionalOptions =
         /// <summary>string or array of strings, see <c>alias()</c></summary>
         abstract alias: U2<string, ReadonlyArray<string>> option with get, set
+        /// <summary>boolean, interpret option as an array, see <c>array()</c></summary>
+        abstract array: bool option with get, set
         /// <summary>value or array of values, limit valid option arguments to a predefined set, see <c>choices()</c></summary>
         abstract choices: Choices option with get, set
         /// <summary>function, coerce or transform parsed command line values into another value, see <c>coerce()</c></summary>
@@ -596,6 +602,8 @@ Use 'demandOption' instead")>]
         abstract conflicts: U3<string, ReadonlyArray<string>, OptionsConflicts> option with get, set
         /// <summary>value, set a default value for the option, see <c>default()</c></summary>
         abstract ``default``: obj option with get, set
+        /// <summary>boolean or string, demand the option be given, with optional error message, see <c>demandOption()</c></summary>
+        abstract demandOption: U2<bool, string> option with get, set
         /// <summary>string, the option description for help content, see <c>describe()</c></summary>
         abstract desc: string option with get, set
         /// <summary>string, the option description for help content, see <c>describe()</c></summary>

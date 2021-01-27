@@ -133,7 +133,6 @@ module Vscode =
     /// </code>
     /// </summary>
     let [<Import("extensions","vscode")>] extensions: Extensions.IExports = jsNative
-    let [<Import("comments","vscode")>] comments: Comments.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract version: string
@@ -301,12 +300,9 @@ module Vscode =
         /// apply, e.g <c>System.Drawing.Color.Red</c>.
         /// </summary>
         abstract ColorPresentation: ColorPresentationStatic
-        /// A line based folding range. To be valid, start and end line must be bigger than zero and smaller than the number of lines in the document.
+        /// A line based folding range. To be valid, start and end line must a zero or larger and smaller than the number of lines in the document.
         /// Invalid ranges will be ignored.
         abstract FoldingRange: FoldingRangeStatic
-        /// A selection range represents a part of a selection hierarchy. A selection range
-        /// may have a parent selection range that contains it.
-        abstract SelectionRange: SelectionRangeStatic
         /// Represents a location inside a resource, such as a line
         /// inside a text file.
         abstract Location: LocationStatic
@@ -329,8 +325,8 @@ module Vscode =
         /// <summary>
         /// A type that filesystem providers should use to signal errors.
         /// 
-        /// This class has factory methods for common error-cases, like <c>FileNotFound</c> when
-        /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.FileNotFound(someUri);</c>
+        /// This class has factory methods for common error-cases, like <c>EntryNotFound</c> when
+        /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.EntryNotFound(someUri);</c>
         /// </summary>
         abstract FileSystemError: FileSystemErrorStatic
         abstract TreeItem: TreeItemStatic
@@ -1259,16 +1255,11 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// <summary>
         /// Create an URI from a string, e.g. <c>http://www.msft.com/some/path</c>,
         /// <c>file:///usr/home</c>, or <c>scheme:with/path</c>.
-        /// 
-        /// *Note* that for a while uris without a <c>scheme</c> were accepted. That is not correct
-        /// as all uris should have a scheme. To avoid breakage of existing code the optional
-        /// <c>strict</c>-argument has been added. We *strongly* advise to use it, e.g. <c>Uri.parse('my:uri', true)</c>
         /// </summary>
         /// <seealso cref="Uri.toString">Uri.toString</seealso>
         /// <param name="value">The string value of an Uri.</param>
-        /// <param name="strict">Throw an error when <c>value</c> is empty or when no <c>scheme</c> can be parsed.</param>
         /// <returns>A new Uri instance.</returns>
-        abstract parse: value: string * ?strict: bool -> Uri
+        abstract parse: value: string -> Uri
         /// <summary>
         /// Create an URI from a file system path. The <see cref="Uri.scheme">scheme</see>
         /// will be <c>file</c>.
@@ -3098,7 +3089,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         abstract document: TextDocument with get, set
         abstract range: Range with get, set
 
-    /// A line based folding range. To be valid, start and end line must be bigger than zero and smaller than the number of lines in the document.
+    /// A line based folding range. To be valid, start and end line must a zero or larger and smaller than the number of lines in the document.
     /// Invalid ranges will be ignored.
     type [<AllowNullLiteral>] FoldingRange =
         /// The zero-based start line of the range to fold. The folded area starts after the line's last character.
@@ -3116,7 +3107,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// </summary>
         abstract kind: FoldingRangeKind option with get, set
 
-    /// A line based folding range. To be valid, start and end line must be bigger than zero and smaller than the number of lines in the document.
+    /// A line based folding range. To be valid, start and end line must a zero or larger and smaller than the number of lines in the document.
     /// Invalid ranges will be ignored.
     type [<AllowNullLiteral>] FoldingRangeStatic =
         /// <summary>Creates a new folding range.</summary>
@@ -3156,39 +3147,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// <param name="context">Additional context information (for future use)</param>
         /// <param name="token">A cancellation token.</param>
         abstract provideFoldingRanges: document: TextDocument * context: FoldingContext * token: CancellationToken -> ProviderResult<ResizeArray<FoldingRange>>
-
-    /// A selection range represents a part of a selection hierarchy. A selection range
-    /// may have a parent selection range that contains it.
-    type [<AllowNullLiteral>] SelectionRange =
-        /// <summary>The <see cref="Range">range</see> of this selection range.</summary>
-        abstract range: Range with get, set
-        /// The parent selection range containing this range.
-        abstract parent: SelectionRange option with get, set
-
-    /// A selection range represents a part of a selection hierarchy. A selection range
-    /// may have a parent selection range that contains it.
-    type [<AllowNullLiteral>] SelectionRangeStatic =
-        /// <summary>Creates a new selection range.</summary>
-        /// <param name="range">The range of the selection range.</param>
-        /// <param name="parent">The parent of the selection range.</param>
-        [<EmitConstructor>] abstract Create: range: Range * ?parent: SelectionRange -> SelectionRange
-
-    type [<AllowNullLiteral>] SelectionRangeProvider =
-        /// <summary>
-        /// Provide selection ranges for the given positions.
-        /// 
-        /// Selection ranges should be computed individually and independend for each postion. The editor will merge
-        /// and deduplicate ranges but providers must return hierarchies of selection ranges so that a range
-        /// is <see cref="Range.contains">contained</see> by its parent.
-        /// </summary>
-        /// <param name="document">The document in which the command was invoked.</param>
-        /// <param name="positions">The positions at which the command was invoked.</param>
-        /// <param name="token">A cancellation token.</param>
-        /// <returns>
-        /// Selection ranges or a thenable that resolves to such. The lack of a result can be
-        /// signaled by returning <c>undefined</c> or <c>null</c>.
-        /// </returns>
-        abstract provideSelectionRanges: document: TextDocument * positions: ResizeArray<Position> * token: CancellationToken -> ProviderResult<ResizeArray<SelectionRange>>
 
     /// A tuple of two characters, like a pair of
     /// opening and closing brackets.
@@ -3639,7 +3597,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         abstract alignment: StatusBarAlignment
         /// The priority of this item. Higher value means the item should
         /// be shown more to the left.
-        abstract priority: float option
+        abstract priority: float
         /// <summary>
         /// The text to show for the entry. You can embed icons in the text by leveraging the syntax:
         /// 
@@ -4190,8 +4148,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// <summary>
     /// A type that filesystem providers should use to signal errors.
     /// 
-    /// This class has factory methods for common error-cases, like <c>FileNotFound</c> when
-    /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.FileNotFound(someUri);</c>
+    /// This class has factory methods for common error-cases, like <c>EntryNotFound</c> when
+    /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.EntryNotFound(someUri);</c>
     /// </summary>
     type [<AllowNullLiteral>] FileSystemError =
         inherit Error
@@ -4199,8 +4157,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// <summary>
     /// A type that filesystem providers should use to signal errors.
     /// 
-    /// This class has factory methods for common error-cases, like <c>FileNotFound</c> when
-    /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.FileNotFound(someUri);</c>
+    /// This class has factory methods for common error-cases, like <c>EntryNotFound</c> when
+    /// a file or folder doesn't exist, use them like so: <c>throw vscode.FileSystemError.EntryNotFound(someUri);</c>
     /// </summary>
     type [<AllowNullLiteral>] FileSystemErrorStatic =
         /// <summary>Create an error to signal that a file or folder wasn't found.</summary>
@@ -4358,13 +4316,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     type [<AllowNullLiteral>] FileSystemProviderCopyOptions =
         abstract overwrite: bool with get, set
 
-    /// Defines a port mapping used for localhost inside the webview.
-    type [<AllowNullLiteral>] WebviewPortMapping =
-        /// Localhost port to remap inside the webview.
-        abstract webviewPort: float
-        /// <summary>Destination port. The <c>webviewPort</c> is resolved to this port.</summary>
-        abstract extensionHostPort: float
-
     /// Content settings for a webview.
     type [<AllowNullLiteral>] WebviewOptions =
         /// Controls whether scripts are enabled in the webview content or not.
@@ -4383,20 +4334,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// Pass in an empty array to disallow access to any local resources.
         /// </summary>
         abstract localResourceRoots: ReadonlyArray<Uri> option
-        /// <summary>
-        /// Mappings of localhost ports used inside the webview.
-        /// 
-        /// Port mapping allow webviews to transparently define how localhost ports are resolved. This can be used
-        /// to allow using a static localhost port inside the webview that is resolved to random port that a service is
-        /// running on.
-        /// 
-        /// If a webview accesses localhost content, we recommend that you specify port mappings even if
-        /// the <c>webviewPort</c> and <c>extensionHostPort</c> ports are the same.
-        /// 
-        /// *Note* that port mappings only work for <c>http</c> or <c>https</c> urls. Websocket urls (e.g. <c>ws://localhost:3000</c>)
-        /// cannot be mapped to another port.
-        /// </summary>
-        abstract portMapping: ReadonlyArray<WebviewPortMapping> option
 
     /// A webview displays html content, like an iframe.
     type [<AllowNullLiteral>] Webview =
@@ -4535,7 +4472,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// serializer must restore the webview's <c>.html</c> and hook up all webview events.
         /// </param>
         /// <param name="state">Persisted state from the webview content.</param>
-        /// <returns>Thenable indicating that the webview has been fully restored.</returns>
+        /// <returns>Thenble indicating that the webview has been fully restored.</returns>
         abstract deserializeWebviewPanel: webviewPanel: WebviewPanel * state: obj option -> Thenable<unit>
 
     /// The clipboard provides read and write access to the system's clipboard.
@@ -4553,7 +4490,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         type [<AllowNullLiteral>] IExports =
             abstract appName: string
             abstract appRoot: string
-            abstract uriScheme: string
             abstract language: string
             abstract clipboard: Clipboard
             abstract machineId: string
@@ -4957,12 +4893,9 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// </summary>
             /// <param name="name">Optional human-readable string which will be used to represent the terminal in the UI.</param>
             /// <param name="shellPath">Optional path to a custom shell executable to be used in the terminal.</param>
-            /// <param name="shellArgs">
-            /// Optional args for the custom shell executable. A string can be used on Windows only which
-            /// allows specifying shell args in <see href="https://msdn.microsoft.com/en-au/08dfcab2-eb6e-49a4-80eb-87d4076c98c6">command-line format</see>.
-            /// </param>
+            /// <param name="shellArgs">Optional args for the custom shell executable, this does not work on Windows (see #8429)</param>
             /// <returns>A new Terminal.</returns>
-            abstract createTerminal: ?name: string * ?shellPath: string * ?shellArgs: U2<ResizeArray<string>, string> -> Terminal
+            abstract createTerminal: ?name: string * ?shellPath: string * ?shellArgs: ResizeArray<string> -> Terminal
             /// <summary>
             /// Creates a <see cref="Terminal">Terminal</see>. The cwd of the terminal will be the workspace directory
             /// if it exists, regardless of whether an explicit customStartPath setting exists.
@@ -4991,7 +4924,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// be able to handle uris which are directed to the extension itself. A uri must respect
             /// the following rules:
             /// 
-            /// - The uri-scheme must be <c>vscode.env.uriScheme</c>;
+            /// - The uri-scheme must be the product name;
             /// - The uri-authority must be the extension id (eg. <c>my.extension</c>);
             /// - The uri-path, -query and -fragment parts are arbitrary.
             /// 
@@ -5181,11 +5114,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         abstract name: string option with get, set
         /// A path to a custom shell executable to be used in the terminal.
         abstract shellPath: string option with get, set
-        /// <summary>
-        /// Args for the custom shell executable. A string can be used on Windows only which allows
-        /// specifying shell args in <see href="https://msdn.microsoft.com/en-au/08dfcab2-eb6e-49a4-80eb-87d4076c98c6">command-line format</see>.
-        /// </summary>
-        abstract shellArgs: U2<ResizeArray<string>, string> option with get, set
+        /// Args for the custom shell executable, this does not work on Windows (see #8429)
+        abstract shellArgs: ResizeArray<string> option with get, set
         /// A path or Uri for the current working directory to be used for the terminal.
         abstract cwd: U2<string, Uri> option with get, set
         /// Object with environment variables that will be added to the VS Code process.
@@ -6047,17 +5977,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="provider">A folding range provider.</param>
             /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerFoldingRangeProvider: selector: DocumentSelector * provider: FoldingRangeProvider -> Disposable
-            /// <summary>
-            /// Register a selection range provider.
-            /// 
-            /// Multiple providers can be registered for a language. In that case providers are asked in
-            /// parallel and the results are merged. A failing provider (rejected promise or exception) will
-            /// not cause a failure of the whole operation.
-            /// </summary>
-            /// <param name="selector">A selector that defines the documents this provider is applicable to.</param>
-            /// <param name="provider">A selection range provider.</param>
-            /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
-            abstract registerSelectionRangeProvider: selector: DocumentSelector * provider: SelectionRangeProvider -> Disposable
             /// <summary>Set a <see cref="LanguageConfiguration">language configuration</see> for a language.</summary>
             /// <param name="language">A language identifier like <c>typescript</c>.</param>
             /// <param name="configuration">Language configuration.</param>
@@ -6464,9 +6383,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// </summary>
             /// <param name="folder">The <see cref="WorkspaceFolder">workspace folder</see> for looking up named configurations and resolving variables or <c>undefined</c> for a non-folder setup.</param>
             /// <param name="nameOrConfiguration">Either the name of a debug or compound configuration or a <see cref="DebugConfiguration">DebugConfiguration</see> object.</param>
-            /// <param name="parent">If specified the newly created debug session is registered as a "child" session of a "parent" debug session.</param>
             /// <returns>A thenable that resolves when debugging could be successfully started.</returns>
-            abstract startDebugging: folder: WorkspaceFolder option * nameOrConfiguration: U2<string, DebugConfiguration> * ?parentSession: DebugSession -> Thenable<bool>
+            abstract startDebugging: folder: WorkspaceFolder option * nameOrConfiguration: U2<string, DebugConfiguration> -> Thenable<bool>
             /// <summary>Add breakpoints.</summary>
             /// <param name="breakpoints">The breakpoints to add.</param>
             abstract addBreakpoints: breakpoints: ResizeArray<Breakpoint> -> unit
@@ -6519,150 +6437,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             abstract getExtension: extensionId: string -> Extension<'T> option
             abstract all: ResizeArray<Extension<obj option>>
             abstract onDidChange: Event<unit>
-
-    /// <summary>Collapsible state of a <see cref="CommentThread">comment thread</see></summary>
-    type [<RequireQualifiedAccess>] CommentThreadCollapsibleState =
-        /// Determines an item is collapsed
-        | Collapsed = 0
-        /// Determines an item is expanded
-        | Expanded = 1
-
-    /// <summary>Comment mode of a <see cref="Comment">comment</see></summary>
-    type [<RequireQualifiedAccess>] CommentMode =
-        /// Displays the comment editor
-        | Editing = 0
-        /// Displays the preview of the comment
-        | Preview = 1
-
-    /// <summary>A collection of <see cref="Comment">comments</see> representing a conversation at a particular range in a document.</summary>
-    type [<AllowNullLiteral>] CommentThread =
-        /// The uri of the document the thread has been created on.
-        abstract uri: Uri
-        /// The range the comment thread is located within the document. The thread icon will be shown
-        /// at the first line of the range.
-        abstract range: Range with get, set
-        /// The ordered comments of the thread.
-        abstract comments: ReadonlyArray<Comment> with get, set
-        /// Whether the thread should be collapsed or expanded when opening the document.
-        /// Defaults to Collapsed.
-        abstract collapsibleState: CommentThreadCollapsibleState with get, set
-        /// <summary>
-        /// Context value of the comment thread. This can be used to contribute thread specific actions.
-        /// For example, a comment thread is given a context value as <c>editable</c>. When contributing actions to <c>comments/commentThread/title</c>
-        /// using <c>menus</c> extension point, you can specify context value for key <c>commentThread</c> in <c>when</c> expression like <c>commentThread == editable</c>.
-        /// <code>
-        /// "contributes": {
-        /// 		"menus": {
-        /// 			"comments/commentThread/title": [
-        /// 				{
-        /// 					"command": "extension.deleteCommentThread",
-        /// 					"when": "commentThread == editable"
-        /// 				}
-        /// 			]
-        /// 		}
-        /// }
-        /// </code>
-        /// This will show action <c>extension.deleteCommentThread</c> only for comment threads with <c>contextValue</c> is <c>editable</c>.
-        /// </summary>
-        abstract contextValue: string option with get, set
-        /// <summary>The optional human-readable label describing the <see cref="CommentThread">Comment Thread</see></summary>
-        abstract label: string option with get, set
-        /// Dispose this comment thread.
-        /// 
-        /// Once disposed, this comment thread will be removed from visible editors and Comment Panel when approriate.
-        abstract dispose: unit -> unit
-
-    /// <summary>Author information of a <see cref="Comment">comment</see></summary>
-    type [<AllowNullLiteral>] CommentAuthorInformation =
-        /// The display name of the author of the comment
-        abstract name: string with get, set
-        /// The optional icon path for the author
-        abstract iconPath: Uri option with get, set
-
-    /// A comment is displayed within the editor or the Comments Panel, depending on how it is provided.
-    type [<AllowNullLiteral>] Comment =
-        /// The human-readable comment body
-        abstract body: U2<string, MarkdownString> with get, set
-        /// <summary><see cref="CommentMode">Comment mode</see> of the comment</summary>
-        abstract mode: CommentMode with get, set
-        /// <summary>The <see cref="CommentAuthorInformation">author information</see> of the comment</summary>
-        abstract author: CommentAuthorInformation with get, set
-        /// <summary>
-        /// Context value of the comment. This can be used to contribute comment specific actions.
-        /// For example, a comment is given a context value as <c>editable</c>. When contributing actions to <c>comments/comment/title</c>
-        /// using <c>menus</c> extension point, you can specify context value for key <c>comment</c> in <c>when</c> expression like <c>comment == editable</c>.
-        /// <code>
-        /// "contributes": {
-        /// 		"menus": {
-        /// 			"comments/comment/title": [
-        /// 				{
-        /// 					"command": "extension.deleteComment",
-        /// 					"when": "comment == editable"
-        /// 				}
-        /// 			]
-        /// 		}
-        /// }
-        /// </code>
-        /// This will show action <c>extension.deleteComment</c> only for comments with <c>contextValue</c> is <c>editable</c>.
-        /// </summary>
-        abstract contextValue: string option with get, set
-        /// <summary>
-        /// Optional label describing the <see cref="Comment">Comment</see>
-        /// Label will be rendered next to authorName if exists.
-        /// </summary>
-        abstract label: string option with get, set
-
-    /// <summary>Command argument for actions registered in <c>comments/commentThread/context</c>.</summary>
-    type [<AllowNullLiteral>] CommentReply =
-        /// <summary>The active <see cref="CommentThread">comment thread</see></summary>
-        abstract thread: CommentThread with get, set
-        /// The value in the comment editor
-        abstract text: string with get, set
-
-    /// <summary>Commenting range provider for a <see cref="CommentController">comment controller</see>.</summary>
-    type [<AllowNullLiteral>] CommentingRangeProvider =
-        /// Provide a list of ranges which allow new comment threads creation or null for a given document
-        abstract provideCommentingRanges: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<Range>>
-
-    /// <summary>
-    /// A comment controller is able to provide <see cref="CommentThread">comments</see> support to the editor and
-    /// provide users various ways to interact with comments.
-    /// </summary>
-    type [<AllowNullLiteral>] CommentController =
-        /// The id of this comment controller.
-        abstract id: string
-        /// The human-readable label of this comment controller.
-        abstract label: string
-        /// <summary>
-        /// Optional commenting range provider. Provide a list <see cref="Range">ranges</see> which support commenting to any given resource uri.
-        /// 
-        /// If not provided, users can leave comments in any document opened in the editor.
-        /// </summary>
-        abstract commentingRangeProvider: CommentingRangeProvider option with get, set
-        /// <summary>
-        /// Create a <see cref="CommentThread). The comment thread will be displayed in visible text editors (if the resource matches">comment thread</see>
-        /// and Comments Panel once created.
-        /// </summary>
-        /// <param name="uri">The uri of the document the thread has been created on.</param>
-        /// <param name="range">The range the comment thread is located within the document.</param>
-        /// <param name="comments">The ordered comments of the thread.</param>
-        abstract createCommentThread: uri: Uri * range: Range * comments: ResizeArray<Comment> -> CommentThread
-        /// <summary>
-        /// Dispose this comment controller.
-        /// 
-        /// Once disposed, all <see cref="CommentThread">comment threads</see> created by this comment controller will also be removed from the editor
-        /// and Comments Panel.
-        /// </summary>
-        abstract dispose: unit -> unit
-
-    module Comments =
-
-        type [<AllowNullLiteral>] IExports =
-            /// <summary>Creates a new <see cref="CommentController">comment controller</see> instance.</summary>
-            /// <param name="id">An <c>id</c> for the comment controller.</param>
-            /// <param name="label">A human-readable string for the comment controller.</param>
-            /// <returns>An instance of <see cref="CommentController">comment controller</see>.</returns>
-            abstract createCommentController: id: string * label: string -> CommentController
 
     type [<AllowNullLiteral>] DisposableStaticFrom =
         abstract dispose: (unit -> obj option) with get, set

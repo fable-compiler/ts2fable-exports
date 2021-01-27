@@ -57,7 +57,7 @@ module Chai =
         abstract getOwnEnumerableProperties: obj: obj -> Array<U2<string, Symbol>>
         abstract getMessage: errorLike: U2<Error, string> -> string
         abstract getMessage: obj: obj option * args: AssertionArgs -> string
-        abstract inspect: obj: obj option * ?showHidden: bool * ?depth: float * ?colors: bool -> unit
+        abstract inspect: obj: obj option * ?showHidden: bool * ?depth: float * ?colors: bool -> string
         abstract isProxyEnabled: unit -> bool
         abstract objDisplay: obj: obj -> unit
         abstract proxify: obj: obj * nonChainableMethodName: string -> obj
@@ -92,7 +92,8 @@ module Chai =
 
     type [<AllowNullLiteral>] ExpectStatic =
         [<Emit "$0($1...)">] abstract Invoke: ``val``: obj option * ?message: string -> Assertion
-        abstract fail: ?actual: obj * ?expected: obj * ?message: string * ?operator: Operator -> unit
+        abstract fail: ?message: string -> obj
+        abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: Operator -> obj
 
     type [<AllowNullLiteral>] AssertStatic =
         inherit Assert
@@ -134,7 +135,8 @@ module Chai =
     type [<AllowNullLiteral>] Should =
         inherit ShouldAssertion
         abstract not: ShouldAssertion with get, set
-        abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: Operator -> unit
+        abstract fail: ?message: string -> obj
+        abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: Operator -> obj
 
     type [<AllowNullLiteral>] ShouldThrow =
         [<Emit "$0($1...)">] abstract Invoke: actual: Function * ?expected: U2<string, RegExp> * ?message: string -> unit
@@ -167,6 +169,7 @@ module Chai =
         abstract empty: Assertion with get, set
         abstract arguments: Assertion with get, set
         abstract Arguments: Assertion with get, set
+        abstract finite: Assertion with get, set
         abstract equal: Equal with get, set
         abstract equals: Equal with get, set
         abstract eq: Equal with get, set
@@ -267,6 +270,7 @@ module Chai =
         abstract property: Property with get, set
 
     type [<AllowNullLiteral>] Deep =
+        inherit KeyFilter
         abstract equal: Equal with get, set
         abstract equals: Equal with get, set
         abstract eq: Equal with get, set
@@ -275,7 +279,6 @@ module Chai =
         abstract contain: Include with get, set
         abstract contains: Include with get, set
         abstract property: Property with get, set
-        abstract members: Members with get, set
         abstract ordered: Ordered with get, set
         abstract nested: Nested with get, set
         abstract own: Own with get, set
@@ -340,12 +343,16 @@ module Chai =
         /// <param name="message">Message to display on error.</param>
         [<Emit "$0($1...)">] abstract Invoke: expression: obj option * ?message: string -> unit
         /// <summary>Throws a failure.</summary>
+        /// <param name="message">Message to display on error.</param>
+        /// <remarks>Node.js assert module-compatible.</remarks>
+        abstract fail: ?message: string -> obj
+        /// <summary>Throws a failure.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         /// <param name="operator">Comparison operator, if not strict equality.</param>
         /// <remarks>Node.js assert module-compatible.</remarks>
-        abstract fail: ?actual: 'T * ?expected: 'T * ?message: string * ?operator: Operator -> unit
+        abstract fail: actual: 'T * expected: 'T * ?message: string * ?operator: Operator -> obj
         /// <summary>Asserts that object is truthy.</summary>
         /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
@@ -512,6 +519,13 @@ module Chai =
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isNotNumber: value: 'T * ?message: string -> unit
+        /// <summary>
+        /// Asserts that value is a finite number.
+        /// Unlike <c>.isNumber</c>, this will fail for <c>NaN</c> and <c>Infinity</c>.
+        /// </summary>
+        /// <param name="value">Actual value</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract isFinite: value: 'T * ?message: string -> unit
         /// <summary>Asserts that value is a boolean.</summary>
         /// <param name="value">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
@@ -731,7 +745,7 @@ module Chai =
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract propertyNotVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
+        abstract notPropertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a property named by property, which can be a string
         /// using dot- and bracket-notation for deep reference.
@@ -749,7 +763,7 @@ module Chai =
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract deepPropertyNotVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
+        abstract notDeepPropertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
         /// <summary>Asserts that object has a length property with the expected value.</summary>
         /// <param name="object">Container object.</param>
         /// <param name="length">Potential expected length of object.</param>
@@ -758,17 +772,17 @@ module Chai =
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throw: fn: Function * ?message: string -> unit
+        abstract throw: fn: (unit -> unit) * ?message: string -> unit
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="regExp">Potential expected message match.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throw: fn: Function * regExp: RegExp -> unit
+        abstract throw: fn: (unit -> unit) * regExp: RegExp -> unit
         /// <summary>Asserts that function will throw an error that is an instance of constructor.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throw: fn: Function * ``constructor``: Function * ?message: string -> unit
+        abstract throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -776,16 +790,16 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throw: fn: Function * ``constructor``: Function * regExp: RegExp -> unit
+        abstract throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throws: fn: Function * ?message: string -> unit
+        abstract throws: fn: (unit -> unit) * ?message: string -> unit
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="errType">Potential expected message match or error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throws: fn: Function * errType: U2<RegExp, Function> * ?message: string -> unit
+        abstract throws: fn: (unit -> unit) * errType: U2<RegExp, ErrorConstructor> * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -793,21 +807,21 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throws: fn: Function * errType: Function * regExp: RegExp -> unit
+        abstract throws: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract Throw: fn: Function * ?message: string -> unit
+        abstract Throw: fn: (unit -> unit) * ?message: string -> unit
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="regExp">Potential expected message match.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract Throw: fn: Function * regExp: RegExp -> unit
+        abstract Throw: fn: (unit -> unit) * regExp: RegExp -> unit
         /// <summary>Asserts that function will throw an error that is an instance of constructor.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract Throw: fn: Function * errType: Function * ?message: string -> unit
+        abstract Throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -815,21 +829,21 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract Throw: fn: Function * errType: Function * regExp: RegExp -> unit
+        abstract Throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Asserts that fn will not throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotThrow: fn: Function * ?message: string -> unit
+        abstract doesNotThrow: fn: (unit -> unit) * ?message: string -> unit
         /// <summary>Asserts that function will throw an error with message matching regexp.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="regExp">Potential expected message match.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotThrow: fn: Function * regExp: RegExp -> unit
+        abstract doesNotThrow: fn: (unit -> unit) * regExp: RegExp -> unit
         /// <summary>Asserts that function will throw an error that is an instance of constructor.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotThrow: fn: Function * errType: Function * ?message: string -> unit
+        abstract doesNotThrow: fn: (unit -> unit) * ``constructor``: ErrorConstructor * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -837,7 +851,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotThrow: fn: Function * errType: Function * regExp: RegExp -> unit
+        abstract doesNotThrow: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Compares two values using operator.</summary>
         /// <param name="val1">Left value during comparison.</param>
         /// <param name="operator">Comparison operator.</param>
