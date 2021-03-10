@@ -6,6 +6,7 @@ open Fable.Core.JS
 open Browser.Types
 
 type Array<'T> = System.Collections.Generic.IList<'T>
+type PromiseLike<'T> = Fable.Core.JS.Promise<'T>
 type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
 type RegExp = System.Text.RegularExpressions.Regex
 
