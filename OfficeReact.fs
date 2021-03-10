@@ -8,6 +8,7 @@ open Browser.Types
 [<Erase>] type KeyOf<'T> = Key of string
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Function = System.Action
+type PromiseLike<'T> = Fable.Core.JS.Promise<'T>
 type RegExp = System.Text.RegularExpressions.Regex
 
 
