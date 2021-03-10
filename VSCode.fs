@@ -1558,7 +1558,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// word will be selected, when empty (start equals end) only the cursor will be set,
         /// otherwise the defined range will be selected.
         /// </summary>
-        abstract valueSelection: float * float option with get, set
+        abstract valueSelection: (float * float) option with get, set
         /// The text to display underneath the input box.
         abstract prompt: string option with get, set
         /// An optional string to show as place holder in the input box to guide the user what to type.
