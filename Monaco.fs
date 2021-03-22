@@ -82,7 +82,7 @@ module Monaco =
         | Error = 8
 
     type [<AllowNullLiteral>] CancellationTokenSource =
-        obj
+        abstract token: CancellationToken
         abstract cancel: unit -> unit
         abstract dispose: ?cancel: bool -> unit
 
@@ -134,7 +134,31 @@ module Monaco =
         abstract query: string
         /// <summary>fragment is the 'fragment' part of '<see href="http://www.msft.com/some/path?query#fragment'." /></summary>
         abstract fragment: string
-        obj
+        /// <summary>
+        /// Returns a string representing the corresponding file system path of this Uri.
+        /// Will handle UNC paths, normalizes windows drive letters to lower-case, and uses the
+        /// platform specific path separator.
+        /// 
+        /// * Will *not* validate the path for invalid characters and semantics.
+        /// * Will *not* look at the scheme of this Uri.
+        /// * The result shall *not* be used for display purposes but for accessing a file on disk.
+        /// 
+        /// 
+        /// The *difference* to <c>Uri#path</c> is the use of the platform specific separator and the handling
+        /// of UNC paths. See the below sample of a file-uri with an authority (UNC path).
+        /// 
+        /// <code language="ts">
+        ///   const u = Uri.parse('file://server/c$/folder/file.txt')
+        ///   u.authority === 'server'
+        ///   u.path === '/shares/c$/file.txt'
+        ///   u.fsPath === '\\server\c$\folder\file.txt'
+        /// </code>
+        /// 
+        /// Using <c>Uri#path</c> to read a file (using fs-apis) would not be enough because parts of the path,
+        /// namely the server name, would be missing. Therefore <c>Uri#fsPath</c> exists - it's sugar to ease working
+        /// with URIs that represent files on disk (<c>file</c> scheme).
+        /// </summary>
+        abstract fsPath: string
         abstract ``with``: change: UriWithChange -> Uri
         /// <summary>
         /// Creates a string representation for this Uri. It's guaranteed that calling
