@@ -135,6 +135,7 @@ module Vscode =
     let [<Import("extensions","vscode")>] extensions: Extensions.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        /// The version of the editor.
         abstract version: string
         /// <summary>
         /// Represents a line and character position, such as
@@ -4112,10 +4113,19 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// </summary>
             /// <param name="task">the task to execute</param>
             abstract executeTask: task: Task -> Thenable<TaskExecution>
+            /// The currently active task executions or an empty array.
             abstract taskExecutions: ReadonlyArray<TaskExecution>
+            /// Fires when a task starts.
             abstract onDidStartTask: Event<TaskStartEvent>
+            /// Fires when a task ends.
             abstract onDidEndTask: Event<TaskEndEvent>
+            /// Fires when the underlying process has been started.
+            /// This event will not fire for tasks that don't
+            /// execute an underlying process.
             abstract onDidStartTaskProcess: Event<TaskProcessStartEvent>
+            /// Fires when the underlying process has ended.
+            /// This event will not fire for tasks that don't
+            /// execute an underlying process.
             abstract onDidEndTaskProcess: Event<TaskProcessEndEvent>
 
     /// <summary>
@@ -4488,11 +4498,18 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     module Env =
 
         type [<AllowNullLiteral>] IExports =
+            /// The application name of the editor, like 'VS Code'.
             abstract appName: string
+            /// The application root folder from which the editor is running.
             abstract appRoot: string
+            /// <summary>Represents the preferred user-language, like <c>de-CH</c>, <c>fr</c>, or <c>en-US</c>.</summary>
             abstract language: string
+            /// The system clipboard.
             abstract clipboard: Clipboard
+            /// A unique identifier for the computer.
             abstract machineId: string
+            /// A unique identifier for the current session.
+            /// Changes each time the editor is started.
             abstract sessionId: string
             /// <summary>
             /// Opens an *external* item, e.g. a http(s) or mailto-link, using the
@@ -4612,20 +4629,59 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     module Window =
 
         type [<AllowNullLiteral>] IExports =
+            /// <summary>
+            /// The currently active editor or <c>undefined</c>. The active editor is the one
+            /// that currently has focus or, when none has focus, the one that has changed
+            /// input most recently.
+            /// </summary>
             abstract activeTextEditor: TextEditor option
+            /// The currently visible editors or an empty array.
             abstract visibleTextEditors: ResizeArray<TextEditor>
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when the <see cref="window.activeTextEditor">active editor</see>
+            /// has changed. *Note* that the event also fires when the active editor changes
+            /// to <c>undefined</c>.
+            /// </summary>
             abstract onDidChangeActiveTextEditor: Event<TextEditor option>
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when the array of <see cref="window.visibleTextEditors">visible editors</see>
+            /// has changed.
+            /// </summary>
             abstract onDidChangeVisibleTextEditors: Event<ResizeArray<TextEditor>>
+            /// <summary>An <see cref="Event">event</see> which fires when the selection in an editor has changed.</summary>
             abstract onDidChangeTextEditorSelection: Event<TextEditorSelectionChangeEvent>
+            /// <summary>An <see cref="Event">event</see> which fires when the visible ranges of an editor has changed.</summary>
             abstract onDidChangeTextEditorVisibleRanges: Event<TextEditorVisibleRangesChangeEvent>
+            /// <summary>An <see cref="Event">event</see> which fires when the options of an editor have changed.</summary>
             abstract onDidChangeTextEditorOptions: Event<TextEditorOptionsChangeEvent>
+            /// <summary>An <see cref="Event">event</see> which fires when the view column of an editor has changed.</summary>
             abstract onDidChangeTextEditorViewColumn: Event<TextEditorViewColumnChangeEvent>
+            /// The currently opened terminals or an empty array.
             abstract terminals: ReadonlyArray<Terminal>
+            /// <summary>
+            /// The currently active terminal or <c>undefined</c>. The active terminal is the one that
+            /// currently has focus or most recently had focus.
+            /// </summary>
             abstract activeTerminal: Terminal option
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when the <see cref="window.activeTerminal">active terminal</see>
+            /// has changed. *Note* that the event also fires when the active terminal changes
+            /// to <c>undefined</c>.
+            /// </summary>
             abstract onDidChangeActiveTerminal: Event<Terminal option>
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when a terminal has been created, either through the
+            /// <see cref="window.createTerminal">createTerminal</see> API or commands.
+            /// </summary>
             abstract onDidOpenTerminal: Event<Terminal>
+            /// <summary>An <see cref="Event">event</see> which fires when a terminal is disposed.</summary>
             abstract onDidCloseTerminal: Event<Terminal>
+            /// Represents the current window's state.
             abstract state: WindowState
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when the focus state of the current window
+            /// changes. The value of the event represents whether the window is focused.
+            /// </summary>
             abstract onDidChangeWindowState: Event<WindowState>
             /// <summary>
             /// Show the given document in a text editor. A <see cref="ViewColumn">column</see> can be provided
@@ -5415,9 +5471,23 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     module Workspace =
 
         type [<AllowNullLiteral>] IExports =
+            /// <summary>
+            /// ~~The folder that is open in the editor. <c>undefined</c> when no folder
+            /// has been opened.~~
+            /// </summary>
+            [<Obsolete("Use [`workspaceFolders`](#workspace.workspaceFolders) instead.")>]
             abstract rootPath: string option
+            /// <summary>
+            /// List of workspace folders or <c>undefined</c> when no folder is open.
+            /// *Note* that the first entry corresponds to the value of <c>rootPath</c>.
+            /// </summary>
             abstract workspaceFolders: ResizeArray<WorkspaceFolder> option
+            /// <summary>
+            /// The name of the workspace. <c>undefined</c> when no folder
+            /// has been opened.
+            /// </summary>
             abstract name: string option
+            /// An event that is emitted when a workspace folder is added or removed.
             abstract onDidChangeWorkspaceFolders: Event<WorkspaceFoldersChangeEvent>
             /// <summary>
             /// Returns the <see cref="WorkspaceFolder">workspace folder</see> that contains a given uri.
@@ -5543,6 +5613,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="edit">A workspace edit.</param>
             /// <returns>A thenable that resolves when the edit could be applied.</returns>
             abstract applyEdit: edit: WorkspaceEdit -> Thenable<bool>
+            /// All text documents currently known to the system.
             abstract textDocuments: ResizeArray<TextDocument>
             /// <summary>
             /// Opens a document. Will return early if this document is already open. Otherwise
@@ -5583,10 +5654,48 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="provider">A content provider.</param>
             /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
             abstract registerTextDocumentContentProvider: scheme: string * provider: TextDocumentContentProvider -> Disposable
+            /// <summary>
+            /// An event that is emitted when a <see cref="TextDocument">text document</see> is opened or when the language id
+            /// of a text document <see cref="languages.setTextDocumentLanguage">has been changed</see>.
+            /// 
+            /// To add an event listener when a visible text document is opened, use the <see cref="TextEditor">TextEditor</see> events in the
+            /// <see cref="window">window</see> namespace. Note that:
+            /// 
+            /// - The event is emitted before the <see cref="TextDocument">document</see> is updated in the
+            /// <see cref="window.activeTextEditor">active text editor</see>
+            /// - When a <see cref="TextDocument">text document</see> is already open (e.g.: open in another <see cref="window.visibleTextEditors)">visible text editor</see> this event is not emitted
+            /// </summary>
             abstract onDidOpenTextDocument: Event<TextDocument>
+            /// <summary>
+            /// An event that is emitted when a <see cref="TextDocument">text document</see> is disposed or when the language id
+            /// of a text document <see cref="languages.setTextDocumentLanguage">has been changed</see>.
+            /// 
+            /// To add an event listener when a visible text document is closed, use the <see cref="TextEditor">TextEditor</see> events in the
+            /// <see cref="window">window</see> namespace. Note that this event is not emitted when a <see cref="TextEditor">TextEditor</see> is closed
+            /// but the document remains open in another <see cref="window.visibleTextEditors">visible text editor</see>.
+            /// </summary>
             abstract onDidCloseTextDocument: Event<TextDocument>
+            /// <summary>
+            /// An event that is emitted when a <see cref="TextDocument">text document</see> is changed. This usually happens
+            /// when the <see cref="TextDocument.getText">contents</see> changes but also when other things like the
+            /// <see cref="TextDocument.isDirty">dirty</see>-state changes.
+            /// </summary>
             abstract onDidChangeTextDocument: Event<TextDocumentChangeEvent>
+            /// <summary>
+            /// An event that is emitted when a <see cref="TextDocument">text document</see> will be saved to disk.
+            /// 
+            /// *Note 1:* Subscribers can delay saving by registering asynchronous work. For the sake of data integrity the editor
+            /// might save without firing this event. For instance when shutting down with dirty files.
+            /// 
+            /// *Note 2:* Subscribers are called sequentially and they can <see cref="TextDocumentWillSaveEvent.waitUntil">delay</see> saving
+            /// by registering asynchronous work. Protection against misbehaving listeners is implemented as such:
+            ///   * there is an overall time budget that all listeners share and if that is exhausted no further listener is called
+            ///   * listeners that take a long time or produce errors frequently will not be called anymore
+            /// 
+            /// The current thresholds are 1.5 seconds as overall time budget and a listener can misbehave 3 times before being ignored.
+            /// </summary>
             abstract onWillSaveTextDocument: Event<TextDocumentWillSaveEvent>
+            /// <summary>An event that is emitted when a <see cref="TextDocument">text document</see> is saved to disk.</summary>
             abstract onDidSaveTextDocument: Event<TextDocument>
             /// <summary>
             /// Get a workspace configuration object.
@@ -5601,6 +5710,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="resource">A resource for which the configuration is asked for</param>
             /// <returns>The full configuration or a subset.</returns>
             abstract getConfiguration: ?section: string * ?resource: Uri -> WorkspaceConfiguration
+            /// <summary>An event that is emitted when the <see cref="WorkspaceConfiguration">configuration</see> changed.</summary>
             abstract onDidChangeConfiguration: Event<ConfigurationChangeEvent>
             /// <summary>~~Register a task provider.~~</summary>
             /// <param name="type">The task kind type this provider is registered for.</param>
@@ -5722,6 +5832,10 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="document">A text document.</param>
             /// <returns>A number <c>>0</c> when the selector matches and <c>0</c> when the selector does not match.</returns>
             abstract ``match``: selector: DocumentSelector * document: TextDocument -> float
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when the global set of diagnostics changes. This is
+            /// newly added and removed diagnostics.
+            /// </summary>
             abstract onDidChangeDiagnostics: Event<DiagnosticChangeEvent>
             /// <summary>
             /// Get all diagnostics for a given resource. *Note* that this includes diagnostics from
@@ -6119,6 +6233,11 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     module Scm =
 
         type [<AllowNullLiteral>] IExports =
+            /// <summary>
+            /// ~~The <see cref="SourceControlInputBox">input box</see> for the last source control
+            /// created by the extension.~~
+            /// </summary>
+            [<Obsolete("Use SourceControl.inputBox instead")>]
             abstract inputBox: SourceControlInputBox
             /// <summary>Creates a new <see cref="SourceControl">source control</see> instance.</summary>
             /// <param name="id">An <c>id</c> for the source control. Something short, eg: <c>git</c>.</param>
@@ -6344,13 +6463,32 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     module Debug =
 
         type [<AllowNullLiteral>] IExports =
+            /// <summary>
+            /// The currently active <see cref="DebugSession">debug session</see> or <c>undefined</c>. The active debug session is the one
+            /// represented by the debug action floating window or the one currently shown in the drop down menu of the debug action floating window.
+            /// If no debug session is active, the value is <c>undefined</c>.
+            /// </summary>
             abstract activeDebugSession: DebugSession option
+            /// <summary>
+            /// The currently active <see cref="DebugConsole">debug console</see>.
+            /// If no debug session is active, output sent to the debug console is not shown.
+            /// </summary>
             abstract activeDebugConsole: DebugConsole
+            /// List of breakpoints.
             abstract breakpoints: ResizeArray<Breakpoint>
+            /// <summary>
+            /// An <see cref="Event">event</see> which fires when the <see cref="debug.activeDebugSession">active debug session</see>
+            /// has changed. *Note* that the event also fires when the active debug session changes
+            /// to <c>undefined</c>.
+            /// </summary>
             abstract onDidChangeActiveDebugSession: Event<DebugSession option>
+            /// <summary>An <see cref="Event">event</see> which fires when a new <see cref="DebugSession">debug session</see> has been started.</summary>
             abstract onDidStartDebugSession: Event<DebugSession>
+            /// <summary>An <see cref="Event">event</see> which fires when a custom DAP event is received from the <see cref="DebugSession">debug session</see>.</summary>
             abstract onDidReceiveDebugSessionCustomEvent: Event<DebugSessionCustomEvent>
+            /// <summary>An <see cref="Event">event</see> which fires when a <see cref="DebugSession">debug session</see> has terminated.</summary>
             abstract onDidTerminateDebugSession: Event<DebugSession>
+            /// <summary>An <see cref="Event">event</see> that is emitted when the set of breakpoints is added, removed, or changed.</summary>
             abstract onDidChangeBreakpoints: Event<BreakpointsChangeEvent>
             /// <summary>
             /// Register a <see cref="DebugConfigurationProvider">debug configuration provider</see> for a specific debug type.
@@ -6435,7 +6573,12 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="extensionId">An extension identifier.</param>
             /// <returns>An extension or <c>undefined</c>.</returns>
             abstract getExtension: extensionId: string -> Extension<'T> option
+            /// All extensions currently known to the system.
             abstract all: ResizeArray<Extension<obj option>>
+            /// <summary>
+            /// An event which fires when <c>extensions.all</c> changes. This can happen when extensions are
+            /// installed, uninstalled, enabled or disabled.
+            /// </summary>
             abstract onDidChange: Event<unit>
 
     type [<AllowNullLiteral>] DisposableStaticFrom =

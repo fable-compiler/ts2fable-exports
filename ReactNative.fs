@@ -435,9 +435,21 @@ type [<AllowNullLiteral>] IExports =
     abstract require: name: string -> obj option
     abstract console: Console
     abstract navigator: Navigator
+    /// <summary>
+    /// This contains the non-native <c>XMLHttpRequest</c> object, which you can use if you want to route network requests
+    /// through DevTools (to trace them):
+    /// 
+    ///    global.XMLHttpRequest = global.originalXMLHttpRequest;
+    /// </summary>
+    /// <seealso href="https://github.com/facebook/react-native/issues/934" />
     abstract originalXMLHttpRequest: obj option
     abstract __BUNDLE_START_TIME__: float
     abstract ErrorUtils: ErrorUtils
+    /// <summary>
+    /// This variable is set to true when react-native is running in Dev mode
+    /// Typical usage:
+    /// <code> if (__DEV__) console.log('Running in dev mode')</code>
+    /// </summary>
     abstract __DEV__: bool
 
 type [<AllowNullLiteral>] RequireNativeComponentExtraConfig =
@@ -4376,8 +4388,42 @@ module StyleSheet =
         /// internally to process color and transform values. You should not use this
         /// unless you really know what you are doing and have exhausted other options.
         abstract setStyleAttributePreprocessor: property: string * ``process``: (obj option -> obj option) -> unit
+        /// <summary>
+        /// This is defined as the width of a thin line on the platform. It can be
+        /// used as the thickness of a border or division between two elements.
+        /// Example:
+        /// <code>
+        ///    {
+        ///      borderBottomColor: '#bbb',
+        ///      borderBottomWidth: StyleSheet.hairlineWidth
+        ///    }
+        /// </code>
+        /// 
+        /// This constant will always be a round number of pixels (so a line defined
+        /// by it look crisp) and will try to match the standard width of a thin line
+        /// on the underlying platform. However, you should not rely on it being a
+        /// constant size, because on different platforms and screen densities its
+        /// value may be calculated differently.
+        /// </summary>
         abstract hairlineWidth: float
+        /// <summary>
+        /// Sometimes you may want <c>absoluteFill</c> but with a couple tweaks - <c>absoluteFillObject</c> can be
+        /// used to create a customized entry in a <c>StyleSheet</c>, e.g.:
+        /// 
+        ///    const styles = StyleSheet.create({
+        ///      wrapper: {
+        ///        ...StyleSheet.absoluteFillObject,
+        ///        top: 10,
+        ///        backgroundColor: 'transparent',
+        ///      },
+        ///    });
+        /// </summary>
         abstract absoluteFillObject: AbsoluteFillStyle
+        /// <summary>
+        /// A very common pattern is to create overlays with position absolute and zero positioning,
+        /// so <c>absoluteFill</c> can be used for convenience and to reduce duplication of these repeated
+        /// styles.
+        /// </summary>
         abstract absoluteFill: RegisteredStyle<AbsoluteFillStyle>
 
     type [<AllowNullLiteral>] NamedStyles<'T> =
@@ -6599,6 +6645,10 @@ module Animated =
         /// Animates a value from an initial velocity to zero based on a decay
         /// coefficient.
         abstract decay: value: U2<AnimatedValue, AnimatedValueXY> * config: DecayAnimationConfig -> CompositeAnimation
+        /// <summary>
+        /// Animates a value along a timed easing curve.  The <c>Easing</c> module has tons
+        /// of pre-defined curves, or you can use your own function.
+        /// </summary>
         abstract timing: (U2<AnimatedValue, AnimatedValueXY> -> TimingAnimationConfig -> CompositeAnimation)
         /// Creates a new Animated value composed from two Animated values added
         /// together.
@@ -6671,6 +6721,8 @@ module Animated =
         abstract ``event``: argMapping: Array<Mapping option> * ?config: EventConfig<'T> -> (ResizeArray<obj option> -> unit)
         /// <summary>Make any React component Animatable.  Used to create <c>Animated.View</c>, etc.</summary>
         abstract createAnimatedComponent: ``component``: obj option -> obj option
+        /// Animated variants of the basic native views. Accepts Animated.Value for
+        /// props and style.
         abstract View: obj option
         abstract Image: obj option
         abstract Text: obj option

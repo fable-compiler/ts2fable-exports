@@ -319,6 +319,10 @@ module __common_AppConfig =
 module __common_assert =
 
     type [<AllowNullLiteral>] IExports =
+        /// assert
+        /// 
+        /// Copyright (c) Microsoft Corporation. All rights reserved.
+        /// Licensed under the MIT license.
         abstract ``assert``: (obj option -> string -> unit)
 
 module __common_Bezier =
