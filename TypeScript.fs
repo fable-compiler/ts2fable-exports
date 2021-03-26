@@ -20,6 +20,7 @@ module Ts =
 
     type [<AllowNullLiteral>] IExports =
         abstract versionMajorMinor: obj
+        /// The version of the TypeScript compiler release
         abstract version: string
         abstract OperationCanceledException: OperationCanceledExceptionStatic
         abstract getNodeMajorVersion: unit -> float option
@@ -667,7 +668,9 @@ module Ts =
         abstract createEmptyStatement: unit -> EmptyStatement
         abstract createExpressionStatement: expression: Expression -> ExpressionStatement
         abstract updateExpressionStatement: node: ExpressionStatement * expression: Expression -> ExpressionStatement
+        [<Obsolete("Use `createExpressionStatement` instead.")>]
         abstract createStatement: obj
+        [<Obsolete("Use `updateExpressionStatement` instead.")>]
         abstract updateStatement: obj
         abstract createIf: expression: Expression * thenStatement: Statement * ?elseStatement: Statement -> IfStatement
         abstract updateIf: node: IfStatement * expression: Expression * thenStatement: Statement * elseStatement: Statement option -> IfStatement
@@ -982,6 +985,7 @@ module Ts =
         abstract preProcessFile: sourceText: string * ?readImportFiles: bool * ?detectJavaScriptImports: bool -> PreProcessedFileInfo
         abstract transpileModule: input: string * transpileOptions: TranspileOptions -> TranspileOutput
         abstract transpile: input: string * ?compilerOptions: CompilerOptions * ?fileName: string * ?diagnostics: ResizeArray<Diagnostic> * ?moduleName: string -> string
+        /// The version of the language service API
         abstract servicesVersion: obj
         abstract toEditorSettings: options: U2<EditorOptions, EditorSettings> -> EditorSettings
         abstract displayPartsToString: displayParts: ResizeArray<SymbolDisplayPart> option -> string

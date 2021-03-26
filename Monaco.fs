@@ -739,6 +739,7 @@ module Monaco =
             abstract remeasureFonts: unit -> unit
             abstract TextModelResolvedOptions: TextModelResolvedOptionsStatic
             abstract FindMatch: FindMatchStatic
+            /// <summary>The type of the <c>IEditor</c>.</summary>
             abstract EditorType: IExportsEditorType
             /// An event describing that the configuration of the editor has changed.
             abstract ConfigurationChangedEvent: ConfigurationChangedEventStatic

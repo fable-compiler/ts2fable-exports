@@ -600,6 +600,11 @@ module __components_Button_BaseButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>
+        /// Gets the base button styles. Note: because it is a base class to be used with the <c>mergeRules</c>
+        /// helper, it should have values for all class names in the interface. This let <c>mergeRules</c> optimize
+        /// mixing class names together.
+        /// </summary>
         abstract getStyles: (ITheme -> IButtonStyles)
 
 module __components_Button_Button_checklist =
@@ -5319,6 +5324,7 @@ module __components_Facepile_Facepile =
     type IFacepileProps = __components_Facepile_Facepile_types.IFacepileProps
 
     type [<AllowNullLiteral>] IExports =
+        /// Facepile description
         abstract Facepile: (IFacepileProps -> JSX.Element)
 
 module __components_Facepile_Facepile_scss =
@@ -6530,6 +6536,8 @@ module __components_Icon_Icon =
     type IIconProps = __components_Icon_Icon_types.IIconProps
 
     type [<AllowNullLiteral>] IExports =
+        /// Icons are used for rendering an individual's avatar, presence and details.
+        /// They are used within the PeoplePicker components.
         abstract Icon: (IIconProps -> JSX.Element)
 
 module __components_Icon_Icon_styles =
@@ -8946,6 +8954,8 @@ module __components_Persona_Persona =
     type IPersonaProps = __components_Persona_Persona_types.IPersonaProps
 
     type [<AllowNullLiteral>] IExports =
+        /// Personas are used for rendering an individual's avatar, presence and details.
+        /// They are used within the PeoplePicker components.
         abstract Persona: (IPersonaProps -> JSX.Element)
 
 module __components_Persona_Persona_styles =
@@ -9621,6 +9631,9 @@ module __components_Pivot_Pivot =
     type IPivotProps = __components_Pivot_Pivot_types.IPivotProps
 
     type [<AllowNullLiteral>] IExports =
+        /// The Pivot control and related tabs pattern are used for navigating frequently accessed,
+        /// distinct content categories. Pivots allow for navigation between two or more content
+        /// views and relies on text headers to articulate the different sections of content.
         abstract Pivot: (IPivotProps -> JSX.Element)
 
 module __components_Pivot_Pivot_scss =
@@ -9909,6 +9922,7 @@ module __components_ProgressIndicator_ProgressIndicator =
     type IProgressIndicatorProps = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorProps
 
     type [<AllowNullLiteral>] IExports =
+        /// ProgressIndicator description
         abstract ProgressIndicator: (IProgressIndicatorProps -> JSX.Element)
 
 module __components_ProgressIndicator_ProgressIndicator_styles =
@@ -10123,7 +10137,10 @@ module __components_ResizeGroup_ResizeGroup_base =
     type IResizeGroupProps = __components_ResizeGroup_ResizeGroup_types.IResizeGroupProps
 
     type [<AllowNullLiteral>] IExports =
+        /// Returns a simple object is able to store measurements with a given key.
         abstract getMeasurementCache: (unit -> IExportsGetMeasurementCache)
+        /// Returns a function that is able to compute the next state for the ResizeGroup given the current
+        /// state and any measurement updates.
         abstract getNextResizeGroupStateProvider: (IExportsGetMeasurementCache -> IExportsGetNextResizeGroupStateProvider)
         abstract ResizeGroupBase: ResizeGroupBaseStatic
 
@@ -13101,6 +13118,7 @@ module __utilities_dateValues_DateValues =
 module __utilities_dateValues_TimeConstants =
 
     type [<AllowNullLiteral>] IExports =
+        /// Common constants and methods
         abstract TimeConstants: IExportsTimeConstants
 
     type [<AllowNullLiteral>] IExportsTimeConstants =
@@ -13409,6 +13427,8 @@ module __utilities_groupedList_GroupedListUtility =
     type IGroup = __components_GroupedList_GroupedList_types.IGroup
 
     type [<AllowNullLiteral>] IExports =
+        /// <summary>Takes an array of groups and returns a count of the groups and all descendant groups.</summary>
+        /// <param name="groups">The array of groups to count.</param>
         abstract GetGroupCount: (ResizeArray<IGroup> option -> float)
 
 module __utilities_keytips_IKeytipTransitionKey =
@@ -17851,6 +17871,7 @@ module __components_Persona_PersonaCoin_PersonaCoin =
     type IPersonaCoinProps = __components_Persona_Persona_types.IPersonaCoinProps
 
     type [<AllowNullLiteral>] IExports =
+        /// PersonaCoin is used to render an individual's avatar and presence.
         abstract PersonaCoin: (IPersonaCoinProps -> JSX.Element)
 
 module __components_Persona_PersonaCoin_PersonaCoin_styles =
@@ -17893,6 +17914,7 @@ module __components_Persona_PersonaPresence_PersonaPresence =
     type IPersonaPresenceProps = __components_Persona_Persona_types.IPersonaPresenceProps
 
     type [<AllowNullLiteral>] IExports =
+        /// PersonaPresence is used to render an individual's presence.
         abstract PersonaPresence: (IPersonaPresenceProps -> JSX.Element)
 
 module __components_Persona_PersonaPresence_PersonaPresence_styles =
