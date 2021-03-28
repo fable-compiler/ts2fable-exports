@@ -74,36 +74,36 @@ module __android_ReactXP =
     module ReactXP =
 
         type [<AllowNullLiteral>] IExports =
-            abstract Accessibility: RXInterfaces.Accessibility
-            abstract ActivityIndicator: obj
-            abstract Alert: RXInterfaces.Alert
-            abstract App: RXInterfaces.App
-            abstract Button: obj
-            abstract Picker: obj
-            abstract Clipboard: RXInterfaces.Clipboard
-            abstract GestureView: obj
-            abstract Image: RXInterfaces.ImageConstructor
-            abstract Input: RXInterfaces.Input
-            abstract International: RXInterfaces.International
-            abstract Link: obj
-            abstract Linking: RXInterfaces.Linking
-            abstract Location: RXInterfaces.Location
-            abstract Modal: RXInterfaces.Modal
-            abstract Network: RXInterfaces.Network
-            abstract Platform: RXInterfaces.Platform
-            abstract Popup: RXInterfaces.Popup
-            abstract ScrollView: RXInterfaces.ScrollViewConstructor
-            abstract StatusBar: RXInterfaces.StatusBar
-            abstract Storage: RXInterfaces.Storage
-            abstract Styles: RXInterfaces.Styles
-            abstract Text: obj
-            abstract TextInput: obj
-            abstract UserInterface: RXInterfaces.UserInterface
-            abstract UserPresence: RXInterfaces.UserPresence
-            abstract View: obj
-            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Accessibility: RXInterfaces.Accessibility with get, set
+            abstract ActivityIndicator: obj with get, set
+            abstract Alert: RXInterfaces.Alert with get, set
+            abstract App: RXInterfaces.App with get, set
+            abstract Button: obj with get, set
+            abstract Picker: obj with get, set
+            abstract Clipboard: RXInterfaces.Clipboard with get, set
+            abstract GestureView: obj with get, set
+            abstract Image: RXInterfaces.ImageConstructor with get, set
+            abstract Input: RXInterfaces.Input with get, set
+            abstract International: RXInterfaces.International with get, set
+            abstract Link: obj with get, set
+            abstract Linking: RXInterfaces.Linking with get, set
+            abstract Location: RXInterfaces.Location with get, set
+            abstract Modal: RXInterfaces.Modal with get, set
+            abstract Network: RXInterfaces.Network with get, set
+            abstract Platform: RXInterfaces.Platform with get, set
+            abstract Popup: RXInterfaces.Popup with get, set
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor with get, set
+            abstract StatusBar: RXInterfaces.StatusBar with get, set
+            abstract Storage: RXInterfaces.Storage with get, set
+            abstract Styles: RXInterfaces.Styles with get, set
+            abstract Text: obj with get, set
+            abstract TextInput: obj with get, set
+            abstract UserInterface: RXInterfaces.UserInterface with get, set
+            abstract UserPresence: RXInterfaces.UserPresence with get, set
+            abstract View: obj with get, set
+            abstract WebView: RXInterfaces.WebViewConstructor with get, set
             abstract Animated: RXInterfaces.Animated
-            abstract __spread: obj option
+            abstract __spread: obj option with get, set
 
         type Accessibility =
             RXInterfaces.Accessibility
@@ -830,38 +830,38 @@ module __common_ModuleInterface =
     module ReactXP =
 
         type [<AllowNullLiteral>] IExports =
-            abstract Accessibility: RX.Accessibility
-            abstract ActivityIndicator: obj
-            abstract Alert: RX.Alert
-            abstract App: RX.App
-            abstract Button: obj
-            abstract Picker: obj
-            abstract Clipboard: RX.Clipboard
-            abstract GestureView: obj
-            abstract Image: RX.ImageConstructor
-            abstract Input: RX.Input
-            abstract International: RX.International
-            abstract Link: obj
-            abstract Linking: RX.Linking
-            abstract Location: RX.Location
-            abstract Modal: RX.Modal
-            abstract Network: RX.Network
-            abstract Platform: RX.Platform
-            abstract Popup: RX.Popup
-            abstract ScrollView: RX.ScrollViewConstructor
-            abstract StatusBar: RX.StatusBar
-            abstract Storage: RX.Storage
-            abstract Styles: RX.Styles
-            abstract Text: obj
-            abstract TextInput: obj
-            abstract UserInterface: RX.UserInterface
-            abstract UserPresence: RX.UserPresence
-            abstract View: obj
-            abstract WebView: RX.WebViewConstructor
-            abstract Animated: RX.Animated
-            abstract createElement: obj
-            abstract Children: obj
-            abstract __spread: obj option
+            abstract Accessibility: RX.Accessibility with get, set
+            abstract ActivityIndicator: obj with get, set
+            abstract Alert: RX.Alert with get, set
+            abstract App: RX.App with get, set
+            abstract Button: obj with get, set
+            abstract Picker: obj with get, set
+            abstract Clipboard: RX.Clipboard with get, set
+            abstract GestureView: obj with get, set
+            abstract Image: RX.ImageConstructor with get, set
+            abstract Input: RX.Input with get, set
+            abstract International: RX.International with get, set
+            abstract Link: obj with get, set
+            abstract Linking: RX.Linking with get, set
+            abstract Location: RX.Location with get, set
+            abstract Modal: RX.Modal with get, set
+            abstract Network: RX.Network with get, set
+            abstract Platform: RX.Platform with get, set
+            abstract Popup: RX.Popup with get, set
+            abstract ScrollView: RX.ScrollViewConstructor with get, set
+            abstract StatusBar: RX.StatusBar with get, set
+            abstract Storage: RX.Storage with get, set
+            abstract Styles: RX.Styles with get, set
+            abstract Text: obj with get, set
+            abstract TextInput: obj with get, set
+            abstract UserInterface: RX.UserInterface with get, set
+            abstract UserPresence: RX.UserPresence with get, set
+            abstract View: obj with get, set
+            abstract WebView: RX.WebViewConstructor with get, set
+            abstract Animated: RX.Animated with get, set
+            abstract createElement: obj with get, set
+            abstract Children: obj with get, set
+            abstract __spread: obj option with get, set
 
         type Accessibility =
             RX.Accessibility
@@ -1016,7 +1016,7 @@ module __common_Types =
 
     type [<AllowNullLiteral>] IExports =
         abstract AnimatedValue: AnimatedValueStatic
-        abstract Children: React.ReactChildren
+        abstract Children: React.ReactChildren with get, set
 
     type ReactNode =
         React.ReactNode
@@ -1845,9 +1845,9 @@ module __common_Types =
     module Animated =
 
         type [<AllowNullLiteral>] IExports =
-            abstract timing: TimingFunction
-            abstract sequence: SequenceFunction
-            abstract ``parallel``: ParallelFunction
+            abstract timing: TimingFunction with get, set
+            abstract sequence: SequenceFunction with get, set
+            abstract ``parallel``: ParallelFunction with get, set
 
         type [<AllowNullLiteral>] EndResult =
             abstract finished: bool with get, set
@@ -2330,36 +2330,36 @@ module __ios_ReactXP =
     module ReactXP =
 
         type [<AllowNullLiteral>] IExports =
-            abstract Accessibility: RXInterfaces.Accessibility
-            abstract ActivityIndicator: obj
-            abstract Alert: RXInterfaces.Alert
-            abstract App: RXInterfaces.App
-            abstract Button: obj
-            abstract Picker: obj
-            abstract Clipboard: RXInterfaces.Clipboard
-            abstract GestureView: obj
-            abstract Image: RXInterfaces.ImageConstructor
-            abstract Input: RXInterfaces.Input
-            abstract International: RXInterfaces.International
-            abstract Link: obj
-            abstract Linking: RXInterfaces.Linking
-            abstract Location: RXInterfaces.Location
-            abstract Modal: RXInterfaces.Modal
-            abstract Network: RXInterfaces.Network
-            abstract Platform: RXInterfaces.Platform
-            abstract Popup: RXInterfaces.Popup
-            abstract ScrollView: RXInterfaces.ScrollViewConstructor
-            abstract StatusBar: RXInterfaces.StatusBar
-            abstract Storage: RXInterfaces.Storage
-            abstract Styles: RXInterfaces.Styles
-            abstract Text: obj
-            abstract TextInput: obj
-            abstract UserInterface: RXInterfaces.UserInterface
-            abstract UserPresence: RXInterfaces.UserPresence
-            abstract View: obj
-            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Accessibility: RXInterfaces.Accessibility with get, set
+            abstract ActivityIndicator: obj with get, set
+            abstract Alert: RXInterfaces.Alert with get, set
+            abstract App: RXInterfaces.App with get, set
+            abstract Button: obj with get, set
+            abstract Picker: obj with get, set
+            abstract Clipboard: RXInterfaces.Clipboard with get, set
+            abstract GestureView: obj with get, set
+            abstract Image: RXInterfaces.ImageConstructor with get, set
+            abstract Input: RXInterfaces.Input with get, set
+            abstract International: RXInterfaces.International with get, set
+            abstract Link: obj with get, set
+            abstract Linking: RXInterfaces.Linking with get, set
+            abstract Location: RXInterfaces.Location with get, set
+            abstract Modal: RXInterfaces.Modal with get, set
+            abstract Network: RXInterfaces.Network with get, set
+            abstract Platform: RXInterfaces.Platform with get, set
+            abstract Popup: RXInterfaces.Popup with get, set
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor with get, set
+            abstract StatusBar: RXInterfaces.StatusBar with get, set
+            abstract Storage: RXInterfaces.Storage with get, set
+            abstract Styles: RXInterfaces.Styles with get, set
+            abstract Text: obj with get, set
+            abstract TextInput: obj with get, set
+            abstract UserInterface: RXInterfaces.UserInterface with get, set
+            abstract UserPresence: RXInterfaces.UserPresence with get, set
+            abstract View: obj with get, set
+            abstract WebView: RXInterfaces.WebViewConstructor with get, set
             abstract Animated: RXInterfaces.Animated
-            abstract __spread: obj option
+            abstract __spread: obj option with get, set
 
         type Accessibility =
             RXInterfaces.Accessibility
@@ -2551,36 +2551,36 @@ module __macos_ReactXP =
     module ReactXP =
 
         type [<AllowNullLiteral>] IExports =
-            abstract Accessibility: RXInterfaces.Accessibility
-            abstract ActivityIndicator: obj
-            abstract Alert: RXInterfaces.Alert
-            abstract App: RXInterfaces.App
-            abstract Button: obj
-            abstract Picker: obj
-            abstract Clipboard: RXInterfaces.Clipboard
-            abstract GestureView: obj
-            abstract Image: RXInterfaces.ImageConstructor
-            abstract Input: RXInterfaces.Input
-            abstract International: RXInterfaces.International
-            abstract Link: obj
-            abstract Linking: RXInterfaces.Linking
-            abstract Location: RXInterfaces.Location
-            abstract Modal: RXInterfaces.Modal
-            abstract Network: RXInterfaces.Network
-            abstract Platform: RXInterfaces.Platform
-            abstract Popup: RXInterfaces.Popup
-            abstract ScrollView: RXInterfaces.ScrollViewConstructor
-            abstract StatusBar: RXInterfaces.StatusBar
-            abstract Storage: RXInterfaces.Storage
-            abstract Styles: RXInterfaces.Styles
-            abstract Text: obj
-            abstract TextInput: obj
-            abstract UserInterface: RXInterfaces.UserInterface
-            abstract UserPresence: RXInterfaces.UserPresence
-            abstract View: obj
-            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Accessibility: RXInterfaces.Accessibility with get, set
+            abstract ActivityIndicator: obj with get, set
+            abstract Alert: RXInterfaces.Alert with get, set
+            abstract App: RXInterfaces.App with get, set
+            abstract Button: obj with get, set
+            abstract Picker: obj with get, set
+            abstract Clipboard: RXInterfaces.Clipboard with get, set
+            abstract GestureView: obj with get, set
+            abstract Image: RXInterfaces.ImageConstructor with get, set
+            abstract Input: RXInterfaces.Input with get, set
+            abstract International: RXInterfaces.International with get, set
+            abstract Link: obj with get, set
+            abstract Linking: RXInterfaces.Linking with get, set
+            abstract Location: RXInterfaces.Location with get, set
+            abstract Modal: RXInterfaces.Modal with get, set
+            abstract Network: RXInterfaces.Network with get, set
+            abstract Platform: RXInterfaces.Platform with get, set
+            abstract Popup: RXInterfaces.Popup with get, set
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor with get, set
+            abstract StatusBar: RXInterfaces.StatusBar with get, set
+            abstract Storage: RXInterfaces.Storage with get, set
+            abstract Styles: RXInterfaces.Styles with get, set
+            abstract Text: obj with get, set
+            abstract TextInput: obj with get, set
+            abstract UserInterface: RXInterfaces.UserInterface with get, set
+            abstract UserPresence: RXInterfaces.UserPresence with get, set
+            abstract View: obj with get, set
+            abstract WebView: RXInterfaces.WebViewConstructor with get, set
             abstract Animated: RXInterfaces.Animated
-            abstract __spread: obj option
+            abstract __spread: obj option with get, set
 
         type Accessibility =
             RXInterfaces.Accessibility
@@ -2801,7 +2801,7 @@ module __native_common_Animated =
     type [<AllowNullLiteral>] IExports =
         abstract CommonAnimatedClasses: AnimatedClasses
         abstract makeAnimated: nativeAnimatedClasses: AnimatedClasses * ?useFocusRestrictedView: bool -> RX.Animated
-        abstract AnimatedCommon: IExportsAnimatedCommon
+        abstract AnimatedCommon: IExportsAnimatedCommon with get, set
 
     type [<AllowNullLiteral>] AnimatedClasses =
         abstract Image: obj with get, set
@@ -3853,15 +3853,15 @@ module __web_Animated =
         abstract Animation: AnimationStatic
         abstract Value: ValueStatic
         abstract InterpolatedValue: InterpolatedValueStatic
-        abstract timing: RX.Types.Animated.TimingFunction
-        abstract sequence: RX.Types.Animated.SequenceFunction
-        abstract ``parallel``: RX.Types.Animated.ParallelFunction
-        abstract Image: obj
-        abstract Text: obj
-        abstract TextInput: obj
-        abstract View: obj
-        abstract createValue: (float -> Value)
-        abstract interpolate: (Value -> ResizeArray<float> -> ResizeArray<string> -> Value)
+        abstract timing: RX.Types.Animated.TimingFunction with get, set
+        abstract sequence: RX.Types.Animated.SequenceFunction with get, set
+        abstract ``parallel``: RX.Types.Animated.ParallelFunction with get, set
+        abstract Image: obj with get, set
+        abstract Text: obj with get, set
+        abstract TextInput: obj with get, set
+        abstract View: obj with get, set
+        abstract createValue: (float -> Value) with get, set
+        abstract interpolate: (Value -> ResizeArray<float> -> ResizeArray<string> -> Value) with get, set
 
     type [<AllowNullLiteral>] Animation =
         abstract _id: float option with get, set
@@ -4292,35 +4292,35 @@ module __web_ReactXP =
     module ReactXP =
 
         type [<AllowNullLiteral>] IExports =
-            abstract Accessibility: RXInterfaces.Accessibility
-            abstract ActivityIndicator: obj
-            abstract Alert: RXInterfaces.Alert
-            abstract App: RXInterfaces.App
-            abstract Button: obj
-            abstract Picker: obj
-            abstract Clipboard: RXInterfaces.Clipboard
-            abstract GestureView: obj
-            abstract Image: RXInterfaces.ImageConstructor
-            abstract Input: RXInterfaces.Input
-            abstract International: RXInterfaces.International
-            abstract Link: obj
-            abstract Linking: RXInterfaces.Linking
-            abstract Location: RXInterfaces.Location
-            abstract Modal: RXInterfaces.Modal
-            abstract Network: RXInterfaces.Network
-            abstract Platform: RXInterfaces.Platform
-            abstract Popup: RXInterfaces.Popup
-            abstract ScrollView: RXInterfaces.ScrollViewConstructor
-            abstract StatusBar: RXInterfaces.StatusBar
-            abstract Storage: RXInterfaces.Storage
-            abstract Styles: RXInterfaces.Styles
-            abstract Text: obj
-            abstract TextInput: obj
-            abstract UserInterface: RXInterfaces.UserInterface
-            abstract UserPresence: RXInterfaces.UserPresence
-            abstract View: obj
-            abstract WebView: RXInterfaces.WebViewConstructor
-            abstract __spread: obj option
+            abstract Accessibility: RXInterfaces.Accessibility with get, set
+            abstract ActivityIndicator: obj with get, set
+            abstract Alert: RXInterfaces.Alert with get, set
+            abstract App: RXInterfaces.App with get, set
+            abstract Button: obj with get, set
+            abstract Picker: obj with get, set
+            abstract Clipboard: RXInterfaces.Clipboard with get, set
+            abstract GestureView: obj with get, set
+            abstract Image: RXInterfaces.ImageConstructor with get, set
+            abstract Input: RXInterfaces.Input with get, set
+            abstract International: RXInterfaces.International with get, set
+            abstract Link: obj with get, set
+            abstract Linking: RXInterfaces.Linking with get, set
+            abstract Location: RXInterfaces.Location with get, set
+            abstract Modal: RXInterfaces.Modal with get, set
+            abstract Network: RXInterfaces.Network with get, set
+            abstract Platform: RXInterfaces.Platform with get, set
+            abstract Popup: RXInterfaces.Popup with get, set
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor with get, set
+            abstract StatusBar: RXInterfaces.StatusBar with get, set
+            abstract Storage: RXInterfaces.Storage with get, set
+            abstract Styles: RXInterfaces.Styles with get, set
+            abstract Text: obj with get, set
+            abstract TextInput: obj with get, set
+            abstract UserInterface: RXInterfaces.UserInterface with get, set
+            abstract UserPresence: RXInterfaces.UserPresence with get, set
+            abstract View: obj with get, set
+            abstract WebView: RXInterfaces.WebViewConstructor with get, set
+            abstract __spread: obj option with get, set
 
         type Accessibility =
             RXInterfaces.Accessibility
@@ -4991,36 +4991,36 @@ module __windows_ReactXP =
     module ReactXP =
 
         type [<AllowNullLiteral>] IExports =
-            abstract Accessibility: RXInterfaces.Accessibility
-            abstract ActivityIndicator: obj
-            abstract Alert: RXInterfaces.Alert
-            abstract App: RXInterfaces.App
-            abstract Button: obj
-            abstract Picker: obj
-            abstract Clipboard: RXInterfaces.Clipboard
-            abstract GestureView: obj
-            abstract Image: RXInterfaces.ImageConstructor
-            abstract Input: RXInterfaces.Input
-            abstract International: RXInterfaces.International
-            abstract Link: obj
-            abstract Linking: RXInterfaces.Linking
-            abstract Location: RXInterfaces.Location
-            abstract Modal: RXInterfaces.Modal
-            abstract Network: RXInterfaces.Network
-            abstract Platform: RXInterfaces.Platform
-            abstract Popup: RXInterfaces.Popup
-            abstract ScrollView: RXInterfaces.ScrollViewConstructor
-            abstract StatusBar: RXInterfaces.StatusBar
-            abstract Storage: RXInterfaces.Storage
-            abstract Styles: RXInterfaces.Styles
-            abstract Text: obj
-            abstract TextInput: obj
-            abstract UserInterface: RXInterfaces.UserInterface
-            abstract UserPresence: RXInterfaces.UserPresence
-            abstract View: obj
-            abstract WebView: RXInterfaces.WebViewConstructor
+            abstract Accessibility: RXInterfaces.Accessibility with get, set
+            abstract ActivityIndicator: obj with get, set
+            abstract Alert: RXInterfaces.Alert with get, set
+            abstract App: RXInterfaces.App with get, set
+            abstract Button: obj with get, set
+            abstract Picker: obj with get, set
+            abstract Clipboard: RXInterfaces.Clipboard with get, set
+            abstract GestureView: obj with get, set
+            abstract Image: RXInterfaces.ImageConstructor with get, set
+            abstract Input: RXInterfaces.Input with get, set
+            abstract International: RXInterfaces.International with get, set
+            abstract Link: obj with get, set
+            abstract Linking: RXInterfaces.Linking with get, set
+            abstract Location: RXInterfaces.Location with get, set
+            abstract Modal: RXInterfaces.Modal with get, set
+            abstract Network: RXInterfaces.Network with get, set
+            abstract Platform: RXInterfaces.Platform with get, set
+            abstract Popup: RXInterfaces.Popup with get, set
+            abstract ScrollView: RXInterfaces.ScrollViewConstructor with get, set
+            abstract StatusBar: RXInterfaces.StatusBar with get, set
+            abstract Storage: RXInterfaces.Storage with get, set
+            abstract Styles: RXInterfaces.Styles with get, set
+            abstract Text: obj with get, set
+            abstract TextInput: obj with get, set
+            abstract UserInterface: RXInterfaces.UserInterface with get, set
+            abstract UserPresence: RXInterfaces.UserPresence with get, set
+            abstract View: obj with get, set
+            abstract WebView: RXInterfaces.WebViewConstructor with get, set
             abstract Animated: RXInterfaces.Animated
-            abstract __spread: obj option
+            abstract __spread: obj option with get, set
 
         type Accessibility =
             RXInterfaces.Accessibility

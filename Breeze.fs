@@ -1222,9 +1222,9 @@ type [<AllowNullLiteral>] ValidatorFunctionContext =
 module Config =
 
     type [<AllowNullLiteral>] IExports =
-        abstract ajax: string
-        abstract dataService: string
-        abstract functionRegistry: Object
+        abstract ajax: string with get, set
+        abstract dataService: string with get, set
+        abstract functionRegistry: Object with get, set
         /// <summary>Returns the ctor function used to implement a specific interface with a specific adapter name.</summary>
         /// <param name="interfaceName">One of the following interface names "ajax", "dataService" or "modelLibrary"</param>
         /// <param name="adapterName">
@@ -1256,9 +1256,9 @@ module Config =
         /// <param name="config" />
         /// <returns>[array of instances]</returns>
         abstract initializeAdapterInstances: config: AdapterInstancesConfig -> ResizeArray<Object>
-        abstract interfaceInitialized: Event
-        abstract interfaceRegistry: Object
-        abstract objectRegistry: Object
+        abstract interfaceInitialized: Event with get, set
+        abstract interfaceRegistry: Object with get, set
+        abstract objectRegistry: Object with get, set
         /// <summary>
         /// Method use to register implementations of standard breeze interfaces.  Calls to this method are usually
         /// made as the last step within an adapter implementation.
@@ -1272,8 +1272,8 @@ module Config =
         /// <param name="q">implementation of promise.</param>
         /// <seealso href="http://wiki.commonjs.org/wiki/Promises/A" />
         abstract setQ: q: Promises.IPromiseService -> unit
-        abstract stringifyPad: string
-        abstract typeRegistry: Object
+        abstract stringifyPad: string with get, set
+        abstract typeRegistry: Object with get, set
 
     type [<AllowNullLiteral>] AdapterInstancesConfig =
         /// the name of a previously registered "ajax" adapter

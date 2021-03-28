@@ -24,7 +24,7 @@ module Ts =
         abstract version: string
         abstract OperationCanceledException: OperationCanceledExceptionStatic
         abstract getNodeMajorVersion: unit -> float option
-        abstract sys: System
+        abstract sys: System with get, set
         abstract tokenToString: t: SyntaxKind -> string option
         abstract getPositionOfLineAndCharacter: sourceFile: SourceFileLike * line: float * character: float -> float
         abstract getLineAndCharacterOfPosition: sourceFile: SourceFileLike * position: float -> LineAndCharacter
@@ -65,7 +65,7 @@ module Ts =
         abstract textChangeRangeNewSpan: range: TextChangeRange -> TextSpan
         abstract textChangeRangeIsUnchanged: range: TextChangeRange -> bool
         abstract createTextChangeRange: span: TextSpan * newLength: float -> TextChangeRange
-        abstract unchangedTextChangeRange: TextChangeRange
+        abstract unchangedTextChangeRange: TextChangeRange with get, set
         /// Called to merge all the changes that occurred across several versions of a script snapshot
         /// into a single change.  i.e. if a user keeps making successive edits to a script we will
         /// have a text change from V1 to V2, V2 to V3, ..., Vn.
@@ -992,7 +992,7 @@ module Ts =
         abstract getDefaultCompilerOptions: unit -> CompilerOptions
         abstract getSupportedCodeFixes: unit -> ResizeArray<string>
         abstract createLanguageServiceSourceFile: fileName: string * scriptSnapshot: IScriptSnapshot * scriptTarget: ScriptTarget * version: string * setNodeParents: bool * ?scriptKind: ScriptKind -> SourceFile
-        abstract disableIncrementalParsing: bool
+        abstract disableIncrementalParsing: bool with get, set
         abstract updateLanguageServiceSourceFile: sourceFile: SourceFile * scriptSnapshot: IScriptSnapshot * version: string * textChangeRange: TextChangeRange option * ?aggressiveChecks: bool -> SourceFile
         abstract createLanguageService: host: LanguageServiceHost * ?documentRegistry: DocumentRegistry * ?syntaxOnly: bool -> LanguageService
         /// Get the path of the default library files (lib.d.ts) as distributed with the typescript
