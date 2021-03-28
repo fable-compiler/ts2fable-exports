@@ -4634,9 +4634,9 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// that currently has focus or, when none has focus, the one that has changed
             /// input most recently.
             /// </summary>
-            abstract activeTextEditor: TextEditor option
+            abstract activeTextEditor: TextEditor option with get, set
             /// The currently visible editors or an empty array.
-            abstract visibleTextEditors: ResizeArray<TextEditor>
+            abstract visibleTextEditors: ResizeArray<TextEditor> with get, set
             /// <summary>
             /// An <see cref="Event">event</see> which fires when the <see cref="window.activeTextEditor">active editor</see>
             /// has changed. *Note* that the event also fires when the active editor changes
@@ -6468,14 +6468,14 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// represented by the debug action floating window or the one currently shown in the drop down menu of the debug action floating window.
             /// If no debug session is active, the value is <c>undefined</c>.
             /// </summary>
-            abstract activeDebugSession: DebugSession option
+            abstract activeDebugSession: DebugSession option with get, set
             /// <summary>
             /// The currently active <see cref="DebugConsole">debug console</see>.
             /// If no debug session is active, output sent to the debug console is not shown.
             /// </summary>
-            abstract activeDebugConsole: DebugConsole
+            abstract activeDebugConsole: DebugConsole with get, set
             /// List of breakpoints.
-            abstract breakpoints: ResizeArray<Breakpoint>
+            abstract breakpoints: ResizeArray<Breakpoint> with get, set
             /// <summary>
             /// An <see cref="Event">event</see> which fires when the <see cref="debug.activeDebugSession">active debug session</see>
             /// has changed. *Note* that the event also fires when the active debug session changes
@@ -6574,7 +6574,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <returns>An extension or <c>undefined</c>.</returns>
             abstract getExtension: extensionId: string -> Extension<'T> option
             /// All extensions currently known to the system.
-            abstract all: ResizeArray<Extension<obj option>>
+            abstract all: ResizeArray<Extension<obj option>> with get, set
             /// <summary>
             /// An event which fires when <c>extensions.all</c> changes. This can happen when extensions are
             /// installed, uninstalled, enabled or disabled.
