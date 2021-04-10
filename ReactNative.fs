@@ -127,7 +127,7 @@ let [<Import("NativeAppEventEmitter","react-native")>] NativeAppEventEmitter: RC
 /// Define lazy getters for each module. These will return the module if already loaded, or load it if not.
 /// See <see href="https://facebook.github.io/react-native/docs/native-modules-ios.html" />
 /// Use:
-/// <code>const MyModule = NativeModules.ModuleName</code>
+/// &lt;code>const MyModule = NativeModules.ModuleName&lt;/code>
 /// </summary>
 let [<Import("NativeModules","react-native")>] NativeModules: NativeModulesStatic = jsNative
 let [<Import("Platform","react-native")>] Platform: PlatformStatic = jsNative
@@ -445,11 +445,9 @@ type [<AllowNullLiteral>] IExports =
     abstract originalXMLHttpRequest: obj option
     abstract __BUNDLE_START_TIME__: float
     abstract ErrorUtils: ErrorUtils
-    /// <summary>
     /// This variable is set to true when react-native is running in Dev mode
     /// Typical usage:
-    /// <code> if (__DEV__) console.log('Running in dev mode')</code>
-    /// </summary>
+    /// &lt;code> if (__DEV__) console.log('Running in dev mode')&lt;/code>
     abstract __DEV__: bool
 
 type [<AllowNullLiteral>] RequireNativeComponentExtraConfig =
@@ -6440,7 +6438,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// - format (string) - either 'png' or 'jpeg'. Defaults to 'png'.
     /// - quality (number) - the quality when using jpeg. 0.0 - 1.0 (default).
     /// 
-    /// Returns a Promise<string> (tempFilePath)
+    /// Returns a Promise&lt;string> (tempFilePath)
     /// </summary>
     abstract takeSnapshot: (U3<React.ReactElement<obj option>, float, string> -> UIManagerStaticTakeSnapshot -> Promise<string>) with get, set
     /// <summary>

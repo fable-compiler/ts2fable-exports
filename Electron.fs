@@ -3914,8 +3914,8 @@ module Electron =
         /// representation for your image before passing it in. This can be done with the
         /// following:
         /// 
-        /// `echo -e '#import <Cocoa/Cocoa.h>\nint main() { NSLog(@"%@", SYSTEM_IMAGE_NAME);
-        /// }' | clang -otest -x objective-c -framework Cocoa - && ./test`
+        /// `echo -e '#import &lt;Cocoa/Cocoa.h>\nint main() { NSLog(@"%@", SYSTEM_IMAGE_NAME);
+        /// }' | clang -otest -x objective-c -framework Cocoa - &amp;&amp; ./test`
         /// 
         /// where <c>SYSTEM_IMAGE_NAME</c> should be replaced with any value from this list.
         /// </summary>

@@ -4808,54 +4808,54 @@ module Monaco =
                 /// <param name="fileName">Not used</param>
                 abstract getCompilerOptionsDiagnostics: fileName: string -> Promise<ResizeArray<Diagnostic>>
                 /// <summary>Get code completions for the given file and position.</summary>
-                /// <returns><c>Promise<typescript.CompletionInfo | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.CompletionInfo | undefined></c></returns>
                 abstract getCompletionsAtPosition: fileName: string * position: float -> Promise<obj option option>
                 /// <summary>Get code completion details for the given file, position, and entry.</summary>
-                /// <returns><c>Promise<typescript.CompletionEntryDetails | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.CompletionEntryDetails | undefined></c></returns>
                 abstract getCompletionEntryDetails: fileName: string * position: float * entry: string -> Promise<obj option option>
                 /// <summary>Get signature help items for the item at the given file and position.</summary>
-                /// <returns><c>Promise<typescript.SignatureHelpItems | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.SignatureHelpItems | undefined></c></returns>
                 abstract getSignatureHelpItems: fileName: string * position: float -> Promise<obj option option>
                 /// <summary>Get quick info for the item at the given position in the file.</summary>
-                /// <returns><c>Promise<typescript.QuickInfo | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.QuickInfo | undefined></c></returns>
                 abstract getQuickInfoAtPosition: fileName: string * position: float -> Promise<obj option option>
                 /// <summary>Get other ranges which are related to the item at the given position in the file (often used for highlighting).</summary>
-                /// <returns><c>Promise<ReadonlyArray<typescript.ReferenceEntry> | undefined></c></returns>
+                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.ReferenceEntry> | undefined></c></returns>
                 abstract getOccurrencesAtPosition: fileName: string * position: float -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get the definition of the item at the given position in the file.</summary>
-                /// <returns><c>Promise<ReadonlyArray<typescript.DefinitionInfo> | undefined></c></returns>
+                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.DefinitionInfo> | undefined></c></returns>
                 abstract getDefinitionAtPosition: fileName: string * position: float -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get references to the item at the given position in the file.</summary>
-                /// <returns><c>Promise<typescript.ReferenceEntry[] | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.ReferenceEntry[] | undefined></c></returns>
                 abstract getReferencesAtPosition: fileName: string * position: float -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get outline entries for the item at the given position in the file.</summary>
-                /// <returns><c>Promise<typescript.NavigationBarItem[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.NavigationBarItem[]></c></returns>
                 abstract getNavigationBarItems: fileName: string -> Promise<ResizeArray<obj option>>
                 /// <summary>Get changes which should be applied to format the given file.</summary>
                 /// <param name="options"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise<typescript.TextChange[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.TextChange[]></c></returns>
                 abstract getFormattingEditsForDocument: fileName: string * options: obj option -> Promise<ResizeArray<obj option>>
                 /// <summary>Get changes which should be applied to format the given range in the file.</summary>
                 /// <param name="options"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise<typescript.TextChange[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.TextChange[]></c></returns>
                 abstract getFormattingEditsForRange: fileName: string * start: float * ``end``: float * options: obj option -> Promise<ResizeArray<obj option>>
                 /// <summary>Get formatting changes which should be applied after the given keystroke.</summary>
                 /// <param name="options"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise<typescript.TextChange[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.TextChange[]></c></returns>
                 abstract getFormattingEditsAfterKeystroke: fileName: string * postion: float * ch: string * options: obj option -> Promise<ResizeArray<obj option>>
                 /// <summary>Get other occurrences which should be updated when renaming the item at the given file and position.</summary>
-                /// <returns><c>Promise<readonly typescript.RenameLocation[] | undefined></c></returns>
+                /// <returns><c>Promise&lt;readonly typescript.RenameLocation[] | undefined></c></returns>
                 abstract findRenameLocations: fileName: string * positon: float * findInStrings: bool * findInComments: bool * providePrefixAndSuffixTextForRename: bool -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get edits which should be applied to rename the item at the given file and position (or a failure reason).</summary>
                 /// <param name="options"><c>typescript.RenameInfoOptions</c></param>
-                /// <returns><c>Promise<typescript.RenameInfo></c></returns>
+                /// <returns><c>Promise&lt;typescript.RenameInfo></c></returns>
                 abstract getRenameInfo: fileName: string * positon: float * options: obj option -> Promise<obj option>
                 /// <summary>Get transpiled output for the given file.</summary>
                 /// <returns><c>typescript.EmitOutput</c></returns>
                 abstract getEmitOutput: fileName: string -> Promise<EmitOutput>
                 /// <summary>Get possible code fixes at the given position in the file.</summary>
                 /// <param name="formatOptions"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise<ReadonlyArray<typescript.CodeFixAction>></c></returns>
+                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.CodeFixAction>></c></returns>
                 abstract getCodeFixesAtPosition: fileName: string * start: float * ``end``: float * errorCodes: ResizeArray<float> * formatOptions: obj option -> Promise<ResizeArray<obj option>>
 
             type [<RequireQualifiedAccess>] DiagnosticMessageChainCategory =

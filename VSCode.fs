@@ -1229,7 +1229,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// 
         /// *Note* that the implementation will encode _aggressive_ which often leads to unexpected,
         /// but not incorrect, results. For instance, colons are encoded to <c>%3A</c> which might be unexpected
-        /// in file-uri. Also <c>&</c> and <c>=</c> will be encoded which might be unexpected for http-uris. For stability
+        /// in file-uri. Also <c>&amp;</c> and <c>=</c> will be encoded which might be unexpected for http-uris. For stability
         /// reasons this cannot be changed anymore. If you suffer from too aggressive encoding you should use
         /// the <c>skipEncoding</c>-argument: <c>uri.toString(true)</c>.
         /// </summary>

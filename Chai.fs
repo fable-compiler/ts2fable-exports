@@ -414,12 +414,12 @@ module Chai =
         /// <param name="valueToBeAtLeast">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isAtLeast: valueToCheck: float * valueToBeAtLeast: float * ?message: string -> unit
-        /// <summary>Asserts valueToCheck is strictly less than (<) valueToBeBelow.</summary>
+        /// <summary>Asserts valueToCheck is strictly less than (&lt;) valueToBeBelow.</summary>
         /// <param name="valueToCheck">Actual value.</param>
         /// <param name="valueToBeBelow">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isBelow: valueToCheck: float * valueToBeBelow: float * ?message: string -> unit
-        /// <summary>Asserts valueToCheck is less than or equal to (<=) valueToBeAtMost.</summary>
+        /// <summary>Asserts valueToCheck is less than or equal to (&lt;=) valueToBeAtMost.</summary>
         /// <param name="valueToCheck">Actual value.</param>
         /// <param name="valueToBeAtMost">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
