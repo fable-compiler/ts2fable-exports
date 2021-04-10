@@ -180,10 +180,7 @@ module React =
         U2<ReactElement<obj option>, ReactText>
 
     type ReactFragment =
-        U2<ReactFragmentCase1, Array<U3<ReactChild, ResizeArray<obj option>, bool>>>
-
-    type [<AllowNullLiteral>] ReactFragmentCase1 =
-        interface end
+        Array<U3<ReactChild, ResizeArray<obj option>, bool>>
 
     type ReactNode =
         U3<ReactChild, ReactFragment, bool> option
@@ -206,7 +203,7 @@ module React =
         abstract props: obj with get, set
         abstract state: obj with get, set
         abstract context: obj option with get, set
-        abstract refs: {| Item: ReactInstance |} with get, set
+        abstract refs: ComponentRefs with get, set
 
     type [<AllowNullLiteral>] ComponentStatic =
         [<EmitConstructor>] abstract Create: ?props: 'P * ?context: obj -> Component<'P, 'S>
@@ -332,7 +329,7 @@ module React =
     type [<AllowNullLiteral>] Mixin<'P, 'S> =
         inherit ComponentLifecycle<'P, 'S>
         abstract mixins: Array<Mixin<'P, 'S>> option with get, set
-        abstract statics: {| Item: obj option |} option with get, set
+        abstract statics: MixinStatics option with get, set
         abstract displayName: string option with get, set
         abstract propTypes: ValidationMap<obj option> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
@@ -542,7 +539,7 @@ label: \"I'm a Button\"
 
     type [<AllowNullLiteral>] DOMAttributes<'T> =
         abstract children: ReactNode option with get, set
-        abstract dangerouslySetInnerHTML: {| __html: string |} option with get, set
+        abstract dangerouslySetInnerHTML: DOMAttributesDangerouslySetInnerHTML option with get, set
         abstract onCopy: ClipboardEventHandler<'T> option with get, set
         abstract onCopyCapture: ClipboardEventHandler<'T> option with get, set
         abstract onCut: ClipboardEventHandler<'T> option with get, set
@@ -2529,6 +2526,15 @@ label: \"I'm a Button\"
 
     type [<AllowNullLiteral>] IExportsCreateElement_inputDetailedReactHTMLElement =
         interface end
+
+    type [<AllowNullLiteral>] ComponentRefs =
+        [<EmitIndexer>] abstract Item: key: string -> ReactInstance with get, set
+
+    type [<AllowNullLiteral>] MixinStatics =
+        [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
+
+    type [<AllowNullLiteral>] DOMAttributesDangerouslySetInnerHTML =
+        abstract __html: string with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAccumulate =
         | None

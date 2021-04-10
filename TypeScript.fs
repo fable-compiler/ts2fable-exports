@@ -82,7 +82,7 @@ module Ts =
         abstract getCombinedNodeFlags: node: Node -> NodeFlags
         /// Checks to see if the locale is in the appropriate format,
         /// and if it is, attempts to set the appropriate language.
-        abstract validateLocaleAndSetLanguage: locale: string * sys: {| getExecutingFilePath: unit -> string; resolvePath: string -> string; fileExists: string -> bool; readFile: string -> string option |} * ?errors: Push<Diagnostic> -> unit
+        abstract validateLocaleAndSetLanguage: locale: string * sys: ValidateLocaleAndSetLanguageSys * ?errors: Push<Diagnostic> -> unit
         abstract getOriginalNode: node: Node -> Node
         abstract getOriginalNode: node: Node * nodeTest: (Node -> bool) -> 'T when 'T :> Node
         abstract getOriginalNode: node: Node option -> Node option
@@ -425,11 +425,11 @@ module Ts =
         abstract getParsedCommandLineOfConfigFile: configFileName: string * optionsToExtend: CompilerOptions * host: ParseConfigFileHost * ?extendedConfigCache: Map<ExtendedConfigCacheEntry> -> ParsedCommandLine option
         /// <summary>Read tsconfig.json file</summary>
         /// <param name="fileName">The path to the config file</param>
-        abstract readConfigFile: fileName: string * readFile: (string -> string option) -> {| config: obj option; error: Diagnostic option |}
+        abstract readConfigFile: fileName: string * readFile: (string -> string option) -> ReadConfigFileReturn
         /// <summary>Parse the text of the tsconfig.json file</summary>
         /// <param name="fileName">The path to the config file</param>
         /// <param name="jsonText">The text of the config file</param>
-        abstract parseConfigFileTextToJson: fileName: string * jsonText: string -> {| config: obj option; error: Diagnostic option |}
+        abstract parseConfigFileTextToJson: fileName: string * jsonText: string -> ParseConfigFileTextToJsonReturn
         /// <summary>Read tsconfig.json file</summary>
         /// <param name="fileName">The path to the config file</param>
         abstract readJsonConfigFile: fileName: string * readFile: (string -> string option) -> TsConfigSourceFile
@@ -451,8 +451,8 @@ module Ts =
         /// file to. e.g. outDir
         /// </param>
         abstract parseJsonSourceFileConfigFileContent: sourceFile: TsConfigSourceFile * host: ParseConfigHost * basePath: string * ?existingOptions: CompilerOptions * ?configFileName: string * ?resolutionStack: ResizeArray<Path> * ?extraFileExtensions: ResizeArray<FileExtensionInfo> * ?extendedConfigCache: Map<ExtendedConfigCacheEntry> -> ParsedCommandLine
-        abstract convertCompilerOptionsFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> {| options: CompilerOptions; errors: ResizeArray<Diagnostic> |}
-        abstract convertTypeAcquisitionFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> {| options: TypeAcquisition; errors: ResizeArray<Diagnostic> |}
+        abstract convertCompilerOptionsFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> ConvertCompilerOptionsFromJsonReturn
+        abstract convertTypeAcquisitionFromJson: jsonOptions: obj option * basePath: string * ?configFileName: string -> ConvertTypeAcquisitionFromJsonReturn
         abstract getEffectiveTypeRoots: options: CompilerOptions * host: GetEffectiveTypeRootsHost -> ResizeArray<string> option
         /// <param name="containingFile">
         /// file that contains type reference directive, can be undefined if containing file is unknown.
@@ -502,7 +502,7 @@ module Ts =
         abstract createNull: unit -> obj
         abstract createTrue: unit -> obj
         abstract createFalse: unit -> obj
-        abstract createModifier: kind: 'T -> Token<'T>
+        abstract createModifier: kind: 'T -> Token<'T> when 'T :> Modifier
         abstract createModifiersFromModifierFlags: flags: ModifierFlags -> ResizeArray<Modifier>
         abstract createQualifiedName: left: EntityName * right: U2<string, Identifier> -> QualifiedName
         abstract updateQualifiedName: node: QualifiedName * left: EntityName * right: Identifier -> QualifiedName
@@ -534,7 +534,7 @@ module Ts =
         abstract updateConstructSignature: node: ConstructSignatureDeclaration * typeParameters: ResizeArray<TypeParameterDeclaration> option * parameters: ResizeArray<ParameterDeclaration> * ``type``: TypeNode option -> ConstructSignatureDeclaration
         abstract createIndexSignature: decorators: ResizeArray<Decorator> option * modifiers: ResizeArray<Modifier> option * parameters: ResizeArray<ParameterDeclaration> * ``type``: TypeNode -> IndexSignatureDeclaration
         abstract updateIndexSignature: node: IndexSignatureDeclaration * decorators: ResizeArray<Decorator> option * modifiers: ResizeArray<Modifier> option * parameters: ResizeArray<ParameterDeclaration> * ``type``: TypeNode -> IndexSignatureDeclaration
-        abstract createKeywordTypeNode: kind: obj -> KeywordTypeNode
+        abstract createKeywordTypeNode: kind: KeywordTypeNode -> KeywordTypeNode
         abstract createTypePredicateNode: parameterName: U3<Identifier, ThisTypeNode, string> * ``type``: TypeNode -> TypePredicateNode
         abstract createTypePredicateNodeWithModifier: assertsModifier: AssertsToken option * parameterName: U3<Identifier, ThisTypeNode, string> * ``type``: TypeNode option -> TypePredicateNode
         abstract updateTypePredicateNode: node: TypePredicateNode * parameterName: U2<Identifier, ThisTypeNode> * ``type``: TypeNode -> TypePredicateNode
@@ -578,8 +578,8 @@ module Ts =
         abstract updateIndexedAccessTypeNode: node: IndexedAccessTypeNode * objectType: TypeNode * indexType: TypeNode -> IndexedAccessTypeNode
         abstract createMappedTypeNode: readonlyToken: U3<ReadonlyToken, PlusToken, MinusToken> option * typeParameter: TypeParameterDeclaration * questionToken: U3<QuestionToken, PlusToken, MinusToken> option * ``type``: TypeNode option -> MappedTypeNode
         abstract updateMappedTypeNode: node: MappedTypeNode * readonlyToken: U3<ReadonlyToken, PlusToken, MinusToken> option * typeParameter: TypeParameterDeclaration * questionToken: U3<QuestionToken, PlusToken, MinusToken> option * ``type``: TypeNode option -> MappedTypeNode
-        abstract createLiteralTypeNode: literal: obj -> LiteralTypeNode
-        abstract updateLiteralTypeNode: node: LiteralTypeNode * literal: obj -> LiteralTypeNode
+        abstract createLiteralTypeNode: literal: LiteralTypeNode -> LiteralTypeNode
+        abstract updateLiteralTypeNode: node: LiteralTypeNode * literal: LiteralTypeNode -> LiteralTypeNode
         abstract createObjectBindingPattern: elements: ResizeArray<BindingElement> -> ObjectBindingPattern
         abstract updateObjectBindingPattern: node: ObjectBindingPattern * elements: ResizeArray<BindingElement> -> ObjectBindingPattern
         abstract createArrayBindingPattern: elements: ResizeArray<ArrayBindingElement> -> ArrayBindingPattern
@@ -656,7 +656,7 @@ module Ts =
         abstract updateAsExpression: node: AsExpression * expression: Expression * ``type``: TypeNode -> AsExpression
         abstract createNonNullExpression: expression: Expression -> NonNullExpression
         abstract updateNonNullExpression: node: NonNullExpression * expression: Expression -> NonNullExpression
-        abstract createMetaProperty: keywordToken: obj * name: Identifier -> MetaProperty
+        abstract createMetaProperty: keywordToken: MetaProperty * name: Identifier -> MetaProperty
         abstract updateMetaProperty: node: MetaProperty * name: Identifier -> MetaProperty
         abstract createTemplateSpan: expression: Expression * literal: U2<TemplateMiddle, TemplateTail> -> TemplateSpan
         abstract updateTemplateSpan: node: TemplateSpan * expression: Expression * literal: U2<TemplateMiddle, TemplateTail> -> TemplateSpan
@@ -771,7 +771,7 @@ module Ts =
         abstract updateCaseClause: node: CaseClause * expression: Expression * statements: ResizeArray<Statement> -> CaseClause
         abstract createDefaultClause: statements: ResizeArray<Statement> -> DefaultClause
         abstract updateDefaultClause: node: DefaultClause * statements: ResizeArray<Statement> -> DefaultClause
-        abstract createHeritageClause: token: obj * types: ResizeArray<ExpressionWithTypeArguments> -> HeritageClause
+        abstract createHeritageClause: token: HeritageClause * types: ResizeArray<ExpressionWithTypeArguments> -> HeritageClause
         abstract updateHeritageClause: node: HeritageClause * types: ResizeArray<ExpressionWithTypeArguments> -> HeritageClause
         abstract createCatchClause: variableDeclaration: U2<string, VariableDeclaration> option * block: Block -> CatchClause
         abstract updateCatchClause: node: CatchClause * variableDeclaration: VariableDeclaration option * block: Block -> CatchClause
@@ -783,7 +783,7 @@ module Ts =
         abstract updateSpreadAssignment: node: SpreadAssignment * expression: Expression -> SpreadAssignment
         abstract createEnumMember: name: U2<string, PropertyName> * ?initializer: Expression -> EnumMember
         abstract updateEnumMember: node: EnumMember * name: PropertyName * initializer: Expression option -> EnumMember
-        abstract updateSourceFileNode: node: SourceFile * statements: ResizeArray<Statement> * ?isDeclarationFile: bool * ?referencedFiles: obj * ?typeReferences: obj * ?hasNoDefaultLib: bool * ?libReferences: obj -> SourceFile
+        abstract updateSourceFileNode: node: SourceFile * statements: ResizeArray<Statement> * ?isDeclarationFile: bool * ?referencedFiles: SourceFile * ?typeReferences: SourceFile * ?hasNoDefaultLib: bool * ?libReferences: SourceFile -> SourceFile
         /// Creates a shallow, memberwise clone of a node for mutation.
         abstract getMutableClone: node: 'T -> 'T when 'T :> Node
         /// <summary>
@@ -805,7 +805,7 @@ module Ts =
         abstract updateCommaList: node: CommaListExpression * elements: ResizeArray<Expression> -> CommaListExpression
         abstract createBundle: sourceFiles: ResizeArray<SourceFile> * ?prepends: ResizeArray<U2<UnparsedSource, InputFiles>> -> Bundle
         abstract createUnparsedSourceFile: text: string -> UnparsedSource
-        abstract createUnparsedSourceFile: inputFile: InputFiles * ``type``: IExportsCreateUnparsedSourceFile * ?stripInternal: bool -> UnparsedSource
+        abstract createUnparsedSourceFile: inputFile: InputFiles * ``type``: CreateUnparsedSourceFileType * ?stripInternal: bool -> UnparsedSource
         abstract createUnparsedSourceFile: text: string * mapPath: string option * map: string option -> UnparsedSource
         abstract createInputFiles: javascriptText: string * declarationText: string -> InputFiles
         abstract createInputFiles: readFileText: (string -> string option) * javascriptPath: string * javascriptMapPath: string option * declarationPath: string * declarationMapPath: string option * buildInfoPath: string option -> InputFiles
@@ -1005,6 +1005,32 @@ module Ts =
         /// <param name="compilerOptions">Optional compiler options.</param>
         abstract transform: source: U2<'T, ResizeArray<'T>> * transformers: ResizeArray<TransformerFactory<'T>> * ?compilerOptions: CompilerOptions -> TransformationResult<'T> when 'T :> Node
 
+    type [<AllowNullLiteral>] ValidateLocaleAndSetLanguageSys =
+        abstract getExecutingFilePath: unit -> string
+        abstract resolvePath: path: string -> string
+        abstract fileExists: fileName: string -> bool
+        abstract readFile: fileName: string -> string option
+
+    type [<AllowNullLiteral>] ReadConfigFileReturn =
+        abstract config: obj option with get, set
+        abstract error: Diagnostic option with get, set
+
+    type [<AllowNullLiteral>] ParseConfigFileTextToJsonReturn =
+        abstract config: obj option with get, set
+        abstract error: Diagnostic option with get, set
+
+    type [<AllowNullLiteral>] ConvertCompilerOptionsFromJsonReturn =
+        abstract options: CompilerOptions with get, set
+        abstract errors: ResizeArray<Diagnostic> with get, set
+
+    type [<AllowNullLiteral>] ConvertTypeAcquisitionFromJsonReturn =
+        abstract options: TypeAcquisition with get, set
+        abstract errors: ResizeArray<Diagnostic> with get, set
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] CreateUnparsedSourceFileType =
+        | Js
+        | Dts
+
     /// <summary>
     /// Type of objects whose values are all of the same type.
     /// The <c>in</c> and <c>for-in</c> operators can *not* be safely used,
@@ -1040,7 +1066,7 @@ module Ts =
 
     /// ES6 Iterator type.
     type [<AllowNullLiteral>] Iterator<'T> =
-        abstract next: unit -> U2<{| value: 'T; ``done``: obj option |}, {| value: obj; ``done``: obj |}>
+        abstract next: unit -> U2<IteratorNext<'T>, IteratorNext2>
 
     /// Array that is only intended to be pushed to, never read.
     type [<AllowNullLiteral>] Push<'T> =
@@ -1648,7 +1674,7 @@ module Ts =
     type [<AllowNullLiteral>] SignatureDeclarationBase =
         inherit NamedDeclaration
         inherit JSDocContainer
-        abstract kind: obj with get, set
+        abstract kind: SignatureDeclaration with get, set
         abstract name: PropertyName option with get, set
         abstract typeParameters: ResizeArray<TypeParameterDeclaration> option with get, set
         abstract parameters: ResizeArray<ParameterDeclaration> with get, set
@@ -3434,11 +3460,16 @@ module Ts =
         abstract getIdentifierCount: unit -> float
         abstract getSymbolCount: unit -> float
         abstract getTypeCount: unit -> float
-        abstract getRelationCacheSizes: unit -> {| assignable: float; identity: float; subtype: float |}
+        abstract getRelationCacheSizes: unit -> ProgramGetRelationCacheSizesReturn
         abstract isSourceFileFromExternalLibrary: file: SourceFile -> bool
         abstract isSourceFileDefaultLibrary: file: SourceFile -> bool
         abstract getProjectReferences: unit -> ResizeArray<ProjectReference> option
         abstract getResolvedProjectReferences: unit -> ResizeArray<ResolvedProjectReference option> option
+
+    type [<AllowNullLiteral>] ProgramGetRelationCacheSizesReturn =
+        abstract assignable: float with get, set
+        abstract identity: float with get, set
+        abstract subtype: float with get, set
 
     type [<AllowNullLiteral>] ResolvedProjectReference =
         abstract commandLine: ParsedCommandLine with get, set
@@ -4915,7 +4946,7 @@ Use typeAcquisition.enable instead.")>]
         abstract text: string with get, set
 
     type AffectedFileResult<'T> =
-        {| result: 'T; affected: U2<SourceFile, Program> |} option
+        U2<'T, U2<SourceFile, Program>> option
 
     type [<AllowNullLiteral>] BuilderProgramHost =
         /// return true if file names are treated with case sensitivity
@@ -6175,9 +6206,13 @@ Use typeAcquisition.enable instead.")>]
         abstract diagnostics: ResizeArray<Diagnostic> option with get, set
         abstract sourceMapText: string option with get, set
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] IExportsCreateUnparsedSourceFile =
-        | Js
-        | Dts
+    type [<AllowNullLiteral>] IteratorNext<'T> =
+        abstract value: 'T with get, set
+        abstract ``done``: obj option with get, set
+
+    type [<AllowNullLiteral>] IteratorNext2 =
+        abstract value: obj with get, set
+        abstract ``done``: obj with get, set
 
     type [<AllowNullLiteral>] DiagnosticMessageReportsUnnecessary =
         interface end

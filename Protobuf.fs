@@ -40,8 +40,8 @@ type [<AllowNullLiteral>] FieldValueArray =
 
 type [<AllowNullLiteral>] Message =
     abstract getJsPbMessageId: unit -> string option
-    abstract serializeBinaryExtensions: proto: Message * writer: BinaryWriter * extensions: {| Item: ExtensionFieldBinaryInfo<Message> |} * getExtensionFn: (ExtensionFieldInfo<'T> -> 'T) -> unit
-    abstract readBinaryExtension: proto: Message * reader: BinaryReader * extensions: {| Item: ExtensionFieldBinaryInfo<Message> |} * setExtensionFn: (ExtensionFieldInfo<'T> -> 'T -> unit) -> unit
+    abstract serializeBinaryExtensions: proto: Message * writer: BinaryWriter * extensions: MessageSerializeBinaryExtensionsExtensions * getExtensionFn: (ExtensionFieldInfo<'T> -> 'T) -> unit
+    abstract readBinaryExtension: proto: Message * reader: BinaryReader * extensions: MessageReadBinaryExtensionExtensions * setExtensionFn: (ExtensionFieldInfo<'T> -> 'T -> unit) -> unit
     abstract toArray: unit -> Message.MessageArray
     abstract toString: unit -> string
     abstract getExtension: fieldInfo: ExtensionFieldInfo<'T> -> 'T
@@ -51,6 +51,12 @@ type [<AllowNullLiteral>] Message =
     abstract serializeBinary: unit -> Uint8Array
     abstract toObject: ?includeInstance: bool -> MessageToObjectReturn
 
+type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
+
+type [<AllowNullLiteral>] MessageReadBinaryExtensionExtensions =
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
+
 type [<AllowNullLiteral>] MessageToObjectReturn =
     interface end
 
@@ -58,7 +64,7 @@ type [<AllowNullLiteral>] MessageStatic =
     [<EmitConstructor>] abstract Create: unit -> Message
     abstract initialize: msg: Message * data: Message.MessageArray * messageId: U2<string, float> * suggestedPivot: float * ?repeatedFields: ResizeArray<float> * ?oneofFields: ResizeArray<ResizeArray<float>> -> unit
     abstract toObjectList: field: ResizeArray<'T> * toObjectFn: (bool -> 'T -> MessageStaticToObjectList) * ?includeInstance: bool -> Array<MessageStaticToObjectList> when 'T :> Message
-    abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: {| Item: ExtensionFieldInfo<Message> |} * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
+    abstract toObjectExtension: msg: Message * obj: MessageStaticToObjectExtensionObj * extensions: MessageStaticToObjectExtensionExtensions * getExtensionFn: (ExtensionFieldInfo<Message> -> Message) * ?includeInstance: bool -> unit
     abstract getField: msg: Message * fieldNumber: float -> FieldValue option
     abstract getOptionalFloatingPointField: msg: Message * fieldNumber: float -> float option
     abstract getRepeatedFloatingPointField: msg: Message * fieldNumber: float -> ResizeArray<float>
@@ -72,12 +78,12 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract addToRepeatedField: msg: Message * fieldNumber: float * value: obj option * ?index: float -> unit
     abstract setOneofField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: FieldValue -> unit
     abstract computeOneofCase: msg: Message * oneof: ResizeArray<float> -> float
-    abstract getWrapperField: msg: Message * ctor: {| Create: unit -> Message |} * fieldNumber: float * ?required: float -> 'T when 'T :> Message
-    abstract getRepeatedWrapperField: msg: Message * ctor: {| Create: unit -> Message |} * fieldNumber: float -> ResizeArray<'T> when 'T :> Message
+    abstract getWrapperField: msg: Message * ctor: MessageStaticGetWrapperFieldCtor * fieldNumber: float * ?required: float -> 'T when 'T :> Message
+    abstract getRepeatedWrapperField: msg: Message * ctor: MessageStaticGetRepeatedWrapperFieldCtor * fieldNumber: float -> ResizeArray<'T> when 'T :> Message
     abstract setWrapperField: msg: Message * fieldNumber: float * ?value: U2<'T, Map<obj option, obj option>> -> unit when 'T :> Message
     abstract setOneofWrapperField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: obj option -> unit
     abstract setRepeatedWrapperField: msg: Message * fieldNumber: float * ?value: ResizeArray<'T> -> unit when 'T :> Message
-    abstract addToRepeatedWrapperField: msg: Message * fieldNumber: float * value: 'T option * ctor: {| Create: unit -> Message |} * ?index: float -> 'T when 'T :> Message
+    abstract addToRepeatedWrapperField: msg: Message * fieldNumber: float * value: 'T option * ctor: MessageStaticAddToRepeatedWrapperFieldCtor * ?index: float -> 'T when 'T :> Message
     abstract toMap: field: ResizeArray<obj option> * mapKeyGetterFn: (obj option -> string) * ?toObjectFn: Message.StaticToObject * ?includeInstance: bool -> unit
     abstract difference: m1: 'T * m2: 'T -> 'T when 'T :> Message
     abstract equals: m1: Message * m2: Message -> bool
@@ -91,11 +97,23 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract deserializeBinaryFromReader: message: Message * reader: BinaryReader -> Message
     abstract serializeBinaryToWriter: message: Message * writer: BinaryWriter -> unit
     abstract toObject: includeInstance: bool * msg: Message -> MessageStaticToObjectReturn
-    abstract extensions: {| Item: ExtensionFieldInfo<Message> |} with get, set
-    abstract extensionsBinary: {| Item: ExtensionFieldBinaryInfo<Message> |} with get, set
+    abstract extensions: MessageStaticExtensions with get, set
+    abstract extensionsBinary: MessageStaticExtensionsBinary with get, set
 
 type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
     interface end
+
+type [<AllowNullLiteral>] MessageStaticToObjectExtensionExtensions =
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
+
+type [<AllowNullLiteral>] MessageStaticGetWrapperFieldCtor =
+    [<EmitConstructor>] abstract Create: unit -> Message
+
+type [<AllowNullLiteral>] MessageStaticGetRepeatedWrapperFieldCtor =
+    [<EmitConstructor>] abstract Create: unit -> Message
+
+type [<AllowNullLiteral>] MessageStaticAddToRepeatedWrapperFieldCtor =
+    [<EmitConstructor>] abstract Create: unit -> Message
 
 type [<AllowNullLiteral>] MessageStaticCompareExtensionsExtension1 =
     interface end
@@ -126,7 +144,10 @@ type [<AllowNullLiteral>] ExtensionFieldInfo<'T> =
     abstract isMessageType: unit -> bool
 
 type [<AllowNullLiteral>] ExtensionFieldInfoStatic =
-    [<EmitConstructor>] abstract Create: fieldIndex: float * fieldName: {| Item: float |} * ctor: obj * toObjectFn: Message.StaticToObject * isRepeated: float -> ExtensionFieldInfo<'T>
+    [<EmitConstructor>] abstract Create: fieldIndex: float * fieldName: ExtensionFieldInfoStaticFieldName * ctor: obj * toObjectFn: Message.StaticToObject * isRepeated: float -> ExtensionFieldInfo<'T>
+
+type [<AllowNullLiteral>] ExtensionFieldInfoStaticFieldName =
+    [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
 type [<AllowNullLiteral>] ExtensionFieldBinaryInfo<'T> =
     abstract fieldInfo: ExtensionFieldInfo<'T> with get, set
@@ -158,8 +179,11 @@ type [<AllowNullLiteral>] MapForEachThisArg =
     interface end
 
 type [<AllowNullLiteral>] MapStatic =
-    [<EmitConstructor>] abstract Create: arr: Array<'K * 'V> * ?valueCtor: {| Create: obj option -> Map<'K, 'V> |} -> Map<'K, 'V>
+    [<EmitConstructor>] abstract Create: arr: Array<'K * 'V> * ?valueCtor: MapStaticValueCtor -> Map<'K, 'V>
     abstract fromObject: entries: Array<'TK * 'TV> * valueCtor: obj option * valueFromObject: obj option -> Map<'TK, 'TV>
+
+type [<AllowNullLiteral>] MapStaticValueCtor =
+    [<EmitConstructor>] abstract Create: init: obj option -> Map<'K, 'V>
 
 module Map =
 
@@ -543,6 +567,12 @@ module Arith =
 
 type [<AllowNullLiteral>] MessageStaticToObjectList =
     interface end
+
+type [<AllowNullLiteral>] MessageStaticExtensions =
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
+
+type [<AllowNullLiteral>] MessageStaticExtensionsBinary =
+    [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 module Jspb = ______index
 
 type [<AllowNullLiteral>] IExports =
@@ -556,8 +586,8 @@ type [<AllowNullLiteral>] Empty =
 type [<AllowNullLiteral>] EmptyStatic =
     [<EmitConstructor>] abstract Create: unit -> Empty
     abstract toObject: includeInstance: bool * msg: Empty -> Empty.AsObject
-    abstract extensions: {| Item: Jspb.ExtensionFieldInfo<Jspb.Message> |} with get, set
-    abstract extensionsBinary: {| Item: Jspb.ExtensionFieldBinaryInfo<Jspb.Message> |} with get, set
+    abstract extensions: EmptyStaticExtensions with get, set
+    abstract extensionsBinary: EmptyStaticExtensionsBinary with get, set
     abstract serializeBinaryToWriter: message: Empty * writer: Jspb.BinaryWriter -> unit
     abstract deserializeBinary: bytes: Uint8Array -> Empty
     abstract deserializeBinaryFromReader: message: Empty * reader: Jspb.BinaryReader -> Empty
@@ -566,3 +596,9 @@ module Empty =
 
     type [<AllowNullLiteral>] AsObject =
         interface end
+
+type [<AllowNullLiteral>] EmptyStaticExtensions =
+    [<EmitIndexer>] abstract Item: key: float -> Jspb.ExtensionFieldInfo<Jspb.Message> with get, set
+
+type [<AllowNullLiteral>] EmptyStaticExtensionsBinary =
+    [<EmitIndexer>] abstract Item: key: float -> Jspb.ExtensionFieldBinaryInfo<Jspb.Message> with get, set
