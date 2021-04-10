@@ -53,7 +53,7 @@ module Yargs =
         abstract alias: shortName: KeyOf<'T> * longName: U2<'K2, ResizeArray<'K2>> -> Argv<obj>
         abstract alias: shortName: 'K2 * longName: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
         abstract alias: shortName: U2<string, ResizeArray<string>> * longName: U2<string, ResizeArray<string>> -> Argv<'T>
-        abstract alias: aliases: ArgvAliasAliases -> Argv<'T>
+        abstract alias: aliases: {| Item: U2<string, ResizeArray<string>> |} -> Argv<'T>
         /// <summary>
         /// Get the arguments as a plain old object.
         /// 
@@ -90,7 +90,7 @@ module Yargs =
         /// If <c>func</c> throws or returns a non-truthy value, show the thrown error, usage information, and exit.
         /// </param>
         /// <param name="global">Indicates whether <c>check()</c> should be enabled both at the top-level and for each sub-command.</param>
-        abstract check: func: (Arguments<'T> -> ArgvCheck -> obj option) * ?``global``: bool -> Argv<'T>
+        abstract check: func: (Arguments<'T> -> {| Item: string |} -> obj option) * ?``global``: bool -> Argv<'T>
         /// <summary>
         /// Limit valid values for key to a predefined set of choices, given as an array or as an individual value.
         /// If this method is called multiple times, all enumerated values will be merged together.
@@ -181,7 +181,7 @@ module Yargs =
         /// Optionally <c>.conflicts()</c> can accept an object specifying multiple conflicting keys.
         /// </summary>
         abstract conflicts: key: string * value: U2<string, ResizeArray<string>> -> Argv<'T>
-        abstract conflicts: conflicts: ArgvConflicts -> Argv<'T>
+        abstract conflicts: conflicts: {| Item: U2<string, ResizeArray<string>> |} -> Argv<'T>
         /// <summary>Interpret <c>key</c> as a boolean flag, but set its parsed value to the number of flag occurrences rather than <c>true</c> or <c>false</c>. Default value is thus <c>0</c>.</summary>
         abstract count: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
         abstract count: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
@@ -225,7 +225,7 @@ Use '.demandCommand()' or '.demandOption()' instead")>]
         /// Optionally <c>.describe()</c> can take an object that maps keys to descriptions.
         /// </summary>
         abstract describe: key: U2<string, ResizeArray<string>> * description: string -> Argv<'T>
-        abstract describe: descriptions: ArgvDescribeDescriptions -> Argv<'T>
+        abstract describe: descriptions: {| Item: string |} -> Argv<'T>
         /// <summary>Should yargs attempt to detect the os' locale? Defaults to <c>true</c>.</summary>
         abstract detectLocale: detect: bool -> Argv<'T>
         /// <summary>
@@ -300,7 +300,7 @@ Use '.demandCommand()' or '.demandOption()' instead")>]
         /// Optionally <c>.implies()</c> can accept an object specifying multiple implications.
         /// </summary>
         abstract implies: key: string * value: U2<string, ResizeArray<string>> -> Argv<'T>
-        abstract implies: implies: ArgvImplies -> Argv<'T>
+        abstract implies: implies: {| Item: U2<string, ResizeArray<string>> |} -> Argv<'T>
         /// Return the locale that yargs is currently using.
         /// 
         /// By default, yargs will auto-detect the operating system's locale so that yargs-generated help content will display in the user's language.
@@ -320,7 +320,7 @@ Use '.demandCommand()' or '.demandOption()' instead")>]
         /// Optionally <c>.nargs()</c> can take an object of <c>key</c>/<c>narg</c> pairs.
         /// </summary>
         abstract nargs: key: string * count: float -> Argv<'T>
-        abstract nargs: nargs: ArgvNargs -> Argv<'T>
+        abstract nargs: nargs: {| Item: float |} -> Argv<'T>
         /// <summary>The key provided represents a path and should have <c>path.normalize()</c> applied.</summary>
         abstract normalize: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
         abstract normalize: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
@@ -443,13 +443,13 @@ Use '.global()' instead")>]
         abstract string: key: U2<KeyOf<'T>, ResizeArray<KeyOf<'T>>> -> Argv<obj>
         abstract string: key: U2<'K, ResizeArray<'K>> -> Argv<obj>
         abstract terminalWidth: unit -> float
-        abstract updateLocale: obj: ArgvUpdateLocaleObj -> Argv<'T>
+        abstract updateLocale: obj: {| Item: string |} -> Argv<'T>
         /// <summary>
         /// Override the default strings used by yargs with the key/value pairs provided in obj
         /// 
         /// If you explicitly specify a locale(), you should do so before calling <c>updateStrings()</c>.
         /// </summary>
-        abstract updateStrings: obj: ArgvUpdateStringsObj -> Argv<'T>
+        abstract updateStrings: obj: {| Item: string |} -> Argv<'T>
         /// <summary>
         /// Set a usage message to show which commands to use.
         /// Inside <c>message</c>, the string <c>$0</c> will get interpolated to the current script name or node command for the present script similar to how <c>$0</c> works in bash or perl.
@@ -483,27 +483,6 @@ Use '.global()' instead")>]
         /// Use <c>.wrap(yargs.terminalWidth())</c> to maximize the width of yargs' usage instructions.
         /// </summary>
         abstract wrap: columns: float option -> Argv<'T>
-
-    type [<AllowNullLiteral>] ArgvAliasAliases =
-        [<EmitIndexer>] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
-
-    type [<AllowNullLiteral>] ArgvConflicts =
-        [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
-
-    type [<AllowNullLiteral>] ArgvDescribeDescriptions =
-        [<EmitIndexer>] abstract Item: key: string -> string with get, set
-
-    type [<AllowNullLiteral>] ArgvImplies =
-        [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
-
-    type [<AllowNullLiteral>] ArgvNargs =
-        [<EmitIndexer>] abstract Item: key: string -> float with get, set
-
-    type [<AllowNullLiteral>] ArgvUpdateLocaleObj =
-        [<EmitIndexer>] abstract Item: key: string -> string with get, set
-
-    type [<AllowNullLiteral>] ArgvUpdateStringsObj =
-        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type Arguments =
         Arguments<obj>
@@ -543,7 +522,7 @@ Use '.global()' instead")>]
         /// <summary>function, provide a custom config parsing function, see <c>config()</c></summary>
         abstract configParser: (string -> obj) option with get, set
         /// <summary>string or object, require certain keys not to be set, see <c>conflicts()</c></summary>
-        abstract conflicts: U3<string, ReadonlyArray<string>, OptionsConflicts> option with get, set
+        abstract conflicts: U3<string, ReadonlyArray<string>, {| Item: U2<string, ReadonlyArray<string>> |}> option with get, set
         /// <summary>boolean, interpret option as a count of boolean flags, see <c>count()</c></summary>
         abstract count: bool option with get, set
         /// <summary>value, set a default value for the option, see <c>default()</c></summary>
@@ -568,7 +547,7 @@ Use 'demandOption' instead")>]
         /// don't display option in help output.
         abstract hidden: bool option with get, set
         /// <summary>string or object, require certain keys to be set, see <c>implies()</c></summary>
-        abstract implies: U3<string, ReadonlyArray<string>, OptionsConflicts> option with get, set
+        abstract implies: U3<string, ReadonlyArray<string>, {| Item: U2<string, ReadonlyArray<string>> |}> option with get, set
         /// <summary>number, specify how many arguments should be consumed for the option, see <c>nargs()</c></summary>
         abstract nargs: float option with get, set
         /// <summary>boolean, apply path.normalize() to the option, see <c>normalize()</c></summary>
@@ -599,7 +578,7 @@ Use 'demandOption' instead")>]
         /// <summary>function, coerce or transform parsed command line values into another value, see <c>coerce()</c></summary>
         abstract coerce: (obj option -> obj option) option with get, set
         /// <summary>string or object, require certain keys not to be set, see <c>conflicts()</c></summary>
-        abstract conflicts: U3<string, ReadonlyArray<string>, OptionsConflicts> option with get, set
+        abstract conflicts: U3<string, ReadonlyArray<string>, {| Item: U2<string, ReadonlyArray<string>> |}> option with get, set
         /// <summary>value, set a default value for the option, see <c>default()</c></summary>
         abstract ``default``: obj option with get, set
         /// <summary>boolean or string, demand the option be given, with optional error message, see <c>demandOption()</c></summary>
@@ -611,7 +590,7 @@ Use 'demandOption' instead")>]
         /// <summary>string, the option description for help content, see <c>describe()</c></summary>
         abstract description: string option with get, set
         /// <summary>string or object, require certain keys to be set, see <c>implies()</c></summary>
-        abstract implies: U3<string, ReadonlyArray<string>, OptionsConflicts> option with get, set
+        abstract implies: U3<string, ReadonlyArray<string>, {| Item: U2<string, ReadonlyArray<string>> |}> option with get, set
         /// boolean, apply path.normalize() to the option, see normalize()
         abstract normalize: bool option with get, set
         abstract ``type``: PositionalOptionsType option with get, set
@@ -676,7 +655,7 @@ Use 'demandOption' instead")>]
         CommandBuilder<'T, obj>
 
     type CommandBuilder<'T, 'U> =
-        U2<Options, (Argv<'T> -> Argv<'U>)>
+        U2<{| Item: Options |}, (Argv<'T> -> Argv<'U>)>
 
     type [<AllowNullLiteral>] SyncCompletionFunction =
         [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option -> ResizeArray<string>
@@ -700,9 +679,3 @@ Use 'demandOption' instead")>]
         | Boolean
         | Number
         | String
-
-    type [<AllowNullLiteral>] ArgvCheck =
-        [<EmitIndexer>] abstract Item: alias: string -> string with get, set
-
-    type [<AllowNullLiteral>] OptionsConflicts =
-        [<EmitIndexer>] abstract Item: key: string -> U2<string, ReadonlyArray<string>> with get, set

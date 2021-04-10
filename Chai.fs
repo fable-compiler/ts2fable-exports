@@ -47,7 +47,7 @@ module Chai =
         abstract addProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
         abstract overwriteMethod: ctx: obj * name: string * ``method``: Function -> unit
         abstract overwriteProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
-        abstract compareByInspect: a: obj * b: obj -> ChaiUtilsCompareByInspectReturn
+        abstract compareByInspect: a: obj * b: obj -> ChaiUtilsCompareByInspect
         abstract expectTypes: obj: obj * types: ResizeArray<string> -> unit
         abstract flag: obj: obj * key: string * ?value: obj -> obj option
         abstract getActual: obj: obj * args: AssertionArgs -> obj option
@@ -71,9 +71,6 @@ module Chai =
         abstract hasProperty: obj: obj option * name: ObjectProperty -> bool
         abstract getPathInfo: obj: obj * path: string -> PathInfo
         abstract getPathValue: obj: obj * path: string -> obj option
-
-    type [<RequireQualifiedAccess>] ChaiUtilsCompareByInspectReturn =
-        | N1 = 1
 
     type [<AllowNullLiteral>] ChaiPlugin =
         [<Emit "$0($1...)">] abstract Invoke: chai: ChaiStatic * utils: ChaiUtils -> unit
@@ -1100,7 +1097,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has all and only all of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1109,7 +1106,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has all of the <c>keys</c> provided but may have more keys not listed.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1118,7 +1115,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract containsAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract containsAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has none of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1127,7 +1124,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> does not have at least one of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1136,7 +1133,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has at least one of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1147,7 +1144,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has all and only all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1158,7 +1155,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1169,7 +1166,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract containsAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract containsAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1180,7 +1177,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1191,7 +1188,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, {| Item: obj option |}> * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a direct or inherited property named by property,
         /// which can be a string using dot- and bracket-notation for nested reference.
@@ -1267,8 +1264,8 @@ module Chai =
     type [<AllowNullLiteral>] AssertionErrorStatic =
         [<EmitConstructor>] abstract Create: message: string * ?_props: obj * ?ssf: Function -> AssertionError
 
-    type [<AllowNullLiteral>] AssertHasAnyKeys =
-        [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
+    type [<RequireQualifiedAccess>] ChaiUtilsCompareByInspect =
+        | N1 = 1
 
 type [<AllowNullLiteral>] Object =
     abstract should: Chai.Assertion with get, set

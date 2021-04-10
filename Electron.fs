@@ -591,7 +591,7 @@ module Electron =
         /// Using <c>basic</c> should be preferred if only basic information like <c>vendorId</c> or
         /// <c>driverId</c> is needed.
         /// </summary>
-        abstract getGPUInfo: infoType: AppGetGPUInfoInfoType -> Promise<obj>
+        abstract getGPUInfo: infoType: AppGetGPUInfo -> Promise<obj>
         /// <summary>
         /// * <c>minItems</c> Integer - The minimum number of items that will be shown in the
         /// Jump List (for a more detailed description of this value see the MSDN docs).
@@ -656,7 +656,7 @@ module Electron =
         /// called first, a default log directory will be created equivalent to calling
         /// <c>app.setAppLogsPath()</c> without a <c>path</c> parameter.
         /// </summary>
-        abstract getPath: name: AppGetPathName -> string
+        abstract getPath: name: AppGetPath -> string
         /// <summary>
         /// The version of the loaded application. If no version is found in the
         /// application's <c>package.json</c> file, the version of the current bundle or
@@ -846,7 +846,7 @@ module Electron =
         /// * 'prohibited' - The application doesn’t appear in the Dock and may not create
         /// windows or be activated.
         /// </summary>
-        abstract setActivationPolicy: policy: AppSetActivationPolicyPolicy -> unit
+        abstract setActivationPolicy: policy: AppSetActivationPolicy -> unit
         /// <summary>
         /// Sets or creates a directory your app's logs which can then be manipulated with
         /// <c>app.getPath()</c> or <c>app.setPath(pathName, newPath)</c>.
@@ -1083,33 +1083,6 @@ module Electron =
         /// app's initialization to ensure that your overridden value is used.
         /// </summary>
         abstract userAgentFallback: string with get, set
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] AppGetGPUInfoInfoType =
-        | Basic
-        | Complete
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] AppGetPathName =
-        | Home
-        | AppData
-        | UserData
-        | Cache
-        | Temp
-        | Exe
-        | Module
-        | Desktop
-        | Documents
-        | Downloads
-        | Music
-        | Pictures
-        | Videos
-        | Logs
-        | PepperFlashSystemPlugin
-        | CrashDumps
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] AppSetActivationPolicyPolicy =
-        | Regular
-        | Accessory
-        | Prohibited
 
     type [<AllowNullLiteral>] AutoUpdater =
         inherit NodeJS.EventEmitter
@@ -1716,7 +1689,7 @@ module Electron =
         /// Sets whether the window should show always on top of other windows. After
         /// setting this, the window is still a normal window, not a toolbox window which
         /// can not be focused on.
-        abstract setAlwaysOnTop: flag: bool * ?level: BrowserWindowSetAlwaysOnTopLevel * ?relativeLevel: float -> unit
+        abstract setAlwaysOnTop: flag: bool * ?level: BrowserWindowSetAlwaysOnTop * ?relativeLevel: float -> unit
         /// <summary>
         /// Sets the properties for the window's taskbar button.
         /// 
@@ -2008,16 +1981,6 @@ module Electron =
         abstract visibleOnAllWorkspaces: bool with get, set
         abstract webContents: WebContents
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetAlwaysOnTopLevel =
-        | Normal
-        | Floating
-        | [<CompiledName "torn-off-menu">] TornOffMenu
-        | [<CompiledName "modal-panel">] ModalPanel
-        | [<CompiledName "main-menu">] MainMenu
-        | Status
-        | [<CompiledName "pop-up-menu">] PopUpMenu
-        | [<CompiledName "screen-saver">] ScreenSaver
-
     type [<AllowNullLiteral>] BrowserWindowStatic =
         /// BrowserWindow
         [<EmitConstructor>] abstract Create: ?options: BrowserWindowConstructorOptions -> BrowserWindow
@@ -2301,11 +2264,11 @@ module Electron =
 
     type [<AllowNullLiteral>] Clipboard =
         /// <summary>An array of supported formats for the clipboard <c>type</c>.</summary>
-        abstract availableFormats: ?``type``: ClipboardAvailableFormatsType -> ResizeArray<string>
+        abstract availableFormats: ?``type``: ClipboardAvailableFormats -> ResizeArray<string>
         /// Clears the clipboard content.
-        abstract clear: ?``type``: ClipboardClearType -> unit
+        abstract clear: ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>Whether the clipboard supports the specified <c>format</c>.</summary>
-        abstract has: format: string * ?``type``: ClipboardHasType -> bool
+        abstract has: format: string * ?``type``: ClipboardAvailableFormats -> bool
         /// <summary>Reads <c>format</c> type from the clipboard.</summary>
         abstract read: format: string -> string
         /// <summary>
@@ -2329,15 +2292,15 @@ module Electron =
         /// </summary>
         abstract readFindText: unit -> string
         /// The content in the clipboard as markup.
-        abstract readHTML: ?``type``: ClipboardReadHTMLType -> string
+        abstract readHTML: ?``type``: ClipboardAvailableFormats -> string
         /// The image content in the clipboard.
-        abstract readImage: ?``type``: ClipboardReadImageType -> NativeImage
+        abstract readImage: ?``type``: ClipboardAvailableFormats -> NativeImage
         /// The content in the clipboard as RTF.
-        abstract readRTF: ?``type``: ClipboardReadRTFType -> string
+        abstract readRTF: ?``type``: ClipboardAvailableFormats -> string
         /// The content in the clipboard as plain text.
-        abstract readText: ?``type``: ClipboardReadTextType -> string
+        abstract readText: ?``type``: ClipboardAvailableFormats -> string
         /// <summary>Writes <c>data</c> to the clipboard.</summary>
-        abstract write: data: Data * ?``type``: ClipboardWriteType -> unit
+        abstract write: data: Data * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>
         /// Writes the <c>title</c> and <c>url</c> into the clipboard as a bookmark.
         /// 
@@ -2345,9 +2308,9 @@ module Electron =
         /// can use <c>clipboard.write</c> to write both a bookmark and fallback text to the
         /// clipboard.
         /// </summary>
-        abstract writeBookmark: title: string * url: string * ?``type``: ClipboardWriteBookmarkType -> unit
+        abstract writeBookmark: title: string * url: string * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>Writes the <c>buffer</c> into the clipboard as <c>format</c>.</summary>
-        abstract writeBuffer: format: string * buffer: Buffer * ?``type``: ClipboardWriteBufferType -> unit
+        abstract writeBuffer: format: string * buffer: Buffer * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>
         /// Writes the <c>text</c> into the find pasteboard (the pasteboard that holds
         /// information about the current state of the active application’s find panel) as
@@ -2356,69 +2319,13 @@ module Electron =
         /// </summary>
         abstract writeFindText: text: string -> unit
         /// <summary>Writes <c>markup</c> to the clipboard.</summary>
-        abstract writeHTML: markup: string * ?``type``: ClipboardWriteHTMLType -> unit
+        abstract writeHTML: markup: string * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>Writes <c>image</c> to the clipboard.</summary>
-        abstract writeImage: image: NativeImage * ?``type``: ClipboardWriteImageType -> unit
+        abstract writeImage: image: NativeImage * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>Writes the <c>text</c> into the clipboard in RTF.</summary>
-        abstract writeRTF: text: string * ?``type``: ClipboardWriteRTFType -> unit
+        abstract writeRTF: text: string * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>Writes the <c>text</c> into the clipboard as plain text.</summary>
-        abstract writeText: text: string * ?``type``: ClipboardWriteTextType -> unit
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardAvailableFormatsType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardClearType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardHasType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardReadHTMLType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardReadImageType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardReadRTFType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardReadTextType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteBookmarkType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteBufferType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteHTMLType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteImageType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteRTFType =
-        | Selection
-        | Clipboard
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardWriteTextType =
-        | Selection
-        | Clipboard
+        abstract writeText: text: string * ?``type``: ClipboardAvailableFormats -> unit
 
     type [<AllowNullLiteral>] CommandLine =
         /// <summary>
@@ -3039,7 +2946,7 @@ module Electron =
         /// **Nota Bene:** This method can only be used while the app is not focused; when
         /// the app is focused it will return -1.
         /// </summary>
-        abstract bounce: ?``type``: DockBounceType -> float
+        abstract bounce: ?``type``: DockBounce -> float
         /// <summary>Cancel the bounce of <c>id</c>.</summary>
         abstract cancelBounce: id: float -> unit
         /// <summary>Bounces the Downloads stack if the filePath is inside the Downloads folder.</summary>
@@ -3060,10 +2967,6 @@ module Electron =
         abstract setMenu: menu: Menu -> unit
         /// <summary>Resolves when the dock icon is shown.</summary>
         abstract show: unit -> Promise<unit>
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] DockBounceType =
-        | Critical
-        | Informational
 
     type [<AllowNullLiteral>] DockStatic =
         [<EmitConstructor>] abstract Create: unit -> Dock
@@ -3137,7 +3040,7 @@ module Electron =
         /// **Note:** The following methods are useful specifically to resume a <c>cancelled</c>
         /// item when session is restarted.
         /// </summary>
-        abstract getState: unit -> DownloadItemGetStateReturn
+        abstract getState: unit -> DownloadItemGetState
         /// The total size in bytes of the download item.
         /// 
         /// If the size is unknown, it returns 0.
@@ -3174,12 +3077,6 @@ module Electron =
         /// </summary>
         abstract setSavePath: path: string -> unit
         abstract savePath: string with get, set
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] DownloadItemGetStateReturn =
-        | Progressing
-        | Completed
-        | Cancelled
-        | Interrupted
 
     type [<AllowNullLiteral>] DownloadItemStatic =
         [<EmitConstructor>] abstract Create: unit -> DownloadItem
@@ -4159,17 +4056,11 @@ module Electron =
         /// seconds) before considered idle.  <c>locked</c> is available on supported systems
         /// only.
         /// </summary>
-        abstract getSystemIdleState: idleThreshold: float -> PowerMonitorGetSystemIdleStateReturn
+        abstract getSystemIdleState: idleThreshold: float -> PowerMonitorGetSystemIdleState
         /// Idle time in seconds
         /// 
         /// Calculate system idle time in seconds.
         abstract getSystemIdleTime: unit -> float
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] PowerMonitorGetSystemIdleStateReturn =
-        | Active
-        | Idle
-        | Locked
-        | Unknown
 
     type [<AllowNullLiteral>] PowerSaveBlocker =
         /// <summary>Whether the corresponding <c>powerSaveBlocker</c> has started.</summary>
@@ -4189,13 +4080,9 @@ module Electron =
         /// calling B requests for <c>prevent-display-sleep</c>. <c>prevent-display-sleep</c> will be
         /// used until B stops its request. After that, <c>prevent-app-suspension</c> is used.
         /// </summary>
-        abstract start: ``type``: PowerSaveBlockerStartType -> float
+        abstract start: ``type``: PowerSaveBlockerStart -> float
         /// Stops the specified power save blocker.
         abstract stop: id: float -> unit
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] PowerSaveBlockerStartType =
-        | [<CompiledName "prevent-app-suspension">] PreventAppSuspension
-        | [<CompiledName "prevent-display-sleep">] PreventDisplaySleep
 
     type [<AllowNullLiteral>] PrinterInfo =
         /// a longer description of the printer's type.
@@ -4990,18 +4877,13 @@ module Electron =
         /// 
         /// Creates or updates a shortcut link at <c>shortcutPath</c>.
         /// </summary>
-        abstract writeShortcutLink: shortcutPath: string * operation: ShellWriteShortcutLinkOperation * options: ShortcutDetails -> bool
+        abstract writeShortcutLink: shortcutPath: string * operation: ShellWriteShortcutLink * options: ShortcutDetails -> bool
         /// <summary>
         /// Whether the shortcut was created successfully.
         /// 
         /// Creates or updates a shortcut link at <c>shortcutPath</c>.
         /// </summary>
         abstract writeShortcutLink: shortcutPath: string * options: ShortcutDetails -> bool
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] ShellWriteShortcutLinkOperation =
-        | Create
-        | Update
-        | Replace
 
     type [<AllowNullLiteral>] ShortcutDetails =
         /// The Application User Model ID. Default is empty.
@@ -5086,7 +4968,7 @@ module Electron =
         /// This user consent was not required until macOS 10.14 Mojave, so this method will
         /// always return <c>true</c> if your system is running 10.13 High Sierra or lower.
         /// </summary>
-        abstract askForMediaAccess: mediaType: SystemPreferencesAskForMediaAccessMediaType -> Promise<bool>
+        abstract askForMediaAccess: mediaType: SystemPreferencesAskForMediaAccess -> Promise<bool>
         /// <summary>
         /// whether or not this device has the ability to use Touch ID.
         /// 
@@ -5120,7 +5002,7 @@ module Electron =
         /// <c>setAppLevelAppearance</c> API to set this value.
         /// </summary>
         [<Obsolete("")>]
-        abstract getAppLevelAppearance: unit -> SystemPreferencesGetAppLevelAppearanceReturn
+        abstract getAppLevelAppearance: unit -> SystemPreferencesGetAppLevelAppearance
         /// <summary>
         /// The system color setting in RGB hexadecimal form (<c>#ABCDEF</c>). See the Windows
         /// docs and the macOS docs for more details.
@@ -5130,14 +5012,14 @@ module Electron =
         /// <c>unemphasized-selected-content-background</c>,
         /// <c>unemphasized-selected-text-background</c>, and <c>unemphasized-selected-text</c>.
         /// </summary>
-        abstract getColor: color: SystemPreferencesGetColorColor -> string
+        abstract getColor: color: SystemPreferencesGetColor -> string
         /// <summary>
         /// Can be <c>dark</c>, <c>light</c> or <c>unknown</c>.
         /// 
         /// Gets the macOS appearance setting that is currently applied to your application,
         /// maps to NSApplication.effectiveAppearance
         /// </summary>
-        abstract getEffectiveAppearance: unit -> SystemPreferencesGetEffectiveAppearanceReturn
+        abstract getEffectiveAppearance: unit -> SystemPreferencesGetAppLevelAppearance
         /// <summary>
         /// Can be <c>not-determined</c>, <c>granted</c>, <c>denied</c>, <c>restricted</c> or <c>unknown</c>.
         /// 
@@ -5150,7 +5032,7 @@ module Electron =
         /// all win32 applications. It will always return <c>granted</c> for <c>screen</c> and for all
         /// media types on older versions of Windows.
         /// </summary>
-        abstract getMediaAccessStatus: mediaType: SystemPreferencesGetMediaAccessStatusMediaType -> SystemPreferencesGetMediaAccessStatusReturn
+        abstract getMediaAccessStatus: mediaType: SystemPreferencesGetMediaAccessStatus -> SystemPreferencesGetMediaAccessStatus2
         /// <summary>
         /// The standard system color formatted as <c>#RRGGBBAA</c>.
         /// 
@@ -5158,7 +5040,7 @@ module Electron =
         /// vibrancy and changes in accessibility settings like 'Increase contrast' and
         /// 'Reduce transparency'. See Apple Documentation for  more details.
         /// </summary>
-        abstract getSystemColor: color: SystemPreferencesGetSystemColorColor -> string
+        abstract getSystemColor: color: SystemPreferencesGetSystemColor -> string
         /// <summary>
         /// The value of <c>key</c> in <c>NSUserDefaults</c>.
         /// 
@@ -5172,7 +5054,7 @@ module Electron =
         /// * <c>NSPreferredWebServices</c>: <c>dictionary</c>
         /// * <c>NSUserDictionaryReplacementItems</c>: <c>array</c>
         /// </summary>
-        abstract getUserDefault: key: string * ``type``: SystemPreferencesGetUserDefaultType -> obj option
+        abstract getUserDefault: key: string * ``type``: SystemPreferencesGetUserDefault -> obj option
         /// <summary>
         /// <c>true</c> if DWM composition (Aero Glass) is enabled, and <c>false</c> otherwise.
         /// 
@@ -5327,126 +5209,14 @@ module Electron =
         /// 
         /// This property is only available on macOS 10.14 Mojave or newer.
         /// </summary>
-        abstract appLevelAppearance: SystemPreferencesAppLevelAppearance with get, set
+        abstract appLevelAppearance: SystemPreferencesGetAppLevelAppearance with get, set
         /// <summary>
         /// A <c>String</c> property that can be <c>dark</c>, <c>light</c> or <c>unknown</c>.
         /// 
         /// Returns the macOS appearance setting that is currently applied to your
         /// application, maps to NSApplication.effectiveAppearance
         /// </summary>
-        abstract effectiveAppearance: SystemPreferencesAppLevelAppearance
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesAskForMediaAccessMediaType =
-        | Microphone
-        | Camera
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetAppLevelAppearanceReturn =
-        | Dark
-        | Light
-        | Unknown
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetColorColor =
-        | [<CompiledName "3d-dark-shadow">] N3dDarkShadow
-        | [<CompiledName "3d-face">] N3dFace
-        | [<CompiledName "3d-highlight">] N3dHighlight
-        | [<CompiledName "3d-light">] N3dLight
-        | [<CompiledName "3d-shadow">] N3dShadow
-        | [<CompiledName "active-border">] ActiveBorder
-        | [<CompiledName "active-caption">] ActiveCaption
-        | [<CompiledName "active-caption-gradient">] ActiveCaptionGradient
-        | [<CompiledName "app-workspace">] AppWorkspace
-        | [<CompiledName "button-text">] ButtonText
-        | [<CompiledName "caption-text">] CaptionText
-        | Desktop
-        | [<CompiledName "disabled-text">] DisabledText
-        | Highlight
-        | [<CompiledName "highlight-text">] HighlightText
-        | Hotlight
-        | [<CompiledName "inactive-border">] InactiveBorder
-        | [<CompiledName "inactive-caption">] InactiveCaption
-        | [<CompiledName "inactive-caption-gradient">] InactiveCaptionGradient
-        | [<CompiledName "inactive-caption-text">] InactiveCaptionText
-        | [<CompiledName "info-background">] InfoBackground
-        | [<CompiledName "info-text">] InfoText
-        | Menu
-        | [<CompiledName "menu-highlight">] MenuHighlight
-        | Menubar
-        | [<CompiledName "menu-text">] MenuText
-        | Scrollbar
-        | Window
-        | [<CompiledName "window-frame">] WindowFrame
-        | [<CompiledName "window-text">] WindowText
-        | [<CompiledName "alternate-selected-control-text">] AlternateSelectedControlText
-        | [<CompiledName "control-background">] ControlBackground
-        | Control
-        | [<CompiledName "control-text">] ControlText
-        | [<CompiledName "disabled-control-text">] DisabledControlText
-        | [<CompiledName "find-highlight">] FindHighlight
-        | Grid
-        | [<CompiledName "header-text">] HeaderText
-        | Highlight
-        | [<CompiledName "keyboard-focus-indicator">] KeyboardFocusIndicator
-        | Label
-        | Link
-        | [<CompiledName "placeholder-text">] PlaceholderText
-        | [<CompiledName "quaternary-label">] QuaternaryLabel
-        | [<CompiledName "scrubber-textured-background">] ScrubberTexturedBackground
-        | [<CompiledName "secondary-label">] SecondaryLabel
-        | [<CompiledName "selected-content-background">] SelectedContentBackground
-        | [<CompiledName "selected-control">] SelectedControl
-        | [<CompiledName "selected-control-text">] SelectedControlText
-        | [<CompiledName "selected-menu-item-text">] SelectedMenuItemText
-        | [<CompiledName "selected-text-background">] SelectedTextBackground
-        | [<CompiledName "selected-text">] SelectedText
-        | Separator
-        | Shadow
-        | [<CompiledName "tertiary-label">] TertiaryLabel
-        | [<CompiledName "text-background">] TextBackground
-        | Text
-        | [<CompiledName "under-page-background">] UnderPageBackground
-        | [<CompiledName "unemphasized-selected-content-background">] UnemphasizedSelectedContentBackground
-        | [<CompiledName "unemphasized-selected-text-background">] UnemphasizedSelectedTextBackground
-        | [<CompiledName "unemphasized-selected-text">] UnemphasizedSelectedText
-        | [<CompiledName "window-background">] WindowBackground
-        | [<CompiledName "window-frame-text">] WindowFrameText
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetEffectiveAppearanceReturn =
-        | Dark
-        | Light
-        | Unknown
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetMediaAccessStatusMediaType =
-        | Microphone
-        | Camera
-        | Screen
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetMediaAccessStatusReturn =
-        | [<CompiledName "not-determined">] NotDetermined
-        | Granted
-        | Denied
-        | Restricted
-        | Unknown
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetSystemColorColor =
-        | Blue
-        | Brown
-        | Gray
-        | Green
-        | Orange
-        | Pink
-        | Purple
-        | Red
-        | Yellow
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetUserDefaultType =
-        | String
-        | Boolean
-        | Integer
-        | Float
-        | Double
-        | Url
-        | Array
-        | Dictionary
+        abstract effectiveAppearance: SystemPreferencesGetAppLevelAppearance
 
     type [<AllowNullLiteral>] Task =
         /// <summary>The command line arguments when <c>program</c> is executed.</summary>
@@ -6418,7 +6188,7 @@ module Electron =
         /// the type of the webContent. Can be <c>backgroundPage</c>, <c>window</c>, <c>browserView</c>,
         /// <c>remote</c>, <c>webview</c> or <c>offscreen</c>.
         /// </summary>
-        abstract getType: unit -> WebContentsGetTypeReturn
+        abstract getType: unit -> WebContentsGetType
         /// The URL of the current web page.
         abstract getURL: unit -> string
         /// The user agent for this web page.
@@ -6593,7 +6363,7 @@ module Electron =
         /// <summary>Executes the editing command <c>replaceMisspelling</c> in web page.</summary>
         abstract replaceMisspelling: text: string -> unit
         /// resolves if the page is saved.
-        abstract savePage: fullPath: string * saveType: WebContentsSavePageSaveType -> Promise<unit>
+        abstract savePage: fullPath: string * saveType: WebContentsSavePage -> Promise<unit>
         /// <summary>Executes the editing command <c>selectAll</c> in web page.</summary>
         abstract selectAll: unit -> unit
         /// <summary>
@@ -6676,7 +6446,7 @@ module Electron =
         abstract setVisualZoomLevelLimits: minimumLevel: float * maximumLevel: float -> Promise<unit>
         /// Setting the WebRTC IP handling policy allows you to control which IPs are
         /// exposed via WebRTC. See BrowserLeaks for more details.
-        abstract setWebRTCIPHandlingPolicy: policy: WebContentsSetWebRTCIPHandlingPolicyPolicy -> unit
+        abstract setWebRTCIPHandlingPolicy: policy: WebContentsSetWebRTCIPHandlingPolicy -> unit
         /// Changes the zoom factor to the specified factor. Zoom factor is zoom percent
         /// divided by 100, so 300% = 3.0.
         /// 
@@ -6702,7 +6472,7 @@ module Electron =
         /// Stops any pending navigation.
         abstract stop: unit -> unit
         /// <summary>Stops any <c>findInPage</c> request for the <c>webContents</c> with the provided <c>action</c>.</summary>
-        abstract stopFindInPage: action: WebContentsStopFindInPageAction -> unit
+        abstract stopFindInPage: action: WebContentsStopFindInPage -> unit
         /// If *offscreen rendering* is enabled and painting, stop painting.
         abstract stopPainting: unit -> unit
         /// <summary>
@@ -6727,30 +6497,6 @@ module Electron =
         abstract userAgent: string with get, set
         abstract zoomFactor: float with get, set
         abstract zoomLevel: float with get, set
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsGetTypeReturn =
-        | BackgroundPage
-        | Window
-        | BrowserView
-        | Remote
-        | Webview
-        | Offscreen
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSavePageSaveType =
-        | [<CompiledName "HTMLOnly">] HTMLOnly
-        | [<CompiledName "HTMLComplete">] HTMLComplete
-        | [<CompiledName "MHTML">] MHTML
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSetWebRTCIPHandlingPolicyPolicy =
-        | Default
-        | Default_public_interface_only
-        | Default_public_and_private_interfaces
-        | Disable_non_proxied_udp
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsStopFindInPageAction =
-        | ClearSelection
-        | KeepSelection
-        | ActivateSelection
 
     type [<AllowNullLiteral>] WebContentsStatic =
         [<EmitConstructor>] abstract Create: unit -> WebContents
@@ -7164,9 +6910,9 @@ module Electron =
         /// Emitted when DevTools is focused / opened.
         [<Emit "$0.addEventListener('devtools-focused',$1,$2)">] abstract ``addEventListener_devtools-focused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
         [<Emit "$0.removeEventListener('devtools-focused',$1)">] abstract ``removeEventListener_devtools-focused``: listener: (Event -> unit) -> WebviewTag
-        abstract addEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
+        abstract addEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> obj -> obj option) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
-        abstract removeEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> HTMLElementEventMap -> obj option) * ?useCapture: bool -> unit
+        abstract removeEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> obj -> obj option) * ?useCapture: bool -> unit
         abstract removeEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
         /// Whether the guest page can go back.
         abstract canGoBack: unit -> bool
@@ -7339,7 +7085,7 @@ module Electron =
         /// Stops any pending navigation.
         abstract stop: unit -> unit
         /// <summary>Stops any <c>findInPage</c> request for the <c>webview</c> with the provided <c>action</c>.</summary>
-        abstract stopFindInPage: action: WebviewTagStopFindInPageAction -> unit
+        abstract stopFindInPage: action: WebContentsStopFindInPage -> unit
         /// <summary>Executes editing command <c>undo</c> in page.</summary>
         abstract undo: unit -> unit
         /// <summary>Executes editing command <c>unselect</c> in page.</summary>
@@ -7446,11 +7192,6 @@ module Electron =
         /// <c>false</c>.
         /// </summary>
         abstract webpreferences: string with get, set
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] WebviewTagStopFindInPageAction =
-        | ClearSelection
-        | KeepSelection
-        | ActivateSelection
 
     type [<AllowNullLiteral>] AboutPanelOptionsOptions =
         /// The app's name.
@@ -9489,6 +9230,43 @@ module Electron =
         /// <summary>Defaults to <c>Impact</c>.</summary>
         abstract fantasy: string option with get, set
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] AppGetGPUInfo =
+        | Basic
+        | Complete
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] AppGetPath =
+        | Home
+        | AppData
+        | UserData
+        | Cache
+        | Temp
+        | Exe
+        | Module
+        | Desktop
+        | Documents
+        | Downloads
+        | Music
+        | Pictures
+        | Videos
+        | Logs
+        | PepperFlashSystemPlugin
+        | CrashDumps
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] AppSetActivationPolicy =
+        | Regular
+        | Accessory
+        | Prohibited
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetAlwaysOnTop =
+        | Normal
+        | Floating
+        | [<CompiledName "torn-off-menu">] TornOffMenu
+        | [<CompiledName "modal-panel">] ModalPanel
+        | [<CompiledName "main-menu">] MainMenu
+        | Status
+        | [<CompiledName "pop-up-menu">] PopUpMenu
+        | [<CompiledName "screen-saver">] ScreenSaver
+
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetVibrancy =
         | [<CompiledName "appearance-based">] AppearanceBased
         | Light
@@ -9510,10 +9288,18 @@ module Electron =
         | [<CompiledName "under-window">] UnderWindow
         | [<CompiledName "under-page">] UnderPage
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardAvailableFormats =
+        | Selection
+        | Clipboard
+
     type [<StringEnum>] [<RequireQualifiedAccess>] DisplayAccelerometerSupport =
         | Available
         | Unavailable
         | Unknown
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] DockBounce =
+        | Critical
+        | Informational
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DownloadItemOn_done =
         | Completed
@@ -9522,6 +9308,12 @@ module Electron =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DownloadItemOn_updated =
         | Progressing
+        | Interrupted
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] DownloadItemGetState =
+        | Progressing
+        | Completed
+        | Cancelled
         | Interrupted
 
     type [<StringEnum>] [<RequireQualifiedAccess>] InputEventModifiersArray =
@@ -9644,6 +9436,16 @@ module Electron =
         | Critical
         | Low
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] PowerMonitorGetSystemIdleState =
+        | Active
+        | Idle
+        | Locked
+        | Unknown
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] PowerSaveBlockerStart =
+        | [<CompiledName "prevent-app-suspension">] PreventAppSuspension
+        | [<CompiledName "prevent-display-sleep">] PreventDisplaySleep
+
     type [<StringEnum>] [<RequireQualifiedAccess>] ProcessMetricIntegrityLevel =
         | Untrusted
         | Low
@@ -9678,14 +9480,121 @@ module Electron =
         | Ntlm
         | Negotiate
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesSetAppLevelAppearance =
-        | Dark
-        | Light
+    type [<StringEnum>] [<RequireQualifiedAccess>] ShellWriteShortcutLink =
+        | Create
+        | Update
+        | Replace
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesAppLevelAppearance =
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesAskForMediaAccess =
+        | Microphone
+        | Camera
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetAppLevelAppearance =
         | Dark
         | Light
         | Unknown
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetColor =
+        | [<CompiledName "3d-dark-shadow">] N3dDarkShadow
+        | [<CompiledName "3d-face">] N3dFace
+        | [<CompiledName "3d-highlight">] N3dHighlight
+        | [<CompiledName "3d-light">] N3dLight
+        | [<CompiledName "3d-shadow">] N3dShadow
+        | [<CompiledName "active-border">] ActiveBorder
+        | [<CompiledName "active-caption">] ActiveCaption
+        | [<CompiledName "active-caption-gradient">] ActiveCaptionGradient
+        | [<CompiledName "app-workspace">] AppWorkspace
+        | [<CompiledName "button-text">] ButtonText
+        | [<CompiledName "caption-text">] CaptionText
+        | Desktop
+        | [<CompiledName "disabled-text">] DisabledText
+        | Highlight
+        | [<CompiledName "highlight-text">] HighlightText
+        | Hotlight
+        | [<CompiledName "inactive-border">] InactiveBorder
+        | [<CompiledName "inactive-caption">] InactiveCaption
+        | [<CompiledName "inactive-caption-gradient">] InactiveCaptionGradient
+        | [<CompiledName "inactive-caption-text">] InactiveCaptionText
+        | [<CompiledName "info-background">] InfoBackground
+        | [<CompiledName "info-text">] InfoText
+        | Menu
+        | [<CompiledName "menu-highlight">] MenuHighlight
+        | Menubar
+        | [<CompiledName "menu-text">] MenuText
+        | Scrollbar
+        | Window
+        | [<CompiledName "window-frame">] WindowFrame
+        | [<CompiledName "window-text">] WindowText
+        | [<CompiledName "alternate-selected-control-text">] AlternateSelectedControlText
+        | [<CompiledName "control-background">] ControlBackground
+        | Control
+        | [<CompiledName "control-text">] ControlText
+        | [<CompiledName "disabled-control-text">] DisabledControlText
+        | [<CompiledName "find-highlight">] FindHighlight
+        | Grid
+        | [<CompiledName "header-text">] HeaderText
+        | Highlight
+        | [<CompiledName "keyboard-focus-indicator">] KeyboardFocusIndicator
+        | Label
+        | Link
+        | [<CompiledName "placeholder-text">] PlaceholderText
+        | [<CompiledName "quaternary-label">] QuaternaryLabel
+        | [<CompiledName "scrubber-textured-background">] ScrubberTexturedBackground
+        | [<CompiledName "secondary-label">] SecondaryLabel
+        | [<CompiledName "selected-content-background">] SelectedContentBackground
+        | [<CompiledName "selected-control">] SelectedControl
+        | [<CompiledName "selected-control-text">] SelectedControlText
+        | [<CompiledName "selected-menu-item-text">] SelectedMenuItemText
+        | [<CompiledName "selected-text-background">] SelectedTextBackground
+        | [<CompiledName "selected-text">] SelectedText
+        | Separator
+        | Shadow
+        | [<CompiledName "tertiary-label">] TertiaryLabel
+        | [<CompiledName "text-background">] TextBackground
+        | Text
+        | [<CompiledName "under-page-background">] UnderPageBackground
+        | [<CompiledName "unemphasized-selected-content-background">] UnemphasizedSelectedContentBackground
+        | [<CompiledName "unemphasized-selected-text-background">] UnemphasizedSelectedTextBackground
+        | [<CompiledName "unemphasized-selected-text">] UnemphasizedSelectedText
+        | [<CompiledName "window-background">] WindowBackground
+        | [<CompiledName "window-frame-text">] WindowFrameText
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetMediaAccessStatus =
+        | Microphone
+        | Camera
+        | Screen
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetMediaAccessStatus2 =
+        | [<CompiledName "not-determined">] NotDetermined
+        | Granted
+        | Denied
+        | Restricted
+        | Unknown
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetSystemColor =
+        | Blue
+        | Brown
+        | Gray
+        | Green
+        | Orange
+        | Pink
+        | Purple
+        | Red
+        | Yellow
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetUserDefault =
+        | String
+        | Boolean
+        | Integer
+        | Float
+        | Double
+        | Url
+        | Array
+        | Dictionary
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesSetAppLevelAppearance =
+        | Dark
+        | Light
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarScrubberMode =
         | Fixed
@@ -9712,6 +9621,30 @@ module Electron =
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsOn_zoomChanged =
         | In
         | Out
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsGetType =
+        | BackgroundPage
+        | Window
+        | BrowserView
+        | Remote
+        | Webview
+        | Offscreen
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSavePage =
+        | [<CompiledName "HTMLOnly">] HTMLOnly
+        | [<CompiledName "HTMLComplete">] HTMLComplete
+        | [<CompiledName "MHTML">] MHTML
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSetWebRTCIPHandlingPolicy =
+        | Default
+        | Default_public_interface_only
+        | Default_public_and_private_interfaces
+        | Disable_non_proxied_udp
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsStopFindInPage =
+        | ClearSelection
+        | KeepSelection
+        | ActivateSelection
 
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowConstructorOptionsTitleBarStyle =
         | Default

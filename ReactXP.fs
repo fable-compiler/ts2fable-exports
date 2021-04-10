@@ -199,23 +199,23 @@ module __android_StatusBar =
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
         abstract isOverlay: unit -> bool
-        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHiddenShowHideTransition -> unit
+        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHidden -> unit
         abstract setBackgroundColor: color: string * animated: bool -> unit
         abstract setTranslucent: translucent: bool -> unit
-        abstract setBarStyle: style: StatusBarSetBarStyleStyle * animated: bool -> unit
+        abstract setBarStyle: style: StatusBarSetBarStyle * animated: bool -> unit
         abstract setNetworkActivityIndicatorVisible: value: bool -> unit
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHiddenShowHideTransition =
-        | Slide
-        | Fade
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyleStyle =
-        | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
 
     type [<AllowNullLiteral>] StatusBarStatic =
         [<EmitConstructor>] abstract Create: unit -> StatusBar
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
+        | Slide
+        | Fade
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
+        | Default
+        | [<CompiledName "light-content">] LightContent
+        | [<CompiledName "dark-content">] DarkContent
 
 module __android_Text =
     type Types = __common_Interfaces.Types
@@ -253,7 +253,7 @@ module __common_AccessibilityUtil =
     type Types = __common_Interfaces.Types
 
     type [<AllowNullLiteral>] IExports =
-        abstract ImportantForAccessibilityMap: IExportsImportantForAccessibilityMap
+        abstract ImportantForAccessibilityMap: {| ``[Types.ImportantForAccessibility.Auto]``: ImportantForAccessibilityValue; ``[Types.ImportantForAccessibility.Yes]``: ImportantForAccessibilityValue; ``[Types.ImportantForAccessibility.No]``: ImportantForAccessibilityValue; ``[Types.ImportantForAccessibility.NoHideDescendants]``: ImportantForAccessibilityValue |}
         abstract AccessibilityPlatformUtil: AccessibilityPlatformUtilStatic
         abstract AccessibilityUtil: AccessibilityUtilStatic
 
@@ -277,12 +277,6 @@ module __common_AccessibilityUtil =
 
     type [<AllowNullLiteral>] AccessibilityUtilStatic =
         [<EmitConstructor>] abstract Create: unit -> AccessibilityUtil
-
-    type [<AllowNullLiteral>] IExportsImportantForAccessibilityMap =
-        abstract ``[Types.ImportantForAccessibility.Auto]``: ImportantForAccessibilityValue with get, set
-        abstract ``[Types.ImportantForAccessibility.Yes]``: ImportantForAccessibilityValue with get, set
-        abstract ``[Types.ImportantForAccessibility.No]``: ImportantForAccessibilityValue with get, set
-        abstract ``[Types.ImportantForAccessibility.NoHideDescendants]``: ImportantForAccessibilityValue with get, set
 
 module __common_AppConfig =
 
@@ -644,20 +638,11 @@ module __common_Interfaces =
 
     type [<AllowNullLiteral>] StatusBar =
         abstract isOverlay: unit -> bool
-        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHiddenShowHideTransition -> unit
-        abstract setBarStyle: style: StatusBarSetBarStyleStyle * animated: bool -> unit
+        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHidden -> unit
+        abstract setBarStyle: style: StatusBarSetBarStyle * animated: bool -> unit
         abstract setNetworkActivityIndicatorVisible: value: bool -> unit
         abstract setBackgroundColor: color: string * animated: bool -> unit
         abstract setTranslucent: translucent: bool -> unit
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHiddenShowHideTransition =
-        | Fade
-        | Slide
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyleStyle =
-        | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
 
     type [<AllowNullLiteral>] StatusBarStatic =
         [<EmitConstructor>] abstract Create: unit -> StatusBar
@@ -677,10 +662,7 @@ module __common_Interfaces =
         abstract createAnimatedImageStyle: ruleSet: Types.AnimatedImageStyle -> Types.AnimatedImageStyleRuleSet
         abstract createLinkStyle: ruleSet: Types.LinkStyleRuleSet * ?cacheStyle: bool -> Types.LinkStyleRuleSet
         abstract createPickerStyle: ruleSet: Types.PickerStyle * ?cacheStyle: bool -> Types.PickerStyleRuleSet
-        abstract getCssPropertyAliasesCssStyle: unit -> StylesGetCssPropertyAliasesCssStyleReturn
-
-    type [<AllowNullLiteral>] StylesGetCssPropertyAliasesCssStyleReturn =
-        [<EmitIndexer>] abstract Item: key: string -> string with get, set
+        abstract getCssPropertyAliasesCssStyle: unit -> {| Item: string |}
 
     type [<AllowNullLiteral>] StylesStatic =
         [<EmitConstructor>] abstract Create: unit -> Styles
@@ -703,15 +685,11 @@ module __common_Interfaces =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
+        abstract getSelectionRange: unit -> {| start: float; ``end``: float |}
         abstract setValue: value: string -> unit
         abstract focus: unit -> unit
         abstract requestFocus: unit -> unit
         abstract blur: unit -> unit
-
-    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
-        abstract start: float with get, set
-        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         [<EmitConstructor>] abstract Create: unit -> TextInput
@@ -780,6 +758,15 @@ module __common_Interfaces =
         abstract allowRTL: allow: bool -> unit
         abstract forceRTL: force: bool -> unit
         abstract isRTL: unit -> bool
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
+        | Fade
+        | Slide
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
+        | Default
+        | [<CompiledName "light-content">] LightContent
+        | [<CompiledName "dark-content">] DarkContent
 
 module __common_Linking =
     module SyncTasks = Synctasks
@@ -980,16 +967,12 @@ module __common_PopupContainerViewBase =
 
     type [<AllowNullLiteral>] PopupContainerViewBase<'P, 'S, 'C when 'P :> PopupContainerViewBaseProps<'C>> =
         inherit React.Component<'P, 'S>
-        abstract getChildContext: unit -> PopupContainerViewBaseGetChildContextReturn
+        abstract getChildContext: unit -> {| focusManager: obj option; popupContainer: PopupContainerViewBase<'P, 'S, 'C> |}
         abstract registerPopupComponent: onShow: (unit -> unit) * onHide: (unit -> unit) -> PopupComponent
         abstract unregisterPopupComponent: ``component``: PopupComponent -> unit
         abstract isHidden: unit -> bool
         abstract componentDidUpdate: prevProps: 'P * prevState: 'S -> unit
         abstract render: unit -> JSX.Element
-
-    type [<AllowNullLiteral>] PopupContainerViewBaseGetChildContextReturn =
-        abstract focusManager: obj option with get, set
-        abstract popupContainer: PopupContainerViewBase<'P, 'S, 'C> with get, set
 
     type [<AllowNullLiteral>] PopupContainerViewBaseStatic =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
@@ -2455,23 +2438,23 @@ module __ios_StatusBar =
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
         abstract isOverlay: unit -> bool
-        abstract setBarStyle: style: StatusBarSetBarStyleStyle * animated: bool -> unit
-        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHiddenShowHideTransition -> unit
+        abstract setBarStyle: style: StatusBarSetBarStyle * animated: bool -> unit
+        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHidden -> unit
         abstract setNetworkActivityIndicatorVisible: value: bool -> unit
         abstract setBackgroundColor: color: string * animated: bool -> unit
         abstract setTranslucent: translucent: bool -> unit
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyleStyle =
+    type [<AllowNullLiteral>] StatusBarStatic =
+        [<EmitConstructor>] abstract Create: unit -> StatusBar
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
         | [<CompiledName "light-content">] LightContent
         | [<CompiledName "dark-content">] DarkContent
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHiddenShowHideTransition =
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
         | Fade
         | Slide
-
-    type [<AllowNullLiteral>] StatusBarStatic =
-        [<EmitConstructor>] abstract Create: unit -> StatusBar
 
 module __macos_Accessibility =
     type NativeAccessibility = __native_common_Accessibility.Accessibility
@@ -2676,23 +2659,23 @@ module __macos_StatusBar =
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
         abstract isOverlay: unit -> bool
-        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHiddenShowHideTransition -> unit
+        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHidden -> unit
         abstract setBackgroundColor: color: string * animated: bool -> unit
         abstract setTranslucent: translucent: bool -> unit
-        abstract setBarStyle: style: StatusBarSetBarStyleStyle * animated: bool -> unit
+        abstract setBarStyle: style: StatusBarSetBarStyle * animated: bool -> unit
         abstract setNetworkActivityIndicatorVisible: value: bool -> unit
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHiddenShowHideTransition =
-        | Fade
-        | Slide
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyleStyle =
-        | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
 
     type [<AllowNullLiteral>] StatusBarStatic =
         [<EmitConstructor>] abstract Create: unit -> StatusBar
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
+        | Fade
+        | Slide
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
+        | Default
+        | [<CompiledName "light-content">] LightContent
+        | [<CompiledName "dark-content">] DarkContent
 
 module __macos_View =
     type Types = __common_Interfaces.Types
@@ -2876,7 +2859,7 @@ module __native_common_Button =
         abstract touchableHandlePress: (Types.SyntheticEvent -> unit) with get, set
         abstract touchableHandleLongPress: (Types.SyntheticEvent -> unit) with get, set
         abstract touchableGetHighlightDelayMS: (unit -> float) with get, set
-        abstract touchableGetPressRectOffset: (unit -> ButtonTouchableGetPressRectOffset) with get, set
+        abstract touchableGetPressRectOffset: (unit -> {| top: float; left: float; right: float; bottom: float |}) with get, set
         abstract requestFocus: unit -> unit
         abstract blur: unit -> unit
         abstract focus: unit -> unit
@@ -2888,19 +2871,9 @@ module __native_common_Button =
         abstract setOpacityTo: value: float * duration: float -> unit
 
     type [<AllowNullLiteral>] ButtonStatic =
-        abstract contextTypes: ButtonStaticContextTypes with get, set
+        abstract contextTypes: {| hasRxButtonAscendant: obj; focusArbitrator: obj |} with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
         [<EmitConstructor>] abstract Create: props: Types.ButtonProps * ?context: ButtonContext -> Button
-
-    type [<AllowNullLiteral>] ButtonTouchableGetPressRectOffset =
-        abstract top: float with get, set
-        abstract left: float with get, set
-        abstract right: float with get, set
-        abstract bottom: float with get, set
-
-    type [<AllowNullLiteral>] ButtonStaticContextTypes =
-        abstract hasRxButtonAscendant: obj with get, set
-        abstract focusArbitrator: obj with get, set
 
 module __native_common_Clipboard =
     module SyncTasks = Synctasks
@@ -2988,13 +2961,10 @@ module __native_common_Image =
         abstract componentWillReceiveProps: nextProps: Types.ImageProps -> unit
         abstract _onMount: (RN.Image option -> unit) with get, set
         abstract setNativeProps: nativeProps: RN.ImageProps -> unit
-        abstract getChildContext: unit -> ImageGetChildContextReturn
+        abstract getChildContext: unit -> {| isRxParentAText: bool |}
         abstract getStyles: unit -> ResizeArray<Types.StyleRuleSetRecursive<Types.StyleRuleSet<Types.ImageStyle>>>
         abstract getNativeWidth: unit -> float option
         abstract getNativeHeight: unit -> float option
-
-    type [<AllowNullLiteral>] ImageGetChildContextReturn =
-        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] ImageStatic =
         [<EmitConstructor>] abstract Create: unit -> Image
@@ -3067,17 +3037,13 @@ module __native_common_Link =
 
     type [<AllowNullLiteral>] LinkBaseStatic =
         [<EmitConstructor>] abstract Create: unit -> LinkBase<'S>
-        abstract contextTypes: LinkBaseStaticContextTypes with get, set
+        abstract contextTypes: {| focusArbitrator: obj; isRxParentAText: obj |} with get, set
 
     type [<AllowNullLiteral>] Link =
         inherit LinkBase<LinkLinkBase>
 
     type [<AllowNullLiteral>] LinkStatic =
         [<EmitConstructor>] abstract Create: unit -> Link
-
-    type [<AllowNullLiteral>] LinkBaseStaticContextTypes =
-        abstract focusArbitrator: obj with get, set
-        abstract isRxParentAText: obj with get, set
 
     type [<AllowNullLiteral>] LinkLinkBase =
         interface end
@@ -3381,10 +3347,7 @@ module __native_common_Styles =
         abstract createAnimatedImageStyle: ruleSet: RX.Types.AnimatedImageStyle -> RX.Types.AnimatedImageStyleRuleSet
         abstract createLinkStyle: ruleSet: RX.Types.LinkStyle * ?cacheStyle: bool -> RX.Types.LinkStyleRuleSet
         abstract createPickerStyle: ruleSet: RX.Types.PickerStyle * ?cacheStyle: bool -> RX.Types.PickerStyleRuleSet
-        abstract getCssPropertyAliasesCssStyle: unit -> StylesGetCssPropertyAliasesCssStyleReturn
-
-    type [<AllowNullLiteral>] StylesGetCssPropertyAliasesCssStyleReturn =
-        [<EmitIndexer>] abstract Item: key: string -> string with get, set
+        abstract getCssPropertyAliasesCssStyle: unit -> {| Item: string |}
 
     type [<AllowNullLiteral>] StylesStatic =
         [<EmitConstructor>] abstract Create: unit -> Styles
@@ -3412,15 +3375,12 @@ module __native_common_Text =
         abstract componentDidMount: unit -> unit
         abstract _onMount: (RN.Text option -> unit) with get, set
         abstract _getExtendedProperties: unit -> RN.ExtendedTextProps
-        abstract getChildContext: unit -> TextGetChildContextReturn
+        abstract getChildContext: unit -> {| isRxParentAText: bool |}
         abstract _getStyles: unit -> Types.StyleRuleSetRecursiveArray<Types.TextStyleRuleSet>
         abstract requestFocus: unit -> unit
         abstract focus: unit -> unit
         abstract blur: unit -> unit
         abstract getSelectedText: unit -> string
-
-    type [<AllowNullLiteral>] TextGetChildContextReturn =
-        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] TextStatic =
         [<EmitConstructor>] abstract Create: unit -> Text
@@ -3458,12 +3418,8 @@ module __native_common_TextInput =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
+        abstract getSelectionRange: unit -> {| start: float; ``end``: float |}
         abstract setValue: value: string -> unit
-
-    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
-        abstract start: float with get, set
-        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
@@ -3557,7 +3513,7 @@ module __native_common_View =
         abstract touchableHandleActivePressIn: e: RX.Types.SyntheticEvent -> unit
         abstract touchableHandleActivePressOut: e: RX.Types.SyntheticEvent -> unit
         abstract touchableGetHighlightDelayMS: unit -> float
-        abstract touchableGetPressRectOffset: unit -> ViewTouchableGetPressRectOffsetReturn
+        abstract touchableGetPressRectOffset: unit -> {| top: float; left: float; right: float; bottom: float |}
         abstract setFocusRestricted: restricted: bool -> unit
         abstract setFocusLimited: limited: bool -> unit
         abstract blur: unit -> unit
@@ -3566,12 +3522,6 @@ module __native_common_View =
 
     type [<AllowNullLiteral>] ViewComponentWillUpdateNextState =
         interface end
-
-    type [<AllowNullLiteral>] ViewTouchableGetPressRectOffsetReturn =
-        abstract top: float with get, set
-        abstract left: float with get, set
-        abstract right: float with get, set
-        abstract bottom: float with get, set
 
     type [<AllowNullLiteral>] ViewStatic =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
@@ -3958,16 +3908,9 @@ module __web_Button =
         abstract onClick: (Types.MouseEvent -> unit) with get, set
 
     type [<AllowNullLiteral>] ButtonStatic =
-        abstract contextTypes: ButtonStaticContextTypes with get, set
-        abstract childContextTypes: ButtonStaticChildContextTypes with get, set
+        abstract contextTypes: {| hasRxButtonAscendant: obj; focusArbitrator: obj |} with get, set
+        abstract childContextTypes: {| hasRxButtonAscendant: obj |} with get, set
         [<EmitConstructor>] abstract Create: props: Types.ButtonProps * ?context: ButtonContext -> Button
-
-    type [<AllowNullLiteral>] ButtonStaticContextTypes =
-        abstract hasRxButtonAscendant: obj with get, set
-        abstract focusArbitrator: obj with get, set
-
-    type [<AllowNullLiteral>] ButtonStaticChildContextTypes =
-        abstract hasRxButtonAscendant: obj with get, set
 
 module __web_Clipboard =
     module SyncTasks = Synctasks
@@ -4077,7 +4020,7 @@ module __web_Image =
     type [<AllowNullLiteral>] Image =
         inherit React.Component<Types.ImageProps, ImageState>
         abstract context: ImageContext with get, set
-        abstract getChildContext: unit -> ImageGetChildContextReturn
+        abstract getChildContext: unit -> {| isRxParentAText: bool |}
         abstract componentWillReceiveProps: nextProps: Types.ImageProps -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -4085,9 +4028,6 @@ module __web_Image =
         abstract _onMount: (HTMLImageElement option -> unit) with get, set
         abstract getNativeWidth: unit -> float option
         abstract getNativeHeight: unit -> float option
-
-    type [<AllowNullLiteral>] ImageGetChildContextReturn =
-        abstract isRxParentAText: bool with get, set
 
     type [<AllowNullLiteral>] ImageStatic =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
@@ -4149,10 +4089,7 @@ module __web_Link =
 
     type [<AllowNullLiteral>] LinkStatic =
         [<EmitConstructor>] abstract Create: unit -> Link
-        abstract contextTypes: LinkStaticContextTypes with get, set
-
-    type [<AllowNullLiteral>] LinkStaticContextTypes =
-        abstract focusArbitrator: obj with get, set
+        abstract contextTypes: {| focusArbitrator: obj |} with get, set
 
 module __web_Linking =
     module SyncTasks = Synctasks
@@ -4457,16 +4394,13 @@ module __web_RootView =
 
     type [<AllowNullLiteral>] RootView =
         inherit React.Component<RootViewProps, RootViewState>
-        abstract getChildContext: unit -> RootViewGetChildContextReturn
+        abstract getChildContext: unit -> {| focusManager: FocusManager |}
         abstract componentWillReceiveProps: prevProps: RootViewProps -> unit
         abstract componentDidUpdate: prevProps: RootViewProps * prevState: RootViewState -> unit
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
         abstract _onMount: (PopupContainerView option -> unit) with get, set
-
-    type [<AllowNullLiteral>] RootViewGetChildContextReturn =
-        abstract focusManager: FocusManager with get, set
 
     type [<AllowNullLiteral>] RootViewStatic =
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
@@ -4544,23 +4478,23 @@ module __web_StatusBar =
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
         abstract isOverlay: unit -> bool
-        abstract setBarStyle: style: StatusBarSetBarStyleStyle * animated: bool -> unit
-        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHiddenShowHideTransition -> unit
+        abstract setBarStyle: style: StatusBarSetBarStyle * animated: bool -> unit
+        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHidden -> unit
         abstract setNetworkActivityIndicatorVisible: value: bool -> unit
         abstract setBackgroundColor: color: string * animated: bool -> unit
         abstract setTranslucent: translucent: bool -> unit
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyleStyle =
+    type [<AllowNullLiteral>] StatusBarStatic =
+        [<EmitConstructor>] abstract Create: unit -> StatusBar
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
         | [<CompiledName "light-content">] LightContent
         | [<CompiledName "dark-content">] DarkContent
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHiddenShowHideTransition =
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
         | Fade
         | Slide
-
-    type [<AllowNullLiteral>] StatusBarStatic =
-        [<EmitConstructor>] abstract Create: unit -> StatusBar
 
 module __web_Storage =
     module SyncTasks = Synctasks
@@ -4609,11 +4543,8 @@ module __web_Styles =
         abstract createPickerStyle: ruleSet: RX.Types.PickerStyle * ?cacheStyle: bool -> RX.Types.PickerStyleRuleSet
         abstract convertJsToCssStyle: prop: string -> string
         abstract _cssPropertyAliasesCssStyle: (unit -> CssAliasMap) with get, set
-        abstract getCssPropertyAliasesCssStyle: unit -> StylesGetCssPropertyAliasesCssStyleReturn
+        abstract getCssPropertyAliasesCssStyle: unit -> {| Item: string |}
         abstract getParentComponentName: ``component``: obj option -> string
-
-    type [<AllowNullLiteral>] StylesGetCssPropertyAliasesCssStyleReturn =
-        [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     type [<AllowNullLiteral>] StylesStatic =
         [<EmitConstructor>] abstract Create: unit -> Styles
@@ -4633,7 +4564,7 @@ module __web_Text =
     type [<AllowNullLiteral>] Text =
         inherit TextBase
         abstract context: TextContext with get, set
-        abstract getChildContext: unit -> TextGetChildContextReturn
+        abstract getChildContext: unit -> {| isRxParentAText: bool |}
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
         abstract blur: unit -> unit
@@ -4641,16 +4572,10 @@ module __web_Text =
         abstract focus: unit -> unit
         abstract getSelectedText: unit -> string
 
-    type [<AllowNullLiteral>] TextGetChildContextReturn =
-        abstract isRxParentAText: bool with get, set
-
     type [<AllowNullLiteral>] TextStatic =
         [<EmitConstructor>] abstract Create: unit -> Text
-        abstract contextTypes: TextStaticContextTypes with get, set
+        abstract contextTypes: {| focusArbitrator: obj |} with get, set
         abstract childContextTypes: React.ValidationMap<obj option> with get, set
-
-    type [<AllowNullLiteral>] TextStaticContextTypes =
-        abstract focusArbitrator: obj with get, set
 
 module __web_TextInput =
     type FocusArbitratorProvider = __common_utils_AutoFocusHelper.FocusArbitratorProvider
@@ -4680,12 +4605,8 @@ module __web_TextInput =
         abstract isFocused: unit -> bool
         abstract selectAll: unit -> unit
         abstract selectRange: start: float * ``end``: float -> unit
-        abstract getSelectionRange: unit -> TextInputGetSelectionRangeReturn
+        abstract getSelectionRange: unit -> {| start: float; ``end``: float |}
         abstract setValue: value: string -> unit
-
-    type [<AllowNullLiteral>] TextInputGetSelectionRangeReturn =
-        abstract start: float with get, set
-        abstract ``end``: float with get, set
 
     type [<AllowNullLiteral>] TextInputStatic =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
@@ -4913,7 +4834,7 @@ module __windows_Button =
         inherit React.ChildContextProvider<ButtonContext>
         inherit FocusManagerFocusableComponent
         abstract context: ButtonContext with get, set
-        abstract _getContextMenuOffset: unit -> Button_getContextMenuOffsetReturn
+        abstract _getContextMenuOffset: unit -> {| x: float; y: float |}
         abstract _render: internalProps: RN.ViewProps * onMount: (obj option -> unit) -> JSX.Element
         abstract focus: unit -> unit
         abstract blur: unit -> unit
@@ -4925,10 +4846,6 @@ module __windows_Button =
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
         abstract updateNativeAccessibilityProps: unit -> unit
-
-    type [<AllowNullLiteral>] Button_getContextMenuOffsetReturn =
-        abstract x: float with get, set
-        abstract y: float with get, set
 
     type [<AllowNullLiteral>] ButtonStatic =
         [<EmitConstructor>] abstract Create: unit -> Button
@@ -4965,7 +4882,7 @@ module __windows_Link =
     type [<AllowNullLiteral>] Link =
         inherit LinkBase<LinkState>
         inherit FocusManagerFocusableComponent
-        abstract _getContextMenuOffset: unit -> Link_getContextMenuOffsetReturn
+        abstract _getContextMenuOffset: unit -> {| x: float; y: float |}
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract _render: internalProps: RN.TextProps * onMount: (obj option -> unit) -> JSX.Element
@@ -4977,10 +4894,6 @@ module __windows_Link =
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
         abstract updateNativeAccessibilityProps: unit -> unit
-
-    type [<AllowNullLiteral>] Link_getContextMenuOffsetReturn =
-        abstract x: float with get, set
-        abstract y: float with get, set
 
     type [<AllowNullLiteral>] LinkStatic =
         [<EmitConstructor>] abstract Create: props: Types.LinkProps -> Link
@@ -5144,23 +5057,23 @@ module __windows_StatusBar =
     type [<AllowNullLiteral>] StatusBar =
         inherit RX.StatusBar
         abstract isOverlay: unit -> bool
-        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHiddenShowHideTransition -> unit
+        abstract setHidden: hidden: bool * showHideTransition: StatusBarSetHidden -> unit
         abstract setBackgroundColor: color: string * animated: bool -> unit
         abstract setTranslucent: translucent: bool -> unit
-        abstract setBarStyle: style: StatusBarSetBarStyleStyle * animated: bool -> unit
+        abstract setBarStyle: style: StatusBarSetBarStyle * animated: bool -> unit
         abstract setNetworkActivityIndicatorVisible: value: bool -> unit
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHiddenShowHideTransition =
-        | Fade
-        | Slide
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyleStyle =
-        | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
 
     type [<AllowNullLiteral>] StatusBarStatic =
         [<EmitConstructor>] abstract Create: unit -> StatusBar
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
+        | Fade
+        | Slide
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
+        | Default
+        | [<CompiledName "light-content">] LightContent
+        | [<CompiledName "dark-content">] DarkContent
 
 module __windows_Text =
     type ExtendedTextProps = React_native.ExtendedTextProps
@@ -5242,7 +5155,7 @@ module __windows_View =
         inherit React.ChildContextProvider<ViewContext>
         inherit FocusManagerFocusableComponent
         abstract context: ViewContext with get, set
-        abstract _getContextMenuOffset: unit -> View_getContextMenuOffsetReturn
+        abstract _getContextMenuOffset: unit -> {| x: float; y: float |}
         abstract componentWillReceiveProps: nextProps: Types.ViewProps -> unit
         abstract enableFocusManager: unit -> unit
         abstract disableFocusManager: unit -> unit
@@ -5262,10 +5175,6 @@ module __windows_View =
         abstract getTabIndex: unit -> float option
         abstract getImportantForAccessibility: unit -> ImportantForAccessibilityValue option
         abstract updateNativeAccessibilityProps: unit -> unit
-
-    type [<AllowNullLiteral>] View_getContextMenuOffsetReturn =
-        abstract x: float with get, set
-        abstract y: float with get, set
 
     type [<AllowNullLiteral>] ViewStatic =
         abstract contextTypes: React.ValidationMap<obj option> with get, set
@@ -5337,7 +5246,7 @@ module __common_utils_FocusManager =
         [<Emit "$0($1...)">] abstract Invoke: restricted: RestrictFocusType -> unit
 
     type [<AllowNullLiteral>] FocusManager =
-        abstract _myFocusableComponentIds: FocusManager_myFocusableComponentIds with get, set
+        abstract _myFocusableComponentIds: {| Item: bool |} with get, set
         abstract addFocusListenerOnComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract removeFocusListenerFromComponent: ``component``: FocusableComponentInternal * onFocus: (unit -> unit) -> unit
         abstract focusComponent: ``component``: FocusableComponentInternal -> bool
@@ -5355,7 +5264,7 @@ module __common_utils_FocusManager =
     type [<AllowNullLiteral>] FocusManagerStatic =
         abstract _currentRestrictionOwner: FocusManager option with get, set
         abstract _currentFocusedComponent: StoredFocusableComponent option with get, set
-        abstract _allFocusableComponents: FocusManagerStatic_allFocusableComponents with get, set
+        abstract _allFocusableComponents: {| Item: StoredFocusableComponent |} with get, set
         abstract _skipFocusCheck: bool with get, set
         abstract _resetFocusTimer: float option with get, set
         [<EmitConstructor>] abstract Create: parent: FocusManager option -> FocusManager
@@ -5364,12 +5273,6 @@ module __common_utils_FocusManager =
         abstract isComponentFocusRestrictedOrLimited: ``component``: FocusableComponentInternal -> bool
         abstract getCurrentFocusedComponent: unit -> string option
         abstract _callFocusableComponentStateChangeCallbacks: storedComponent: StoredFocusableComponent * restrictedOrLimited: bool -> unit
-
-    type [<AllowNullLiteral>] FocusManager_myFocusableComponentIds =
-        [<EmitIndexer>] abstract Item: id: string -> bool with get, set
-
-    type [<AllowNullLiteral>] FocusManagerStatic_allFocusableComponents =
-        [<EmitIndexer>] abstract Item: id: string -> StoredFocusableComponent with get, set
 
 module __common_utils_Timers =
 
@@ -5431,11 +5334,7 @@ module __native_common_utils_EventHelpers =
         abstract toMouseButton: nativeEvent: obj option -> float
         abstract isActuallyMouseEvent: e: Types.TouchEvent option -> bool
         abstract isRightMouseButton: e: Types.SyntheticEvent -> bool
-        abstract keyboardToMouseEvent: e: Types.KeyboardEvent * layoutInfo: Types.LayoutInfo * contextMenuOffset: EventHelpersKeyboardToMouseEventContextMenuOffset -> Types.MouseEvent
-
-    type [<AllowNullLiteral>] EventHelpersKeyboardToMouseEventContextMenuOffset =
-        abstract x: float with get, set
-        abstract y: float with get, set
+        abstract keyboardToMouseEvent: e: Types.KeyboardEvent * layoutInfo: Types.LayoutInfo * contextMenuOffset: {| x: float; y: float |} -> Types.MouseEvent
 
     type [<AllowNullLiteral>] EventHelpersStatic =
         [<EmitConstructor>] abstract Create: unit -> EventHelpers
