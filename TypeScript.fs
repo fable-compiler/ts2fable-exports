@@ -5423,8 +5423,8 @@ Use typeAcquisition.enable instead.")>]
         abstract getDocCommentTemplateAtPosition: fileName: string * position: float -> TextInsertion option
         abstract isValidBraceCompletionAtPosition: fileName: string * position: float * openingBrace: float -> bool
         /// <summary>
-        /// This will return a defined result if the position is after the <c>></c> of the opening tag, or somewhere in the text, of a JSXElement with no closing tag.
-        /// Editors should call this after <c>></c> is typed.
+        /// This will return a defined result if the position is after the <c>&gt;</c> of the opening tag, or somewhere in the text, of a JSXElement with no closing tag.
+        /// Editors should call this after <c>&gt;</c> is typed.
         /// </summary>
         abstract getJsxClosingTagAtPosition: fileName: string * position: float -> JsxClosingTagInfo option
         abstract getSpanOfEnclosingComment: fileName: string * position: float * onlyMultiLine: bool -> TextSpan option

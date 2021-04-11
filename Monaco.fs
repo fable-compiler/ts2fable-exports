@@ -252,7 +252,7 @@ module Monaco =
     /// <summary>
     /// Virtual Key Codes, the value does not hold any inherent meaning.
     /// Inspired somewhat from <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx" />
-    /// But these are "more general", as they should work across browsers & OS`s.
+    /// But these are "more general", as they should work across browsers &amp; OS`s.
     /// </summary>
     type [<RequireQualifiedAccess>] KeyCode =
         /// Placed first to cover the 0 value of the enum.
@@ -1147,7 +1147,7 @@ module Monaco =
             abstract text: string option with get, set
             /// <summary>
             /// This indicates that this operation has "insert" semantics.
-            /// i.e. forceMoveMarkers = true => if <c>range</c> is collapsed, all markers at the position will be moved.
+            /// i.e. forceMoveMarkers = true =&gt; if <c>range</c> is collapsed, all markers at the position will be moved.
             /// </summary>
             abstract forceMoveMarkers: bool option with get, set
 
@@ -1159,7 +1159,7 @@ module Monaco =
             abstract text: string option with get, set
             /// <summary>
             /// This indicates that this operation has "insert" semantics.
-            /// i.e. forceMoveMarkers = true => if <c>range</c> is collapsed, all markers at the position will be moved.
+            /// i.e. forceMoveMarkers = true =&gt; if <c>range</c> is collapsed, all markers at the position will be moved.
             /// </summary>
             abstract forceMoveMarkers: bool option with get, set
 
@@ -3638,8 +3638,8 @@ module Monaco =
         type [<AllowNullLiteral>] IEncodedLineTokens =
             /// <summary>
             /// The tokens on the line in a binary, encoded format. Each token occupies two array indices. For token i:
-            ///   - at offset 2*i => startIndex
-            ///   - at offset 2*i + 1 => metadata
+            ///   - at offset 2*i =&gt; startIndex
+            ///   - at offset 2*i + 1 =&gt; metadata
             /// Meta data is in binary format:
             /// - -------------------------------------------
             ///      3322 2222 2222 1111 1111 1100 0000 0000
@@ -3697,7 +3697,7 @@ module Monaco =
         type [<AllowNullLiteral>] CommentRule =
             /// <summary>The line comment token, like <c>// this is a comment</c></summary>
             abstract lineComment: string option with get, set
-            /// <summary>The block comment character pair, like <c>/* block comment *&#47;</c></summary>
+            /// <summary>The block comment character pair, like <c>/* block comment *&amp;#47;</c></summary>
             abstract blockComment: CharacterPair option with get, set
 
         /// The language configuration interface defines the contract between extensions and
@@ -4808,54 +4808,54 @@ module Monaco =
                 /// <param name="fileName">Not used</param>
                 abstract getCompilerOptionsDiagnostics: fileName: string -> Promise<ResizeArray<Diagnostic>>
                 /// <summary>Get code completions for the given file and position.</summary>
-                /// <returns><c>Promise&lt;typescript.CompletionInfo | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.CompletionInfo | undefined&gt;</c></returns>
                 abstract getCompletionsAtPosition: fileName: string * position: float -> Promise<obj option option>
                 /// <summary>Get code completion details for the given file, position, and entry.</summary>
-                /// <returns><c>Promise&lt;typescript.CompletionEntryDetails | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.CompletionEntryDetails | undefined&gt;</c></returns>
                 abstract getCompletionEntryDetails: fileName: string * position: float * entry: string -> Promise<obj option option>
                 /// <summary>Get signature help items for the item at the given file and position.</summary>
-                /// <returns><c>Promise&lt;typescript.SignatureHelpItems | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.SignatureHelpItems | undefined&gt;</c></returns>
                 abstract getSignatureHelpItems: fileName: string * position: float -> Promise<obj option option>
                 /// <summary>Get quick info for the item at the given position in the file.</summary>
-                /// <returns><c>Promise&lt;typescript.QuickInfo | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.QuickInfo | undefined&gt;</c></returns>
                 abstract getQuickInfoAtPosition: fileName: string * position: float -> Promise<obj option option>
                 /// <summary>Get other ranges which are related to the item at the given position in the file (often used for highlighting).</summary>
-                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.ReferenceEntry> | undefined></c></returns>
+                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.ReferenceEntry&gt; | undefined&gt;</c></returns>
                 abstract getOccurrencesAtPosition: fileName: string * position: float -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get the definition of the item at the given position in the file.</summary>
-                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.DefinitionInfo> | undefined></c></returns>
+                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.DefinitionInfo&gt; | undefined&gt;</c></returns>
                 abstract getDefinitionAtPosition: fileName: string * position: float -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get references to the item at the given position in the file.</summary>
-                /// <returns><c>Promise&lt;typescript.ReferenceEntry[] | undefined></c></returns>
+                /// <returns><c>Promise&lt;typescript.ReferenceEntry[] | undefined&gt;</c></returns>
                 abstract getReferencesAtPosition: fileName: string * position: float -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get outline entries for the item at the given position in the file.</summary>
-                /// <returns><c>Promise&lt;typescript.NavigationBarItem[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.NavigationBarItem[]&gt;</c></returns>
                 abstract getNavigationBarItems: fileName: string -> Promise<ResizeArray<obj option>>
                 /// <summary>Get changes which should be applied to format the given file.</summary>
                 /// <param name="options"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise&lt;typescript.TextChange[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.TextChange[]&gt;</c></returns>
                 abstract getFormattingEditsForDocument: fileName: string * options: obj option -> Promise<ResizeArray<obj option>>
                 /// <summary>Get changes which should be applied to format the given range in the file.</summary>
                 /// <param name="options"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise&lt;typescript.TextChange[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.TextChange[]&gt;</c></returns>
                 abstract getFormattingEditsForRange: fileName: string * start: float * ``end``: float * options: obj option -> Promise<ResizeArray<obj option>>
                 /// <summary>Get formatting changes which should be applied after the given keystroke.</summary>
                 /// <param name="options"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise&lt;typescript.TextChange[]></c></returns>
+                /// <returns><c>Promise&lt;typescript.TextChange[]&gt;</c></returns>
                 abstract getFormattingEditsAfterKeystroke: fileName: string * postion: float * ch: string * options: obj option -> Promise<ResizeArray<obj option>>
                 /// <summary>Get other occurrences which should be updated when renaming the item at the given file and position.</summary>
-                /// <returns><c>Promise&lt;readonly typescript.RenameLocation[] | undefined></c></returns>
+                /// <returns><c>Promise&lt;readonly typescript.RenameLocation[] | undefined&gt;</c></returns>
                 abstract findRenameLocations: fileName: string * positon: float * findInStrings: bool * findInComments: bool * providePrefixAndSuffixTextForRename: bool -> Promise<ResizeArray<obj option> option>
                 /// <summary>Get edits which should be applied to rename the item at the given file and position (or a failure reason).</summary>
                 /// <param name="options"><c>typescript.RenameInfoOptions</c></param>
-                /// <returns><c>Promise&lt;typescript.RenameInfo></c></returns>
+                /// <returns><c>Promise&lt;typescript.RenameInfo&gt;</c></returns>
                 abstract getRenameInfo: fileName: string * positon: float * options: obj option -> Promise<obj option>
                 /// <summary>Get transpiled output for the given file.</summary>
                 /// <returns><c>typescript.EmitOutput</c></returns>
                 abstract getEmitOutput: fileName: string -> Promise<EmitOutput>
                 /// <summary>Get possible code fixes at the given position in the file.</summary>
                 /// <param name="formatOptions"><c>typescript.FormatCodeOptions</c></param>
-                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.CodeFixAction>></c></returns>
+                /// <returns><c>Promise&lt;ReadonlyArray&lt;typescript.CodeFixAction&gt;&gt;</c></returns>
                 abstract getCodeFixesAtPosition: fileName: string * start: float * ``end``: float * errorCodes: ResizeArray<float> * formatOptions: obj option -> Promise<ResizeArray<obj option>>
 
             type [<RequireQualifiedAccess>] DiagnosticMessageChainCategory =

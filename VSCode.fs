@@ -37,7 +37,7 @@ module Vscode =
     /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
     /// register a command handler with the identifier <c>extension.sayHello</c>.
     /// <code language="javascript">
-    /// commands.registerCommand('extension.sayHello', () => {
+    /// commands.registerCommand('extension.sayHello', () =&gt; {
     ///  	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
@@ -93,7 +93,7 @@ module Vscode =
     /// a more complex <see cref="DocumentFilter">filter</see> like <c>{ language: 'typescript', scheme: 'file' }</c>. Matching a document against such
     /// a selector will result in a <see cref="languages.match">score</see> that is used to determine if and how a provider shall be used. When
     /// scores are equal the provider that came last wins. For features that allow full arity, like <see cref="languages.registerHoverProvider">hover</see>,
-    /// the score is only checked to be <c>>0</c>, for other features, like <see cref="languages.registerCompletionItemProvider">IntelliSense</see> the
+    /// the score is only checked to be <c>&gt;0</c>, for other features, like <see cref="languages.registerCompletionItemProvider">IntelliSense</see> the
     /// score is used for determining the order in which providers are asked to participate.
     /// </summary>
     let [<Import("languages","vscode")>] languages: Languages.IExports = jsNative
@@ -1671,21 +1671,21 @@ This method shows unexpected behavior and will be removed in the next major upda
     /// 
     /// <code language="ts">
     /// let a: HoverProvider = {
-    ///  	provideHover(doc, pos, token): ProviderResult<Hover> {
+    ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
     ///  		return new Hover('Hello World');
     ///  	}
     /// }
     /// 
     /// let b: HoverProvider = {
-    ///  	provideHover(doc, pos, token): ProviderResult<Hover> {
-    ///  		return new Promise(resolve => {
+    ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
+    ///  		return new Promise(resolve =&gt; {
     ///  			resolve(new Hover('Hello World'));
     ///  	 	});
     ///  	}
     /// }
     /// 
     /// let c: HoverProvider = {
-    ///  	provideHover(doc, pos, token): ProviderResult<Hover> {
+    ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
     ///  		return; // undefined
     ///  	}
     /// }
@@ -3158,7 +3158,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     type [<AllowNullLiteral>] CommentRule =
         /// <summary>The line comment token, like <c>// this is a comment</c></summary>
         abstract lineComment: string option with get, set
-        /// <summary>The block comment character pair, like <c>/* block comment *&#47;</c></summary>
+        /// <summary>The block comment character pair, like <c>/* block comment *&amp;#47;</c></summary>
         abstract blockComment: CharacterPair option with get, set
 
     /// Describes indentation rules for a language.
@@ -4222,7 +4222,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// 
     /// * *Note 1:* The filesystem provider API works with <see cref="Uri">uris</see> and assumes hierarchical
     /// paths, e.g. <c>foo:/my/path</c> is a child of <c>foo:/my/</c> and a parent of <c>foo:/my/path/deeper</c>.
-    /// * *Note 2:* There is an activation event <c>onFileSystem:<scheme></c> that fires when a file
+    /// * *Note 2:* There is an activation event <c>onFileSystem:&lt;scheme&gt;</c> that fires when a file
     /// or folder is being accessed.
     /// * *Note 3:* The word 'file' is often used to denote all <see cref="FileType">kinds</see> of files, e.g.
     /// folders, symbolic links, and regular files.
@@ -4542,7 +4542,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
     /// register a command handler with the identifier <c>extension.sayHello</c>.
     /// <code language="javascript">
-    /// commands.registerCommand('extension.sayHello', () => {
+    /// commands.registerCommand('extension.sayHello', () =&gt; {
     ///  	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
@@ -4704,7 +4704,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="options"><see cref="TextDocumentShowOptions">Editor options</see> to configure the behavior of showing the <see cref="TextEditor">editor</see>.</param>
             /// <returns>A promise that resolves to an <see cref="TextEditor">editor</see>.</returns>
             abstract showTextDocument: document: TextDocument * ?options: TextDocumentShowOptions -> Thenable<TextEditor>
-            /// <summary>A short-hand for <c>openTextDocument(uri).then(document => showTextDocument(document, options))</c>.</summary>
+            /// <summary>A short-hand for <c>openTextDocument(uri).then(document =&gt; showTextDocument(document, options))</c>.</summary>
             /// <seealso cref="openTextDocument">openTextDocument</seealso>
             /// <param name="uri">A resource identifier.</param>
             /// <param name="options"><see cref="TextDocumentShowOptions">Editor options</see> to configure the behavior of showing the <see cref="TextEditor">editor</see>.</param>
@@ -5415,9 +5415,9 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// in an asynchronous manner:
         /// 
         /// <code language="ts">
-        /// workspace.onWillSaveTextDocument(event => {
+        /// workspace.onWillSaveTextDocument(event =&gt; {
         ///  	// async, will *throw* an error
-        ///  	setTimeout(() => event.waitUntil(promise));
+        ///  	setTimeout(() =&gt; event.waitUntil(promise));
         /// 
         ///  	// sync, OK
         ///  	event.waitUntil(promise);
@@ -5603,7 +5603,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// 
             /// All changes of a workspace edit are applied in the same order in which they have been added. If
             /// multiple textual inserts are made at the same position, these strings appear in the resulting text
-            /// in the order the 'inserts' were made. Invalid sequences like 'delete file a' -> 'insert text in file a'
+            /// in the order the 'inserts' were made. Invalid sequences like 'delete file a' -&gt; 'insert text in file a'
             /// cause failure of the operation.
             /// 
             /// When applying a workspace edit that consists only of text edits an 'all-or-nothing'-strategy is used.
@@ -5775,7 +5775,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// a more complex <see cref="DocumentFilter">filter</see> like <c>{ language: 'typescript', scheme: 'file' }</c>. Matching a document against such
     /// a selector will result in a <see cref="languages.match">score</see> that is used to determine if and how a provider shall be used. When
     /// scores are equal the provider that came last wins. For features that allow full arity, like <see cref="languages.registerHoverProvider">hover</see>,
-    /// the score is only checked to be <c>>0</c>, for other features, like <see cref="languages.registerCompletionItemProvider">IntelliSense</see> the
+    /// the score is only checked to be <c>&gt;0</c>, for other features, like <see cref="languages.registerCompletionItemProvider">IntelliSense</see> the
     /// score is used for determining the order in which providers are asked to participate.
     /// </summary>
     module Languages =
@@ -5830,7 +5830,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// </summary>
             /// <param name="selector">A document selector.</param>
             /// <param name="document">A text document.</param>
-            /// <returns>A number <c>>0</c> when the selector matches and <c>0</c> when the selector does not match.</returns>
+            /// <returns>A number <c>&gt;0</c> when the selector matches and <c>0</c> when the selector does not match.</returns>
             abstract ``match``: selector: DocumentSelector * document: TextDocument -> float
             /// <summary>
             /// An <see cref="Event">event</see> which fires when the global set of diagnostics changes. This is

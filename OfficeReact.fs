@@ -733,7 +733,7 @@ module __components_Button_Button_types =
         /// Description of the action this button takes.
         /// Only used for compound buttons
         abstract secondaryText: string option with get, set
-        /// <summary>Deprecated at v1.2.3, to be removed at >= v2.0.0. Use specific button component instead</summary>
+        /// <summary>Deprecated at v1.2.3, to be removed at &gt;= v2.0.0. Use specific button component instead</summary>
         /// <default>ButtonType.default</default>
         [<Obsolete("")>]
         abstract buttonType: ButtonType option with get, set
@@ -4722,7 +4722,7 @@ module __components_DocumentCard_DocumentCard_types =
         abstract previewImages: ResizeArray<IDocumentCardPreviewImage> with get, set
         /// <summary>
         /// The function return string that will describe the number of overflow documents.
-        /// such as  (overflowCount: number) => <c>+${ overflowCount } more</c>,
+        /// such as  (overflowCount: number) =&gt; <c>+${ overflowCount } more</c>,
         /// </summary>
         abstract getOverflowDocumentCountText: (float -> string) option with get, set
 
@@ -8039,7 +8039,7 @@ module __components_MessageBar_MessageBar_types =
         | Success = 4
         /// Warning styled MessageBar
         | Warning = 5
-        /// <summary>Deprecated at v0.48.0, to be removed at >= v1.0.0. Use 'blocked' instead.</summary>
+        /// <summary>Deprecated at v0.48.0, to be removed at &gt;= v1.0.0. Use 'blocked' instead.</summary>
         /// <deprecated />
         | Remove = 90000
 
@@ -11114,7 +11114,7 @@ module __components_SpinButton_SpinButton_types =
         /// The difference between the two adjacent values of the SpinButton.
         /// This value is sued to calculate the precision of the input if no
         /// precision is given. The precision calculated this way will always
-        /// be >= 0.
+        /// be &gt;= 0.
         /// </summary>
         /// <default>1</default>
         abstract step: float option with get, set
@@ -13459,7 +13459,7 @@ module __utilities_keytips_KeytipConfig =
     type IKeytipProps = Keytip.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
-        /// <summary>Builds a map of ID -> IKeytipProps</summary>
+        /// <summary>Builds a map of ID -&gt; IKeytipProps</summary>
         /// <param name="config">IKeytipConfig object</param>
         /// <returns>- Config map</returns>
         abstract buildKeytipConfigMap: config: IKeytipConfig -> IKeytipConfigMap

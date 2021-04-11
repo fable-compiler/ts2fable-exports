@@ -404,12 +404,12 @@ module Chai =
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepStrictEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts valueToCheck is strictly greater than (>) valueToBeAbove.</summary>
+        /// <summary>Asserts valueToCheck is strictly greater than (&gt;) valueToBeAbove.</summary>
         /// <param name="valueToCheck">Actual value.</param>
         /// <param name="valueToBeAbove">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract isAbove: valueToCheck: float * valueToBeAbove: float * ?message: string -> unit
-        /// <summary>Asserts valueToCheck is greater than or equal to (>=) valueToBeAtLeast.</summary>
+        /// <summary>Asserts valueToCheck is greater than or equal to (&gt;=) valueToBeAtLeast.</summary>
         /// <param name="valueToCheck">Actual value.</param>
         /// <param name="valueToBeAtLeast">Minimum Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>

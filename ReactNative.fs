@@ -127,7 +127,7 @@ let [<Import("NativeAppEventEmitter","react-native")>] NativeAppEventEmitter: RC
 /// Define lazy getters for each module. These will return the module if already loaded, or load it if not.
 /// See <see href="https://facebook.github.io/react-native/docs/native-modules-ios.html" />
 /// Use:
-/// &lt;code>const MyModule = NativeModules.ModuleName&lt;/code>
+/// &lt;code&gt;const MyModule = NativeModules.ModuleName&lt;/code&gt;
 /// </summary>
 let [<Import("NativeModules","react-native")>] NativeModules: NativeModulesStatic = jsNative
 let [<Import("Platform","react-native")>] Platform: PlatformStatic = jsNative
@@ -163,7 +163,7 @@ type [<AllowNullLiteral>] IExports =
     abstract TextInput: TextInputStatic
     /// <summary>
     /// React component that wraps the Android-only [<c>Toolbar</c> widget][0]. A Toolbar can display a logo,
-    /// navigation icon (e.g. hamburger menu), a title & subtitle and a list of actions. The title and
+    /// navigation icon (e.g. hamburger menu), a title &amp; subtitle and a list of actions. The title and
     /// subtitle are expanded so the logo and navigation icons are displayed on the left, title and
     /// subtitle in the middle and the actions on the right.
     /// 
@@ -215,13 +215,13 @@ type [<AllowNullLiteral>] IExports =
     /// selects a value and changes the index, as shown in the example below.
     /// 
     /// <code language="`">
-    /// <SegmentedControlIOS
+    /// &lt;SegmentedControlIOS
     ///    values={['One', 'Two']}
     ///    selectedIndex={this.state.selectedIndex}
-    ///    onChange={(event) => {
+    ///    onChange={(event) =&gt; {
     ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
     ///    }}
-    /// />
+    /// /&gt;
     /// </code>
     /// </summary>
     abstract SegmentedControlIOSComponent: SegmentedControlIOSComponentStatic
@@ -385,7 +385,7 @@ type [<AllowNullLiteral>] IExports =
     /// let ds = SwipeableListView.getNewDataSource();
     /// ds.cloneWithRowsAndSections(dataBlob, ?sectionIDs, ?rowIDs);
     /// // ..
-    /// <SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} />
+    /// &lt;SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} /&gt;
     /// 
     /// SwipeableRow can be used independently of this component, but the main
     /// benefit of using this component is
@@ -447,7 +447,7 @@ type [<AllowNullLiteral>] IExports =
     abstract ErrorUtils: ErrorUtils
     /// This variable is set to true when react-native is running in Dev mode
     /// Typical usage:
-    /// &lt;code> if (__DEV__) console.log('Running in dev mode')&lt;/code>
+    /// &lt;code&gt; if (__DEV__) console.log('Running in dev mode')&lt;/code&gt;
     abstract __DEV__: bool
 
 type [<AllowNullLiteral>] RequireNativeComponentExtraConfig =
@@ -1105,7 +1105,7 @@ type [<AllowNullLiteral>] TextProps =
     /// 
     /// <c>numberOfLines</c> must be set in conjunction with this prop.
     /// 
-    /// > <c>clip</c> is working only for iOS
+    /// &gt; <c>clip</c> is working only for iOS
     /// </summary>
     abstract ellipsizeMode: TextPropsEllipsizeMode option with get, set
     /// Line Break mode. Works only with numberOfLines.
@@ -1128,7 +1128,7 @@ type [<AllowNullLiteral>] TextProps =
     abstract onPress: (GestureResponderEvent -> unit) option with get, set
     /// <summary>
     /// This function is called on long press.
-    /// e.g., <c>onLongPress={this.increaseSize}></c>`
+    /// e.g., <c>onLongPress={this.increaseSize}&gt;</c>`
     /// </summary>
     abstract onLongPress: (GestureResponderEvent -> unit) option with get, set
     /// <seealso href="https://facebook.github.io/react-native/docs/text.html#style" />
@@ -1612,7 +1612,7 @@ type [<AllowNullLiteral>] ToolbarAndroidProps =
 
 /// <summary>
 /// React component that wraps the Android-only [<c>Toolbar</c> widget][0]. A Toolbar can display a logo,
-/// navigation icon (e.g. hamburger menu), a title & subtitle and a list of actions. The title and
+/// navigation icon (e.g. hamburger menu), a title &amp; subtitle and a list of actions. The title and
 /// subtitle are expanded so the logo and navigation icons are displayed on the left, title and
 /// subtitle in the middle and the actions on the right.
 /// 
@@ -1631,7 +1631,7 @@ type [<AllowNullLiteral>] ToolbarAndroidComponent =
 
 /// <summary>
 /// React component that wraps the Android-only [<c>Toolbar</c> widget][0]. A Toolbar can display a logo,
-/// navigation icon (e.g. hamburger menu), a title & subtitle and a list of actions. The title and
+/// navigation icon (e.g. hamburger menu), a title &amp; subtitle and a list of actions. The title and
 /// subtitle are expanded so the logo and navigation icons are displayed on the left, title and
 /// subtitle in the middle and the actions on the right.
 /// 
@@ -1817,7 +1817,7 @@ type Falsy =
 type [<AllowNullLiteral>] RecursiveArray<'T> =
     inherit Array<U2<'T, RecursiveArray<'T>>>
 
-/// <summary>Keep a brand of 'T' so that calls to <c>StyleSheet.flatten</c> can take <c>RegisteredStyle<T></c> and return <c>T</c>.</summary>
+/// <summary>Keep a brand of 'T' so that calls to <c>StyleSheet.flatten</c> can take <c>RegisteredStyle&lt;T&gt;</c> and return <c>T</c>.</summary>
 type [<AllowNullLiteral>] RegisteredStyle<'T> =
     interface end
 
@@ -1845,7 +1845,7 @@ type [<AllowNullLiteral>] AccessibilityPropsAndroid =
     abstract accessibilityComponentType: AccessibilityPropsAndroidAccessibilityComponentType option with get, set
     /// <summary>
     /// Indicates to accessibility services whether the user should be notified when this view changes.
-    /// Works for Android API >= 19 only.
+    /// Works for Android API &gt;= 19 only.
     /// See <see href="http://developer.android.com/reference/android/view/View.html#attr_android:accessibilityLiveRegion" /> for references.
     /// </summary>
     abstract accessibilityLiveRegion: AccessibilityPropsAndroidAccessibilityLiveRegion option with get, set
@@ -2325,13 +2325,13 @@ type [<AllowNullLiteral>] InputAccessoryViewProps =
 /// selects a value and changes the index, as shown in the example below.
 /// 
 /// <code language="`">
-/// <SegmentedControlIOS
+/// &lt;SegmentedControlIOS
 ///    values={['One', 'Two']}
 ///    selectedIndex={this.state.selectedIndex}
-///    onChange={(event) => {
+///    onChange={(event) =&gt; {
 ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
 ///    }}
-/// />
+/// /&gt;
 /// </code>
 /// </summary>
 type [<AllowNullLiteral>] SegmentedControlIOSComponent =
@@ -2348,13 +2348,13 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 /// selects a value and changes the index, as shown in the example below.
 /// 
 /// <code language="`">
-/// <SegmentedControlIOS
+/// &lt;SegmentedControlIOS
 ///    values={['One', 'Two']}
 ///    selectedIndex={this.state.selectedIndex}
-///    onChange={(event) => {
+///    onChange={(event) =&gt; {
 ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
 ///    }}
-/// />
+/// /&gt;
 /// </code>
 /// </summary>
 type [<AllowNullLiteral>] SegmentedControlIOSComponentStatic =
@@ -3118,7 +3118,7 @@ type [<AllowNullLiteral>] ImageURISource =
     abstract body: string option with get, set
     /// <summary>
     /// <c>width</c> and <c>height</c> can be specified if known at build time, in which case
-    /// these will be used to set the default <c><Image/></c> component dimensions.
+    /// these will be used to set the default <c>&lt;Image/&gt;</c> component dimensions.
     /// </summary>
     abstract width: float option with get, set
     abstract height: float option with get, set
@@ -3396,7 +3396,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// content if you know the height of items a priori. getItemLayout is the most efficient,
     /// and is easy to use if you have fixed height items, for example:
     /// <code>
-    /// getItemLayout={(data, index) => (
+    /// getItemLayout={(data, index) =&gt; (
     ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
     /// </code>
@@ -3441,13 +3441,13 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// <summary>
     /// Takes an item from data and renders it into the list. Typical usage:
     /// <code>
-    /// _renderItem = ({item}) => (
-    ///    <TouchableOpacity onPress={() => this._onPress(item)}>
-    ///      <Text>{item.title}</Text>
-    ///    <TouchableOpacity/>
+    /// _renderItem = ({item}) =&gt; (
+    ///    &lt;TouchableOpacity onPress={() =&gt; this._onPress(item)}&gt;
+    ///      &lt;Text&gt;{item.title}&lt;/Text&gt;
+    ///    &lt;TouchableOpacity/&gt;
     /// );
     /// ...
-    /// <FlatList data={[{title: 'Title Text', key: 'item1'}]} renderItem={this._renderItem} />
+    /// &lt;FlatList data={[{title: 'Title Text', key: 'item1'}]} renderItem={this._renderItem} /&gt;
     /// </code>
     /// Provides additional metadata like <c>index</c> if you need it.
     /// </summary>
@@ -3527,7 +3527,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     /// content if you know the height of items a priori. getItemLayout is the most efficient,
     /// and is easy to use if you have fixed height items, for example:
     /// <code>
-    /// getItemLayout={(data, index) => (
+    /// getItemLayout={(data, index) =&gt; (
     ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
     /// </code>
@@ -3720,7 +3720,7 @@ type [<AllowNullLiteral>] ListViewProps =
     /// over the course of multiple frames.
     abstract initialListSize: float option with get, set
     /// <summary>
-    /// (visibleRows, changedRows) => void
+    /// (visibleRows, changedRows) =&gt; void
     /// 
     /// Called when the set of visible rows changes.  <c>visibleRows</c> maps
     /// { sectionID: { rowID: true }} for all the visible rows, and
@@ -4340,11 +4340,11 @@ module StyleSheet =
         /// Alternatively, this method can be used to lookup IDs, returned by
         /// StyleSheet.register.
         /// 
-        /// > **NOTE**: Exercise caution as abusing this can tax you in terms of
-        /// > optimizations.
-        /// >
-        /// > IDs enable optimizations through the bridge and memory in general. Refering
-        /// > to style objects directly will deprive you of these optimizations.
+        /// &gt; **NOTE**: Exercise caution as abusing this can tax you in terms of
+        /// &gt; optimizations.
+        /// &gt;
+        /// &gt; IDs enable optimizations through the bridge and memory in general. Refering
+        /// &gt; to style objects directly will deprive you of these optimizations.
         /// 
         /// Example:
         /// <code>
@@ -4557,15 +4557,15 @@ type [<AllowNullLiteral>] ListViewDataSourceStatic =
     /// 
     /// The default extractor expects data of one of the following forms:
     /// 
-    ///       { sectionID_1: { rowID_1: <rowData1>, ... }, ... }
+    ///       { sectionID_1: { rowID_1: &lt;rowData1&gt;, ... }, ... }
     /// 
     ///     or
     /// 
-    ///       { sectionID_1: [ <rowData1>, <rowData2>, ... ], ... }
+    ///       { sectionID_1: [ &lt;rowData1&gt;, &lt;rowData2&gt;, ... ], ... }
     /// 
     ///     or
     /// 
-    ///       [ [ <rowData1>, <rowData2>, ... ], ... ]
+    ///       [ [ &lt;rowData1&gt;, &lt;rowData2&gt;, ... ], ... ]
     /// 
     /// The constructor takes in a params argument that can contain any of the
     /// following:
@@ -4808,7 +4808,7 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     ///    from this method when there is a single touch.
     /// 
     /// - Similar to the previous case, if a two finger "tap" should trigger a
-    ///    zoom, we would check the <c>touches</c> count, and if <c>>= 2</c>, we would return
+    ///    zoom, we would check the <c>touches</c> count, and if <c>&gt;= 2</c>, we would return
     ///    true.
     /// </summary>
     abstract scrollResponderHandleStartShouldSetResponder: unit -> bool
@@ -5308,7 +5308,7 @@ type [<AllowNullLiteral>] SwipeableListViewProps =
 /// let ds = SwipeableListView.getNewDataSource();
 /// ds.cloneWithRowsAndSections(dataBlob, ?sectionIDs, ?rowIDs);
 /// // ..
-/// <SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} />
+/// &lt;SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} /&gt;
 /// 
 /// SwipeableRow can be used independently of this component, but the main
 /// benefit of using this component is
@@ -5329,7 +5329,7 @@ type [<AllowNullLiteral>] SwipeableListView =
 /// let ds = SwipeableListView.getNewDataSource();
 /// ds.cloneWithRowsAndSections(dataBlob, ?sectionIDs, ?rowIDs);
 /// // ..
-/// <SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} />
+/// &lt;SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} /&gt;
 /// 
 /// SwipeableRow can be used independently of this component, but the main
 /// benefit of using this component is
@@ -5508,9 +5508,9 @@ type [<AllowNullLiteral>] AlertOptions =
 ///    'Alert Title',
 ///    'My Alert Msg',
 ///    [
-///      {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-///      {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-///      {text: 'OK', onPress: () => console.log('OK Pressed')},
+///      {text: 'Ask me later', onPress: () =&gt; console.log('Ask me later pressed')},
+///      {text: 'Cancel', onPress: () =&gt; console.log('Cancel Pressed'), style: 'cancel'},
+///      {text: 'OK', onPress: () =&gt; console.log('OK Pressed')},
 ///    ]
 /// )
 /// </code>
@@ -6027,19 +6027,19 @@ type [<AllowNullLiteral>] PanResponderStatic =
     /// <c>PanResponder</c> in each of the typical <c>onResponder*</c> callbacks. For
     /// example, the <c>config</c> object would look like:
     /// 
-    /// - <c>onMoveShouldSetPanResponder: (e, gestureState) => {...}</c>
-    /// - <c>onMoveShouldSetPanResponderCapture: (e, gestureState) => {...}</c>
-    /// - <c>onStartShouldSetPanResponder: (e, gestureState) => {...}</c>
-    /// - <c>onStartShouldSetPanResponderCapture: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderReject: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderGrant: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderStart: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderEnd: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderRelease: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderMove: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderTerminate: (e, gestureState) => {...}</c>
-    /// - <c>onPanResponderTerminationRequest: (e, gestureState) => {...}</c>
-    /// - <c>onShouldBlockNativeResponder: (e, gestureState) => {...}</c>
+    /// - <c>onMoveShouldSetPanResponder: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onMoveShouldSetPanResponderCapture: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onStartShouldSetPanResponder: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onStartShouldSetPanResponderCapture: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderReject: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderGrant: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderStart: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderEnd: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderRelease: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderMove: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderTerminate: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onPanResponderTerminationRequest: (e, gestureState) =&gt; {...}</c>
+    /// - <c>onShouldBlockNativeResponder: (e, gestureState) =&gt; {...}</c>
     /// 
     /// In general, for events that have capture equivalents, we update the
     /// gestureState once in the capture phase and can use it in the bubble phase
@@ -6438,7 +6438,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// - format (string) - either 'png' or 'jpeg'. Defaults to 'png'.
     /// - quality (number) - the quality when using jpeg. 0.0 - 1.0 (default).
     /// 
-    /// Returns a Promise&lt;string> (tempFilePath)
+    /// Returns a Promise&lt;string&gt; (tempFilePath)
     /// </summary>
     abstract takeSnapshot: (U3<React.ReactElement<obj option>, float, string> -> UIManagerStaticTakeSnapshot -> Promise<string>) with get, set
     /// <summary>
@@ -6490,7 +6490,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// 
     /// Note that in order to get this to work on **Android** you need to set the following flags via <c>UIManager</c>:
     /// 
-    ///      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    ///      UIManager.setLayoutAnimationEnabledExperimental &amp;&amp; UIManager.setLayoutAnimationEnabledExperimental(true);
     /// </summary>
     abstract setLayoutAnimationEnabledExperimental: value: bool -> unit
 
@@ -6568,21 +6568,21 @@ type [<AllowNullLiteral>] VibrationIOSStatic =
 /// There will be no effect on devices that do not support Vibration, eg. the simulator.
 /// 
 /// **Note for android**
-/// add <c><uses-permission android:name="android.permission.VIBRATE"/></c> to <c>AndroidManifest.xml</c>
+/// add <c>&lt;uses-permission android:name="android.permission.VIBRATE"/&gt;</c> to <c>AndroidManifest.xml</c>
 /// 
 /// **Android Usage:**
 /// 
 /// [0, 500, 200, 500]
-/// V(0.5s) --wait(0.2s)--> V(0.5s)
+/// V(0.5s) --wait(0.2s)--&gt; V(0.5s)
 /// 
 /// [300, 500, 200, 500]
-/// --wait(0.3s)--> V(0.5s) --wait(0.2s)--> V(0.5s)
+/// --wait(0.3s)--&gt; V(0.5s) --wait(0.2s)--&gt; V(0.5s)
 /// 
 /// **iOS Usage:**
 /// if first argument is 0, it will not be included in pattern array.
 /// 
 /// [0, 1000, 2000, 3000]
-/// V(fixed) --wait(1s)--> V(fixed) --wait(2s)--> V(fixed) --wait(3s)--> V(fixed)
+/// V(fixed) --wait(1s)--&gt; V(fixed) --wait(2s)--&gt; V(fixed) --wait(3s)--&gt; V(fixed)
 /// </summary>
 type [<AllowNullLiteral>] VibrationStatic =
     abstract vibrate: pattern: U2<float, ResizeArray<float>> * repeat: bool -> unit
@@ -7046,7 +7046,7 @@ type [<AllowNullLiteral>] ImageStoreStatic =
     /// Note that it is very inefficient to transfer large quantities of binary
     /// data between JS and native code, so you should avoid calling this more
     /// than necessary. To display an image in the ImageStore, you can just pass
-    /// the URI to an <c><Image/></c> component; there is no need to retrieve the
+    /// the URI to an <c>&lt;Image/&gt;</c> component; there is no need to retrieve the
     /// base64 data.
     /// </summary>
     abstract getBase64ForTag: uri: string * success: (string -> unit) * failure: (obj option -> unit) -> unit

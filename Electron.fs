@@ -1424,7 +1424,7 @@ module Electron =
         /// swiping, where the content on the screen doesn't move with the swipe. Most macOS
         /// trackpads are not configured to allow this kind of swiping anymore, so in order
         /// for it to emit properly the 'Swipe between pages' preference in `System
-        /// Preferences > Trackpad > More Gestures` must be set to 'Swipe with two or three
+        /// Preferences &gt; Trackpad &gt; More Gestures` must be set to 'Swipe with two or three
         /// fingers'.
         /// </summary>
         [<Emit "$0.on('swipe',$1)">] abstract on_swipe: listener: (Event -> string -> unit) -> BrowserWindow
@@ -1842,8 +1842,8 @@ module Electron =
         /// <summary>
         /// Sets progress value in progress bar. Valid range is [0, 1.0].
         /// 
-        /// Remove progress bar when progress < 0; Change to indeterminate mode when
-        /// progress > 1.
+        /// Remove progress bar when progress &lt; 0; Change to indeterminate mode when
+        /// progress &gt; 1.
         /// 
         /// On Linux platform, only supports Unity desktop environment, you need to specify
         /// the <c>*.desktop</c> file name to <c>desktopName</c> field in <c>package.json</c>. By default,
@@ -2458,7 +2458,7 @@ module Electron =
         /// Get a set of category groups. The category groups can change as new code paths
         /// are reached. See also the list of built-in tracing categories.
         /// 
-        /// > **NOTE:** Electron adds a non-default tracing category called <c>"electron"</c>.
+        /// &gt; **NOTE:** Electron adds a non-default tracing category called <c>"electron"</c>.
         /// This category can be used to capture Electron-specific tracing events.
         /// </summary>
         abstract getCategories: unit -> Promise<ResizeArray<string>>
@@ -2741,7 +2741,7 @@ module Electron =
         /// </summary>
         abstract id: string with get, set
         /// <summary>
-        /// A screen source will be named either <c>Entire Screen</c> or <c>Screen <index></c>, while
+        /// A screen source will be named either <c>Entire Screen</c> or <c>Screen &lt;index&gt;</c>, while
         /// the name of a window source will match the window title.
         /// </summary>
         abstract name: string with get, set
@@ -3472,7 +3472,7 @@ module Electron =
         /// included. Sending Functions, Promises, Symbols, WeakMaps, or WeakSets will throw
         /// an exception.
         /// 
-        /// > **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
+        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
         /// Electron objects is deprecated, and will begin throwing an exception starting
         /// with Electron 9.
         /// 
@@ -3524,7 +3524,7 @@ module Electron =
         /// Sending Functions, Promises, Symbols, WeakMaps, or WeakSets will throw an
         /// exception.
         /// 
-        /// > **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
+        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
         /// Electron objects is deprecated, and will begin throwing an exception starting
         /// with Electron 9.
         /// 
@@ -3547,14 +3547,14 @@ module Electron =
         /// Sending Functions, Promises, Symbols, WeakMaps, or WeakSets will throw an
         /// exception.
         /// 
-        /// > **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
+        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
         /// Electron objects is deprecated, and will begin throwing an exception starting
         /// with Electron 9.
         /// 
         /// The main process handles it by listening for <c>channel</c> with <c>ipcMain</c> module,
         /// and replies by setting <c>event.returnValue</c>.
         /// 
-        /// > :warning: **WARNING**: Sending a synchronous message will block the whole
+        /// &gt; :warning: **WARNING**: Sending a synchronous message will block the whole
         /// renderer process until the reply is received, so use this method only as a last
         /// resort. It's much better to use the asynchronous version, <c>invoke()</c>.
         /// </summary>
@@ -3562,7 +3562,7 @@ module Electron =
         /// <summary>Sends a message to a window with <c>webContentsId</c> via <c>channel</c>.</summary>
         abstract sendTo: webContentsId: float * channel: string * [<ParamArray>] args: obj option[] -> unit
         /// <summary>
-        /// Like <c>ipcRenderer.send</c> but the event will be sent to the <c><webview></c> element in
+        /// Like <c>ipcRenderer.send</c> but the event will be sent to the <c>&lt;webview&gt;</c> element in
         /// the host page instead of the main process.
         /// </summary>
         abstract sendToHost: channel: string * [<ParamArray>] args: obj option[] -> unit
@@ -3724,11 +3724,11 @@ module Electron =
         /// Sets <c>menu</c> as the application menu on macOS. On Windows and Linux, the <c>menu</c>
         /// will be set as each window's top menu.
         /// 
-        /// Also on Windows and Linux, you can use a <c>&</c> in the top-level item name to
+        /// Also on Windows and Linux, you can use a <c>&amp;</c> in the top-level item name to
         /// indicate which letter should get a generated accelerator. For example, using
-        /// <c>&File</c> for the file menu would result in a generated <c>Alt-F</c> accelerator that
+        /// <c>&amp;File</c> for the file menu would result in a generated <c>Alt-F</c> accelerator that
         /// opens the associated menu. The indicated character in the button label gets an
-        /// underline. The <c>&</c> character is not displayed on the button label.
+        /// underline. The <c>&amp;</c> character is not displayed on the button label.
         /// 
         /// Passing <c>null</c> will suppress the default menu. On Windows and Linux, this has
         /// the additional effect of removing the menu bar from the window.
@@ -3914,7 +3914,7 @@ module Electron =
         /// representation for your image before passing it in. This can be done with the
         /// following:
         /// 
-        /// `echo -e '#import &lt;Cocoa/Cocoa.h>\nint main() { NSLog(@"%@", SYSTEM_IMAGE_NAME);
+        /// `echo -e '#import &lt;Cocoa/Cocoa.h&gt;\nint main() { NSLog(@"%@", SYSTEM_IMAGE_NAME);
         /// }' | clang -otest -x objective-c -framework Cocoa - &amp;&amp; ./test`
         /// 
         /// where <c>SYSTEM_IMAGE_NAME</c> should be replaced with any value from this list.
@@ -3985,9 +3985,9 @@ module Electron =
         /// The usage of this property should align with a classic "dark mode" state machine
         /// in your application where the user has three options.
         /// 
-        /// * <c>Follow OS</c> --> <c>themeSource = 'system'</c>
-        /// * <c>Dark Mode</c> --> <c>themeSource = 'dark'</c>
-        /// * <c>Light Mode</c> --> <c>themeSource = 'light'</c>
+        /// * <c>Follow OS</c> --&gt; <c>themeSource = 'system'</c>
+        /// * <c>Dark Mode</c> --&gt; <c>themeSource = 'dark'</c>
+        /// * <c>Light Mode</c> --&gt; <c>themeSource = 'light'</c>
         /// 
         /// Your application should then always use <c>shouldUseDarkColors</c> to determine what
         /// CSS to apply.
@@ -4378,9 +4378,9 @@ module Electron =
         /// <c>webFrame.registerURLSchemeAs*</c> and <c>protocol.registerServiceWorkerSchemes</c>
         /// functions that existed prior to Electron 5.0.0, for example:
         /// 
-        /// *before (<= v4.x)**
+        /// *before (&lt;= v4.x)**
         /// 
-        /// *after (>= v5.x)**
+        /// *after (&gt;= v5.x)**
         /// </summary>
         abstract registerSchemesAsPrivileged: customSchemes: ResizeArray<CustomScheme> -> unit
         /// <summary>
@@ -4861,7 +4861,7 @@ module Electron =
         /// 
         /// The <c>proxyBypassRules</c> is a comma separated list of rules described below:
         /// 
-        /// * <c>[ URL_SCHEME "://" ] HOSTNAME_PATTERN [ ":" <port> ]</c>
+        /// * <c>[ URL_SCHEME "://" ] HOSTNAME_PATTERN [ ":" &lt;port&gt; ]</c>
         /// 
         /// Match all hostnames that match the pattern HOSTNAME_PATTERN.
         /// 
@@ -4883,9 +4883,9 @@ module Electron =
         /// range is specified using CIDR notation.
         /// 
         /// Examples: "192.168.1.1/16", "fefe:13::abc/33".
-        /// * <c><local></c>
+        /// * <c>&lt;local&gt;</c>
         /// 
-        /// Match local addresses. The meaning of <c><local></c> is whether the host matches one
+        /// Match local addresses. The meaning of <c>&lt;local&gt;</c> is whether the host matches one
         /// of: "127.0.0.1", "::1", "localhost".
         /// </summary>
         abstract setProxy: config: Config -> Promise<unit>
@@ -5186,7 +5186,7 @@ module Electron =
         /// **Note:** On macOS 10.15 Catalina in order for this API to return the correct
         /// value when in the "automatic" dark mode setting you must either have
         /// <c>NSRequiresAquaSystemAppearance=false</c> in your <c>Info.plist</c> or be on Electron
-        /// <c>>=7.0.0</c>.  See the dark mode guide for more information.
+        /// <c>&gt;=7.0.0</c>.  See the dark mode guide for more information.
         /// 
         /// *Deprecated:** Should use the new <c>nativeTheme.shouldUseDarkColors</c> API.
         /// </summary>
@@ -5945,7 +5945,7 @@ module Electron =
         [<Emit "$0.once('devtools-reload-page',$1)">] abstract ``once_devtools-reload-page``: listener: Function -> WebContents
         [<Emit "$0.addListener('devtools-reload-page',$1)">] abstract ``addListener_devtools-reload-page``: listener: Function -> WebContents
         [<Emit "$0.removeListener('devtools-reload-page',$1)">] abstract ``removeListener_devtools-reload-page``: listener: Function -> WebContents
-        /// <summary>Emitted when a <c><webview></c> has been attached to this web contents.</summary>
+        /// <summary>Emitted when a <c>&lt;webview&gt;</c> has been attached to this web contents.</summary>
         [<Emit "$0.on('did-attach-webview',$1)">] abstract ``on_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
         [<Emit "$0.once('did-attach-webview',$1)">] abstract ``once_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
         [<Emit "$0.addListener('did-attach-webview',$1)">] abstract ``addListener_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
@@ -6104,7 +6104,7 @@ module Electron =
         [<Emit "$0.removeListener('media-started-playing',$1)">] abstract ``removeListener_media-started-playing``: listener: Function -> WebContents
         /// <summary>
         /// Emitted when the page requests to open a new window for a <c>url</c>. It could be
-        /// requested by <c>window.open</c> or an external link like <c><a target='_blank'></c>.
+        /// requested by <c>window.open</c> or an external link like <c>&lt;a target='_blank'&gt;</c>.
         /// 
         /// By default a new <c>BrowserWindow</c> will be created for the <c>url</c>.
         /// 
@@ -6237,12 +6237,12 @@ module Electron =
         [<Emit "$0.addListener('update-target-url',$1)">] abstract ``addListener_update-target-url``: listener: (Event -> string -> unit) -> WebContents
         [<Emit "$0.removeListener('update-target-url',$1)">] abstract ``removeListener_update-target-url``: listener: (Event -> string -> unit) -> WebContents
         /// <summary>
-        /// Emitted when a <c><webview></c>'s web contents is being attached to this web
+        /// Emitted when a <c>&lt;webview&gt;</c>'s web contents is being attached to this web
         /// contents. Calling <c>event.preventDefault()</c> will destroy the guest page.
         /// 
         /// This event can be used to configure <c>webPreferences</c> for the <c>webContents</c> of a
-        /// <c><webview></c> before it's loaded, and provides the ability to set settings that
-        /// can't be set via <c><webview></c> attributes.
+        /// <c>&lt;webview&gt;</c> before it's loaded, and provides the ability to set settings that
+        /// can't be set via <c>&lt;webview&gt;</c> attributes.
         /// 
         /// **Note:** The specified <c>preload</c> script option will be appear as <c>preloadURL</c>
         /// (not <c>preload</c>) in the <c>webPreferences</c> object emitted with this event.
@@ -6524,7 +6524,7 @@ module Electron =
         /// <summary>
         /// Opens the devtools.
         /// 
-        /// When <c>contents</c> is a <c><webview></c> tag, the <c>mode</c> would be <c>detach</c> by default,
+        /// When <c>contents</c> is a <c>&lt;webview&gt;</c> tag, the <c>mode</c> would be <c>detach</c> by default,
         /// explicitly passing an empty <c>mode</c> can force using last used dock state.
         /// </summary>
         abstract openDevTools: ?options: OpenDevToolsOptions -> unit
@@ -6602,7 +6602,7 @@ module Electron =
         /// just like <c>postMessage</c>, so prototype chains will not be included. Sending
         /// Functions, Promises, Symbols, WeakMaps, or WeakSets will throw an exception.
         /// 
-        /// > **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
+        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
         /// Electron objects is deprecated, and will begin throwing an exception starting
         /// with Electron 9.
         /// 
@@ -6624,7 +6624,7 @@ module Electron =
         /// not be included. Sending Functions, Promises, Symbols, WeakMaps, or WeakSets
         /// will throw an exception.
         /// 
-        /// > **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
+        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
         /// Electron objects is deprecated, and will begin throwing an exception starting
         /// with Electron 9.
         /// 
@@ -6651,13 +6651,13 @@ module Electron =
         /// By default Electron manages the devtools by creating an internal <c>WebContents</c>
         /// with native view, which developers have very limited control of. With the
         /// <c>setDevToolsWebContents</c> method, developers can use any <c>WebContents</c> to show
-        /// the devtools in it, including <c>BrowserWindow</c>, <c>BrowserView</c> and <c><webview></c>
+        /// the devtools in it, including <c>BrowserWindow</c>, <c>BrowserView</c> and <c>&lt;webview&gt;</c>
         /// tag.
         /// 
         /// Note that closing the devtools does not destroy the <c>devToolsWebContents</c>, it is
         /// caller's responsibility to destroy <c>devToolsWebContents</c>.
         /// 
-        /// An example of showing devtools in a <c><webview></c> tag:
+        /// An example of showing devtools in a <c>&lt;webview&gt;</c> tag:
         /// 
         /// An example of showing devtools in a <c>BrowserWindow</c>:
         /// </summary>
@@ -7089,7 +7089,7 @@ module Electron =
         /// the <c>window.location</c> object is changed or a user clicks a link in the page.
         /// 
         /// This event will not emit when the navigation is started programmatically with
-        /// APIs like <c><webview>.loadURL</c> and <c><webview>.back</c>.
+        /// APIs like <c>&lt;webview&gt;.loadURL</c> and <c>&lt;webview&gt;.back</c>.
         /// 
         /// It is also not emitted during in-page navigation, such as clicking anchor links
         /// or updating the <c>window.location.hash</c>. Use <c>did-navigate-in-page</c> event for
@@ -7231,7 +7231,7 @@ module Electron =
         abstract goToOffset: offset: float -> unit
         /// <summary>
         /// A promise that resolves with a key for the inserted CSS that can later be used
-        /// to remove the CSS via <c><webview>.removeInsertedCSS(key)</c>.
+        /// to remove the CSS via <c>&lt;webview&gt;.removeInsertedCSS(key)</c>.
         /// 
         /// Injects CSS into the current web page and returns a unique key for the inserted
         /// stylesheet.
@@ -7295,7 +7295,7 @@ module Electron =
         /// Resolves if the removal was successful.
         /// 
         /// Removes the inserted CSS from the current web page. The stylesheet is identified
-        /// by its key, which is returned from <c><webview>.insertCSS(css)</c>.
+        /// by its key, which is returned from <c>&lt;webview&gt;.insertCSS(css)</c>.
         /// </summary>
         abstract removeInsertedCSS: key: string -> Promise<unit>
         /// <summary>Executes editing command <c>replace</c> in page.</summary>
@@ -7638,7 +7638,7 @@ module Electron =
         /// <summary>Whether the window is in kiosk mode. Default is <c>false</c>.</summary>
         abstract kiosk: bool option with get, set
         /// <summary>
-        /// Default window title. Default is <c>"Electron"</c>. If the HTML tag <c><title></c> is
+        /// Default window title. Default is <c>"Electron"</c>. If the HTML tag <c>&lt;title&gt;</c> is
         /// defined in the HTML file loaded by <c>loadURL()</c>, this property will be ignored.
         /// </summary>
         abstract title: string option with get, set
@@ -7734,7 +7734,7 @@ module Electron =
         abstract vibrancy: BrowserWindowSetVibrancy option with get, set
         /// <summary>
         /// Controls the behavior on macOS when option-clicking the green stoplight button
-        /// on the toolbar or by clicking the Window > Zoom menu item. If <c>true</c>, the window
+        /// on the toolbar or by clicking the Window &gt; Zoom menu item. If <c>true</c>, the window
         /// will grow to the preferred width of the web page when zoomed, <c>false</c> will cause
         /// it to zoom to the width of the screen. This will also affect the behavior when
         /// calling <c>maximize()</c> directly. Default is <c>false</c>.
@@ -8376,10 +8376,10 @@ module Electron =
         abstract noLink: bool option with get, set
         /// <summary>
         /// Normalize the keyboard access keys across platforms. Default is <c>false</c>.
-        /// Enabling this assumes <c>&</c> is used in the button labels for the placement of the
+        /// Enabling this assumes <c>&amp;</c> is used in the button labels for the placement of the
         /// keyboard shortcut access key and labels will be converted so they work correctly
-        /// on each platform, <c>&</c> characters are removed on macOS, converted to <c>_</c> on
-        /// Linux, and left untouched on Windows. For example, a button label of <c>Vie&w</c>
+        /// on each platform, <c>&amp;</c> characters are removed on macOS, converted to <c>_</c> on
+        /// Linux, and left untouched on Windows. For example, a button label of <c>Vie&amp;w</c>
         /// will be converted to <c>Vie_w</c> on Linux and <c>View</c> on macOS and can be selected
         /// via <c>Alt-W</c> on Windows and Linux.
         /// </summary>
@@ -8432,10 +8432,10 @@ module Electron =
         abstract noLink: bool option with get, set
         /// <summary>
         /// Normalize the keyboard access keys across platforms. Default is <c>false</c>.
-        /// Enabling this assumes <c>&</c> is used in the button labels for the placement of the
+        /// Enabling this assumes <c>&amp;</c> is used in the button labels for the placement of the
         /// keyboard shortcut access key and labels will be converted so they work correctly
-        /// on each platform, <c>&</c> characters are removed on macOS, converted to <c>_</c> on
-        /// Linux, and left untouched on Windows. For example, a button label of <c>Vie&w</c>
+        /// on each platform, <c>&amp;</c> characters are removed on macOS, converted to <c>_</c> on
+        /// Linux, and left untouched on Windows. For example, a button label of <c>Vie&amp;w</c>
         /// will be converted to <c>Vie_w</c> on Linux and <c>View</c> on macOS and can be selected
         /// via <c>Alt-W</c> on Windows and Linux.
         /// </summary>
@@ -9421,12 +9421,12 @@ module Electron =
         /// </summary>
         abstract nativeWindowOpen: bool option with get, set
         /// <summary>
-        /// Whether to enable the <c><webview></c> tag. Defaults to <c>false</c>. **Note:** The
-        /// <c>preload</c> script configured for the <c><webview></c> will have node integration
+        /// Whether to enable the <c>&lt;webview&gt;</c> tag. Defaults to <c>false</c>. **Note:** The
+        /// <c>preload</c> script configured for the <c>&lt;webview&gt;</c> will have node integration
         /// enabled when it is executed so you should ensure remote/untrusted content is not
-        /// able to create a <c><webview></c> tag with a possibly malicious <c>preload</c> script. You
+        /// able to create a <c>&lt;webview&gt;</c> tag with a possibly malicious <c>preload</c> script. You
         /// can use the <c>will-attach-webview</c> event on webContents to strip away the
-        /// <c>preload</c> script and to validate or alter the <c><webview></c>'s initial settings.
+        /// <c>preload</c> script and to validate or alter the <c>&lt;webview&gt;</c>'s initial settings.
         /// </summary>
         abstract webviewTag: bool option with get, set
         /// <summary>
