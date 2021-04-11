@@ -24,22 +24,22 @@ module Yargs =
 
     /// <summary>
     /// The type parameter <c>T</c> is the expected shape of the parsed options.
-    /// <c>Arguments<T></c> is those options plus <c>_</c> and <c>$0</c>, and an indexer falling
+    /// <c>Arguments&lt;T&gt;</c> is those options plus <c>_</c> and <c>$0</c>, and an indexer falling
     /// back to <c>unknown</c> for unknown options.
     /// 
     /// For the return type / <c>argv</c> property, we create a mapped type over
-    /// <c>Arguments<T></c> to simplify the inferred type signature in client code.
+    /// <c>Arguments&lt;T&gt;</c> to simplify the inferred type signature in client code.
     /// </summary>
     type Argv =
         Argv<obj>
 
     /// <summary>
     /// The type parameter <c>T</c> is the expected shape of the parsed options.
-    /// <c>Arguments<T></c> is those options plus <c>_</c> and <c>$0</c>, and an indexer falling
+    /// <c>Arguments&lt;T&gt;</c> is those options plus <c>_</c> and <c>$0</c>, and an indexer falling
     /// back to <c>unknown</c> for unknown options.
     /// 
     /// For the return type / <c>argv</c> property, we create a mapped type over
-    /// <c>Arguments<T></c> to simplify the inferred type signature in client code.
+    /// <c>Arguments&lt;T&gt;</c> to simplify the inferred type signature in client code.
     /// </summary>
     type [<AllowNullLiteral>] Argv<'T> =
         [<Emit "$0($1...)">] abstract Invoke: unit -> obj
@@ -231,7 +231,7 @@ Use '.demandCommand()' or '.demandOption()' instead")>]
         /// <summary>
         /// Tell yargs to parse environment variables matching the given prefix and apply them to argv as though they were command line arguments.
         /// 
-        /// Use the "__" separator in the environment variable to indicate nested options. (e.g. prefix_nested__foo => nested.foo)
+        /// Use the "__" separator in the environment variable to indicate nested options. (e.g. prefix_nested__foo =&gt; nested.foo)
         /// 
         /// If this method is called with no argument or with an empty string or with true, then all env vars will be applied to argv.
         /// 

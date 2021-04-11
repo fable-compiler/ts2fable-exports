@@ -1314,7 +1314,7 @@ label: \"I'm a Button\"
         abstract shapeImageThreshold: U2<CSSWideKeyword, obj option> option with get, set
         /// <summary>
         /// A future level of CSS Shapes will define a shape-inside property, which will define a shape to wrap content within the element.
-        /// See Editor's Draft <<see href="http://dev.w3.org/csswg/css-shapes/>" /> and CSSWG wiki page on next-level plans <<see href="http://wiki.csswg.org/spec/css-shapes>" />
+        /// See Editor's Draft &lt;<see href="http://dev.w3.org/csswg/css-shapes/&gt;" /> and CSSWG wiki page on next-level plans &lt;<see href="http://wiki.csswg.org/spec/css-shapes&gt;" />
         /// </summary>
         abstract shapeInside: U2<CSSWideKeyword, obj option> option with get, set
         /// Adds a margin to a shape-outside. In effect, defines a new shape that is the smallest contour around all the points
