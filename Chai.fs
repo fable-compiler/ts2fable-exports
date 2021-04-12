@@ -40,12 +40,12 @@ module Chai =
         [<EmitConstructor>] abstract Create: [<ParamArray>] args: obj option[] -> ErrorConstructor
 
     type [<AllowNullLiteral>] ChaiUtils =
-        abstract addChainableMethod: ctx: obj * name: string * ``method``: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
-        abstract overwriteChainableMethod: ctx: obj * name: string * ``method``: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract addChainableMethod: ctx: obj * name: string * method: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract overwriteChainableMethod: ctx: obj * name: string * method: (ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
         abstract addLengthGuard: fn: Function * assertionName: string * isChainable: bool -> unit
-        abstract addMethod: ctx: obj * name: string * ``method``: Function -> unit
+        abstract addMethod: ctx: obj * name: string * method: Function -> unit
         abstract addProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
-        abstract overwriteMethod: ctx: obj * name: string * ``method``: Function -> unit
+        abstract overwriteMethod: ctx: obj * name: string * method: Function -> unit
         abstract overwriteProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
         abstract compareByInspect: a: obj * b: obj -> ChaiUtilsCompareByInspectReturn
         abstract expectTypes: obj: obj * types: ResizeArray<string> -> unit
@@ -111,11 +111,11 @@ module Chai =
         abstract includeStack: bool with get, set
         abstract showDiff: bool with get, set
         abstract addProperty: name: string * getter: (AssertionStatic -> obj option) -> unit
-        abstract addMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> obj option) -> unit
-        abstract addChainableMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract addMethod: name: string * method: (AssertionStatic -> ResizeArray<obj option> -> obj option) -> unit
+        abstract addChainableMethod: name: string * method: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
         abstract overwriteProperty: name: string * getter: (AssertionStatic -> obj option) -> unit
-        abstract overwriteMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> obj option) -> unit
-        abstract overwriteChainableMethod: name: string * ``method``: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
+        abstract overwriteMethod: name: string * method: (AssertionStatic -> ResizeArray<obj option> -> obj option) -> unit
+        abstract overwriteChainableMethod: name: string * method: (AssertionStatic -> ResizeArray<obj option> -> unit) * ?chainingBehavior: (unit -> unit) -> unit
 
     type [<AllowNullLiteral>] AssertionStaticStatic =
         [<EmitConstructor>] abstract Create: target: obj option * ?message: string * ?ssfi: Function * ?lockSsfi: bool -> AssertionStatic
@@ -140,7 +140,7 @@ module Chai =
 
     type [<AllowNullLiteral>] ShouldThrow =
         [<Emit "$0($1...)">] abstract Invoke: actual: Function * ?expected: U2<string, RegExp> * ?message: string -> unit
-        [<Emit "$0($1...)">] abstract Invoke: actual: Function * ``constructor``: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> unit
+        [<Emit "$0($1...)">] abstract Invoke: actual: Function * constructor: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> unit
 
     type [<AllowNullLiteral>] Assertion =
         inherit LanguageChains
@@ -249,7 +249,7 @@ module Chai =
         abstract instanceOf: InstanceOf with get, set
 
     type [<AllowNullLiteral>] InstanceOf =
-        [<Emit "$0($1...)">] abstract Invoke: ``constructor``: obj option * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: constructor: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] CloseTo =
         [<Emit "$0($1...)">] abstract Invoke: expected: float * delta: float * ?message: string -> Assertion
@@ -324,10 +324,10 @@ module Chai =
 
     type [<AllowNullLiteral>] Throw =
         [<Emit "$0($1...)">] abstract Invoke: ?expected: U2<string, RegExp> * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: ``constructor``: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: constructor: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] RespondTo =
-        [<Emit "$0($1...)">] abstract Invoke: ``method``: string * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: method: string * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Satisfy =
         [<Emit "$0($1...)">] abstract Invoke: matcher: Function * ?message: string -> Assertion
@@ -336,7 +336,7 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: set: ResizeArray<obj option> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] PropertyChange =
-        [<Emit "$0($1...)">] abstract Invoke: ``object``: Object * ?property: string * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: object: Object * ?property: string * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Assert =
         /// <param name="expression">Expression to test for truthiness.</param>
@@ -548,7 +548,7 @@ module Chai =
         /// <param name="value">Actual value.</param>
         /// <param name="constructor">Potential expected contructor of value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract instanceOf: value: 'T * ``constructor``: Function * ?message: string -> unit
+        abstract instanceOf: value: 'T * constructor: Function * ?message: string -> unit
         /// <summary>Asserts that value is not an instance of constructor.</summary>
         /// <param name="value">Actual value.</param>
         /// <param name="constructor">Potential expected contructor of value.</param>
@@ -712,12 +712,12 @@ module Chai =
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract property: ``object``: 'T * property: string * ?message: string -> unit
+        abstract property: object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that object has a property named by property.</summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notProperty: ``object``: 'T * property: string * ?message: string -> unit
+        abstract notProperty: object: 'T * property: string * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a property named by property, which can be a string
         /// using dot- and bracket-notation for deep reference.
@@ -725,7 +725,7 @@ module Chai =
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract deepProperty: ``object``: 'T * property: string * ?message: string -> unit
+        abstract deepProperty: object: 'T * property: string * ?message: string -> unit
         /// <summary>
         /// Asserts that object does not have a property named by property, which can be a
         /// string using dot- and bracket-notation for deep reference.
@@ -733,19 +733,19 @@ module Chai =
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notDeepProperty: ``object``: 'T * property: string * ?message: string -> unit
+        abstract notDeepProperty: object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that object has a property named by property with value given by value.</summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract propertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
+        abstract propertyVal: object: 'T * property: string * value: 'V * ?message: string -> unit
         /// <summary>Asserts that object has a property named by property with value given by value.</summary>
         /// <param name="object">Container object.</param>
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notPropertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
+        abstract notPropertyVal: object: 'T * property: string * value: 'V * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a property named by property, which can be a string
         /// using dot- and bracket-notation for deep reference.
@@ -754,7 +754,7 @@ module Chai =
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract deepPropertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
+        abstract deepPropertyVal: object: 'T * property: string * value: 'V * ?message: string -> unit
         /// <summary>
         /// Asserts that object does not have a property named by property, which can be a
         /// string using dot- and bracket-notation for deep reference.
@@ -763,12 +763,12 @@ module Chai =
         /// <param name="property">Potential contained property of object.</param>
         /// <param name="value">Potential expected property value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notDeepPropertyVal: ``object``: 'T * property: string * value: 'V * ?message: string -> unit
+        abstract notDeepPropertyVal: object: 'T * property: string * value: 'V * ?message: string -> unit
         /// <summary>Asserts that object has a length property with the expected value.</summary>
         /// <param name="object">Container object.</param>
         /// <param name="length">Potential expected length of object.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract lengthOf: ``object``: 'T * length: float * ?message: string -> unit
+        abstract lengthOf: object: 'T * length: float * ?message: string -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
@@ -782,7 +782,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * ?message: string -> unit
+        abstract throw: fn: (unit -> unit) * constructor: ErrorConstructor * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -790,7 +790,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
+        abstract throw: fn: (unit -> unit) * constructor: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
@@ -807,7 +807,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract throws: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
+        abstract throws: fn: (unit -> unit) * constructor: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Asserts that fn will throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
@@ -821,7 +821,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract Throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * ?message: string -> unit
+        abstract Throw: fn: (unit -> unit) * constructor: ErrorConstructor * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -829,7 +829,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract Throw: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
+        abstract Throw: fn: (unit -> unit) * constructor: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Asserts that fn will not throw an error.</summary>
         /// <param name="fn">Function that may throw.</param>
         /// <param name="message">Message to display on error.</param>
@@ -843,7 +843,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotThrow: fn: (unit -> unit) * ``constructor``: ErrorConstructor * ?message: string -> unit
+        abstract doesNotThrow: fn: (unit -> unit) * constructor: ErrorConstructor * ?message: string -> unit
         /// <summary>
         /// Asserts that function will throw an error that is an instance of constructor
         /// and an error with message matching regexp.
@@ -851,7 +851,7 @@ module Chai =
         /// <param name="fn">Function that may throw.</param>
         /// <param name="constructor">Potential expected error constructor.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotThrow: fn: (unit -> unit) * ``constructor``: ErrorConstructor * regExp: RegExp -> unit
+        abstract doesNotThrow: fn: (unit -> unit) * constructor: ErrorConstructor * regExp: RegExp -> unit
         /// <summary>Compares two values using operator.</summary>
         /// <param name="val1">Left value during comparison.</param>
         /// <param name="operator">Comparison operator.</param>
@@ -970,37 +970,37 @@ module Chai =
         /// <param name="object">Container object.</param>
         /// <param name="property">Property of object expected to be modified.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract changes: modifier: Function * ``object``: 'T * property: string * ?message: string -> unit
+        abstract changes: modifier: Function * object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that a function does not change the value of a property.</summary>
         /// <param name="modifier">Function to run.</param>
         /// <param name="object">Container object.</param>
         /// <param name="property">Property of object expected not to be modified.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotChange: modifier: Function * ``object``: 'T * property: string * ?message: string -> unit
+        abstract doesNotChange: modifier: Function * object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that a function increases an object property.</summary>
         /// <param name="modifier">Function to run.</param>
         /// <param name="object">Container object.</param>
         /// <param name="property">Property of object expected to be increased.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract increases: modifier: Function * ``object``: 'T * property: string * ?message: string -> unit
+        abstract increases: modifier: Function * object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that a function does not increase an object property.</summary>
         /// <param name="modifier">Function to run.</param>
         /// <param name="object">Container object.</param>
         /// <param name="property">Property of object expected not to be increased.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotIncrease: modifier: Function * ``object``: 'T * property: string * ?message: string -> unit
+        abstract doesNotIncrease: modifier: Function * object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that a function decreases an object property.</summary>
         /// <param name="modifier">Function to run.</param>
         /// <param name="object">Container object.</param>
         /// <param name="property">Property of object expected to be decreased.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract decreases: modifier: Function * ``object``: 'T * property: string * ?message: string -> unit
+        abstract decreases: modifier: Function * object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts that a function does not decrease an object property.</summary>
         /// <param name="modifier">Function to run.</param>
         /// <param name="object">Container object.</param>
         /// <param name="property">Property of object expected not to be decreased.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotDecrease: modifier: Function * ``object``: 'T * property: string * ?message: string -> unit
+        abstract doesNotDecrease: modifier: Function * object: 'T * property: string * ?message: string -> unit
         /// <summary>Asserts if value is not a false value, and throws if it is a true value.</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
@@ -1008,73 +1008,73 @@ module Chai =
         /// This is added to allow for chai to be a drop-in replacement for
         /// Node’s assert class.
         /// </remarks>
-        abstract ifError: ``object``: 'T * ?message: string -> unit
+        abstract ifError: object: 'T * ?message: string -> unit
         /// <summary>Asserts that object is extensible (can have new properties added to it).</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isExtensible: ``object``: 'T * ?message: string -> unit
+        abstract isExtensible: object: 'T * ?message: string -> unit
         /// <summary>Asserts that object is extensible (can have new properties added to it).</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract extensible: ``object``: 'T * ?message: string -> unit
+        abstract extensible: object: 'T * ?message: string -> unit
         /// <summary>Asserts that object is not extensible.</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isNotExtensible: ``object``: 'T * ?message: string -> unit
+        abstract isNotExtensible: object: 'T * ?message: string -> unit
         /// <summary>Asserts that object is not extensible.</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notExtensible: ``object``: 'T * ?message: string -> unit
+        abstract notExtensible: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that object is sealed (can have new properties added to it
         /// and its existing properties cannot be removed).
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isSealed: ``object``: 'T * ?message: string -> unit
+        abstract isSealed: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that object is sealed (can have new properties added to it
         /// and its existing properties cannot be removed).
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract ``sealed``: ``object``: 'T * ?message: string -> unit
+        abstract ``sealed``: object: 'T * ?message: string -> unit
         /// <summary>Asserts that object is not sealed.</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isNotSealed: ``object``: 'T * ?message: string -> unit
+        abstract isNotSealed: object: 'T * ?message: string -> unit
         /// <summary>Asserts that object is not sealed.</summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notSealed: ``object``: 'T * ?message: string -> unit
+        abstract notSealed: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that object is frozen (cannot have new properties added to it
         /// and its existing properties cannot be removed).
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isFrozen: ``object``: 'T * ?message: string -> unit
+        abstract isFrozen: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that object is frozen (cannot have new properties added to it
         /// and its existing properties cannot be removed).
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract frozen: ``object``: 'T * ?message: string -> unit
+        abstract frozen: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that object is not frozen (cannot have new properties added to it
         /// and its existing properties cannot be removed).
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isNotFrozen: ``object``: 'T * ?message: string -> unit
+        abstract isNotFrozen: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that object is not frozen (cannot have new properties added to it
         /// and its existing properties cannot be removed).
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notFrozen: ``object``: 'T * ?message: string -> unit
+        abstract notFrozen: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that the target does not contain any values. For arrays and
         /// strings, it checks the length property. For Map and Set instances, it
@@ -1083,7 +1083,7 @@ module Chai =
         /// </summary>
         /// <param name="object">Actual value.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isEmpty: ``object``: 'T * ?message: string -> unit
+        abstract isEmpty: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that the target contains values. For arrays and strings, it checks
         /// the length property. For Map and Set instances, it checks the size property.
@@ -1091,7 +1091,7 @@ module Chai =
         /// </summary>
         /// <param name="object">Object to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract isNotEmpty: ``object``: 'T * ?message: string -> unit
+        abstract isNotEmpty: object: 'T * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has at least one of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1100,7 +1100,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAnyKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has all and only all of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1109,7 +1109,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAllKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has all of the <c>keys</c> provided but may have more keys not listed.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1118,7 +1118,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract containsAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract containsAllKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has none of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1127,7 +1127,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAnyKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAnyKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> does not have at least one of the <c>keys</c> provided.
         /// You can also provide a single object instead of a <c>keys</c> array and its keys
@@ -1136,7 +1136,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAllKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAllKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has at least one of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1147,7 +1147,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAnyDeepKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> has all and only all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1158,7 +1158,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract hasAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract hasAllDeepKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1169,7 +1169,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract containsAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract containsAllDeepKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1180,7 +1180,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAnyDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAnyDeepKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that <c>object</c> contains all of the <c>keys</c> provided.
         /// Since Sets and Maps can have objects as keys you can use this assertion to perform
@@ -1191,7 +1191,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="keys">Keys to check</param>
         /// <param name="message">Message to display on error.</param>
-        abstract doesNotHaveAllDeepKeys: ``object``: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
+        abstract doesNotHaveAllDeepKeys: object: 'T * keys: U2<Array<U2<Object, string>>, AssertHasAnyKeys> * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a direct or inherited property named by property,
         /// which can be a string using dot- and bracket-notation for nested reference.
@@ -1199,7 +1199,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract nestedProperty: ``object``: 'T * property: string * ?message: string -> unit
+        abstract nestedProperty: object: 'T * property: string * ?message: string -> unit
         /// <summary>
         /// Asserts that object does not have a property named by property,
         /// which can be a string using dot- and bracket-notation for nested reference.
@@ -1208,7 +1208,7 @@ module Chai =
         /// <param name="object">Object to test.</param>
         /// <param name="property">Property to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notNestedProperty: ``object``: 'T * property: string * ?message: string -> unit
+        abstract notNestedProperty: object: 'T * property: string * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a property named by property with value given by value.
         /// property can use dot- and bracket-notation for nested reference. Uses a strict equality check (===).
@@ -1217,7 +1217,7 @@ module Chai =
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract nestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
+        abstract nestedPropertyVal: object: 'T * property: string * value: obj option * ?message: string -> unit
         /// <summary>
         /// Asserts that object does not have a property named by property with value given by value.
         /// property can use dot- and bracket-notation for nested reference. Uses a strict equality check (===).
@@ -1226,7 +1226,7 @@ module Chai =
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notNestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
+        abstract notNestedPropertyVal: object: 'T * property: string * value: obj option * ?message: string -> unit
         /// <summary>
         /// Asserts that object has a property named by property with a value given by value.
         /// property can use dot- and bracket-notation for nested reference. Uses a deep equality check.
@@ -1235,7 +1235,7 @@ module Chai =
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract deepNestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
+        abstract deepNestedPropertyVal: object: 'T * property: string * value: obj option * ?message: string -> unit
         /// <summary>
         /// Asserts that object does not have a property named by property with value given by value.
         /// property can use dot- and bracket-notation for nested reference. Uses a deep equality check.
@@ -1244,7 +1244,7 @@ module Chai =
         /// <param name="property">Property to test.</param>
         /// <param name="value">Value to test.</param>
         /// <param name="message">Message to display on error.</param>
-        abstract notDeepNestedPropertyVal: ``object``: 'T * property: string * value: obj option * ?message: string -> unit
+        abstract notDeepNestedPropertyVal: object: 'T * property: string * value: obj option * ?message: string -> unit
 
     type [<AllowNullLiteral>] Config =
         /// Default: false

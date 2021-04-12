@@ -103,7 +103,7 @@ module Core =
         [<Emit "$0($1...)">] abstract Invoke: error: Error -> unit
 
     type [<AllowNullLiteral>] IEnum =
-        abstract contains: ``object``: obj option -> bool
+        abstract contains: object: obj option -> bool
         abstract fromName: name: string -> EnumSymbol
         abstract getNames: unit -> ResizeArray<string>
         abstract getSymbols: unit -> ResizeArray<EnumSymbol>
@@ -111,7 +111,7 @@ module Core =
     type [<AllowNullLiteral>] Enum =
         inherit IEnum
         abstract addSymbol: ?propertiesObj: obj -> EnumSymbol
-        abstract contains: ``object``: obj option -> bool
+        abstract contains: object: obj option -> bool
         abstract fromName: name: string -> EnumSymbol
         abstract getNames: unit -> ResizeArray<string>
         abstract getSymbols: unit -> ResizeArray<EnumSymbol>
@@ -119,7 +119,7 @@ module Core =
 
     type [<AllowNullLiteral>] EnumStatic =
         [<EmitConstructor>] abstract Create: name: string * ?methodObj: obj -> Enum
-        abstract isSymbol: ``object``: obj option -> bool
+        abstract isSymbol: object: obj option -> bool
 
     type [<AllowNullLiteral>] EnumSymbol =
         abstract parentEnum: IEnum with get, set
@@ -1296,8 +1296,8 @@ module Promises =
     type [<AllowNullLiteral>] IPromiseService =
         abstract defer: unit -> IDeferred<'T>
         abstract reject: ?reason: obj -> Promise<obj option>
-        abstract resolve: ``object``: 'T -> Promise<'T>
-        abstract resolve: ``object``: Promise<'T> -> Promise<'T>
+        abstract resolve: object: 'T -> Promise<'T>
+        abstract resolve: object: Promise<'T> -> Promise<'T>
 
 type [<AllowNullLiteral>] JsonResultsAdapterExtractResults =
     interface end

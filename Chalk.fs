@@ -36,7 +36,7 @@ type [<AllowNullLiteral>] ColorSupport =
 type [<AllowNullLiteral>] Chalk =
     [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] text: string[] -> string
     [<Emit "$0($1...)">] abstract Invoke: text: TemplateStringsArray * [<ParamArray>] placeholders: string[] -> string
-    abstract ``constructor``: ChalkConstructor with get, set
+    abstract constructor: ChalkConstructor with get, set
     abstract enabled: bool with get, set
     abstract level: Level with get, set
     abstract rgb: r: float * g: float * b: float -> Chalk

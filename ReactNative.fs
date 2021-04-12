@@ -486,7 +486,7 @@ type [<AllowNullLiteral>] EventSubscriptionStatic =
 /// EventSubscriptionVendor stores a set of EventSubscriptions that are
 /// subscribed to a particular event type.
 type [<AllowNullLiteral>] EventSubscriptionVendor =
-    abstract ``constructor``: unit -> EventSubscriptionVendor
+    abstract constructor: unit -> EventSubscriptionVendor
     /// Adds a subscription keyed by an event type.
     abstract addSubscription: eventType: string * subscription: EventSubscription -> EventSubscription
     /// <summary>Removes a bulk set of the subscriptions.</summary>
@@ -677,7 +677,7 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// possible, consider using the [<c>onLayout</c>
     /// prop](docs/view.html#onlayout) instead.
     /// </summary>
-    abstract ``measure``: callback: MeasureOnSuccessCallback -> unit
+    abstract measure: callback: MeasureOnSuccessCallback -> unit
     /// Determines the location of the given view in the window and returns the
     /// values via an async callback. If the React root view is embedded in
     /// another native view, this will give you the absolute coordinates. If
@@ -2154,7 +2154,7 @@ type [<AllowNullLiteral>] WebViewPropsIOS =
 
 type [<AllowNullLiteral>] WebViewUriSource =
     abstract uri: string option with get, set
-    abstract ``method``: WebViewUriSourceMethod option with get, set
+    abstract method: WebViewUriSourceMethod option with get, set
     abstract headers: obj option with get, set
     abstract body: string option with get, set
 
@@ -3085,7 +3085,7 @@ type [<AllowNullLiteral>] ImageURISource =
     /// </summary>
     abstract bundle: string option with get, set
     /// <summary><c>method</c> is the HTTP Method to use. Defaults to GET if not specified.</summary>
-    abstract ``method``: string option with get, set
+    abstract method: string option with get, set
     /// <summary>
     /// <c>headers</c> is an object representing the HTTP headers to send along with the
     /// request for a remote image.
@@ -4459,13 +4459,13 @@ type [<AllowNullLiteral>] SystraceStatic =
     /// Systrace.measureMethods(JSON, 'JSON', ['parse', 'stringify']);
     /// </summary>
     /// <param name="methodNames">Map from method names to method display names.</param>
-    abstract measureMethods: ``object``: obj option * objectName: string * methodNames: Array<string> -> unit
+    abstract measureMethods: object: obj option * objectName: string * methodNames: Array<string> -> unit
     /// <summary>
     /// Returns an profiled version of the input function. For example, you can:
     /// JSON.parse = Systrace.measure('JSON', 'parse', JSON.parse);
     /// </summary>
     /// <returns>replacement function</returns>
-    abstract ``measure``: objName: string * fnName: string * func: 'T -> 'T
+    abstract measure: objName: string * fnName: string * func: 'T -> 'T
 
 /// //FIXME: Could not find docs. Inferred from examples and jscode : ListViewDataSource.js
 type [<AllowNullLiteral>] DataSourceAssetCallback =
@@ -6458,7 +6458,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// possible, consider using the [<c>onLayout</c>
     /// prop](docs/view.html#onlayout) instead.
     /// </summary>
-    abstract ``measure``: node: float * callback: MeasureOnSuccessCallback -> unit
+    abstract measure: node: float * callback: MeasureOnSuccessCallback -> unit
     /// Determines the location of the given view in the window and returns the
     /// values via an async callback. If the React root view is embedded in
     /// another native view, this will give you the absolute coordinates. If
