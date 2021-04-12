@@ -92,7 +92,7 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract clone: msg: 'T -> 'T when 'T :> Message
     abstract cloneMessage: msg: 'T -> 'T when 'T :> Message
     abstract copyInto: fromMessage: Message * toMessage: Message -> unit
-    abstract registerMessageType: id: float * ``constructor``: obj -> unit
+    abstract registerMessageType: id: float * constructor: obj -> unit
     abstract deserializeBinary: bytes: Uint8Array -> Message
     abstract deserializeBinaryFromReader: message: Message * reader: BinaryReader -> Message
     abstract serializeBinaryToWriter: message: Message * writer: BinaryWriter -> unit

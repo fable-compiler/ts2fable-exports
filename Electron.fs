@@ -2704,7 +2704,7 @@ module Electron =
         /// indicating the failure of the command.
         /// 
         /// Send given command to the debugging target.
-        abstract sendCommand: ``method``: string * ?commandParams: obj * ?sessionId: string -> Promise<obj option>
+        abstract sendCommand: method: string * ?commandParams: obj * ?sessionId: string -> Promise<obj option>
 
     type [<AllowNullLiteral>] DebuggerStatic =
         [<EmitConstructor>] abstract Create: unit -> Debugger
@@ -4410,7 +4410,7 @@ module Electron =
         abstract unregisterProtocol: scheme: string * ?completion: (Error -> unit) -> unit
 
     type [<AllowNullLiteral>] ProtocolRequest =
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract referrer: string with get, set
         abstract uploadData: ResizeArray<UploadData> option with get, set
         abstract url: string with get, set
@@ -4434,7 +4434,7 @@ module Electron =
         /// must be either String or Array of String.
         abstract headers: Record<string, U2<string, ResizeArray<string>>> option with get, set
         /// <summary>The HTTP <c>method</c>. This is only used for file and URL responses.</summary>
-        abstract ``method``: string option with get, set
+        abstract method: string option with get, set
         /// <summary>
         /// The MIME type of response body, default is <c>"text/html"</c>. Setting <c>mimeType</c>
         /// would implicitly set the <c>content-type</c> header in response, but if
@@ -7782,7 +7782,7 @@ module Electron =
 
     type [<AllowNullLiteral>] ClientRequestConstructorOptions =
         /// The HTTP request method. Defaults to the GET method.
-        abstract ``method``: string option with get, set
+        abstract method: string option with get, set
         /// The request URL. Must be provided in the absolute form with the protocol scheme
         /// specified as http or https.
         abstract url: string option with get, set
@@ -8507,7 +8507,7 @@ module Electron =
     type [<AllowNullLiteral>] OnBeforeRedirectListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8523,7 +8523,7 @@ module Electron =
     type [<AllowNullLiteral>] OnBeforeRequestListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8533,7 +8533,7 @@ module Electron =
     type [<AllowNullLiteral>] OnBeforeSendHeadersListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8543,7 +8543,7 @@ module Electron =
     type [<AllowNullLiteral>] OnCompletedListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8557,7 +8557,7 @@ module Electron =
     type [<AllowNullLiteral>] OnErrorOccurredListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8569,7 +8569,7 @@ module Electron =
     type [<AllowNullLiteral>] OnHeadersReceivedListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8582,7 +8582,7 @@ module Electron =
     type [<AllowNullLiteral>] OnResponseStartedListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8596,7 +8596,7 @@ module Electron =
     type [<AllowNullLiteral>] OnSendHeadersListenerDetails =
         abstract id: float with get, set
         abstract url: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract webContentsId: float option with get, set
         abstract resourceType: string with get, set
         abstract referrer: string with get, set
@@ -8811,7 +8811,7 @@ module Electron =
 
     type [<AllowNullLiteral>] RedirectRequest =
         abstract url: string with get, set
-        abstract ``method``: string option with get, set
+        abstract method: string option with get, set
         abstract session: U2<Session, obj> option with get, set
         abstract uploadData: ProtocolResponseUploadData option with get, set
 
@@ -8823,7 +8823,7 @@ module Electron =
         abstract url: string with get, set
         abstract headers: Record<string, string> with get, set
         abstract referrer: string with get, set
-        abstract ``method``: string with get, set
+        abstract method: string with get, set
         abstract uploadData: ResizeArray<UploadData> with get, set
 
     type [<AllowNullLiteral>] ResizeOptions =

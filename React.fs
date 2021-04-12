@@ -70,7 +70,7 @@ module React =
         abstract cloneElement: element: SFCElement<'P> * ?props: 'Q * [<ParamArray>] children: ReactNode[] -> SFCElement<'P> when 'P :> 'Q
         abstract cloneElement: element: CElement<'P, 'T> * ?props: 'Q * [<ParamArray>] children: ReactNode[] -> CElement<'P, 'T> when 'P :> 'Q and 'T :> Component<'P, ComponentState>
         abstract cloneElement: element: ReactElement<'P> * ?props: 'Q * [<ParamArray>] children: ReactNode[] -> ReactElement<'P> when 'P :> 'Q
-        abstract isValidElement: ``object``: IsValidElementObject -> bool
+        abstract isValidElement: object: IsValidElementObject -> bool
         abstract DOM: ReactDOM
         abstract PropTypes: ReactPropTypes
         abstract Children: ReactChildren
@@ -1643,7 +1643,7 @@ label: \"I'm a Button\"
         abstract maxLength: float option with get, set
         abstract media: string option with get, set
         abstract mediaGroup: string option with get, set
-        abstract ``method``: string option with get, set
+        abstract method: string option with get, set
         abstract min: U2<float, string> option with get, set
         abstract minLength: float option with get, set
         abstract multiple: bool option with get, set
@@ -1777,7 +1777,7 @@ label: \"I'm a Button\"
         abstract action: string option with get, set
         abstract autoComplete: string option with get, set
         abstract encType: string option with get, set
-        abstract ``method``: string option with get, set
+        abstract method: string option with get, set
         abstract name: string option with get, set
         abstract noValidate: bool option with get, set
         abstract target: string option with get, set
@@ -2072,7 +2072,7 @@ label: \"I'm a Button\"
         abstract lang: string option with get, set
         abstract max: U2<float, string> option with get, set
         abstract media: string option with get, set
-        abstract ``method``: string option with get, set
+        abstract method: string option with get, set
         abstract min: U2<float, string> option with get, set
         abstract name: string option with get, set
         abstract style: CSSProperties option with get, set
@@ -2392,7 +2392,7 @@ label: \"I'm a Button\"
         abstract meter: DetailedHTMLFactory<MeterHTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract nav: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract noscript: DetailedHTMLFactory<HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ``object``: DetailedHTMLFactory<ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
+        abstract object: DetailedHTMLFactory<ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
         abstract ol: DetailedHTMLFactory<OlHTMLAttributes<HTMLOListElement>, HTMLOListElement> with get, set
         abstract optgroup: DetailedHTMLFactory<OptgroupHTMLAttributes<HTMLOptGroupElement>, HTMLOptGroupElement> with get, set
         abstract option: DetailedHTMLFactory<OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement> with get, set
@@ -2464,7 +2464,7 @@ label: \"I'm a Button\"
         inherit ReactSVG
 
     type [<AllowNullLiteral>] Validator<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: ``object``: 'T * key: string * componentName: string * [<ParamArray>] rest: obj option[] -> Error option
+        [<Emit "$0($1...)">] abstract Invoke: object: 'T * key: string * componentName: string * [<ParamArray>] rest: obj option[] -> Error option
 
     type [<AllowNullLiteral>] Requireable<'T> =
         inherit Validator<'T>
@@ -2479,7 +2479,7 @@ label: \"I'm a Button\"
         abstract bool: Requireable<obj option> with get, set
         abstract func: Requireable<obj option> with get, set
         abstract number: Requireable<obj option> with get, set
-        abstract ``object``: Requireable<obj option> with get, set
+        abstract object: Requireable<obj option> with get, set
         abstract string: Requireable<obj option> with get, set
         abstract node: Requireable<obj option> with get, set
         abstract element: Requireable<obj option> with get, set
@@ -2685,7 +2685,7 @@ module JSX =
         abstract nav: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract noindex: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
         abstract noscript: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> with get, set
-        abstract ``object``: React.DetailedHTMLProps<React.ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
+        abstract object: React.DetailedHTMLProps<React.ObjectHTMLAttributes<HTMLObjectElement>, HTMLObjectElement> with get, set
         abstract ol: React.DetailedHTMLProps<React.OlHTMLAttributes<HTMLOListElement>, HTMLOListElement> with get, set
         abstract optgroup: React.DetailedHTMLProps<React.OptgroupHTMLAttributes<HTMLOptGroupElement>, HTMLOptGroupElement> with get, set
         abstract option: React.DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement> with get, set
