@@ -927,7 +927,7 @@ module Electron =
         /// 
         /// Here's a very simple example of creating a custom Jump List:
         /// </summary>
-        abstract setJumpList: categories: U2<ResizeArray<JumpListCategory>, obj> -> unit
+        abstract setJumpList: categories: ResizeArray<JumpListCategory> option -> unit
         /// <summary>
         /// Set the app's login item settings.
         /// 
@@ -1035,7 +1035,7 @@ module Electron =
         /// A <c>Menu | null</c> property that returns <c>Menu</c> if one has been set and <c>null</c>
         /// otherwise. Users can pass a Menu to set this property.
         /// </summary>
-        abstract applicationMenu: U2<Menu, obj> with get, set
+        abstract applicationMenu: Menu option with get, set
         /// <summary>
         /// An <c>Integer</c> property that returns the badge count for current app. Setting the
         /// count to <c>0</c> will hide the badge.
@@ -1212,7 +1212,7 @@ module Electron =
         /// The BrowserView that owns the given <c>webContents</c> or <c>null</c> if the contents are
         /// not owned by a BrowserView.
         /// </summary>
-        abstract fromWebContents: webContents: WebContents -> U2<BrowserView, obj>
+        abstract fromWebContents: webContents: WebContents -> BrowserView option
         /// An array of all opened BrowserViews.
         abstract getAllViews: unit -> ResizeArray<BrowserView>
 
@@ -1504,7 +1504,7 @@ module Electron =
         /// The <c>BrowserView</c> attached to <c>win</c>. Returns <c>null</c> if one is not attached.
         /// Throws an error if multiple <c>BrowserView</c>s are attached.
         /// </summary>
-        abstract getBrowserView: unit -> U2<BrowserView, obj>
+        abstract getBrowserView: unit -> BrowserView option
         /// <summary>
         /// an array of all BrowserViews that have been attached with <c>addBrowserView</c> or
         /// <c>setBrowserView</c>.
@@ -1755,7 +1755,7 @@ module Electron =
         /// Resizes and moves the window to the supplied bounds. Any properties that are not
         /// supplied will default to their current values.
         abstract setBounds: bounds: obj * ?animate: bool -> unit
-        abstract setBrowserView: browserView: U2<BrowserView, obj> -> unit
+        abstract setBrowserView: browserView: BrowserView option -> unit
         /// <summary>Sets whether the window can be manually closed by user. On Linux does nothing.</summary>
         abstract setClosable: closable: bool -> unit
         /// Resizes and moves the window's client area (e.g. the web page) to the supplied
@@ -1807,7 +1807,7 @@ module Electron =
         /// <summary>Sets the maximum size of window to <c>width</c> and <c>height</c>.</summary>
         abstract setMaximumSize: width: float * height: float -> unit
         /// <summary>Sets the <c>menu</c> as the window's menu bar.</summary>
-        abstract setMenu: menu: U2<Menu, obj> -> unit
+        abstract setMenu: menu: Menu option -> unit
         /// <summary>
         /// Sets whether the menu bar should be visible. If the menu bar is auto-hide, users
         /// can still bring up the menu bar by pressing the single <c>Alt</c> key.
@@ -1831,12 +1831,12 @@ module Electron =
         /// Sets a 16 x 16 pixel overlay onto the current taskbar icon, usually used to
         /// convey some sort of application status or to passively notify the user.
         /// </summary>
-        abstract setOverlayIcon: overlay: U2<NativeImage, obj> * description: string -> unit
+        abstract setOverlayIcon: overlay: NativeImage option * description: string -> unit
         /// <summary>
         /// Sets <c>parent</c> as current window's parent window, passing <c>null</c> will turn
         /// current window into a top-level window.
         /// </summary>
-        abstract setParentWindow: parent: U2<BrowserWindow, obj> -> unit
+        abstract setParentWindow: parent: BrowserWindow option -> unit
         /// <summary>Moves window to <c>x</c> and <c>y</c>.</summary>
         abstract setPosition: x: float * y: float * ?animate: bool -> unit
         /// <summary>
@@ -1946,7 +1946,7 @@ module Electron =
         /// **Note:** The TouchBar API is currently experimental and may change or be
         /// removed in future Electron releases.
         /// </summary>
-        abstract setTouchBar: touchBar: U2<TouchBar, obj> -> unit
+        abstract setTouchBar: touchBar: TouchBar option -> unit
         /// <summary>
         /// Set a custom position for the traffic light buttons. Can only be used with
         /// <c>titleBarStyle</c> set to <c>hidden</c>.
@@ -1959,7 +1959,7 @@ module Electron =
         /// Note that <c>appearance-based</c>, <c>light</c>, <c>dark</c>, <c>medium-light</c>, and <c>ultra-dark</c>
         /// have been deprecated and will be removed in an upcoming version of macOS.
         /// </summary>
-        abstract setVibrancy: ``type``: U2<BrowserWindowSetVibrancy, obj> -> unit
+        abstract setVibrancy: ``type``: BrowserWindowSetVibrancy option -> unit
         /// Sets whether the window should be visible on all workspaces.
         /// 
         /// *Note:** This API does nothing on Windows.
@@ -2056,14 +2056,14 @@ module Electron =
         /// The window that owns the given <c>browserView</c>. If the given view is not attached
         /// to any window, returns <c>null</c>.
         /// </summary>
-        abstract fromBrowserView: browserView: BrowserView -> U2<BrowserWindow, obj>
+        abstract fromBrowserView: browserView: BrowserView -> BrowserWindow option
         /// <summary>The window with the given <c>id</c>.</summary>
         abstract fromId: id: float -> BrowserWindow
         /// <summary>
         /// The window that owns the given <c>webContents</c> or <c>null</c> if the contents are not
         /// owned by a window.
         /// </summary>
-        abstract fromWebContents: webContents: WebContents -> U2<BrowserWindow, obj>
+        abstract fromWebContents: webContents: WebContents -> BrowserWindow option
         /// An array of all opened browser windows.
         abstract getAllWindows: unit -> ResizeArray<BrowserWindow>
         /// <summary>
@@ -2091,7 +2091,7 @@ module Electron =
         [<Obsolete("")>]
         abstract getExtensions: unit -> Record<string, ExtensionInfo>
         /// <summary>The window that is focused in this application, otherwise returns <c>null</c>.</summary>
-        abstract getFocusedWindow: unit -> U2<BrowserWindow, obj>
+        abstract getFocusedWindow: unit -> BrowserWindow option
         /// <summary>
         /// Remove a DevTools extension by name.
         /// 
@@ -2913,7 +2913,7 @@ module Electron =
         /// and a directory selector, so if you set <c>properties</c> to `['openFile',
         /// 'openDirectory']` on these platforms, a directory selector will be shown.
         /// </summary>
-        abstract showOpenDialogSync: browserWindow: BrowserWindow * options: OpenDialogSyncOptions -> U2<ResizeArray<string>, obj>
+        abstract showOpenDialogSync: browserWindow: BrowserWindow * options: OpenDialogSyncOptions -> ResizeArray<string> option
         /// <summary>
         /// the file paths chosen by the user; if the dialog is cancelled it returns
         /// <c>undefined</c>.
@@ -2932,7 +2932,7 @@ module Electron =
         /// and a directory selector, so if you set <c>properties</c> to `['openFile',
         /// 'openDirectory']` on these platforms, a directory selector will be shown.
         /// </summary>
-        abstract showOpenDialogSync: options: OpenDialogSyncOptions -> U2<ResizeArray<string>, obj>
+        abstract showOpenDialogSync: options: OpenDialogSyncOptions -> ResizeArray<string> option
         /// <summary>
         /// Resolve with an object containing the following:
         /// 
@@ -2985,7 +2985,7 @@ module Electron =
         /// The <c>filters</c> specifies an array of file types that can be displayed, see
         /// <c>dialog.showOpenDialog</c> for an example.
         /// </summary>
-        abstract showSaveDialogSync: browserWindow: BrowserWindow * options: SaveDialogSyncOptions -> U2<string, obj>
+        abstract showSaveDialogSync: browserWindow: BrowserWindow * options: SaveDialogSyncOptions -> string option
         /// <summary>
         /// the path of the file chosen by the user; if the dialog is cancelled it returns
         /// <c>undefined</c>.
@@ -2996,7 +2996,7 @@ module Electron =
         /// The <c>filters</c> specifies an array of file types that can be displayed, see
         /// <c>dialog.showOpenDialog</c> for an example.
         /// </summary>
-        abstract showSaveDialogSync: options: SaveDialogSyncOptions -> U2<string, obj>
+        abstract showSaveDialogSync: options: SaveDialogSyncOptions -> string option
 
     type [<AllowNullLiteral>] Display =
         /// <summary>Can be <c>available</c>, <c>unavailable</c>, <c>unknown</c>.</summary>
@@ -3047,7 +3047,7 @@ module Electron =
         /// <summary>The badge string of the dock.</summary>
         abstract getBadge: unit -> string
         /// <summary>The application's [dock menu][dock-menu].</summary>
-        abstract getMenu: unit -> U2<Menu, obj>
+        abstract getMenu: unit -> Menu option
         /// <summary>Hides the dock icon.</summary>
         abstract hide: unit -> unit
         /// <summary>Whether the dock icon is visible.</summary>
@@ -3710,7 +3710,7 @@ module Electron =
         /// **Note:** The returned <c>Menu</c> instance doesn't support dynamic addition or
         /// removal of menu items. Instance properties can still be dynamically modified.
         /// </summary>
-        abstract getApplicationMenu: unit -> U2<Menu, obj>
+        abstract getApplicationMenu: unit -> Menu option
         /// <summary>
         /// Sends the <c>action</c> to the first responder of application. This is used for
         /// emulating default macOS menu behaviors. Usually you would use the <c>role</c>
@@ -3737,7 +3737,7 @@ module Electron =
         /// one. It contains standard items such as <c>File</c>, <c>Edit</c>, <c>View</c>, <c>Window</c> and
         /// <c>Help</c>.
         /// </summary>
-        abstract setApplicationMenu: menu: U2<Menu, obj> -> unit
+        abstract setApplicationMenu: menu: Menu option -> unit
 
     type [<AllowNullLiteral>] MenuItem =
         abstract accelerator: Accelerator option with get, set
@@ -4575,7 +4575,7 @@ module Electron =
         /// relative to the display nearest to <c>window</c>. If <c>window</c> is null, scaling will
         /// be performed to the display nearest to <c>rect</c>.
         /// </summary>
-        abstract dipToScreenRect: window: U2<BrowserWindow, obj> * rect: Rectangle -> Rectangle
+        abstract dipToScreenRect: window: BrowserWindow option * rect: Rectangle -> Rectangle
         /// An array of displays that are currently available.
         abstract getAllDisplays: unit -> ResizeArray<Display>
         /// The current absolute position of the mouse pointer.
@@ -4596,7 +4596,7 @@ module Electron =
         /// relative to the display nearest to <c>window</c>. If <c>window</c> is null, scaling will
         /// be performed to the display nearest to <c>rect</c>.
         /// </summary>
-        abstract screenToDipRect: window: U2<BrowserWindow, obj> * rect: Rectangle -> Rectangle
+        abstract screenToDipRect: window: BrowserWindow option * rect: Rectangle -> Rectangle
 
     type [<AllowNullLiteral>] ScrubberItem =
         /// The image to appear in this item.
@@ -4810,7 +4810,7 @@ module Electron =
         /// Calling <c>setCertificateVerifyProc(null)</c> will revert back to default certificate
         /// verify proc.
         /// </summary>
-        abstract setCertificateVerifyProc: proc: U2<(CertificateVerifyProcProcRequest -> (float -> unit) -> unit), obj> -> unit
+        abstract setCertificateVerifyProc: proc: (CertificateVerifyProcProcRequest -> (float -> unit) -> unit) option -> unit
         /// <summary>
         /// Sets download saving directory. By default, the download directory will be the
         /// <c>Downloads</c> under the respective app folder.
@@ -4821,14 +4821,14 @@ module Electron =
         /// <c>session</c>. Returning <c>true</c> will allow the permission and <c>false</c> will reject
         /// it. To clear the handler, call <c>setPermissionCheckHandler(null)</c>.
         /// </summary>
-        abstract setPermissionCheckHandler: handler: U2<(WebContents -> string -> string -> PermissionCheckHandlerHandlerDetails -> bool), obj> -> unit
+        abstract setPermissionCheckHandler: handler: (WebContents -> string -> string -> PermissionCheckHandlerHandlerDetails -> bool) option -> unit
         /// <summary>
         /// Sets the handler which can be used to respond to permission requests for the
         /// <c>session</c>. Calling <c>callback(true)</c> will allow the permission and
         /// <c>callback(false)</c> will reject it. To clear the handler, call
         /// <c>setPermissionRequestHandler(null)</c>.
         /// </summary>
-        abstract setPermissionRequestHandler: handler: U2<(WebContents -> string -> (bool -> unit) -> PermissionRequestHandlerHandlerDetails -> unit), obj> -> unit
+        abstract setPermissionRequestHandler: handler: (WebContents -> string -> (bool -> unit) -> PermissionRequestHandlerHandlerDetails -> unit) option -> unit
         /// <summary>
         /// Adds scripts that will be executed on ALL web contents that are associated with
         /// this session just before normal <c>preload</c> scripts run.
@@ -5031,7 +5031,7 @@ module Electron =
 
     type [<AllowNullLiteral>] StreamProtocolResponse =
         /// A Node.js readable stream representing the response body.
-        abstract data: U2<NodeJS.ReadableStream, obj> with get, set
+        abstract data: NodeJS.ReadableStream option with get, set
         /// An object containing the response headers.
         abstract headers: Record<string, U2<string, ResizeArray<string>>> option with get, set
         /// The HTTP response code.
@@ -5041,7 +5041,7 @@ module Electron =
         /// Charset of the response.
         abstract charset: string option with get, set
         /// A string representing the response body.
-        abstract data: U2<string, obj> with get, set
+        abstract data: string option with get, set
         /// MIME type of the response.
         abstract mimeType: string option with get, set
 
@@ -5257,7 +5257,7 @@ module Electron =
         /// system default and override the value of <c>getEffectiveAppearance</c>.
         /// </summary>
         [<Obsolete("")>]
-        abstract setAppLevelAppearance: appearance: U2<SystemPreferencesSetAppLevelAppearance, obj> -> unit
+        abstract setAppLevelAppearance: appearance: SystemPreferencesSetAppLevelAppearance option -> unit
         /// <summary>
         /// Set the value of <c>key</c> in <c>NSUserDefaults</c>.
         /// 
@@ -5793,7 +5793,7 @@ module Electron =
         /// <summary>Removes a tray balloon.</summary>
         abstract removeBalloon: unit -> unit
         /// Sets the context menu for this icon.
-        abstract setContextMenu: menu: U2<Menu, obj> -> unit
+        abstract setContextMenu: menu: Menu option -> unit
         /// <summary>
         /// Sets the option to ignore double click events. Ignoring these events allows you
         /// to detect every individual click of the tray icon.
@@ -5952,10 +5952,10 @@ module Electron =
         [<Emit "$0.removeListener('did-attach-webview',$1)">] abstract ``removeListener_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
         /// Emitted when a page's theme color changes. This is usually due to encountering a
         /// meta tag:
-        [<Emit "$0.on('did-change-theme-color',$1)">] abstract ``on_did-change-theme-color``: listener: (Event -> U2<string, obj> -> unit) -> WebContents
-        [<Emit "$0.once('did-change-theme-color',$1)">] abstract ``once_did-change-theme-color``: listener: (Event -> U2<string, obj> -> unit) -> WebContents
-        [<Emit "$0.addListener('did-change-theme-color',$1)">] abstract ``addListener_did-change-theme-color``: listener: (Event -> U2<string, obj> -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-change-theme-color',$1)">] abstract ``removeListener_did-change-theme-color``: listener: (Event -> U2<string, obj> -> unit) -> WebContents
+        [<Emit "$0.on('did-change-theme-color',$1)">] abstract ``on_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit "$0.once('did-change-theme-color',$1)">] abstract ``once_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit "$0.addListener('did-change-theme-color',$1)">] abstract ``addListener_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit "$0.removeListener('did-change-theme-color',$1)">] abstract ``removeListener_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
         /// <summary>
         /// This event is like <c>did-finish-load</c> but emitted when the load failed. The full
         /// list of error codes and their meaning is available here.
@@ -6719,7 +6719,7 @@ module Electron =
         abstract unselect: unit -> unit
         abstract audioMuted: bool with get, set
         abstract debugger: Debugger
-        abstract devToolsWebContents: U2<WebContents, obj>
+        abstract devToolsWebContents: WebContents option
         abstract frameRate: float with get, set
         abstract hostWebContents: WebContents
         abstract id: float
@@ -6882,24 +6882,24 @@ module Electron =
         /// property would be <c>null</c> if <c>webFrame</c> has no children or if first child is not
         /// in the current renderer process.
         /// </summary>
-        abstract firstChild: U2<WebFrame, obj>
+        abstract firstChild: WebFrame option
         /// <summary>
         /// A <c>WebFrame | null</c> representing next sibling frame, the property would be
         /// <c>null</c> if <c>webFrame</c> is the last frame in its parent or if the next sibling is
         /// not in the current renderer process.
         /// </summary>
-        abstract nextSibling: U2<WebFrame, obj>
+        abstract nextSibling: WebFrame option
         /// <summary>
         /// A <c>WebFrame | null</c> representing the frame which opened <c>webFrame</c>, the property
         /// would be <c>null</c> if there's no opener or opener is not in the current renderer
         /// process.
         /// </summary>
-        abstract opener: U2<WebFrame, obj>
+        abstract opener: WebFrame option
         /// <summary>
         /// A <c>WebFrame | null</c> representing parent frame of <c>webFrame</c>, the property would
         /// be <c>null</c> if <c>webFrame</c> is top or parent is not in the current renderer process.
         /// </summary>
-        abstract parent: U2<WebFrame, obj>
+        abstract parent: WebFrame option
         /// <summary>
         /// An <c>Integer</c> representing the unique frame id in the current renderer process.
         /// Distinct WebFrame instances that refer to the same underlying frame will have
@@ -6911,19 +6911,19 @@ module Electron =
         /// <c>webFrame</c> belongs, the property would be <c>null</c> if top frame is not in the
         /// current renderer process.
         /// </summary>
-        abstract top: U2<WebFrame, obj>
+        abstract top: WebFrame option
 
     type [<AllowNullLiteral>] WebRequest =
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> when a server initiated
         /// redirect is about to occur.
         /// </summary>
-        abstract onBeforeRedirect: filter: Filter * listener: U2<(OnBeforeRedirectListenerDetails -> unit), obj> -> unit
+        abstract onBeforeRedirect: filter: Filter * listener: (OnBeforeRedirectListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> when a server initiated
         /// redirect is about to occur.
         /// </summary>
-        abstract onBeforeRedirect: listener: U2<(OnBeforeRedirectListenerDetails -> unit), obj> -> unit
+        abstract onBeforeRedirect: listener: (OnBeforeRedirectListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details, callback)</c> when a request
         /// is about to occur.
@@ -6934,7 +6934,7 @@ module Electron =
         /// 
         /// Some examples of valid <c>urls</c>:
         /// </summary>
-        abstract onBeforeRequest: filter: Filter * listener: U2<(OnBeforeRequestListenerDetails -> (Response -> unit) -> unit), obj> -> unit
+        abstract onBeforeRequest: filter: Filter * listener: (OnBeforeRequestListenerDetails -> (Response -> unit) -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details, callback)</c> when a request
         /// is about to occur.
@@ -6945,7 +6945,7 @@ module Electron =
         /// 
         /// Some examples of valid <c>urls</c>:
         /// </summary>
-        abstract onBeforeRequest: listener: U2<(OnBeforeRequestListenerDetails -> (Response -> unit) -> unit), obj> -> unit
+        abstract onBeforeRequest: listener: (OnBeforeRequestListenerDetails -> (Response -> unit) -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details, callback)</c> before sending
         /// an HTTP request, once the request headers are available. This may occur after a
@@ -6953,7 +6953,7 @@ module Electron =
         /// 
         /// The <c>callback</c> has to be called with a <c>response</c> object.
         /// </summary>
-        abstract onBeforeSendHeaders: filter: Filter * listener: U2<(OnBeforeSendHeadersListenerDetails -> (BeforeSendResponse -> unit) -> unit), obj> -> unit
+        abstract onBeforeSendHeaders: filter: Filter * listener: (OnBeforeSendHeadersListenerDetails -> (BeforeSendResponse -> unit) -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details, callback)</c> before sending
         /// an HTTP request, once the request headers are available. This may occur after a
@@ -6961,59 +6961,59 @@ module Electron =
         /// 
         /// The <c>callback</c> has to be called with a <c>response</c> object.
         /// </summary>
-        abstract onBeforeSendHeaders: listener: U2<(OnBeforeSendHeadersListenerDetails -> (BeforeSendResponse -> unit) -> unit), obj> -> unit
+        abstract onBeforeSendHeaders: listener: (OnBeforeSendHeadersListenerDetails -> (BeforeSendResponse -> unit) -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> when a request is
         /// completed.
         /// </summary>
-        abstract onCompleted: filter: Filter * listener: U2<(OnCompletedListenerDetails -> unit), obj> -> unit
+        abstract onCompleted: filter: Filter * listener: (OnCompletedListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> when a request is
         /// completed.
         /// </summary>
-        abstract onCompleted: listener: U2<(OnCompletedListenerDetails -> unit), obj> -> unit
+        abstract onCompleted: listener: (OnCompletedListenerDetails -> unit) option -> unit
         /// <summary>The <c>listener</c> will be called with <c>listener(details)</c> when an error occurs.</summary>
-        abstract onErrorOccurred: filter: Filter * listener: U2<(OnErrorOccurredListenerDetails -> unit), obj> -> unit
+        abstract onErrorOccurred: filter: Filter * listener: (OnErrorOccurredListenerDetails -> unit) option -> unit
         /// <summary>The <c>listener</c> will be called with <c>listener(details)</c> when an error occurs.</summary>
-        abstract onErrorOccurred: listener: U2<(OnErrorOccurredListenerDetails -> unit), obj> -> unit
+        abstract onErrorOccurred: listener: (OnErrorOccurredListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details, callback)</c> when HTTP
         /// response headers of a request have been received.
         /// 
         /// The <c>callback</c> has to be called with a <c>response</c> object.
         /// </summary>
-        abstract onHeadersReceived: filter: Filter * listener: U2<(OnHeadersReceivedListenerDetails -> (HeadersReceivedResponse -> unit) -> unit), obj> -> unit
+        abstract onHeadersReceived: filter: Filter * listener: (OnHeadersReceivedListenerDetails -> (HeadersReceivedResponse -> unit) -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details, callback)</c> when HTTP
         /// response headers of a request have been received.
         /// 
         /// The <c>callback</c> has to be called with a <c>response</c> object.
         /// </summary>
-        abstract onHeadersReceived: listener: U2<(OnHeadersReceivedListenerDetails -> (HeadersReceivedResponse -> unit) -> unit), obj> -> unit
+        abstract onHeadersReceived: listener: (OnHeadersReceivedListenerDetails -> (HeadersReceivedResponse -> unit) -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> when first byte of the
         /// response body is received. For HTTP requests, this means that the status line
         /// and response headers are available.
         /// </summary>
-        abstract onResponseStarted: filter: Filter * listener: U2<(OnResponseStartedListenerDetails -> unit), obj> -> unit
+        abstract onResponseStarted: filter: Filter * listener: (OnResponseStartedListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> when first byte of the
         /// response body is received. For HTTP requests, this means that the status line
         /// and response headers are available.
         /// </summary>
-        abstract onResponseStarted: listener: U2<(OnResponseStartedListenerDetails -> unit), obj> -> unit
+        abstract onResponseStarted: listener: (OnResponseStartedListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> just before a request is
         /// going to be sent to the server, modifications of previous <c>onBeforeSendHeaders</c>
         /// response are visible by the time this listener is fired.
         /// </summary>
-        abstract onSendHeaders: filter: Filter * listener: U2<(OnSendHeadersListenerDetails -> unit), obj> -> unit
+        abstract onSendHeaders: filter: Filter * listener: (OnSendHeadersListenerDetails -> unit) option -> unit
         /// <summary>
         /// The <c>listener</c> will be called with <c>listener(details)</c> just before a request is
         /// going to be sent to the server, modifications of previous <c>onBeforeSendHeaders</c>
         /// response are visible by the time this listener is fired.
         /// </summary>
-        abstract onSendHeaders: listener: U2<(OnSendHeadersListenerDetails -> unit), obj> -> unit
+        abstract onSendHeaders: listener: (OnSendHeadersListenerDetails -> unit) option -> unit
 
     type [<AllowNullLiteral>] WebRequestStatic =
         [<EmitConstructor>] abstract Create: unit -> WebRequest
@@ -8272,7 +8272,7 @@ module Electron =
         /// Will be called with <c>click(menuItem, browserWindow, event)</c> when the menu item
         /// is clicked.
         /// </summary>
-        abstract click: (MenuItem -> U2<BrowserWindow, obj> -> KeyboardEvent -> unit) option with get, set
+        abstract click: (MenuItem -> BrowserWindow option -> KeyboardEvent -> unit) option with get, set
         /// <summary>
         /// Can be <c>undo</c>, <c>redo</c>, <c>cut</c>, <c>copy</c>, <c>paste</c>, <c>pasteAndMatchStyle</c>, <c>delete</c>,
         /// <c>selectAll</c>, <c>reload</c>, <c>forceReload</c>, <c>toggleDevTools</c>, <c>resetZoom</c>, <c>zoomIn</c>,
@@ -8812,7 +8812,7 @@ module Electron =
     type [<AllowNullLiteral>] RedirectRequest =
         abstract url: string with get, set
         abstract method: string option with get, set
-        abstract session: U2<Session, obj> option with get, set
+        abstract session: Session option with get, set
         abstract uploadData: ProtocolResponseUploadData option with get, set
 
     type [<AllowNullLiteral>] RelaunchOptions =
@@ -9916,7 +9916,7 @@ module NodeJS =
         /// number of milliseconds since epoch. It returns null if it is unable to get the
         /// process creation time.
         /// </summary>
-        abstract getCreationTime: unit -> U2<float, obj>
+        abstract getCreationTime: unit -> float option
         /// <summary>
         /// * <c>totalHeapSize</c> Integer
         /// * <c>totalHeapSizeExecutable</c> Integer
