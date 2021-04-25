@@ -281,10 +281,10 @@ module Electron =
         /// request will be cancelled and the authentication error will be returned to the
         /// page.
         /// </summary>
-        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> App
-        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> App
-        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> App
-        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> App
+        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
         /// <summary>
         /// Emitted when the user clicks the native macOS new tab button. The new tab button
         /// is only visible if the current <c>BrowserWindow</c> has a <c>tabbingIdentifier</c>
@@ -421,10 +421,10 @@ module Electron =
         /// <c>event.preventDefault()</c> prevents the application from using the first
         /// certificate from the store.
         /// </summary>
-        [<Emit "$0.on('select-client-certificate',$1)">] abstract ``on_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> App
-        [<Emit "$0.once('select-client-certificate',$1)">] abstract ``once_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> App
-        [<Emit "$0.addListener('select-client-certificate',$1)">] abstract ``addListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> App
-        [<Emit "$0.removeListener('select-client-certificate',$1)">] abstract ``removeListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> App
+        [<Emit "$0.on('select-client-certificate',$1)">] abstract ``on_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit "$0.once('select-client-certificate',$1)">] abstract ``once_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit "$0.addListener('select-client-certificate',$1)">] abstract ``addListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit "$0.removeListener('select-client-certificate',$1)">] abstract ``removeListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
         /// <summary>Emitted when Electron has created a new <c>session</c>.</summary>
         [<Emit "$0.on('session-created',$1)">] abstract ``on_session-created``: listener: (Session -> unit) -> App
         [<Emit "$0.once('session-created',$1)">] abstract ``once_session-created``: listener: (Session -> unit) -> App
@@ -2222,10 +2222,10 @@ module Electron =
         /// Providing empty credentials will cancel the request and report an authentication
         /// error on the response object:
         /// </summary>
-        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (AuthInfo -> (string -> string -> unit) -> unit) -> ClientRequest
-        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (AuthInfo -> (string -> string -> unit) -> unit) -> ClientRequest
-        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (AuthInfo -> (string -> string -> unit) -> unit) -> ClientRequest
-        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (AuthInfo -> (string -> string -> unit) -> unit) -> ClientRequest
+        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
         /// <summary>
         /// Emitted when the server returns a redirect response (e.g. 301 Moved
         /// Permanently). Calling <c>request.followRedirect</c> will continue with the
@@ -4271,7 +4271,7 @@ module Electron =
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a <c>Buffer</c> as a response.
         /// </summary>
-        abstract interceptBufferProtocol: scheme: string * handler: (Request -> (Buffer -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptBufferProtocol: scheme: string * handler: (Request -> ((Buffer) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a file as a response.
@@ -4286,12 +4286,12 @@ module Electron =
         /// Same as <c>protocol.registerStreamProtocol</c>, except that it replaces an existing
         /// protocol handler.
         /// </summary>
-        abstract interceptStreamProtocol: scheme: string * handler: (Request -> (U2<NodeJS.ReadableStream, StreamProtocolResponse> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptStreamProtocol: scheme: string * handler: (Request -> ((U2<NodeJS.ReadableStream, StreamProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a <c>String</c> as a response.
         /// </summary>
-        abstract interceptStringProtocol: scheme: string * handler: (Request -> (U2<string, StringProtocolResponse> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptStringProtocol: scheme: string * handler: (Request -> ((U2<string, StringProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>
         /// fulfilled with a boolean that indicates whether there is already a handler for
         /// <c>scheme</c>.
@@ -4306,7 +4306,7 @@ module Electron =
         /// 
         /// Example:
         /// </summary>
-        abstract registerBufferProtocol: scheme: string * handler: (Request -> (U2<Buffer, MimeTypedBuffer> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerBufferProtocol: scheme: string * handler: (Request -> ((U2<Buffer, MimeTypedBuffer>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>
         /// Registers a protocol of <c>scheme</c> that will send the file as a response. The
         /// <c>handler</c> will be called with <c>handler(request, callback)</c> when a <c>request</c> is
@@ -4328,7 +4328,7 @@ module Electron =
         /// By default the <c>scheme</c> is treated like <c>http:</c>, which is parsed differently
         /// than protocols that follow the "generic URI syntax" like <c>file:</c>.
         /// </summary>
-        abstract registerFileProtocol: scheme: string * handler: (Request -> (U2<string, FilePathWithHeaders> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerFileProtocol: scheme: string * handler: (Request -> ((U2<string, FilePathWithHeaders>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>
         /// Registers a protocol of <c>scheme</c> that will send an HTTP request as a response.
         /// 
@@ -4395,7 +4395,7 @@ module Electron =
         /// It is possible to pass any object that implements the readable stream API (emits
         /// <c>data</c>/<c>end</c>/<c>error</c> events). For example, here's how a file could be returned:
         /// </summary>
-        abstract registerStreamProtocol: scheme: string * handler: (Request -> (U2<NodeJS.ReadableStream, StreamProtocolResponse> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerStreamProtocol: scheme: string * handler: (Request -> ((U2<NodeJS.ReadableStream, StreamProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>
         /// Registers a protocol of <c>scheme</c> that will send a <c>String</c> as a response.
         /// 
@@ -4403,7 +4403,7 @@ module Electron =
         /// should be called with either a <c>String</c> or an object that has the <c>data</c>,
         /// <c>mimeType</c>, and <c>charset</c> properties.
         /// </summary>
-        abstract registerStringProtocol: scheme: string * handler: (Request -> (U2<string, StringProtocolResponse> -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerStringProtocol: scheme: string * handler: (Request -> ((U2<string, StringProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
         /// <summary>Remove the interceptor installed for <c>scheme</c> and restore its original handler.</summary>
         abstract uninterceptProtocol: scheme: string * ?completion: (Error -> unit) -> unit
         /// <summary>Unregisters the custom protocol of <c>scheme</c>.</summary>
@@ -6088,10 +6088,10 @@ module Electron =
         /// 
         /// The usage is the same with the <c>login</c> event of <c>app</c>.
         /// </summary>
-        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> WebContents
-        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> WebContents
-        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> WebContents
-        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> (string -> string -> unit) -> unit) -> WebContents
+        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
         /// Emitted when media is paused or done playing.
         [<Emit "$0.on('media-paused',$1)">] abstract ``on_media-paused``: listener: Function -> WebContents
         [<Emit "$0.once('media-paused',$1)">] abstract ``once_media-paused``: listener: Function -> WebContents

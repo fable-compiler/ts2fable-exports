@@ -108,10 +108,10 @@ module __common_testUtilities =
     type ReactWrapper = Enzyme.ReactWrapper
 
     type [<AllowNullLiteral>] IExports =
-        abstract findNodes: (ReactWrapper<obj option, obj option> -> string -> ReactWrapper<obj option, obj option>)
-        abstract expectNodes: (ReactWrapper<obj option, obj option> -> string -> float -> unit)
-        abstract expectOne: (ReactWrapper<obj option, obj option> -> string -> unit)
-        abstract expectMissing: (ReactWrapper<obj option, obj option> -> string -> unit)
+        abstract findNodes: ReactWrapper<obj option, obj option> -> string -> ReactWrapper<obj option, obj option>
+        abstract expectNodes: ReactWrapper<obj option, obj option> -> string -> float -> unit
+        abstract expectOne: ReactWrapper<obj option, obj option> -> string -> unit
+        abstract expectMissing: ReactWrapper<obj option, obj option> -> string -> unit
 
 module __common__exampleStyles_scss =
 
@@ -125,7 +125,7 @@ module __demo_AppDefinition =
 
     type [<AllowNullLiteral>] IExports =
         abstract AppDefinition: IAppDefinition
-        abstract App: (IAppProps -> JSX.Element)
+        abstract App: IAppProps -> JSX.Element
 
 module __demo_GettingStartedPage =
 
@@ -157,7 +157,7 @@ module __components_ActivityItem_ActivityItem_classNames =
     type IPersonaProps = Persona.IPersonaProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract getClassNames: (IActivityItemStyles -> string -> ResizeArray<IPersonaProps> -> bool -> IActivityItemClassNames)
+        abstract getClassNames: IActivityItemStyles -> string -> ResizeArray<IPersonaProps> -> bool -> IActivityItemClassNames
 
     type [<AllowNullLiteral>] IActivityItemClassNames =
         abstract root: string option with get, set
@@ -192,7 +192,7 @@ module __components_ActivityItem_ActivityItem_styles =
     type IActivityItemStyles = __components_ActivityItem_ActivityItem_types.IActivityItemStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IActivityItemStyles -> bool -> string -> string -> bool -> IActivityItemStyles)
+        abstract getStyles: (ITheme) option -> (IActivityItemStyles) option -> (bool) option -> (string) option -> (string) option -> (bool) option -> IActivityItemStyles
 
 module __components_ActivityItem_ActivityItem_types =
     type IStyle = Styling.IStyle
@@ -365,11 +365,11 @@ module __components_Autofill_Autofill_types =
     type [<AllowNullLiteral>] IAutofillProps =
         inherit React.InputHTMLAttributes<U2<HTMLInputElement, Autofill>>
         /// Gets the compoonent ref.
-        abstract componentRef: (IAutofill -> unit) option with get, set
+        abstract componentRef: ((IAutofill) option -> unit) option with get, set
         /// The suggested autofill value that will display.
         abstract suggestedDisplayValue: string option with get, set
         /// A callback for when the current input value changes.
-        abstract onInputValueChange: (string -> unit) option with get, set
+        abstract onInputValueChange: ((string) option -> unit) option with get, set
         /// <summary>
         /// When the user uses left arrow, right arrow, clicks, or deletes text autofill is disabled
         /// Since the user has taken control. It is automatically reenabled when the user enters text and the
@@ -451,14 +451,14 @@ module __components_Breadcrumb_Breadcrumb =
     type IBreadcrumbProps = __components_Breadcrumb_Breadcrumb_types.IBreadcrumbProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Breadcrumb: (IBreadcrumbProps -> JSX.Element)
+        abstract Breadcrumb: IBreadcrumbProps -> JSX.Element
 
 module __components_Breadcrumb_Breadcrumb_styles =
     type IStyle = Styling.IStyle
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IBreadcrumbStyleProps -> IBreadcrumbStyles)
+        abstract getStyles: IBreadcrumbStyleProps -> IBreadcrumbStyles
 
     type [<AllowNullLiteral>] IBreadcrumbStyleProps =
         abstract className: string option with get, set
@@ -523,7 +523,7 @@ module __components_Breadcrumb_Breadcrumb_types =
         /// Arbitrary unique string associated with the breadcrumb
         abstract key: string with get, set
         /// Callback issued when the breadcrumb is selected.
-        abstract onClick: (React.MouseEvent<HTMLElement> -> IBreadcrumbItem -> unit) option with get, set
+        abstract onClick: ((React.MouseEvent<HTMLElement>) option -> (IBreadcrumbItem) option -> unit) option with get, set
         /// Url to navigate to when this breadcrumb is clicked.
         abstract href: string option with get, set
         /// If this breadcrumb item is the item the user is currently on, if set to true, aria-current="page" will be applied to this breadcrumb link
@@ -552,7 +552,7 @@ module __components_Button_BaseButton_classNames =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getBaseButtonClassNames: (IButtonStyles -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames)
+        abstract getBaseButtonClassNames: IButtonStyles -> string -> string -> string option -> string option -> bool -> bool -> bool -> bool option -> IButtonClassNames
 
     type [<AllowNullLiteral>] IButtonClassNames =
         abstract root: string option with get, set
@@ -605,7 +605,7 @@ module __components_Button_BaseButton_styles =
         /// helper, it should have values for all class names in the interface. This let <c>mergeRules</c> optimize
         /// mixing class names together.
         /// </summary>
-        abstract getStyles: (ITheme -> IButtonStyles)
+        abstract getStyles: ITheme -> IButtonStyles
 
 module __components_Button_Button_checklist =
     type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
@@ -715,7 +715,7 @@ module __components_Button_Button_types =
         /// Accessible label for the dropdown chevron button if this button is split.
         abstract splitButtonAriaLabel: string option with get, set
         /// Optional callback when menu is clicked.
-        abstract onMenuClick: (U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>> -> IButtonProps -> unit) option with get, set
+        abstract onMenuClick: ((U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>>) option -> (IButtonProps) option -> unit) option with get, set
         /// Custom render function for the icon
         abstract onRenderIcon: IRenderFunction<IButtonProps> option with get, set
         /// Custom render function for the label text.
@@ -1060,7 +1060,7 @@ module __components_Calendar_Calendar_types =
         /// <summary>Callback issued when a date is selected</summary>
         /// <param name="date">The date the user selected</param>
         /// <param name="selectedDateRangeArray">The resultant list of dates that are selected based on the date range type set for the component.</param>
-        abstract onSelectDate: (DateTime -> ResizeArray<DateTime> -> unit) option with get, set
+        abstract onSelectDate: (DateTime -> (ResizeArray<DateTime>) option -> unit) option with get, set
         /// Callback issued when calendar is closed
         abstract onDismiss: (unit -> unit) option with get, set
         /// <summary>Whether the month picker is shown beside the day picker or hidden.</summary>
@@ -1166,9 +1166,9 @@ module __components_Calendar_Calendar_types =
 
     type [<AllowNullLiteral>] ICalendarFormatDateCallbacks =
         /// Callback to apply formatting to mmmm d, yyyy formated dates
-        abstract formatMonthDayYear: (DateTime -> ICalendarStrings -> string) with get, set
+        abstract formatMonthDayYear: (DateTime -> (ICalendarStrings) option -> string) with get, set
         /// Callback to apply formatting to the month and year in the Day Picker header
-        abstract formatMonthYear: (DateTime -> ICalendarStrings -> string) with get, set
+        abstract formatMonthYear: (DateTime -> (ICalendarStrings) option -> string) with get, set
         /// Callback to apply formatting to the days in the Day Picker calendar
         abstract formatDay: (DateTime -> string) with get, set
         /// Callback to apply formatting to the year in the Month Picker header
@@ -1205,7 +1205,7 @@ module __components_Calendar_CalendarDay =
         abstract strings: ICalendarStrings with get, set
         abstract selectedDate: DateTime with get, set
         abstract navigatedDate: DateTime with get, set
-        abstract onSelectDate: (DateTime -> ResizeArray<DateTime> -> unit) with get, set
+        abstract onSelectDate: (DateTime -> (ResizeArray<DateTime>) option -> unit) with get, set
         abstract onNavigateDate: (DateTime -> bool -> unit) with get, set
         abstract onDismiss: (unit -> unit) option with get, set
         abstract firstDayOfWeek: DayOfWeek with get, set
@@ -1405,9 +1405,9 @@ module __components_Callout_Callout_types =
         /// final edge of the target that it positioned against, the beak position, and the beaks relationship to the
         /// edges of the callout.
         /// </param>
-        abstract onPositioned: (ICalloutPositionedInfo -> unit) option with get, set
+        abstract onPositioned: ((ICalloutPositionedInfo) option -> unit) option with get, set
         /// Callback when the Callout tries to close.
-        abstract onDismiss: (obj -> unit) option with get, set
+        abstract onDismiss: ((obj) option -> unit) option with get, set
         /// If true do not render on a new layer. If false render on a new layer.
         abstract doNotLayer: bool option with get, set
         /// <summary>
@@ -1503,7 +1503,7 @@ module __components_Callout_CalloutContent_base =
         abstract componentWillUpdate: newProps: ICalloutProps -> unit
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element option
-        abstract dismiss: (U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>> -> unit) with get, set
+        abstract dismiss: ((U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>>) option -> unit) with get, set
         abstract _dismissOnScroll: ev: Event -> unit
         abstract _dismissOnLostFocus: ev: Event -> unit
         abstract _setInitialFocus: (unit -> unit) with get, set
@@ -1525,14 +1525,14 @@ module __components_Callout_CalloutContent =
     type ICalloutProps = __components_Callout_Callout_types.ICalloutProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract CalloutContent: (ICalloutProps -> JSX.Element)
+        abstract CalloutContent: ICalloutProps -> JSX.Element
 
 module __components_Callout_CalloutContent_styles =
     type ICalloutContentStyleProps = __components_Callout_Callout_types.ICalloutContentStyleProps
     type ICalloutContentStyles = __components_Callout_Callout_types.ICalloutContentStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ICalloutContentStyleProps -> ICalloutContentStyles)
+        abstract getStyles: ICalloutContentStyleProps -> ICalloutContentStyles
 
 module __components_Callout_CalloutPage =
     type IComponentDemoPageProps = __components_Callout_@uifabric_example_app_base.IComponentDemoPageProps
@@ -1570,7 +1570,7 @@ module __components_Check_Check =
     type ICheckProps = __components_Check_Check_types.ICheckProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Check: (ICheckProps -> JSX.Element)
+        abstract Check: ICheckProps -> JSX.Element
 
 module __components_Check_Check_scss =
 
@@ -1586,7 +1586,7 @@ module __components_Check_Check_styles =
     type ICheckStyles = __components_Check_Check_types.ICheckStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ICheckStyleProps -> ICheckStyles)
+        abstract getStyles: ICheckStyleProps -> ICheckStyles
 
 module __components_Check_Check_types =
     type CheckBase = __components_Check_Check_base.CheckBase
@@ -1674,7 +1674,7 @@ module __components_Checkbox_Checkbox_classNames =
     type ICheckboxStyles = __components_Checkbox_Checkbox_types.ICheckboxStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getClassNames: (ICheckboxStyles -> bool -> bool -> bool -> string -> ICheckboxClassNames)
+        abstract getClassNames: ICheckboxStyles -> bool -> bool -> bool -> (string) option -> ICheckboxClassNames
 
     type [<AllowNullLiteral>] ICheckboxClassNames =
         abstract root: string with get, set
@@ -1688,7 +1688,7 @@ module __components_Checkbox_Checkbox_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> ICheckboxStyles -> ICheckboxStyles)
+        abstract getStyles: ITheme -> (ICheckboxStyles) option -> ICheckboxStyles
 
 module __components_Checkbox_Checkbox_types =
     type IStyle = Styling.IStyle
@@ -1724,7 +1724,7 @@ module __components_Checkbox_Checkbox_types =
         /// Disabled state of the checkbox.
         abstract disabled: bool option with get, set
         /// Callback that is called when the checked value has changed.
-        abstract onChange: (React.FormEvent<U2<HTMLElement, HTMLInputElement>> -> bool -> unit) option with get, set
+        abstract onChange: ((React.FormEvent<U2<HTMLElement, HTMLInputElement>>) option -> (bool) option -> unit) option with get, set
         /// Optional input props that will be mixed into the input element, *before* other props are applied. This allows
         /// you to extend the input element with additional attributes, such as data-automation-id needed for automation.
         /// Note that if you provide, for example, "disabled" as well as "inputProps.disabled", the former will take
@@ -1749,7 +1749,7 @@ module __components_Checkbox_Checkbox_types =
         abstract styles: ICheckboxStyles option with get, set
         /// Custom function for providing the classNames for the checkbox. Can be used to provide
         /// all styles for the component instead of applying them on top of the default styles.
-        abstract getClassNames: (ITheme -> bool -> bool -> bool -> string -> ICheckboxClassNames) option with get, set
+        abstract getClassNames: (ITheme -> bool -> bool -> bool -> (string) option -> ICheckboxClassNames) option with get, set
         /// Custom render function for the label.
         abstract onRenderLabel: IRenderFunction<ICheckboxProps> option with get, set
         /// Custom icon props for the check mark rendered by the checkbox
@@ -1896,12 +1896,12 @@ module __components_ChoiceGroup_ChoiceGroup_types =
         /// state by observing onChange events and passing a new value in when changed.
         abstract selectedKey: U2<string, float> option with get, set
         /// A callback for receiving a notification when the choice has been changed.
-        abstract onChange: (React.FormEvent<U2<HTMLElement, HTMLInputElement>> -> IChoiceGroupOption -> unit) option with get, set
+        abstract onChange: ((React.FormEvent<U2<HTMLElement, HTMLInputElement>>) option -> (IChoiceGroupOption) option -> unit) option with get, set
         /// Descriptive label for the choice group.
         abstract label: string option with get, set
         /// Deprecated and will be removed by 07/17/2017 Use 'onChange' instead.
         [<Obsolete("")>]
-        abstract onChanged: (IChoiceGroupOption -> React.FormEvent<U2<HTMLElement, HTMLInputElement>> -> unit) option with get, set
+        abstract onChanged: (IChoiceGroupOption -> (React.FormEvent<U2<HTMLElement, HTMLInputElement>>) option -> unit) option with get, set
 
     type [<AllowNullLiteral>] IChoiceGroupOption =
         inherit React.HTMLAttributes<U2<HTMLElement, HTMLInputElement>>
@@ -2378,8 +2378,8 @@ module __components_ComboBox_ComboBox_classNames =
     type IComboBoxOptionStyles = __components_ComboBox_ComboBox_types.IComboBoxOptionStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getClassNames: (obj -> string -> bool -> bool -> bool -> bool -> bool -> bool -> IComboBoxClassNames)
-        abstract getComboBoxOptionClassNames: (obj -> IComboBoxOptionClassNames)
+        abstract getClassNames: obj -> string -> bool -> bool -> bool -> bool -> bool -> bool -> IComboBoxClassNames
+        abstract getComboBoxOptionClassNames: obj -> IComboBoxOptionClassNames
 
     type [<AllowNullLiteral>] IComboBoxClassNames =
         abstract container: string with get, set
@@ -2423,7 +2423,7 @@ module __components_ComboBox_ComboBox =
         abstract componentWillUnmount: unit -> unit
         abstract render: unit -> JSX.Element
         /// Set focus on the input
-        abstract focus: (bool -> unit) with get, set
+        abstract focus: ((bool) option -> unit) with get, set
         /// Close menu callout if it is open
         abstract dismissMenu: (unit -> unit) with get, set
 
@@ -2438,9 +2438,9 @@ module __components_ComboBox_ComboBox_styles =
     type IButtonStyles = Button.IButtonStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getOptionStyles: (ITheme -> obj -> obj -> bool -> obj)
-        abstract getCaretDownButtonStyles: (ITheme -> obj -> IButtonStyles)
-        abstract getStyles: (ITheme -> obj -> string -> obj)
+        abstract getOptionStyles: ITheme -> (obj) option -> (obj) option -> (bool) option -> obj
+        abstract getCaretDownButtonStyles: ITheme -> (obj) option -> IButtonStyles
+        abstract getStyles: ITheme -> (obj) option -> (string) option -> obj
 
 module __components_ComboBox_ComboBox_types =
     type IIconProps = Icon.IIconProps
@@ -2484,9 +2484,9 @@ module __components_ComboBox_ComboBox_types =
         /// 1) the selected option changes
         /// 2) a manually edited value is submitted. In this case there may not be a matched option if allowFreeform is also true
         ///     (and hence only value would be true, the other parameter would be null in this case)
-        abstract onChanged: (IComboBoxOption -> float -> string -> obj -> unit) option with get, set
+        abstract onChanged: ((IComboBoxOption) option -> (float) option -> (string) option -> (obj) option -> unit) option with get, set
         /// Callback issued when the user changes the pending value in ComboBox
-        abstract onPendingValueChanged: (IComboBoxOption -> float -> string -> unit) option with get, set
+        abstract onPendingValueChanged: ((IComboBoxOption) option -> (float) option -> (string) option -> unit) option with get, set
         /// Function that gets invoked when the ComboBox menu is launched
         abstract onMenuOpen: (unit -> unit) option with get, set
         /// Function that gets invoked when the ComboBox menu is dismissed
@@ -2514,7 +2514,7 @@ module __components_ComboBox_ComboBox_types =
         abstract styles: obj option with get, set
         /// Custom function for providing the classNames for the ComboBox. Can be used to provide
         /// all styles for the component instead of applying them on top of the default styles.
-        abstract getClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> bool -> string -> IComboBoxClassNames) option with get, set
+        abstract getClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> bool -> (string) option -> IComboBoxClassNames) option with get, set
         /// Styles for the caret down button.
         abstract caretDownButtonStyles: obj option with get, set
         /// Default styles that should be applied to ComboBox options,
@@ -2789,9 +2789,9 @@ module __components_ContextualMenu_ContextualMenu_classNames =
     type IVerticalDividerClassNames = __components_Divider_VerticalDivider_types.IVerticalDividerClassNames
 
     type [<AllowNullLiteral>] IExports =
-        abstract getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames)
-        abstract getContextualMenuClassNames: (ITheme -> string -> IContextualMenuClassNames)
-        abstract getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string -> string -> string -> string -> bool -> IMenuItemClassNames)
+        abstract getSplitButtonVerticalDividerClassNames: ITheme -> IVerticalDividerClassNames
+        abstract getContextualMenuClassNames: ITheme -> (string) option -> IContextualMenuClassNames
+        abstract getItemClassNames: ITheme -> bool -> bool -> bool -> bool -> bool -> (string) option -> (string) option -> (string) option -> (string) option -> (bool) option -> IMenuItemClassNames
 
     type [<AllowNullLiteral>] IContextualMenuClassNames =
         abstract container: string with get, set
@@ -2841,7 +2841,7 @@ module __components_ContextualMenu_ContextualMenu =
 
     type [<AllowNullLiteral>] ContextualMenu =
         inherit BaseComponent<IContextualMenuProps, IContextualMenuState>
-        abstract dismiss: (obj -> bool -> unit) with get, set
+        abstract dismiss: ((obj) option -> (bool) option -> unit) with get, set
         abstract componentWillUpdate: newProps: IContextualMenuProps -> unit
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
@@ -2858,8 +2858,8 @@ module __components_ContextualMenu_ContextualMenu_styles =
     type IMenuItemStyles = __components_ContextualMenu_ContextualMenu_types.IMenuItemStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getMenuItemStyles: (ITheme -> IMenuItemStyles)
-        abstract getStyles: (ITheme -> IContextualMenuStyles)
+        abstract getMenuItemStyles: ITheme -> IMenuItemStyles
+        abstract getStyles: ITheme -> IContextualMenuStyles
 
 module __components_ContextualMenu_ContextualMenu_types =
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
@@ -2952,11 +2952,11 @@ module __components_ContextualMenu_ContextualMenu_types =
         abstract shouldFocusOnContainer: bool option with get, set
         /// Callback when the ContextualMenu tries to close. If dismissAll is true then all
         /// submenus will be dismissed.
-        abstract onDismiss: (obj -> bool -> unit) option with get, set
+        abstract onDismiss: ((obj) option -> (bool) option -> unit) option with get, set
         /// Click handler which is invoked if onClick is not passed for individual contextual
         /// menu item.
         /// Returning true will dismiss the menu even if ev.preventDefault() was called.
-        abstract onItemClick: (U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>> -> IContextualMenuItem -> U2<bool, unit>) option with get, set
+        abstract onItemClick: ((U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>>) option -> (IContextualMenuItem) option -> U2<bool, unit>) option with get, set
         /// <summary>CSS class to apply to the context menu.</summary>
         /// <default>null</default>
         abstract className: string option with get, set
@@ -2981,9 +2981,9 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// <default>false</default>
         abstract directionalHintFixed: bool option with get, set
         /// Callback for when the contextualmenu has been opened.
-        abstract onMenuOpened: (IContextualMenuProps -> unit) option with get, set
+        abstract onMenuOpened: ((IContextualMenuProps) option -> unit) option with get, set
         /// Callback for when the contextualmenu is being closed (removing from the DOM)
-        abstract onMenuDismissed: (IContextualMenuProps -> unit) option with get, set
+        abstract onMenuDismissed: ((IContextualMenuProps) option -> unit) option with get, set
         /// Pass in custom callout props
         abstract calloutProps: ICalloutProps option with get, set
         /// Optional title to be displayed on top of the menu.
@@ -2997,7 +2997,7 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// defined in ContextualMenu.classnames.
         /// </summary>
         /// <default>getContextualMenuClassNames</default>
-        abstract getMenuClassNames: (ITheme -> string -> IContextualMenuClassNames) option with get, set
+        abstract getMenuClassNames: (ITheme -> (string) option -> IContextualMenuClassNames) option with get, set
         /// Method to call when trying to render a submenu.
         abstract onRenderSubMenu: IRenderFunction<IContextualMenuProps> option with get, set
         /// Delay (in milliseconds) to wait before expanding / dismissing a submenu on mouseEnter or mouseLeave
@@ -3065,7 +3065,7 @@ module __components_ContextualMenu_ContextualMenu_types =
         abstract data: obj option with get, set
         /// Callback issued when the menu item is invoked. If ev.preventDefault() is called in onClick, click will not close menu.
         /// Returning true will dismiss the menu even if ev.preventDefault() was called.
-        abstract onClick: (U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>> -> IContextualMenuItem -> U2<bool, unit>) option with get, set
+        abstract onClick: ((U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>>) option -> (IContextualMenuItem) option -> U2<bool, unit>) option with get, set
         /// An optional URL to navigate to upon selection
         abstract href: string option with get, set
         /// An optional target when using href
@@ -3085,7 +3085,7 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// defined in ContextualMenu.classnames.
         /// </summary>
         /// <default>getItemClassNames</default>
-        abstract getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> string -> string -> string -> string -> bool -> IMenuItemClassNames) option with get, set
+        abstract getItemClassNames: (ITheme -> bool -> bool -> bool -> bool -> bool -> (string) option -> (string) option -> (string) option -> (string) option -> (bool) option -> IMenuItemClassNames) option with get, set
         /// <summary>Method to provide the classnames to style the Vertical Divider of a split button inside a menu. Default value is the getVerticalDividerClassnames func defined in ContextualMenu.classnames</summary>
         /// <default>getSplitButtonVerticalDividerClassNames</default>
         abstract getSplitButtonVerticalDividerClassNames: (ITheme -> IVerticalDividerClassNames) option with get, set
@@ -3112,7 +3112,7 @@ module __components_ContextualMenu_ContextualMenu_types =
         ///   This can be used to make sure that a custom menu item click dismisses the menu.
         /// </summary>
         /// <default>undefined</default>
-        abstract onRender: (obj option -> (obj -> bool -> unit) -> React.ReactNode) option with get, set
+        abstract onRender: (obj option -> ((obj) option -> (bool) option -> unit) -> React.ReactNode) option with get, set
         /// A function to be executed onMouseDown. This is executed before an onClick event and can
         /// be used to interrupt native on click events as well. The click event should still handle
         /// the commands. This should only be used in special cases when react and non-react are mixed.
@@ -3187,7 +3187,7 @@ module __components_ContextualMenu_ContextualMenuItem =
         abstract render: unit -> JSX.Element
         abstract openSubMenu: (unit -> unit) with get, set
         abstract dismissSubMenu: (unit -> unit) with get, set
-        abstract dismissMenu: (bool -> unit) with get, set
+        abstract dismissMenu: ((bool) option -> unit) with get, set
 
     type [<AllowNullLiteral>] ContextualMenuItemStatic =
         [<EmitConstructor>] abstract Create: unit -> ContextualMenuItem
@@ -3205,7 +3205,7 @@ module __components_ContextualMenu_ContextualMenuItem_types =
         /// Function to close this item's subMenu, if present.
         abstract dismissSubMenu: (unit -> unit) with get, set
         /// Dismiss the menu this item belongs to.
-        abstract dismissMenu: (bool -> unit) with get, set
+        abstract dismissMenu: ((bool) option -> unit) with get, set
 
     type [<AllowNullLiteral>] IContextualMenuItemProps =
         inherit React.HTMLAttributes<IContextualMenuItemProps>
@@ -3228,7 +3228,7 @@ module __components_ContextualMenu_ContextualMenuItem_types =
         abstract dismissSubMenu: (unit -> unit) option with get, set
         /// This prop will get set by ContextualMenu and can be called to close the menu this item belongs to.
         /// If dismissAll is true, all menus will be closed.
-        abstract dismissMenu: (obj -> bool -> unit) option with get, set
+        abstract dismissMenu: ((obj) option -> (bool) option -> unit) option with get, set
         /// This prop will get set by the wrapping component and will return the element that wraps this ContextualMenuItem.
         /// Used for openSubMenu.
         abstract getSubmenuTarget: (unit -> HTMLElement option) option with get, set
@@ -3353,7 +3353,7 @@ module __components_DatePicker_DatePicker_types =
         abstract value: DateTime option with get, set
         /// <summary>Optional method to format the chosen date to a string to display in the DatePicker</summary>
         /// <default>date.toString()</default>
-        abstract formatDate: (DateTime -> string) option with get, set
+        abstract formatDate: ((DateTime) option -> string) option with get, set
         /// <summary>Optional method to parse the text input value to date, it is only useful when allowTextInput is set to true</summary>
         /// <default>new Date(Date.parse(dateStr))</default>
         abstract parseDateFromString: (string -> DateTime option) option with get, set
@@ -3463,7 +3463,7 @@ module __components_DetailsList_DetailsColumn =
         abstract dragDropHelper: IDragDropHelper option with get, set
         abstract isDraggable: bool option with get, set
         abstract setDraggedItemIndex: (float -> unit) option with get, set
-        abstract updateDragInfo: (IDetailsColumnPropsUpdateDragInfo -> MouseEvent -> unit) option with get, set
+        abstract updateDragInfo: (IDetailsColumnPropsUpdateDragInfo -> (MouseEvent) option -> unit) option with get, set
         abstract isDropped: bool option with get, set
 
     type [<AllowNullLiteral>] DetailsColumn =
@@ -3674,7 +3674,7 @@ module __components_DetailsList_DetailsList =
         abstract componentWillUpdate: unit -> unit
         abstract render: unit -> JSX.Element
         abstract forceUpdate: unit -> unit
-        abstract _onRenderRow: (IDetailsRowProps -> obj -> JSX.Element) with get, set
+        abstract _onRenderRow: (IDetailsRowProps -> (obj) option -> JSX.Element) with get, set
 
     type [<AllowNullLiteral>] DetailsListStatic =
         abstract defaultProps: DetailsListStaticDefaultProps with get, set
@@ -3732,7 +3732,7 @@ module __components_DetailsList_DetailsList_types =
         /// </param>
         /// <param name="measureItem">Optional callback to measure the height of an individual item</param>
         /// <param name="scrollToMode">Optional setting to determine where in the window the item should be scrolled to when focused.</param>
-        abstract focusIndex: (float -> bool -> (float -> float) -> ScrollToMode -> unit) with get, set
+        abstract focusIndex: (float -> (bool) option -> ((float -> float)) option -> (ScrollToMode) option -> unit) with get, set
 
     type [<AllowNullLiteral>] IDetailsListProps =
         inherit React.Props<DetailsList>
@@ -3781,30 +3781,30 @@ module __components_DetailsList_DetailsList_types =
         /// Event names and corresponding callbacks that will be registered to rendered row elements.
         abstract rowElementEventMap: ResizeArray<IDetailsListPropsRowElementEventMap> option with get, set
         /// Callback for when the details list has been updated. Useful for telemetry tracking externally.
-        abstract onDidUpdate: (DetailsList -> obj option) option with get, set
+        abstract onDidUpdate: ((DetailsList) option -> obj option) option with get, set
         /// Callback for when a given row has been mounted. Useful for identifying when a row has been rendered on the page.
-        abstract onRowDidMount: (obj -> float -> unit) option with get, set
+        abstract onRowDidMount: ((obj) option -> (float) option -> unit) option with get, set
         /// Callback for when a given row has been mounted. Useful for identifying when a row has been removed from the page.
-        abstract onRowWillUnmount: (obj -> float -> unit) option with get, set
+        abstract onRowWillUnmount: ((obj) option -> (float) option -> unit) option with get, set
         /// Callback for when the user clicks on the column header.
-        abstract onColumnHeaderClick: (React.MouseEvent<HTMLElement> -> IColumn -> unit) option with get, set
+        abstract onColumnHeaderClick: ((React.MouseEvent<HTMLElement>) option -> (IColumn) option -> unit) option with get, set
         /// Callback for when the user asks for a contextual menu (usually via right click) from a column header.
-        abstract onColumnHeaderContextMenu: (IColumn -> React.MouseEvent<HTMLElement> -> unit) option with get, set
+        abstract onColumnHeaderContextMenu: ((IColumn) option -> (React.MouseEvent<HTMLElement>) option -> unit) option with get, set
         /// Callback fired on column resize
-        abstract onColumnResize: (IColumn -> float -> float -> unit) option with get, set
+        abstract onColumnResize: ((IColumn) option -> (float) option -> (float) option -> unit) option with get, set
         /// Callback for when a given row has been invoked (by pressing enter while it is selected.)
-        abstract onItemInvoked: (obj -> float -> Event -> unit) option with get, set
+        abstract onItemInvoked: ((obj) option -> (float) option -> (Event) option -> unit) option with get, set
         /// Callback for when the context menu of an item has been accessed. If undefined or false are returned, ev.preventDefault() will be called.
-        abstract onItemContextMenu: (obj -> float -> Event -> U2<unit, bool>) option with get, set
+        abstract onItemContextMenu: ((obj) option -> (float) option -> (Event) option -> U2<unit, bool>) option with get, set
         /// If provided, will allow the caller to override the default row rendering.
         abstract onRenderRow: IRenderFunction<IDetailsRowProps> option with get, set
         /// If provided, will be the "default" item column renderer method. This affects cells within the rows; not the rows themselves.
         /// If a column definition provides its own onRender method, that will be used instead of this.
-        abstract onRenderItemColumn: (obj -> float -> IColumn -> obj option) option with get, set
+        abstract onRenderItemColumn: ((obj) option -> (float) option -> (IColumn) option -> obj option) option with get, set
         /// Map of callback functions related to row drag and drop functionality.
         abstract dragDropEvents: IDragDropEvents option with get, set
         /// Callback for what to render when the item is missing.
-        abstract onRenderMissingItem: (float -> IDetailsRowProps -> React.ReactNode) option with get, set
+        abstract onRenderMissingItem: ((float) option -> (IDetailsRowProps) option -> React.ReactNode) option with get, set
         /// <summary>If set to true and we provide an empty array, it will render 10 lines of whatever provided in onRenderMissingItem.</summary>
         /// <default>false</default>
         abstract enableShimmer: bool option with get, set
@@ -3815,7 +3815,7 @@ module __components_DetailsList_DetailsList_types =
         /// Viewport, provided by the withViewport decorator.
         abstract viewport: IViewport option with get, set
         /// Callback for when an item in the list becomes active by clicking anywhere inside the row or navigating to it with keyboard.
-        abstract onActiveItemChanged: (obj -> float -> React.FocusEvent<HTMLElement> -> unit) option with get, set
+        abstract onActiveItemChanged: ((obj) option -> (float) option -> (React.FocusEvent<HTMLElement>) option -> unit) option with get, set
         /// The aria-label attribute to stamp out on the list header
         abstract ariaLabelForListHeader: string option with get, set
         /// The aria-label attribute to stamp out on select all checkbox for the list
@@ -3827,7 +3827,7 @@ module __components_DetailsList_DetailsList_types =
         /// Optional callback to get the aria-describedby IDs (space separated strings) of the elements that describe the item.
         abstract getRowAriaDescribedBy: (obj option -> string) option with get, set
         /// Optional callback to get the item key, to be used in the selection and on render.
-        abstract getKey: (obj option -> float -> string) option with get, set
+        abstract getKey: (obj option -> (float) option -> string) option with get, set
         /// A text summary of the table set via aria-label.
         abstract ariaLabel: string option with get, set
         /// Check button aria label for details list.
@@ -3905,7 +3905,7 @@ module __components_DetailsList_DetailsList_types =
         /// Determines if the column can render multi-line text.
         abstract isMultiline: bool option with get, set
         /// If provided uses this method to render custom cell content, rather than the default text rendering.
-        abstract onRender: (obj -> float -> IColumn -> obj option) option with get, set
+        abstract onRender: ((obj) option -> (float) option -> (IColumn) option -> obj option) option with get, set
         /// If provider, can be used to render a custom column header divider
         abstract onRenderDivider: IRenderFunction<IDetailsColumnProps> option with get, set
         /// Determines if the column is filtered, and if so shows a filter icon.
@@ -3913,7 +3913,7 @@ module __components_DetailsList_DetailsList_types =
         /// If provided, will be executed when the user clicks on the column header.
         abstract onColumnClick: (React.MouseEvent<HTMLElement> -> IColumn -> obj option) option with get, set
         /// If provided, will be executed when the user accesses the contextmenu on a column header.
-        abstract onColumnContextMenu: (IColumn -> React.MouseEvent<HTMLElement> -> obj option) option with get, set
+        abstract onColumnContextMenu: ((IColumn) option -> (React.MouseEvent<HTMLElement>) option -> obj option) option with get, set
         /// If set will show a grouped icon next to the column header name.
         abstract isGrouped: bool option with get, set
         /// Arbitrary data passthrough which can be used by the caller.
@@ -4020,7 +4020,7 @@ module __components_DetailsList_DetailsList_types =
 
     type [<AllowNullLiteral>] IDetailsListPropsRowElementEventMap =
         abstract eventName: string with get, set
-        abstract callback: (IDragDropContext -> obj -> unit) with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
 
 module __components_DetailsList_DetailsListPage =
     type IComponentDemoPageProps = __components_DetailsList_@uifabric_example_app_base.IComponentDemoPageProps
@@ -4064,10 +4064,10 @@ module __components_DetailsList_DetailsRow =
         abstract selectionMode: SelectionMode with get, set
         abstract selection: ISelection with get, set
         abstract eventsToRegister: ResizeArray<IDetailsRowPropsEventsToRegister> option with get, set
-        abstract onDidMount: (DetailsRow -> unit) option with get, set
-        abstract onWillUnmount: (DetailsRow -> unit) option with get, set
+        abstract onDidMount: ((DetailsRow) option -> unit) option with get, set
+        abstract onWillUnmount: ((DetailsRow) option -> unit) option with get, set
         abstract onRenderCheck: (IDetailsRowCheckProps -> JSX.Element) option with get, set
-        abstract onRenderItemColumn: (obj -> float -> IColumn -> obj option) option with get, set
+        abstract onRenderItemColumn: ((obj) option -> (float) option -> (IColumn) option -> obj option) option with get, set
         abstract dragDropEvents: IDragDropEvents option with get, set
         abstract dragDropHelper: IDragDropHelper option with get, set
         abstract groupNestingDepth: float option with get, set
@@ -4111,7 +4111,7 @@ module __components_DetailsList_DetailsRow =
 
     type [<AllowNullLiteral>] IDetailsRowPropsEventsToRegister =
         abstract eventName: string with get, set
-        abstract callback: (obj -> float -> obj -> unit) with get, set
+        abstract callback: ((obj) option -> (float) option -> (obj) option -> unit) with get, set
 
     type [<AllowNullLiteral>] IDetailsRowStateColumnMeasureInfo =
         abstract index: float with get, set
@@ -4142,7 +4142,7 @@ module __components_DetailsList_DetailsRow_scss =
 module __components_DetailsList_DetailsRowCheck =
 
     type [<AllowNullLiteral>] IExports =
-        abstract DetailsRowCheck: (IDetailsRowCheckProps -> JSX.Element)
+        abstract DetailsRowCheck: IDetailsRowCheckProps -> JSX.Element
 
     type [<AllowNullLiteral>] IDetailsRowCheckProps =
         inherit React.HTMLAttributes<HTMLElement>
@@ -4179,7 +4179,7 @@ module __components_DetailsList_DetailsRowFields =
         abstract columnStartIndex: float with get, set
         abstract columns: ResizeArray<IColumn> with get, set
         abstract compact: bool option with get, set
-        abstract onRenderItemColumn: (obj -> float -> IColumn -> obj option) option with get, set
+        abstract onRenderItemColumn: ((obj) option -> (float) option -> (IColumn) option -> obj option) option with get, set
         abstract shimmer: bool option with get, set
 
     type [<AllowNullLiteral>] IDetailsRowFieldsState =
@@ -4250,14 +4250,14 @@ module __components_Dialog_Dialog =
     type IDialogProps = __components_Dialog_Dialog_types.IDialogProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Dialog: (IDialogProps -> JSX.Element)
+        abstract Dialog: IDialogProps -> JSX.Element
 
 module __components_Dialog_Dialog_styles =
     type IDialogStyleProps = __components_Dialog_Dialog_types.IDialogStyleProps
     type IDialogStyles = __components_Dialog_Dialog_types.IDialogStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IDialogStyleProps -> IDialogStyles)
+        abstract getStyles: IDialogStyleProps -> IDialogStyles
 
 module __components_Dialog_Dialog_types =
     type IModalProps = Modal.IModalProps
@@ -4288,7 +4288,7 @@ module __components_Dialog_Dialog_types =
         /// Props to be passed through to Dialog Content
         abstract dialogContentProps: IDialogContentProps option with get, set
         /// A callback function for when the Dialog is dismissed from the close button or light dismiss. Can also be specified separately in content and modal.
-        abstract onDismiss: (React.MouseEvent<HTMLButtonElement> -> obj option) option with get, set
+        abstract onDismiss: ((React.MouseEvent<HTMLButtonElement>) option -> obj option) option with get, set
         /// <summary>Whether the dialog is hidden.</summary>
         /// <default>true</default>
         abstract hidden: bool option with get, set
@@ -4392,14 +4392,14 @@ module __components_Dialog_DialogContent =
     type IDialogContentProps = __components_Dialog_DialogContent_types.IDialogContentProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract DialogContent: (IDialogContentProps -> JSX.Element)
+        abstract DialogContent: IDialogContentProps -> JSX.Element
 
 module __components_Dialog_DialogContent_styles =
     type IDialogContentStyleProps = __components_Dialog_DialogContent_types.IDialogContentStyleProps
     type IDialogContentStyles = __components_Dialog_DialogContent_types.IDialogContentStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IDialogContentStyleProps -> IDialogContentStyles)
+        abstract getStyles: IDialogContentStyleProps -> IDialogContentStyles
 
 module __components_Dialog_DialogContent_types =
     type DialogContentBase = __components_Dialog_DialogContent_base.DialogContentBase
@@ -4430,7 +4430,7 @@ module __components_Dialog_DialogContent_types =
         /// Optional override class name
         abstract className: string option with get, set
         /// A callback function for when the Dialog is dismissed from the close button or light dismiss, before the animation completes.
-        abstract onDismiss: (React.MouseEvent<HTMLButtonElement> -> obj option) option with get, set
+        abstract onDismiss: ((React.MouseEvent<HTMLButtonElement>) option -> obj option) option with get, set
         /// The Id for subText container
         abstract subTextId: string option with get, set
         /// The subtext to display in the dialog
@@ -4499,14 +4499,14 @@ module __components_Dialog_DialogFooter =
     type IDialogFooterProps = __components_Dialog_DialogFooter_types.IDialogFooterProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract DialogFooter: (IDialogFooterProps -> JSX.Element)
+        abstract DialogFooter: IDialogFooterProps -> JSX.Element
 
 module __components_Dialog_DialogFooter_styles =
     type IDialogFooterStyleProps = __components_Dialog_DialogFooter_types.IDialogFooterStyleProps
     type IDialogFooterStyles = __components_Dialog_DialogFooter_types.IDialogFooterStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IDialogFooterStyleProps -> IDialogFooterStyles)
+        abstract getStyles: IDialogFooterStyleProps -> IDialogFooterStyles
 
 module __components_Dialog_DialogFooter_types =
     type DialogFooterBase = __components_Dialog_DialogFooter_base.DialogFooterBase
@@ -4587,13 +4587,13 @@ module __components_Divider_VerticalDivider_classNames =
     type IVerticalDividerClassNames = __components_Divider_VerticalDivider_types.IVerticalDividerClassNames
 
     type [<AllowNullLiteral>] IExports =
-        abstract getDividerClassNames: (ITheme -> IVerticalDividerClassNames)
+        abstract getDividerClassNames: ITheme -> IVerticalDividerClassNames
 
 module __components_Divider_VerticalDivider =
     type IVerticalDividerProps = __components_Divider_VerticalDivider_types.IVerticalDividerProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract VerticalDivider: (IVerticalDividerProps -> JSX.Element)
+        abstract VerticalDivider: IVerticalDividerProps -> JSX.Element
 
 module __components_Divider_VerticalDivider_types =
     type ITheme = Styling.ITheme
@@ -4689,7 +4689,7 @@ module __components_DocumentCard_DocumentCard_types =
         /// <default>DocumentCardType.normal</default>
         abstract ``type``: DocumentCardType option with get, set
         /// Function to call when the card is clicked or keyboard Enter/Space is pushed.
-        abstract onClick: (React.SyntheticEvent<HTMLElement> -> unit) option with get, set
+        abstract onClick: ((React.SyntheticEvent<HTMLElement>) option -> unit) option with get, set
         /// A URL to navigate to when the card is clicked. If a function has also been provided,
         /// it will be used instead of the URL.
         abstract onClickHref: string option with get, set
@@ -4781,7 +4781,7 @@ module __components_DocumentCard_DocumentCard_types =
         /// URL to navigate to for this location.
         abstract locationHref: string option with get, set
         /// Function to call when the location is clicked.
-        abstract onClick: (React.MouseEvent<HTMLElement> -> unit) option with get, set
+        abstract onClick: ((React.MouseEvent<HTMLElement>) option -> unit) option with get, set
         /// Aria label for the link to the document location.
         abstract ariaLabel: string option with get, set
 
@@ -5033,14 +5033,14 @@ module __components_Dropdown_Dropdown_types =
     type IKeytipProps = Keytip.IKeytipProps
 
     type [<AllowNullLiteral>] IDropdown =
-        abstract focus: (bool -> unit) with get, set
+        abstract focus: ((bool) option -> unit) with get, set
 
     type [<AllowNullLiteral>] IDropdownProps =
         inherit ISelectableDroppableTextProps<HTMLDivElement>
         /// Input placeholder text. Displayed until option is selected.
         abstract placeHolder: string option with get, set
         /// Callback issues when the selected option changes
-        abstract onChanged: (IDropdownOption -> float -> unit) option with get, set
+        abstract onChanged: (IDropdownOption -> (float) option -> unit) option with get, set
         /// Callback issues when the options callout is dismissed
         abstract onDismiss: (unit -> unit) option with get, set
         /// Optional custom renderer for placeholder text
@@ -5205,13 +5205,13 @@ module __components_ExtendedPicker_BaseExtendedPicker_types =
         abstract focus: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] IBaseExtendedPickerProps<'T> =
-        abstract componentRef: (IBaseExtendedPicker<'T> -> unit) option with get, set
+        abstract componentRef: ((IBaseExtendedPicker<'T>) option -> unit) option with get, set
         /// Header/title element for the picker
         abstract headerComponent: JSX.Element option with get, set
         /// Initial items that have already been selected and should appear in the people picker.
         abstract defaultSelectedItems: ResizeArray<'T> option with get, set
         /// A callback for when the selected list of items changes.
-        abstract onChange: (ResizeArray<'T> -> unit) option with get, set
+        abstract onChange: ((ResizeArray<'T>) option -> unit) option with get, set
         /// A callback for when text is pasted into the input
         abstract onPaste: (string -> ResizeArray<'T>) option with get, set
         /// A callback for when the user put focus on the picker
@@ -5238,7 +5238,7 @@ module __components_ExtendedPicker_BaseExtendedPicker_types =
         /// <default>undefined</default>
         abstract itemLimit: float option with get, set
         /// A callback to process a selection after the user selects something from the picker.
-        abstract onItemSelected: ('T -> U2<'T, PromiseLike<'T>>) option with get, set
+        abstract onItemSelected: (('T) option -> U2<'T, PromiseLike<'T>>) option with get, set
         /// Deprecated at 5.96.0. Use defaultSelectedItems or selectedItems in selectedItemsListProps instead.
         [<Obsolete("")>]
         abstract selectedItems: ResizeArray<'T> option with get, set
@@ -5266,7 +5266,7 @@ module __components_Fabric_Fabric_styles =
     type IFabricStyles = __components_Fabric_Fabric_types.IFabricStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IFabricStyleProps -> IFabricStyles)
+        abstract getStyles: IFabricStyleProps -> IFabricStyles
 
     type [<AllowNullLiteral>] IFabricClassNames =
         abstract root: string with get, set
@@ -5325,7 +5325,7 @@ module __components_Facepile_Facepile =
 
     type [<AllowNullLiteral>] IExports =
         /// Facepile description
-        abstract Facepile: (IFacepileProps -> JSX.Element)
+        abstract Facepile: IFacepileProps -> JSX.Element
 
 module __components_Facepile_Facepile_scss =
 
@@ -5346,7 +5346,7 @@ module __components_Facepile_Facepile_styles =
     type IFacepileStyles = __components_Facepile_Facepile_types.IFacepileStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IFacepileStyleProps -> IFacepileStyles)
+        abstract getStyles: IFacepileStyleProps -> IFacepileStyles
 
 module __components_Facepile_Facepile_types =
     type FacepileBase = __components_Facepile_Facepile_base.FacepileBase
@@ -5417,11 +5417,11 @@ module __components_Facepile_Facepile_types =
         abstract initialsColor: PersonaInitialsColor option with get, set
         /// If provided, persona will be rendered with cursor:pointer and the handler will be
         /// called on click.
-        abstract onClick: (React.MouseEvent<HTMLElement> -> IFacepilePersona -> unit) option with get, set
+        abstract onClick: ((React.MouseEvent<HTMLElement>) option -> (IFacepilePersona) option -> unit) option with get, set
         /// If provided, the handler will be called on mouse move.
-        abstract onMouseMove: (React.MouseEvent<HTMLElement> -> IFacepilePersona -> unit) option with get, set
+        abstract onMouseMove: ((React.MouseEvent<HTMLElement>) option -> (IFacepilePersona) option -> unit) option with get, set
         /// If provided, the handler will be called when mouse moves out of the component.
-        abstract onMouseOut: (React.MouseEvent<HTMLElement> -> IFacepilePersona -> unit) option with get, set
+        abstract onMouseOut: ((React.MouseEvent<HTMLElement>) option -> (IFacepilePersona) option -> unit) option with get, set
         /// Extra data - not used directly but can be handy for passing additional data to custom event
         /// handlers.
         abstract data: obj option with get, set
@@ -5516,7 +5516,7 @@ module __components_FloatingPicker_BaseFloatingPicker =
         abstract isSuggestionsShown: bool
         abstract onQueryStringChanged: (string -> unit) with get, set
         abstract hidePicker: (unit -> unit) with get, set
-        abstract showPicker: (bool -> unit) with get, set
+        abstract showPicker: ((bool) option -> unit) with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract componentWillUnmount: unit -> unit
@@ -5563,7 +5563,7 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         abstract hidePicker: (unit -> unit) with get, set
         /// <summary>Shows the picker</summary>
         /// <param name="updateValue">optional param to indicate whether to update the query string</param>
-        abstract showPicker: (bool -> unit) with get, set
+        abstract showPicker: ((bool) option -> unit) with get, set
         /// Gets the suggestions
         abstract suggestions: ResizeArray<obj option> with get, set
         /// Gets the input text
@@ -5571,11 +5571,11 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
 
     type [<AllowNullLiteral>] IBaseFloatingPickerProps<'T> =
         inherit React.Props<obj option>
-        abstract componentRef: (IBaseFloatingPicker -> unit) option with get, set
+        abstract componentRef: ((IBaseFloatingPicker) option -> unit) option with get, set
         /// The suggestions store
         abstract suggestionsStore: SuggestionsStore<'T> with get, set
         /// The suggestions to show on zero query
-        abstract onZeroQuerySuggestion: (ResizeArray<'T> -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) option with get, set
+        abstract onZeroQuerySuggestion: ((ResizeArray<'T>) option -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) option with get, set
         /// The input element to listen on events
         abstract inputElement: HTMLInputElement option with get, set
         /// Function that specifies how an individual suggestion item will appear.
@@ -5583,7 +5583,7 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         /// A callback for what should happen when a person types text into the input.
         /// Returns the already selected items so the resolver can filter them out.
         /// If used in conjunction with resolveDelay this will ony kick off after the delay throttle.
-        abstract onResolveSuggestions: (string -> ResizeArray<'T> -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>> option) with get, set
+        abstract onResolveSuggestions: (string -> (ResizeArray<'T>) option -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>> option) with get, set
         /// A callback for when the input has been changed
         abstract onInputChanged: (string -> unit) option with get, set
         /// The delay time in ms before resolving suggestions, which is kicked off when input has been cahnged.
@@ -5610,7 +5610,7 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         /// component.
         abstract selectedItems: ResizeArray<'T> option with get, set
         /// A callback to get text from an item. Used to autofill text in the pickers.
-        abstract getTextFromItem: ('T -> string -> string) option with get, set
+        abstract getTextFromItem: ('T -> (string) option -> string) option with get, set
         /// Width for the suggestions callout
         abstract calloutWidth: float option with get, set
         /// The callback that should be called when the suggestions are shown
@@ -5786,14 +5786,14 @@ module __components_FocusZone_FocusZone_types =
         abstract ariaDescribedBy: string option with get, set
         /// Callback for when one of immediate children elements gets active by getting focused
         /// or by having one of its respective children elements focused.
-        abstract onActiveElementChanged: (HTMLElement -> React.FocusEvent<HTMLElement> -> unit) option with get, set
+        abstract onActiveElementChanged: ((HTMLElement) option -> (React.FocusEvent<HTMLElement>) option -> unit) option with get, set
         /// Deprecated at v1.12.1. DIV props provided to the FocusZone will be mixed into the root element.
         [<Obsolete("")>]
         abstract rootProps: React.HTMLAttributes<HTMLDivElement> option with get, set
         /// <summary>Callback method for determining if focus should indeed be set on the given element.</summary>
         /// <param name="element">The child element within the zone to focus.</param>
         /// <returns>True if focus should be set to the given element, false to avoid setting focus.</returns>
-        abstract onBeforeFocus: (HTMLElement -> bool) option with get, set
+        abstract onBeforeFocus: ((HTMLElement) option -> bool) option with get, set
         /// Allow focus to move to root
         abstract allowFocusRoot: bool option with get, set
         /// Allows tab key to be handled to tab through a list of items in the focus zone,
@@ -5942,7 +5942,7 @@ module __components_GroupedList_GroupedList_types =
         inherit React.Props<GroupedList>
         /// Optional callback to access the IGroupedList interface. Use this instead of ref for accessing
         /// the public methods and properties of the component.
-        abstract componentRef: (IGroupedList -> unit) option with get, set
+        abstract componentRef: ((IGroupedList) option -> unit) option with get, set
         /// Optional class name to add to the root element.
         abstract className: string option with get, set
         /// Map of callback functions related to drag and drop functionality.
@@ -5960,7 +5960,7 @@ module __components_GroupedList_GroupedList_types =
         /// Optional properties to pass through to the list components being rendered.
         abstract listProps: IListProps option with get, set
         /// Rendering callback to render the group items.
-        abstract onRenderCell: (float -> obj -> float -> React.ReactNode) with get, set
+        abstract onRenderCell: ((float) option -> (obj) option -> (float) option -> React.ReactNode) with get, set
         /// Optional selection model to track selection state.
         abstract selection: ISelection option with get, set
         /// Controls how/if the list manages selection.
@@ -6075,7 +6075,7 @@ module __components_GroupedList_GroupedList_types =
 
     type [<AllowNullLiteral>] IGroupedListPropsEventsToRegister =
         abstract eventName: string with get, set
-        abstract callback: (IDragDropContext -> obj -> unit) with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
 
 module __components_GroupedList_GroupedListPage =
     type IComponentDemoPageProps = __components_GroupedList_@uifabric_example_app_base.IComponentDemoPageProps
@@ -6136,7 +6136,7 @@ module __components_GroupedList_GroupedListSection =
         /// Optional list props to pass to list renderer.
         abstract listProps: obj option with get, set
         /// Rendering callback to render the group items.
-        abstract onRenderCell: (float -> obj -> float -> React.ReactNode) with get, set
+        abstract onRenderCell: ((float) option -> (obj) option -> (float) option -> React.ReactNode) with get, set
         /// Optional selection model to track selection state.
         abstract selection: ISelection option with get, set
         /// Controls how/if the details list manages selection.
@@ -6177,7 +6177,7 @@ module __components_GroupedList_GroupedListSection =
 
     type [<AllowNullLiteral>] IGroupedListSectionPropsEventsToRegister =
         abstract eventName: string with get, set
-        abstract callback: (IDragDropContext -> obj -> unit) with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
 
 module __components_GroupedList_GroupFooter =
     type BaseComponent = Utilities.BaseComponent
@@ -6264,7 +6264,7 @@ module __components_GroupedList_GroupShowAll_scss =
 module __components_GroupedList_GroupSpacer =
 
     type [<AllowNullLiteral>] IExports =
-        abstract GroupSpacer: (IGroupSpacerProps -> JSX.Element)
+        abstract GroupSpacer: IGroupSpacerProps -> JSX.Element
 
     type [<AllowNullLiteral>] IGroupSpacerProps =
         abstract count: float with get, set
@@ -6308,7 +6308,7 @@ module __components_HoverCard_ExpandingCard_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IExpandingCardStyles -> IExpandingCardStyles)
+        abstract getStyles: ITheme -> (IExpandingCardStyles) option -> IExpandingCardStyles
 
 module __components_HoverCard_ExpandingCard_types =
     type ExpandingCard = __components_HoverCard_ExpandingCard.ExpandingCard
@@ -6335,9 +6335,9 @@ module __components_HoverCard_ExpandingCard_types =
         /// Element to anchor the ExpandingCard to.
         abstract targetElement: HTMLElement option with get, set
         /// Callback upon focus or mouse enter event
-        abstract onEnter: (obj -> unit) option with get, set
+        abstract onEnter: ((obj) option -> unit) option with get, set
         /// Callback upon blur or mouse leave event
-        abstract onLeave: (obj -> unit) option with get, set
+        abstract onLeave: ((obj) option -> unit) option with get, set
         /// <summary>Height of compact card</summary>
         /// <default>156</default>
         abstract compactCardHeight: float option with get, set
@@ -6434,7 +6434,7 @@ module __components_HoverCard_HoverCard_styles =
     type IHoverCardStyles = __components_HoverCard_HoverCard_types.IHoverCardStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IHoverCardStyles -> IHoverCardStyles)
+        abstract getStyles: (IHoverCardStyles) option -> IHoverCardStyles
 
 module __components_HoverCard_HoverCard_types =
     type HoverCard = __components_HoverCard_HoverCard.HoverCard
@@ -6538,14 +6538,14 @@ module __components_Icon_Icon =
     type [<AllowNullLiteral>] IExports =
         /// Icons are used for rendering an individual's avatar, presence and details.
         /// They are used within the PeoplePicker components.
-        abstract Icon: (IIconProps -> JSX.Element)
+        abstract Icon: IIconProps -> JSX.Element
 
 module __components_Icon_Icon_styles =
     type IIconStyleProps = __components_Icon_Icon_types.IIconStyleProps
     type IIconStyles = __components_Icon_Icon_types.IIconStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IIconStyleProps -> IIconStyles)
+        abstract getStyles: IIconStyleProps -> IIconStyles
 
 module __components_Icon_Icon_types =
     type IImageProps = __components_Image_Image_types.IImageProps
@@ -6654,14 +6654,14 @@ module __components_Image_Image =
     type IImageProps = __components_Image_Image_types.IImageProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Image: (IImageProps -> JSX.Element)
+        abstract Image: IImageProps -> JSX.Element
 
 module __components_Image_Image_styles =
     type IImageStyleProps = __components_Image_Image_types.IImageStyleProps
     type IImageStyles = __components_Image_Image_types.IImageStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IImageStyleProps -> IImageStyles)
+        abstract getStyles: IImageStyleProps -> IImageStyles
 
 module __components_Image_Image_types =
     type IStyle = Styling.IStyle
@@ -6848,9 +6848,9 @@ module __components_Keytip_Keytip_styles =
     type IPoint = Utilities.IPoint
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IKeytipStyleProps -> IKeytipStyles)
-        abstract getCalloutStyles: (ICalloutContentStyleProps -> ICalloutContentStyles)
-        abstract getCalloutOffsetStyles: (IPoint -> IStyleFunction<ICalloutContentStyleProps, ICalloutContentStyles>)
+        abstract getStyles: IKeytipStyleProps -> IKeytipStyles
+        abstract getCalloutStyles: ICalloutContentStyleProps -> ICalloutContentStyles
+        abstract getCalloutOffsetStyles: IPoint -> IStyleFunction<ICalloutContentStyleProps, ICalloutContentStyles>
 
 module __components_Keytip_Keytip_types =
     type ICalloutProps = Callout.ICalloutProps
@@ -6950,7 +6950,7 @@ module __components_Keytip_KeytipContent =
     type IKeytipProps = __components_Keytip_Keytip_types.IKeytipProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract KeytipContent: (IKeytipProps -> JSX.Element)
+        abstract KeytipContent: IKeytipProps -> JSX.Element
 
 module __components_Keytip_KeytipsPage =
     type IComponentDemoPageProps = __components_Keytip_@uifabric_example_app_base.IComponentDemoPageProps
@@ -7080,7 +7080,7 @@ module __components_KeytipLayer_KeytipLayer =
     type IKeytipLayerProps = __components_KeytipLayer_KeytipLayer_types.IKeytipLayerProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract KeytipLayer: (IKeytipLayerProps -> JSX.Element)
+        abstract KeytipLayer: IKeytipLayerProps -> JSX.Element
 
 module __components_KeytipLayer_KeytipLayer_styles =
     type ILayerStyles = Layer.ILayerStyles
@@ -7089,8 +7089,8 @@ module __components_KeytipLayer_KeytipLayer_styles =
     type IKeytipLayerStyles = __components_KeytipLayer_KeytipLayer_types.IKeytipLayerStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getLayerStyles: (ILayerStyleProps -> ILayerStyles)
-        abstract getStyles: (IKeytipLayerStyleProps -> IKeytipLayerStyles)
+        abstract getLayerStyles: ILayerStyleProps -> ILayerStyles
+        abstract getStyles: IKeytipLayerStyleProps -> IKeytipLayerStyles
 
 module __components_KeytipLayer_KeytipLayer_types =
     type IStyleFunction = Utilities.IStyleFunction
@@ -7232,7 +7232,7 @@ module __components_Label_Label_classNames =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getLabelClassNames: (ITheme -> string option -> bool -> bool -> ILabelClassNames)
+        abstract getLabelClassNames: ITheme -> string option -> bool -> bool -> ILabelClassNames
 
     type [<AllowNullLiteral>] ILabelClassNames =
         abstract root: string with get, set
@@ -7317,14 +7317,14 @@ module __components_Layer_Layer =
     type ILayerProps = __components_Layer_Layer_types.ILayerProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Layer: (ILayerProps -> JSX.Element)
+        abstract Layer: ILayerProps -> JSX.Element
 
 module __components_Layer_Layer_styles =
     type ILayerStyleProps = __components_Layer_Layer_types.ILayerStyleProps
     type ILayerStyles = __components_Layer_Layer_types.ILayerStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ILayerStyleProps -> ILayerStyles)
+        abstract getStyles: ILayerStyleProps -> ILayerStyles
 
 module __components_Layer_Layer_types =
     type LayerBase = __components_Layer_Layer_base.LayerBase
@@ -7456,14 +7456,14 @@ module __components_Link_Link =
     type ILinkProps = __components_Link_Link_types.ILinkProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Link: (ILinkProps -> JSX.Element)
+        abstract Link: ILinkProps -> JSX.Element
 
 module __components_Link_Link_styles =
     type ILinkStyleProps = __components_Link_Link_types.ILinkStyleProps
     type ILinkStyles = __components_Link_Link_types.ILinkStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ILinkStyleProps -> ILinkStyles)
+        abstract getStyles: ILinkStyleProps -> ILinkStyles
 
 module __components_Link_Link_types =
     type LinkBase = __components_Link_Link_base.LinkBase
@@ -7672,7 +7672,7 @@ module __components_List_List_types =
         /// Optional defines the behavior of the scrolling alignment. Defaults to auto.
         /// Note: The scrollToMode requires the measureItem callback is provided to function.
         /// </param>
-        abstract scrollToIndex: (float -> (float -> float) -> ScrollToMode -> unit) with get, set
+        abstract scrollToIndex: (float -> ((float -> float)) option -> (ScrollToMode) option -> unit) with get, set
 
     type [<AllowNullLiteral>] IListProps =
         inherit React.HTMLAttributes<U2<List, HTMLDivElement>>
@@ -7687,7 +7687,7 @@ module __components_List_List_types =
         /// <param name="item">The the data associated with the cell that is being rendered.</param>
         /// <param name="index">The index of the cell being rendered.</param>
         /// <param name="isScrolling">True if the list is being scrolled. May be useful for rendering a placeholder if your cells are complex.</param>
-        abstract onRenderCell: (obj -> float -> bool -> React.ReactNode) option with get, set
+        abstract onRenderCell: ((obj) option -> (float) option -> (bool) option -> React.ReactNode) option with get, set
         /// <summary>
         /// Optional callback invoked when List rendering completed.
         /// This can be on initial mount or on re-render due to scrolling.
@@ -7702,17 +7702,17 @@ module __components_List_List_types =
         /// Optional callback for monitoring when a page is removed.
         abstract onPageRemoved: (IPage -> unit) option with get, set
         /// Optional callback to get the item key, to be used on render.
-        abstract getKey: (obj option -> float -> string) option with get, set
+        abstract getKey: (obj option -> (float) option -> string) option with get, set
         /// Called by the list to get the specification for a page.
         /// Use this method to provide an allocation of items per page,
         /// as well as an estimated rendered height for the page.
         /// The list will use this to optimize virtualization.
-        abstract getPageSpecification: (float -> IRectangle -> IPageSpecification) option with get, set
+        abstract getPageSpecification: ((float) option -> (IRectangle) option -> IPageSpecification) option with get, set
         /// <summary>
         /// Method called by the list to get how many items to render per page from specified index.
         /// In general, use <c>getPageSpecification</c> instead.
         /// </summary>
-        abstract getItemCountForPage: (float -> IRectangle -> float) option with get, set
+        abstract getItemCountForPage: ((float) option -> (IRectangle) option -> float) option with get, set
         /// <summary>
         /// Method called by the list to get the pixel height for a given page. By default, we measure the first
         /// page's height and default all other pages to that height when calculating the surface space. It is
@@ -7720,7 +7720,7 @@ module __components_List_List_types =
         /// in pixels, which has been seen to cause browser performance issues.
         /// In general, use <c>getPageSpecification</c> instead.
         /// </summary>
-        abstract getPageHeight: (float -> IRectangle -> float) option with get, set
+        abstract getPageHeight: ((float) option -> (IRectangle) option -> float) option with get, set
         /// Method called by the list to derive the page style object. For spacer pages, the list will derive
         /// the height and passed in heights will be ignored.
         abstract getPageStyle: (IPage -> obj option) option with get, set
@@ -7750,7 +7750,7 @@ module __components_List_List_types =
         abstract role: string option with get, set
         /// Called when the List will render a page.
         /// Override this to control how cells are rendered within a page.
-        abstract onRenderPage: (IPageProps -> IRenderFunction<IPageProps> -> React.ReactNode) option with get, set
+        abstract onRenderPage: (IPageProps -> (IRenderFunction<IPageProps>) option -> React.ReactNode) option with get, set
 
     type [<AllowNullLiteral>] IPage =
         abstract key: string with get, set
@@ -7843,7 +7843,7 @@ module __components_MarqueeSelection_MarqueeSelection =
     type IMarqueeSelectionProps = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract MarqueeSelection: (IMarqueeSelectionProps -> JSX.Element)
+        abstract MarqueeSelection: IMarqueeSelectionProps -> JSX.Element
 
 module __components_MarqueeSelection_MarqueeSelection_scss =
 
@@ -7858,7 +7858,7 @@ module __components_MarqueeSelection_MarqueeSelection_styles =
     type IMarqueeSelectionStyles = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IMarqueeSelectionStyleProps -> IMarqueeSelectionStyles)
+        abstract getStyles: IMarqueeSelectionStyleProps -> IMarqueeSelectionStyles
 
 module __components_MarqueeSelection_MarqueeSelection_types =
     type ISelection = __utilities_selection_interfaces.ISelection
@@ -8007,7 +8007,7 @@ module __components_MessageBar_MessageBar_types =
         /// If null, we don't show a dismiss button.
         /// </summary>
         /// <default>null</default>
-        abstract onDismiss: (React.MouseEvent<U5<HTMLButtonElement, BaseButton, HTMLAnchorElement, HTMLDivElement, Button>> -> obj option) option with get, set
+        abstract onDismiss: ((React.MouseEvent<U5<HTMLButtonElement, BaseButton, HTMLAnchorElement, HTMLDivElement, Button>>) option -> obj option) option with get, set
         /// <summary>
         /// Determines if the message bar is multi lined.
         /// If false, and the text overflows over buttons or to another line, it is clipped.
@@ -8129,7 +8129,7 @@ module __components_Modal_Modal_types =
         /// <default>true</default>
         abstract isDarkOverlay: bool option with get, set
         /// A callback function for when the Modal is dismissed light dismiss, before the animation completes.
-        abstract onDismiss: (React.MouseEvent<HTMLButtonElement> -> obj option) option with get, set
+        abstract onDismiss: ((React.MouseEvent<HTMLButtonElement>) option -> obj option) option with get, set
         /// A callback function which is called after the Modal is dismissed and the animation is complete.
         abstract onDismissed: (unit -> obj option) option with get, set
         /// <summary>Whether the dialog can be light dismissed by clicking outside the dialog (on the overlay).</summary>
@@ -8214,7 +8214,7 @@ module __components_Nav_Nav =
     type INavProps = __components_Nav_Nav_types.INavProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Nav: (INavProps -> JSX.Element)
+        abstract Nav: INavProps -> JSX.Element
 
 module __components_Nav_Nav_styles =
     type INavStyleProps = __components_Nav_Nav_types.INavStyleProps
@@ -8223,7 +8223,7 @@ module __components_Nav_Nav_styles =
 
     type [<AllowNullLiteral>] IExports =
         abstract buttonStyles: IButtonStyles
-        abstract getStyles: (INavStyleProps -> INavStyles)
+        abstract getStyles: INavStyleProps -> INavStyles
 
 module __components_Nav_Nav_types =
     type IStyle = Styling.IStyle
@@ -8244,7 +8244,7 @@ module __components_Nav_Nav_types =
         /// if focus is already in the focus zone.
         /// </param>
         /// <returns>True if focus could be set to an active element, false if no operation was taken.</returns>
-        abstract focus: (bool -> bool) option with get, set
+        abstract focus: ((bool) option -> bool) option with get, set
 
     type [<AllowNullLiteral>] INavProps =
         /// Optional callback to access the INav interface. Use this instead of ref for accessing
@@ -8263,9 +8263,9 @@ module __components_Nav_Nav_types =
         /// <default>Default link rendering</default>
         abstract onRenderLink: IRenderFunction<INavLink> option with get, set
         /// Function callback invoked when a link in the navigation is clicked
-        abstract onLinkClick: (React.MouseEvent<HTMLElement> -> INavLink -> unit) option with get, set
+        abstract onLinkClick: ((React.MouseEvent<HTMLElement>) option -> (INavLink) option -> unit) option with get, set
         /// Function callback invoked when the chevron on a link is clicked
-        abstract onLinkExpandClick: (React.MouseEvent<HTMLElement> -> INavLink -> unit) option with get, set
+        abstract onLinkExpandClick: ((React.MouseEvent<HTMLElement>) option -> (INavLink) option -> unit) option with get, set
         /// Indicates whether the navigation component renders on top of other content in the UI
         abstract isOnTop: bool option with get, set
         /// (Optional) The key of the nav item initially selected.
@@ -8293,7 +8293,7 @@ module __components_Nav_Nav_types =
         /// If true, the group should render collapsed by default
         abstract collapseByDefault: bool option with get, set
         /// Callback invoked when a group header is clicked
-        abstract onHeaderClick: (React.MouseEvent<HTMLElement> -> bool -> unit) option with get, set
+        abstract onHeaderClick: ((React.MouseEvent<HTMLElement>) option -> (bool) option -> unit) option with get, set
 
     type [<AllowNullLiteral>] INavLink =
         /// Text to render for this link
@@ -8306,7 +8306,7 @@ module __components_Nav_Nav_types =
         abstract links: ResizeArray<INavLink> option with get, set
         /// Callback invoked when this link is clicked. Providing this callback will cause the link
         /// to render as a button (rather than an anchor) unless forceAnchor is set to true.
-        abstract onClick: (React.MouseEvent<HTMLElement> -> INavLink -> unit) option with get, set
+        abstract onClick: ((React.MouseEvent<HTMLElement>) option -> (INavLink) option -> unit) option with get, set
         /// button icon name if applied
         abstract icon: string option with get, set
         /// Deprecated. Use iconProps.className instead.
@@ -8489,7 +8489,7 @@ module __components_OverflowSet_OverflowSet_types =
     type [<AllowNullLiteral>] IOverflowSetProps =
         inherit React.Props<OverflowSet>
         /// Gets the component ref.
-        abstract componentRef: (IOverflowSet -> unit) option with get, set
+        abstract componentRef: ((IOverflowSet) option -> unit) option with get, set
         /// Class name
         abstract className: string option with get, set
         /// An array of items to be rendered by your onRenderItem function in the primary content area
@@ -8580,14 +8580,14 @@ module __components_Overlay_Overlay =
     type IOverlayProps = __components_Overlay_Overlay_types.IOverlayProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Overlay: (IOverlayProps -> JSX.Element)
+        abstract Overlay: IOverlayProps -> JSX.Element
 
 module __components_Overlay_Overlay_styles =
     type IOverlayStyleProps = __components_Overlay_Overlay_types.IOverlayStyleProps
     type IOverlayStyles = __components_Overlay_Overlay_types.IOverlayStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IOverlayStyleProps -> IOverlayStyles)
+        abstract getStyles: IOverlayStyleProps -> IOverlayStyles
 
 module __components_Overlay_Overlay_types =
     type IStyle = Styling.IStyle
@@ -8956,14 +8956,14 @@ module __components_Persona_Persona =
     type [<AllowNullLiteral>] IExports =
         /// Personas are used for rendering an individual's avatar, presence and details.
         /// They are used within the PeoplePicker components.
-        abstract Persona: (IPersonaProps -> JSX.Element)
+        abstract Persona: IPersonaProps -> JSX.Element
 
 module __components_Persona_Persona_styles =
     type IPersonaStyleProps = __components_Persona_Persona_types.IPersonaStyleProps
     type IPersonaStyles = __components_Persona_Persona_types.IPersonaStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IPersonaStyleProps -> IPersonaStyles)
+        abstract getStyles: IPersonaStyleProps -> IPersonaStyles
 
 module __components_Persona_Persona_types =
     type IRenderFunction = Utilities.IRenderFunction
@@ -9198,8 +9198,8 @@ module __components_Persona_PersonaConsts =
     type PersonaSize = __components_Persona_Persona_types.PersonaSize
 
     type [<AllowNullLiteral>] IExports =
-        abstract sizeBoolean: (PersonaSize -> IExportsSizeBoolean)
-        abstract presenceBoolean: (PersonaPresence -> IExportsPresenceBoolean)
+        abstract sizeBoolean: PersonaSize -> IExportsSizeBoolean
+        abstract presenceBoolean: PersonaPresence -> IExportsPresenceBoolean
 
     module PersonaSize =
 
@@ -9324,7 +9324,7 @@ module __components_pickers_BasePicker =
         abstract componentWillUnmount: unit -> unit
         abstract focus: unit -> unit
         abstract focusInput: unit -> unit
-        abstract dismissSuggestions: (obj -> unit) with get, set
+        abstract dismissSuggestions: ((obj) option -> unit) with get, set
         abstract completeSuggestion: unit -> unit
         abstract refocusSuggestions: (KeyCodes -> unit) with get, set
         abstract render: unit -> JSX.Element
@@ -9350,7 +9350,7 @@ module __components_pickers_BasePicker =
         abstract onGetMoreResults: (unit -> unit) with get, set
         abstract addItemByIndex: (float -> unit) with get, set
         abstract addItem: ('T -> unit) with get, set
-        abstract removeItem: (IPickerItemProps<'T> -> bool -> unit) with get, set
+        abstract removeItem: (IPickerItemProps<'T> -> (bool) option -> unit) with get, set
         abstract removeItems: (ResizeArray<obj option> -> unit) with get, set
         abstract onBackspace: ev: React.KeyboardEvent<HTMLElement> -> unit
         abstract _isFocusZoneInnerKeystroke: (React.KeyboardEvent<HTMLElement> -> bool) with get, set
@@ -9413,7 +9413,7 @@ module __components_pickers_BasePicker_types =
 
     type [<AllowNullLiteral>] IBasePickerProps<'T> =
         inherit React.Props<obj option>
-        abstract componentRef: (IBasePicker<'T> -> unit) option with get, set
+        abstract componentRef: ((IBasePicker<'T>) option -> unit) option with get, set
         /// Function that specifies how the selected item will appear.
         abstract onRenderItem: (IPickerItemProps<'T> -> JSX.Element) option with get, set
         /// Function that specifies how an individual suggestion item will appear.
@@ -9421,25 +9421,25 @@ module __components_pickers_BasePicker_types =
         /// A callback for what should happen when a person types text into the input.
         /// Returns the already selected items so the resolver can filter them out.
         /// If used in conjunction with resolveDelay this will ony kick off after the delay throttle.
-        abstract onResolveSuggestions: (string -> ResizeArray<'T> -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) with get, set
+        abstract onResolveSuggestions: (string -> (ResizeArray<'T>) option -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) with get, set
         /// The delay time in ms before resolving suggestions, which is kicked off when input has been cahnged.
         /// e.g. If a second input change happens within the resolveDelay time, the timer will start over.
         /// Only until after the timer completes will onResolveSuggestions be called.
         abstract resolveDelay: float option with get, set
         /// A callback for what should happen when a user clicks the input.
-        abstract onEmptyInputFocus: (ResizeArray<'T> -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) option with get, set
+        abstract onEmptyInputFocus: ((ResizeArray<'T>) option -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) option with get, set
         /// Initial items that have already been selected and should appear in the people picker.
         abstract defaultSelectedItems: ResizeArray<'T> option with get, set
         /// A callback for when the selected list of items changes.
-        abstract onChange: (ResizeArray<'T> -> unit) option with get, set
+        abstract onChange: ((ResizeArray<'T>) option -> unit) option with get, set
         /// A callback for when the user put focus on the picker
         abstract onFocus: React.FocusEventHandler<U2<HTMLInputElement, BaseAutoFill>> option with get, set
         /// A callback for when the user moves the focus away from the picker
         abstract onBlur: React.FocusEventHandler<U2<HTMLInputElement, BaseAutoFill>> option with get, set
         /// A callback to get text from an item. Used to autofill text in the pickers.
-        abstract getTextFromItem: ('T -> string -> string) option with get, set
+        abstract getTextFromItem: ('T -> (string) option -> string) option with get, set
         /// A callback that gets the rest of the results when a user clicks get more results.
-        abstract onGetMoreResults: (string -> ResizeArray<'T> -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) option with get, set
+        abstract onGetMoreResults: (string -> (ResizeArray<'T>) option -> U2<ResizeArray<'T>, PromiseLike<ResizeArray<'T>>>) option with get, set
         /// ClassName for the picker.
         abstract className: string option with get, set
         /// The properties that will get passed to the Suggestions component.
@@ -9466,13 +9466,13 @@ module __components_pickers_BasePicker_types =
         abstract removeButtonAriaLabel: string option with get, set
         /// A callback to process a selection after the user selects something from the picker. If the callback returns null,
         /// the item will not be added to the picker.
-        abstract onItemSelected: ('T -> U2<'T, PromiseLike<'T>> option) option with get, set
+        abstract onItemSelected: (('T) option -> U2<'T, PromiseLike<'T>> option) option with get, set
         /// The items that the base picker should currently display as selected. If this is provided then the picker will act as a controlled component.
         abstract selectedItems: ResizeArray<'T> option with get, set
         /// A callback used to modify the input string.
         abstract onInputChange: (string -> string) option with get, set
         /// A callback to override the default behavior of adding the selected suggestion on dismiss.
-        abstract onDismiss: (obj -> 'T -> unit) option with get, set
+        abstract onDismiss: ((obj) option -> ('T) option -> unit) option with get, set
         /// <summary>
         /// Adds an additional alert for the currently selected suggestion. This prop should be set to true for IE11 and below, as it
         /// enables proper screen reader behavior for each suggestion (since aria-activedescendant does not work with IE11).
@@ -9634,7 +9634,7 @@ module __components_Pivot_Pivot =
         /// The Pivot control and related tabs pattern are used for navigating frequently accessed,
         /// distinct content categories. Pivots allow for navigation between two or more content
         /// views and relies on text headers to articulate the different sections of content.
-        abstract Pivot: (IPivotProps -> JSX.Element)
+        abstract Pivot: IPivotProps -> JSX.Element
 
 module __components_Pivot_Pivot_scss =
 
@@ -9657,7 +9657,7 @@ module __components_Pivot_Pivot_styles =
     type IPivotStyles = __components_Pivot_Pivot_types.IPivotStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IPivotStyleProps -> IPivotStyles)
+        abstract getStyles: IPivotStyleProps -> IPivotStyles
 
 module __components_Pivot_Pivot_types =
     type PivotBase = __components_Pivot_Pivot_base.PivotBase
@@ -9695,7 +9695,7 @@ module __components_Pivot_Pivot_types =
         /// If set, this will override the Pivot's selected item state.
         abstract selectedKey: string option with get, set
         /// Callback issued when the selected pivot item is changed
-        abstract onLinkClick: (PivotItem -> React.MouseEvent<HTMLElement> -> unit) option with get, set
+        abstract onLinkClick: ((PivotItem) option -> (React.MouseEvent<HTMLElement>) option -> unit) option with get, set
         /// Specify the PivotLinkSize to use (normal, large)
         abstract linkSize: PivotLinkSize option with get, set
         /// Specify the PivotLinkFormat to use (links, tabs)
@@ -9863,7 +9863,7 @@ module __components_Popup_Popup_types =
         abstract ariaDescribedBy: string option with get, set
         /// A callback function for when the popup is dismissed from the close button or light dismiss. If provided, will
         /// handle escape keypresses and call this. The event will be stopped/canceled.
-        abstract onDismiss: (U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>> -> obj option) option with get, set
+        abstract onDismiss: ((U2<React.MouseEvent<HTMLElement>, React.KeyboardEvent<HTMLElement>>) option -> obj option) option with get, set
         /// Optional class name for the root popup div.
         abstract className: string option with get, set
         /// <summary>If true, the unmounting of this component will cause focus to be restored to the element that had focus when first mounted.</summary>
@@ -9923,14 +9923,14 @@ module __components_ProgressIndicator_ProgressIndicator =
 
     type [<AllowNullLiteral>] IExports =
         /// ProgressIndicator description
-        abstract ProgressIndicator: (IProgressIndicatorProps -> JSX.Element)
+        abstract ProgressIndicator: IProgressIndicatorProps -> JSX.Element
 
 module __components_ProgressIndicator_ProgressIndicator_styles =
     type IProgressIndicatorStyleProps = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorStyleProps
     type IProgressIndicatorStyles = __components_ProgressIndicator_ProgressIndicator_types.IProgressIndicatorStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IProgressIndicatorStyleProps -> IProgressIndicatorStyles)
+        abstract getStyles: IProgressIndicatorStyleProps -> IProgressIndicatorStyles
 
 module __components_ProgressIndicator_ProgressIndicator_types =
     type ProgressIndicatorBase = __components_ProgressIndicator_ProgressIndicator_base.ProgressIndicatorBase
@@ -10041,7 +10041,7 @@ module __components_Rating_Rating =
     type IRatingProps = __components_Rating_Rating_types.IRatingProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Rating: (IRatingProps -> JSX.Element)
+        abstract Rating: IRatingProps -> JSX.Element
 
 module __components_Rating_Rating_styles =
     type IRatingStyleProps = __components_Rating_Rating_types.IRatingStyleProps
@@ -10138,10 +10138,10 @@ module __components_ResizeGroup_ResizeGroup_base =
 
     type [<AllowNullLiteral>] IExports =
         /// Returns a simple object is able to store measurements with a given key.
-        abstract getMeasurementCache: (unit -> IExportsGetMeasurementCache)
+        abstract getMeasurementCache: unit -> IExportsGetMeasurementCache
         /// Returns a function that is able to compute the next state for the ResizeGroup given the current
         /// state and any measurement updates.
-        abstract getNextResizeGroupStateProvider: (IExportsGetMeasurementCache -> IExportsGetNextResizeGroupStateProvider)
+        abstract getNextResizeGroupStateProvider: (IExportsGetMeasurementCache) option -> IExportsGetNextResizeGroupStateProvider
         abstract ResizeGroupBase: ResizeGroupBaseStatic
 
     type [<AllowNullLiteral>] IResizeGroupState =
@@ -10175,7 +10175,7 @@ module __components_ResizeGroup_ResizeGroup_base =
         abstract addMeasurementToCache: (obj option -> float -> unit) with get, set
 
     type [<AllowNullLiteral>] IExportsGetNextResizeGroupStateProvider =
-        abstract getNextState: (IResizeGroupProps -> IResizeGroupState -> (unit -> float) -> float -> IResizeGroupState option) with get, set
+        abstract getNextState: (IResizeGroupProps -> IResizeGroupState -> (unit -> float) -> (float) option -> IResizeGroupState option) with get, set
         abstract shouldRenderDataToMeasureInHiddenDiv: (obj option -> bool) with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] IResizeGroupStateResizeDirection =
@@ -10199,14 +10199,14 @@ module __components_ResizeGroup_ResizeGroup =
     type IResizeGroupProps = __components_ResizeGroup_ResizeGroup_types.IResizeGroupProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ResizeGroup: (IResizeGroupProps -> JSX.Element)
+        abstract ResizeGroup: IResizeGroupProps -> JSX.Element
 
 module __components_ResizeGroup_ResizeGroup_styles =
     type IResizeGroupStyleProps = __components_ResizeGroup_ResizeGroup_types.IResizeGroupStyleProps
     type IResizeGroupStyles = __components_ResizeGroup_ResizeGroup_types.IResizeGroupStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IResizeGroupStyleProps -> IResizeGroupStyles)
+        abstract getStyles: IResizeGroupStyleProps -> IResizeGroupStyles
 
 module __components_ResizeGroup_ResizeGroup_types =
     type ResizeGroupBase = __components_ResizeGroup_ResizeGroup_base.ResizeGroupBase
@@ -10349,7 +10349,7 @@ module __components_ScrollablePane_ScrollablePane =
     type IScrollablePaneProps = __components_ScrollablePane_ScrollablePane_types.IScrollablePaneProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ScrollablePane: (IScrollablePaneProps -> JSX.Element)
+        abstract ScrollablePane: IScrollablePaneProps -> JSX.Element
 
 module __components_ScrollablePane_ScrollablePane_scss =
 
@@ -10363,7 +10363,7 @@ module __components_ScrollablePane_ScrollablePane_styles =
     type IScrollablePaneStyles = __components_ScrollablePane_ScrollablePane_types.IScrollablePaneStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IScrollablePaneStyleProps -> IScrollablePaneStyles)
+        abstract getStyles: IScrollablePaneStyleProps -> IScrollablePaneStyles
 
 module __components_ScrollablePane_ScrollablePane_types =
     type ScrollablePaneBase = __components_ScrollablePane_ScrollablePane_base.ScrollablePaneBase
@@ -10465,7 +10465,7 @@ module __components_SearchBox_SearchBox =
     type ISearchBoxProps = __components_SearchBox_SearchBox_types.ISearchBoxProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SearchBox: (ISearchBoxProps -> JSX.Element)
+        abstract SearchBox: ISearchBoxProps -> JSX.Element
 
 module __components_SearchBox_SearchBox_styles =
     type ISearchBoxStyleProps = __components_SearchBox_SearchBox_types.ISearchBoxStyleProps
@@ -10501,9 +10501,9 @@ module __components_SearchBox_SearchBox_types =
         /// Callback executed when the user presses enter in the search box.
         abstract onSearch: (obj option -> unit) option with get, set
         /// Callback executed when the user clears the search box by either clicking 'X' or hitting escape.
-        abstract onClear: (obj -> unit) option with get, set
+        abstract onClear: ((obj) option -> unit) option with get, set
         /// Callback executed when the user presses escape in the search box.
-        abstract onEscape: (obj -> unit) option with get, set
+        abstract onEscape: ((obj) option -> unit) option with get, set
         /// Deprecated at v0.52.2, use 'onChange' instead.
         [<Obsolete("")>]
         abstract onChanged: (obj option -> unit) option with get, set
@@ -10632,7 +10632,7 @@ module __components_SelectedItemsList_BaseSelectedItemsList_types =
 
     type [<AllowNullLiteral>] IBaseSelectedItemsListProps<'T> =
         inherit React.Props<obj option>
-        abstract componentRef: (IBaseSelectedItemsList<'T> -> unit) option with get, set
+        abstract componentRef: ((IBaseSelectedItemsList<'T>) option -> unit) option with get, set
         /// The selection
         abstract selection: Selection option with get, set
         /// A callback for when items are copied
@@ -10642,13 +10642,13 @@ module __components_SelectedItemsList_BaseSelectedItemsList_types =
         /// Initial items that have already been selected and should appear in the people picker.
         abstract defaultSelectedItems: ResizeArray<'T> option with get, set
         /// A callback for when the selected list of items changes.
-        abstract onChange: (ResizeArray<'T> -> unit) option with get, set
+        abstract onChange: ((ResizeArray<'T>) option -> unit) option with get, set
         /// ClassName for the picker.
         abstract className: string option with get, set
         /// Function that specifies how arbitrary text entered into the well is handled.
         abstract createGenericItem: (string -> ValidationState -> ISuggestionModel<'T>) option with get, set
         /// A callback to process a selection after the user selects something from the picker.
-        abstract onItemSelected: ('T -> U2<'T, PromiseLike<'T>>) option with get, set
+        abstract onItemSelected: (('T) option -> U2<'T, PromiseLike<'T>>) option with get, set
         /// The items that the base picker should currently display as selected. If this is provided then the picker will act as a
         /// controlled component.
         abstract selectedItems: ResizeArray<'T> option with get, set
@@ -10695,7 +10695,7 @@ module __components_Shimmer_Shimmer =
     type IShimmerProps = __components_Shimmer_Shimmer_types.IShimmerProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Shimmer: (IShimmerProps -> JSX.Element)
+        abstract Shimmer: IShimmerProps -> JSX.Element
 
 module __components_Shimmer_Shimmer_styles =
     type IShimmerStyleProps = __components_Shimmer_Shimmer_types.IShimmerStyleProps
@@ -10877,7 +10877,7 @@ module __components_Slider_Slider =
     type ISliderProps = __components_Slider_Slider_types.ISliderProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Slider: (ISliderProps -> JSX.Element)
+        abstract Slider: ISliderProps -> JSX.Element
 
 module __components_Slider_Slider_scss =
 
@@ -10903,7 +10903,7 @@ module __components_Slider_Slider_styles =
     type ISliderStyles = __components_Slider_Slider_types.ISliderStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ISliderStyleProps -> ISliderStyles)
+        abstract getStyles: ISliderStyleProps -> ISliderStyles
 
 module __components_Slider_Slider_types =
     type SliderBase = __components_Slider_Slider_base.SliderBase
@@ -11017,7 +11017,7 @@ module __components_SpinButton_SpinButton_classNames =
     type Position = __utilities_positioning.Position
 
     type [<AllowNullLiteral>] IExports =
-        abstract getClassNames: (ISpinButtonStyles -> bool -> bool -> KeyboardSpinDirection -> Position -> ISpinButtonClassNames)
+        abstract getClassNames: ISpinButtonStyles -> bool -> bool -> KeyboardSpinDirection -> (Position) option -> ISpinButtonClassNames
 
     type [<AllowNullLiteral>] ISpinButtonClassNames =
         abstract root: string with get, set
@@ -11072,8 +11072,8 @@ module __components_SpinButton_SpinButton_styles =
     type ISpinButtonStyles = __components_SpinButton_SpinButton_types.ISpinButtonStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getArrowButtonStyles: (ITheme -> bool -> obj -> IButtonStyles)
-        abstract getStyles: (ITheme -> obj -> ISpinButtonStyles)
+        abstract getArrowButtonStyles: ITheme -> bool -> (obj) option -> IButtonStyles
+        abstract getStyles: ITheme -> (obj) option -> ISpinButtonStyles
 
 module __components_SpinButton_SpinButton_types =
     type Position = __utilities_positioning.Position
@@ -11094,7 +11094,7 @@ module __components_SpinButton_SpinButton_types =
 
     type [<AllowNullLiteral>] ISpinButtonProps =
         /// Gets the component ref.
-        abstract componentRef: (ISpinButton -> unit) option with get, set
+        abstract componentRef: ((ISpinButton) option -> unit) option with get, set
         /// <summary>
         /// The initial value of the SpinButton. Use this if you intend for the SpinButton to be an uncontrolled component.
         /// This value is mutually exclusive to value. Use one or the other.
@@ -11153,7 +11153,7 @@ module __components_SpinButton_SpinButton_types =
         abstract styles: obj option with get, set
         /// Custom function for providing the classNames for the spinbutton. Can be used to provide
         /// all styles for the component instead of applying them on top of the default styles.
-        abstract getClassNames: (ITheme -> bool -> bool -> KeyboardSpinDirection -> Position -> ISpinButtonClassNames) option with get, set
+        abstract getClassNames: (ITheme -> bool -> bool -> KeyboardSpinDirection -> (Position) option -> ISpinButtonClassNames) option with get, set
         /// Custom styles for the upArrow button.
         /// 
         /// Note: The buttons are in a checked state when arrow keys are used to
@@ -11288,14 +11288,14 @@ module __components_Spinner_Spinner =
     type ISpinnerProps = __components_Spinner_Spinner_types.ISpinnerProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Spinner: (ISpinnerProps -> JSX.Element)
+        abstract Spinner: ISpinnerProps -> JSX.Element
 
 module __components_Spinner_Spinner_styles =
     type ISpinnerStyleProps = __components_Spinner_Spinner_types.ISpinnerStyleProps
     type ISpinnerStyles = __components_Spinner_Spinner_types.ISpinnerStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ISpinnerStyleProps -> ISpinnerStyles)
+        abstract getStyles: ISpinnerStyleProps -> ISpinnerStyles
 
 module __components_Spinner_Spinner_types =
     type ITheme = Styling.ITheme
@@ -11427,7 +11427,7 @@ module __components_Sticky_Sticky =
         abstract removeSticky: (Sticky -> unit) with get, set
         abstract updateStickyRefHeights: (unit -> unit) with get, set
         abstract sortSticky: (Sticky -> unit) with get, set
-        abstract notifySubscribers: (bool -> unit) with get, set
+        abstract notifySubscribers: ((bool) option -> unit) with get, set
 
     type [<AllowNullLiteral>] StickyContext =
         abstract scrollablePane: StickyContextScrollablePane with get, set
@@ -11473,14 +11473,14 @@ module __components_SwatchColorPicker_ColorPickerGridCell =
     type IColorPickerGridCellProps = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ColorPickerGridCell: (IColorPickerGridCellProps -> JSX.Element)
+        abstract ColorPickerGridCell: IColorPickerGridCellProps -> JSX.Element
 
 module __components_SwatchColorPicker_ColorPickerGridCell_styles =
     type IColorPickerGridCellStyleProps = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellStyleProps
     type IColorPickerGridCellStyles = __components_SwatchColorPicker_ColorPickerGridCell_types.IColorPickerGridCellStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IColorPickerGridCellStyleProps -> IColorPickerGridCellStyles)
+        abstract getStyles: IColorPickerGridCellStyleProps -> IColorPickerGridCellStyles
 
 module __components_SwatchColorPicker_ColorPickerGridCell_types =
     type IStyle = Styling.IStyle
@@ -11511,7 +11511,7 @@ module __components_SwatchColorPicker_ColorPickerGridCell_types =
         /// The on click handler
         abstract onClick: (IColorCellProps -> unit) option with get, set
         /// Optional, the onHover handler
-        abstract onHover: (IColorCellProps -> unit) option with get, set
+        abstract onHover: ((IColorCellProps) option -> unit) option with get, set
         /// Optional, the onFocus handler
         abstract onFocus: (IColorCellProps -> unit) option with get, set
         /// Optional styles for the component.
@@ -11600,14 +11600,14 @@ module __components_SwatchColorPicker_SwatchColorPicker =
     type ISwatchColorPickerProps = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SwatchColorPicker: (ISwatchColorPickerProps -> JSX.Element)
+        abstract SwatchColorPicker: ISwatchColorPickerProps -> JSX.Element
 
 module __components_SwatchColorPicker_SwatchColorPicker_styles =
     type ISwatchColorPickerStyleProps = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerStyleProps
     type ISwatchColorPickerStyles = __components_SwatchColorPicker_SwatchColorPicker_types.ISwatchColorPickerStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ISwatchColorPickerStyleProps -> ISwatchColorPickerStyles)
+        abstract getStyles: ISwatchColorPickerStyleProps -> ISwatchColorPickerStyles
 
 module __components_SwatchColorPicker_SwatchColorPicker_types =
     type IStyle = Styling.IStyle
@@ -11622,7 +11622,7 @@ module __components_SwatchColorPicker_SwatchColorPicker_types =
 
     type [<AllowNullLiteral>] ISwatchColorPickerProps =
         /// Gets the component ref.
-        abstract componentRef: (ISwatchColorPicker -> unit) option with get, set
+        abstract componentRef: ((ISwatchColorPicker) option -> unit) option with get, set
         /// the number of columns for the swatch color picker
         abstract columnCount: float with get, set
         /// The id for the swatch color picker
@@ -11638,13 +11638,13 @@ module __components_SwatchColorPicker_SwatchColorPicker_types =
         /// Callback issued when the user changes the color.
         /// Note, if no id or color is given, there is no selected cell
         /// (e.g. the user executed the currently selected cell to unselect it)
-        abstract onColorChanged: (string -> string -> unit) option with get, set
+        abstract onColorChanged: ((string) option -> (string) option -> unit) option with get, set
         /// Callback issued when the user hovers over a color cell.
         /// Note, if no id or color is given, cells are not longer being hovered
-        abstract onCellHovered: (string -> string -> unit) option with get, set
+        abstract onCellHovered: ((string) option -> (string) option -> unit) option with get, set
         /// Callback issued when the user focuses a color cell.
         /// Note, if no id or color is given, cells are not longer being focused
-        abstract onCellFocused: (string -> string -> unit) option with get, set
+        abstract onCellFocused: ((string) option -> (string) option -> unit) option with get, set
         /// Is this swatch color picker disabled?
         abstract disabled: bool option with get, set
         /// The optional position this grid is in the parent set (index in a parent menu, for example)
@@ -11813,7 +11813,7 @@ module __components_TeachingBubble_TeachingBubble_types =
         /// Element to anchor the TeachingBubble to.
         abstract targetElement: HTMLElement option with get, set
         /// Callback when the TeachingBubble tries to close.
-        abstract onDismiss: (obj -> unit) option with get, set
+        abstract onDismiss: ((obj) option -> unit) option with get, set
         /// Whether or not the Teaching Bubble is wide, with image on the left side.
         abstract isWide: bool option with get, set
         /// A variation with smaller bold headline and margins to the body (hasCondensedHeadline takes precedence if it is also set to true).
@@ -12150,7 +12150,7 @@ module __components_Theme_ThemePage_styles =
     type IThemePageStyles = __components_Theme_ThemePage_types.IThemePageStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IThemePageStyleProps -> IThemePageStyles)
+        abstract getStyles: IThemePageStyleProps -> IThemePageStyles
 
 module __components_Theme_ThemePage_types =
     type IStyle = Styling.IStyle
@@ -12306,7 +12306,7 @@ module __components_Toggle_Toggle_classNames =
     type IToggleStyles = __components_Toggle_Toggle_types.IToggleStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getClassNames: (ITheme -> IToggleStyles -> string -> bool -> bool -> IToggleClassNames)
+        abstract getClassNames: ITheme -> IToggleStyles -> string -> bool -> bool -> IToggleClassNames
 
     type [<AllowNullLiteral>] IToggleClassNames =
         abstract root: string option with get, set
@@ -12460,14 +12460,14 @@ module __components_Tooltip_Tooltip =
     type ITooltipProps = __components_Tooltip_Tooltip_types.ITooltipProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Tooltip: (ITooltipProps -> JSX.Element)
+        abstract Tooltip: ITooltipProps -> JSX.Element
 
 module __components_Tooltip_Tooltip_styles =
     type ITooltipStyleProps = __components_Tooltip_Tooltip_types.ITooltipStyleProps
     type ITooltipStyles = __components_Tooltip_Tooltip_types.ITooltipStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITooltipStyleProps -> ITooltipStyles)
+        abstract getStyles: ITooltipStyleProps -> ITooltipStyles
 
 module __components_Tooltip_Tooltip_types =
     type TooltipBase = __components_Tooltip_Tooltip_base.TooltipBase
@@ -13224,13 +13224,13 @@ module __utilities_dragdrop_interfaces =
         abstract dispose: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] IDragDropEvents =
-        abstract canDrop: (IDragDropContext -> IDragDropContext -> bool) option with get, set
-        abstract canDrag: (obj -> bool) option with get, set
-        abstract onDragEnter: (obj -> DragEvent -> string) option with get, set
-        abstract onDragLeave: (obj -> DragEvent -> unit) option with get, set
-        abstract onDrop: (obj -> DragEvent -> unit) option with get, set
-        abstract onDragStart: (obj -> float -> ResizeArray<obj option> -> MouseEvent -> unit) option with get, set
-        abstract onDragEnd: (obj -> DragEvent -> unit) option with get, set
+        abstract canDrop: ((IDragDropContext) option -> (IDragDropContext) option -> bool) option with get, set
+        abstract canDrag: ((obj) option -> bool) option with get, set
+        abstract onDragEnter: ((obj) option -> (DragEvent) option -> string) option with get, set
+        abstract onDragLeave: ((obj) option -> (DragEvent) option -> unit) option with get, set
+        abstract onDrop: ((obj) option -> (DragEvent) option -> unit) option with get, set
+        abstract onDragStart: ((obj) option -> (float) option -> (ResizeArray<obj option>) option -> (MouseEvent) option -> unit) option with get, set
+        abstract onDragEnd: ((obj) option -> (DragEvent) option -> unit) option with get, set
 
     type [<AllowNullLiteral>] IDragDropContext =
         abstract data: obj option with get, set
@@ -13248,12 +13248,12 @@ module __utilities_dragdrop_interfaces =
         abstract selectionIndex: float with get, set
         abstract context: IDragDropContext with get, set
         abstract updateDropState: (bool -> DragEvent -> unit) with get, set
-        abstract canDrop: (IDragDropContext -> IDragDropContext -> bool) option with get, set
-        abstract canDrag: (obj -> bool) option with get, set
-        abstract onDragStart: (obj -> float -> ResizeArray<obj option> -> MouseEvent -> unit) option with get, set
-        abstract onDrop: (obj -> DragEvent -> unit) option with get, set
-        abstract onDragEnd: (obj -> DragEvent -> unit) option with get, set
-        abstract onDragOver: (obj -> DragEvent -> unit) option with get, set
+        abstract canDrop: ((IDragDropContext) option -> (IDragDropContext) option -> bool) option with get, set
+        abstract canDrag: ((obj) option -> bool) option with get, set
+        abstract onDragStart: ((obj) option -> (float) option -> (ResizeArray<obj option>) option -> (MouseEvent) option -> unit) option with get, set
+        abstract onDrop: ((obj) option -> (DragEvent) option -> unit) option with get, set
+        abstract onDragEnd: ((obj) option -> (DragEvent) option -> unit) option with get, set
+        abstract onDragOver: ((obj) option -> (DragEvent) option -> unit) option with get, set
 
     type [<AllowNullLiteral>] IDragDropEvent =
         abstract isHandled: bool option with get, set
@@ -13264,7 +13264,7 @@ module __utilities_dragdrop_interfaces =
 
     type [<AllowNullLiteral>] IDragDropOptionsEventMap =
         abstract eventName: string with get, set
-        abstract callback: (IDragDropContext -> obj -> unit) with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
 
 module __utilities_grid_Grid_base =
     type BaseComponent = Utilities.BaseComponent
@@ -13289,14 +13289,14 @@ module __utilities_grid_Grid =
     type IGridProps = __utilities_grid_Grid_types.IGridProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract Grid: (IGridProps -> JSX.Element)
+        abstract Grid: IGridProps -> JSX.Element
 
 module __utilities_grid_Grid_styles =
     type IGridStyleProps = __utilities_grid_Grid_types.IGridStyleProps
     type IGridStyles = __utilities_grid_Grid_types.IGridStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IGridStyleProps -> IGridStyles)
+        abstract getStyles: IGridStyleProps -> IGridStyles
 
 module __utilities_grid_Grid_types =
     type IStyle = Styling.IStyle
@@ -13308,7 +13308,7 @@ module __utilities_grid_Grid_types =
 
     type [<AllowNullLiteral>] IGridProps =
         /// Gets the component ref.
-        abstract componentRef: (IGrid -> unit) option with get, set
+        abstract componentRef: ((IGrid) option -> unit) option with get, set
         /// The items to turn into a grid
         abstract items: ResizeArray<obj option> with get, set
         /// The number of columns
@@ -13389,7 +13389,7 @@ module __utilities_grid_GridCell_types =
         /// The render callback to handle rendering the item
         abstract onRenderItem: ('T -> JSX.Element) with get, set
         /// Optional, the onHover handler
-        abstract onHover: ('T -> unit) option with get, set
+        abstract onHover: (('T) option -> unit) option with get, set
         /// Optional, the onFocus handler
         abstract onFocus: ('T -> unit) option with get, set
         /// The accessible role for this option
@@ -13429,7 +13429,7 @@ module __utilities_groupedList_GroupedListUtility =
     type [<AllowNullLiteral>] IExports =
         /// <summary>Takes an array of groups and returns a count of the groups and all descendant groups.</summary>
         /// <param name="groups">The array of groups to count.</param>
-        abstract GetGroupCount: (ResizeArray<IGroup> option -> float)
+        abstract GetGroupCount: ResizeArray<IGroup> option -> float
 
 module __utilities_keytips_IKeytipTransitionKey =
 
@@ -13663,12 +13663,12 @@ Use either positionElement, or positionCallout")>]
         abstract targetRectangle: Rectangle with get, set
 
     type [<AllowNullLiteral>] IExports__positioningTestPackage =
-        abstract _finalizePositionData: (IElementPosition -> HTMLElement -> bool -> IPositionedData) with get, set
+        abstract _finalizePositionData: (IElementPosition -> HTMLElement -> (bool) option -> IPositionedData) with get, set
         abstract _calculateActualBeakWidthInPixels: (float -> float) with get, set
-        abstract _positionElementWithinBounds: (Rectangle -> Rectangle -> Rectangle -> IPositionDirectionalHintData -> float -> bool -> bool -> IElementPosition) with get, set
+        abstract _positionElementWithinBounds: (Rectangle -> Rectangle -> Rectangle -> IPositionDirectionalHintData -> float -> (bool) option -> (bool) option -> IElementPosition) with get, set
         abstract _positionBeak: (float -> IElementPositionInfo -> Rectangle) with get, set
-        abstract _getPositionData: (DirectionalHint -> DirectionalHint -> IPositionedData -> IPositionDirectionalHintData) with get, set
-        abstract _getMaxHeightFromTargetRectangle: (Rectangle -> DirectionalHint -> float -> Rectangle -> bool -> float) with get, set
+        abstract _getPositionData: ((DirectionalHint) option -> (DirectionalHint) option -> (IPositionedData) option -> IPositionDirectionalHintData) with get, set
+        abstract _getMaxHeightFromTargetRectangle: (Rectangle -> DirectionalHint -> float -> Rectangle -> (bool) option -> float) with get, set
 
 module __utilities_positioning_positioning_types =
     type DirectionalHint = __common_DirectionalHint.DirectionalHint
@@ -13845,7 +13845,7 @@ module __utilities_selectableOption_SelectableDroppableText_types =
         /// Collection of options for this ISelectableDroppableText
         abstract options: obj option with get, set
         /// Callback issues when the selected option changes
-        abstract onChanged: (ISelectableOption -> float -> unit) option with get, set
+        abstract onChanged: (ISelectableOption -> (float) option -> unit) option with get, set
         /// Optional custom renderer for the ISelectableDroppableText container
         abstract onRenderContainer: IRenderFunction<ISelectableDroppableTextProps<'T>> option with get, set
         /// Optional custom renderer for the ISelectableDroppableText list
@@ -13942,7 +13942,7 @@ module __utilities_selection_Selection =
 
     type [<AllowNullLiteral>] ISelectionOptions =
         abstract onSelectionChanged: (unit -> unit) option with get, set
-        abstract getKey: (IObjectWithKey -> float -> U2<string, float>) option with get, set
+        abstract getKey: (IObjectWithKey -> (float) option -> U2<string, float>) option with get, set
         abstract canSelectItem: (IObjectWithKey -> bool) option with get, set
         abstract selectionMode: SelectionMode option with get, set
 
@@ -14020,8 +14020,8 @@ module __utilities_selection_SelectionZone =
         abstract disableAutoSelectOnInputElements: bool option with get, set
         abstract enterModalOnTouch: bool option with get, set
         abstract isSelectedOnFocus: bool option with get, set
-        abstract onItemInvoked: (IObjectWithKey -> float -> Event -> unit) option with get, set
-        abstract onItemContextMenu: (obj -> float -> Event -> U2<unit, bool>) option with get, set
+        abstract onItemInvoked: ((IObjectWithKey) option -> (float) option -> (Event) option -> unit) option with get, set
+        abstract onItemContextMenu: ((obj) option -> (float) option -> (Event) option -> U2<unit, bool>) option with get, set
 
     type [<AllowNullLiteral>] SelectionZone =
         inherit BaseComponent<ISelectionZoneProps, ISelectionZonePropsLayout>
@@ -14079,7 +14079,7 @@ module __components_ActivityItem_examples_ActivityItem_Example_styles =
     type IStyle = Styling.IStyle
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IActivityItemExampleStyleProps -> IActivityItemExampleStyles)
+        abstract getStyles: IActivityItemExampleStyleProps -> IActivityItemExampleStyles
 
     type [<AllowNullLiteral>] IActivityItemExampleStyleProps =
         interface end
@@ -14154,7 +14154,7 @@ module __components_Button_ActionButton_ActionButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> IButtonStyles
 
 module __components_Button_CommandBarButton_CommandBarButton =
     type BaseComponent = Utilities.BaseComponent
@@ -14180,7 +14180,7 @@ module __components_Button_CommandBarButton_CommandBarButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> string -> string -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> (string) option -> (string) option -> IButtonStyles
 
 module __components_Button_CommandButton_CommandButton =
     type ActionButton = __components_Button_ActionButton_ActionButton.ActionButton
@@ -14212,7 +14212,7 @@ module __components_Button_CompoundButton_CompoundButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> bool -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> (bool) option -> IButtonStyles
 
 module __components_Button_DefaultButton_DefaultButton =
     type BaseComponent = Utilities.BaseComponent
@@ -14238,7 +14238,7 @@ module __components_Button_DefaultButton_DefaultButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> bool -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> (bool) option -> IButtonStyles
 
 module __components_Button_examples_Button_Action_Example =
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
@@ -14429,7 +14429,7 @@ module __components_Button_examples_Button_Split_Example_styles =
     type IButtonStyles = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getCustomSplitButtonStyles: (unit -> IButtonStyles)
+        abstract getCustomSplitButtonStyles: unit -> IButtonStyles
 
 module __components_Button_examples_Button_Swap_Example =
     type IButtonProps = __components_Button_examples_office_ui_fabric_react_lib_Button.IButtonProps
@@ -14473,7 +14473,7 @@ module __components_Button_IconButton_IconButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> IButtonStyles
 
 module __components_Button_MessageBarButton_MessageBarButton =
     type BaseComponent = Utilities.BaseComponent
@@ -14497,7 +14497,7 @@ module __components_Button_MessageBarButton_MessageBarButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> string -> string -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> (string) option -> (string) option -> IButtonStyles
 
 module __components_Button_PrimaryButton_PrimaryButton =
     type BaseComponent = Utilities.BaseComponent
@@ -14522,7 +14522,7 @@ module __components_Button_SplitButton_SplitButton_classNames =
     type IButtonStyles = __components_Button_Button_types.IButtonStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getClassNames: (IButtonStyles -> bool -> bool -> bool -> ISplitButtonClassNames)
+        abstract getClassNames: IButtonStyles -> bool -> bool -> bool -> ISplitButtonClassNames
 
     type [<AllowNullLiteral>] ISplitButtonClassNames =
         abstract root: string option with get, set
@@ -14536,7 +14536,7 @@ module __components_Button_SplitButton_SplitButton_styles =
     type ITheme = Styling.ITheme
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (ITheme -> IButtonStyles -> IButtonStyles)
+        abstract getStyles: ITheme -> (IButtonStyles) option -> IButtonStyles
 
 module __components_Calendar_examples_Calendar_Button_Example =
 
@@ -14934,8 +14934,8 @@ module __components_Coachmark_PositioningContainer_PositioningContainer =
         abstract render: unit -> JSX.Element option
         /// Deprecated. Use onResize instead.
         [<Obsolete("")>]
-        abstract dismiss: (U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>> -> unit) with get, set
-        abstract onResize: (U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>> -> unit) with get, set
+        abstract dismiss: ((U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>>) option -> unit) with get, set
+        abstract onResize: ((U3<Event, React.KeyboardEvent<HTMLElement>, React.MouseEvent<HTMLElement>>) option -> unit) with get, set
         abstract _dismissOnScroll: ev: Event -> unit
         abstract _dismissOnLostFocus: ev: Event -> unit
         abstract _setInitialFocus: (unit -> unit) with get, set
@@ -14951,7 +14951,7 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_styles =
     type [<AllowNullLiteral>] IExports =
         abstract highContrastActive: styles: IStyle -> obj option
         abstract focusClear: unit -> obj option
-        abstract getClassNames: (unit -> IPositioningContainerNames)
+        abstract getClassNames: unit -> IPositioningContainerNames
 
     type [<AllowNullLiteral>] IPositioningContainerStyles =
         /// Style for the root element in the default enabled/unchecked state.
@@ -15047,9 +15047,9 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_types =
         /// gives the user information about how the container is positioned such
         /// as the element position, the target edge, and the alignment edge of the container.
         /// </param>
-        abstract onPositioned: (IPositionedData -> unit) option with get, set
+        abstract onPositioned: ((IPositionedData) option -> unit) option with get, set
         /// Callback when the positioningContainer tries to close.
-        abstract onDismiss: (obj -> unit) option with get, set
+        abstract onDismiss: ((obj) option -> unit) option with get, set
         /// If true do not render on a new layer. If false render on a new layer.
         abstract doNotLayer: bool option with get, set
         /// <summary>
@@ -15459,7 +15459,7 @@ module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemW
         abstract dismissSubMenu: (unit -> unit) option with get, set
         /// This prop will get set by ContextualMenu and can be called to close the menu this item belongs to.
         /// If dismissAll is true, all menus will be closed.
-        abstract dismissMenu: (obj -> bool -> unit) option with get, set
+        abstract dismissMenu: ((obj) option -> (bool) option -> unit) option with get, set
 
 module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuSplitButton =
     type ContextualMenuItemWrapper = __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper.ContextualMenuItemWrapper
@@ -16506,11 +16506,11 @@ module __components_FloatingPicker_Suggestions_Suggestions_types =
         /// How the suggestion should look in the suggestion list.
         abstract onRenderSuggestion: ('T -> 'T -> JSX.Element) option with get, set
         /// What should occur when a suggestion is clicked
-        abstract onSuggestionClick: (React.MouseEvent<HTMLElement> -> obj -> float -> unit) with get, set
+        abstract onSuggestionClick: ((React.MouseEvent<HTMLElement>) option -> (obj) option -> (float) option -> unit) with get, set
         /// The list of Suggestions that will be displayed
         abstract suggestions: ResizeArray<ISuggestionModel<'T>> with get, set
         /// Function to fire when one of the optional remove buttons on a suggestion is clicked.
-        abstract onSuggestionRemove: (React.MouseEvent<HTMLElement> -> IPersonaProps -> float -> unit) option with get, set
+        abstract onSuggestionRemove: ((React.MouseEvent<HTMLElement>) option -> (IPersonaProps) option -> (float) option -> unit) option with get, set
         /// Screen reader message to read when there are suggestions available.
         abstract suggestionsAvailableAlertText: string option with get, set
         /// An ARIA label for the container that is the parent of the suggestions.
@@ -16769,7 +16769,7 @@ module __components_FocusTrapZone_examples_FocusTrapZone_Nested_Example =
 module __components_FocusZone_examples_FocusZone_Disabled_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract FocusZoneDisabledExample: (unit -> JSX.Element)
+        abstract FocusZoneDisabledExample: unit -> JSX.Element
 
 module __components_FocusZone_examples_FocusZone_List_Example =
 
@@ -16789,12 +16789,12 @@ module __components_FocusZone_examples_FocusZone_List_Example =
 module __components_FocusZone_examples_FocusZone_Photos_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract FocusZonePhotosExample: (unit -> JSX.Element)
+        abstract FocusZonePhotosExample: unit -> JSX.Element
 
 module __components_FocusZone_examples_FocusZone_Tabbable_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract FocusZoneTabbableExample: (unit -> JSX.Element)
+        abstract FocusZoneTabbableExample: unit -> JSX.Element
 
 module __components_GroupedList_examples_GroupedList_Basic_Example =
 
@@ -17084,7 +17084,7 @@ module __components_Keytip_examples_KeytipSetup =
 module __components_Label_examples_Label_Basic_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract LabelBasicExample: (unit -> JSX.Element)
+        abstract LabelBasicExample: unit -> JSX.Element
 
 module __components_Layer_examples_Layer_Basic_Example =
     module PropTypes = Prop_types
@@ -17291,7 +17291,7 @@ module __components_MarqueeSelection_examples_MarqueeSelection_Basic_Example =
 module __components_MessageBar_examples_MessageBar_Basic_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract MessageBarBasicExample: (unit -> JSX.Element)
+        abstract MessageBarBasicExample: unit -> JSX.Element
 
 module __components_Modal_examples_Modal_Basic_Example =
 
@@ -17440,7 +17440,7 @@ module __components_Overlay_examples_Overlay_Example_styles =
     type IStyle = Styling.IStyle
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (unit -> IOverlayExampleStyles)
+        abstract getStyles: unit -> IOverlayExampleStyles
 
     type [<AllowNullLiteral>] IOverlayExampleStyles =
         abstract root: IStyle with get, set
@@ -17872,14 +17872,14 @@ module __components_Persona_PersonaCoin_PersonaCoin =
 
     type [<AllowNullLiteral>] IExports =
         /// PersonaCoin is used to render an individual's avatar and presence.
-        abstract PersonaCoin: (IPersonaCoinProps -> JSX.Element)
+        abstract PersonaCoin: IPersonaCoinProps -> JSX.Element
 
 module __components_Persona_PersonaCoin_PersonaCoin_styles =
     type IPersonaCoinStyleProps = __components_Persona_Persona_types.IPersonaCoinStyleProps
     type IPersonaCoinStyles = __components_Persona_Persona_types.IPersonaCoinStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IPersonaCoinStyleProps -> IPersonaCoinStyles)
+        abstract getStyles: IPersonaCoinStyleProps -> IPersonaCoinStyles
 
 module __components_Persona_PersonaPresence_PersonaPresence_base =
     type BaseComponent = Utilities.BaseComponent
@@ -17915,14 +17915,14 @@ module __components_Persona_PersonaPresence_PersonaPresence =
 
     type [<AllowNullLiteral>] IExports =
         /// PersonaPresence is used to render an individual's presence.
-        abstract PersonaPresence: (IPersonaPresenceProps -> JSX.Element)
+        abstract PersonaPresence: IPersonaPresenceProps -> JSX.Element
 
 module __components_Persona_PersonaPresence_PersonaPresence_styles =
     type IPersonaPresenceStyleProps = __components_Persona_Persona_types.IPersonaPresenceStyleProps
     type IPersonaPresenceStyles = __components_Persona_Persona_types.IPersonaPresenceStyles
 
     type [<AllowNullLiteral>] IExports =
-        abstract getStyles: (IPersonaPresenceStyleProps -> IPersonaPresenceStyles)
+        abstract getStyles: IPersonaPresenceStyleProps -> IPersonaPresenceStyles
 
 module __components_pickers_examples_ITagPickerDemoPageState =
 
@@ -17941,9 +17941,9 @@ module __components_pickers_examples_Picker_CustomResult_Example =
     type ISuggestionItemProps = __components_pickers_examples_office_ui_fabric_react_lib_Pickers.ISuggestionItemProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SuggestedDocumentItem: (IFullDocumentCardProps -> JSX.Element)
-        abstract SuggestedBigItem: (IFullDocumentCardProps -> ISuggestionItemProps<obj option> -> JSX.Element)
-        abstract SelectedDocumentItem: (IPickerItemProps<IFullDocumentCardProps> -> JSX.Element)
+        abstract SuggestedDocumentItem: IFullDocumentCardProps -> JSX.Element
+        abstract SuggestedBigItem: IFullDocumentCardProps -> ISuggestionItemProps<obj option> -> JSX.Element
+        abstract SelectedDocumentItem: IPickerItemProps<IFullDocumentCardProps> -> JSX.Element
         abstract DocumentPicker: DocumentPickerStatic
         abstract PickerCustomResultExample: PickerCustomResultExampleStatic
 
@@ -18083,7 +18083,7 @@ module __components_pickers_PeoplePicker_PeoplePicker =
 
     type [<AllowNullLiteral>] NormalPeoplePickerStaticDefaultProps =
         abstract onRenderItem: (IPeoplePickerItemProps -> JSX.Element) with get, set
-        abstract onRenderSuggestionsItem: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element) with get, set
+        abstract onRenderSuggestionsItem: (IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element) with get, set
         abstract createGenericItem: obj with get, set
 
 module __components_pickers_PeoplePicker_PeoplePicker_scss =
@@ -18199,7 +18199,7 @@ module __components_pickers_Suggestions_Suggestions_types =
         /// How the suggestion should look in the suggestion list.
         abstract onRenderSuggestion: ('T -> 'T -> JSX.Element) option with get, set
         /// What should occur when a suggestion is clicked
-        abstract onSuggestionClick: (React.MouseEvent<HTMLElement> -> obj -> float -> unit) with get, set
+        abstract onSuggestionClick: ((React.MouseEvent<HTMLElement>) option -> (obj) option -> (float) option -> unit) with get, set
         /// The list of Suggestions that will be displayed
         abstract suggestions: ResizeArray<ISuggestionModel<'T>> with get, set
         /// How the "no result found" should look in the suggestion list.
@@ -18242,7 +18242,7 @@ module __components_pickers_Suggestions_Suggestions_types =
         /// Indicates if a short list of recent suggestions should be shown.
         abstract isMostRecentlyUsedVisible: bool option with get, set
         /// Function to fire when one of the optional remove buttons on a suggestion is clicked.
-        abstract onSuggestionRemove: (React.MouseEvent<HTMLElement> -> IPersonaProps -> float -> unit) option with get, set
+        abstract onSuggestionRemove: ((React.MouseEvent<HTMLElement>) option -> (IPersonaProps) option -> (float) option -> unit) option with get, set
         /// <summary>Indicates if the text in resultsFooter or resultsFooterFull should be shown at the end of the suggestion list.</summary>
         /// <default>true.</default>
         abstract isResultsFooterVisible: bool option with get, set
@@ -18269,7 +18269,7 @@ module __components_pickers_Suggestions_Suggestions_types =
     type [<AllowNullLiteral>] ISuggestionItemProps<'T> =
         abstract componentRef: (unit -> unit) option with get, set
         abstract suggestionModel: ISuggestionModel<'T> with get, set
-        abstract RenderSuggestion: ('T -> ISuggestionItemProps<'T> -> JSX.Element) with get, set
+        abstract RenderSuggestion: ('T -> (ISuggestionItemProps<'T>) option -> JSX.Element) with get, set
         abstract onClick: (React.MouseEvent<HTMLButtonElement> -> unit) with get, set
         abstract onRemoveItem: (React.MouseEvent<HTMLButtonElement> -> unit) with get, set
         abstract className: string option with get, set
@@ -18316,7 +18316,7 @@ module __components_pickers_TagPicker_TagItem =
     type ITag = __components_pickers_TagPicker_TagPicker.ITag
 
     type [<AllowNullLiteral>] IExports =
-        abstract TagItem: (ITagItemProps -> JSX.Element)
+        abstract TagItem: ITagItemProps -> JSX.Element
 
     type [<AllowNullLiteral>] ITagItemProps =
         inherit IPickerItemProps<ITag>
@@ -18966,7 +18966,7 @@ module __components_Shimmer_ShimmerCircle_ShimmerCircle =
     type IShimmerCircleProps = __components_Shimmer_ShimmerCircle_ShimmerCircle_types.IShimmerCircleProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ShimmerCircle: (IShimmerCircleProps -> JSX.Element)
+        abstract ShimmerCircle: IShimmerCircleProps -> JSX.Element
 
 module __components_Shimmer_ShimmerCircle_ShimmerCircle_styles =
     type IShimmerCircleStyleProps = __components_Shimmer_ShimmerCircle_ShimmerCircle_types.IShimmerCircleStyleProps
@@ -19040,7 +19040,7 @@ module __components_Shimmer_ShimmerElementsGroup_ShimmerElementsGroup =
     type IShimmerElementsGroupProps = __components_Shimmer_ShimmerElementsGroup_ShimmerElementsGroup_types.IShimmerElementsGroupProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ShimmerElementsGroup: (IShimmerElementsGroupProps -> JSX.Element)
+        abstract ShimmerElementsGroup: IShimmerElementsGroupProps -> JSX.Element
 
 module __components_Shimmer_ShimmerElementsGroup_ShimmerElementsGroup_styles =
     type IShimmerElementsGroupStyleProps = __components_Shimmer_ShimmerElementsGroup_ShimmerElementsGroup_types.IShimmerElementsGroupStyleProps
@@ -19106,7 +19106,7 @@ module __components_Shimmer_ShimmerGap_ShimmerGap =
     type IShimmerGapProps = __components_Shimmer_ShimmerGap_ShimmerGap_types.IShimmerGapProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ShimmerGap: (IShimmerGapProps -> JSX.Element)
+        abstract ShimmerGap: IShimmerGapProps -> JSX.Element
 
 module __components_Shimmer_ShimmerGap_ShimmerGap_styles =
     type IShimmerGapStyleProps = __components_Shimmer_ShimmerGap_ShimmerGap_types.IShimmerGapStyleProps
@@ -19180,7 +19180,7 @@ module __components_Shimmer_ShimmerLine_ShimmerLine =
     type IShimmerLineProps = __components_Shimmer_ShimmerLine_ShimmerLine_types.IShimmerLineProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract ShimmerLine: (IShimmerLineProps -> JSX.Element)
+        abstract ShimmerLine: IShimmerLineProps -> JSX.Element
 
 module __components_Shimmer_ShimmerLine_ShimmerLine_styles =
     type IShimmerLineStyleProps = __components_Shimmer_ShimmerLine_ShimmerLine_types.IShimmerLineStyleProps
@@ -19743,12 +19743,12 @@ module __components_TextField_MaskedTextField_MaskedTextField =
 module __components_Toggle_examples_Toggle_AriaLabel_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract ToggleAriaLabelExample: (unit -> JSX.Element)
+        abstract ToggleAriaLabelExample: unit -> JSX.Element
 
 module __components_Toggle_examples_Toggle_Basic_Example =
 
     type [<AllowNullLiteral>] IExports =
-        abstract ToggleBasicExample: (unit -> JSX.Element)
+        abstract ToggleBasicExample: unit -> JSX.Element
 
 module __components_Tooltip_examples_Tooltip_Basic_Example =
     type BaseComponent = __components_Tooltip_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
@@ -19935,14 +19935,14 @@ module __components_FloatingPicker_PeoplePicker_PeoplePickerItems_SelectedItemDe
     type IPeoplePickerItemProps = ExtendedPicker.IPeoplePickerItemProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SelectedItemDefault: (IPeoplePickerItemProps -> JSX.Element)
+        abstract SelectedItemDefault: IPeoplePickerItemProps -> JSX.Element
 
 module __components_FloatingPicker_PeoplePicker_PeoplePickerItems_SuggestionItemDefault =
     type IPersonaProps = Persona.IPersonaProps
     type IBasePickerSuggestionsProps = Pickers.IBasePickerSuggestionsProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SuggestionItemNormal: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element)
+        abstract SuggestionItemNormal: IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element
 
 module __components_pickers_PeoplePicker_examples_PeoplePicker_Types_Example =
     type BaseComponent = __components_pickers_PeoplePicker_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
@@ -20007,7 +20007,7 @@ module __components_pickers_PeoplePicker_PeoplePickerItems_SelectedItemDefault =
     type IPeoplePickerItemProps = __components_pickers_PeoplePicker_PeoplePickerItems_PeoplePickerItem_types.IPeoplePickerItemProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SelectedItemDefault: (IPeoplePickerItemProps -> JSX.Element)
+        abstract SelectedItemDefault: IPeoplePickerItemProps -> JSX.Element
 
 module __components_pickers_PeoplePicker_PeoplePickerItems_SelectedItemWithMenu =
     type BaseComponent = Utilities.BaseComponent
@@ -20035,8 +20035,8 @@ module __components_pickers_PeoplePicker_PeoplePickerItems_SuggestionItemDefault
     type IBasePickerSuggestionsProps = Pickers.IBasePickerSuggestionsProps
 
     type [<AllowNullLiteral>] IExports =
-        abstract SuggestionItemNormal: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element)
-        abstract SuggestionItemSmall: (IPersonaProps -> IBasePickerSuggestionsProps -> JSX.Element)
+        abstract SuggestionItemNormal: IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element
+        abstract SuggestionItemSmall: IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element
 
 module __components_SelectedItemsList_SelectedPeopleList_Items_EditingItem =
     type BaseComponent = Utilities.BaseComponent

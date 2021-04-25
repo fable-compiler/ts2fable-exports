@@ -856,16 +856,16 @@ type [<AllowNullLiteral>] LayoutAnimationStatic =
     /// <c>update</c>, config for animating views that have been updated (see Anim type)
     /// </param>
     /// <param name="onAnimationDidEnd">Called when the animation finished. Only supported on iOS.</param>
-    abstract configureNext: (LayoutAnimationConfig -> (unit -> unit) -> unit) with get, set
+    abstract configureNext: (LayoutAnimationConfig -> ((unit -> unit)) option -> unit) with get, set
     /// Helper for creating a config for configureNext.
-    abstract create: (float -> string -> string -> LayoutAnimationConfig) with get, set
+    abstract create: (float -> (string) option -> (string) option -> LayoutAnimationConfig) with get, set
     abstract Types: LayoutAnimationTypes with get, set
     abstract Properties: LayoutAnimationProperties with get, set
     abstract configChecker: (LayoutAnimationStaticConfigChecker -> obj option) with get, set
     abstract Presets: LayoutAnimationStaticPresets with get, set
-    abstract easeInEaseOut: ((unit -> unit) -> unit) with get, set
-    abstract linear: ((unit -> unit) -> unit) with get, set
-    abstract spring: ((unit -> unit) -> unit) with get, set
+    abstract easeInEaseOut: (((unit -> unit)) option -> unit) with get, set
+    abstract linear: (((unit -> unit)) option -> unit) with get, set
+    abstract spring: (((unit -> unit)) option -> unit) with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexAlignType =
     | [<CompiledName "flex-start">] FlexStart
@@ -3464,7 +3464,7 @@ type [<AllowNullLiteral>] FlatList<'ItemT> =
     /// Exports some data, e.g. for perf investigations or analytics.
     abstract getMetrics: (unit -> FlatListGetMetrics) with get, set
     /// <summary>Scrolls to the end of the content. May be janky without <c>getItemLayout</c> prop.</summary>
-    abstract scrollToEnd: (FlatListScrollToEnd -> unit) with get, set
+    abstract scrollToEnd: ((FlatListScrollToEnd) option -> unit) with get, set
     /// Scrolls to the item at the specified index such that it is positioned in the viewable area
     /// such that viewPosition 0 places it at the top, 1 at the bottom, and 0.5 centered in the middle.
     /// Cannot scroll to locations outside the render window without specifying the getItemLayout prop.
@@ -3760,7 +3760,7 @@ type [<AllowNullLiteral>] ListViewProps =
     /// a renderable component to be rendered as the row.  By default the data
     /// is exactly what was put into the data source, but it's also possible to
     /// provide custom extractors.
-    abstract renderRow: (obj option -> U2<string, float> -> U2<string, float> -> bool -> React.ReactElement<obj option>) with get, set
+    abstract renderRow: (obj option -> U2<string, float> -> U2<string, float> -> (bool) option -> React.ReactElement<obj option>) with get, set
     /// A function that returns the scrollable component in which the list rows are rendered.
     /// Defaults to returning a ScrollView with the given props.
     abstract renderScrollComponent: (ScrollViewProps -> React.ReactElement<ScrollViewProps>) option with get, set
@@ -3776,7 +3776,7 @@ type [<AllowNullLiteral>] ListViewProps =
     /// If provided, a renderable component to be rendered as the separator below each row
     /// but not the last row if there is a section header below.
     /// Take a sectionID and rowID of the row above and whether its adjacent row is highlighted.
-    abstract renderSeparator: (U2<string, float> -> U2<string, float> -> bool -> React.ReactElement<obj option>) option with get, set
+    abstract renderSeparator: (U2<string, float> -> U2<string, float> -> (bool) option -> React.ReactElement<obj option>) option with get, set
     /// How early to start rendering rows before they come on screen, in
     /// pixels.
     abstract scrollRenderAheadDistance: float option with get, set
@@ -3824,7 +3824,7 @@ type [<AllowNullLiteral>] ListView =
     /// 
     /// See <c>ScrollView#scrollTo</c>.
     /// </summary>
-    abstract scrollTo: (U2<float, RecyclerViewBackedScrollViewScrollTo> -> float -> bool -> unit) with get, set
+    abstract scrollTo: ((U2<float, RecyclerViewBackedScrollViewScrollTo>) option -> (float) option -> (bool) option -> unit) with get, set
 
 type [<AllowNullLiteral>] ListViewStatic =
     [<EmitConstructor>] abstract Create: unit -> ListView
@@ -4435,7 +4435,7 @@ module StyleSheet =
         abstract bottom: obj with get, set
 
 type [<AllowNullLiteral>] RelayProfiler =
-    abstract attachProfileHandler: name: string * handler: (string -> obj -> (unit -> unit)) -> unit
+    abstract attachProfileHandler: name: string * handler: (string -> (obj) option -> (unit -> unit)) -> unit
     abstract attachAggregateHandler: name: string * handler: (string -> (unit -> unit) -> unit) -> unit
 
 type [<AllowNullLiteral>] SystraceStatic =
@@ -4776,7 +4776,7 @@ type [<AllowNullLiteral>] InteractionManagerStatic =
     abstract setDeadline: deadline: float -> unit
 
 type [<AllowNullLiteral>] InteractionManagerStaticRunAfterInteractionsReturn =
-    abstract ``then``: ((unit -> obj option) -> (unit -> obj option) -> Promise<obj option>) with get, set
+    abstract ``then``: (((unit -> obj option)) option -> ((unit -> obj option)) option -> Promise<obj option>) with get, set
     abstract ``done``: (ResizeArray<obj option> -> obj option) with get, set
     abstract cancel: (unit -> unit) with get, set
 
@@ -5296,7 +5296,7 @@ type [<AllowNullLiteral>] SwipeableListViewProps =
     /// </summary>
     abstract dataSource: SwipeableListViewDataSource with get, set
     abstract maxSwipeDistance: float with get, set
-    abstract renderRow: (obj option -> U2<string, float> -> U2<string, float> -> bool -> React.ReactElement<obj option>) with get, set
+    abstract renderRow: (obj option -> U2<string, float> -> U2<string, float> -> (bool) option -> React.ReactElement<obj option>) with get, set
     abstract renderQuickActions: rowData: obj option * sectionID: U2<string, float> * rowID: U2<string, float> -> React.ReactElement<obj option>
 
 /// <summary>
@@ -5516,11 +5516,11 @@ type [<AllowNullLiteral>] AlertOptions =
 /// </code>
 /// </summary>
 type [<AllowNullLiteral>] AlertStatic =
-    abstract alert: (string -> string -> ResizeArray<AlertButton> -> AlertOptions -> string -> unit) with get, set
+    abstract alert: (string -> (string) option -> (ResizeArray<AlertButton>) option -> (AlertOptions) option -> (string) option -> unit) with get, set
 
 /// Wrapper around the Android native module.
 type [<AllowNullLiteral>] AlertAndroidStatic =
-    abstract alert: (string -> string -> ResizeArray<AlertButton> -> AlertOptions -> unit) with get, set
+    abstract alert: (string -> (string) option -> (ResizeArray<AlertButton>) option -> (AlertOptions) option -> unit) with get, set
 
 /// //FIXME: No documentation - inferred from RCTAdSupport.m
 type [<AllowNullLiteral>] AdSupportIOSStatic =
@@ -5529,7 +5529,7 @@ type [<AllowNullLiteral>] AdSupportIOSStatic =
 
 type [<AllowNullLiteral>] AlertIOSButton =
     abstract text: string with get, set
-    abstract onPress: (string -> unit) option with get, set
+    abstract onPress: ((string) option -> unit) option with get, set
     abstract style: AlertButtonStyle option with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] AlertType =
@@ -5563,7 +5563,7 @@ type [<AllowNullLiteral>] AlertIOSStatic =
     /// should be one of 'default', 'cancel' or 'destructive'.
     /// </param>
     /// <param name="type">Deprecated, do not use.</param>
-    abstract alert: (string -> string -> U2<(unit -> unit), Array<AlertIOSButton>> -> AlertType -> unit) with get, set
+    abstract alert: (string -> (string) option -> (U2<(unit -> unit), Array<AlertIOSButton>>) option -> (AlertType) option -> unit) with get, set
     /// <summary>Create and display a prompt to enter some text.</summary>
     /// <param name="title">The dialog's title.</param>
     /// <param name="message">
@@ -5585,7 +5585,7 @@ type [<AllowNullLiteral>] AlertIOSStatic =
     /// 'secure-text' or 'login-password'.
     /// </param>
     /// <param name="defaultValue">The default text in text input.</param>
-    abstract prompt: (string -> string -> U2<(string -> unit), Array<AlertIOSButton>> -> AlertType -> string -> U2<KeyboardType, KeyboardTypeIOS> -> unit) with get, set
+    abstract prompt: (string -> (string) option -> (U2<(string -> unit), Array<AlertIOSButton>>) option -> (AlertType) option -> (string) option -> (U2<KeyboardType, KeyboardTypeIOS>) option -> unit) with get, set
 
 /// <summary>
 /// AppStateIOS can tell you if the app is in the foreground or background,
@@ -5635,31 +5635,31 @@ type [<AllowNullLiteral>] AppStateStatic =
 /// <seealso href="https://facebook.github.io/react-native/docs/asyncstorage.html#content" />
 type [<AllowNullLiteral>] AsyncStorageStatic =
     /// Fetches key and passes the result to callback, along with an Error if there is any.
-    abstract getItem: key: string * ?callback: (Error -> string -> unit) -> Promise<string option>
+    abstract getItem: key: string * ?callback: ((Error) option -> (string) option -> unit) -> Promise<string option>
     /// Sets value for key and calls callback on completion, along with an Error if there is any
-    abstract setItem: key: string * value: string * ?callback: (Error -> unit) -> Promise<unit>
-    abstract removeItem: key: string * ?callback: (Error -> unit) -> Promise<unit>
+    abstract setItem: key: string * value: string * ?callback: ((Error) option -> unit) -> Promise<unit>
+    abstract removeItem: key: string * ?callback: ((Error) option -> unit) -> Promise<unit>
     /// Merges existing value with input value, assuming they are stringified json. Returns a Promise object.
     /// Not supported by all native implementation
-    abstract mergeItem: key: string * value: string * ?callback: (Error -> unit) -> Promise<unit>
+    abstract mergeItem: key: string * value: string * ?callback: ((Error) option -> unit) -> Promise<unit>
     /// Erases all AsyncStorage for all clients, libraries, etc. You probably don't want to call this.
     /// Use removeItem or multiRemove to clear only your own keys instead.
-    abstract clear: ?callback: (Error -> unit) -> Promise<unit>
+    abstract clear: ?callback: ((Error) option -> unit) -> Promise<unit>
     /// Gets all keys known to the app, for all callers, libraries, etc
-    abstract getAllKeys: ?callback: (Error -> ResizeArray<string> -> unit) -> Promise<ResizeArray<string>>
+    abstract getAllKeys: ?callback: ((Error) option -> (ResizeArray<string>) option -> unit) -> Promise<ResizeArray<string>>
     /// multiGet invokes callback with an array of key-value pair arrays that matches the input format of multiSet
-    abstract multiGet: keys: ResizeArray<string> * ?callback: (ResizeArray<Error> -> ResizeArray<string * string> -> unit) -> Promise<ResizeArray<string * string>>
+    abstract multiGet: keys: ResizeArray<string> * ?callback: ((ResizeArray<Error>) option -> (ResizeArray<string * string>) option -> unit) -> Promise<ResizeArray<string * string>>
     /// multiSet and multiMerge take arrays of key-value array pairs that match the output of multiGet,
     /// 
     /// multiSet([['k1', 'val1'], ['k2', 'val2']], cb);
-    abstract multiSet: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: (ResizeArray<Error> -> unit) -> Promise<unit>
+    abstract multiSet: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: ((ResizeArray<Error>) option -> unit) -> Promise<unit>
     /// Delete all the keys in the keys array.
-    abstract multiRemove: keys: ResizeArray<string> * ?callback: (ResizeArray<Error> -> unit) -> Promise<unit>
+    abstract multiRemove: keys: ResizeArray<string> * ?callback: ((ResizeArray<Error>) option -> unit) -> Promise<unit>
     /// Merges existing values with input values, assuming they are stringified json.
     /// Returns a Promise object.
     /// 
     /// Not supported by all native implementations.
-    abstract multiMerge: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: (ResizeArray<Error> -> unit) -> Promise<unit>
+    abstract multiMerge: keyValuePairs: ResizeArray<ResizeArray<string>> * ?callback: ((ResizeArray<Error>) option -> unit) -> Promise<unit>
 
 type BackPressEventName =
     string
@@ -6325,18 +6325,18 @@ type [<AllowNullLiteral>] StatusBarStatic =
     /// Optional animation when
     /// changing the status bar hidden property.
     /// </param>
-    abstract setHidden: (bool -> StatusBarAnimation -> unit) with get, set
+    abstract setHidden: (bool -> (StatusBarAnimation) option -> unit) with get, set
     /// <summary>Set the status bar style</summary>
     /// <param name="style">Status bar style to set</param>
     /// <param name="animated">Animate the style change.</param>
-    abstract setBarStyle: (StatusBarStyle -> bool -> unit) with get, set
+    abstract setBarStyle: (StatusBarStyle -> (bool) option -> unit) with get, set
     /// <summary>Control the visibility of the network activity indicator</summary>
     /// <param name="visible">Show the indicator.</param>
     abstract setNetworkActivityIndicatorVisible: (bool -> unit) with get, set
     /// <summary>Set the background color for the status bar</summary>
     /// <param name="color">Background color.</param>
     /// <param name="animated">Animate the style change.</param>
-    abstract setBackgroundColor: (string -> bool -> unit) with get, set
+    abstract setBackgroundColor: (string -> (bool) option -> unit) with get, set
     /// <summary>Control the translucency of the status bar</summary>
     /// <param name="translucent">Set as translucent.</param>
     abstract setTranslucent: (bool -> unit) with get, set
@@ -6440,7 +6440,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// 
     /// Returns a Promise&lt;string&gt; (tempFilePath)
     /// </summary>
-    abstract takeSnapshot: (U3<React.ReactElement<obj option>, float, string> -> UIManagerStaticTakeSnapshot -> Promise<string>) with get, set
+    abstract takeSnapshot: ((U3<React.ReactElement<obj option>, float, string>) option -> (UIManagerStaticTakeSnapshot) option -> Promise<string>) with get, set
     /// <summary>
     /// Determines the location on screen, width, and height of the given view and
     /// returns the values via an async callback. If successful, the callback will
@@ -6647,7 +6647,7 @@ module Animated =
         /// Animates a value along a timed easing curve.  The <c>Easing</c> module has tons
         /// of pre-defined curves, or you can use your own function.
         /// </summary>
-        abstract timing: (U2<AnimatedValue, AnimatedValueXY> -> TimingAnimationConfig -> CompositeAnimation)
+        abstract timing: U2<AnimatedValue, AnimatedValueXY> -> TimingAnimationConfig -> CompositeAnimation
         /// Creates a new Animated value composed from two Animated values added
         /// together.
         abstract add: a: Animated * b: Animated -> AnimatedAddition
@@ -6893,7 +6893,7 @@ module Animated =
         [<Emit "$0($1...)">] abstract Invoke: result: EndResult -> unit
 
     type [<AllowNullLiteral>] CompositeAnimation =
-        abstract start: (EndCallback -> unit) with get, set
+        abstract start: ((EndCallback) option -> unit) with get, set
         abstract stop: (unit -> unit) with get, set
 
     type [<AllowNullLiteral>] AnimationConfig =
@@ -7331,7 +7331,7 @@ module Addons =
         abstract TestModule: TestModuleStatic
 
     type [<AllowNullLiteral>] TestModuleStatic =
-        abstract verifySnapshot: ((obj -> unit) -> unit) with get, set
+        abstract verifySnapshot: (((obj) option -> unit) -> unit) with get, set
         abstract markTestPassed: (obj option -> unit) with get, set
         abstract markTestCompleted: (unit -> unit) with get, set
 

@@ -171,7 +171,7 @@ module Mocha =
         abstract grepTotal: (ISuite -> float) with get, set
         abstract globals: (ResizeArray<string> -> U2<IRunner, ResizeArray<string>>) with get, set
         abstract abort: (unit -> IRunner) with get, set
-        abstract run: ((float -> unit) -> IRunner) with get, set
+        abstract run: (((float -> unit)) option -> IRunner) with get, set
 
     type [<AllowNullLiteral>] IContextDefinition =
         [<Emit "$0($1...)">] abstract Invoke: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite

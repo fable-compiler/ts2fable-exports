@@ -98,7 +98,7 @@ module Monaco =
         /// that are registered after cancellation will be called (next event loop run),
         /// but also only once.
         /// </summary>
-        abstract onCancellationRequested: ((obj option -> obj option) -> obj -> ResizeArray<IDisposable> -> IDisposable)
+        abstract onCancellationRequested: (obj option -> obj option) -> (obj) option -> (ResizeArray<IDisposable>) option -> IDisposable
 
     /// <summary>
     /// Uniform Resource Identifier (Uri) <see href="http://tools.ietf.org/html/rfc3986." />
@@ -4568,8 +4568,8 @@ module Monaco =
                 abstract typescriptVersion: string
                 abstract typescriptDefaults: LanguageServiceDefaults
                 abstract javascriptDefaults: LanguageServiceDefaults
-                abstract getTypeScriptWorker: (unit -> Promise<(ResizeArray<Uri> -> Promise<TypeScriptWorker>)>)
-                abstract getJavaScriptWorker: (unit -> Promise<(ResizeArray<Uri> -> Promise<TypeScriptWorker>)>)
+                abstract getTypeScriptWorker: unit -> Promise<(ResizeArray<Uri> -> Promise<TypeScriptWorker>)>
+                abstract getJavaScriptWorker: unit -> Promise<(ResizeArray<Uri> -> Promise<TypeScriptWorker>)>
 
             type [<RequireQualifiedAccess>] ModuleKind =
                 | None = 0

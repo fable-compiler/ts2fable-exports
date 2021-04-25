@@ -323,7 +323,7 @@ module __common_assert =
         /// 
         /// Copyright (c) Microsoft Corporation. All rights reserved.
         /// Licensed under the MIT license.
-        abstract ``assert``: (obj option -> string -> unit)
+        abstract ``assert``: obj option -> (string) option -> unit
 
 module __common_Bezier =
 
@@ -1424,7 +1424,7 @@ module __common_Types =
         abstract resizeMethod: ImagePropsSharedResizeMethod option with get, set
         abstract title: string option with get, set
         abstract onLoad: (Dimensions -> unit) option with get, set
-        abstract onError: (Error -> unit) option with get, set
+        abstract onError: ((Error) option -> unit) option with get, set
 
     type [<AllowNullLiteral>] ImageProps =
         inherit ImagePropsShared<RX.Image>
@@ -1797,7 +1797,7 @@ module __common_Types =
         abstract onDismiss: (unit -> unit) option with get, set
         abstract positionPriorities: ResizeArray<PopupPosition> option with get, set
         abstract useInnerPositioning: bool option with get, set
-        abstract onAnchorPressed: (RX.Types.SyntheticEvent -> unit) option with get, set
+        abstract onAnchorPressed: ((RX.Types.SyntheticEvent) option -> unit) option with get, set
         abstract dismissIfShown: bool option with get, set
         abstract preventDismissOnPress: bool option with get, set
         abstract cacheable: bool option with get, set
@@ -1856,7 +1856,7 @@ module __common_Types =
             [<Emit "$0($1...)">] abstract Invoke: result: EndResult -> unit
 
         type [<AllowNullLiteral>] CompositeAnimation =
-            abstract start: (EndCallback -> unit) with get, set
+            abstract start: ((EndCallback) option -> unit) with get, set
             abstract stop: (unit -> unit) with get, set
 
         type [<AllowNullLiteral>] LoopConfig =
