@@ -477,7 +477,7 @@ type [<AllowNullLiteral>] BinaryIteratorStatic =
 module BinaryConstants =
 
     type [<AllowNullLiteral>] IExports =
-        abstract FieldTypeToWireType: (FieldType -> WireType)
+        abstract FieldTypeToWireType: FieldType -> WireType
         abstract INVALID_FIELD_NUMBER: float
         abstract FLOAT32_EPS: float
         abstract FLOAT32_MIN: float

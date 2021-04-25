@@ -347,7 +347,7 @@ type [<AllowNullLiteral>] DataTypeSymbol =
     abstract quoteJsonOData: bool option with get, set
     abstract validatorCtor: (obj option -> Validator) with get, set
     /// Function to convert a value from string to this DataType.  Note that this will be called each time a property is changed, so make it fast.
-    abstract parse: (obj option -> string -> obj option) option with get, set
+    abstract parse: (obj option -> (string) option -> obj option) option with get, set
     /// Function to format this DataType for OData queries.
     abstract fmtOData: (obj option -> obj option) with get, set
     /// Optional function to get the next value for key generation, if this datatype is used as a key.  Uses an internal table of previous values.
@@ -1153,7 +1153,7 @@ type [<AllowNullLiteral>] ValidatorStatic =
     /// Register a validator instance so that any deserialized metadata can reference it.
     abstract register: validator: Validator -> unit
     /// Register a validator factory so that any deserialized metadata can reference it.
-    abstract registerFactory: fn: (obj -> Validator) * name: string -> unit
+    abstract registerFactory: fn: ((obj) option -> Validator) * name: string -> unit
     /// Creates a regular expression validator with a fixed expression.
     abstract makeRegExpValidator: validatorName: string * expression: RegExp * defaultMessage: string * ?context: obj -> Validator
 

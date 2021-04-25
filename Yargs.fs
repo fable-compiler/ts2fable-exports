@@ -521,7 +521,7 @@ Use '.global()' instead")>]
         /// Accepts <c>commandObject</c>, <c>pathToFile</c>, and <c>filename</c> as arguments.
         /// Returns <c>commandObject</c> to include the command; any falsy value to exclude/skip it.
         /// </summary>
-        abstract visit: (obj option -> string -> string -> obj option) option with get, set
+        abstract visit: (obj option -> (string) option -> (string) option -> obj option) option with get, set
         /// Whitelist certain modules
         abstract ``include``: U2<RegExp, (string -> bool)> option with get, set
         /// Blacklist certain modules.
