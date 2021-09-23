@@ -152,7 +152,7 @@ module Vscode =
         abstract Position: PositionStatic
         /// <summary>
         /// A range represents an ordered pair of two positions.
-        /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end)">end</see>
+        /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end">end</see>)
         /// 
         /// Range objects are __immutable__. Use the <see cref="Range.with">with</see>,
         /// <see cref="Range.intersection">intersection</see>, or <see cref="Range.union">union</see> methods
@@ -613,7 +613,7 @@ module Vscode =
 
     /// <summary>
     /// A range represents an ordered pair of two positions.
-    /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end)">end</see>
+    /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end">end</see>)
     /// 
     /// Range objects are __immutable__. Use the <see cref="Range.with">with</see>,
     /// <see cref="Range.intersection">intersection</see>, or <see cref="Range.union">union</see> methods
@@ -678,7 +678,7 @@ module Vscode =
 
     /// <summary>
     /// A range represents an ordered pair of two positions.
-    /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end)">end</see>
+    /// It is guaranteed that <see cref="Range.start">start</see>.isBeforeOrEqual(<see cref="Range.end">end</see>)
     /// 
     /// Range objects are __immutable__. Use the <see cref="Range.with">with</see>,
     /// <see cref="Range.intersection">intersection</see>, or <see cref="Range.union">union</see> methods
@@ -715,7 +715,7 @@ module Vscode =
         /// This position might be before or after <see cref="Selection.anchor">anchor</see>.
         /// </summary>
         abstract active: Position with get, set
-        /// <summary>A selection is reversed if <see cref="Selection.active">active</see>.isBefore(<see cref="Selection.anchor)">anchor</see>.</summary>
+        /// <summary>A selection is reversed if <see cref="Selection.active">active</see>.isBefore(<see cref="Selection.anchor">anchor</see>).</summary>
         abstract isReversed: bool with get, set
 
     /// Represents a text selection in an editor.
@@ -1154,7 +1154,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// <summary>
         /// Insert text at a location.
         /// You can use \r\n or \n in <c>value</c> and they will be normalized to the current <see cref="TextDocument">document</see>.
-        /// Although the equivalent text edit can be made with <see cref="TextEditorEdit.replace), `insert` will produce a different resulting selection (it will get moved">replace</see>.
+        /// Although the equivalent text edit can be made with <see cref="TextEditorEdit.replace">replace</see>, <c>insert</c> will produce a different resulting selection (it will get moved).
         /// </summary>
         /// <param name="location">The position where the new text should be inserted.</param>
         /// <param name="value">The new text this operation should insert.</param>
@@ -3288,7 +3288,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// often consists of a *default* value, a global or installation-wide value,
         /// a workspace-specific value and a folder-specific value.
         /// 
-        /// The *effective* value (returned by <see cref="WorkspaceConfiguration.get)"><c>get</c></see>
+        /// The *effective* value (returned by <see cref="WorkspaceConfiguration.get"><c>get</c></see>)
         /// is computed like this: <c>defaultValue</c> overwritten by <c>globalValue</c>,
         /// <c>globalValue</c> overwritten by <c>workspaceValue</c>. <c>workspaceValue</c> overwritten by <c>workspaceFolderValue</c>.
         /// Refer to <see href="https://code.visualstudio.com/docs/getstarted/settings">Settings Inheritance</see>
@@ -5110,7 +5110,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// <summary>
         /// The icon path or <see cref="ThemeIcon">ThemeIcon</see> for the tree item.
         /// When <c>falsy</c>, <see cref="ThemeIcon.Folder">Folder Theme Icon</see> is assigned, if item is collapsible otherwise <see cref="ThemeIcon.File">File Theme Icon</see>.
-        /// When a <see cref="ThemeIcon">ThemeIcon</see> is specified, icon is derived from the current file icon theme for the specified theme icon using <see cref="TreeItem.resourceUri) (if provided">resourceUri</see>.
+        /// When a <see cref="ThemeIcon">ThemeIcon</see> is specified, icon is derived from the current file icon theme for the specified theme icon using <see cref="TreeItem.resourceUri">resourceUri</see> (if provided).
         /// </summary>
         abstract iconPath: U4<string, Uri, TreeItemIconPath, ThemeIcon> option with get, set
         /// <summary>
@@ -5524,7 +5524,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// one that called this method) will be terminated and restarted so that the (deprecated) <c>rootPath</c> property is
             /// updated to point to the first workspace folder.
             /// 
-            /// Use the [<c>onDidChangeWorkspaceFolders()</c>](#onDidChangeWorkspaceFolders) event to get notified when the
+            /// Use the <see cref="onDidChangeWorkspaceFolders"><c>onDidChangeWorkspaceFolders()</c></see> event to get notified when the
             /// workspace folders have been updated.
             /// 
             /// **Example:** adding a new workspace folder at the end of workspace folders
@@ -5545,8 +5545,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// It is valid to remove an existing workspace folder and add it again with a different name
             /// to rename that folder.
             /// 
-            /// **Note:** it is not valid to call [updateWorkspaceFolders()](#updateWorkspaceFolders) multiple times
-            /// without waiting for the [<c>onDidChangeWorkspaceFolders()</c>](#onDidChangeWorkspaceFolders) to fire.
+            /// **Note:** it is not valid to call <see cref="updateWorkspaceFolders">updateWorkspaceFolders()</see> multiple times
+            /// without waiting for the <see cref="onDidChangeWorkspaceFolders"><c>onDidChangeWorkspaceFolders()</c></see> to fire.
             /// </summary>
             /// <param name="start">
             /// the zero-based location in the list of currently opened <see cref="WorkspaceFolder">workspace folders</see>
@@ -5667,7 +5667,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// 
             /// - The event is emitted before the <see cref="TextDocument">document</see> is updated in the
             /// <see cref="window.activeTextEditor">active text editor</see>
-            /// - When a <see cref="TextDocument">text document</see> is already open (e.g.: open in another <see cref="window.visibleTextEditors)">visible text editor</see> this event is not emitted
+            /// - When a <see cref="TextDocument">text document</see> is already open (e.g.: open in another <see cref="window.visibleTextEditors">visible text editor</see>) this event is not emitted
             /// </summary>
             abstract onDidOpenTextDocument: Event<TextDocument>
             /// <summary>
@@ -6364,8 +6364,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// 'createDebugAdapterDescriptor' is called at the start of a debug session to provide details about the debug adapter to use.
         /// These details must be returned as objects of type <see cref="DebugAdapterDescriptor">DebugAdapterDescriptor</see>.
         /// Currently two types of debug adapters are supported:
-        /// - a debug adapter executable is specified as a command path and arguments (see <see cref="DebugAdapterExecutable)">DebugAdapterExecutable</see>,
-        /// - a debug adapter server reachable via a communication port (see <see cref="DebugAdapterServer)">DebugAdapterServer</see>.
+        /// - a debug adapter executable is specified as a command path and arguments (see <see cref="DebugAdapterExecutable">DebugAdapterExecutable</see>),
+        /// - a debug adapter server reachable via a communication port (see <see cref="DebugAdapterServer">DebugAdapterServer</see>).
         /// If the method is not implemented the default behavior is this:
         ///    createDebugAdapter(session: DebugSession, executable: DebugAdapterExecutable) {
         ///       if (typeof session.configuration.debugServer === 'number') {
