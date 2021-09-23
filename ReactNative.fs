@@ -697,7 +697,7 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// has been completed in native.
     abstract measureInWindow: callback: MeasureInWindowOnSuccessCallback -> unit
     /// <summary>
-    /// Like [<c>measure()</c>](#measure), but measures the view relative an ancestor,
+    /// Like <see cref="measure"><c>measure()</c></see>, but measures the view relative an ancestor,
     /// specified as <c>relativeToNativeNode</c>. This means that the returned x, y
     /// are relative to the origin x, y of the ancestor view.
     /// 
@@ -6478,7 +6478,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// has been completed in native.
     abstract measureInWindow: node: float * callback: MeasureInWindowOnSuccessCallback -> unit
     /// <summary>
-    /// Like [<c>measure()</c>](#measure), but measures the view relative an ancestor,
+    /// Like <see cref="measure"><c>measure()</c></see>, but measures the view relative an ancestor,
     /// specified as <c>relativeToNativeNode</c>. This means that the returned x, y
     /// are relative to the origin x, y of the ancestor view.
     /// 
