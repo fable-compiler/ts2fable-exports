@@ -19,36 +19,13 @@ type GlobalEvent =
     Event
 
 module Electron =
+    let [<Import("Common","electron/Electron")>] common: Common.IExports = jsNative
+    let [<Import("Main","electron/Electron")>] main: Main.IExports = jsNative
+    let [<Import("Renderer","electron/Electron")>] renderer: Renderer.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
+        abstract NodeEventEmitter: obj
         abstract Accelerator: AcceleratorStatic
-        abstract app: App
-        abstract autoUpdater: AutoUpdater
-        abstract clipboard: Clipboard
-        abstract contentTracing: ContentTracing
-        abstract contextBridge: ContextBridge
-        abstract crashReporter: CrashReporter
-        abstract desktopCapturer: DesktopCapturer
-        abstract dialog: Dialog
-        abstract globalShortcut: GlobalShortcut
-        abstract inAppPurchase: InAppPurchase
-        abstract ipcMain: IpcMain
-        abstract ipcRenderer: IpcRenderer
-        abstract nativeImage: obj
-        abstract nativeTheme: NativeTheme
-        abstract netLog: NetLog
-        abstract net: Net
-        abstract powerMonitor: PowerMonitor
-        abstract powerSaveBlocker: PowerSaveBlocker
-        abstract protocol: Protocol
-        abstract remote: Remote
-        abstract screen: Screen
-        abstract session: obj
-        abstract shell: Shell
-        abstract systemPreferences: SystemPreferences
-        abstract webContents: obj
-        abstract webFrame: WebFrame
-        abstract webviewTag: WebviewTag
         abstract BrowserView: BrowserViewStatic
         abstract BrowserWindow: BrowserWindowStatic
         abstract BrowserWindowProxy: BrowserWindowProxyStatic
@@ -72,6 +49,7 @@ module Electron =
         abstract TouchBarColorPicker: TouchBarColorPickerStatic
         abstract TouchBarGroup: TouchBarGroupStatic
         abstract TouchBarLabel: TouchBarLabelStatic
+        abstract TouchBarOtherItemsProxy: TouchBarOtherItemsProxyStatic
         abstract TouchBarPopover: TouchBarPopoverStatic
         abstract TouchBarScrubber: TouchBarScrubberStatic
         abstract TouchBarSegmentedControl: TouchBarSegmentedControlStatic
@@ -80,88 +58,39 @@ module Electron =
         abstract Tray: TrayStatic
         abstract WebContents: WebContentsStatic
         abstract WebRequest: WebRequestStatic
+        abstract app: App
+        abstract autoUpdater: AutoUpdater
+        abstract clipboard: Clipboard
+        abstract contentTracing: ContentTracing
+        abstract contextBridge: ContextBridge
+        abstract crashReporter: CrashReporter
+        abstract desktopCapturer: DesktopCapturer
+        abstract dialog: Dialog
+        abstract globalShortcut: GlobalShortcut
+        abstract inAppPurchase: InAppPurchase
+        abstract ipcMain: IpcMain
+        abstract ipcRenderer: IpcRenderer
+        abstract nativeImage: obj
+        abstract nativeTheme: NativeTheme
+        abstract net: Net
+        abstract netLog: NetLog
+        abstract powerMonitor: PowerMonitor
+        abstract powerSaveBlocker: PowerSaveBlocker
+        abstract protocol: Protocol
+        abstract remote: Remote
+        abstract screen: Screen
+        abstract session: obj
+        abstract shell: Shell
+        abstract systemPreferences: SystemPreferences
+        abstract webContents: obj
+        abstract webFrame: WebFrame
+        abstract webviewTag: WebviewTag
 
     type [<AllowNullLiteral>] Accelerator =
         inherit String
 
     type [<AllowNullLiteral>] AcceleratorStatic =
         [<EmitConstructor>] abstract Create: unit -> Accelerator
-
-    type [<AllowNullLiteral>] CommonInterface =
-        abstract app: App with get, set
-        abstract autoUpdater: AutoUpdater with get, set
-        abstract BrowserView: obj with get, set
-        abstract BrowserWindowProxy: obj with get, set
-        abstract BrowserWindow: obj with get, set
-        abstract ClientRequest: obj with get, set
-        abstract clipboard: Clipboard with get, set
-        abstract CommandLine: obj with get, set
-        abstract contentTracing: ContentTracing with get, set
-        abstract contextBridge: ContextBridge with get, set
-        abstract Cookies: obj with get, set
-        abstract crashReporter: CrashReporter with get, set
-        abstract Debugger: obj with get, set
-        abstract desktopCapturer: DesktopCapturer with get, set
-        abstract dialog: Dialog with get, set
-        abstract Dock: obj with get, set
-        abstract DownloadItem: obj with get, set
-        abstract globalShortcut: GlobalShortcut with get, set
-        abstract inAppPurchase: InAppPurchase with get, set
-        abstract IncomingMessage: obj with get, set
-        abstract ipcMain: IpcMain with get, set
-        abstract ipcRenderer: IpcRenderer with get, set
-        abstract MenuItem: obj with get, set
-        abstract Menu: obj with get, set
-        abstract MessageChannelMain: obj with get, set
-        abstract MessagePortMain: obj with get, set
-        abstract nativeImage: obj with get, set
-        abstract nativeTheme: NativeTheme with get, set
-        abstract netLog: NetLog with get, set
-        abstract net: Net with get, set
-        abstract Notification: obj with get, set
-        abstract powerMonitor: PowerMonitor with get, set
-        abstract powerSaveBlocker: PowerSaveBlocker with get, set
-        abstract protocol: Protocol with get, set
-        abstract remote: Remote with get, set
-        abstract screen: Screen with get, set
-        abstract ServiceWorkers: obj with get, set
-        abstract session: obj with get, set
-        abstract shell: Shell with get, set
-        abstract systemPreferences: SystemPreferences with get, set
-        abstract TouchBarButton: obj with get, set
-        abstract TouchBarColorPicker: obj with get, set
-        abstract TouchBarGroup: obj with get, set
-        abstract TouchBarLabel: obj with get, set
-        abstract TouchBarPopover: obj with get, set
-        abstract TouchBarScrubber: obj with get, set
-        abstract TouchBarSegmentedControl: obj with get, set
-        abstract TouchBarSlider: obj with get, set
-        abstract TouchBarSpacer: obj with get, set
-        abstract TouchBar: obj with get, set
-        abstract Tray: obj with get, set
-        abstract webContents: obj with get, set
-        abstract webFrame: WebFrame with get, set
-        abstract WebRequest: obj with get, set
-        abstract webviewTag: WebviewTag with get, set
-
-    type [<AllowNullLiteral>] MainInterface =
-        inherit CommonInterface
-
-    type [<AllowNullLiteral>] RendererInterface =
-        inherit CommonInterface
-
-    type [<AllowNullLiteral>] AllElectron =
-        inherit MainInterface
-        inherit RendererInterface
-
-    type nativeImage =
-        NativeImage
-
-    type session =
-        Session
-
-    type webContents =
-        WebContents
 
     type [<AllowNullLiteral>] App =
         inherit NodeJS.EventEmitter
@@ -233,6 +162,12 @@ module Electron =
         [<Emit "$0.once('certificate-error',$1)">] abstract ``once_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
         [<Emit "$0.addListener('certificate-error',$1)">] abstract ``addListener_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
         [<Emit "$0.removeListener('certificate-error',$1)">] abstract ``removeListener_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
+        /// Emitted when the child process unexpectedly disappears. This is normally because
+        /// it was crashed or killed. It does not include renderer processes.
+        [<Emit "$0.on('child-process-gone',$1)">] abstract ``on_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit "$0.once('child-process-gone',$1)">] abstract ``once_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit "$0.addListener('child-process-gone',$1)">] abstract ``addListener_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit "$0.removeListener('child-process-gone',$1)">] abstract ``removeListener_child-process-gone``: listener: (Event -> Details -> unit) -> App
         /// <summary>
         /// Emitted during Handoff when an activity from a different device wants to be
         /// resumed. You should call <c>event.preventDefault()</c> if you want to handle this
@@ -264,12 +199,29 @@ module Electron =
         [<Emit "$0.once('desktop-capturer-get-sources',$1)">] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
         [<Emit "$0.addListener('desktop-capturer-get-sources',$1)">] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
         [<Emit "$0.removeListener('desktop-capturer-get-sources',$1)">] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
+        /// <summary>
+        /// Emitted when mac application become active. Difference from <c>activate</c> event is
+        /// that <c>did-become-active</c> is emitted every time the app becomes active, not only
+        /// when Dock icon is clicked or application is re-launched.
+        /// </summary>
+        [<Emit "$0.on('did-become-active',$1)">] abstract ``on_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit "$0.once('did-become-active',$1)">] abstract ``once_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit "$0.addListener('did-become-active',$1)">] abstract ``addListener_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit "$0.removeListener('did-become-active',$1)">] abstract ``removeListener_did-become-active``: listener: (Event -> unit) -> App
         /// Emitted whenever there is a GPU info update.
         [<Emit "$0.on('gpu-info-update',$1)">] abstract ``on_gpu-info-update``: listener: Function -> App
         [<Emit "$0.once('gpu-info-update',$1)">] abstract ``once_gpu-info-update``: listener: Function -> App
         [<Emit "$0.addListener('gpu-info-update',$1)">] abstract ``addListener_gpu-info-update``: listener: Function -> App
         [<Emit "$0.removeListener('gpu-info-update',$1)">] abstract ``removeListener_gpu-info-update``: listener: Function -> App
+        /// <summary>
         /// Emitted when the GPU process crashes or is killed.
+        /// 
+        /// **Deprecated:** This event is superceded by the <c>child-process-gone</c> event which
+        /// contains more information about why the child process disappeared. It isn't
+        /// always because it crashed. The <c>killed</c> boolean can be replaced by checking
+        /// <c>reason === 'killed'</c> when you switch to that event.
+        /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('gpu-process-crashed',$1)">] abstract ``on_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
         [<Emit "$0.once('gpu-process-crashed',$1)">] abstract ``once_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
         [<Emit "$0.addListener('gpu-process-crashed',$1)">] abstract ``addListener_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
@@ -349,6 +301,7 @@ module Electron =
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the module from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-builtin',$1)">] abstract ``on_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.once('remote-get-builtin',$1)">] abstract ``once_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.addListener('remote-get-builtin',$1)">] abstract ``addListener_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
@@ -358,6 +311,7 @@ module Electron =
         /// of <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the object from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-current-web-contents',$1)">] abstract ``on_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
         [<Emit "$0.once('remote-get-current-web-contents',$1)">] abstract ``once_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
         [<Emit "$0.addListener('remote-get-current-web-contents',$1)">] abstract ``addListener_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
@@ -367,6 +321,7 @@ module Electron =
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the object from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-current-window',$1)">] abstract ``on_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
         [<Emit "$0.once('remote-get-current-window',$1)">] abstract ``once_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
         [<Emit "$0.addListener('remote-get-current-window',$1)">] abstract ``addListener_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
@@ -376,6 +331,7 @@ module Electron =
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the global from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-global',$1)">] abstract ``on_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.once('remote-get-global',$1)">] abstract ``once_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.addListener('remote-get-global',$1)">] abstract ``addListener_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
@@ -385,16 +341,26 @@ module Electron =
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the module from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-require',$1)">] abstract ``on_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.once('remote-require',$1)">] abstract ``once_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.addListener('remote-require',$1)">] abstract ``addListener_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
         [<Emit "$0.removeListener('remote-require',$1)">] abstract ``removeListener_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
-        /// Emitted when the renderer process unexpectedly dissapears.  This is normally
+        /// Emitted when the renderer process unexpectedly disappears.  This is normally
         /// because it was crashed or killed.
-        [<Emit "$0.on('render-process-gone',$1)">] abstract ``on_render-process-gone``: listener: (Event -> WebContents -> Details -> unit) -> App
-        [<Emit "$0.once('render-process-gone',$1)">] abstract ``once_render-process-gone``: listener: (Event -> WebContents -> Details -> unit) -> App
-        [<Emit "$0.addListener('render-process-gone',$1)">] abstract ``addListener_render-process-gone``: listener: (Event -> WebContents -> Details -> unit) -> App
-        [<Emit "$0.removeListener('render-process-gone',$1)">] abstract ``removeListener_render-process-gone``: listener: (Event -> WebContents -> Details -> unit) -> App
+        [<Emit "$0.on('render-process-gone',$1)">] abstract ``on_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit "$0.once('render-process-gone',$1)">] abstract ``once_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit "$0.addListener('render-process-gone',$1)">] abstract ``addListener_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit "$0.removeListener('render-process-gone',$1)">] abstract ``removeListener_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        /// <summary>
+        /// Emitted when the renderer process of <c>webContents</c> crashes or is killed.
+        /// 
+        /// **Deprecated:** This event is superceded by the <c>render-process-gone</c> event
+        /// which contains more information about why the render process disappeared. It
+        /// isn't always because it crashed.  The <c>killed</c> boolean can be replaced by
+        /// checking <c>reason === 'killed'</c> when you switch to that event.
+        /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('renderer-process-crashed',$1)">] abstract ``on_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
         [<Emit "$0.once('renderer-process-crashed',$1)">] abstract ``once_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
         [<Emit "$0.addListener('renderer-process-crashed',$1)">] abstract ``addListener_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
@@ -406,6 +372,9 @@ module Electron =
         /// <c>argv</c> is an Array of the second instance's command line arguments, and
         /// <c>workingDirectory</c> is its current working directory. Usually applications
         /// respond to this by making their primary window focused and non-minimized.
+        /// 
+        /// **Note:** If the second instance is started by a different user than the first,
+        /// the <c>argv</c> array will not include the arguments.
         /// 
         /// This event is guaranteed to be emitted after the <c>ready</c> event of <c>app</c> gets
         /// emitted.
@@ -521,7 +490,9 @@ module Electron =
         /// This method can only be called before app is ready.
         abstract disableHardwareAcceleration: unit -> unit
         /// <summary>
-        /// Enables full sandbox mode on the app.
+        /// Enables full sandbox mode on the app. This means that all renderers will be
+        /// launched sandboxed, regardless of the value of the <c>sandbox</c> flag in
+        /// WebPreferences.
         /// 
         /// This method can only be called before app is ready.
         /// </summary>
@@ -540,6 +511,17 @@ module Electron =
         /// You should seek to use the <c>steal</c> option as sparingly as possible.
         /// </summary>
         abstract focus: ?options: FocusOptions -> unit
+        /// <summary>
+        /// Resolve with an object containing the following:
+        /// 
+        /// * <c>icon</c> NativeImage - the display icon of the app handling the protocol.
+        /// * <c>path</c> String  - installation path of the app handling the protocol.
+        /// * <c>name</c> String - display name of the app handling the protocol.
+        /// 
+        /// This method returns a promise that contains the application name, icon and path
+        /// of the default handler for the protocol (aka URI scheme) of a URL.
+        /// </summary>
+        abstract getApplicationInfoForProtocol: url: string -> Promise<Electron.ApplicationInfoForProtocolReturnValue>
         /// <summary>
         /// Name of the application handling the protocol, or an empty string if there is no
         /// handler. For instance, if Electron is the default handler of the URL, this could
@@ -607,7 +589,8 @@ module Electron =
         /// </summary>
         abstract getJumpListSettings: unit -> JumpListSettings
         /// <summary>
-        /// The current application locale. Possible return values are documented here.
+        /// The current application locale, fetched using Chromium's <c>l10n_util</c> library.
+        /// Possible return values are documented here.
         /// 
         /// To set the locale, you'll want to use a command line switch at app startup,
         /// which may be found here.
@@ -640,6 +623,20 @@ module Electron =
         /// that should restore the state from the previous session. This indicates that the
         /// app should restore the windows that were open the last time the app was closed.
         /// This setting is not available on MAS builds.
+        /// * <c>executableWillLaunchAtLogin</c> Boolean _Windows_ - <c>true</c> if app is set to open
+        /// at login and its run key is not deactivated. This differs from <c>openAtLogin</c> as
+        /// it ignores the <c>args</c> option, this property will be true if the given executable
+        /// would be launched at login with **any** arguments.
+        /// * <c>launchItems</c> Object[] _Windows_
+        ///    * <c>name</c> String _Windows_ - name value of a registry entry.
+        ///    * <c>path</c> String _Windows_ - The executable to an app that corresponds to a
+        /// registry entry.
+        ///    * <c>args</c> String[] _Windows_ - the command-line arguments to pass to the
+        /// executable.
+        ///    * <c>scope</c> String _Windows_ - one of <c>user</c> or <c>machine</c>. Indicates whether the
+        /// registry entry is under <c>HKEY_CURRENT USER</c> or <c>HKEY_LOCAL_MACHINE</c>.
+        ///    * <c>enabled</c> Boolean _Windows_ - <c>true</c> if the app registry key is startup
+        /// approved and therefore shows as <c>enabled</c> in Task Manager and Windows settings.
         /// </summary>
         abstract getLoginItemSettings: ?options: LoginItemSettingsOptions -> LoginItemSettings
         /// <summary>
@@ -718,6 +715,12 @@ module Electron =
         /// <c>app.whenReady()</c>.
         /// </summary>
         abstract isReady: unit -> bool
+        /// <summary>
+        /// whether <c>Secure Keyboard Entry</c> is enabled.
+        /// 
+        /// By default this API will return <c>false</c>.
+        /// </summary>
+        abstract isSecureKeyboardEntryEnabled: unit -> bool
         /// <summary>Whether the current desktop environment is Unity launcher.</summary>
         abstract isUnityRunning: unit -> bool
         /// <summary>
@@ -736,11 +739,11 @@ module Electron =
         /// By default, if an app of the same name as the one being moved exists in the
         /// Applications directory and is _not_ running, the existing app will be trashed
         /// and the active app moved into its place. If it _is_ running, the pre-existing
-        /// running app will assume focus and the the previously active app will quit
-        /// itself. This behavior can be changed by providing the optional conflict handler,
-        /// where the boolean returned by the handler determines whether or not the move
-        /// conflict is resolved with default behavior.  i.e. returning <c>false</c> will ensure
-        /// no further action is taken, returning <c>true</c> will result in the default behavior
+        /// running app will assume focus and the previously active app will quit itself.
+        /// This behavior can be changed by providing the optional conflict handler, where
+        /// the boolean returned by the handler determines whether or not the move conflict
+        /// is resolved with default behavior.  i.e. returning <c>false</c> will ensure no
+        /// further action is taken, returning <c>true</c> will result in the default behavior
         /// and the method continuing.
         /// 
         /// For example:
@@ -929,12 +932,14 @@ module Electron =
         /// custom category being omitted from the Jump List. The list of removed items can
         /// be obtained using <c>app.getJumpListSettings()</c>.
         /// 
+        /// **Note:** The maximum length of a Jump List item's <c>description</c> property is 260
+        /// characters. Beyond this limit, the item will not be added to the Jump List, nor
+        /// will it be displayed.
+        /// 
         /// Here's a very simple example of creating a custom Jump List:
         /// </summary>
         abstract setJumpList: categories: ResizeArray<JumpListCategory> option -> unit
         /// <summary>
-        /// Set the app's login item settings.
-        /// 
         /// To work with Electron's <c>autoUpdater</c> on Windows, which uses Squirrel, you'll
         /// want to set the launch path to Update.exe, and pass arguments that specify your
         /// application name. For example:
@@ -957,6 +962,18 @@ module Electron =
         /// <c>userData</c> path before the <c>ready</c> event of the <c>app</c> module is emitted.
         /// </summary>
         abstract setPath: name: string * path: string -> unit
+        /// <summary>
+        /// Set the <c>Secure Keyboard Entry</c> is enabled in your application.
+        /// 
+        /// By using this API, important information such as password and other sensitive
+        /// information can be prevented from being intercepted by other processes.
+        /// 
+        /// See Apple's documentation for more details.
+        /// 
+        /// **Note:** Enable <c>Secure Keyboard Entry</c> only when it is needed and disable it
+        /// when it is no longer needed.
+        /// </summary>
+        abstract setSecureKeyboardEntryEnabled: enabled: bool -> unit
         /// <summary>
         /// Creates an <c>NSUserActivity</c> and sets it as the current activity. The activity is
         /// eligible for Handoff to another device afterward.
@@ -1049,6 +1066,9 @@ module Electron =
         /// 
         /// **Note:** Unity launcher requires the existence of a <c>.desktop</c> file to work,
         /// for more information please read Desktop Environment Integration.
+        /// 
+        /// **Note:** On macOS, you need to ensure that your application has the permission
+        /// to display notifications for this property to take effect.
         /// </summary>
         abstract badgeCount: float with get, set
         /// <summary>
@@ -1078,6 +1098,14 @@ module Electron =
         /// </summary>
         abstract name: string with get, set
         /// <summary>
+        /// A <c>Boolean</c> which when <c>true</c> indicates that the app is currently running under
+        /// the Rosetta Translator Environment.
+        /// 
+        /// You can use this property to prompt users to download the arm64 version of your
+        /// application when they are running the x64 version under Rosetta incorrectly.
+        /// </summary>
+        abstract runningUnderRosettaTranslation: bool
+        /// <summary>
         /// A <c>String</c> which is the user agent string Electron will use as a global
         /// fallback.
         /// 
@@ -1106,6 +1134,7 @@ module Electron =
         | Music
         | Pictures
         | Videos
+        | Recent
         | Logs
         | PepperFlashSystemPlugin
         | CrashDumps
@@ -1190,38 +1219,20 @@ module Electron =
         abstract deviceName: string with get, set
 
     type [<AllowNullLiteral>] BrowserView =
-        /// <summary>
-        /// Force closing the view, the <c>unload</c> and <c>beforeunload</c> events won't be emitted
-        /// for the web page. After you're done with a view, call this function in order to
-        /// free memory and other resources as soon as possible.
-        /// </summary>
-        abstract destroy: unit -> unit
         /// <summary>The <c>bounds</c> of this BrowserView instance as <c>Object</c>.</summary>
         abstract getBounds: unit -> Rectangle
-        /// Whether the view is destroyed.
-        abstract isDestroyed: unit -> bool
         abstract setAutoResize: options: AutoResizeOptions -> unit
         abstract setBackgroundColor: color: string -> unit
         /// <summary>Resizes and moves the view to the supplied bounds relative to the window.</summary>
         abstract setBounds: bounds: Rectangle -> unit
-        abstract id: float with get, set
         abstract webContents: WebContents with get, set
 
     type [<AllowNullLiteral>] BrowserViewStatic =
         /// BrowserView
         [<EmitConstructor>] abstract Create: ?options: BrowserViewConstructorOptions -> BrowserView
-        /// <summary>The view with the given <c>id</c>.</summary>
-        abstract fromId: id: float -> BrowserView
-        /// <summary>
-        /// The BrowserView that owns the given <c>webContents</c> or <c>null</c> if the contents are
-        /// not owned by a BrowserView.
-        /// </summary>
-        abstract fromWebContents: webContents: WebContents -> BrowserView option
-        /// An array of all opened BrowserViews.
-        abstract getAllViews: unit -> ResizeArray<BrowserView>
 
     type [<AllowNullLiteral>] BrowserWindow =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// Emitted when the window is set or unset to show always on top of other windows.
         [<Emit "$0.on('always-on-top-changed',$1)">] abstract ``on_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
         [<Emit "$0.once('always-on-top-changed',$1)">] abstract ``once_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
@@ -1316,16 +1327,16 @@ module Electron =
         [<Emit "$0.once('minimize',$1)">] abstract once_minimize: listener: Function -> BrowserWindow
         [<Emit "$0.addListener('minimize',$1)">] abstract addListener_minimize: listener: Function -> BrowserWindow
         [<Emit "$0.removeListener('minimize',$1)">] abstract removeListener_minimize: listener: Function -> BrowserWindow
-        /// <summary>
         /// Emitted when the window is being moved to a new position.
-        /// 
-        /// __Note__: On macOS this event is an alias of <c>moved</c>.
-        /// </summary>
         [<Emit "$0.on('move',$1)">] abstract on_move: listener: Function -> BrowserWindow
         [<Emit "$0.once('move',$1)">] abstract once_move: listener: Function -> BrowserWindow
         [<Emit "$0.addListener('move',$1)">] abstract addListener_move: listener: Function -> BrowserWindow
         [<Emit "$0.removeListener('move',$1)">] abstract removeListener_move: listener: Function -> BrowserWindow
-        /// <summary>Emitted once when the window is moved to a new position.</summary>
+        /// <summary>
+        /// Emitted once when the window is moved to a new position.
+        /// 
+        /// __Note__: On macOS this event is an alias of <c>move</c>.
+        /// </summary>
         [<Emit "$0.on('moved',$1)">] abstract on_moved: listener: Function -> BrowserWindow
         [<Emit "$0.once('moved',$1)">] abstract once_moved: listener: Function -> BrowserWindow
         [<Emit "$0.addListener('moved',$1)">] abstract addListener_moved: listener: Function -> BrowserWindow
@@ -1361,6 +1372,17 @@ module Electron =
         [<Emit "$0.once('resize',$1)">] abstract once_resize: listener: Function -> BrowserWindow
         [<Emit "$0.addListener('resize',$1)">] abstract addListener_resize: listener: Function -> BrowserWindow
         [<Emit "$0.removeListener('resize',$1)">] abstract removeListener_resize: listener: Function -> BrowserWindow
+        /// <summary>
+        /// Emitted once when the window has finished being resized.
+        /// 
+        /// This is usually emitted when the window has been resized manually. On macOS,
+        /// resizing the window with <c>setBounds</c>/<c>setSize</c> and setting the <c>animate</c>
+        /// parameter to <c>true</c> will also emit this event once resizing has finished.
+        /// </summary>
+        [<Emit "$0.on('resized',$1)">] abstract on_resized: listener: Function -> BrowserWindow
+        [<Emit "$0.once('resized',$1)">] abstract once_resized: listener: Function -> BrowserWindow
+        [<Emit "$0.addListener('resized',$1)">] abstract addListener_resized: listener: Function -> BrowserWindow
+        [<Emit "$0.removeListener('resized',$1)">] abstract removeListener_resized: listener: Function -> BrowserWindow
         /// Emitted when the unresponsive web page becomes responsive again.
         [<Emit "$0.on('responsive',$1)">] abstract on_responsive: listener: Function -> BrowserWindow
         [<Emit "$0.once('responsive',$1)">] abstract once_responsive: listener: Function -> BrowserWindow
@@ -1435,6 +1457,18 @@ module Electron =
         [<Emit "$0.once('swipe',$1)">] abstract once_swipe: listener: (Event -> string -> unit) -> BrowserWindow
         [<Emit "$0.addListener('swipe',$1)">] abstract addListener_swipe: listener: (Event -> string -> unit) -> BrowserWindow
         [<Emit "$0.removeListener('swipe',$1)">] abstract removeListener_swipe: listener: (Event -> string -> unit) -> BrowserWindow
+        /// <summary>
+        /// Emitted when the system context menu is triggered on the window, this is
+        /// normally only triggered when the user right clicks on the non-client area of
+        /// your window.  This is the window titlebar or any area you have declared as
+        /// <c>-webkit-app-region: drag</c> in a frameless window.
+        /// 
+        /// Calling <c>event.preventDefault()</c> will prevent the menu from being displayed.
+        /// </summary>
+        [<Emit "$0.on('system-context-menu',$1)">] abstract ``on_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit "$0.once('system-context-menu',$1)">] abstract ``once_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit "$0.addListener('system-context-menu',$1)">] abstract ``addListener_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit "$0.removeListener('system-context-menu',$1)">] abstract ``removeListener_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
         /// Emitted when the window exits from a maximized state.
         [<Emit "$0.on('unmaximize',$1)">] abstract on_unmaximize: listener: Function -> BrowserWindow
         [<Emit "$0.once('unmaximize',$1)">] abstract once_unmaximize: listener: Function -> BrowserWindow
@@ -1478,7 +1512,7 @@ module Electron =
         /// Resolves with a NativeImage
         /// 
         /// Captures a snapshot of the page within <c>rect</c>. Omitting <c>rect</c> will capture the
-        /// whole visible page.
+        /// whole visible page. If the page is not visible, <c>rect</c> may be empty.
         /// </summary>
         abstract capturePage: ?rect: Rectangle -> Promise<Electron.NativeImage>
         /// Moves window to the center of the screen.
@@ -1582,7 +1616,7 @@ module Electron =
         /// Hooks a windows message. The <c>callback</c> is called when the message is received
         /// in the WndProc.
         /// </summary>
-        abstract hookWindowMessage: message: float * callback: (unit -> unit) -> unit
+        abstract hookWindowMessage: message: float * callback: (obj option -> obj option -> unit) -> unit
         /// Whether the window is always on top of other windows.
         abstract isAlwaysOnTop: unit -> bool
         /// <summary>
@@ -1742,6 +1776,9 @@ module Electron =
         /// width: 40, height: 50 }. The second argument doesn't care where the extra width
         /// and height are within the content view--only that they exist. Sum any extra
         /// width and height areas you have within the overall content view.
+        /// 
+        /// The aspect ratio is not respected when window is resized programmingly with APIs
+        /// like <c>win.setSize</c>.
         /// </summary>
         abstract setAspectRatio: aspectRatio: float * ?extraSize: Size -> unit
         /// <summary>Controls whether to hide cursor when typing.</summary>
@@ -1943,6 +1980,11 @@ module Electron =
         /// <summary>Changes the title of native window to <c>title</c>.</summary>
         abstract setTitle: title: string -> unit
         /// <summary>
+        /// Raises <c>browserView</c> above other <c>BrowserView</c>s attached to <c>win</c>. Throws an
+        /// error if <c>browserView</c> is not attached to <c>win</c>.
+        /// </summary>
+        abstract setTopBrowserView: browserView: BrowserView -> unit
+        /// <summary>
         /// Sets the touchBar layout for the current window. Specifying <c>null</c> or
         /// <c>undefined</c> clears the touch bar. This method only has an effect if the machine
         /// has a touch bar and is running on macOS 10.12.1+.
@@ -2062,7 +2104,7 @@ module Electron =
         /// </summary>
         abstract fromBrowserView: browserView: BrowserView -> BrowserWindow option
         /// <summary>The window with the given <c>id</c>.</summary>
-        abstract fromId: id: float -> BrowserWindow
+        abstract fromId: id: float -> BrowserWindow option
         /// <summary>
         /// The window that owns the given <c>webContents</c> or <c>null</c> if the contents are not
         /// owned by a window.
@@ -2180,7 +2222,7 @@ module Electron =
         abstract state: string with get, set
 
     type [<AllowNullLiteral>] ClientRequest =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// <summary>
         /// Emitted when the <c>request</c> is aborted. The <c>abort</c> event will not be fired if
         /// the <c>request</c> is already closed.
@@ -2283,6 +2325,21 @@ module Electron =
         /// lowercasing. It can be called only before first write. Calling this method after
         /// the first write will throw an error. If the passed value is not a <c>String</c>, its
         /// <c>toString()</c> method will be called to obtain the final value.
+        /// 
+        /// Certain headers are restricted from being set by apps. These headers are listed
+        /// below. More information on restricted headers can be found in Chromium's header
+        /// utils.
+        /// 
+        /// * <c>Content-Length</c>
+        /// * <c>Host</c>
+        /// * <c>Trailer</c> or <c>Te</c>
+        /// * <c>Upgrade</c>
+        /// * <c>Cookie2</c>
+        /// * <c>Keep-Alive</c>
+        /// * <c>Transfer-Encoding</c>
+        /// 
+        /// Additionally, setting the <c>Connection</c> header to the value <c>upgrade</c> is also
+        /// disallowed.
         /// </summary>
         abstract setHeader: name: string * value: string -> unit
         /// <summary>
@@ -2509,7 +2566,6 @@ module Electron =
         abstract stopRecording: ?resultFilePath: string -> Promise<string>
 
     type [<AllowNullLiteral>] ContextBridge =
-        inherit NodeJS.EventEmitter
         abstract exposeInMainWorld: apiKey: string * api: Record<string, obj option> -> unit
 
     type [<AllowNullLiteral>] Cookie =
@@ -2530,6 +2586,11 @@ module Electron =
         abstract name: string with get, set
         /// The path of the cookie.
         abstract path: string option with get, set
+        /// <summary>
+        /// The Same Site policy applied to this cookie.  Can be <c>unspecified</c>,
+        /// <c>no_restriction</c>, <c>lax</c> or <c>strict</c>.
+        /// </summary>
+        abstract sameSite: CookieSameSite with get, set
         /// Whether the cookie is marked as secure.
         abstract secure: bool option with get, set
         /// Whether the cookie is a session cookie or a persistent cookie with an expiration
@@ -2539,13 +2600,13 @@ module Electron =
         abstract value: string with get, set
 
     type [<AllowNullLiteral>] Cookies =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// Emitted when a cookie is changed because it was added, edited, removed, or
         /// expired.
-        [<Emit "$0.on('changed',$1)">] abstract on_changed: listener: Function -> Cookies
-        [<Emit "$0.once('changed',$1)">] abstract once_changed: listener: Function -> Cookies
-        [<Emit "$0.addListener('changed',$1)">] abstract addListener_changed: listener: Function -> Cookies
-        [<Emit "$0.removeListener('changed',$1)">] abstract removeListener_changed: listener: Function -> Cookies
+        [<Emit "$0.on('changed',$1)">] abstract on_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit "$0.once('changed',$1)">] abstract once_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit "$0.addListener('changed',$1)">] abstract addListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit "$0.removeListener('changed',$1)">] abstract removeListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
         /// A promise which resolves when the cookie store has been flushed
         /// 
         /// Writes any unwritten cookies data to disk.
@@ -2640,8 +2701,8 @@ module Electron =
         /// *Note:** Calling this method from the renderer process is deprecated.
         /// </summary>
         abstract getUploadToServer: unit -> bool
-        /// Remove a extra parameter from the current set of parameters. Future crashes will
-        /// not include this parameter.
+        /// Remove an extra parameter from the current set of parameters. Future crashes
+        /// will not include this parameter.
         abstract removeExtraParameter: key: string -> unit
         /// <summary>
         /// This would normally be controlled by user preferences. This has no effect if
@@ -2683,7 +2744,7 @@ module Electron =
         abstract scheme: string with get, set
 
     type [<AllowNullLiteral>] Debugger =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// <summary>
         /// Emitted when the debugging session is terminated. This happens either when
         /// <c>webContents</c> is closed or devtools is invoked for the attached <c>webContents</c>.
@@ -2728,7 +2789,7 @@ module Electron =
     type [<AllowNullLiteral>] DesktopCapturerSource =
         /// An icon image of the application that owns the window or null if the source has
         /// a type screen. The size of the icon is not known in advance and depends on what
-        /// the the application provides.
+        /// the application provides.
         abstract appIcon: NativeImage with get, set
         /// <summary>
         /// A unique identifier that will correspond to the <c>id</c> of the matching Display
@@ -2833,7 +2894,7 @@ module Electron =
         /// 
         /// The <c>browserWindow</c> argument allows the dialog to attach itself to a parent
         /// window, making it modal. If <c>browserWindow</c> is not shown dialog will not be
-        /// attached to it. In such case It will be displayed as independed window.
+        /// attached to it. In such case it will be displayed as an independent window.
         /// </summary>
         abstract showMessageBoxSync: browserWindow: BrowserWindow * options: MessageBoxSyncOptions -> float
         /// <summary>
@@ -2844,7 +2905,7 @@ module Electron =
         /// 
         /// The <c>browserWindow</c> argument allows the dialog to attach itself to a parent
         /// window, making it modal. If <c>browserWindow</c> is not shown dialog will not be
-        /// attached to it. In such case It will be displayed as independed window.
+        /// attached to it. In such case it will be displayed as an independent window.
         /// </summary>
         abstract showMessageBoxSync: options: MessageBoxSyncOptions -> float
         /// <summary>
@@ -3073,7 +3134,7 @@ module Electron =
         [<EmitConstructor>] abstract Create: unit -> Dock
 
     type [<AllowNullLiteral>] DownloadItem =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// <summary>
         /// Emitted when the download is in a terminal state. This includes a completed
         /// download, a cancelled download (via <c>downloadItem.cancel()</c>), and interrupted
@@ -3333,7 +3394,7 @@ module Electron =
         abstract restoreCompletedTransactions: unit -> unit
 
     type [<AllowNullLiteral>] IncomingMessage =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// Emitted when a request has been canceled during an ongoing HTTP transaction.
         [<Emit "$0.on('aborted',$1)">] abstract on_aborted: listener: Function -> IncomingMessage
         [<Emit "$0.once('aborted',$1)">] abstract once_aborted: listener: Function -> IncomingMessage
@@ -3366,7 +3427,7 @@ module Electron =
         [<Emit "$0.once('error',$1)">] abstract once_error: listener: Function -> IncomingMessage
         [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: Function -> IncomingMessage
         [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: Function -> IncomingMessage
-        abstract headers: Record<string, ResizeArray<string>> with get, set
+        abstract headers: Record<string, U2<string, ResizeArray<string>>> with get, set
         abstract httpVersion: string with get, set
         abstract httpVersionMajor: float with get, set
         abstract httpVersionMinor: float with get, set
@@ -3476,9 +3537,13 @@ module Electron =
         /// included. Sending Functions, Promises, Symbols, WeakMaps, or WeakSets will throw
         /// an exception.
         /// 
-        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
-        /// Electron objects is deprecated, and will begin throwing an exception starting
-        /// with Electron 9.
+        /// &gt; **NOTE:** Sending non-standard JavaScript types such as DOM objects or special
+        /// Electron objects will throw an exception.
+        /// 
+        /// Since the main process does not have support for DOM objects such as
+        /// <c>ImageBitmap</c>, <c>File</c>, <c>DOMMatrix</c> and so on, such objects cannot be sent over
+        /// Electron's IPC to the main process, as the main process would have no way to
+        /// decode them. Attempting to send such objects over IPC will result in an error.
         /// 
         /// The main process should listen for <c>channel</c> with <c>ipcMain.handle()</c>.
         /// 
@@ -3487,7 +3552,7 @@ module Electron =
         /// If you need to transfer a <c>MessagePort</c> to the main process, use
         /// <c>ipcRenderer.postMessage</c>.
         /// 
-        /// If you do not need a respons to the message, consider using <c>ipcRenderer.send</c>.
+        /// If you do not need a response to the message, consider using <c>ipcRenderer.send</c>.
         /// </summary>
         abstract invoke: channel: string * [<ParamArray>] args: obj option[] -> Promise<obj option>
         /// <summary>
@@ -3528,9 +3593,13 @@ module Electron =
         /// Sending Functions, Promises, Symbols, WeakMaps, or WeakSets will throw an
         /// exception.
         /// 
-        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
-        /// Electron objects is deprecated, and will begin throwing an exception starting
-        /// with Electron 9.
+        /// &gt; **NOTE:** Sending non-standard JavaScript types such as DOM objects or special
+        /// Electron objects will throw an exception.
+        /// 
+        /// Since the main process does not have support for DOM objects such as
+        /// <c>ImageBitmap</c>, <c>File</c>, <c>DOMMatrix</c> and so on, such objects cannot be sent over
+        /// Electron's IPC to the main process, as the main process would have no way to
+        /// decode them. Attempting to send such objects over IPC will result in an error.
         /// 
         /// The main process handles it by listening for <c>channel</c> with the <c>ipcMain</c>
         /// module.
@@ -3551,9 +3620,13 @@ module Electron =
         /// Sending Functions, Promises, Symbols, WeakMaps, or WeakSets will throw an
         /// exception.
         /// 
-        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
-        /// Electron objects is deprecated, and will begin throwing an exception starting
-        /// with Electron 9.
+        /// &gt; **NOTE:** Sending non-standard JavaScript types such as DOM objects or special
+        /// Electron objects will throw an exception.
+        /// 
+        /// Since the main process does not have support for DOM objects such as
+        /// <c>ImageBitmap</c>, <c>File</c>, <c>DOMMatrix</c> and so on, such objects cannot be sent over
+        /// Electron's IPC to the main process, as the main process would have no way to
+        /// decode them. Attempting to send such objects over IPC will result in an error.
         /// 
         /// The main process handles it by listening for <c>channel</c> with <c>ipcMain</c> module,
         /// and replies by setting <c>event.returnValue</c>.
@@ -3605,7 +3678,7 @@ module Electron =
         abstract args: string option with get, set
         /// <summary>
         /// Description of the task (displayed in a tooltip). Should only be set if <c>type</c>
-        /// is <c>task</c>.
+        /// is <c>task</c>. Maximum length 260 characters.
         /// </summary>
         abstract description: string option with get, set
         /// The index of the icon in the resource file. If a resource file contains multiple
@@ -3637,7 +3710,6 @@ module Electron =
         abstract workingDirectory: string option with get, set
 
     type [<AllowNullLiteral>] KeyboardEvent =
-        inherit Event
         /// whether an Alt key was used in an accelerator to trigger the Event
         abstract altKey: bool option with get, set
         /// whether the Control key was used in an accelerator to trigger the Event
@@ -3690,7 +3762,7 @@ module Electron =
         /// <summary>Closes the context menu in the <c>browserWindow</c>.</summary>
         abstract closePopup: ?browserWindow: BrowserWindow -> unit
         /// <summary>the item with the specified <c>id</c></summary>
-        abstract getMenuItemById: id: string -> MenuItem
+        abstract getMenuItemById: id: string -> MenuItem option
         /// <summary>Inserts the <c>menuItem</c> to the <c>pos</c> position of the menu.</summary>
         abstract insert: pos: float * menuItem: MenuItem -> unit
         /// <summary>Pops up this menu as a context menu in the <c>BrowserWindow</c>.</summary>
@@ -3731,8 +3803,11 @@ module Electron =
         /// Also on Windows and Linux, you can use a <c>&amp;</c> in the top-level item name to
         /// indicate which letter should get a generated accelerator. For example, using
         /// <c>&amp;File</c> for the file menu would result in a generated <c>Alt-F</c> accelerator that
-        /// opens the associated menu. The indicated character in the button label gets an
-        /// underline. The <c>&amp;</c> character is not displayed on the button label.
+        /// opens the associated menu. The indicated character in the button label then gets
+        /// an underline, and the <c>&amp;</c> character is not displayed on the button label.
+        /// 
+        /// In order to escape the <c>&amp;</c> character in an item name, add a proceeding <c>&amp;</c>. For
+        /// example, <c>&amp;&amp;File</c> would result in <c>&amp;File</c> displayed on the button label.
         /// 
         /// Passing <c>null</c> will suppress the default menu. On Windows and Linux, this has
         /// the additional effect of removing the menu bar from the window.
@@ -3766,7 +3841,7 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: MenuItemConstructorOptions -> MenuItem
 
     type [<AllowNullLiteral>] MessageChannelMain =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         abstract port1: MessagePortMain with get, set
         abstract port2: MessagePortMain with get, set
 
@@ -3774,7 +3849,12 @@ module Electron =
         [<EmitConstructor>] abstract Create: unit -> MessageChannelMain
 
     type [<AllowNullLiteral>] MessagePortMain =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
+        /// Emitted when the remote end of a MessagePortMain object becomes disconnected.
+        [<Emit "$0.on('close',$1)">] abstract on_close: listener: Function -> MessagePortMain
+        [<Emit "$0.once('close',$1)">] abstract once_close: listener: Function -> MessagePortMain
+        [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: Function -> MessagePortMain
+        [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: Function -> MessagePortMain
         /// Emitted when a MessagePortMain object receives a message.
         [<Emit "$0.on('message',$1)">] abstract on_message: listener: (MessageEvent -> unit) -> MessagePortMain
         [<Emit "$0.once('message',$1)">] abstract once_message: listener: (MessageEvent -> unit) -> MessagePortMain
@@ -3793,10 +3873,12 @@ module Electron =
         [<EmitConstructor>] abstract Create: unit -> MessagePortMain
 
     type [<AllowNullLiteral>] MimeTypedBuffer =
+        /// Charset of the buffer.
+        abstract charset: string option with get, set
         /// The actual Buffer content.
         abstract data: Buffer with get, set
-        /// The mimeType of the Buffer that you are sending.
-        abstract mimeType: string with get, set
+        /// MIME type of the buffer.
+        abstract mimeType: string option with get, set
 
     type [<AllowNullLiteral>] MouseInputEvent =
         inherit InputEvent
@@ -3835,8 +3917,13 @@ module Electron =
         abstract addRepresentation: options: AddRepresentationOptions -> unit
         /// The cropped image.
         abstract crop: rect: Rectangle -> NativeImage
+        /// <summary>
         /// The image's aspect ratio.
-        abstract getAspectRatio: unit -> float
+        /// 
+        /// If <c>scaleFactor</c> is passed, this will return the aspect ratio corresponding to
+        /// the image representation most closely matching the passed value.
+        /// </summary>
+        abstract getAspectRatio: ?scaleFactor: float -> float
         /// <summary>
         /// A Buffer that contains the image's raw bitmap pixel data.
         /// 
@@ -3854,7 +3941,14 @@ module Electron =
         /// instance is kept around.
         /// </summary>
         abstract getNativeHandle: unit -> Buffer
-        abstract getSize: unit -> Size
+        /// An array of all scale factors corresponding to representations for a given
+        /// nativeImage.
+        abstract getScaleFactors: unit -> ResizeArray<float>
+        /// <summary>
+        /// If <c>scaleFactor</c> is passed, this will return the size corresponding to the image
+        /// representation most closely matching the passed value.
+        /// </summary>
+        abstract getSize: ?scaleFactor: float -> Size
         /// Whether the image is empty.
         abstract isEmpty: unit -> bool
         /// Whether the image is a template image.
@@ -3930,6 +4024,8 @@ module Electron =
         /// valid image.
         /// </summary>
         abstract createFromPath: path: string -> NativeImage
+        /// <summary>fulfilled with the file's thumbnail preview image, which is a NativeImage.</summary>
+        abstract createThumbnailFromPath: path: string * maxSize: Size -> Promise<Electron.NativeImage>
 
     type [<AllowNullLiteral>] NativeTheme =
         inherit NodeJS.EventEmitter
@@ -3951,7 +4047,7 @@ module Electron =
         abstract shouldUseDarkColors: bool
         /// <summary>
         /// A <c>Boolean</c> for if the OS / Chromium currently has high-contrast mode enabled or
-        /// is being instructed to show a high-constrast UI.
+        /// is being instructed to show a high-contrast UI.
         /// </summary>
         abstract shouldUseHighContrastColors: bool
         /// <summary>
@@ -4014,32 +4110,23 @@ module Electron =
         /// Starts recording network events to <c>path</c>.
         /// </summary>
         abstract startLogging: path: string * ?options: StartLoggingOptions -> Promise<unit>
-        /// resolves with a file path to which network logs were recorded.
+        /// resolves when the net log has been flushed to disk.
         /// 
         /// Stops recording network events. If not called, net logging will automatically
         /// end when app quits.
-        abstract stopLogging: unit -> Promise<string>
-        /// <summary>A <c>Boolean</c> property that indicates whether network logs are recorded.</summary>
+        abstract stopLogging: unit -> Promise<unit>
+        /// <summary>
+        /// A <c>Boolean</c> property that indicates whether network logs are currently being
+        /// recorded.
+        /// </summary>
         abstract currentlyLogging: bool
-        /// <summary>A <c>String</c> property that returns the path to the current log file.</summary>
-        [<Obsolete("")>]
-        abstract currentlyLoggingPath: string
 
-    type [<AllowNullLiteral>] NewWindowEvent =
+    type [<AllowNullLiteral>] NewWindowWebContentsEvent =
         inherit Event
         abstract newGuest: BrowserWindow option with get, set
-        abstract url: string with get, set
-        abstract frameName: string with get, set
-        /// <summary>
-        /// Can be <c>default</c>, <c>foreground-tab</c>, <c>background-tab</c>, <c>new-window</c>,
-        /// <c>save-to-disk</c> and <c>other</c>.
-        /// </summary>
-        abstract disposition: NewWindowEventDisposition with get, set
-        /// <summary>The options which should be used for creating the new <c>BrowserWindow</c>.</summary>
-        abstract options: BrowserWindowConstructorOptions with get, set
 
     type [<AllowNullLiteral>] Notification =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         [<Emit "$0.on('action',$1)">] abstract on_action: listener: (Event -> float -> unit) -> Notification
         [<Emit "$0.once('action',$1)">] abstract once_action: listener: (Event -> float -> unit) -> Notification
         [<Emit "$0.addListener('action',$1)">] abstract addListener_action: listener: (Event -> float -> unit) -> Notification
@@ -4113,6 +4200,46 @@ module Electron =
     type [<AllowNullLiteral>] Point =
         abstract x: float with get, set
         abstract y: float with get, set
+
+    type [<AllowNullLiteral>] PostBody =
+        /// <summary>
+        /// The boundary used to separate multiple parts of the message. Only valid when
+        /// <c>contentType</c> is <c>multipart/form-data</c>.
+        /// </summary>
+        abstract boundary: string option with get, set
+        /// <summary>
+        /// The <c>content-type</c> header used for the data. One of
+        /// <c>application/x-www-form-urlencoded</c> or <c>multipart/form-data</c>. Corresponds to the
+        /// <c>enctype</c> attribute of the submitted HTML form.
+        /// </summary>
+        abstract contentType: string with get, set
+        /// The post data to be sent to the new window.
+        abstract data: Array<PostData> with get, set
+
+    type [<AllowNullLiteral>] PostData =
+        /// <summary>The <c>UUID</c> of the <c>Blob</c> being uploaded. Required for the <c>blob</c> type.</summary>
+        abstract blobUUID: string option with get, set
+        /// <summary>The raw bytes of the post data in a <c>Buffer</c>. Required for the <c>rawData</c> type.</summary>
+        abstract bytes: string option with get, set
+        /// <summary>The path of the file being uploaded. Required for the <c>file</c> type.</summary>
+        abstract filePath: string option with get, set
+        /// <summary>
+        /// The length of the file being uploaded, in bytes. If set to <c>-1</c>, the whole file
+        /// will be uploaded. Only valid for <c>file</c> types.
+        /// </summary>
+        abstract length: float option with get, set
+        /// <summary>
+        /// The modification time of the file represented by a double, which is the number
+        /// of seconds since the <c>UNIX Epoch</c> (Jan 1, 1970). Only valid for <c>file</c> types.
+        /// </summary>
+        abstract modificationTime: float option with get, set
+        /// <summary>
+        /// The offset from the beginning of the file being uploaded, in bytes. Only valid
+        /// for <c>file</c> types.
+        /// </summary>
+        abstract offset: float option with get, set
+        /// One of the following:
+        abstract ``type``: PostDataType with get, set
 
     type [<AllowNullLiteral>] PowerMonitor =
         inherit NodeJS.EventEmitter
@@ -4239,6 +4366,12 @@ module Electron =
         abstract integrityLevel: ProcessMetricIntegrityLevel option with get, set
         /// Memory information for the process.
         abstract memory: MemoryInfo with get, set
+        /// <summary>
+        /// The name of the process. i.e. for plugins it might be Flash. Examples for
+        /// utility: <c>Audio Service</c>, <c>Content Decryption Module Service</c>, `Network
+        /// Service<c>, </c>Video Capture`, etc.
+        /// </summary>
+        abstract name: string option with get, set
         /// Process id of the process.
         abstract pid: float with get, set
         /// <summary>Whether the process is sandboxed on OS level.</summary>
@@ -4272,97 +4405,98 @@ module Electron =
 
     type [<AllowNullLiteral>] Protocol =
         /// <summary>
+        /// Whether the protocol was successfully intercepted
+        /// 
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a <c>Buffer</c> as a response.
         /// </summary>
-        abstract interceptBufferProtocol: scheme: string * handler: (Request -> ((Buffer) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptBufferProtocol: scheme: string * handler: (ProtocolRequest -> (U2<Buffer, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>
+        /// Whether the protocol was successfully intercepted
+        /// 
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a file as a response.
         /// </summary>
-        abstract interceptFileProtocol: scheme: string * handler: (Request -> (string -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptFileProtocol: scheme: string * handler: (ProtocolRequest -> (U2<string, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>
+        /// Whether the protocol was successfully intercepted
+        /// 
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a new HTTP request as a response.
         /// </summary>
-        abstract interceptHttpProtocol: scheme: string * handler: (Request -> (RedirectRequest -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptHttpProtocol: scheme: string * handler: (ProtocolRequest -> (ProtocolResponse -> unit) -> unit) -> bool
         /// <summary>
+        /// Whether the protocol was successfully intercepted
+        /// 
         /// Same as <c>protocol.registerStreamProtocol</c>, except that it replaces an existing
         /// protocol handler.
         /// </summary>
-        abstract interceptStreamProtocol: scheme: string * handler: (Request -> ((U2<NodeJS.ReadableStream, StreamProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptStreamProtocol: scheme: string * handler: (ProtocolRequest -> (U2<NodeJS.ReadableStream, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>
+        /// Whether the protocol was successfully intercepted
+        /// 
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
         /// which sends a <c>String</c> as a response.
         /// </summary>
-        abstract interceptStringProtocol: scheme: string * handler: (Request -> ((U2<string, StringProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract interceptStringProtocol: scheme: string * handler: (ProtocolRequest -> (U2<string, ProtocolResponse> -> unit) -> unit) -> bool
+        /// <summary>Whether <c>scheme</c> is already intercepted.</summary>
+        abstract isProtocolIntercepted: scheme: string -> bool
+        /// <summary>Whether <c>scheme</c> is already registered.</summary>
+        abstract isProtocolRegistered: scheme: string -> bool
         /// <summary>
-        /// fulfilled with a boolean that indicates whether there is already a handler for
-        /// <c>scheme</c>.
-        /// </summary>
-        abstract isProtocolHandled: scheme: string -> Promise<bool>
-        /// <summary>
+        /// Whether the protocol was successfully registered
+        /// 
         /// Registers a protocol of <c>scheme</c> that will send a <c>Buffer</c> as a response.
         /// 
         /// The usage is the same with <c>registerFileProtocol</c>, except that the <c>callback</c>
-        /// should be called with either a <c>Buffer</c> object or an object that has the <c>data</c>,
-        /// <c>mimeType</c>, and <c>charset</c> properties.
+        /// should be called with either a <c>Buffer</c> object or an object that has the <c>data</c>
+        /// property.
         /// 
         /// Example:
         /// </summary>
-        abstract registerBufferProtocol: scheme: string * handler: (Request -> ((U2<Buffer, MimeTypedBuffer>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerBufferProtocol: scheme: string * handler: (ProtocolRequest -> (U2<Buffer, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>
-        /// Registers a protocol of <c>scheme</c> that will send the file as a response. The
-        /// <c>handler</c> will be called with <c>handler(request, callback)</c> when a <c>request</c> is
-        /// going to be created with <c>scheme</c>. <c>completion</c> will be called with
-        /// <c>completion(null)</c> when <c>scheme</c> is successfully registered or
-        /// <c>completion(error)</c> when failed.
+        /// Whether the protocol was successfully registered
+        /// 
+        /// Registers a protocol of <c>scheme</c> that will send a file as the response. The
+        /// <c>handler</c> will be called with <c>request</c> and <c>callback</c> where <c>request</c> is an
+        /// incoming request for the <c>scheme</c>.
         /// 
         /// To handle the <c>request</c>, the <c>callback</c> should be called with either the file's
         /// path or an object that has a <c>path</c> property, e.g. <c>callback(filePath)</c> or
-        /// <c>callback({ path: filePath })</c>. The object may also have a <c>headers</c> property
-        /// which gives a map of headers to values for the response headers, e.g.
-        /// `callback({ path: filePath, headers: {"Content-Security-Policy": "default-src
-        /// 'none'"]})`.
-        /// 
-        /// When <c>callback</c> is called with nothing, a number, or an object that has an
-        /// <c>error</c> property, the <c>request</c> will fail with the <c>error</c> number you specified.
-        /// For the available error numbers you can use, please see the net error list.
+        /// <c>callback({ path: filePath })</c>. The <c>filePath</c> must be an absolute path.
         /// 
         /// By default the <c>scheme</c> is treated like <c>http:</c>, which is parsed differently
-        /// than protocols that follow the "generic URI syntax" like <c>file:</c>.
+        /// from protocols that follow the "generic URI syntax" like <c>file:</c>.
         /// </summary>
-        abstract registerFileProtocol: scheme: string * handler: (Request -> ((U2<string, FilePathWithHeaders>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerFileProtocol: scheme: string * handler: (ProtocolRequest -> (U2<string, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>
+        /// Whether the protocol was successfully registered
+        /// 
         /// Registers a protocol of <c>scheme</c> that will send an HTTP request as a response.
         /// 
         /// The usage is the same with <c>registerFileProtocol</c>, except that the <c>callback</c>
-        /// should be called with a <c>redirectRequest</c> object that has the <c>url</c>, <c>method</c>,
-        /// <c>referrer</c>, <c>uploadData</c> and <c>session</c> properties.
-        /// 
-        /// By default the HTTP request will reuse the current session. If you want the
-        /// request to have a different session you should set <c>session</c> to <c>null</c>.
-        /// 
-        /// For POST requests the <c>uploadData</c> object must be provided.
+        /// should be called with an object that has the <c>url</c> property.
         /// </summary>
-        abstract registerHttpProtocol: scheme: string * handler: (Request -> (RedirectRequest -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerHttpProtocol: scheme: string * handler: (ProtocolRequest -> (ProtocolResponse -> unit) -> unit) -> bool
         /// <summary>
         /// **Note:** This method can only be used before the <c>ready</c> event of the <c>app</c>
         /// module gets emitted and can be called only once.
         /// 
         /// Registers the <c>scheme</c> as standard, secure, bypasses content security policy for
-        /// resources, allows registering ServiceWorker and supports fetch API.
+        /// resources, allows registering ServiceWorker, supports fetch API, and streaming
+        /// video/audio. Specify a privilege with the value of <c>true</c> to enable the
+        /// capability.
         /// 
-        /// Specify a privilege with the value of <c>true</c> to enable the capability. An
-        /// example of registering a privileged scheme, with bypassing Content Security
+        /// An example of registering a privileged scheme, that bypasses Content Security
         /// Policy:
         /// 
         /// A standard scheme adheres to what RFC 3986 calls generic URI syntax. For example
         /// <c>http</c> and <c>https</c> are standard schemes, while <c>file</c> is not.
         /// 
-        /// Registering a scheme as standard, will allow relative and absolute resources to
-        /// be resolved correctly when served. Otherwise the scheme will behave like the
-        /// <c>file</c> protocol, but without the ability to resolve relative URLs.
+        /// Registering a scheme as standard allows relative and absolute resources to be
+        /// resolved correctly when served. Otherwise the scheme will behave like the <c>file</c>
+        /// protocol, but without the ability to resolve relative URLs.
         /// 
         /// For example when you load following page with custom protocol without
         /// registering it as standard scheme, the image will not be loaded because
@@ -4377,43 +4511,52 @@ module Electron =
         /// register a custom protocol to replace the <c>http</c> protocol, you have to register
         /// it as a standard scheme.
         /// 
-        /// <c>protocol.registerSchemesAsPrivileged</c> can be used to replicate the
-        /// functionality of the previous <c>protocol.registerStandardSchemes</c>,
-        /// <c>webFrame.registerURLSchemeAs*</c> and <c>protocol.registerServiceWorkerSchemes</c>
-        /// functions that existed prior to Electron 5.0.0, for example:
-        /// 
-        /// *before (&lt;= v4.x)**
-        /// 
-        /// *after (&gt;= v5.x)**
+        /// Protocols that use streams (http and stream protocols) should set `stream:
+        /// true<c>. The </c>&lt;video&gt;<c> and </c>&lt;audio&gt;` HTML elements expect protocols to buffer
+        /// their responses by default. The <c>stream</c> flag configures those elements to
+        /// correctly expect streaming responses.
         /// </summary>
         abstract registerSchemesAsPrivileged: customSchemes: ResizeArray<CustomScheme> -> unit
         /// <summary>
-        /// Registers a protocol of <c>scheme</c> that will send a <c>Readable</c> as a response.
+        /// Whether the protocol was successfully registered
         /// 
-        /// The usage is similar to the other <c>register{Any}Protocol</c>, except that the
-        /// <c>callback</c> should be called with either a <c>Readable</c> object or an object that
-        /// has the <c>data</c>, <c>statusCode</c>, and <c>headers</c> properties.
+        /// Registers a protocol of <c>scheme</c> that will send a stream as a response.
+        /// 
+        /// The usage is the same with <c>registerFileProtocol</c>, except that the <c>callback</c>
+        /// should be called with either a <c>ReadableStream</c> object or an object that has the
+        /// <c>data</c> property.
         /// 
         /// Example:
         /// 
         /// It is possible to pass any object that implements the readable stream API (emits
         /// <c>data</c>/<c>end</c>/<c>error</c> events). For example, here's how a file could be returned:
         /// </summary>
-        abstract registerStreamProtocol: scheme: string * handler: (Request -> ((U2<NodeJS.ReadableStream, StreamProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
+        abstract registerStreamProtocol: scheme: string * handler: (ProtocolRequest -> (U2<NodeJS.ReadableStream, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>
+        /// Whether the protocol was successfully registered
+        /// 
         /// Registers a protocol of <c>scheme</c> that will send a <c>String</c> as a response.
         /// 
         /// The usage is the same with <c>registerFileProtocol</c>, except that the <c>callback</c>
-        /// should be called with either a <c>String</c> or an object that has the <c>data</c>,
-        /// <c>mimeType</c>, and <c>charset</c> properties.
+        /// should be called with either a <c>String</c> or an object that has the <c>data</c>
+        /// property.
         /// </summary>
-        abstract registerStringProtocol: scheme: string * handler: (Request -> ((U2<string, StringProtocolResponse>) option -> unit) -> unit) * ?completion: (Error -> unit) -> unit
-        /// <summary>Remove the interceptor installed for <c>scheme</c> and restore its original handler.</summary>
-        abstract uninterceptProtocol: scheme: string * ?completion: (Error -> unit) -> unit
-        /// <summary>Unregisters the custom protocol of <c>scheme</c>.</summary>
-        abstract unregisterProtocol: scheme: string * ?completion: (Error -> unit) -> unit
+        abstract registerStringProtocol: scheme: string * handler: (ProtocolRequest -> (U2<string, ProtocolResponse> -> unit) -> unit) -> bool
+        /// <summary>
+        /// Whether the protocol was successfully unintercepted
+        /// 
+        /// Remove the interceptor installed for <c>scheme</c> and restore its original handler.
+        /// </summary>
+        abstract uninterceptProtocol: scheme: string -> bool
+        /// <summary>
+        /// Whether the protocol was successfully unregistered
+        /// 
+        /// Unregisters the custom protocol of <c>scheme</c>.
+        /// </summary>
+        abstract unregisterProtocol: scheme: string -> bool
 
     type [<AllowNullLiteral>] ProtocolRequest =
+        abstract headers: Record<string, string> with get, set
         abstract method: string with get, set
         abstract referrer: string with get, set
         abstract uploadData: ResizeArray<UploadData> option with get, set
@@ -4496,7 +4639,7 @@ module Electron =
         abstract url: string with get, set
 
     type [<AllowNullLiteral>] Remote =
-        inherit MainInterface
+        inherit RemoteMainInterface
         /// The web contents of this web page.
         abstract getCurrentWebContents: unit -> WebContents
         /// <summary>
@@ -4522,31 +4665,6 @@ module Electron =
         /// the same as <c>remote.getGlobal('process')</c> but is cached.
         /// </summary>
         abstract ``process``: NodeJS.Process
-
-    type [<AllowNullLiteral>] RemoveClientCertificate =
-        /// Origin of the server whose associated client certificate must be removed from
-        /// the cache.
-        abstract origin: string with get, set
-        /// <summary><c>clientCertificate</c>.</summary>
-        abstract ``type``: string with get, set
-
-    type [<AllowNullLiteral>] RemovePassword =
-        /// When provided, the authentication info related to the origin will only be
-        /// removed otherwise the entire cache will be cleared.
-        abstract origin: string option with get, set
-        /// <summary>Credentials of the authentication. Must be provided if removing by <c>origin</c>.</summary>
-        abstract password: string option with get, set
-        /// <summary>Realm of the authentication. Must be provided if removing by <c>origin</c>.</summary>
-        abstract realm: string option with get, set
-        /// <summary>
-        /// Scheme of the authentication. Can be <c>basic</c>, <c>digest</c>, <c>ntlm</c>, <c>negotiate</c>.
-        /// Must be provided if removing by <c>origin</c>.
-        /// </summary>
-        abstract scheme: RemovePasswordScheme option with get, set
-        /// <summary><c>password</c>.</summary>
-        abstract ``type``: string with get, set
-        /// <summary>Credentials of the authentication. Must be provided if removing by <c>origin</c>.</summary>
-        abstract username: string option with get, set
 
     type [<AllowNullLiteral>] Screen =
         inherit NodeJS.EventEmitter
@@ -4629,7 +4747,7 @@ module Electron =
         abstract scriptUrl: string with get, set
 
     type [<AllowNullLiteral>] ServiceWorkers =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// Emitted when a service worker logs something to the console.
         [<Emit "$0.on('console-message',$1)">] abstract ``on_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
         [<Emit "$0.once('console-message',$1)">] abstract ``once_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
@@ -4648,7 +4766,7 @@ module Electron =
         [<EmitConstructor>] abstract Create: unit -> ServiceWorkers
 
     type [<AllowNullLiteral>] Session =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// Emitted when a render process requests preconnection to a URL, generally due to
         /// a resource hint.
         [<Emit "$0.on('preconnect',$1)">] abstract on_preconnect: listener: (Event -> string -> bool -> unit) -> Session
@@ -4697,7 +4815,7 @@ module Electron =
         /// authentication.
         abstract allowNTLMCredentialsForDomains: domains: string -> unit
         /// resolves when the session’s HTTP authentication cache has been cleared.
-        abstract clearAuthCache: options: U2<RemovePassword, RemoveClientCertificate> -> Promise<unit>
+        abstract clearAuthCache: unit -> Promise<unit>
         /// resolves when the cache clear operation is complete.
         /// 
         /// Clears the session’s HTTP cache.
@@ -4759,12 +4877,19 @@ module Electron =
         /// this setting is an empty list Electron will try to populate this setting with
         /// the current OS locale.  This setting is persisted across restarts.
         /// 
-        /// **Note:** On macOS the OS spellchecker is used and has it's own list of
+        /// **Note:** On macOS the OS spellchecker is used and has its own list of
         /// languages.  This API is a no-op on macOS.
         /// </summary>
         abstract getSpellCheckerLanguages: unit -> ResizeArray<string>
         /// The user agent for this session.
         abstract getUserAgent: unit -> string
+        /// <summary>
+        /// Whether or not this session is a persistent one. The default <c>webContents</c>
+        /// session of a <c>BrowserWindow</c> is persistent. When creating a session from a
+        /// partition, session prefixed with <c>persist:</c> will be persistent, while others
+        /// will be temporary.
+        /// </summary>
+        abstract isPersistent: unit -> bool
         /// An array of all words in app's custom dictionary. Resolves when the full
         /// dictionary is loaded from disk.
         abstract listWordsInSpellCheckerDictionary: unit -> Promise<ResizeArray<string>>
@@ -4776,6 +4901,7 @@ module Electron =
         /// an API that Electron does not support) then they will be logged to the console.
         /// 
         /// Note that Electron does not support the full range of Chrome extensions APIs.
+        /// See Supported Extensions APIs for more details on what is supported.
         /// 
         /// Note that in previous versions of Electron, extensions that were loaded would be
         /// remembered for future runs of the application. This is no longer the case:
@@ -4786,8 +4912,11 @@ module Electron =
         /// 
         /// **Note:** This API cannot be called before the <c>ready</c> event of the <c>app</c> module
         /// is emitted.
+        /// 
+        /// **Note:** Loading extensions into in-memory (non-persistent) sessions is not
+        /// supported and will throw an error.
         /// </summary>
-        abstract loadExtension: path: string -> Promise<Electron.Extension>
+        abstract loadExtension: path: string * ?options: LoadExtensionOptions -> Promise<Electron.Extension>
         /// Preconnects the given number of sockets to an origin.
         abstract preconnect: options: PreconnectOptions -> unit
         /// <summary>
@@ -4814,7 +4943,7 @@ module Electron =
         /// Calling <c>setCertificateVerifyProc(null)</c> will revert back to default certificate
         /// verify proc.
         /// </summary>
-        abstract setCertificateVerifyProc: proc: (CertificateVerifyProcProcRequest -> (float -> unit) -> unit) option -> unit
+        abstract setCertificateVerifyProc: proc: (Request -> (float -> unit) -> unit) option -> unit
         /// <summary>
         /// Sets download saving directory. By default, the download directory will be the
         /// <c>Downloads</c> under the respective app folder.
@@ -4832,7 +4961,7 @@ module Electron =
         /// <c>callback(false)</c> will reject it. To clear the handler, call
         /// <c>setPermissionRequestHandler(null)</c>.
         /// </summary>
-        abstract setPermissionRequestHandler: handler: (WebContents -> string -> (bool -> unit) -> PermissionRequestHandlerHandlerDetails -> unit) option -> unit
+        abstract setPermissionRequestHandler: handler: (WebContents -> SessionSetPermissionRequestHandler -> (bool -> unit) -> PermissionRequestHandlerHandlerDetails -> unit) option -> unit
         /// <summary>
         /// Adds scripts that will be executed on ALL web contents that are associated with
         /// this session just before normal <c>preload</c> scripts run.
@@ -4976,8 +5105,8 @@ module Electron =
         /// Open the given external protocol URL in the desktop's default manner. (For
         /// example, mailto: URLs in the user's default mail agent).
         abstract openExternal: url: string * ?options: OpenExternalOptions -> Promise<unit>
-        /// Resolves with an string containing the error message corresponding to the
-        /// failure if a failure occurred, otherwise "".
+        /// Resolves with a string containing the error message corresponding to the failure
+        /// if a failure occurred, otherwise "".
         /// 
         /// Open the given file in the desktop's default manner.
         abstract openPath: path: string -> Promise<string>
@@ -5032,22 +5161,6 @@ module Electron =
     type [<AllowNullLiteral>] Size =
         abstract height: float with get, set
         abstract width: float with get, set
-
-    type [<AllowNullLiteral>] StreamProtocolResponse =
-        /// A Node.js readable stream representing the response body.
-        abstract data: NodeJS.ReadableStream option with get, set
-        /// An object containing the response headers.
-        abstract headers: Record<string, U2<string, ResizeArray<string>>> option with get, set
-        /// The HTTP response code.
-        abstract statusCode: float option with get, set
-
-    type [<AllowNullLiteral>] StringProtocolResponse =
-        /// Charset of the response.
-        abstract charset: string option with get, set
-        /// A string representing the response body.
-        abstract data: string option with get, set
-        /// MIME type of the response.
-        abstract mimeType: string option with get, set
 
     type [<AllowNullLiteral>] SystemPreferences =
         inherit NodeJS.EventEmitter
@@ -5240,8 +5353,8 @@ module Electron =
         /// 
         /// This API itself will not protect your user data; rather, it is a mechanism to
         /// allow you to do so. Native apps will need to set Access Control Constants like
-        /// <c>kSecAccessControlUserPresence</c> on the their keychain entry so that reading it
-        /// would auto-prompt for Touch ID biometric consent. This could be done with
+        /// <c>kSecAccessControlUserPresence</c> on their keychain entry so that reading it would
+        /// auto-prompt for Touch ID biometric consent. This could be done with
         /// <c>node-keytar</c>, such that one would store an encryption key with <c>node-keytar</c>
         /// and only fetch it if <c>promptTouchID()</c> resolves.
         /// 
@@ -5272,7 +5385,7 @@ module Electron =
         /// 
         /// <c>ApplePressAndHoldEnabled</c>: <c>boolean</c>
         /// </summary>
-        abstract setUserDefault: key: string * ``type``: string * value: string -> unit
+        abstract setUserDefault: key: string * ``type``: SystemPreferencesSetUserDefaultType * value: string -> unit
         /// <summary>
         /// The ID of this subscription
         /// 
@@ -5303,11 +5416,13 @@ module Electron =
         /// </summary>
         abstract subscribeNotification: ``event``: string * callback: (string -> Record<string, obj> -> string -> unit) -> float
         /// <summary>
+        /// The ID of this subscription
+        /// 
         /// Same as <c>subscribeNotification</c>, but uses
         /// <c>NSWorkspace.sharedWorkspace.notificationCenter</c>. This is necessary for events
         /// such as <c>NSWorkspaceDidActivateApplicationNotification</c>.
         /// </summary>
-        abstract subscribeWorkspaceNotification: ``event``: string * callback: (string -> Record<string, obj> -> string -> unit) -> unit
+        abstract subscribeWorkspaceNotification: ``event``: string * callback: (string -> Record<string, obj> -> string -> unit) -> float
         /// <summary>
         /// Same as <c>unsubscribeNotification</c>, but removes the subscriber from
         /// <c>NSNotificationCenter</c>.
@@ -5452,6 +5567,16 @@ module Electron =
         | Array
         | Dictionary
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesSetUserDefaultType =
+        | String
+        | Boolean
+        | Integer
+        | Float
+        | Double
+        | Url
+        | Array
+        | Dictionary
+
     type [<AllowNullLiteral>] Task =
         /// <summary>The command line arguments when <c>program</c> is executed.</summary>
         abstract arguments: string with get, set
@@ -5499,6 +5624,7 @@ module Electron =
         abstract TouchBarColorPicker: obj with get, set
         abstract TouchBarGroup: obj with get, set
         abstract TouchBarLabel: obj with get, set
+        abstract TouchBarOtherItemsProxy: obj with get, set
         abstract TouchBarPopover: obj with get, set
         abstract TouchBarScrubber: obj with get, set
         abstract TouchBarSegmentedControl: obj with get, set
@@ -5510,6 +5636,7 @@ module Electron =
         abstract backgroundColor: string with get, set
         abstract enabled: bool with get, set
         abstract icon: NativeImage with get, set
+        abstract iconPosition: TouchBarButtonIconPosition with get, set
         abstract label: string with get, set
 
     type [<AllowNullLiteral>] TouchBarButtonStatic =
@@ -5517,7 +5644,7 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: TouchBarButtonConstructorOptions -> TouchBarButton
 
     type [<AllowNullLiteral>] TouchBarColorPicker =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         abstract availableColors: ResizeArray<string> with get, set
         abstract selectedColor: string with get, set
 
@@ -5526,14 +5653,14 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: TouchBarColorPickerConstructorOptions -> TouchBarColorPicker
 
     type [<AllowNullLiteral>] TouchBarGroup =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
 
     type [<AllowNullLiteral>] TouchBarGroupStatic =
         /// TouchBarGroup
         [<EmitConstructor>] abstract Create: options: TouchBarGroupConstructorOptions -> TouchBarGroup
 
     type [<AllowNullLiteral>] TouchBarLabel =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         abstract accessibilityLabel: string with get, set
         abstract label: string with get, set
         abstract textColor: string with get, set
@@ -5542,8 +5669,15 @@ module Electron =
         /// TouchBarLabel
         [<EmitConstructor>] abstract Create: options: TouchBarLabelConstructorOptions -> TouchBarLabel
 
+    type [<AllowNullLiteral>] TouchBarOtherItemsProxy =
+        inherit NodeEventEmitter
+
+    type [<AllowNullLiteral>] TouchBarOtherItemsProxyStatic =
+        /// TouchBarOtherItemsProxy
+        [<EmitConstructor>] abstract Create: unit -> TouchBarOtherItemsProxy
+
     type [<AllowNullLiteral>] TouchBarPopover =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         abstract icon: NativeImage with get, set
         abstract label: string with get, set
 
@@ -5552,7 +5686,7 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: TouchBarPopoverConstructorOptions -> TouchBarPopover
 
     type [<AllowNullLiteral>] TouchBarScrubber =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         abstract continuous: bool with get, set
         abstract items: ResizeArray<ScrubberItem> with get, set
         abstract mode: TouchBarScrubberMode with get, set
@@ -5565,7 +5699,8 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: TouchBarScrubberConstructorOptions -> TouchBarScrubber
 
     type [<AllowNullLiteral>] TouchBarSegmentedControl =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
+        abstract mode: TouchBarSegmentedControlMode with get, set
         abstract segments: ResizeArray<SegmentedControlSegment> with get, set
         abstract segmentStyle: string with get, set
         abstract selectedIndex: float with get, set
@@ -5575,7 +5710,7 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: TouchBarSegmentedControlConstructorOptions -> TouchBarSegmentedControl
 
     type [<AllowNullLiteral>] TouchBarSlider =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         abstract label: string with get, set
         abstract maxValue: float with get, set
         abstract minValue: float with get, set
@@ -5586,7 +5721,8 @@ module Electron =
         [<EmitConstructor>] abstract Create: options: TouchBarSliderConstructorOptions -> TouchBarSlider
 
     type [<AllowNullLiteral>] TouchBarSpacer =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
+        abstract size: TouchBarSpacerSize with get, set
 
     type [<AllowNullLiteral>] TouchBarSpacerStatic =
         /// TouchBarSpacer
@@ -5616,7 +5752,7 @@ module Electron =
         abstract traceOptions: string with get, set
 
     type [<AllowNullLiteral>] TraceConfig =
-        /// if true, filter event data according to a whitelist of events that have been
+        /// if true, filter event data according to a specific list of events that have been
         /// manually vetted to not include any PII. See the implementation in Chromium for
         /// specifics.
         abstract enable_argument_filter: bool option with get, set
@@ -5672,7 +5808,7 @@ module Electron =
         abstract transactionState: TransactionTransactionState with get, set
 
     type [<AllowNullLiteral>] Tray =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// <summary>Emitted when the tray balloon is clicked.</summary>
         [<Emit "$0.on('balloon-click',$1)">] abstract ``on_balloon-click``: listener: Function -> Tray
         [<Emit "$0.once('balloon-click',$1)">] abstract ``once_balloon-click``: listener: Function -> Tray
@@ -5813,7 +5949,7 @@ module Electron =
         /// Sets the title displayed next to the tray icon in the status bar (Support ANSI
         /// colors).
         /// </summary>
-        abstract setTitle: title: string -> unit
+        abstract setTitle: title: string * ?options: TitleOptions -> unit
         /// Sets the hover text for this tray icon.
         abstract setToolTip: toolTip: string -> unit
 
@@ -5854,7 +5990,7 @@ module Electron =
         abstract ``type``: string with get, set
 
     type [<AllowNullLiteral>] WebContents =
-        inherit NodeJS.EventEmitter
+        inherit NodeEventEmitter
         /// <summary>
         /// Emitted before dispatching the <c>keydown</c> and <c>keyup</c> events in the page. Calling
         /// <c>event.preventDefault</c> will prevent the page <c>keydown</c>/<c>keyup</c> events and the
@@ -5889,7 +6025,7 @@ module Electron =
         /// Emitted when the renderer process crashes or is killed.
         /// 
         /// **Deprecated:** This event is superceded by the <c>render-process-gone</c> event
-        /// which contains more information about why the render process dissapeared. It
+        /// which contains more information about why the render process disappeared. It
         /// isn't always because it crashed.  The <c>killed</c> boolean can be replaced by
         /// checking <c>reason === 'killed'</c> when you switch to that event.
         /// </summary>
@@ -6026,7 +6162,7 @@ module Electron =
         /// Emitted after a server side redirect occurs during navigation.  For example a
         /// 302 redirect.
         /// 
-        /// This event can not be prevented, if you want to prevent redirects you should
+        /// This event cannot be prevented, if you want to prevent redirects you should
         /// checkout out the <c>will-redirect</c> event above.
         /// </summary>
         [<Emit "$0.on('did-redirect-navigation',$1)">] abstract ``on_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
@@ -6118,10 +6254,10 @@ module Electron =
         /// reference the new <c>BrowserWindow</c> instance, failing to do so may result in
         /// unexpected behavior. For example:
         /// </summary>
-        [<Emit "$0.on('new-window',$1)">] abstract ``on_new-window``: listener: (NewWindowEvent -> string -> string -> NewWindowEventDisposition -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> unit) -> WebContents
-        [<Emit "$0.once('new-window',$1)">] abstract ``once_new-window``: listener: (NewWindowEvent -> string -> string -> NewWindowEventDisposition -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> unit) -> WebContents
-        [<Emit "$0.addListener('new-window',$1)">] abstract ``addListener_new-window``: listener: (NewWindowEvent -> string -> string -> NewWindowEventDisposition -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> unit) -> WebContents
-        [<Emit "$0.removeListener('new-window',$1)">] abstract ``removeListener_new-window``: listener: (NewWindowEvent -> string -> string -> NewWindowEventDisposition -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> unit) -> WebContents
+        [<Emit "$0.on('new-window',$1)">] abstract ``on_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit "$0.once('new-window',$1)">] abstract ``once_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit "$0.addListener('new-window',$1)">] abstract ``addListener_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit "$0.removeListener('new-window',$1)">] abstract ``removeListener_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
         /// Emitted when page receives favicon urls.
         [<Emit "$0.on('page-favicon-updated',$1)">] abstract ``on_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
         [<Emit "$0.once('page-favicon-updated',$1)">] abstract ``once_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
@@ -6159,6 +6295,7 @@ module Electron =
         /// <c>event.preventDefault()</c> will prevent the module from being returned. Custom
         /// value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-builtin',$1)">] abstract ``on_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.once('remote-get-builtin',$1)">] abstract ``once_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.addListener('remote-get-builtin',$1)">] abstract ``addListener_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
@@ -6168,6 +6305,7 @@ module Electron =
         /// Calling <c>event.preventDefault()</c> will prevent the object from being returned.
         /// Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-current-web-contents',$1)">] abstract ``on_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
         [<Emit "$0.once('remote-get-current-web-contents',$1)">] abstract ``once_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
         [<Emit "$0.addListener('remote-get-current-web-contents',$1)">] abstract ``addListener_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
@@ -6177,6 +6315,7 @@ module Electron =
         /// Calling <c>event.preventDefault()</c> will prevent the object from being returned.
         /// Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-current-window',$1)">] abstract ``on_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
         [<Emit "$0.once('remote-get-current-window',$1)">] abstract ``once_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
         [<Emit "$0.addListener('remote-get-current-window',$1)">] abstract ``addListener_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
@@ -6186,6 +6325,7 @@ module Electron =
         /// <c>event.preventDefault()</c> will prevent the global from being returned. Custom
         /// value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-get-global',$1)">] abstract ``on_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.once('remote-get-global',$1)">] abstract ``once_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.addListener('remote-get-global',$1)">] abstract ``addListener_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
@@ -6195,16 +6335,17 @@ module Electron =
         /// <c>event.preventDefault()</c> will prevent the module from being returned. Custom
         /// value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
+        [<Obsolete("")>]
         [<Emit "$0.on('remote-require',$1)">] abstract ``on_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.once('remote-require',$1)">] abstract ``once_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.addListener('remote-require',$1)">] abstract ``addListener_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         [<Emit "$0.removeListener('remote-require',$1)">] abstract ``removeListener_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        /// Emitted when the renderer process unexpectedly dissapears.  This is normally
+        /// Emitted when the renderer process unexpectedly disappears.  This is normally
         /// because it was crashed or killed.
-        [<Emit "$0.on('render-process-gone',$1)">] abstract ``on_render-process-gone``: listener: (Event -> Details -> unit) -> WebContents
-        [<Emit "$0.once('render-process-gone',$1)">] abstract ``once_render-process-gone``: listener: (Event -> Details -> unit) -> WebContents
-        [<Emit "$0.addListener('render-process-gone',$1)">] abstract ``addListener_render-process-gone``: listener: (Event -> Details -> unit) -> WebContents
-        [<Emit "$0.removeListener('render-process-gone',$1)">] abstract ``removeListener_render-process-gone``: listener: (Event -> Details -> unit) -> WebContents
+        [<Emit "$0.on('render-process-gone',$1)">] abstract ``on_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit "$0.once('render-process-gone',$1)">] abstract ``once_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit "$0.addListener('render-process-gone',$1)">] abstract ``addListener_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit "$0.removeListener('render-process-gone',$1)">] abstract ``removeListener_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
         /// Emitted when the unresponsive web page becomes responsive again.
         [<Emit "$0.on('responsive',$1)">] abstract on_responsive: listener: Function -> WebContents
         [<Emit "$0.once('responsive',$1)">] abstract once_responsive: listener: Function -> WebContents
@@ -6248,8 +6389,8 @@ module Electron =
         /// <c>&lt;webview&gt;</c> before it's loaded, and provides the ability to set settings that
         /// can't be set via <c>&lt;webview&gt;</c> attributes.
         /// 
-        /// **Note:** The specified <c>preload</c> script option will be appear as <c>preloadURL</c>
-        /// (not <c>preload</c>) in the <c>webPreferences</c> object emitted with this event.
+        /// **Note:** The specified <c>preload</c> script option will appear as <c>preloadURL</c> (not
+        /// <c>preload</c>) in the <c>webPreferences</c> object emitted with this event.
         /// </summary>
         [<Emit "$0.on('will-attach-webview',$1)">] abstract ``on_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
         [<Emit "$0.once('will-attach-webview',$1)">] abstract ``once_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
@@ -6402,8 +6543,23 @@ module Electron =
         abstract findInPage: text: string * ?options: FindInPageOptions -> float
         /// Focuses the web page.
         abstract focus: unit -> unit
+        /// <summary>
+        /// Forcefully terminates the renderer process that is currently hosting this
+        /// <c>webContents</c>. This will cause the <c>render-process-gone</c> event to be emitted
+        /// with the <c>reason=killed || reason=crashed</c>. Please note that some webContents
+        /// share renderer processes and therefore calling this method may also crash the
+        /// host process for other webContents as well.
+        /// 
+        /// Calling <c>reload()</c> immediately after calling this method will force the reload
+        /// to occur in a new process. This should be used when this process is unstable or
+        /// unusable, for instance in order to recover from the <c>unresponsive</c> event.
+        /// </summary>
+        abstract forcefullyCrashRenderer: unit -> unit
         /// Information about all Shared Workers.
         abstract getAllSharedWorkers: unit -> ResizeArray<SharedWorkerInfo>
+        /// whether or not this WebContents will throttle animations and timers when the
+        /// page becomes backgrounded. This also affects the Page Visibility API.
+        abstract getBackgroundThrottling: unit -> bool
         /// If *offscreen rendering* is enabled returns the current frame rate.
         abstract getFrameRate: unit -> float
         /// <summary>The operating system <c>pid</c> of the associated renderer process.</summary>
@@ -6549,7 +6705,7 @@ module Electron =
         abstract postMessage: channel: string * message: obj option * ?transfer: ResizeArray<MessagePortMain> -> unit
         /// <summary>
         /// When a custom <c>pageSize</c> is passed, Chromium attempts to validate platform
-        /// specific minumum values for <c>width_microns</c> and <c>height_microns</c>. Width and
+        /// specific minimum values for <c>width_microns</c> and <c>height_microns</c>. Width and
         /// height must both be minimum 353 microns but may be higher on some operating
         /// systems.
         /// 
@@ -6572,7 +6728,7 @@ module Electron =
         /// 
         /// By default, an empty <c>options</c> will be regarded as:
         /// 
-        /// Use <c>page-break-before: always;</c> CSS style to force to print to a new page.
+        /// Use <c>page-break-before: always; </c> CSS style to force to print to a new page.
         /// 
         /// An example of <c>webContents.printToPDF</c>:
         /// </summary>
@@ -6607,8 +6763,7 @@ module Electron =
         /// Functions, Promises, Symbols, WeakMaps, or WeakSets will throw an exception.
         /// 
         /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
-        /// Electron objects is deprecated, and will begin throwing an exception starting
-        /// with Electron 9.
+        /// Electron objects will throw an exception.
         /// 
         /// The renderer process can handle the message by listening to <c>channel</c> with the
         /// <c>ipcRenderer</c> module.
@@ -6628,9 +6783,8 @@ module Electron =
         /// not be included. Sending Functions, Promises, Symbols, WeakMaps, or WeakSets
         /// will throw an exception.
         /// 
-        /// &gt; **NOTE**: Sending non-standard JavaScript types such as DOM objects or special
-        /// Electron objects is deprecated, and will begin throwing an exception starting
-        /// with Electron 9.
+        /// &gt; **NOTE:** Sending non-standard JavaScript types such as DOM objects or special
+        /// Electron objects will throw an exception.
         /// 
         /// The renderer process can handle the message by listening to <c>channel</c> with the
         /// <c>ipcRenderer</c> module.
@@ -6667,9 +6821,9 @@ module Electron =
         /// </summary>
         abstract setDevToolsWebContents: devToolsWebContents: WebContents -> unit
         /// If *offscreen rendering* is enabled sets the frame rate to the specified number.
-        /// Only values between 1 and 60 are accepted.
+        /// Only values between 1 and 240 are accepted.
         abstract setFrameRate: fps: float -> unit
-        /// <summary>Ignore application menu shortcuts while this web contents is focused.</summary>
+        /// Ignore application menu shortcuts while this web contents is focused.
         abstract setIgnoreMenuShortcuts: ignore: bool -> unit
         /// Overrides the user agent for this web page.
         abstract setUserAgent: userAgent: string -> unit
@@ -6722,6 +6876,7 @@ module Electron =
         /// <summary>Executes the editing command <c>unselect</c> in web page.</summary>
         abstract unselect: unit -> unit
         abstract audioMuted: bool with get, set
+        abstract backgroundThrottling: bool with get, set
         abstract debugger: Debugger
         abstract devToolsWebContents: WebContents option
         abstract frameRate: float with get, set
@@ -6758,7 +6913,10 @@ module Electron =
 
     type [<AllowNullLiteral>] WebContentsStatic =
         [<EmitConstructor>] abstract Create: unit -> WebContents
-        /// A WebContents instance with the given ID.
+        /// <summary>
+        /// | undefined - A WebContents instance with the given ID, or <c>undefined</c> if there
+        /// is no WebContents associated with the given ID.
+        /// </summary>
         abstract fromId: id: float -> WebContents
         /// <summary>
         /// An array of all <c>WebContents</c> instances. This will contain web contents for all
@@ -7372,7 +7530,7 @@ module Electron =
         abstract enableblinkfeatures: string with get, set
         /// <summary>
         /// A <c>Boolean</c>. When this attribute is <c>false</c> the guest page in <c>webview</c> will not
-        /// have access to the <c>remote</c> module. The remote module is available by default.
+        /// have access to the <c>remote</c> module. The remote module is unavailable by default.
         /// </summary>
         abstract enableremotemodule: bool with get, set
         /// <summary>A <c>String</c> that sets the referrer URL for the guest page.</summary>
@@ -7472,8 +7630,8 @@ module Electron =
         /// <summary>The app's website.</summary>
         abstract website: string option with get, set
         /// <summary>
-        /// Path to the app's icon. On Linux, will be shown as 64x64 pixels while retaining
-        /// aspect ratio.
+        /// Path to the app's icon in a JPEG or PNG file format. On Linux, will be shown as
+        /// 64x64 pixels while retaining aspect ratio.
         /// </summary>
         abstract iconPath: string option with get, set
 
@@ -7515,6 +7673,14 @@ module Electron =
         abstract relaunchCommand: string option with get, set
         /// Window's Relaunch Display Name.
         abstract relaunchDisplayName: string option with get, set
+
+    type [<AllowNullLiteral>] ApplicationInfoForProtocolReturnValue =
+        /// the display icon of the app handling the protocol.
+        abstract icon: NativeImage with get, set
+        /// installation path of the app handling the protocol.
+        abstract path: string with get, set
+        /// display name of the app handling the protocol.
+        abstract name: string with get, set
 
     type [<AllowNullLiteral>] AuthenticationResponseDetails =
         abstract url: string with get, set
@@ -7696,7 +7862,7 @@ module Electron =
         /// (fully opaque). This is only implemented on Windows and macOS.
         abstract opacity: float option with get, set
         /// <summary>
-        /// Forces using dark theme for the window, only works on some GTK desktop
+        /// Forces using dark theme for the window, only works on some GTK+3 desktop
         /// environments. Default is <c>false</c>.
         /// </summary>
         abstract darkTheme: bool option with get, set
@@ -7707,6 +7873,11 @@ module Electron =
         abstract transparent: bool option with get, set
         /// The type of window, default is normal window. See more about this below.
         abstract ``type``: string option with get, set
+        /// <summary>
+        /// Specify how the material appearance should reflect window activity state on
+        /// macOS. Must be used with the <c>vibrancy</c> property. Possible values are:
+        /// </summary>
+        abstract visualEffectState: BrowserWindowConstructorOptionsVisualEffectState option with get, set
         /// <summary>The style of window title bar. Default is <c>default</c>. Possible values are:</summary>
         abstract titleBarStyle: BrowserWindowConstructorOptionsTitleBarStyle option with get, set
         /// <summary>
@@ -7759,15 +7930,6 @@ module Electron =
         abstract certificate: Certificate with get, set
         /// The message to display to the user.
         abstract message: string with get, set
-
-    type [<AllowNullLiteral>] CertificateVerifyProcProcRequest =
-        abstract hostname: string with get, set
-        abstract certificate: Certificate with get, set
-        abstract validatedCertificate: Certificate with get, set
-        /// Verification result from chromium.
-        abstract verificationResult: string with get, set
-        /// Error code.
-        abstract errorCode: float with get, set
 
     type [<AllowNullLiteral>] ClearStorageDataOptions =
         /// <summary>Should follow <c>window.location.origin</c>’s representation <c>scheme://host:port</c>.</summary>
@@ -7834,8 +7996,14 @@ module Electron =
 
     type [<AllowNullLiteral>] ConsoleMessageEvent =
         inherit Event
+        /// <summary>
+        /// The log level, from 0 to 3. In order it matches <c>verbose</c>, <c>info</c>, <c>warning</c> and
+        /// <c>error</c>.
+        /// </summary>
         abstract level: float with get, set
+        /// The actual console message
         abstract message: string with get, set
+        /// The line number of the source that triggered this console message
         abstract line: float with get, set
         abstract sourceId: string with get, set
 
@@ -7932,6 +8100,11 @@ module Electron =
         /// If omitted then the cookie becomes a session cookie and will not be retained
         /// between sessions.
         abstract expirationDate: float option with get, set
+        /// <summary>
+        /// The Same Site policy to apply to this cookie.  Can be <c>unspecified</c>,
+        /// <c>no_restriction</c>, <c>lax</c> or <c>strict</c>.  Default is <c>no_restriction</c>.
+        /// </summary>
+        abstract sameSite: CookieSameSite option with get, set
 
     type [<AllowNullLiteral>] CrashReporterStartOptions =
         /// URL that crash reports will be sent to as POST.
@@ -7956,8 +8129,7 @@ module Electron =
         abstract rateLimit: bool option with get, set
         /// <summary>
         /// If true, crash reports will be compressed and uploaded with `Content-Encoding:
-        /// gzip`. Not all collection servers support compressed payloads. Default is
-        /// <c>false</c>.
+        /// gzip<c>. Default is </c>false`.
         /// </summary>
         abstract compress: bool option with get, set
         /// <summary>
@@ -8018,8 +8190,19 @@ module Electron =
         abstract bookmark: string option with get, set
 
     type [<AllowNullLiteral>] Details =
-        /// The reason the render process is gone.  Possible values:
+        /// Process type. One of the following values:
+        abstract ``type``: DetailsType with get, set
+        /// The reason the child process is gone. Possible values:
         abstract reason: DetailsReason with get, set
+        /// The exit code for the process (e.g. status from waitpid if on posix, from
+        /// GetExitCodeProcess on Windows).
+        abstract exitCode: float with get, set
+        /// <summary>
+        /// The name of the process. i.e. for plugins it might be Flash. Examples for
+        /// utility: <c>Audio Service</c>, <c>Content Decryption Module Service</c>, `Network
+        /// Service<c>, </c>Video Capture`, etc.
+        /// </summary>
+        abstract name: string option with get, set
 
     type [<AllowNullLiteral>] DidChangeThemeColorEvent =
         inherit Event
@@ -8079,8 +8262,8 @@ module Electron =
         abstract url: string with get, set
         /// <summary>HTTP request headers.</summary>
         abstract headers: Record<string, string> option with get, set
-        /// <summary>Either <c>json</c> or <c>default</c>, see the Squirrel.Mac README for more information.</summary>
-        abstract serverType: string option with get, set
+        /// <summary>Can be <c>json</c> or <c>default</c>, see the Squirrel.Mac README for more information.</summary>
+        abstract serverType: FeedURLOptionsServerType option with get, set
 
     type [<AllowNullLiteral>] FileIconOptions =
         abstract size: FileIconOptionsSize with get, set
@@ -8093,7 +8276,10 @@ module Electron =
     type [<AllowNullLiteral>] FindInPageOptions =
         /// <summary>Whether to search forward or backward, defaults to <c>true</c>.</summary>
         abstract forward: bool option with get, set
-        /// <summary>Whether the operation is first request or a follow up, defaults to <c>false</c>.</summary>
+        /// <summary>
+        /// Whether to begin a new text finding session with this request. Should be <c>true</c>
+        /// for initial requests, and <c>false</c> for follow-up requests. Defaults to <c>false</c>.
+        /// </summary>
         abstract findNext: bool option with get, set
         /// <summary>Whether search should be case-sensitive, defaults to <c>false</c>.</summary>
         abstract matchCase: bool option with get, set
@@ -8215,6 +8401,14 @@ module Electron =
         abstract url: string with get, set
         abstract isMainFrame: bool with get, set
 
+    type [<AllowNullLiteral>] LoadExtensionOptions =
+        /// <summary>
+        /// Whether to allow the extension to read local files over <c>file://</c> protocol and
+        /// inject content scripts into <c>file://</c> pages. This is required e.g. for loading
+        /// devtools extensions on <c>file://</c> URLs. Defaults to false.
+        /// </summary>
+        abstract allowFileAccess: bool with get, set
+
     type [<AllowNullLiteral>] LoadFileOptions =
         /// <summary>Passed to <c>url.format()</c>.</summary>
         abstract query: Record<string, string> option with get, set
@@ -8264,6 +8458,14 @@ module Electron =
         /// on MAS builds.
         /// </summary>
         abstract restoreState: bool with get, set
+        /// <summary>
+        /// <c>true</c> if app is set to open at login and its run key is not deactivated. This
+        /// differs from <c>openAtLogin</c> as it ignores the <c>args</c> option, this property will
+        /// be true if the given executable would be launched at login with **any**
+        /// arguments.
+        /// </summary>
+        abstract executableWillLaunchAtLogin: bool with get, set
+        abstract launchItems: ResizeArray<LaunchItems> with get, set
 
     type [<AllowNullLiteral>] LoginItemSettingsOptions =
         /// <summary>The executable path to compare against. Defaults to <c>process.execPath</c>.</summary>
@@ -8457,8 +8659,8 @@ module Electron =
         /// </summary>
         abstract source: MessageDetailsSource with get, set
         /// <summary>
-        /// The log level, from 0 to 3.  In order it matches <c>verbose</c>, <c>info</c>, <c>warning</c>
-        /// and <c>error</c>.
+        /// The log level, from 0 to 3. In order it matches <c>verbose</c>, <c>info</c>, <c>warning</c> and
+        /// <c>error</c>.
         /// </summary>
         abstract level: float with get, set
         /// The URL the message came from
@@ -8473,6 +8675,18 @@ module Electron =
     type [<AllowNullLiteral>] MoveToApplicationsFolderOptions =
         /// A handler for potential conflict in move failure.
         abstract conflictHandler: (MoveToApplicationsFolderOptionsConflictHandler -> bool) option with get, set
+
+    type [<AllowNullLiteral>] NewWindowEvent =
+        inherit Event
+        abstract url: string with get, set
+        abstract frameName: string with get, set
+        /// <summary>
+        /// Can be <c>default</c>, <c>foreground-tab</c>, <c>background-tab</c>, <c>new-window</c>,
+        /// <c>save-to-disk</c> and <c>other</c>.
+        /// </summary>
+        abstract disposition: WebContentsOn_newWindow with get, set
+        /// <summary>The options which should be used for creating the new <c>BrowserWindow</c>.</summary>
+        abstract options: BrowserWindowConstructorOptions with get, set
 
     type [<AllowNullLiteral>] NotificationConstructorOptions =
         /// A title for the notification, which will be shown at the top of the notification
@@ -8710,7 +8924,7 @@ module Electron =
         abstract quantity: float with get, set
 
     type [<AllowNullLiteral>] PermissionCheckHandlerHandlerDetails =
-        /// <summary>The security orign of the <c>media</c> check.</summary>
+        /// <summary>The security origin of the <c>media</c> check.</summary>
         abstract securityOrigin: string with get, set
         /// <summary>The type of media access being requested, can be <c>video</c>, <c>audio</c> or <c>unknown</c></summary>
         abstract mediaType: PermissionCheckHandlerHandlerDetailsMediaType with get, set
@@ -8798,6 +9012,8 @@ module Electron =
         abstract supportFetchAPI: bool option with get, set
         /// Default false.
         abstract corsEnabled: bool option with get, set
+        /// Default false.
+        abstract stream: bool option with get, set
 
     type [<AllowNullLiteral>] ProgressBarOptions =
         /// <summary>
@@ -8813,22 +9029,22 @@ module Electron =
         abstract title: string with get, set
         abstract url: string with get, set
 
-    type [<AllowNullLiteral>] RedirectRequest =
-        abstract url: string with get, set
-        abstract method: string option with get, set
-        abstract session: Session option with get, set
-        abstract uploadData: ProtocolResponseUploadData option with get, set
-
     type [<AllowNullLiteral>] RelaunchOptions =
         abstract args: ResizeArray<string> option with get, set
         abstract execPath: string option with get, set
 
+    type [<AllowNullLiteral>] RenderProcessGoneDetails =
+        /// The reason the render process is gone.  Possible values:
+        abstract reason: DetailsReason with get, set
+
     type [<AllowNullLiteral>] Request =
-        abstract url: string with get, set
-        abstract headers: Record<string, string> with get, set
-        abstract referrer: string with get, set
-        abstract method: string with get, set
-        abstract uploadData: ResizeArray<UploadData> with get, set
+        abstract hostname: string with get, set
+        abstract certificate: Certificate with get, set
+        abstract validatedCertificate: Certificate with get, set
+        /// Verification result from chromium.
+        abstract verificationResult: string with get, set
+        /// Error code.
+        abstract errorCode: float with get, set
 
     type [<AllowNullLiteral>] ResizeOptions =
         /// Defaults to the image's width.
@@ -8869,6 +9085,7 @@ module Electron =
         abstract finalUpdate: bool with get, set
 
     type [<AllowNullLiteral>] SaveDialogOptions =
+        /// The dialog title. Cannot be displayed on some _Linux_ desktop environments.
         abstract title: string option with get, set
         /// Absolute directory path, absolute file path, or file name to use by default.
         abstract defaultPath: string option with get, set
@@ -8903,6 +9120,7 @@ module Electron =
         abstract bookmark: string option with get, set
 
     type [<AllowNullLiteral>] SaveDialogSyncOptions =
+        /// The dialog title. Cannot be displayed on some _Linux_ desktop environments.
         abstract title: string option with get, set
         /// Absolute directory path, absolute file path, or file name to use by default.
         abstract defaultPath: string option with get, set
@@ -8944,6 +9162,16 @@ module Electron =
         /// array. Take care to wrap paths in quotes.
         /// </summary>
         abstract args: ResizeArray<string> option with get, set
+        /// <summary>
+        /// <c>true</c> will change the startup approved registry key and <c>enable / disable</c> the
+        /// App in Task Manager and Windows Settings. Defaults to <c>true</c>.
+        /// </summary>
+        abstract enabled: bool option with get, set
+        /// <summary>
+        /// value name to write into registry. Defaults to the app's AppUserModelId(). Set
+        /// the app's login item settings.
+        /// </summary>
+        abstract name: string option with get, set
 
     type [<AllowNullLiteral>] SourcesOptions =
         /// <summary>
@@ -8985,6 +9213,14 @@ module Electron =
         /// <summary>The free amount of swap memory in Kilobytes available to the system.</summary>
         abstract swapFree: float with get, set
 
+    type [<AllowNullLiteral>] TitleOptions =
+        /// <summary>
+        /// The font family variant to display, can be <c>monospaced</c> or <c>monospacedDigit</c>.
+        /// <c>monospaced</c> is available in macOS 10.15+ and <c>monospacedDigit</c> is available in
+        /// macOS 10.11+.  When left blank, the title uses the default system font.
+        /// </summary>
+        abstract fontType: TitleOptionsFontType option with get, set
+
     type [<AllowNullLiteral>] ToBitmapOptions =
         /// Defaults to 1.0.
         abstract scaleFactor: float option with get, set
@@ -9007,7 +9243,7 @@ module Electron =
         /// Button icon.
         abstract icon: U2<NativeImage, string> option with get, set
         /// <summary>Can be <c>left</c>, <c>right</c> or <c>overlay</c>. Defaults to <c>overlay</c>.</summary>
-        abstract iconPosition: TouchBarButtonConstructorOptionsIconPosition option with get, set
+        abstract iconPosition: TouchBarButtonIconPosition option with get, set
         /// Function to call when the button is clicked.
         abstract click: (unit -> unit) option with get, set
         /// <summary>Whether the button is in an enabled state.  Default is <c>true</c>.</summary>
@@ -9078,7 +9314,7 @@ module Electron =
         /// Style of the segments:
         abstract segmentStyle: TouchBarSegmentedControlConstructorOptionsSegmentStyle option with get, set
         /// The selection mode of the control:
-        abstract mode: TouchBarSegmentedControlConstructorOptionsMode option with get, set
+        abstract mode: TouchBarSegmentedControlMode option with get, set
         /// An array of segments to place in this control.
         abstract segments: ResizeArray<SegmentedControlSegment> with get, set
         /// <summary>
@@ -9103,7 +9339,7 @@ module Electron =
 
     type [<AllowNullLiteral>] TouchBarSpacerConstructorOptions =
         /// Size of spacer, possible values are:
-        abstract size: TouchBarSpacerConstructorOptionsSize option with get, set
+        abstract size: TouchBarSpacerSize option with get, set
 
     type [<AllowNullLiteral>] TraceBufferUsageReturnValue =
         abstract value: float with get, set
@@ -9155,8 +9391,8 @@ module Electron =
         abstract collate: bool option with get, set
         /// The number of copies of the web page to print.
         abstract copies: float option with get, set
-        /// The page range to print.
-        abstract pageRanges: Record<string, float> option with get, set
+        /// The page range to print. On macOS, only one range is honored.
+        abstract pageRanges: ResizeArray<PageRanges> option with get, set
         /// <summary>
         /// Set the duplex mode of the printed web page. Can be <c>simplex</c>, <c>shortEdge</c>, or
         /// <c>longEdge</c>.
@@ -9198,7 +9434,7 @@ module Electron =
         /// The number of copies of the web page to print.
         abstract copies: float option with get, set
         /// The page range to print.
-        abstract pageRanges: Record<string, float> option with get, set
+        abstract pageRanges: ResizeArray<PageRanges> option with get, set
         /// <summary>
         /// Set the duplex mode of the printed web page. Can be <c>simplex</c>, <c>shortEdge</c>, or
         /// <c>longEdge</c>.
@@ -9245,6 +9481,24 @@ module Electron =
         abstract selectionArea: Rectangle with get, set
         abstract finalUpdate: bool with get, set
 
+    type [<AllowNullLiteral>] LaunchItems =
+        /// <summary>name value of a registry entry.</summary>
+        abstract name: string with get, set
+        /// <summary>The executable to an app that corresponds to a registry entry.</summary>
+        abstract path: string with get, set
+        /// <summary>the command-line arguments to pass to the executable.</summary>
+        abstract args: ResizeArray<string> with get, set
+        /// <summary>
+        /// one of <c>user</c> or <c>machine</c>. Indicates whether the registry entry is under
+        /// <c>HKEY_CURRENT USER</c> or <c>HKEY_LOCAL_MACHINE</c>.
+        /// </summary>
+        abstract scope: string with get, set
+        /// <summary>
+        /// <c>true</c> if the app registry key is startup approved and therefore shows as
+        /// <c>enabled</c> in Task Manager and Windows settings.
+        /// </summary>
+        abstract enabled: bool with get, set
+
     type [<AllowNullLiteral>] Margins =
         /// <summary>
         /// Can be <c>default</c>, <c>none</c>, <c>printableArea</c>, or <c>custom</c>. If <c>custom</c> is chosen,
@@ -9278,6 +9532,12 @@ module Electron =
         /// Whether the media element can be rotated.
         abstract canRotate: bool with get, set
 
+    type [<AllowNullLiteral>] PageRanges =
+        /// Index of the first page to print (0-based).
+        abstract from: float with get, set
+        /// Index of the last page to print (inclusive) (0-based).
+        abstract ``to``: float with get, set
+
     type [<AllowNullLiteral>] WebPreferences =
         /// <summary>
         /// Whether to enable DevTools. If it is set to <c>false</c>, can not use
@@ -9310,7 +9570,7 @@ module Electron =
         /// the preload script are more limited. Read more about the option here.
         /// </summary>
         abstract sandbox: bool option with get, set
-        /// <summary>Whether to enable the <c>remote</c> module. Default is <c>true</c>.</summary>
+        /// <summary>Whether to enable the <c>remote</c> module. Default is <c>false</c>.</summary>
         abstract enableRemoteModule: bool option with get, set
         /// <summary>
         /// Sets the session used by the page. Instead of passing the Session object
@@ -9493,6 +9753,2103 @@ module Electron =
         /// <summary>Defaults to <c>Impact</c>.</summary>
         abstract fantasy: string option with get, set
 
+    type [<AllowNullLiteral>] RemoteMainInterface =
+        abstract app: App with get, set
+        abstract autoUpdater: AutoUpdater with get, set
+        abstract BrowserView: obj with get, set
+        abstract BrowserWindow: obj with get, set
+        abstract ClientRequest: obj with get, set
+        abstract clipboard: Clipboard with get, set
+        abstract CommandLine: obj with get, set
+        abstract contentTracing: ContentTracing with get, set
+        abstract Cookies: obj with get, set
+        abstract crashReporter: CrashReporter with get, set
+        abstract Debugger: obj with get, set
+        abstract desktopCapturer: DesktopCapturer with get, set
+        abstract dialog: Dialog with get, set
+        abstract Dock: obj with get, set
+        abstract DownloadItem: obj with get, set
+        abstract globalShortcut: GlobalShortcut with get, set
+        abstract inAppPurchase: InAppPurchase with get, set
+        abstract IncomingMessage: obj with get, set
+        abstract ipcMain: IpcMain with get, set
+        abstract Menu: obj with get, set
+        abstract MenuItem: obj with get, set
+        abstract MessageChannelMain: obj with get, set
+        abstract MessagePortMain: obj with get, set
+        abstract nativeImage: obj with get, set
+        abstract nativeTheme: NativeTheme with get, set
+        abstract net: Net with get, set
+        abstract netLog: NetLog with get, set
+        abstract Notification: obj with get, set
+        abstract powerMonitor: PowerMonitor with get, set
+        abstract powerSaveBlocker: PowerSaveBlocker with get, set
+        abstract protocol: Protocol with get, set
+        abstract screen: Screen with get, set
+        abstract ServiceWorkers: obj with get, set
+        abstract session: obj with get, set
+        abstract shell: Shell with get, set
+        abstract systemPreferences: SystemPreferences with get, set
+        abstract TouchBar: obj with get, set
+        abstract TouchBarButton: obj with get, set
+        abstract TouchBarColorPicker: obj with get, set
+        abstract TouchBarGroup: obj with get, set
+        abstract TouchBarLabel: obj with get, set
+        abstract TouchBarOtherItemsProxy: obj with get, set
+        abstract TouchBarPopover: obj with get, set
+        abstract TouchBarScrubber: obj with get, set
+        abstract TouchBarSegmentedControl: obj with get, set
+        abstract TouchBarSlider: obj with get, set
+        abstract TouchBarSpacer: obj with get, set
+        abstract Tray: obj with get, set
+        abstract webContents: obj with get, set
+        abstract WebRequest: obj with get, set
+
+    module Common =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract clipboard: Clipboard
+            abstract crashReporter: CrashReporter
+            abstract desktopCapturer: DesktopCapturer
+            abstract NativeImage: NativeImageStatic
+            abstract nativeImage: obj
+            abstract shell: Shell
+
+        type [<AllowNullLiteral>] NativeImage =
+            inherit Electron.NativeImage
+
+        type [<AllowNullLiteral>] NativeImageStatic =
+            [<EmitConstructor>] abstract Create: unit -> NativeImage
+
+        type nativeImage =
+            NativeImage
+
+        type AboutPanelOptionsOptions =
+            Electron.AboutPanelOptionsOptions
+
+        type AddRepresentationOptions =
+            Electron.AddRepresentationOptions
+
+        type AnimationSettings =
+            Electron.AnimationSettings
+
+        type AppDetailsOptions =
+            Electron.AppDetailsOptions
+
+        type ApplicationInfoForProtocolReturnValue =
+            Electron.ApplicationInfoForProtocolReturnValue
+
+        type AuthenticationResponseDetails =
+            Electron.AuthenticationResponseDetails
+
+        type AuthInfo =
+            Electron.AuthInfo
+
+        type AutoResizeOptions =
+            Electron.AutoResizeOptions
+
+        type BeforeSendResponse =
+            Electron.BeforeSendResponse
+
+        type BitmapOptions =
+            Electron.BitmapOptions
+
+        type BlinkMemoryInfo =
+            Electron.BlinkMemoryInfo
+
+        type BrowserViewConstructorOptions =
+            Electron.BrowserViewConstructorOptions
+
+        type BrowserWindowConstructorOptions =
+            Electron.BrowserWindowConstructorOptions
+
+        type CertificateTrustDialogOptions =
+            Electron.CertificateTrustDialogOptions
+
+        type ClearStorageDataOptions =
+            Electron.ClearStorageDataOptions
+
+        type ClientRequestConstructorOptions =
+            Electron.ClientRequestConstructorOptions
+
+        type Config =
+            Electron.Config
+
+        type ConsoleMessageEvent =
+            Electron.ConsoleMessageEvent
+
+        type ContextMenuParams =
+            Electron.ContextMenuParams
+
+        type CookiesGetFilter =
+            Electron.CookiesGetFilter
+
+        type CookiesSetDetails =
+            Electron.CookiesSetDetails
+
+        type CrashReporterStartOptions =
+            Electron.CrashReporterStartOptions
+
+        type CreateFromBitmapOptions =
+            Electron.CreateFromBitmapOptions
+
+        type CreateFromBufferOptions =
+            Electron.CreateFromBufferOptions
+
+        type CreateInterruptedDownloadOptions =
+            Electron.CreateInterruptedDownloadOptions
+
+        type Data =
+            Electron.Data
+
+        type Details =
+            Electron.Details
+
+        type DidChangeThemeColorEvent =
+            Electron.DidChangeThemeColorEvent
+
+        type DidFailLoadEvent =
+            Electron.DidFailLoadEvent
+
+        type DidFrameFinishLoadEvent =
+            Electron.DidFrameFinishLoadEvent
+
+        type DidNavigateEvent =
+            Electron.DidNavigateEvent
+
+        type DidNavigateInPageEvent =
+            Electron.DidNavigateInPageEvent
+
+        type DisplayBalloonOptions =
+            Electron.DisplayBalloonOptions
+
+        type EnableNetworkEmulationOptions =
+            Electron.EnableNetworkEmulationOptions
+
+        type FeedURLOptions =
+            Electron.FeedURLOptions
+
+        type FileIconOptions =
+            Electron.FileIconOptions
+
+        type Filter =
+            Electron.Filter
+
+        type FindInPageOptions =
+            Electron.FindInPageOptions
+
+        type FocusOptions =
+            Electron.FocusOptions
+
+        type FoundInPageEvent =
+            Electron.FoundInPageEvent
+
+        type FromPartitionOptions =
+            Electron.FromPartitionOptions
+
+        type HeadersReceivedResponse =
+            Electron.HeadersReceivedResponse
+
+        type HeapStatistics =
+            Electron.HeapStatistics
+
+        type IgnoreMouseEventsOptions =
+            Electron.IgnoreMouseEventsOptions
+
+        type ImportCertificateOptions =
+            Electron.ImportCertificateOptions
+
+        type Info =
+            Electron.Info
+
+        type Input =
+            Electron.Input
+
+        type InsertCSSOptions =
+            Electron.InsertCSSOptions
+
+        type IpcMessageEvent =
+            Electron.IpcMessageEvent
+
+        type Item =
+            Electron.Item
+
+        type JumpListSettings =
+            Electron.JumpListSettings
+
+        type LoadCommitEvent =
+            Electron.LoadCommitEvent
+
+        type LoadExtensionOptions =
+            Electron.LoadExtensionOptions
+
+        type LoadFileOptions =
+            Electron.LoadFileOptions
+
+        type LoadURLOptions =
+            Electron.LoadURLOptions
+
+        type LoginItemSettings =
+            Electron.LoginItemSettings
+
+        type LoginItemSettingsOptions =
+            Electron.LoginItemSettingsOptions
+
+        type MenuItemConstructorOptions =
+            Electron.MenuItemConstructorOptions
+
+        type MessageBoxOptions =
+            Electron.MessageBoxOptions
+
+        type MessageBoxReturnValue =
+            Electron.MessageBoxReturnValue
+
+        type MessageBoxSyncOptions =
+            Electron.MessageBoxSyncOptions
+
+        type MessageDetails =
+            Electron.MessageDetails
+
+        type MessageEvent =
+            Electron.MessageEvent
+
+        type MoveToApplicationsFolderOptions =
+            Electron.MoveToApplicationsFolderOptions
+
+        type NewWindowEvent =
+            Electron.NewWindowEvent
+
+        type NotificationConstructorOptions =
+            Electron.NotificationConstructorOptions
+
+        type OnBeforeRedirectListenerDetails =
+            Electron.OnBeforeRedirectListenerDetails
+
+        type OnBeforeRequestListenerDetails =
+            Electron.OnBeforeRequestListenerDetails
+
+        type OnBeforeSendHeadersListenerDetails =
+            Electron.OnBeforeSendHeadersListenerDetails
+
+        type OnCompletedListenerDetails =
+            Electron.OnCompletedListenerDetails
+
+        type OnErrorOccurredListenerDetails =
+            Electron.OnErrorOccurredListenerDetails
+
+        type OnHeadersReceivedListenerDetails =
+            Electron.OnHeadersReceivedListenerDetails
+
+        type OnResponseStartedListenerDetails =
+            Electron.OnResponseStartedListenerDetails
+
+        type OnSendHeadersListenerDetails =
+            Electron.OnSendHeadersListenerDetails
+
+        type OpenDevToolsOptions =
+            Electron.OpenDevToolsOptions
+
+        type OpenDialogOptions =
+            Electron.OpenDialogOptions
+
+        type OpenDialogReturnValue =
+            Electron.OpenDialogReturnValue
+
+        type OpenDialogSyncOptions =
+            Electron.OpenDialogSyncOptions
+
+        type OpenExternalOptions =
+            Electron.OpenExternalOptions
+
+        type Options =
+            Electron.Options
+
+        type PageFaviconUpdatedEvent =
+            Electron.PageFaviconUpdatedEvent
+
+        type PageTitleUpdatedEvent =
+            Electron.PageTitleUpdatedEvent
+
+        type Parameters =
+            Electron.Parameters
+
+        type Payment =
+            Electron.Payment
+
+        type PermissionCheckHandlerHandlerDetails =
+            Electron.PermissionCheckHandlerHandlerDetails
+
+        type PermissionRequestHandlerHandlerDetails =
+            Electron.PermissionRequestHandlerHandlerDetails
+
+        type PluginCrashedEvent =
+            Electron.PluginCrashedEvent
+
+        type PopupOptions =
+            Electron.PopupOptions
+
+        type PreconnectOptions =
+            Electron.PreconnectOptions
+
+        type PrintToPDFOptions =
+            Electron.PrintToPDFOptions
+
+        type Privileges =
+            Electron.Privileges
+
+        type ProgressBarOptions =
+            Electron.ProgressBarOptions
+
+        type Provider =
+            Electron.Provider
+
+        type ReadBookmark =
+            Electron.ReadBookmark
+
+        type RelaunchOptions =
+            Electron.RelaunchOptions
+
+        type RenderProcessGoneDetails =
+            Electron.RenderProcessGoneDetails
+
+        type Request =
+            Electron.Request
+
+        type ResizeOptions =
+            Electron.ResizeOptions
+
+        type ResourceUsage =
+            Electron.ResourceUsage
+
+        type Response =
+            Electron.Response
+
+        type Result =
+            Electron.Result
+
+        type SaveDialogOptions =
+            Electron.SaveDialogOptions
+
+        type SaveDialogReturnValue =
+            Electron.SaveDialogReturnValue
+
+        type SaveDialogSyncOptions =
+            Electron.SaveDialogSyncOptions
+
+        type Settings =
+            Electron.Settings
+
+        type SourcesOptions =
+            Electron.SourcesOptions
+
+        type StartLoggingOptions =
+            Electron.StartLoggingOptions
+
+        type SystemMemoryInfo =
+            Electron.SystemMemoryInfo
+
+        type TitleOptions =
+            Electron.TitleOptions
+
+        type ToBitmapOptions =
+            Electron.ToBitmapOptions
+
+        type ToDataURLOptions =
+            Electron.ToDataURLOptions
+
+        type ToPNGOptions =
+            Electron.ToPNGOptions
+
+        type TouchBarButtonConstructorOptions =
+            Electron.TouchBarButtonConstructorOptions
+
+        type TouchBarColorPickerConstructorOptions =
+            Electron.TouchBarColorPickerConstructorOptions
+
+        type TouchBarConstructorOptions =
+            Electron.TouchBarConstructorOptions
+
+        type TouchBarGroupConstructorOptions =
+            Electron.TouchBarGroupConstructorOptions
+
+        type TouchBarLabelConstructorOptions =
+            Electron.TouchBarLabelConstructorOptions
+
+        type TouchBarPopoverConstructorOptions =
+            Electron.TouchBarPopoverConstructorOptions
+
+        type TouchBarScrubberConstructorOptions =
+            Electron.TouchBarScrubberConstructorOptions
+
+        type TouchBarSegmentedControlConstructorOptions =
+            Electron.TouchBarSegmentedControlConstructorOptions
+
+        type TouchBarSliderConstructorOptions =
+            Electron.TouchBarSliderConstructorOptions
+
+        type TouchBarSpacerConstructorOptions =
+            Electron.TouchBarSpacerConstructorOptions
+
+        type TraceBufferUsageReturnValue =
+            Electron.TraceBufferUsageReturnValue
+
+        type UpdateTargetUrlEvent =
+            Electron.UpdateTargetUrlEvent
+
+        type UploadProgress =
+            Electron.UploadProgress
+
+        type VisibleOnAllWorkspacesOptions =
+            Electron.VisibleOnAllWorkspacesOptions
+
+        type WebContentsPrintOptions =
+            Electron.WebContentsPrintOptions
+
+        type WebviewTagPrintOptions =
+            Electron.WebviewTagPrintOptions
+
+        type WillNavigateEvent =
+            Electron.WillNavigateEvent
+
+        type EditFlags =
+            Electron.EditFlags
+
+        type FoundInPageResult =
+            Electron.FoundInPageResult
+
+        type LaunchItems =
+            Electron.LaunchItems
+
+        type Margins =
+            Electron.Margins
+
+        type MediaFlags =
+            Electron.MediaFlags
+
+        type PageRanges =
+            Electron.PageRanges
+
+        type WebPreferences =
+            Electron.WebPreferences
+
+        type DefaultFontFamily =
+            Electron.DefaultFontFamily
+
+        type BluetoothDevice =
+            Electron.BluetoothDevice
+
+        type Certificate =
+            Electron.Certificate
+
+        type CertificatePrincipal =
+            Electron.CertificatePrincipal
+
+        type Cookie =
+            Electron.Cookie
+
+        type CPUUsage =
+            Electron.CPUUsage
+
+        type CrashReport =
+            Electron.CrashReport
+
+        type CustomScheme =
+            Electron.CustomScheme
+
+        type DesktopCapturerSource =
+            Electron.DesktopCapturerSource
+
+        type Display =
+            Electron.Display
+
+        type Event =
+            Electron.Event
+
+        type Extension =
+            Electron.Extension
+
+        type ExtensionInfo =
+            Electron.ExtensionInfo
+
+        type FileFilter =
+            Electron.FileFilter
+
+        type FilePathWithHeaders =
+            Electron.FilePathWithHeaders
+
+        type GPUFeatureStatus =
+            Electron.GPUFeatureStatus
+
+        type InputEvent =
+            Electron.InputEvent
+
+        type IOCounters =
+            Electron.IOCounters
+
+        type IpcMainEvent =
+            Electron.IpcMainEvent
+
+        type IpcMainInvokeEvent =
+            Electron.IpcMainInvokeEvent
+
+        type IpcRendererEvent =
+            Electron.IpcRendererEvent
+
+        type JumpListCategory =
+            Electron.JumpListCategory
+
+        type JumpListItem =
+            Electron.JumpListItem
+
+        type KeyboardEvent =
+            Electron.KeyboardEvent
+
+        type KeyboardInputEvent =
+            Electron.KeyboardInputEvent
+
+        type MemoryInfo =
+            Electron.MemoryInfo
+
+        type MemoryUsageDetails =
+            Electron.MemoryUsageDetails
+
+        type MimeTypedBuffer =
+            Electron.MimeTypedBuffer
+
+        type MouseInputEvent =
+            Electron.MouseInputEvent
+
+        type MouseWheelInputEvent =
+            Electron.MouseWheelInputEvent
+
+        type NewWindowWebContentsEvent =
+            Electron.NewWindowWebContentsEvent
+
+        type NotificationAction =
+            Electron.NotificationAction
+
+        type Point =
+            Electron.Point
+
+        type PostBody =
+            Electron.PostBody
+
+        type PostData =
+            Electron.PostData
+
+        type PrinterInfo =
+            Electron.PrinterInfo
+
+        type ProcessMemoryInfo =
+            Electron.ProcessMemoryInfo
+
+        type ProcessMetric =
+            Electron.ProcessMetric
+
+        type Product =
+            Electron.Product
+
+        type ProtocolRequest =
+            Electron.ProtocolRequest
+
+        type ProtocolResponse =
+            Electron.ProtocolResponse
+
+        type ProtocolResponseUploadData =
+            Electron.ProtocolResponseUploadData
+
+        type Rectangle =
+            Electron.Rectangle
+
+        type Referrer =
+            Electron.Referrer
+
+        type ScrubberItem =
+            Electron.ScrubberItem
+
+        type SegmentedControlSegment =
+            Electron.SegmentedControlSegment
+
+        type ServiceWorkerInfo =
+            Electron.ServiceWorkerInfo
+
+        type SharedWorkerInfo =
+            Electron.SharedWorkerInfo
+
+        type ShortcutDetails =
+            Electron.ShortcutDetails
+
+        type Size =
+            Electron.Size
+
+        type Task =
+            Electron.Task
+
+        type ThumbarButton =
+            Electron.ThumbarButton
+
+        type TraceCategoriesAndOptions =
+            Electron.TraceCategoriesAndOptions
+
+        type TraceConfig =
+            Electron.TraceConfig
+
+        type Transaction =
+            Electron.Transaction
+
+        type UploadBlob =
+            Electron.UploadBlob
+
+        type UploadData =
+            Electron.UploadData
+
+        type UploadFile =
+            Electron.UploadFile
+
+        type UploadRawData =
+            Electron.UploadRawData
+
+        type WebSource =
+            Electron.WebSource
+
+    module Main =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract app: App
+            abstract autoUpdater: AutoUpdater
+            abstract BrowserView: BrowserViewStatic
+            abstract BrowserWindow: BrowserWindowStatic
+            abstract ClientRequest: ClientRequestStatic
+            abstract CommandLine: CommandLineStatic
+            abstract contentTracing: ContentTracing
+            abstract Cookies: CookiesStatic
+            abstract Debugger: DebuggerStatic
+            abstract dialog: Dialog
+            abstract Dock: DockStatic
+            abstract DownloadItem: DownloadItemStatic
+            abstract globalShortcut: GlobalShortcut
+            abstract inAppPurchase: InAppPurchase
+            abstract IncomingMessage: IncomingMessageStatic
+            abstract ipcMain: IpcMain
+            abstract Menu: MenuStatic
+            abstract MenuItem: MenuItemStatic
+            abstract MessageChannelMain: MessageChannelMainStatic
+            abstract MessagePortMain: MessagePortMainStatic
+            abstract nativeTheme: NativeTheme
+            abstract net: Net
+            abstract netLog: NetLog
+            abstract Notification: NotificationStatic
+            abstract powerMonitor: PowerMonitor
+            abstract powerSaveBlocker: PowerSaveBlocker
+            abstract protocol: Protocol
+            abstract screen: Screen
+            abstract ServiceWorkers: ServiceWorkersStatic
+            abstract Session: SessionStatic
+            abstract session: obj
+            abstract systemPreferences: SystemPreferences
+            abstract TouchBar: TouchBarStatic
+            abstract TouchBarButton: TouchBarButtonStatic
+            abstract TouchBarColorPicker: TouchBarColorPickerStatic
+            abstract TouchBarGroup: TouchBarGroupStatic
+            abstract TouchBarLabel: TouchBarLabelStatic
+            abstract TouchBarOtherItemsProxy: TouchBarOtherItemsProxyStatic
+            abstract TouchBarPopover: TouchBarPopoverStatic
+            abstract TouchBarScrubber: TouchBarScrubberStatic
+            abstract TouchBarSegmentedControl: TouchBarSegmentedControlStatic
+            abstract TouchBarSlider: TouchBarSliderStatic
+            abstract TouchBarSpacer: TouchBarSpacerStatic
+            abstract Tray: TrayStatic
+            abstract WebContents: WebContentsStatic
+            abstract webContents: obj
+            abstract WebRequest: WebRequestStatic
+
+        type [<AllowNullLiteral>] BrowserView =
+            inherit Electron.BrowserView
+
+        type [<AllowNullLiteral>] BrowserViewStatic =
+            [<EmitConstructor>] abstract Create: unit -> BrowserView
+
+        type [<AllowNullLiteral>] BrowserWindow =
+            inherit Electron.BrowserWindow
+
+        type [<AllowNullLiteral>] BrowserWindowStatic =
+            [<EmitConstructor>] abstract Create: unit -> BrowserWindow
+
+        type [<AllowNullLiteral>] ClientRequest =
+            inherit Electron.ClientRequest
+
+        type [<AllowNullLiteral>] ClientRequestStatic =
+            [<EmitConstructor>] abstract Create: unit -> ClientRequest
+
+        type [<AllowNullLiteral>] CommandLine =
+            inherit Electron.CommandLine
+
+        type [<AllowNullLiteral>] CommandLineStatic =
+            [<EmitConstructor>] abstract Create: unit -> CommandLine
+
+        type [<AllowNullLiteral>] Cookies =
+            inherit Electron.Cookies
+
+        type [<AllowNullLiteral>] CookiesStatic =
+            [<EmitConstructor>] abstract Create: unit -> Cookies
+
+        type [<AllowNullLiteral>] Debugger =
+            inherit Electron.Debugger
+
+        type [<AllowNullLiteral>] DebuggerStatic =
+            [<EmitConstructor>] abstract Create: unit -> Debugger
+
+        type [<AllowNullLiteral>] Dock =
+            inherit Electron.Dock
+
+        type [<AllowNullLiteral>] DockStatic =
+            [<EmitConstructor>] abstract Create: unit -> Dock
+
+        type [<AllowNullLiteral>] DownloadItem =
+            inherit Electron.DownloadItem
+
+        type [<AllowNullLiteral>] DownloadItemStatic =
+            [<EmitConstructor>] abstract Create: unit -> DownloadItem
+
+        type [<AllowNullLiteral>] IncomingMessage =
+            inherit Electron.IncomingMessage
+
+        type [<AllowNullLiteral>] IncomingMessageStatic =
+            [<EmitConstructor>] abstract Create: unit -> IncomingMessage
+
+        type [<AllowNullLiteral>] Menu =
+            inherit Electron.Menu
+
+        type [<AllowNullLiteral>] MenuStatic =
+            [<EmitConstructor>] abstract Create: unit -> Menu
+
+        type [<AllowNullLiteral>] MenuItem =
+            inherit Electron.MenuItem
+
+        type [<AllowNullLiteral>] MenuItemStatic =
+            [<EmitConstructor>] abstract Create: unit -> MenuItem
+
+        type [<AllowNullLiteral>] MessageChannelMain =
+            inherit Electron.MessageChannelMain
+
+        type [<AllowNullLiteral>] MessageChannelMainStatic =
+            [<EmitConstructor>] abstract Create: unit -> MessageChannelMain
+
+        type [<AllowNullLiteral>] MessagePortMain =
+            inherit Electron.MessagePortMain
+
+        type [<AllowNullLiteral>] MessagePortMainStatic =
+            [<EmitConstructor>] abstract Create: unit -> MessagePortMain
+
+        type [<AllowNullLiteral>] Notification =
+            inherit Electron.Notification
+
+        type [<AllowNullLiteral>] NotificationStatic =
+            [<EmitConstructor>] abstract Create: unit -> Notification
+
+        type [<AllowNullLiteral>] ServiceWorkers =
+            inherit Electron.ServiceWorkers
+
+        type [<AllowNullLiteral>] ServiceWorkersStatic =
+            [<EmitConstructor>] abstract Create: unit -> ServiceWorkers
+
+        type [<AllowNullLiteral>] Session =
+            inherit Electron.Session
+
+        type [<AllowNullLiteral>] SessionStatic =
+            [<EmitConstructor>] abstract Create: unit -> Session
+
+        type session =
+            Session
+
+        type [<AllowNullLiteral>] TouchBar =
+            inherit Electron.TouchBar
+
+        type [<AllowNullLiteral>] TouchBarStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBar
+
+        type [<AllowNullLiteral>] TouchBarButton =
+            inherit Electron.TouchBarButton
+
+        type [<AllowNullLiteral>] TouchBarButtonStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarButton
+
+        type [<AllowNullLiteral>] TouchBarColorPicker =
+            inherit Electron.TouchBarColorPicker
+
+        type [<AllowNullLiteral>] TouchBarColorPickerStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarColorPicker
+
+        type [<AllowNullLiteral>] TouchBarGroup =
+            inherit Electron.TouchBarGroup
+
+        type [<AllowNullLiteral>] TouchBarGroupStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarGroup
+
+        type [<AllowNullLiteral>] TouchBarLabel =
+            inherit Electron.TouchBarLabel
+
+        type [<AllowNullLiteral>] TouchBarLabelStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarLabel
+
+        type [<AllowNullLiteral>] TouchBarOtherItemsProxy =
+            inherit Electron.TouchBarOtherItemsProxy
+
+        type [<AllowNullLiteral>] TouchBarOtherItemsProxyStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarOtherItemsProxy
+
+        type [<AllowNullLiteral>] TouchBarPopover =
+            inherit Electron.TouchBarPopover
+
+        type [<AllowNullLiteral>] TouchBarPopoverStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarPopover
+
+        type [<AllowNullLiteral>] TouchBarScrubber =
+            inherit Electron.TouchBarScrubber
+
+        type [<AllowNullLiteral>] TouchBarScrubberStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarScrubber
+
+        type [<AllowNullLiteral>] TouchBarSegmentedControl =
+            inherit Electron.TouchBarSegmentedControl
+
+        type [<AllowNullLiteral>] TouchBarSegmentedControlStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarSegmentedControl
+
+        type [<AllowNullLiteral>] TouchBarSlider =
+            inherit Electron.TouchBarSlider
+
+        type [<AllowNullLiteral>] TouchBarSliderStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarSlider
+
+        type [<AllowNullLiteral>] TouchBarSpacer =
+            inherit Electron.TouchBarSpacer
+
+        type [<AllowNullLiteral>] TouchBarSpacerStatic =
+            [<EmitConstructor>] abstract Create: unit -> TouchBarSpacer
+
+        type [<AllowNullLiteral>] Tray =
+            inherit Electron.Tray
+
+        type [<AllowNullLiteral>] TrayStatic =
+            [<EmitConstructor>] abstract Create: unit -> Tray
+
+        type [<AllowNullLiteral>] WebContents =
+            inherit Electron.WebContents
+
+        type [<AllowNullLiteral>] WebContentsStatic =
+            [<EmitConstructor>] abstract Create: unit -> WebContents
+
+        type webContents =
+            WebContents
+
+        type [<AllowNullLiteral>] WebRequest =
+            inherit Electron.WebRequest
+
+        type [<AllowNullLiteral>] WebRequestStatic =
+            [<EmitConstructor>] abstract Create: unit -> WebRequest
+
+        type AboutPanelOptionsOptions =
+            Electron.AboutPanelOptionsOptions
+
+        type AddRepresentationOptions =
+            Electron.AddRepresentationOptions
+
+        type AnimationSettings =
+            Electron.AnimationSettings
+
+        type AppDetailsOptions =
+            Electron.AppDetailsOptions
+
+        type ApplicationInfoForProtocolReturnValue =
+            Electron.ApplicationInfoForProtocolReturnValue
+
+        type AuthenticationResponseDetails =
+            Electron.AuthenticationResponseDetails
+
+        type AuthInfo =
+            Electron.AuthInfo
+
+        type AutoResizeOptions =
+            Electron.AutoResizeOptions
+
+        type BeforeSendResponse =
+            Electron.BeforeSendResponse
+
+        type BitmapOptions =
+            Electron.BitmapOptions
+
+        type BlinkMemoryInfo =
+            Electron.BlinkMemoryInfo
+
+        type BrowserViewConstructorOptions =
+            Electron.BrowserViewConstructorOptions
+
+        type BrowserWindowConstructorOptions =
+            Electron.BrowserWindowConstructorOptions
+
+        type CertificateTrustDialogOptions =
+            Electron.CertificateTrustDialogOptions
+
+        type ClearStorageDataOptions =
+            Electron.ClearStorageDataOptions
+
+        type ClientRequestConstructorOptions =
+            Electron.ClientRequestConstructorOptions
+
+        type Config =
+            Electron.Config
+
+        type ConsoleMessageEvent =
+            Electron.ConsoleMessageEvent
+
+        type ContextMenuParams =
+            Electron.ContextMenuParams
+
+        type CookiesGetFilter =
+            Electron.CookiesGetFilter
+
+        type CookiesSetDetails =
+            Electron.CookiesSetDetails
+
+        type CrashReporterStartOptions =
+            Electron.CrashReporterStartOptions
+
+        type CreateFromBitmapOptions =
+            Electron.CreateFromBitmapOptions
+
+        type CreateFromBufferOptions =
+            Electron.CreateFromBufferOptions
+
+        type CreateInterruptedDownloadOptions =
+            Electron.CreateInterruptedDownloadOptions
+
+        type Data =
+            Electron.Data
+
+        type Details =
+            Electron.Details
+
+        type DidChangeThemeColorEvent =
+            Electron.DidChangeThemeColorEvent
+
+        type DidFailLoadEvent =
+            Electron.DidFailLoadEvent
+
+        type DidFrameFinishLoadEvent =
+            Electron.DidFrameFinishLoadEvent
+
+        type DidNavigateEvent =
+            Electron.DidNavigateEvent
+
+        type DidNavigateInPageEvent =
+            Electron.DidNavigateInPageEvent
+
+        type DisplayBalloonOptions =
+            Electron.DisplayBalloonOptions
+
+        type EnableNetworkEmulationOptions =
+            Electron.EnableNetworkEmulationOptions
+
+        type FeedURLOptions =
+            Electron.FeedURLOptions
+
+        type FileIconOptions =
+            Electron.FileIconOptions
+
+        type Filter =
+            Electron.Filter
+
+        type FindInPageOptions =
+            Electron.FindInPageOptions
+
+        type FocusOptions =
+            Electron.FocusOptions
+
+        type FoundInPageEvent =
+            Electron.FoundInPageEvent
+
+        type FromPartitionOptions =
+            Electron.FromPartitionOptions
+
+        type HeadersReceivedResponse =
+            Electron.HeadersReceivedResponse
+
+        type HeapStatistics =
+            Electron.HeapStatistics
+
+        type IgnoreMouseEventsOptions =
+            Electron.IgnoreMouseEventsOptions
+
+        type ImportCertificateOptions =
+            Electron.ImportCertificateOptions
+
+        type Info =
+            Electron.Info
+
+        type Input =
+            Electron.Input
+
+        type InsertCSSOptions =
+            Electron.InsertCSSOptions
+
+        type IpcMessageEvent =
+            Electron.IpcMessageEvent
+
+        type Item =
+            Electron.Item
+
+        type JumpListSettings =
+            Electron.JumpListSettings
+
+        type LoadCommitEvent =
+            Electron.LoadCommitEvent
+
+        type LoadExtensionOptions =
+            Electron.LoadExtensionOptions
+
+        type LoadFileOptions =
+            Electron.LoadFileOptions
+
+        type LoadURLOptions =
+            Electron.LoadURLOptions
+
+        type LoginItemSettings =
+            Electron.LoginItemSettings
+
+        type LoginItemSettingsOptions =
+            Electron.LoginItemSettingsOptions
+
+        type MenuItemConstructorOptions =
+            Electron.MenuItemConstructorOptions
+
+        type MessageBoxOptions =
+            Electron.MessageBoxOptions
+
+        type MessageBoxReturnValue =
+            Electron.MessageBoxReturnValue
+
+        type MessageBoxSyncOptions =
+            Electron.MessageBoxSyncOptions
+
+        type MessageDetails =
+            Electron.MessageDetails
+
+        type MessageEvent =
+            Electron.MessageEvent
+
+        type MoveToApplicationsFolderOptions =
+            Electron.MoveToApplicationsFolderOptions
+
+        type NewWindowEvent =
+            Electron.NewWindowEvent
+
+        type NotificationConstructorOptions =
+            Electron.NotificationConstructorOptions
+
+        type OnBeforeRedirectListenerDetails =
+            Electron.OnBeforeRedirectListenerDetails
+
+        type OnBeforeRequestListenerDetails =
+            Electron.OnBeforeRequestListenerDetails
+
+        type OnBeforeSendHeadersListenerDetails =
+            Electron.OnBeforeSendHeadersListenerDetails
+
+        type OnCompletedListenerDetails =
+            Electron.OnCompletedListenerDetails
+
+        type OnErrorOccurredListenerDetails =
+            Electron.OnErrorOccurredListenerDetails
+
+        type OnHeadersReceivedListenerDetails =
+            Electron.OnHeadersReceivedListenerDetails
+
+        type OnResponseStartedListenerDetails =
+            Electron.OnResponseStartedListenerDetails
+
+        type OnSendHeadersListenerDetails =
+            Electron.OnSendHeadersListenerDetails
+
+        type OpenDevToolsOptions =
+            Electron.OpenDevToolsOptions
+
+        type OpenDialogOptions =
+            Electron.OpenDialogOptions
+
+        type OpenDialogReturnValue =
+            Electron.OpenDialogReturnValue
+
+        type OpenDialogSyncOptions =
+            Electron.OpenDialogSyncOptions
+
+        type OpenExternalOptions =
+            Electron.OpenExternalOptions
+
+        type Options =
+            Electron.Options
+
+        type PageFaviconUpdatedEvent =
+            Electron.PageFaviconUpdatedEvent
+
+        type PageTitleUpdatedEvent =
+            Electron.PageTitleUpdatedEvent
+
+        type Parameters =
+            Electron.Parameters
+
+        type Payment =
+            Electron.Payment
+
+        type PermissionCheckHandlerHandlerDetails =
+            Electron.PermissionCheckHandlerHandlerDetails
+
+        type PermissionRequestHandlerHandlerDetails =
+            Electron.PermissionRequestHandlerHandlerDetails
+
+        type PluginCrashedEvent =
+            Electron.PluginCrashedEvent
+
+        type PopupOptions =
+            Electron.PopupOptions
+
+        type PreconnectOptions =
+            Electron.PreconnectOptions
+
+        type PrintToPDFOptions =
+            Electron.PrintToPDFOptions
+
+        type Privileges =
+            Electron.Privileges
+
+        type ProgressBarOptions =
+            Electron.ProgressBarOptions
+
+        type Provider =
+            Electron.Provider
+
+        type ReadBookmark =
+            Electron.ReadBookmark
+
+        type RelaunchOptions =
+            Electron.RelaunchOptions
+
+        type RenderProcessGoneDetails =
+            Electron.RenderProcessGoneDetails
+
+        type Request =
+            Electron.Request
+
+        type ResizeOptions =
+            Electron.ResizeOptions
+
+        type ResourceUsage =
+            Electron.ResourceUsage
+
+        type Response =
+            Electron.Response
+
+        type Result =
+            Electron.Result
+
+        type SaveDialogOptions =
+            Electron.SaveDialogOptions
+
+        type SaveDialogReturnValue =
+            Electron.SaveDialogReturnValue
+
+        type SaveDialogSyncOptions =
+            Electron.SaveDialogSyncOptions
+
+        type Settings =
+            Electron.Settings
+
+        type SourcesOptions =
+            Electron.SourcesOptions
+
+        type StartLoggingOptions =
+            Electron.StartLoggingOptions
+
+        type SystemMemoryInfo =
+            Electron.SystemMemoryInfo
+
+        type TitleOptions =
+            Electron.TitleOptions
+
+        type ToBitmapOptions =
+            Electron.ToBitmapOptions
+
+        type ToDataURLOptions =
+            Electron.ToDataURLOptions
+
+        type ToPNGOptions =
+            Electron.ToPNGOptions
+
+        type TouchBarButtonConstructorOptions =
+            Electron.TouchBarButtonConstructorOptions
+
+        type TouchBarColorPickerConstructorOptions =
+            Electron.TouchBarColorPickerConstructorOptions
+
+        type TouchBarConstructorOptions =
+            Electron.TouchBarConstructorOptions
+
+        type TouchBarGroupConstructorOptions =
+            Electron.TouchBarGroupConstructorOptions
+
+        type TouchBarLabelConstructorOptions =
+            Electron.TouchBarLabelConstructorOptions
+
+        type TouchBarPopoverConstructorOptions =
+            Electron.TouchBarPopoverConstructorOptions
+
+        type TouchBarScrubberConstructorOptions =
+            Electron.TouchBarScrubberConstructorOptions
+
+        type TouchBarSegmentedControlConstructorOptions =
+            Electron.TouchBarSegmentedControlConstructorOptions
+
+        type TouchBarSliderConstructorOptions =
+            Electron.TouchBarSliderConstructorOptions
+
+        type TouchBarSpacerConstructorOptions =
+            Electron.TouchBarSpacerConstructorOptions
+
+        type TraceBufferUsageReturnValue =
+            Electron.TraceBufferUsageReturnValue
+
+        type UpdateTargetUrlEvent =
+            Electron.UpdateTargetUrlEvent
+
+        type UploadProgress =
+            Electron.UploadProgress
+
+        type VisibleOnAllWorkspacesOptions =
+            Electron.VisibleOnAllWorkspacesOptions
+
+        type WebContentsPrintOptions =
+            Electron.WebContentsPrintOptions
+
+        type WebviewTagPrintOptions =
+            Electron.WebviewTagPrintOptions
+
+        type WillNavigateEvent =
+            Electron.WillNavigateEvent
+
+        type EditFlags =
+            Electron.EditFlags
+
+        type FoundInPageResult =
+            Electron.FoundInPageResult
+
+        type LaunchItems =
+            Electron.LaunchItems
+
+        type Margins =
+            Electron.Margins
+
+        type MediaFlags =
+            Electron.MediaFlags
+
+        type PageRanges =
+            Electron.PageRanges
+
+        type WebPreferences =
+            Electron.WebPreferences
+
+        type DefaultFontFamily =
+            Electron.DefaultFontFamily
+
+        type BluetoothDevice =
+            Electron.BluetoothDevice
+
+        type Certificate =
+            Electron.Certificate
+
+        type CertificatePrincipal =
+            Electron.CertificatePrincipal
+
+        type Cookie =
+            Electron.Cookie
+
+        type CPUUsage =
+            Electron.CPUUsage
+
+        type CrashReport =
+            Electron.CrashReport
+
+        type CustomScheme =
+            Electron.CustomScheme
+
+        type DesktopCapturerSource =
+            Electron.DesktopCapturerSource
+
+        type Display =
+            Electron.Display
+
+        type Event =
+            Electron.Event
+
+        type Extension =
+            Electron.Extension
+
+        type ExtensionInfo =
+            Electron.ExtensionInfo
+
+        type FileFilter =
+            Electron.FileFilter
+
+        type FilePathWithHeaders =
+            Electron.FilePathWithHeaders
+
+        type GPUFeatureStatus =
+            Electron.GPUFeatureStatus
+
+        type InputEvent =
+            Electron.InputEvent
+
+        type IOCounters =
+            Electron.IOCounters
+
+        type IpcMainEvent =
+            Electron.IpcMainEvent
+
+        type IpcMainInvokeEvent =
+            Electron.IpcMainInvokeEvent
+
+        type IpcRendererEvent =
+            Electron.IpcRendererEvent
+
+        type JumpListCategory =
+            Electron.JumpListCategory
+
+        type JumpListItem =
+            Electron.JumpListItem
+
+        type KeyboardEvent =
+            Electron.KeyboardEvent
+
+        type KeyboardInputEvent =
+            Electron.KeyboardInputEvent
+
+        type MemoryInfo =
+            Electron.MemoryInfo
+
+        type MemoryUsageDetails =
+            Electron.MemoryUsageDetails
+
+        type MimeTypedBuffer =
+            Electron.MimeTypedBuffer
+
+        type MouseInputEvent =
+            Electron.MouseInputEvent
+
+        type MouseWheelInputEvent =
+            Electron.MouseWheelInputEvent
+
+        type NewWindowWebContentsEvent =
+            Electron.NewWindowWebContentsEvent
+
+        type NotificationAction =
+            Electron.NotificationAction
+
+        type Point =
+            Electron.Point
+
+        type PostBody =
+            Electron.PostBody
+
+        type PostData =
+            Electron.PostData
+
+        type PrinterInfo =
+            Electron.PrinterInfo
+
+        type ProcessMemoryInfo =
+            Electron.ProcessMemoryInfo
+
+        type ProcessMetric =
+            Electron.ProcessMetric
+
+        type Product =
+            Electron.Product
+
+        type ProtocolRequest =
+            Electron.ProtocolRequest
+
+        type ProtocolResponse =
+            Electron.ProtocolResponse
+
+        type ProtocolResponseUploadData =
+            Electron.ProtocolResponseUploadData
+
+        type Rectangle =
+            Electron.Rectangle
+
+        type Referrer =
+            Electron.Referrer
+
+        type ScrubberItem =
+            Electron.ScrubberItem
+
+        type SegmentedControlSegment =
+            Electron.SegmentedControlSegment
+
+        type ServiceWorkerInfo =
+            Electron.ServiceWorkerInfo
+
+        type SharedWorkerInfo =
+            Electron.SharedWorkerInfo
+
+        type ShortcutDetails =
+            Electron.ShortcutDetails
+
+        type Size =
+            Electron.Size
+
+        type Task =
+            Electron.Task
+
+        type ThumbarButton =
+            Electron.ThumbarButton
+
+        type TraceCategoriesAndOptions =
+            Electron.TraceCategoriesAndOptions
+
+        type TraceConfig =
+            Electron.TraceConfig
+
+        type Transaction =
+            Electron.Transaction
+
+        type UploadBlob =
+            Electron.UploadBlob
+
+        type UploadData =
+            Electron.UploadData
+
+        type UploadFile =
+            Electron.UploadFile
+
+        type UploadRawData =
+            Electron.UploadRawData
+
+        type WebSource =
+            Electron.WebSource
+
+    module Renderer =
+
+        type [<AllowNullLiteral>] IExports =
+            abstract BrowserWindowProxy: BrowserWindowProxyStatic
+            abstract contextBridge: ContextBridge
+            abstract ipcRenderer: IpcRenderer
+            abstract remote: Remote
+            abstract webFrame: WebFrame
+            abstract webviewTag: WebviewTag
+
+        type [<AllowNullLiteral>] BrowserWindowProxy =
+            inherit Electron.BrowserWindowProxy
+
+        type [<AllowNullLiteral>] BrowserWindowProxyStatic =
+            [<EmitConstructor>] abstract Create: unit -> BrowserWindowProxy
+
+        type AboutPanelOptionsOptions =
+            Electron.AboutPanelOptionsOptions
+
+        type AddRepresentationOptions =
+            Electron.AddRepresentationOptions
+
+        type AnimationSettings =
+            Electron.AnimationSettings
+
+        type AppDetailsOptions =
+            Electron.AppDetailsOptions
+
+        type ApplicationInfoForProtocolReturnValue =
+            Electron.ApplicationInfoForProtocolReturnValue
+
+        type AuthenticationResponseDetails =
+            Electron.AuthenticationResponseDetails
+
+        type AuthInfo =
+            Electron.AuthInfo
+
+        type AutoResizeOptions =
+            Electron.AutoResizeOptions
+
+        type BeforeSendResponse =
+            Electron.BeforeSendResponse
+
+        type BitmapOptions =
+            Electron.BitmapOptions
+
+        type BlinkMemoryInfo =
+            Electron.BlinkMemoryInfo
+
+        type BrowserViewConstructorOptions =
+            Electron.BrowserViewConstructorOptions
+
+        type BrowserWindowConstructorOptions =
+            Electron.BrowserWindowConstructorOptions
+
+        type CertificateTrustDialogOptions =
+            Electron.CertificateTrustDialogOptions
+
+        type ClearStorageDataOptions =
+            Electron.ClearStorageDataOptions
+
+        type ClientRequestConstructorOptions =
+            Electron.ClientRequestConstructorOptions
+
+        type Config =
+            Electron.Config
+
+        type ConsoleMessageEvent =
+            Electron.ConsoleMessageEvent
+
+        type ContextMenuParams =
+            Electron.ContextMenuParams
+
+        type CookiesGetFilter =
+            Electron.CookiesGetFilter
+
+        type CookiesSetDetails =
+            Electron.CookiesSetDetails
+
+        type CrashReporterStartOptions =
+            Electron.CrashReporterStartOptions
+
+        type CreateFromBitmapOptions =
+            Electron.CreateFromBitmapOptions
+
+        type CreateFromBufferOptions =
+            Electron.CreateFromBufferOptions
+
+        type CreateInterruptedDownloadOptions =
+            Electron.CreateInterruptedDownloadOptions
+
+        type Data =
+            Electron.Data
+
+        type Details =
+            Electron.Details
+
+        type DidChangeThemeColorEvent =
+            Electron.DidChangeThemeColorEvent
+
+        type DidFailLoadEvent =
+            Electron.DidFailLoadEvent
+
+        type DidFrameFinishLoadEvent =
+            Electron.DidFrameFinishLoadEvent
+
+        type DidNavigateEvent =
+            Electron.DidNavigateEvent
+
+        type DidNavigateInPageEvent =
+            Electron.DidNavigateInPageEvent
+
+        type DisplayBalloonOptions =
+            Electron.DisplayBalloonOptions
+
+        type EnableNetworkEmulationOptions =
+            Electron.EnableNetworkEmulationOptions
+
+        type FeedURLOptions =
+            Electron.FeedURLOptions
+
+        type FileIconOptions =
+            Electron.FileIconOptions
+
+        type Filter =
+            Electron.Filter
+
+        type FindInPageOptions =
+            Electron.FindInPageOptions
+
+        type FocusOptions =
+            Electron.FocusOptions
+
+        type FoundInPageEvent =
+            Electron.FoundInPageEvent
+
+        type FromPartitionOptions =
+            Electron.FromPartitionOptions
+
+        type HeadersReceivedResponse =
+            Electron.HeadersReceivedResponse
+
+        type HeapStatistics =
+            Electron.HeapStatistics
+
+        type IgnoreMouseEventsOptions =
+            Electron.IgnoreMouseEventsOptions
+
+        type ImportCertificateOptions =
+            Electron.ImportCertificateOptions
+
+        type Info =
+            Electron.Info
+
+        type Input =
+            Electron.Input
+
+        type InsertCSSOptions =
+            Electron.InsertCSSOptions
+
+        type IpcMessageEvent =
+            Electron.IpcMessageEvent
+
+        type Item =
+            Electron.Item
+
+        type JumpListSettings =
+            Electron.JumpListSettings
+
+        type LoadCommitEvent =
+            Electron.LoadCommitEvent
+
+        type LoadExtensionOptions =
+            Electron.LoadExtensionOptions
+
+        type LoadFileOptions =
+            Electron.LoadFileOptions
+
+        type LoadURLOptions =
+            Electron.LoadURLOptions
+
+        type LoginItemSettings =
+            Electron.LoginItemSettings
+
+        type LoginItemSettingsOptions =
+            Electron.LoginItemSettingsOptions
+
+        type MenuItemConstructorOptions =
+            Electron.MenuItemConstructorOptions
+
+        type MessageBoxOptions =
+            Electron.MessageBoxOptions
+
+        type MessageBoxReturnValue =
+            Electron.MessageBoxReturnValue
+
+        type MessageBoxSyncOptions =
+            Electron.MessageBoxSyncOptions
+
+        type MessageDetails =
+            Electron.MessageDetails
+
+        type MessageEvent =
+            Electron.MessageEvent
+
+        type MoveToApplicationsFolderOptions =
+            Electron.MoveToApplicationsFolderOptions
+
+        type NewWindowEvent =
+            Electron.NewWindowEvent
+
+        type NotificationConstructorOptions =
+            Electron.NotificationConstructorOptions
+
+        type OnBeforeRedirectListenerDetails =
+            Electron.OnBeforeRedirectListenerDetails
+
+        type OnBeforeRequestListenerDetails =
+            Electron.OnBeforeRequestListenerDetails
+
+        type OnBeforeSendHeadersListenerDetails =
+            Electron.OnBeforeSendHeadersListenerDetails
+
+        type OnCompletedListenerDetails =
+            Electron.OnCompletedListenerDetails
+
+        type OnErrorOccurredListenerDetails =
+            Electron.OnErrorOccurredListenerDetails
+
+        type OnHeadersReceivedListenerDetails =
+            Electron.OnHeadersReceivedListenerDetails
+
+        type OnResponseStartedListenerDetails =
+            Electron.OnResponseStartedListenerDetails
+
+        type OnSendHeadersListenerDetails =
+            Electron.OnSendHeadersListenerDetails
+
+        type OpenDevToolsOptions =
+            Electron.OpenDevToolsOptions
+
+        type OpenDialogOptions =
+            Electron.OpenDialogOptions
+
+        type OpenDialogReturnValue =
+            Electron.OpenDialogReturnValue
+
+        type OpenDialogSyncOptions =
+            Electron.OpenDialogSyncOptions
+
+        type OpenExternalOptions =
+            Electron.OpenExternalOptions
+
+        type Options =
+            Electron.Options
+
+        type PageFaviconUpdatedEvent =
+            Electron.PageFaviconUpdatedEvent
+
+        type PageTitleUpdatedEvent =
+            Electron.PageTitleUpdatedEvent
+
+        type Parameters =
+            Electron.Parameters
+
+        type Payment =
+            Electron.Payment
+
+        type PermissionCheckHandlerHandlerDetails =
+            Electron.PermissionCheckHandlerHandlerDetails
+
+        type PermissionRequestHandlerHandlerDetails =
+            Electron.PermissionRequestHandlerHandlerDetails
+
+        type PluginCrashedEvent =
+            Electron.PluginCrashedEvent
+
+        type PopupOptions =
+            Electron.PopupOptions
+
+        type PreconnectOptions =
+            Electron.PreconnectOptions
+
+        type PrintToPDFOptions =
+            Electron.PrintToPDFOptions
+
+        type Privileges =
+            Electron.Privileges
+
+        type ProgressBarOptions =
+            Electron.ProgressBarOptions
+
+        type Provider =
+            Electron.Provider
+
+        type ReadBookmark =
+            Electron.ReadBookmark
+
+        type RelaunchOptions =
+            Electron.RelaunchOptions
+
+        type RenderProcessGoneDetails =
+            Electron.RenderProcessGoneDetails
+
+        type Request =
+            Electron.Request
+
+        type ResizeOptions =
+            Electron.ResizeOptions
+
+        type ResourceUsage =
+            Electron.ResourceUsage
+
+        type Response =
+            Electron.Response
+
+        type Result =
+            Electron.Result
+
+        type SaveDialogOptions =
+            Electron.SaveDialogOptions
+
+        type SaveDialogReturnValue =
+            Electron.SaveDialogReturnValue
+
+        type SaveDialogSyncOptions =
+            Electron.SaveDialogSyncOptions
+
+        type Settings =
+            Electron.Settings
+
+        type SourcesOptions =
+            Electron.SourcesOptions
+
+        type StartLoggingOptions =
+            Electron.StartLoggingOptions
+
+        type SystemMemoryInfo =
+            Electron.SystemMemoryInfo
+
+        type TitleOptions =
+            Electron.TitleOptions
+
+        type ToBitmapOptions =
+            Electron.ToBitmapOptions
+
+        type ToDataURLOptions =
+            Electron.ToDataURLOptions
+
+        type ToPNGOptions =
+            Electron.ToPNGOptions
+
+        type TouchBarButtonConstructorOptions =
+            Electron.TouchBarButtonConstructorOptions
+
+        type TouchBarColorPickerConstructorOptions =
+            Electron.TouchBarColorPickerConstructorOptions
+
+        type TouchBarConstructorOptions =
+            Electron.TouchBarConstructorOptions
+
+        type TouchBarGroupConstructorOptions =
+            Electron.TouchBarGroupConstructorOptions
+
+        type TouchBarLabelConstructorOptions =
+            Electron.TouchBarLabelConstructorOptions
+
+        type TouchBarPopoverConstructorOptions =
+            Electron.TouchBarPopoverConstructorOptions
+
+        type TouchBarScrubberConstructorOptions =
+            Electron.TouchBarScrubberConstructorOptions
+
+        type TouchBarSegmentedControlConstructorOptions =
+            Electron.TouchBarSegmentedControlConstructorOptions
+
+        type TouchBarSliderConstructorOptions =
+            Electron.TouchBarSliderConstructorOptions
+
+        type TouchBarSpacerConstructorOptions =
+            Electron.TouchBarSpacerConstructorOptions
+
+        type TraceBufferUsageReturnValue =
+            Electron.TraceBufferUsageReturnValue
+
+        type UpdateTargetUrlEvent =
+            Electron.UpdateTargetUrlEvent
+
+        type UploadProgress =
+            Electron.UploadProgress
+
+        type VisibleOnAllWorkspacesOptions =
+            Electron.VisibleOnAllWorkspacesOptions
+
+        type WebContentsPrintOptions =
+            Electron.WebContentsPrintOptions
+
+        type WebviewTagPrintOptions =
+            Electron.WebviewTagPrintOptions
+
+        type WillNavigateEvent =
+            Electron.WillNavigateEvent
+
+        type EditFlags =
+            Electron.EditFlags
+
+        type FoundInPageResult =
+            Electron.FoundInPageResult
+
+        type LaunchItems =
+            Electron.LaunchItems
+
+        type Margins =
+            Electron.Margins
+
+        type MediaFlags =
+            Electron.MediaFlags
+
+        type PageRanges =
+            Electron.PageRanges
+
+        type WebPreferences =
+            Electron.WebPreferences
+
+        type DefaultFontFamily =
+            Electron.DefaultFontFamily
+
+        type BluetoothDevice =
+            Electron.BluetoothDevice
+
+        type Certificate =
+            Electron.Certificate
+
+        type CertificatePrincipal =
+            Electron.CertificatePrincipal
+
+        type Cookie =
+            Electron.Cookie
+
+        type CPUUsage =
+            Electron.CPUUsage
+
+        type CrashReport =
+            Electron.CrashReport
+
+        type CustomScheme =
+            Electron.CustomScheme
+
+        type DesktopCapturerSource =
+            Electron.DesktopCapturerSource
+
+        type Display =
+            Electron.Display
+
+        type Event =
+            Electron.Event
+
+        type Extension =
+            Electron.Extension
+
+        type ExtensionInfo =
+            Electron.ExtensionInfo
+
+        type FileFilter =
+            Electron.FileFilter
+
+        type FilePathWithHeaders =
+            Electron.FilePathWithHeaders
+
+        type GPUFeatureStatus =
+            Electron.GPUFeatureStatus
+
+        type InputEvent =
+            Electron.InputEvent
+
+        type IOCounters =
+            Electron.IOCounters
+
+        type IpcMainEvent =
+            Electron.IpcMainEvent
+
+        type IpcMainInvokeEvent =
+            Electron.IpcMainInvokeEvent
+
+        type IpcRendererEvent =
+            Electron.IpcRendererEvent
+
+        type JumpListCategory =
+            Electron.JumpListCategory
+
+        type JumpListItem =
+            Electron.JumpListItem
+
+        type KeyboardEvent =
+            Electron.KeyboardEvent
+
+        type KeyboardInputEvent =
+            Electron.KeyboardInputEvent
+
+        type MemoryInfo =
+            Electron.MemoryInfo
+
+        type MemoryUsageDetails =
+            Electron.MemoryUsageDetails
+
+        type MimeTypedBuffer =
+            Electron.MimeTypedBuffer
+
+        type MouseInputEvent =
+            Electron.MouseInputEvent
+
+        type MouseWheelInputEvent =
+            Electron.MouseWheelInputEvent
+
+        type NewWindowWebContentsEvent =
+            Electron.NewWindowWebContentsEvent
+
+        type NotificationAction =
+            Electron.NotificationAction
+
+        type Point =
+            Electron.Point
+
+        type PostBody =
+            Electron.PostBody
+
+        type PostData =
+            Electron.PostData
+
+        type PrinterInfo =
+            Electron.PrinterInfo
+
+        type ProcessMemoryInfo =
+            Electron.ProcessMemoryInfo
+
+        type ProcessMetric =
+            Electron.ProcessMetric
+
+        type Product =
+            Electron.Product
+
+        type ProtocolRequest =
+            Electron.ProtocolRequest
+
+        type ProtocolResponse =
+            Electron.ProtocolResponse
+
+        type ProtocolResponseUploadData =
+            Electron.ProtocolResponseUploadData
+
+        type Rectangle =
+            Electron.Rectangle
+
+        type Referrer =
+            Electron.Referrer
+
+        type ScrubberItem =
+            Electron.ScrubberItem
+
+        type SegmentedControlSegment =
+            Electron.SegmentedControlSegment
+
+        type ServiceWorkerInfo =
+            Electron.ServiceWorkerInfo
+
+        type SharedWorkerInfo =
+            Electron.SharedWorkerInfo
+
+        type ShortcutDetails =
+            Electron.ShortcutDetails
+
+        type Size =
+            Electron.Size
+
+        type Task =
+            Electron.Task
+
+        type ThumbarButton =
+            Electron.ThumbarButton
+
+        type TraceCategoriesAndOptions =
+            Electron.TraceCategoriesAndOptions
+
+        type TraceConfig =
+            Electron.TraceConfig
+
+        type Transaction =
+            Electron.Transaction
+
+        type UploadBlob =
+            Electron.UploadBlob
+
+        type UploadData =
+            Electron.UploadData
+
+        type UploadFile =
+            Electron.UploadFile
+
+        type UploadRawData =
+            Electron.UploadRawData
+
+        type WebSource =
+            Electron.WebSource
+
+    type nativeImage =
+        NativeImage
+
+    type session =
+        Session
+
+    type webContents =
+        WebContents
+
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetVibrancy =
         | [<CompiledName "appearance-based">] AppearanceBased
         | Light
@@ -9513,6 +11870,19 @@ module Electron =
         | Content
         | [<CompiledName "under-window">] UnderWindow
         | [<CompiledName "under-page">] UnderPage
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] CookieSameSite =
+        | Unspecified
+        | No_restriction
+        | Lax
+        | Strict
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] CookiesOn_changed =
+        | Explicit
+        | Overwrite
+        | Expired
+        | Evicted
+        | [<CompiledName "expired-overwrite">] ExpiredOverwrite
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DisplayAccelerometerSupport =
         | Available
@@ -9631,14 +12001,6 @@ module Electron =
         | Light
         | Dark
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] NewWindowEventDisposition =
-        | Default
-        | [<CompiledName "foreground-tab">] ForegroundTab
-        | [<CompiledName "background-tab">] BackgroundTab
-        | [<CompiledName "new-window">] NewWindow
-        | [<CompiledName "save-to-disk">] SaveToDisk
-        | Other
-
     type [<StringEnum>] [<RequireQualifiedAccess>] NotificationTimeoutType =
         | Default
         | Never
@@ -9647,6 +12009,11 @@ module Electron =
         | Normal
         | Critical
         | Low
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] PostDataType =
+        | RawData
+        | File
+        | Blob
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ProcessMetricIntegrityLevel =
         | Untrusted
@@ -9676,11 +12043,17 @@ module Electron =
         | [<CompiledName "same-origin">] SameOrigin
         | [<CompiledName "strict-origin">] StrictOrigin
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] RemovePasswordScheme =
-        | Basic
-        | Digest
-        | Ntlm
-        | Negotiate
+    type [<StringEnum>] [<RequireQualifiedAccess>] SessionSetPermissionRequestHandler =
+        | [<CompiledName "clipboard-read">] ClipboardRead
+        | Media
+        | MediaKeySystem
+        | Geolocation
+        | Notifications
+        | Midi
+        | MidiSysex
+        | PointerLock
+        | Fullscreen
+        | OpenExternal
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesSetAppLevelAppearance =
         | Dark
@@ -9691,6 +12064,11 @@ module Electron =
         | Light
         | Unknown
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarButtonIconPosition =
+        | Left
+        | Right
+        | Overlay
+
     type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarScrubberMode =
         | Fixed
         | Free
@@ -9699,6 +12077,16 @@ module Electron =
         | Background
         | Outline
         | None
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSegmentedControlMode =
+        | Single
+        | Multiple
+        | Buttons
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSpacerSize =
+        | Small
+        | Large
+        | Flexible
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TraceConfigRecording_mode =
         | [<CompiledName "record-until-full">] RecordUntilFull
@@ -9713,9 +12101,22 @@ module Electron =
         | Restored
         | Deferred
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsOn_newWindow =
+        | Default
+        | [<CompiledName "foreground-tab">] ForegroundTab
+        | [<CompiledName "background-tab">] BackgroundTab
+        | [<CompiledName "new-window">] NewWindow
+        | [<CompiledName "save-to-disk">] SaveToDisk
+        | Other
+
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsOn_zoomChanged =
         | In
         | Out
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowConstructorOptionsVisualEffectState =
+        | FollowWindow
+        | Active
+        | Inactive
 
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowConstructorOptionsTitleBarStyle =
         | Default
@@ -9739,6 +12140,15 @@ module Electron =
         | Touch
         | TouchMenu
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] DetailsType =
+        | [<CompiledName "Utility">] Utility
+        | [<CompiledName "Zygote">] Zygote
+        | [<CompiledName "Sandbox helper">] ``Sandbox helper``
+        | [<CompiledName "GPU">] GPU
+        | [<CompiledName "Pepper Plugin">] ``Pepper Plugin``
+        | [<CompiledName "Pepper Plugin Broker">] ``Pepper Plugin Broker``
+        | [<CompiledName "Unknown">] Unknown
+
     type [<StringEnum>] [<RequireQualifiedAccess>] DetailsReason =
         | [<CompiledName "clean-exit">] CleanExit
         | [<CompiledName "abnormal-exit">] AbnormalExit
@@ -9754,6 +12164,10 @@ module Electron =
         | Warning
         | Error
         | Custom
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] FeedURLOptionsServerType =
+        | Json
+        | Default
 
     type [<StringEnum>] [<RequireQualifiedAccess>] FileIconOptionsSize =
         | Small
@@ -9829,10 +12243,9 @@ module Electron =
         | IncludeSensitive
         | Everything
 
-    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarButtonConstructorOptionsIconPosition =
-        | Left
-        | Right
-        | Overlay
+    type [<StringEnum>] [<RequireQualifiedAccess>] TitleOptionsFontType =
+        | Monospaced
+        | MonospacedDigit
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSegmentedControlConstructorOptionsSegmentStyle =
         | Automatic
@@ -9843,16 +12256,6 @@ module Electron =
         | Capsule
         | [<CompiledName "small-square">] SmallSquare
         | Separated
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSegmentedControlConstructorOptionsMode =
-        | Single
-        | Multiple
-        | Buttons
-
-    type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSpacerConstructorOptionsSize =
-        | Small
-        | Large
-        | Flexible
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsPrintOptionsDuplexMode =
         | Simplex
@@ -10046,10 +12449,13 @@ module NodeJS =
         /// </summary>
         abstract traceProcessWarnings: bool with get, set
         /// <summary>
-        /// A <c>String</c> representing the current process's type, can be <c>"browser"</c> (i.e.
-        /// main process), <c>"renderer"</c>, or <c>"worker"</c> (i.e. web worker).
+        /// A <c>String</c> representing the current process's type, can be:
+        /// 
+        /// * <c>browser</c> - The main process
+        /// * <c>renderer</c> - A renderer process
+        /// <c>worker</c> - In a web worker
         /// </summary>
-        abstract ``type``: string
+        abstract ``type``: ProcessType
         /// <summary>
         /// A <c>Boolean</c>. If the app is running as a Windows Store app (appx), this property
         /// is <c>true</c>, for otherwise it is <c>undefined</c>.
@@ -10059,3 +12465,8 @@ module NodeJS =
     type [<AllowNullLiteral>] ProcessVersions =
         abstract electron: string
         abstract chrome: string
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ProcessType =
+        | Browser
+        | Renderer
+        | Worker
