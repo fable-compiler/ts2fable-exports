@@ -40,13 +40,13 @@ module Vscode =
     /// 
     /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
     /// register a command handler with the identifier <c>extension.sayHello</c>.
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// commands.registerCommand('extension.sayHello', () =&gt; {
     ///  	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
     /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
-    /// <code language="json">
+    /// <code lang="json">
     /// {
     ///  	"contributes": {
     ///  		"commands": [{
@@ -85,7 +85,7 @@ module Vscode =
     /// that can be called with a <see cref="TextDocument">TextDocument</see> and a <see cref="Position">Position</see> returning hover info. The rest, like tracking the
     /// mouse, positioning the hover, keeping the hover stable etc. is taken care of by the editor.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// languages.registerHoverProvider('javascript', {
     ///  	provideHover(document, position, token) {
     ///  		return new Hover('I am a hover!');
@@ -111,7 +111,7 @@ module Vscode =
     /// Extension writers can provide APIs to other extensions by returning their API public
     /// surface from the <c>activate</c>-call.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// export function activate(context: vscode.ExtensionContext) {
     ///  	let api = {
     ///  		sum(a, b) {
@@ -129,7 +129,7 @@ module Vscode =
     /// to <c>package.json</c>, and use the <see cref="extensions.getExtension">getExtension</see>-function
     /// and the <see cref="Extension.exports">exports</see>-property, like below:
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// let mathExt = extensions.getExtension('genius.math');
     /// let importedApi = mathExt.exports;
     /// 
@@ -1178,7 +1178,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// 
         /// The *difference* to the <see cref="Uri.path"><c>path</c></see>-property is the use of the platform specific
         /// path separator and the handling of UNC paths. The sample below outlines the difference:
-        /// <code language="ts">
+        /// <code lang="ts">
         /// const u = URI.parse('file://server/c$/folder/file.txt')
         /// u.authority === 'server'
         /// u.path === '/shares/c$/file.txt'
@@ -1189,7 +1189,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// <summary>
         /// Derive a new Uri from this Uri.
         /// 
-        /// <code language="ts">
+        /// <code lang="ts">
         /// let file = Uri.parse('before:some/file/path');
         /// let other = file.with({ scheme: 'after' });
         /// assert.ok(other.toString() === 'after:some/file/path');
@@ -1253,7 +1253,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// as path, not as stringified-uri. E.g. <c>Uri.file(path)</c> is *not* the same as
         /// <c>Uri.parse('file://' + path)</c> because the path might contain characters that are
         /// interpreted (# and ?). See the following sample:
-        /// <code language="ts">
+        /// <code lang="ts">
         /// const good = URI.file('/coding/c#/project1');
         /// good.scheme === 'file';
         /// good.path === '/coding/c#/project1';
@@ -1484,7 +1484,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         abstract canSelectMany: bool option with get, set
         /// A set of file filters that are used by the dialog. Each entry is a human readable label,
         /// like "TypeScript", and an array of extensions, e.g.
-        /// <code language="ts">
+        /// <code lang="ts">
         /// {
         ///  	'Images': ['png', 'jpg']
         ///  	'TypeScript': ['ts', 'tsx']
@@ -1500,7 +1500,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         abstract saveLabel: string option with get, set
         /// A set of file filters that are used by the dialog. Each entry is a human readable label,
         /// like "TypeScript", and an array of extensions, e.g.
-        /// <code language="ts">
+        /// <code lang="ts">
         /// {
         ///  	'Images': ['png', 'jpg']
         ///  	'TypeScript': ['ts', 'tsx']
@@ -1653,7 +1653,7 @@ This method shows unexpected behavior and will be removed in the next major upda
     /// 
     /// The snippets below are all valid implementations of the <see cref="HoverProvider"><c>HoverProvider</c></see>:
     /// 
-    /// <code language="ts">
+    /// <code lang="ts">
     /// let a: HoverProvider = {
     ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
     ///  		return new Hover('Hello World');
@@ -3223,7 +3223,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// part of the section identifier. The following snippets shows how to retrieve all configurations
     /// from <c>launch.json</c>:
     /// 
-    /// <code language="ts">
+    /// <code lang="ts">
     /// // launch.json configuration
     /// const config = workspace.getConfiguration('launch', vscode.window.activeTextEditor.document.uri);
     /// 
@@ -3787,7 +3787,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// a task. They need to be defined in the package.json of the
         /// extension under the 'taskDefinitions' extension point. The npm
         /// task definition for example looks like this
-        /// <code language="typescript">
+        /// <code lang="typescript">
         /// interface NpmTaskDefinition extends TaskDefinition {
         ///      script: string;
         /// }
@@ -4406,7 +4406,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// by the webview content itself. To save off a persisted state, call <c>acquireVsCodeApi().setState()</c> with
     /// any json serializable object. To restore the state again, call <c>getState()</c>
     /// 
-    /// <code language="js">
+    /// <code lang="js">
     /// // Within the webview
     /// const vscode = acquireVsCodeApi();
     /// 
@@ -4492,13 +4492,13 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// 
     /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
     /// register a command handler with the identifier <c>extension.sayHello</c>.
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// commands.registerCommand('extension.sayHello', () =&gt; {
     ///  	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
     /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
-    /// <code language="json">
+    /// <code lang="json">
     /// {
     ///  	"contributes": {
     ///  		"commands": [{
@@ -5352,7 +5352,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// *Note:* This function can only be called during event dispatch and not
         /// in an asynchronous manner:
         /// 
-        /// <code language="ts">
+        /// <code lang="ts">
         /// workspace.onWillSaveTextDocument(event =&gt; {
         ///  	// async, will *throw* an error
         ///  	setTimeout(() =&gt; event.waitUntil(promise));
@@ -5462,17 +5462,17 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// workspace folders have been updated.
             /// 
             /// **Example:** adding a new workspace folder at the end of workspace folders
-            /// <code language="typescript">
+            /// <code lang="typescript">
             /// workspace.updateWorkspaceFolders(workspace.workspaceFolders ? workspace.workspaceFolders.length : 0, null, { uri: ...});
             /// </code>
             /// 
             /// **Example:** removing the first workspace folder
-            /// <code language="typescript">
+            /// <code lang="typescript">
             /// workspace.updateWorkspaceFolders(0, 1);
             /// </code>
             /// 
             /// **Example:** replacing an existing workspace folder with a new one
-            /// <code language="typescript">
+            /// <code lang="typescript">
             /// workspace.updateWorkspaceFolders(0, 1, { uri: ...});
             /// </code>
             /// 
@@ -5689,7 +5689,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// that can be called with a <see cref="TextDocument">TextDocument</see> and a <see cref="Position">Position</see> returning hover info. The rest, like tracking the
     /// mouse, positioning the hover, keeping the hover stable etc. is taken care of by the editor.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// languages.registerHoverProvider('javascript', {
     ///  	provideHover(document, position, token) {
     ///  		return new Hover('I am a hover!');
@@ -5735,7 +5735,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             ///   4. The result is the maximum value of each match
             /// 
             /// Samples:
-            /// <code language="js">
+            /// <code lang="js">
             /// // default document from disk (file-scheme)
             /// doc.uri; //'file:///my/file.js'
             /// doc.languageId; // 'javascript'
@@ -6463,7 +6463,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// Extension writers can provide APIs to other extensions by returning their API public
     /// surface from the <c>activate</c>-call.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// export function activate(context: vscode.ExtensionContext) {
     ///  	let api = {
     ///  		sum(a, b) {
@@ -6481,7 +6481,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// to <c>package.json</c>, and use the <see cref="extensions.getExtension">getExtension</see>-function
     /// and the <see cref="Extension.exports">exports</see>-property, like below:
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// let mathExt = extensions.getExtension('genius.math');
     /// let importedApi = mathExt.exports;
     /// 

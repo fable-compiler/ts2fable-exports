@@ -218,7 +218,7 @@ type [<AllowNullLiteral>] IExports =
     /// Note that the state variable would need to be updated as the user
     /// selects a value and changes the index, as shown in the example below.
     /// 
-    /// <code language="`">
+    /// <code lang="`">
     /// &lt;SegmentedControlIOS
     ///    values={['One', 'Two']}
     ///    selectedIndex={this.state.selectedIndex}
@@ -2325,7 +2325,7 @@ type [<AllowNullLiteral>] InputAccessoryViewProps =
 /// Note that the state variable would need to be updated as the user
 /// selects a value and changes the index, as shown in the example below.
 /// 
-/// <code language="`">
+/// <code lang="`">
 /// &lt;SegmentedControlIOS
 ///    values={['One', 'Two']}
 ///    selectedIndex={this.state.selectedIndex}
@@ -2348,7 +2348,7 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 /// Note that the state variable would need to be updated as the user
 /// selects a value and changes the index, as shown in the example below.
 /// 
-/// <code language="`">
+/// <code lang="`">
 /// &lt;SegmentedControlIOS
 ///    values={['One', 'Two']}
 ///    selectedIndex={this.state.selectedIndex}
@@ -4752,7 +4752,7 @@ type [<AllowNullLiteral>] Dimensions =
 /// 
 /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
 /// For example:  
-/// <code language="fsharp">
+/// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
 ///     abstract Item: string -&gt; string
@@ -6704,7 +6704,7 @@ module Animated =
         /// Takes an array of mappings and extracts values from each arg accordingly,
         /// then calls <c>setValue</c> on the mapped outputs.  e.g.
         /// 
-        /// <code language="javascript">
+        /// <code lang="javascript">
         /// onScroll={Animated.event(
         ///    [{nativeEvent: {contentOffset: {x: this._scrollX}}}]
         ///    {listener},          // Optional async listener
@@ -6840,7 +6840,7 @@ module Animated =
         /// <summary>
         /// Converts <c>{x, y}</c> into <c>{left, top}</c> for use in style, e.g.
         /// 
-        /// <code language="javascript">
+        /// <code lang="javascript">
         ///   style={this.state.anim.getLayout()}
         /// </code>
         /// </summary>
@@ -6848,7 +6848,7 @@ module Animated =
         /// <summary>
         /// Converts <c>{x, y}</c> into a useable translation transform, e.g.
         /// 
-        /// <code language="javascript">
+        /// <code lang="javascript">
         ///   style={{
         ///     transform: this.state.anim.getTranslateTransform()
         ///   }}

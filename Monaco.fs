@@ -30,7 +30,7 @@ module Monaco =
         /// (<see href="http://tools.ietf.org/html/rfc3986#section-3)" /> with minimal validation
         /// and encoding.
         /// 
-        /// <code language="txt">
+        /// <code lang="txt">
         ///        foo://example.com:8042/over/there?name=ferret#nose
         ///        \_/   \______________/\_________/ \_________/ \__/
         ///         |           |            |            |        |
@@ -110,7 +110,7 @@ module Monaco =
     /// (<see href="http://tools.ietf.org/html/rfc3986#section-3)" /> with minimal validation
     /// and encoding.
     /// 
-    /// <code language="txt">
+    /// <code lang="txt">
     ///        foo://example.com:8042/over/there?name=ferret#nose
     ///        \_/   \______________/\_________/ \_________/ \__/
     ///         |           |            |            |        |
@@ -151,7 +151,7 @@ module Monaco =
         /// The *difference* to <c>Uri#path</c> is the use of the platform specific separator and the handling
         /// of UNC paths. See the below sample of a file-uri with an authority (UNC path).
         /// 
-        /// <code language="ts">
+        /// <code lang="ts">
         ///   const u = Uri.parse('file://server/c$/folder/file.txt')
         ///   u.authority === 'server'
         ///   u.path === '/shares/c$/file.txt'
@@ -190,7 +190,7 @@ module Monaco =
     /// (<see href="http://tools.ietf.org/html/rfc3986#section-3)" /> with minimal validation
     /// and encoding.
     /// 
-    /// <code language="txt">
+    /// <code lang="txt">
     ///        foo://example.com:8042/over/there?name=ferret#nose
     ///        \_/   \______________/\_________/ \_________/ \__/
     ///         |           |            |            |        |
@@ -217,7 +217,7 @@ module Monaco =
         /// as path, not as stringified-uri. E.g. <c>Uri.file(path)</c> is **not the same as**
         /// <c>Uri.parse('file://' + path)</c> because the path might contain characters that are
         /// interpreted (# and ?). See the following sample:
-        /// <code language="ts">
+        /// <code lang="ts">
         /// const good = Uri.file('/coding/c#/project1');
         /// good.scheme === 'file';
         /// good.path === '/coding/c#/project1';

@@ -4626,7 +4626,7 @@ Use typeAcquisition.enable instead.")>]
         /// <param name="node">The node to emit.</param>
         /// <param name="emitCallback">A callback that, when invoked, will emit the node.</param>
         /// <example>
-        /// <code language="ts">
+        /// <code lang="ts">
         /// var printer = createPrinter(printerOptions, {
         ///   onEmitNode(hint, node, emitCallback) {
         ///     // set up or track state prior to emitting the node...
@@ -4645,7 +4645,7 @@ Use typeAcquisition.enable instead.")>]
         /// <param name="hint">A hint indicating the intended purpose of the node.</param>
         /// <param name="node">The node to emit.</param>
         /// <example>
-        /// <code language="ts">
+        /// <code lang="ts">
         /// var printer = createPrinter(printerOptions, {
         ///   substituteNode(hint, node) {
         ///     // perform substitution if necessary...

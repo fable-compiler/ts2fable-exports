@@ -497,7 +497,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string
@@ -519,7 +519,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string
@@ -541,7 +541,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string
@@ -563,7 +563,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string
@@ -585,7 +585,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string
@@ -607,7 +607,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string
@@ -629,7 +629,7 @@ Use '.global()' instead")>]
     /// 
     /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
     /// For example:  
-    /// <code language="fsharp">
+    /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
     ///     abstract Item: string -&gt; string

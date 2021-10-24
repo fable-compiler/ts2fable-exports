@@ -63,7 +63,7 @@ type [<AllowNullLiteral>] Message =
 /// 
 /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
 /// For example:  
-/// <code language="fsharp">
+/// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
 ///     abstract Item: string -&gt; string
@@ -85,7 +85,7 @@ type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
 /// 
 /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
 /// For example:  
-/// <code language="fsharp">
+/// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
 ///     abstract Item: string -&gt; string
@@ -153,7 +153,7 @@ type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
 /// 
 /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
 /// For example:  
-/// <code language="fsharp">
+/// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
 ///     abstract Item: string -&gt; string
@@ -206,7 +206,7 @@ type [<AllowNullLiteral>] ExtensionFieldInfoStatic =
 /// 
 /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
 /// For example:  
-/// <code language="fsharp">
+/// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
 ///     abstract Item: string -&gt; string
