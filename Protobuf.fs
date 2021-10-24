@@ -1,5 +1,8 @@
 // ts2fable 0.0.0
 module rec Protobuf
+
+#nowarn "3390" // disable warnings for invalid XML comments
+
 open System
 open Fable.Core
 open Fable.Core.JS
@@ -51,9 +54,47 @@ type [<AllowNullLiteral>] Message =
     abstract serializeBinary: unit -> Uint8Array
     abstract toObject: ?includeInstance: bool -> MessageToObjectReturn
 
+/// <summary>
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
+/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// 
+/// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
+/// but instead by just specifying fields.
+/// 
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
+/// For example:  
+/// <code language="fsharp">
+/// type I =
+///     [&lt;EmitIndexer&gt;]
+///     abstract Item: string -&gt; string
+/// let f (i: I) = jsNative
+/// 
+/// let t = {| Value1 = "foo"; Value2 = "bar" |}
+/// f (!! t)
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
     [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 
+/// <summary>
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
+/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// 
+/// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
+/// but instead by just specifying fields.
+/// 
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
+/// For example:  
+/// <code language="fsharp">
+/// type I =
+///     [&lt;EmitIndexer&gt;]
+///     abstract Item: string -&gt; string
+/// let f (i: I) = jsNative
+/// 
+/// let t = {| Value1 = "foo"; Value2 = "bar" |}
+/// f (!! t)
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] MessageReadBinaryExtensionExtensions =
     [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 
@@ -78,12 +119,12 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract addToRepeatedField: msg: Message * fieldNumber: float * value: obj option * ?index: float -> unit
     abstract setOneofField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: FieldValue -> unit
     abstract computeOneofCase: msg: Message * oneof: ResizeArray<float> -> float
-    abstract getWrapperField: msg: Message * ctor: MessageStaticGetWrapperFieldCtor * fieldNumber: float * ?required: float -> 'T when 'T :> Message
-    abstract getRepeatedWrapperField: msg: Message * ctor: MessageStaticGetRepeatedWrapperFieldCtor * fieldNumber: float -> ResizeArray<'T> when 'T :> Message
+    abstract getWrapperField: msg: Message * ctor: {| Create: unit -> Message |} * fieldNumber: float * ?required: float -> 'T when 'T :> Message
+    abstract getRepeatedWrapperField: msg: Message * ctor: {| Create: unit -> Message |} * fieldNumber: float -> ResizeArray<'T> when 'T :> Message
     abstract setWrapperField: msg: Message * fieldNumber: float * ?value: U2<'T, Map<obj option, obj option>> -> unit when 'T :> Message
     abstract setOneofWrapperField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: obj option -> unit
     abstract setRepeatedWrapperField: msg: Message * fieldNumber: float * ?value: ResizeArray<'T> -> unit when 'T :> Message
-    abstract addToRepeatedWrapperField: msg: Message * fieldNumber: float * value: 'T option * ctor: MessageStaticAddToRepeatedWrapperFieldCtor * ?index: float -> 'T when 'T :> Message
+    abstract addToRepeatedWrapperField: msg: Message * fieldNumber: float * value: 'T option * ctor: {| Create: unit -> Message |} * ?index: float -> 'T when 'T :> Message
     abstract toMap: field: ResizeArray<obj option> * mapKeyGetterFn: (obj option -> string) * ?toObjectFn: Message.StaticToObject * ?includeInstance: bool -> unit
     abstract difference: m1: 'T * m2: 'T -> 'T when 'T :> Message
     abstract equals: m1: Message * m2: Message -> bool
@@ -103,17 +144,27 @@ type [<AllowNullLiteral>] MessageStatic =
 type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
     interface end
 
+/// <summary>
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
+/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// 
+/// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
+/// but instead by just specifying fields.
+/// 
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
+/// For example:  
+/// <code language="fsharp">
+/// type I =
+///     [&lt;EmitIndexer&gt;]
+///     abstract Item: string -&gt; string
+/// let f (i: I) = jsNative
+/// 
+/// let t = {| Value1 = "foo"; Value2 = "bar" |}
+/// f (!! t)
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] MessageStaticToObjectExtensionExtensions =
     [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldInfo<Message> with get, set
-
-type [<AllowNullLiteral>] MessageStaticGetWrapperFieldCtor =
-    [<EmitConstructor>] abstract Create: unit -> Message
-
-type [<AllowNullLiteral>] MessageStaticGetRepeatedWrapperFieldCtor =
-    [<EmitConstructor>] abstract Create: unit -> Message
-
-type [<AllowNullLiteral>] MessageStaticAddToRepeatedWrapperFieldCtor =
-    [<EmitConstructor>] abstract Create: unit -> Message
 
 type [<AllowNullLiteral>] MessageStaticCompareExtensionsExtension1 =
     interface end
@@ -146,6 +197,25 @@ type [<AllowNullLiteral>] ExtensionFieldInfo<'T> =
 type [<AllowNullLiteral>] ExtensionFieldInfoStatic =
     [<EmitConstructor>] abstract Create: fieldIndex: float * fieldName: ExtensionFieldInfoStaticFieldName * ctor: obj * toObjectFn: Message.StaticToObject * isRepeated: float -> ExtensionFieldInfo<'T>
 
+/// <summary>
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
+/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// 
+/// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
+/// but instead by just specifying fields.
+/// 
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
+/// For example:  
+/// <code language="fsharp">
+/// type I =
+///     [&lt;EmitIndexer&gt;]
+///     abstract Item: string -&gt; string
+/// let f (i: I) = jsNative
+/// 
+/// let t = {| Value1 = "foo"; Value2 = "bar" |}
+/// f (!! t)
+/// </code>
+/// </summary>
 type [<AllowNullLiteral>] ExtensionFieldInfoStaticFieldName =
     [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
@@ -179,11 +249,8 @@ type [<AllowNullLiteral>] MapForEachThisArg =
     interface end
 
 type [<AllowNullLiteral>] MapStatic =
-    [<EmitConstructor>] abstract Create: arr: Array<'K * 'V> * ?valueCtor: MapStaticValueCtor -> Map<'K, 'V>
+    [<EmitConstructor>] abstract Create: arr: Array<'K * 'V> * ?valueCtor: {| Create: obj option -> Map<'K, 'V> |} -> Map<'K, 'V>
     abstract fromObject: entries: Array<'TK * 'TV> * valueCtor: obj option * valueFromObject: obj option -> Map<'TK, 'TV>
-
-type [<AllowNullLiteral>] MapStaticValueCtor =
-    [<EmitConstructor>] abstract Create: init: obj option -> Map<'K, 'V>
 
 module Map =
 

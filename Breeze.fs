@@ -280,25 +280,12 @@ type [<AllowNullLiteral>] DataServiceOptions =
     abstract useJsonp: bool option with get, set
 
 type [<AllowNullLiteral>] DataServiceAdapter =
-    abstract checkForRecomposition: interfaceInitializedArgs: DataServiceAdapterCheckForRecompositionInterfaceInitializedArgs -> unit
+    abstract checkForRecomposition: interfaceInitializedArgs: {| interfaceName: string; isDefault: bool |} -> unit
     abstract initialize: unit -> unit
     abstract fetchMetadata: metadataStore: MetadataStore * dataService: DataService -> Promise<obj option>
-    abstract executeQuery: mappingContext: DataServiceAdapterExecuteQueryMappingContext -> Promise<obj option>
-    abstract saveChanges: saveContext: DataServiceAdapterSaveChangesSaveContext * saveBundle: Object -> Promise<SaveResult>
+    abstract executeQuery: mappingContext: {| getUrl: unit -> string; query: EntityQuery; dataService: DataService |} -> Promise<obj option>
+    abstract saveChanges: saveContext: {| resourceName: string; dataService: DataService |} * saveBundle: Object -> Promise<SaveResult>
     abstract JsonResultsAdapter: JsonResultsAdapter with get, set
-
-type [<AllowNullLiteral>] DataServiceAdapterCheckForRecompositionInterfaceInitializedArgs =
-    abstract interfaceName: string with get, set
-    abstract isDefault: bool with get, set
-
-type [<AllowNullLiteral>] DataServiceAdapterExecuteQueryMappingContext =
-    abstract getUrl: (unit -> string) with get, set
-    abstract query: EntityQuery with get, set
-    abstract dataService: DataService with get, set
-
-type [<AllowNullLiteral>] DataServiceAdapterSaveChangesSaveContext =
-    abstract resourceName: string with get, set
-    abstract dataService: DataService with get, set
 
 type [<AllowNullLiteral>] DataServiceAdapterStatic =
     [<EmitConstructor>] abstract Create: unit -> DataServiceAdapter
@@ -316,7 +303,7 @@ type [<AllowNullLiteral>] JsonResultsAdapter =
     abstract extractSaveResults: (JsonResultsAdapterExtractResults -> ResizeArray<obj option>) with get, set
     abstract extractKeyMappings: (JsonResultsAdapterExtractResults -> ResizeArray<KeyMapping>) with get, set
     abstract extractDeletedKeys: (JsonResultsAdapterExtractResults -> ResizeArray<DeletedEntityKey>) with get, set
-    abstract visitNode: (JsonResultsAdapterExtractResults -> QueryContext -> NodeContext -> JsonResultsAdapterVisitNode) with get, set
+    abstract visitNode: (JsonResultsAdapterExtractResults -> QueryContext -> NodeContext -> {| entityType: EntityType option; nodeId: obj option; nodeRefId: obj option; ignore: bool option |}) with get, set
 
 type [<AllowNullLiteral>] JsonResultsAdapterStatic =
     [<EmitConstructor>] abstract Create: config: JsonResultsAdapterStaticConfig -> JsonResultsAdapter
@@ -327,7 +314,7 @@ type [<AllowNullLiteral>] JsonResultsAdapterStaticConfig =
     abstract extractSaveResults: (JsonResultsAdapterExtractResults -> ResizeArray<obj option>) option with get, set
     abstract extractKeyMappings: (JsonResultsAdapterExtractResults -> ResizeArray<KeyMapping>) option with get, set
     abstract extractDeletedKeys: (JsonResultsAdapterExtractResults -> ResizeArray<DeletedEntityKey>) option with get, set
-    abstract visitNode: (JsonResultsAdapterExtractResults -> QueryContext -> NodeContext -> JsonResultsAdapterVisitNode) with get, set
+    abstract visitNode: (JsonResultsAdapterExtractResults -> QueryContext -> NodeContext -> {| entityType: EntityType option; nodeId: obj option; nodeRefId: obj option; ignore: bool option |}) with get, set
 
 type [<AllowNullLiteral>] QueryContext =
     abstract url: string with get, set
@@ -382,7 +369,7 @@ type [<AllowNullLiteral>] DataType =
     abstract String: DataTypeSymbol with get, set
     abstract Time: DataTypeSymbol with get, set
     abstract Undefined: DataTypeSymbol with get, set
-    abstract constants: DataTypeConstants with get, set
+    abstract constants: {| nextNumber: float; nextNumberIncrement: float; stringPrefix: string |} with get, set
     abstract fromEdmDataType: typeName: string -> DataTypeSymbol
     abstract fromValue: ``val``: obj option -> DataTypeSymbol
     abstract getComparableFn: dataType: DataTypeSymbol -> (obj option -> obj option)
@@ -554,8 +541,8 @@ type [<AllowNullLiteral>] EntityManager =
     abstract hasChanges: entityTypeNames: ResizeArray<string> -> bool
     abstract hasChanges: entityType: EntityType -> bool
     abstract hasChanges: entityTypes: ResizeArray<EntityType> -> bool
-    abstract importEntities: exportedString: string * ?config: EntityManagerImportEntitiesConfig -> EntityManagerImportEntitiesReturn
-    abstract importEntities: exportedData: Object * ?config: EntityManagerImportEntitiesConfig_ -> EntityManagerImportEntitiesReturn_
+    abstract importEntities: exportedString: string * ?config: {| mergeAdds: bool option; mergeStrategy: MergeStrategySymbol option; metadataVersionFn: (obj option -> unit) option |} -> {| entities: ResizeArray<Entity>; tempKeyMapping: EntityManagerImportEntitiesTempKeyMapping |}
+    abstract importEntities: exportedData: Object * ?config: {| mergeAdds: bool option; mergeStrategy: MergeStrategySymbol option; metadataVersionFn: (obj option -> unit) option |} -> {| entities: ResizeArray<Entity>; tempKeyMapping: EntityManagerImportEntitiesTempKeyMapping |}
     abstract rejectChanges: unit -> ResizeArray<Entity>
     abstract saveChanges: ?entities: ResizeArray<Entity> * ?saveOptions: SaveOptions * ?callback: SaveChangesSuccessCallback * ?errorCallback: SaveChangesErrorCallback -> Promise<SaveResult>
     abstract setProperties: config: EntityManagerProperties -> unit
@@ -566,39 +553,11 @@ type [<AllowNullLiteral>] EntityManagerCreateEntityConfig =
 type [<AllowNullLiteral>] EntityManagerCreateEntityConfig_ =
     interface end
 
-type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig =
-    abstract mergeAdds: bool option with get, set
-    abstract mergeStrategy: MergeStrategySymbol option with get, set
-    abstract metadataVersionFn: (obj option -> unit) option with get, set
-
-type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn =
-    abstract entities: ResizeArray<Entity> with get, set
-    abstract tempKeyMapping: EntityManagerImportEntitiesReturnTempKeyMapping with get, set
-
-type [<AllowNullLiteral>] EntityManagerImportEntitiesConfig_ =
-    abstract mergeAdds: bool option with get, set
-    abstract mergeStrategy: MergeStrategySymbol option with get, set
-    abstract metadataVersionFn: (obj option -> unit) option with get, set
-
-type [<AllowNullLiteral>] EntityManagerImportEntitiesReturn_ =
-    abstract entities: ResizeArray<Entity> with get, set
-    abstract tempKeyMapping: EntityManagerImportEntitiesReturnTempKeyMapping with get, set
-
 type [<AllowNullLiteral>] EntityManagerStatic =
     [<EmitConstructor>] abstract Create: ?config: EntityManagerOptions -> EntityManager
     [<EmitConstructor>] abstract Create: ?config: string -> EntityManager
-    abstract importEntities: exportedString: string * ?config: EntityManagerStaticImportEntitiesConfig -> EntityManager
-    abstract importEntities: exportedData: Object * ?config: EntityManagerStaticImportEntitiesConfig_ -> EntityManager
-
-type [<AllowNullLiteral>] EntityManagerStaticImportEntitiesConfig =
-    abstract mergeAdds: bool option with get, set
-    abstract mergeStrategy: MergeStrategySymbol option with get, set
-    abstract metadataVersionFn: (obj option -> unit) option with get, set
-
-type [<AllowNullLiteral>] EntityManagerStaticImportEntitiesConfig_ =
-    abstract mergeAdds: bool option with get, set
-    abstract mergeStrategy: MergeStrategySymbol option with get, set
-    abstract metadataVersionFn: (obj option -> unit) option with get, set
+    abstract importEntities: exportedString: string * ?config: {| mergeAdds: bool option; mergeStrategy: MergeStrategySymbol option; metadataVersionFn: (obj option -> unit) option |} -> EntityManager
+    abstract importEntities: exportedData: Object * ?config: {| mergeAdds: bool option; mergeStrategy: MergeStrategySymbol option; metadataVersionFn: (obj option -> unit) option |} -> EntityManager
 
 type [<AllowNullLiteral>] EntityManagerOptions =
     abstract serviceName: string option with get, set
@@ -846,12 +805,7 @@ type [<AllowNullLiteral>] LocalQueryComparisonOptions =
 type [<AllowNullLiteral>] LocalQueryComparisonOptionsStatic =
     abstract caseInsensitiveSQL: LocalQueryComparisonOptions with get, set
     abstract defaultInstance: LocalQueryComparisonOptions with get, set
-    [<EmitConstructor>] abstract Create: config: LocalQueryComparisonOptionsStaticConfig -> LocalQueryComparisonOptions
-
-type [<AllowNullLiteral>] LocalQueryComparisonOptionsStaticConfig =
-    abstract name: string option with get, set
-    abstract isCaseSensitive: bool option with get, set
-    abstract usesSql92CompliantStringComparison: bool option with get, set
+    [<EmitConstructor>] abstract Create: config: {| name: string option; isCaseSensitive: bool option; usesSql92CompliantStringComparison: bool option |} -> LocalQueryComparisonOptions
 
 type [<AllowNullLiteral>] MergeStrategySymbol =
     inherit Core.EnumSymbol
@@ -884,11 +838,7 @@ type [<AllowNullLiteral>] MetadataStore =
     abstract setEntityTypeForResourceName: resourceName: string * entityType: EntityType -> unit
     abstract setEntityTypeForResourceName: resourceName: string * entityTypeName: string -> unit
     abstract getEntityTypeNameForResourceName: resourceName: string -> string
-    abstract setProperties: config: MetadataStoreSetPropertiesConfig -> unit
-
-type [<AllowNullLiteral>] MetadataStoreSetPropertiesConfig =
-    abstract name: string option with get, set
-    abstract serializerFn: Function option with get, set
+    abstract setProperties: config: {| name: string option; serializerFn: Function option |} -> unit
 
 type [<AllowNullLiteral>] MetadataStoreStatic =
     [<EmitConstructor>] abstract Create: unit -> MetadataStore
@@ -967,8 +917,8 @@ type [<AllowNullLiteral>] PredicateStatic =
     [<EmitConstructor>] abstract Create: unit -> Predicate
     [<EmitConstructor>] abstract Create: property: string * operator: string * value: obj option -> Predicate
     [<EmitConstructor>] abstract Create: property: string * operator: FilterQueryOpSymbol * value: obj option -> Predicate
-    [<EmitConstructor>] abstract Create: property: string * operator: string * value: PredicateStaticValue -> Predicate
-    [<EmitConstructor>] abstract Create: property: string * operator: FilterQueryOpSymbol * value: PredicateStaticValue_ -> Predicate
+    [<EmitConstructor>] abstract Create: property: string * operator: string * value: {| value: obj option; isLiteral: bool option; dataType: DataType option |} -> Predicate
+    [<EmitConstructor>] abstract Create: property: string * operator: FilterQueryOpSymbol * value: {| value: obj option; isLiteral: bool option; dataType: DataType option |} -> Predicate
     [<EmitConstructor>] abstract Create: property: string * filterop: FilterQueryOpSymbol * property2: string * filterop2: FilterQueryOpSymbol * value: obj option -> Predicate
     [<EmitConstructor>] abstract Create: property: string * filterop: string * property2: string * filterop2: string * value: obj option -> Predicate
     [<EmitConstructor>] abstract Create: passthru: string -> Predicate
@@ -979,16 +929,6 @@ type [<AllowNullLiteral>] PredicateStatic =
     abstract isPredicate: o: obj option -> bool
     abstract not: predicate: Predicate -> Predicate
     abstract ``or``: PredicateMethod with get, set
-
-type [<AllowNullLiteral>] PredicateStaticValue =
-    abstract value: obj option with get, set
-    abstract isLiteral: bool option with get, set
-    abstract dataType: DataType option with get, set
-
-type [<AllowNullLiteral>] PredicateStaticValue_ =
-    abstract value: obj option with get, set
-    abstract isLiteral: bool option with get, set
-    abstract dataType: DataType option with get, set
 
 type [<AllowNullLiteral>] PredicateMethod =
     [<Emit "$0($1...)">] abstract Invoke: predicates: ResizeArray<Predicate> -> Predicate
@@ -1048,13 +988,7 @@ type [<AllowNullLiteral>] SaveOptions =
 
 type [<AllowNullLiteral>] SaveOptionsStatic =
     abstract defaultInstance: SaveOptions with get, set
-    [<EmitConstructor>] abstract Create: ?config: SaveOptionsStaticConfig -> SaveOptions
-
-type [<AllowNullLiteral>] SaveOptionsStaticConfig =
-    abstract allowConcurrentSaves: bool option with get, set
-    abstract resourceName: string option with get, set
-    abstract dataService: DataService option with get, set
-    abstract tag: obj option with get, set
+    [<EmitConstructor>] abstract Create: ?config: {| allowConcurrentSaves: bool option; resourceName: string option; dataService: DataService option; tag: obj option |} -> SaveOptions
 
 type [<AllowNullLiteral>] SaveOptionsConfiguration =
     abstract allowConcurrentSaves: bool option with get, set
@@ -1119,36 +1053,36 @@ type [<AllowNullLiteral>] ValidatorStatic =
     [<EmitConstructor>] abstract Create: name: string * validatorFn: ValidatorFunction * ?context: obj -> Validator
     abstract bool: unit -> Validator
     /// integer between 0 and 255 inclusive
-    abstract byte: ?context: ValidatorStaticByteContext -> Validator
+    abstract byte: ?context: {| messageTemplate: string option |} -> Validator
     abstract date: unit -> Validator
     /// Returns a ISO 8601 duration string Validator.
     abstract duration: unit -> Validator
     /// Validators number, double, and single are all the same
-    abstract number: ?context: ValidatorStaticNumberContext -> Validator
+    abstract number: ?context: {| messageTemplate: string option |} -> Validator
     /// Validators number, double, and single are all the same
-    abstract double: ?context: ValidatorStaticDoubleContext -> Validator
+    abstract double: ?context: {| messageTemplate: string option |} -> Validator
     /// Validators number, double, and single are all the same
-    abstract single: ?context: ValidatorStaticSingleContext -> Validator
+    abstract single: ?context: {| messageTemplate: string option |} -> Validator
     abstract guid: unit -> Validator
-    abstract int16: ?context: ValidatorStaticInt16Context -> Validator
-    abstract int32: ?context: ValidatorStaticInt32Context -> Validator
-    abstract int64: ?context: ValidatorStaticInt64Context -> Validator
+    abstract int16: ?context: {| messageTemplate: string option |} -> Validator
+    abstract int32: ?context: {| messageTemplate: string option |} -> Validator
+    abstract int64: ?context: {| messageTemplate: string option |} -> Validator
     /// Same as int64
-    abstract integer: ?context: ValidatorStaticIntegerContext -> Validator
-    abstract maxLength: context: ValidatorStaticMaxLengthContext -> Validator
-    abstract required: ?context: ValidatorStaticRequiredContext -> Validator
+    abstract integer: ?context: {| messageTemplate: string option |} -> Validator
+    abstract maxLength: context: {| maxLength: float; messageTemplate: string option |} -> Validator
+    abstract required: ?context: {| messageTemplate: string option |} -> Validator
     abstract string: unit -> Validator
-    abstract stringLength: context: ValidatorStaticStringLengthContext -> Validator
+    abstract stringLength: context: {| maxLength: float; minLength: float; messageTemplate: string option |} -> Validator
     /// Returns a credit card number validator that performs a Luhn algorithm checksum test for plausability
-    abstract creditCard: ?context: ValidatorStaticCreditCardContext -> Validator
+    abstract creditCard: ?context: {| messageTemplate: string option |} -> Validator
     /// Returns a regular expression validator; the expression must be specified in the context parameter
-    abstract regularExpression: context: ValidatorStaticRegularExpressionContext -> Validator
+    abstract regularExpression: context: {| expression: RegExp; messageTemplate: string option |} -> Validator
     /// Returns the email address validator
-    abstract emailAddress: ?context: ValidatorStaticEmailAddressContext -> Validator
+    abstract emailAddress: ?context: {| messageTemplate: string option |} -> Validator
     /// Returns the phone validator, which handles prefix, country code, area code, and local number, with [-/. ] break characters.
-    abstract phone: ?context: ValidatorStaticPhoneContext -> Validator
+    abstract phone: ?context: {| messageTemplate: string option |} -> Validator
     /// Returns the URL (protocol required) validator
-    abstract url: ?context: ValidatorStaticUrlContext -> Validator
+    abstract url: ?context: {| messageTemplate: string option |} -> Validator
     /// Always returns true
     abstract none: unit -> Validator
     /// Creates a validator instance from a JSON object or an array of instances from an array of JSON objects.
@@ -1159,58 +1093,6 @@ type [<AllowNullLiteral>] ValidatorStatic =
     abstract registerFactory: fn: ((obj) option -> Validator) * name: string -> unit
     /// Creates a regular expression validator with a fixed expression.
     abstract makeRegExpValidator: validatorName: string * expression: RegExp * defaultMessage: string * ?context: obj -> Validator
-
-type [<AllowNullLiteral>] ValidatorStaticByteContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticNumberContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticDoubleContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticSingleContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticInt16Context =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticInt32Context =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticInt64Context =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticIntegerContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticMaxLengthContext =
-    abstract maxLength: float with get, set
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticRequiredContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticStringLengthContext =
-    abstract maxLength: float with get, set
-    abstract minLength: float with get, set
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticCreditCardContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticRegularExpressionContext =
-    abstract expression: RegExp with get, set
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticEmailAddressContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticPhoneContext =
-    abstract messageTemplate: string option with get, set
-
-type [<AllowNullLiteral>] ValidatorStaticUrlContext =
-    abstract messageTemplate: string option with get, set
 
 type [<AllowNullLiteral>] ValidatorFunction =
     [<Emit "$0($1...)">] abstract Invoke: value: obj option * context: ValidatorFunctionContext -> unit
@@ -1305,16 +1187,5 @@ module Promises =
 type [<AllowNullLiteral>] JsonResultsAdapterExtractResults =
     interface end
 
-type [<AllowNullLiteral>] JsonResultsAdapterVisitNode =
-    abstract entityType: EntityType option with get, set
-    abstract nodeId: obj option with get, set
-    abstract nodeRefId: obj option with get, set
-    abstract ignore: bool option with get, set
-
-type [<AllowNullLiteral>] DataTypeConstants =
-    abstract nextNumber: float with get, set
-    abstract nextNumberIncrement: float with get, set
-    abstract stringPrefix: string with get, set
-
-type [<AllowNullLiteral>] EntityManagerImportEntitiesReturnTempKeyMapping =
+type [<AllowNullLiteral>] EntityManagerImportEntitiesTempKeyMapping =
     [<EmitIndexer>] abstract Item: key: string -> EntityKey with get, set

@@ -711,7 +711,7 @@ module Monaco =
             abstract setModelMarkers: model: ITextModel * owner: string * markers: ResizeArray<IMarkerData> -> unit
             /// <summary>Get markers for owner and/or resource</summary>
             /// <returns>list of markers</returns>
-            abstract getModelMarkers: filter: GetModelMarkersFilter -> ResizeArray<IMarker>
+            abstract getModelMarkers: filter: {| owner: string option; resource: Uri option; take: float option |} -> ResizeArray<IMarker>
             /// <summary>Get the model that has <c>uri</c> if it exists.</summary>
             abstract getModel: uri: Uri -> ITextModel option
             /// Get all the created models.
@@ -721,7 +721,7 @@ module Monaco =
             /// <summary>Emitted right before a model is disposed.</summary>
             abstract onWillDisposeModel: listener: (ITextModel -> unit) -> IDisposable
             /// <summary>Emitted when a different language is set to a model.</summary>
-            abstract onDidChangeModelLanguage: listener: (IExportsOnDidChangeModelLanguage -> unit) -> IDisposable
+            abstract onDidChangeModelLanguage: listener: ({| model: ITextModel; oldLanguage: string |} -> unit) -> IDisposable
             /// <summary>
             /// Create a new web worker that has model syncing capabilities built in.
             /// Specify an AMD module to load that will <c>create</c> an object that will be proxied.
@@ -744,17 +744,12 @@ module Monaco =
             abstract TextModelResolvedOptions: TextModelResolvedOptionsStatic
             abstract FindMatch: FindMatchStatic
             /// <summary>The type of the <c>IEditor</c>.</summary>
-            abstract EditorType: IExportsEditorType
+            abstract EditorType: {| ICodeEditor: string; IDiffEditor: string |}
             /// An event describing that the configuration of the editor has changed.
             abstract ConfigurationChangedEvent: ConfigurationChangedEventStatic
             abstract EditorOptions: IExportsEditorOptions
             abstract FontInfo: FontInfoStatic
             abstract BareFontInfo: BareFontInfoStatic
-
-        type [<AllowNullLiteral>] GetModelMarkersFilter =
-            abstract owner: string option with get, set
-            abstract resource: Uri option with get, set
-            abstract take: float option with get, set
 
         type [<AllowNullLiteral>] IDiffNavigator =
             abstract canNavigate: unit -> bool
@@ -970,7 +965,7 @@ module Monaco =
             abstract owner: string with get, set
             abstract resource: Uri with get, set
             abstract severity: MarkerSeverity with get, set
-            abstract code: U2<string, IMarkerCode> option with get, set
+            abstract code: U2<string, {| value: string; target: Uri |}> option with get, set
             abstract message: string with get, set
             abstract source: string option with get, set
             abstract startLineNumber: float with get, set
@@ -982,7 +977,7 @@ module Monaco =
 
         /// A structure defining a problem/warning/etc.
         type [<AllowNullLiteral>] IMarkerData =
-            abstract code: U2<string, IMarkerCode> option with get, set
+            abstract code: U2<string, {| value: string; target: Uri |}> option with get, set
             abstract severity: MarkerSeverity with get, set
             abstract message: string with get, set
             abstract source: string option with get, set
@@ -2604,7 +2599,7 @@ module Monaco =
             /// Show snippet-suggestions.
             abstract showSnippets: bool option with get, set
             /// Status bar related settings.
-            abstract statusBar: ISuggestOptionsStatusBar option with get, set
+            abstract statusBar: {| visible: bool option |} option with get, set
 
         type InternalSuggestOptions =
             obj
@@ -2750,14 +2745,14 @@ module Monaco =
         type EditorOptionsType =
             obj
 
-        type [<AllowNullLiteral>] FindEditorOptionsKeyById<'T when 'T :> EditorOption> =
-            interface end
+        type FindEditorOptionsKeyById<'T when 'T :> EditorOption> =
+            obj
 
         type ComputedEditorOptionValue<'T when 'T :> IEditorOption<obj option, obj option>> =
             obj
 
         type FindComputedEditorOptionValueById<'T when 'T :> EditorOption> =
-            NonNullable<ComputedEditorOptionValue<EditorOptionsType>>
+            NonNullable<ComputedEditorOptionValue<obj>>
 
         /// A view zone is a full horizontal rectangle that 'pushes' text down.
         /// The editor reserves space for view zones when rendering.
@@ -3023,7 +3018,7 @@ module Monaco =
             abstract getRawOptions: unit -> IEditorOptions
             /// <summary>Get value of the current model attached to this editor.</summary>
             /// <seealso cref="`ITextModel.getValue`" />
-            abstract getValue: ?options: ICodeEditorGetValueOptions -> string
+            abstract getValue: ?options: {| preserveBOM: bool; lineEnding: string |} -> string
             /// <summary>Set the value of the current model attached to this editor.</summary>
             /// <seealso cref="`ITextModel.setValue`" />
             abstract setValue: newValue: string -> unit
@@ -3130,13 +3125,9 @@ module Monaco =
             /// Explanation 2: the results of this method will not change if the container of the editor gets repositioned.
             /// Warning: the results of this method are inaccurate for positions that are outside the current editor viewport.
             /// </summary>
-            abstract getScrolledVisiblePosition: position: IPosition -> ICodeEditorGetScrolledVisiblePosition option
+            abstract getScrolledVisiblePosition: position: IPosition -> {| top: float; left: float; height: float |} option
             /// <summary>Apply the same font settings as the editor to <c>target</c>.</summary>
             abstract applyFontInfo: target: HTMLElement -> unit
-
-        type [<AllowNullLiteral>] ICodeEditorGetValueOptions =
-            abstract preserveBOM: bool with get, set
-            abstract lineEnding: string with get, set
 
         /// Information about a line in the diff editor
         type [<AllowNullLiteral>] IDiffLineInformation =
@@ -3211,14 +3202,6 @@ module Monaco =
 
         type IModel =
             ITextModel
-
-        type [<AllowNullLiteral>] IExportsOnDidChangeModelLanguage =
-            abstract model: ITextModel
-            abstract oldLanguage: string
-
-        type [<AllowNullLiteral>] IExportsEditorType =
-            abstract ICodeEditor: string with get, set
-            abstract IDiffEditor: string with get, set
 
         type [<StringEnum>] [<RequireQualifiedAccess>] IExportsEditorOptionsAcceptSuggestionOnEnterIEditorOption =
             | On
@@ -3436,10 +3419,6 @@ module Monaco =
         type [<StringEnum>] [<RequireQualifiedAccess>] IGlobalEditorOptionsSemanticHighlightingEnabled =
             | ConfiguredByTheme
 
-        type [<AllowNullLiteral>] IMarkerCode =
-            abstract value: string with get, set
-            abstract target: Uri with get, set
-
         type [<AllowNullLiteral>] ICodeEditorViewStateContributionsState =
             [<EmitIndexer>] abstract Item: id: string -> obj option with get, set
 
@@ -3547,15 +3526,6 @@ module Monaco =
         type [<StringEnum>] [<RequireQualifiedAccess>] ISuggestOptionsInsertMode =
             | Insert
             | Replace
-
-        type [<AllowNullLiteral>] ISuggestOptionsStatusBar =
-            /// Controls the visibility of the status bar at the bottom of the suggest widget.
-            abstract visible: bool option with get, set
-
-        type [<AllowNullLiteral>] ICodeEditorGetScrolledVisiblePosition =
-            abstract top: float with get, set
-            abstract left: float with get, set
-            abstract height: float with get, set
 
     module Languages =
         let [<Import("typescript","monaco-editor/monaco/languages")>] typescript: Typescript.IExports = jsNative
@@ -3737,7 +3707,7 @@ module Monaco =
             abstract folding: FoldingRules option with get, set
             /// **Deprecated** Do not use.
             [<Obsolete("Will be replaced by a better API soon.")>]
-            abstract __electricCharacterSupport: LanguageConfiguration__electricCharacterSupport option with get, set
+            abstract __electricCharacterSupport: {| docComment: IDocComment option |} option with get, set
 
         /// Describes indentation rules for a language.
         type [<AllowNullLiteral>] IndentationRule =
@@ -3961,7 +3931,7 @@ module Monaco =
             /// *Note:* The range must be a <see cref="Range.isSingleLine">single line</see> and it must
             /// <see cref="Range.contains">contain</see> the position at which completion has been <see cref="CompletionItemProvider.provideCompletionItems">requested</see>.
             /// </summary>
-            abstract range: U2<IRange, CompletionItemRange> with get, set
+            abstract range: U2<IRange, {| insert: IRange; replace: IRange |}> with get, set
             /// <summary>
             /// An optional set of characters that when pressed while this completion is active will accept it first and
             /// then type that character. *Note* that all commit characters should have <c>length=1</c> and that superfluous
@@ -4131,7 +4101,7 @@ module Monaco =
         type [<AllowNullLiteral>] OnTypeRenameProvider =
             abstract wordPattern: RegExp option with get, set
             /// Provide a list of ranges that can be live-renamed together.
-            abstract provideOnTypeRenameRanges: model: Editor.ITextModel * position: Position * token: CancellationToken -> ProviderResult<OnTypeRenameProviderProvideOnTypeRenameRangesProviderResult>
+            abstract provideOnTypeRenameRanges: model: Editor.ITextModel * position: Position * token: CancellationToken -> ProviderResult<{| ranges: ResizeArray<IRange>; wordPattern: RegExp option |}>
 
         /// Value-object that contains additional information when
         /// requesting references.
@@ -4401,7 +4371,7 @@ module Monaco =
             abstract needsConfirmation: bool with get, set
             abstract label: string with get, set
             abstract description: string option with get, set
-            abstract iconPath: U3<WorkspaceEditMetadataIconPath, Uri, WorkspaceEditMetadataIconPath2> option with get, set
+            abstract iconPath: U3<{| id: string |}, Uri, {| light: Uri; dark: Uri |}> option with get, set
 
         type [<AllowNullLiteral>] WorkspaceFileEditOptions =
             abstract overwrite: bool option with get, set
@@ -4778,7 +4748,7 @@ module Monaco =
                 /// files that won't be loaded as editor documents, like <c>jquery.d.ts</c>.
                 /// </summary>
                 /// <param name="libs">An array of entries to register.</param>
-                abstract setExtraLibs: libs: ResizeArray<LanguageServiceDefaultsSetExtraLibs> -> unit
+                abstract setExtraLibs: libs: ResizeArray<{| content: string; filePath: string option |}> -> unit
                 /// Get current TypeScript compiler options for the language service.
                 abstract getCompilerOptions: unit -> CompilerOptions
                 /// Set TypeScript compiler options.
@@ -4871,10 +4841,6 @@ module Monaco =
             type [<AllowNullLiteral>] DiagnosticReportsUnnecessary =
                 interface end
 
-            type [<AllowNullLiteral>] LanguageServiceDefaultsSetExtraLibs =
-                abstract content: string with get, set
-                abstract filePath: string option with get, set
-
         module Css =
 
             type [<AllowNullLiteral>] IExports =
@@ -4954,7 +4920,7 @@ module Monaco =
                 /// If set, comments are tolerated. If set to false, syntax errors will be emitted for comments.
                 abstract allowComments: bool option
                 /// A list of known schemas and/or associations of schemas to file names.
-                abstract schemas: ResizeArray<DiagnosticsOptionsSchemas> option
+                abstract schemas: ResizeArray<{| uri: string; fileMatch: ResizeArray<string> option; schema: obj option |}> option
                 /// If set, the schema service would load schema content on-demand with 'fetch' if available
                 abstract enableSchemaRequest: bool option
 
@@ -4987,14 +4953,6 @@ module Monaco =
                 abstract modeConfiguration: ModeConfiguration
                 abstract setDiagnosticsOptions: options: DiagnosticsOptions -> unit
                 abstract setModeConfiguration: modeConfiguration: ModeConfiguration -> unit
-
-            type [<AllowNullLiteral>] DiagnosticsOptionsSchemas =
-                /// The URI of the schema, which is also the identifier of the schema.
-                abstract uri: string
-                /// A list of file names that are associated to the schema. The '*' wildcard can be used. For example '*.schema.json', 'package.json'
-                abstract fileMatch: ResizeArray<string> option
-                /// The schema for the given URI.
-                abstract schema: obj option
 
         module Html =
 
@@ -5064,24 +5022,6 @@ module Monaco =
                 | Force
                 | [<CompiledName "force-aligned">] ForceAligned
                 | [<CompiledName "force-expand-multiline">] ForceExpandMultiline
-
-        type [<AllowNullLiteral>] LanguageConfiguration__electricCharacterSupport =
-            abstract docComment: IDocComment option with get, set
-
-        type [<AllowNullLiteral>] CompletionItemRange =
-            abstract insert: IRange with get, set
-            abstract replace: IRange with get, set
-
-        type [<AllowNullLiteral>] OnTypeRenameProviderProvideOnTypeRenameRangesProviderResult =
-            abstract ranges: ResizeArray<IRange> with get, set
-            abstract wordPattern: RegExp option with get, set
-
-        type [<AllowNullLiteral>] WorkspaceEditMetadataIconPath =
-            abstract id: string with get, set
-
-        type [<AllowNullLiteral>] WorkspaceEditMetadataIconPath2 =
-            abstract light: Uri with get, set
-            abstract dark: Uri with get, set
 
         type [<AllowNullLiteral>] IMonarchLanguageTokenizer =
             [<EmitIndexer>] abstract Item: name: string -> ResizeArray<IMonarchLanguageRule> with get, set
