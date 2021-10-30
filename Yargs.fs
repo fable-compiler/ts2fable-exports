@@ -488,157 +488,24 @@ Use '.global()' instead")>]
         /// </summary>
         abstract wrap: columns: float option -> Argv<'T>
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvAliasAliases =
         [<EmitIndexer>] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvConflicts =
         [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvDescribeDescriptions =
         [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvImplies =
         [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvNargs =
         [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvUpdateLocaleObj =
         [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
-    /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
-    /// 
-    /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
-    /// but instead by just specifying fields.
-    /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
-    /// <code lang="fsharp">
-    /// type I =
-    ///     [&lt;EmitIndexer&gt;]
-    ///     abstract Item: string -&gt; string
-    /// let f (i: I) = jsNative
-    /// 
-    /// let t = {| Value1 = "foo"; Value2 = "bar" |}
-    /// f (!! t)
-    /// </code>
-    /// </summary>
     type [<AllowNullLiteral>] ArgvUpdateStringsObj =
         [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
@@ -813,10 +680,7 @@ Use 'demandOption' instead")>]
         CommandBuilder<'T, obj>
 
     type CommandBuilder<'T, 'U> =
-        U2<CommandBuilderCase1, (Argv<'T> -> Argv<'U>)>
-
-    type [<AllowNullLiteral>] CommandBuilderCase1 =
-        [<EmitIndexer>] abstract Item: key: string -> Options with get, set
+        U2<Options, (Argv<'T> -> Argv<'U>)>
 
     type [<AllowNullLiteral>] SyncCompletionFunction =
         [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option -> ResizeArray<string>

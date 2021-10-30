@@ -296,7 +296,13 @@ module Mocha =
             /// <param name="options.complete">String used to indicate a complete test on the progress bar.</param>
             /// <param name="options.incomplete">String used to indicate an incomplete test on the progress bar.</param>
             /// <param name="options.close">String used to indicate the end of the progress bar.</param>
-            [<EmitConstructor>] abstract Create: runner: IRunner * ?options: {| ``open``: string option; complete: string option; incomplete: string option; close: string option |} -> Progress
+            [<EmitConstructor>] abstract Create: runner: IRunner * ?options: ProgressStaticOptions -> Progress
+
+        type [<AllowNullLiteral>] ProgressStaticOptions =
+            abstract ``open``: string option with get, set
+            abstract complete: string option with get, set
+            abstract incomplete: string option with get, set
+            abstract close: string option with get, set
 
         type [<AllowNullLiteral>] Spec =
             inherit Base

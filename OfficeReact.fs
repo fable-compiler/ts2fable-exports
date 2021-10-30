@@ -327,7 +327,7 @@ module __components_Autofill_Autofill =
         abstract clear: unit -> unit
 
     type [<AllowNullLiteral>] AutofillStatic =
-        abstract defaultProps: {| enableAutofillOnKeyPress: ResizeArray<KeyCodes> |} with get, set
+        abstract defaultProps: AutofillStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IAutofillProps -> Autofill
 
     /// Legacy, @deprecated, do not use.
@@ -337,6 +337,9 @@ module __components_Autofill_Autofill =
     /// Legacy, @deprecated, do not use.
     type [<AllowNullLiteral>] BaseAutoFillStatic =
         [<EmitConstructor>] abstract Create: unit -> BaseAutoFill
+
+    type [<AllowNullLiteral>] AutofillStaticDefaultProps =
+        abstract enableAutofillOnKeyPress: ResizeArray<KeyCodes> with get, set
 
 module __components_Autofill_Autofill_types =
     type Autofill = __components_Autofill_Autofill.Autofill
@@ -1924,7 +1927,7 @@ module __components_ChoiceGroup_ChoiceGroup_types =
         abstract selectedImageSrc: string option with get, set
         /// <summary>The width and height of the image in px for choice field.</summary>
         /// <default>{ width: 32, height: 32 }</default>
-        abstract imageSize: {| width: float; height: float |} option with get, set
+        abstract imageSize: IChoiceGroupOptionImageSize option with get, set
         /// Whether or not the option is disabled.
         abstract disabled: bool option with get, set
         /// This value is maintained by the component and is accessible during onRenderField
@@ -1933,6 +1936,10 @@ module __components_ChoiceGroup_ChoiceGroup_types =
         abstract id: string option with get, set
         /// This value is maintained by the component and is accessible during onRenderField
         abstract labelId: string option with get, set
+
+    type [<AllowNullLiteral>] IChoiceGroupOptionImageSize =
+        abstract width: float with get, set
+        abstract height: float with get, set
 
 module __components_ChoiceGroup_ChoiceGroupPage =
     type IComponentDemoPageProps = __components_ChoiceGroup_@uifabric_example_app_base.IComponentDemoPageProps
@@ -2294,7 +2301,7 @@ module __components_ColorPicker_ColorRectangle =
 
     type [<AllowNullLiteral>] IColorPickerState =
         abstract isAdjusting: bool option with get, set
-        abstract origin: {| x: float; y: float; color: IColor |} option with get, set
+        abstract origin: IColorPickerStateOrigin option with get, set
         abstract color: IColor option with get, set
         abstract fullColorString: string option with get, set
 
@@ -2305,8 +2312,16 @@ module __components_ColorPicker_ColorRectangle =
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ColorRectangleStatic =
-        abstract defaultProps: {| minSize: float |} with get, set
+        abstract defaultProps: ColorRectangleStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IColorRectangleProps -> ColorRectangle
+
+    type [<AllowNullLiteral>] IColorPickerStateOrigin =
+        abstract x: float with get, set
+        abstract y: float with get, set
+        abstract color: IColor with get, set
+
+    type [<AllowNullLiteral>] ColorRectangleStaticDefaultProps =
+        abstract minSize: float with get, set
 
 module __components_ColorPicker_ColorSlider =
     type BaseComponent = Utilities.BaseComponent
@@ -2327,7 +2342,7 @@ module __components_ColorPicker_ColorSlider =
 
     type [<AllowNullLiteral>] IColorSliderState =
         abstract isAdjusting: bool option with get, set
-        abstract origin: {| x: float; originalValue: float |} option with get, set
+        abstract origin: IColorSliderStateOrigin option with get, set
         abstract currentValue: float option with get, set
 
     type [<AllowNullLiteral>] ColorSlider =
@@ -2336,8 +2351,18 @@ module __components_ColorPicker_ColorSlider =
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ColorSliderStatic =
-        abstract defaultProps: {| minValue: float; maxValue: float; thumbColor: string; value: float |} with get, set
+        abstract defaultProps: ColorSliderStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IColorSliderProps -> ColorSlider
+
+    type [<AllowNullLiteral>] IColorSliderStateOrigin =
+        abstract x: float with get, set
+        abstract originalValue: float with get, set
+
+    type [<AllowNullLiteral>] ColorSliderStaticDefaultProps =
+        abstract minValue: float with get, set
+        abstract maxValue: float with get, set
+        abstract thumbColor: string with get, set
+        abstract value: float with get, set
 
 module __components_ComboBox_ComboBox_checklist =
     type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
@@ -3442,7 +3467,7 @@ module __components_DetailsList_DetailsColumn =
         abstract dragDropHelper: IDragDropHelper option with get, set
         abstract isDraggable: bool option with get, set
         abstract setDraggedItemIndex: (float -> unit) option with get, set
-        abstract updateDragInfo: ({| itemIndex: float |} -> (MouseEvent) option -> unit) option with get, set
+        abstract updateDragInfo: (IDetailsColumnPropsUpdateDragInfo -> (MouseEvent) option -> unit) option with get, set
         abstract isDropped: bool option with get, set
 
     type [<AllowNullLiteral>] DetailsColumn =
@@ -3454,6 +3479,9 @@ module __components_DetailsList_DetailsColumn =
 
     type [<AllowNullLiteral>] DetailsColumnStatic =
         [<EmitConstructor>] abstract Create: props: IDetailsColumnProps -> DetailsColumn
+
+    type [<AllowNullLiteral>] IDetailsColumnPropsUpdateDragInfo =
+        abstract itemIndex: float with get, set
 
 module __components_DetailsList_DetailsFooter_types =
     type IColumn = __components_DetailsList_DetailsList_types.IColumn
@@ -3523,7 +3551,7 @@ module __components_DetailsList_DetailsHeader =
         /// Callback to notify the column dragEnd event to List
         /// Need this to check whether the dragEnd has happened on
         /// corresponding list or outside of the list
-        abstract onColumnDragEnd: ({| dropLocation: ColumnDragEndLocation option |} -> MouseEvent -> unit) option with get, set
+        abstract onColumnDragEnd: (IColumnReorderHeaderPropsOnColumnDragEnd -> MouseEvent -> unit) option with get, set
 
     type [<AllowNullLiteral>] IDetailsHeaderState =
         abstract columnResizeDetails: IColumnResizeDetails option with get, set
@@ -3555,8 +3583,15 @@ module __components_DetailsList_DetailsHeader =
         abstract focus: unit -> bool
 
     type [<AllowNullLiteral>] DetailsHeaderStatic =
-        abstract defaultProps: {| selectAllVisibility: SelectAllVisibility; collapseAllVisibility: CollapseAllVisibility |} with get, set
+        abstract defaultProps: DetailsHeaderStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IDetailsHeaderProps -> DetailsHeader
+
+    type [<AllowNullLiteral>] IColumnReorderHeaderPropsOnColumnDragEnd =
+        abstract dropLocation: ColumnDragEndLocation option with get, set
+
+    type [<AllowNullLiteral>] DetailsHeaderStaticDefaultProps =
+        abstract selectAllVisibility: SelectAllVisibility with get, set
+        abstract collapseAllVisibility: CollapseAllVisibility with get, set
 
 module __components_DetailsList_DetailsHeader_scss =
 
@@ -3748,7 +3783,7 @@ module __components_DetailsList_DetailsList_types =
         /// Controls how the list contrains overflow.
         abstract constrainMode: ConstrainMode option with get, set
         /// Event names and corresponding callbacks that will be registered to rendered row elements.
-        abstract rowElementEventMap: ResizeArray<{| eventName: string; callback: IDragDropContext -> (obj) option -> unit |}> option with get, set
+        abstract rowElementEventMap: ResizeArray<IDetailsListPropsRowElementEventMap> option with get, set
         /// Callback for when the details list has been updated. Useful for telemetry tracking externally.
         abstract onDidUpdate: ((DetailsList) option -> obj option) option with get, set
         /// Callback for when a given row has been mounted. Useful for identifying when a row has been rendered on the page.
@@ -3987,6 +4022,10 @@ module __components_DetailsList_DetailsList_types =
         abstract groupNestingDepth: float option with get, set
         abstract selection: ISelection option with get, set
 
+    type [<AllowNullLiteral>] IDetailsListPropsRowElementEventMap =
+        abstract eventName: string with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
+
 module __components_DetailsList_DetailsListPage =
     type IComponentDemoPageProps = __components_DetailsList_@uifabric_example_app_base.IComponentDemoPageProps
 
@@ -4028,7 +4067,7 @@ module __components_DetailsList_DetailsRow =
         abstract compact: bool option with get, set
         abstract selectionMode: SelectionMode with get, set
         abstract selection: ISelection with get, set
-        abstract eventsToRegister: ResizeArray<{| eventName: string; callback: (obj) option -> (float) option -> (obj) option -> unit |}> option with get, set
+        abstract eventsToRegister: ResizeArray<IDetailsRowPropsEventsToRegister> option with get, set
         abstract onDidMount: ((DetailsRow) option -> unit) option with get, set
         abstract onWillUnmount: ((DetailsRow) option -> unit) option with get, set
         abstract onRenderCheck: (IDetailsRowCheckProps -> JSX.Element) option with get, set
@@ -4053,7 +4092,7 @@ module __components_DetailsList_DetailsRow =
 
     type [<AllowNullLiteral>] IDetailsRowState =
         abstract selectionState: IDetailsRowSelectionState option with get, set
-        abstract columnMeasureInfo: {| index: float; column: IColumn; onMeasureDone: float -> unit |} option with get, set
+        abstract columnMeasureInfo: IDetailsRowStateColumnMeasureInfo option with get, set
         abstract isDropping: bool option with get, set
         abstract groupNestingDepth: float option with get, set
 
@@ -4073,6 +4112,15 @@ module __components_DetailsList_DetailsRow =
 
     type [<AllowNullLiteral>] DetailsRowStatic =
         [<EmitConstructor>] abstract Create: props: IDetailsRowProps -> DetailsRow
+
+    type [<AllowNullLiteral>] IDetailsRowPropsEventsToRegister =
+        abstract eventName: string with get, set
+        abstract callback: ((obj) option -> (float) option -> (obj) option -> unit) with get, set
+
+    type [<AllowNullLiteral>] IDetailsRowStateColumnMeasureInfo =
+        abstract index: float with get, set
+        abstract column: IColumn with get, set
+        abstract onMeasureDone: (float -> unit) with get, set
 
 module __components_DetailsList_DetailsRow_scss =
 
@@ -4953,8 +5001,11 @@ module __components_Dropdown_Dropdown =
         abstract setSelectedIndex: index: float -> unit
 
     type [<AllowNullLiteral>] DropdownStatic =
-        abstract defaultProps: {| options: ResizeArray<obj option> |} with get, set
+        abstract defaultProps: DropdownStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IDropdownProps -> Dropdown
+
+    type [<AllowNullLiteral>] DropdownStaticDefaultProps =
+        abstract options: ResizeArray<obj option> with get, set
 
 module __components_Dropdown_Dropdown_scss =
 
@@ -5076,10 +5127,10 @@ module __components_ExtendedPicker_BaseExtendedPicker =
     type [<AllowNullLiteral>] BaseExtendedPicker<'T, 'P when 'P :> IBaseExtendedPickerProps<'T>> =
         inherit BaseComponent<'P, IBaseExtendedPickerState>
         inherit IBaseExtendedPicker<'T>
-        abstract floatingPicker: {| Invoke: BaseFloatingPicker<'T, IBaseFloatingPickerProps<'T>> option -> unit; current: BaseFloatingPicker<'T, IBaseFloatingPickerProps<'T>> option; value: BaseFloatingPicker<'T, IBaseFloatingPickerProps<'T>> option |} with get, set
-        abstract selectedItemsList: {| Invoke: BaseSelectedItemsList<'T, IBaseSelectedItemsListProps<'T>> option -> unit; current: BaseSelectedItemsList<'T, IBaseSelectedItemsListProps<'T>> option; value: BaseSelectedItemsList<'T, IBaseSelectedItemsListProps<'T>> option |} with get, set
-        abstract root: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
-        abstract input: {| Invoke: Autofill option -> unit; current: Autofill option; value: Autofill option |} with get, set
+        abstract floatingPicker: BaseExtendedPickerFloatingPicker<'T> with get, set
+        abstract selectedItemsList: BaseExtendedPickerSelectedItemsList<'T> with get, set
+        abstract root: BaseExtendedPickerRoot with get, set
+        abstract input: BaseExtendedPickerInput with get, set
         abstract selection: Selection with get, set
         abstract floatingPickerProps: IBaseFloatingPickerProps<'T> with get, set
         abstract selectedItemsListProps: IBaseSelectedItemsListProps<'T> with get, set
@@ -5105,6 +5156,26 @@ module __components_ExtendedPicker_BaseExtendedPicker =
 
     type [<AllowNullLiteral>] BaseExtendedPickerStatic =
         [<EmitConstructor>] abstract Create: basePickerProps: 'P -> BaseExtendedPicker<'T, 'P>
+
+    type [<AllowNullLiteral>] BaseExtendedPickerFloatingPicker<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: BaseFloatingPicker<'T, IBaseFloatingPickerProps<'T>> option -> unit
+        abstract current: BaseFloatingPicker<'T, IBaseFloatingPickerProps<'T>> option with get, set
+        abstract value: BaseFloatingPicker<'T, IBaseFloatingPickerProps<'T>> option with get, set
+
+    type [<AllowNullLiteral>] BaseExtendedPickerSelectedItemsList<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: BaseSelectedItemsList<'T, IBaseSelectedItemsListProps<'T>> option -> unit
+        abstract current: BaseSelectedItemsList<'T, IBaseSelectedItemsListProps<'T>> option with get, set
+        abstract value: BaseSelectedItemsList<'T, IBaseSelectedItemsListProps<'T>> option with get, set
+
+    type [<AllowNullLiteral>] BaseExtendedPickerRoot =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
+
+    type [<AllowNullLiteral>] BaseExtendedPickerInput =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: Autofill option -> unit
+        abstract current: Autofill option with get, set
+        abstract value: Autofill option with get, set
 
 module __components_ExtendedPicker_BaseExtendedPicker_scss =
 
@@ -5184,12 +5255,15 @@ module __components_Fabric_Fabric =
         abstract Fabric: FabricStatic
 
     type [<AllowNullLiteral>] Fabric =
-        inherit BaseComponent<IFabricProps, {| isFocusVisible: bool |}>
+        inherit BaseComponent<IFabricProps, FabricBaseComponent>
         abstract render: unit -> JSX.Element
         abstract componentDidMount: unit -> unit
 
     type [<AllowNullLiteral>] FabricStatic =
         [<EmitConstructor>] abstract Create: props: IFabricProps -> Fabric
+
+    type [<AllowNullLiteral>] FabricBaseComponent =
+        abstract isFocusVisible: bool with get, set
 
 module __components_Fabric_Fabric_styles =
     type IFabricStyleProps = __components_Fabric_Fabric_types.IFabricStyleProps
@@ -5434,7 +5508,7 @@ module __components_FloatingPicker_BaseFloatingPicker =
         inherit BaseComponent<'P, IBaseFloatingPickerState>
         inherit IBaseFloatingPicker
         abstract selection: Selection with get, set
-        abstract root: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
+        abstract root: BaseFloatingPickerRoot with get, set
         abstract suggestionStore: SuggestionsStore<'T> with get, set
         abstract suggestionsControl: SuggestionsControl<'T> with get, set
         abstract SuggestionsControlOfProperType: obj with get, set
@@ -5467,6 +5541,11 @@ module __components_FloatingPicker_BaseFloatingPicker =
 
     type [<AllowNullLiteral>] BaseFloatingPickerStatic =
         [<EmitConstructor>] abstract Create: basePickerProps: 'P -> BaseFloatingPicker<'T, 'P>
+
+    type [<AllowNullLiteral>] BaseFloatingPickerRoot =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
 
 module __components_FloatingPicker_BaseFloatingPicker_scss =
 
@@ -5526,7 +5605,7 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         /// A function used to validate if raw text entered into the well can be added
         abstract onValidateInput: (string -> bool) option with get, set
         /// The text to display while searching for more results in a limited suggestions list
-        abstract searchingText: U2<({| input: string |} -> string), string> option with get, set
+        abstract searchingText: U2<(IBaseFloatingPickerPropsSearchingText -> string), string> option with get, set
         /// Function that specifies how arbitrary text entered into the well is handled.
         abstract createGenericItem: (string -> bool -> ISuggestionModel<'T>) option with get, set
         /// The callback that should be called to see if the force resolve command should be shown
@@ -5550,6 +5629,9 @@ module __components_FloatingPicker_BaseFloatingPicker_types =
         abstract headerItemsProps: ResizeArray<ISuggestionsHeaderFooterProps> option with get, set
         /// The footer items props
         abstract footerItemsProps: ResizeArray<ISuggestionsHeaderFooterProps> option with get, set
+
+    type [<AllowNullLiteral>] IBaseFloatingPickerPropsSearchingText =
+        abstract input: string with get, set
 
 module __components_FocusTrapZone_FocusTrapZone =
     type BaseComponent = Utilities.BaseComponent
@@ -5814,7 +5896,7 @@ module __components_GroupedList_GroupedList =
         abstract toggleCollapseAll: allCollapsed: bool -> unit
 
     type [<AllowNullLiteral>] GroupedListStatic =
-        abstract defaultProps: {| selectionMode: SelectionMode; isHeaderVisible: bool; groupProps: GroupedListStaticDefaultPropsGroupProps |} with get, set
+        abstract defaultProps: GroupedListStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IGroupedListProps -> GroupedList
 
     type [<AllowNullLiteral>] GroupedListRefs =
@@ -5822,6 +5904,11 @@ module __components_GroupedList_GroupedList =
 
     type [<AllowNullLiteral>] GroupedListStaticDefaultPropsGroupProps =
         interface end
+
+    type [<AllowNullLiteral>] GroupedListStaticDefaultProps =
+        abstract selectionMode: SelectionMode with get, set
+        abstract isHeaderVisible: bool with get, set
+        abstract groupProps: GroupedListStaticDefaultPropsGroupProps with get, set
 
 module __components_GroupedList_GroupedList_scss =
 
@@ -5867,7 +5954,7 @@ module __components_GroupedList_GroupedList_types =
         /// helper to manage drag/drop across item and groups
         abstract dragDropHelper: IDragDropHelper option with get, set
         /// Event names and corresponding callbacks that will be registered to groups and rendered elements
-        abstract eventsToRegister: ResizeArray<{| eventName: string; callback: IDragDropContext -> (obj) option -> unit |}> option with get, set
+        abstract eventsToRegister: ResizeArray<IGroupedListPropsEventsToRegister> option with get, set
         /// Optional override properties to render groups.
         abstract groupProps: IGroupRenderProps option with get, set
         /// Optional grouping instructions.
@@ -5990,6 +6077,10 @@ module __components_GroupedList_GroupedList_types =
         /// Stores parent group's children.
         abstract groups: ResizeArray<IGroup> option with get, set
 
+    type [<AllowNullLiteral>] IGroupedListPropsEventsToRegister =
+        abstract eventName: string with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
+
 module __components_GroupedList_GroupedListPage =
     type IComponentDemoPageProps = __components_GroupedList_@uifabric_example_app_base.IComponentDemoPageProps
 
@@ -6031,7 +6122,7 @@ module __components_GroupedList_GroupedListSection =
         /// helper to manage drag/drop across item rows and groups
         abstract dragDropHelper: IDragDropHelper option with get, set
         /// Event names and corresponding callbacks that will be registered to the group and the rendered elements
-        abstract eventsToRegister: ResizeArray<{| eventName: string; callback: IDragDropContext -> (obj) option -> unit |}> option with get, set
+        abstract eventsToRegister: ResizeArray<IGroupedListSectionPropsEventsToRegister> option with get, set
         /// Information to pass in to the group footer.
         abstract footerProps: IGroupDividerProps option with get, set
         /// Grouping item limit.
@@ -6087,6 +6178,10 @@ module __components_GroupedList_GroupedListSection =
 
     type [<AllowNullLiteral>] GroupedListSectionStatic =
         [<EmitConstructor>] abstract Create: props: IGroupedListSectionProps -> GroupedListSection
+
+    type [<AllowNullLiteral>] IGroupedListSectionPropsEventsToRegister =
+        abstract eventName: string with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
 
 module __components_GroupedList_GroupFooter =
     type BaseComponent = Utilities.BaseComponent
@@ -6330,8 +6425,14 @@ module __components_HoverCard_HoverCard =
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] HoverCardStatic =
-        abstract defaultProps: {| cardOpenDelay: float; cardDismissDelay: float; expandedCardOpenDelay: float; instantOpenOnClick: bool |} with get, set
+        abstract defaultProps: HoverCardStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IHoverCardProps -> HoverCard
+
+    type [<AllowNullLiteral>] HoverCardStaticDefaultProps =
+        abstract cardOpenDelay: float with get, set
+        abstract cardDismissDelay: float with get, set
+        abstract expandedCardOpenDelay: float with get, set
+        abstract instantOpenOnClick: bool with get, set
 
 module __components_HoverCard_HoverCard_styles =
     type IHoverCardStyles = __components_HoverCard_HoverCard_types.IHoverCardStyles
@@ -6534,8 +6635,11 @@ module __components_Image_Image_base =
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ImageBaseStatic =
-        abstract defaultProps: {| shouldFadeIn: bool |} with get, set
+        abstract defaultProps: ImageBaseStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IImageProps -> ImageBase
+
+    type [<AllowNullLiteral>] ImageBaseStaticDefaultProps =
+        abstract shouldFadeIn: bool with get, set
 
 module __components_Image_Image_checklist =
     type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
@@ -7529,11 +7633,17 @@ module __components_List_List =
     /// or forcing an update change cause pages to shrink/grow. When these operations occur, we increment a measureVersion
     /// number, which we associate with cached measurements and use to determine if a remeasure should occur.
     type [<AllowNullLiteral>] ListStatic =
-        abstract defaultProps: {| startIndex: float; onRenderCell: obj option -> float -> bool -> JSX.Element; renderedWindowsAhead: float; renderedWindowsBehind: float |} with get, set
+        abstract defaultProps: ListStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IListProps -> List
 
     type [<AllowNullLiteral>] ListRefs =
         [<EmitIndexer>] abstract Item: key: string -> React.ReactInstance with get, set
+
+    type [<AllowNullLiteral>] ListStaticDefaultProps =
+        abstract startIndex: float with get, set
+        abstract onRenderCell: (obj option -> float -> bool -> JSX.Element) with get, set
+        abstract renderedWindowsAhead: float with get, set
+        abstract renderedWindowsBehind: float with get, set
 
 module __components_List_List_types =
     type IRectangle = Utilities.IRectangle
@@ -7722,11 +7832,16 @@ module __components_MarqueeSelection_MarqueeSelection_base =
     /// fall within the bounds of the rectangle. The measure is memoized during the drag as a performance optimization
     /// so if the items change sizes while dragging, that could cause incorrect results.
     type [<AllowNullLiteral>] MarqueeSelectionBaseStatic =
-        abstract defaultProps: {| rootTagName: string; rootProps: MarqueeSelectionBaseStaticDefaultPropsRootProps; isEnabled: bool |} with get, set
+        abstract defaultProps: MarqueeSelectionBaseStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IMarqueeSelectionProps -> MarqueeSelectionBase
 
     type [<AllowNullLiteral>] MarqueeSelectionBaseStaticDefaultPropsRootProps =
         interface end
+
+    type [<AllowNullLiteral>] MarqueeSelectionBaseStaticDefaultProps =
+        abstract rootTagName: string with get, set
+        abstract rootProps: MarqueeSelectionBaseStaticDefaultPropsRootProps with get, set
+        abstract isEnabled: bool with get, set
 
 module __components_MarqueeSelection_MarqueeSelection =
     type IMarqueeSelectionProps = __components_MarqueeSelection_MarqueeSelection_types.IMarqueeSelectionProps
@@ -9198,10 +9313,10 @@ module __components_pickers_BasePicker =
         inherit BaseComponent<'P, IBasePickerState>
         inherit IBasePicker<'T>
         abstract selection: Selection with get, set
-        abstract root: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
-        abstract input: {| Invoke: IAutofill option -> unit; current: IAutofill option; value: IAutofill option |} with get, set
-        abstract focusZone: {| Invoke: IFocusZone option -> unit; current: IFocusZone option; value: IFocusZone option |} with get, set
-        abstract suggestionElement: {| Invoke: Suggestions<'T> option -> unit; current: Suggestions<'T> option; value: Suggestions<'T> option |} with get, set
+        abstract root: BasePickerRoot with get, set
+        abstract input: BasePickerInput with get, set
+        abstract focusZone: BasePickerFocusZone with get, set
+        abstract suggestionElement: BasePickerSuggestionElement<'T> with get, set
         abstract suggestionStore: SuggestionsController<'T> with get, set
         abstract SuggestionOfProperType: obj with get, set
         abstract currentPromise: PromiseLike<obj option> option with get, set
@@ -9256,6 +9371,26 @@ module __components_pickers_BasePicker =
 
     type [<AllowNullLiteral>] BasePickerListBelowStatic =
         [<EmitConstructor>] abstract Create: unit -> BasePickerListBelow<'T, 'P> when 'P :> IBasePickerProps<'T>
+
+    type [<AllowNullLiteral>] BasePickerRoot =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
+
+    type [<AllowNullLiteral>] BasePickerInput =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: IAutofill option -> unit
+        abstract current: IAutofill option with get, set
+        abstract value: IAutofill option with get, set
+
+    type [<AllowNullLiteral>] BasePickerFocusZone =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: IFocusZone option -> unit
+        abstract current: IFocusZone option with get, set
+        abstract value: IFocusZone option with get, set
+
+    type [<AllowNullLiteral>] BasePickerSuggestionElement<'T> =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: Suggestions<'T> option -> unit
+        abstract current: Suggestions<'T> option with get, set
+        abstract value: Suggestions<'T> option with get, set
 
 module __components_pickers_BasePicker_scss =
 
@@ -9321,7 +9456,7 @@ module __components_pickers_BasePicker_types =
         /// A function used to validate if raw text entered into the well can be added into the selected items list
         abstract onValidateInput: (string -> ValidationState) option with get, set
         /// The text to display while searching for more results in a limited suggestions list
-        abstract searchingText: U2<({| input: string |} -> string), string> option with get, set
+        abstract searchingText: U2<(IBasePickerPropsSearchingText -> string), string> option with get, set
         /// <summary>Flag for disabling the picker.</summary>
         /// <default>false</default>
         abstract disabled: bool option with get, set
@@ -9399,6 +9534,9 @@ module __components_pickers_BasePicker_types =
         /// This is different than placeholder text because the placeholder text will disappear and re-appear. This
         /// text persists until deleted or changed.
         abstract defaultVisibleValue: string option with get, set
+
+    type [<AllowNullLiteral>] IBasePickerPropsSearchingText =
+        abstract input: string with get, set
 
 module __components_pickers_PickerItem_types =
 
@@ -9691,7 +9829,7 @@ module __components_Popup_Popup =
     /// This adds accessibility to Dialog and Panel controls
     type [<AllowNullLiteral>] Popup =
         inherit BaseComponent<IPopupProps, IPopupState>
-        abstract _root: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
+        abstract _root: Popup_root with get, set
         abstract componentWillMount: unit -> unit
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
@@ -9702,6 +9840,11 @@ module __components_Popup_Popup =
     type [<AllowNullLiteral>] PopupStatic =
         abstract defaultProps: IPopupProps with get, set
         [<EmitConstructor>] abstract Create: props: IPopupProps -> Popup
+
+    type [<AllowNullLiteral>] Popup_root =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
 
 module __components_Popup_Popup_types =
     type Popup = __components_Popup_Popup.Popup
@@ -9755,11 +9898,16 @@ module __components_ProgressIndicator_ProgressIndicator_base =
     /// <see href="https://github.com/OfficeDev/office-ui-fabric-react/wiki/Styling">Use the <c>getStyles</c> API to add your own styles.</see>
     /// </summary>
     type [<AllowNullLiteral>] ProgressIndicatorBaseStatic =
-        abstract defaultProps: {| label: string; description: string; width: float |} with get, set
+        abstract defaultProps: ProgressIndicatorBaseStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: IProgressIndicatorProps -> ProgressIndicatorBase
 
     type [<AllowNullLiteral>] ProgressIndicatorBaseBaseComponent =
         interface end
+
+    type [<AllowNullLiteral>] ProgressIndicatorBaseStaticDefaultProps =
+        abstract label: string with get, set
+        abstract description: string with get, set
+        abstract width: float with get, set
 
 module __components_ProgressIndicator_ProgressIndicator_checklist =
     type ChecklistStatus = __demo_ComponentStatus_ComponentStatus_types.ChecklistStatus
@@ -9994,10 +10142,10 @@ module __components_ResizeGroup_ResizeGroup_base =
 
     type [<AllowNullLiteral>] IExports =
         /// Returns a simple object is able to store measurements with a given key.
-        abstract getMeasurementCache: unit -> {| getCachedMeasurement: obj option -> float option; addMeasurementToCache: obj option -> float -> unit |}
+        abstract getMeasurementCache: unit -> IExportsGetMeasurementCache
         /// Returns a function that is able to compute the next state for the ResizeGroup given the current
         /// state and any measurement updates.
-        abstract getNextResizeGroupStateProvider: ({| getCachedMeasurement: obj option -> float option; addMeasurementToCache: obj option -> float -> unit |}) option -> {| getNextState: IResizeGroupProps -> IResizeGroupState -> (unit -> float) -> (float) option -> IResizeGroupState option; shouldRenderDataToMeasureInHiddenDiv: obj option -> bool |}
+        abstract getNextResizeGroupStateProvider: (IExportsGetMeasurementCache) option -> IExportsGetNextResizeGroupStateProvider
         abstract ResizeGroupBase: ResizeGroupBaseStatic
 
     type [<AllowNullLiteral>] IResizeGroupState =
@@ -10025,6 +10173,14 @@ module __components_ResizeGroup_ResizeGroup_base =
 
     type [<AllowNullLiteral>] ResizeGroupBaseStatic =
         [<EmitConstructor>] abstract Create: props: IResizeGroupProps -> ResizeGroupBase
+
+    type [<AllowNullLiteral>] IExportsGetMeasurementCache =
+        abstract getCachedMeasurement: (obj option -> float option) with get, set
+        abstract addMeasurementToCache: (obj option -> float -> unit) with get, set
+
+    type [<AllowNullLiteral>] IExportsGetNextResizeGroupStateProvider =
+        abstract getNextState: (IResizeGroupProps -> IResizeGroupState -> (unit -> float) -> (float) option -> IResizeGroupState option) with get, set
+        abstract shouldRenderDataToMeasureInHiddenDiv: (obj option -> bool) with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] IResizeGroupStateResizeDirection =
         | Grow
@@ -10147,7 +10303,7 @@ module __components_ScrollablePane_ScrollablePane_base =
         abstract stickyAbove: HTMLDivElement option
         abstract stickyBelow: HTMLDivElement option
         abstract contentContainer: HTMLDivElement option
-        abstract getChildContext: unit -> {| scrollablePane: ScrollablePaneBaseGetChildContextScrollablePane |}
+        abstract getChildContext: unit -> ScrollablePaneBaseGetChildContextReturn
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract shouldComponentUpdate: nextProps: IScrollablePaneProps * nextState: IScrollablePaneState -> bool
@@ -10164,11 +10320,14 @@ module __components_ScrollablePane_ScrollablePane_base =
         abstract notifySubscribers: (unit -> unit) with get, set
         abstract getScrollPosition: (unit -> float) with get, set
 
+    type [<AllowNullLiteral>] ScrollablePaneBaseGetChildContextReturn =
+        abstract scrollablePane: ScrollablePaneBaseGetChildContextReturnScrollablePane with get, set
+
     type [<AllowNullLiteral>] ScrollablePaneBaseStatic =
         abstract childContextTypes: React.ValidationMap<IScrollablePaneContext> with get, set
         [<EmitConstructor>] abstract Create: props: IScrollablePaneProps -> ScrollablePaneBase
 
-    type [<AllowNullLiteral>] ScrollablePaneBaseGetChildContextScrollablePane =
+    type [<AllowNullLiteral>] ScrollablePaneBaseGetChildContextReturnScrollablePane =
         abstract subscribe: (Function -> unit) with get, set
         abstract unsubscribe: (Function -> unit) with get, set
         abstract addSticky: (Sticky -> unit) with get, set
@@ -11243,7 +11402,7 @@ module __components_Sticky_Sticky =
 
     type [<AllowNullLiteral>] Sticky =
         inherit BaseComponent<IStickyProps, IStickyState>
-        abstract context: {| scrollablePane: StickyContextScrollablePane |} with get, set
+        abstract context: StickyContext with get, set
         abstract distanceFromTop: float with get, set
         abstract root: HTMLDivElement option
         abstract stickyContentTop: HTMLDivElement option
@@ -11273,6 +11432,9 @@ module __components_Sticky_Sticky =
         abstract updateStickyRefHeights: (unit -> unit) with get, set
         abstract sortSticky: (Sticky -> unit) with get, set
         abstract notifySubscribers: ((bool) option -> unit) with get, set
+
+    type [<AllowNullLiteral>] StickyContext =
+        abstract scrollablePane: StickyContextScrollablePane with get, set
 
 module __components_Sticky_Sticky_types =
     type Sticky = __components_Sticky_Sticky.Sticky
@@ -11577,13 +11739,18 @@ module __components_TeachingBubble_TeachingBubble =
 
     type [<AllowNullLiteral>] TeachingBubble =
         inherit BaseComponent<ITeachingBubbleProps, ITeachingBubbleState>
-        abstract rootElement: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
+        abstract rootElement: TeachingBubbleRootElement with get, set
         abstract focus: unit -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TeachingBubbleStatic =
-        abstract defaultProps: {| calloutProps: TeachingBubbleStaticDefaultPropsCalloutProps |} with get, set
+        abstract defaultProps: TeachingBubbleStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: ITeachingBubbleProps -> TeachingBubble
+
+    type [<AllowNullLiteral>] TeachingBubbleRootElement =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
 
     type [<AllowNullLiteral>] TeachingBubbleStaticDefaultPropsCalloutProps =
         abstract beakWidth: float with get, set
@@ -11591,6 +11758,9 @@ module __components_TeachingBubble_TeachingBubble =
         abstract setInitialFocus: bool with get, set
         abstract doNotLayer: bool with get, set
         abstract directionalHint: DirectionalHint with get, set
+
+    type [<AllowNullLiteral>] TeachingBubbleStaticDefaultProps =
+        abstract calloutProps: TeachingBubbleStaticDefaultPropsCalloutProps with get, set
 
 module __components_TeachingBubble_TeachingBubble_scss =
 
@@ -11668,15 +11838,29 @@ module __components_TeachingBubble_TeachingBubbleContent =
 
     type [<AllowNullLiteral>] TeachingBubbleContent =
         inherit BaseComponent<ITeachingBubbleProps, ITeachingBubbleState>
-        abstract rootElement: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
+        abstract rootElement: TeachingBubbleContentRootElement with get, set
         abstract componentDidMount: unit -> unit
         abstract componentWillUnmount: unit -> unit
         abstract focus: unit -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TeachingBubbleContentStatic =
-        abstract defaultProps: {| hasCondensedHeadline: bool; imageProps: {| imageFit: ImageFit; width: float; height: float |} |} with get, set
+        abstract defaultProps: TeachingBubbleContentStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: ITeachingBubbleProps -> TeachingBubbleContent
+
+    type [<AllowNullLiteral>] TeachingBubbleContentRootElement =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
+
+    type [<AllowNullLiteral>] TeachingBubbleContentStaticDefaultPropsImageProps =
+        abstract imageFit: ImageFit with get, set
+        abstract width: float with get, set
+        abstract height: float with get, set
+
+    type [<AllowNullLiteral>] TeachingBubbleContentStaticDefaultProps =
+        abstract hasCondensedHeadline: bool with get, set
+        abstract imageProps: TeachingBubbleContentStaticDefaultPropsImageProps with get, set
 
 module __components_TeachingBubble_TeachingBubblePage =
     type IComponentDemoPageProps = __components_TeachingBubble_@uifabric_example_app_base.IComponentDemoPageProps
@@ -11942,8 +12126,14 @@ module __components_TextField_TextFieldPage =
 module __components_Theme_defaultTheme =
 
     type [<AllowNullLiteral>] IExports =
-        abstract defaultPalette: ResizeArray<{| key: string; name: string; value: obj option; description: string |}>
-        abstract defaultSemanticColors: ResizeArray<{| key: string; name: string; value: obj option; description: string |}>
+        abstract defaultPalette: ResizeArray<IExportsDefaultPalette>
+        abstract defaultSemanticColors: ResizeArray<IExportsDefaultPalette>
+
+    type [<AllowNullLiteral>] IExportsDefaultPalette =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract value: obj option with get, set
+        abstract description: string with get, set
 
 module __components_Theme_ThemePage =
     type IComponentDemoPageProps = __components_Theme_@uifabric_example_app_base.IComponentDemoPageProps
@@ -11978,7 +12168,7 @@ module __components_Theme_ThemePage_types =
     type [<AllowNullLiteral>] IThemePageState =
         abstract palette: ResizeArray<IThemePagePalette> with get, set
         abstract semanticColors: ResizeArray<IThemePagePalette> with get, set
-        abstract colorPickerProps: {| targetElement: HTMLElement; value: obj option; index: float |} option with get, set
+        abstract colorPickerProps: IThemePageStateColorPickerProps option with get, set
         abstract activeList: string option with get, set
 
     type [<AllowNullLiteral>] IThemePageStyleProps =
@@ -11988,6 +12178,11 @@ module __components_Theme_ThemePage_types =
         abstract colorSwatch: IStyle with get, set
         abstract swatch: IStyle with get, set
         abstract colorValue: IStyle with get, set
+
+    type [<AllowNullLiteral>] IThemePageStateColorPickerProps =
+        abstract targetElement: HTMLElement with get, set
+        abstract value: obj option with get, set
+        abstract index: float with get, set
 
 module __components_ThemeGenerator_IThemeRules =
     type IThemeSlotRule = __components_ThemeGenerator_IThemeSlotRule.IThemeSlotRule
@@ -12363,8 +12558,11 @@ module __components_Tooltip_TooltipHost =
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TooltipHostStatic =
-        abstract defaultProps: {| delay: TooltipDelay |} with get, set
+        abstract defaultProps: TooltipHostStaticDefaultProps with get, set
         [<EmitConstructor>] abstract Create: props: ITooltipHostProps -> TooltipHost
+
+    type [<AllowNullLiteral>] TooltipHostStaticDefaultProps =
+        abstract delay: TooltipDelay with get, set
 
 module __components_Tooltip_TooltipHost_scss =
 
@@ -12525,15 +12723,26 @@ module __utilities_color_colors =
         abstract hsv2hex: h: float * s: float * v: float -> string
         abstract rgb2hsv: r: float * g: float * b: float -> IHSV
         abstract hsl2hsv: h: float * s: float * l: float -> IHSV
-        abstract hsv2hsl: h: float * s: float * v: float -> {| h: float; s: float; l: float |}
+        abstract hsv2hsl: h: float * s: float * v: float -> Hsv2hslReturn
         abstract hsl2rgb: h: float * s: float * l: float -> IRGB
         abstract hsv2rgb: h: float * s: float * v: float -> IRGB
         abstract getColorFromString: inputColor: string -> IColor option
-        abstract getColorFromRGBA: rgba: {| r: float; g: float; b: float; a: float |} -> IColor
+        abstract getColorFromRGBA: rgba: GetColorFromRGBARgba -> IColor
         abstract getFullColorString: color: IColor -> string
         abstract updateSV: color: IColor * s: float * v: float -> IColor
         abstract updateH: color: IColor * h: float -> IColor
         abstract updateA: color: IColor * a: float -> IColor
+
+    type [<AllowNullLiteral>] Hsv2hslReturn =
+        abstract h: float with get, set
+        abstract s: float with get, set
+        abstract l: float with get, set
+
+    type [<AllowNullLiteral>] GetColorFromRGBARgba =
+        abstract r: float with get, set
+        abstract g: float with get, set
+        abstract b: float with get, set
+        abstract a: float with get, set
 
     type [<AllowNullLiteral>] IRGB =
         abstract r: float with get, set
@@ -13000,8 +13209,12 @@ module __utilities_dragdrop_DragDropHelper =
     type [<AllowNullLiteral>] DragDropHelper =
         inherit IDragDropHelper
         abstract dispose: unit -> unit
-        abstract subscribe: root: HTMLElement * events: EventGroup * dragDropOptions: IDragDropOptions -> {| key: string; dispose: unit -> unit |}
+        abstract subscribe: root: HTMLElement * events: EventGroup * dragDropOptions: IDragDropOptions -> DragDropHelperSubscribeReturn
         abstract unsubscribe: root: HTMLElement * key: string -> unit
+
+    type [<AllowNullLiteral>] DragDropHelperSubscribeReturn =
+        abstract key: string with get, set
+        abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] DragDropHelperStatic =
         [<EmitConstructor>] abstract Create: ``params``: IDragDropHelperParams -> DragDropHelper
@@ -13010,7 +13223,7 @@ module __utilities_dragdrop_interfaces =
     type EventGroup = Utilities.EventGroup
 
     type [<AllowNullLiteral>] IDragDropHelper =
-        abstract subscribe: (HTMLElement -> EventGroup -> IDragDropOptions -> {| key: string; dispose: unit -> unit |}) with get, set
+        abstract subscribe: (HTMLElement -> EventGroup -> IDragDropOptions -> IDragDropHelperSubscribe) with get, set
         abstract unsubscribe: (HTMLElement -> string -> unit) with get, set
         abstract dispose: (unit -> unit) with get, set
 
@@ -13035,7 +13248,7 @@ module __utilities_dragdrop_interfaces =
 
     type [<AllowNullLiteral>] IDragDropOptions =
         abstract key: string option with get, set
-        abstract eventMap: ResizeArray<{| eventName: string; callback: IDragDropContext -> (obj) option -> unit |}> option with get, set
+        abstract eventMap: ResizeArray<IDragDropOptionsEventMap> option with get, set
         abstract selectionIndex: float with get, set
         abstract context: IDragDropContext with get, set
         abstract updateDropState: (bool -> DragEvent -> unit) with get, set
@@ -13048,6 +13261,14 @@ module __utilities_dragdrop_interfaces =
 
     type [<AllowNullLiteral>] IDragDropEvent =
         abstract isHandled: bool option with get, set
+
+    type [<AllowNullLiteral>] IDragDropHelperSubscribe =
+        abstract key: string with get, set
+        abstract dispose: (unit -> unit) with get, set
+
+    type [<AllowNullLiteral>] IDragDropOptionsEventMap =
+        abstract eventName: string with get, set
+        abstract callback: (IDragDropContext -> (obj) option -> unit) with get, set
 
 module __utilities_grid_Grid_base =
     type BaseComponent = Utilities.BaseComponent
@@ -13145,10 +13366,14 @@ module __utilities_grid_GridCell =
 
     type [<AllowNullLiteral>] GridCellStatic =
         [<EmitConstructor>] abstract Create: unit -> GridCell<'T, 'P> when 'P :> IGridCellProps<'T>
-        abstract defaultProps: {| disabled: bool; id: string |} with get, set
+        abstract defaultProps: GridCellStaticDefaultProps with get, set
 
     type [<AllowNullLiteral>] GridCellReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] GridCellStaticDefaultProps =
+        abstract disabled: bool with get, set
+        abstract id: string with get, set
 
 module __utilities_grid_GridCell_types =
     type IButtonClassNames = __components_Button_BaseButton_classNames.IButtonClassNames
@@ -13549,9 +13774,13 @@ This will be removed in 6.0")>]
 
     type [<AllowNullLiteral>] IRelativePositions =
         abstract calloutPosition: ICalloutPositon with get, set
-        abstract beakPosition: {| position: IPosition option; display: string |} with get, set
+        abstract beakPosition: IRelativePositionsBeakPosition with get, set
         abstract directionalClassName: string with get, set
         abstract submenuDirection: DirectionalHint with get, set
+
+    type [<AllowNullLiteral>] IRelativePositionsBeakPosition =
+        abstract position: IPosition option with get, set
+        abstract display: string with get, set
 
 module __utilities_router_Route =
 
@@ -13810,10 +14039,15 @@ module __utilities_selection_SelectionZone =
 
     type [<AllowNullLiteral>] SelectionZoneStatic =
         [<EmitConstructor>] abstract Create: unit -> SelectionZone
-        abstract defaultProps: {| isMultiSelectEnabled: bool; isSelectedOnFocus: bool; selectionMode: SelectionMode |} with get, set
+        abstract defaultProps: SelectionZoneStaticDefaultProps with get, set
 
     type [<AllowNullLiteral>] ISelectionZonePropsLayout =
         interface end
+
+    type [<AllowNullLiteral>] SelectionZoneStaticDefaultProps =
+        abstract isMultiSelectEnabled: bool with get, set
+        abstract isSelectedOnFocus: bool with get, set
+        abstract selectionMode: SelectionMode with get, set
 
 module __components_ActivityItem_examples_ActivityItem_Basic_Example =
 
@@ -14448,11 +14682,14 @@ module __components_Callout_examples_Callout_Nested_Example =
         abstract items: ResizeArray<ICommandBarItemProps> with get, set
 
     type [<AllowNullLiteral>] CalloutNestedExample =
-        inherit React.Component<ICalloutNestedExampleProps, {| isCalloutVisible: bool |}>
+        inherit React.Component<ICalloutNestedExampleProps, CalloutNestedExampleReactComponent>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] CalloutNestedExampleStatic =
         [<EmitConstructor>] abstract Create: props: ICalloutNestedExampleProps -> CalloutNestedExample
+
+    type [<AllowNullLiteral>] CalloutNestedExampleReactComponent =
+        abstract isCalloutVisible: bool with get, set
 
 module __components_Checkbox_examples_Checkbox_Basic_Example =
 
@@ -14746,7 +14983,7 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_types =
 
     type [<AllowNullLiteral>] IPositionInfo =
         abstract calloutPosition: ICalloutPositon with get, set
-        abstract beakPosition: {| position: ICalloutPositon; display: string |} with get, set
+        abstract beakPosition: IPositionInfoBeakPosition with get, set
         abstract directionalClassName: string with get, set
         abstract submenuDirection: DirectionalHint with get, set
 
@@ -14839,6 +15076,10 @@ module __components_Coachmark_PositioningContainer_PositioningContainer_types =
         /// Set max height of positioningContainer
         /// When not set the positioningContainer will expand with contents up to the bottom of the screen
         abstract positioningContainerMaxHeight: float option with get, set
+
+    type [<AllowNullLiteral>] IPositionInfoBeakPosition =
+        abstract position: ICalloutPositon with get, set
+        abstract display: string with get, set
 
 module __components_Coachmark_PositioningContainer_PositioningContainerPage =
     type IComponentDemoPageProps = __components_Coachmark_PositioningContainer_@uifabric_example_app_base.IComponentDemoPageProps
@@ -14972,13 +15213,18 @@ module __components_CommandBar_examples_data_nonFocusable =
         abstract itemsNonFocusable: ResizeArray<U2<IExportsItemsNonFocusable, IExportsItemsNonFocusable2>>
         abstract farItemsNonFocusable: ResizeArray<U2<IExportsFarItemsNonFocusable, IExportsFarItemsNonFocusable2>>
 
+    type [<AllowNullLiteral>] IExportsItemsNonFocusableItems =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract icon: string with get, set
+
     type [<AllowNullLiteral>] IExportsItemsNonFocusable =
         abstract key: string with get, set
         abstract name: string with get, set
         abstract icon: string with get, set
         abstract ariaLabel: string with get, set
         abstract onClick: (unit -> unit) with get, set
-        abstract items: ResizeArray<{| key: string; name: string; icon: string |}> with get, set
+        abstract items: ResizeArray<IExportsItemsNonFocusableItems> with get, set
         abstract ``data-automation-id``: obj option with get, set
 
     type [<AllowNullLiteral>] IExportsItemsNonFocusable2 =
@@ -15008,10 +15254,25 @@ module __components_CommandBar_examples_data =
 
     type [<AllowNullLiteral>] IExports =
         abstract items: ResizeArray<U5<IExportsItems, IExportsItems2, IExportsItems3, IExportsItems4, IExportsItems5>>
-        abstract textOnlyItems: ResizeArray<{| key: string; name: string; onClick: unit -> unit |}>
+        abstract textOnlyItems: ResizeArray<IExportsTextOnlyItems>
         abstract iconOnlyItems: ResizeArray<U2<IExportsIconOnlyItems, IExportsIconOnlyItems2>>
-        abstract overflowItems: ResizeArray<{| key: string; name: string; icon: string |}>
-        abstract farItems: ResizeArray<{| key: string; name: string; icon: string; onClick: unit -> unit |}>
+        abstract overflowItems: ResizeArray<IExportsOverflowItems>
+        abstract farItems: ResizeArray<IExportsFarItems>
+
+    type [<AllowNullLiteral>] IExportsItemsSubMenuPropsItems =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract icon: string with get, set
+        abstract ``['data-automation-id']``: string with get, set
+
+    type [<AllowNullLiteral>] IExportsItemsSubMenuPropsItems2 =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract icon: string with get, set
+        abstract ``data-automation-id``: obj option with get, set
+
+    type [<AllowNullLiteral>] IExportsItemsSubMenuProps =
+        abstract items: ResizeArray<U2<IExportsItemsSubMenuPropsItems, IExportsItemsSubMenuPropsItems2>> with get, set
 
     type [<AllowNullLiteral>] IExportsItems =
         abstract key: string with get, set
@@ -15019,7 +15280,7 @@ module __components_CommandBar_examples_data =
         abstract icon: string with get, set
         abstract ariaLabel: string with get, set
         abstract ``['data-automation-id']``: string with get, set
-        abstract subMenuProps: {| items: ResizeArray<U2<{| key: string; name: string; icon: string; ``['data-automation-id']``: string |}, {| key: string; name: string; icon: string; ``data-automation-id``: obj option |}>> |} with get, set
+        abstract subMenuProps: IExportsItemsSubMenuProps with get, set
         abstract href: obj option with get, set
         abstract onClick: obj option with get, set
 
@@ -15063,6 +15324,11 @@ module __components_CommandBar_examples_data =
         abstract subMenuProps: obj option with get, set
         abstract onClick: obj option with get, set
 
+    type [<AllowNullLiteral>] IExportsTextOnlyItems =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract onClick: (unit -> unit) with get, set
+
     type [<AllowNullLiteral>] IExportsIconOnlyItems =
         abstract key: string with get, set
         abstract name: string with get, set
@@ -15076,6 +15342,17 @@ module __components_CommandBar_examples_data =
         abstract disabled: bool with get, set
         abstract onClick: (unit -> unit) with get, set
         abstract name: obj option with get, set
+
+    type [<AllowNullLiteral>] IExportsOverflowItems =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract icon: string with get, set
+
+    type [<AllowNullLiteral>] IExportsFarItems =
+        abstract key: string with get, set
+        abstract name: string with get, set
+        abstract icon: string with get, set
+        abstract onClick: (unit -> unit) with get, set
 
 module __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuAnchor =
     type ContextualMenuItemWrapper = __components_ContextualMenu_ContextualMenuItemWrapper_ContextualMenuItemWrapper.ContextualMenuItemWrapper
@@ -15340,7 +15617,7 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_Example =
         abstract ContextualMenuIconExample: ContextualMenuIconExampleStatic
 
     type [<AllowNullLiteral>] ContextualMenuIconExample =
-        inherit React.Component<ContextualMenuIconExampleReactComponent, {| showCallout: bool |}>
+        inherit React.Component<ContextualMenuIconExampleReactComponent, ContextualMenuIconExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ContextualMenuIconExampleStatic =
@@ -15352,13 +15629,16 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_Example =
     type [<AllowNullLiteral>] ContextualMenuIconExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] ContextualMenuIconExampleReactComponent2 =
+        abstract showCallout: bool with get, set
+
 module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuIconSecondaryTextExample: ContextualMenuIconSecondaryTextExampleStatic
 
     type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExample =
-        inherit React.Component<ContextualMenuIconSecondaryTextExampleReactComponent, {| showCallout: bool |}>
+        inherit React.Component<ContextualMenuIconSecondaryTextExampleReactComponent, ContextualMenuIconSecondaryTextExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleStatic =
@@ -15370,13 +15650,16 @@ module __components_ContextualMenu_examples_ContextualMenu_Icon_SecondaryText_Ex
     type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] ContextualMenuIconSecondaryTextExampleReactComponent2 =
+        abstract showCallout: bool with get, set
+
 module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract ContextualMenuWithScrollBarExample: ContextualMenuWithScrollBarExampleStatic
 
     type [<AllowNullLiteral>] ContextualMenuWithScrollBarExample =
-        inherit React.Component<ContextualMenuWithScrollBarExampleReactComponent, {| showCallout: bool |}>
+        inherit React.Component<ContextualMenuWithScrollBarExampleReactComponent, ContextualMenuWithScrollBarExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleStatic =
@@ -15387,6 +15670,9 @@ module __components_ContextualMenu_examples_ContextualMenu_ScrollBar_Example =
 
     type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] ContextualMenuWithScrollBarExampleReactComponent2 =
+        abstract showCallout: bool with get, set
 
 module __components_ContextualMenu_examples_ContextualMenu_Section_Example =
 
@@ -15604,7 +15890,7 @@ module __components_DetailsList_examples_DetailsList_Basic_Example =
         abstract DetailsListBasicExample: DetailsListBasicExampleStatic
 
     type [<AllowNullLiteral>] DetailsListBasicExample =
-        inherit React.Component<DetailsListBasicExampleReactComponent, {| items: ResizeArray<DetailsListBasicExampleReactComponent>; selectionDetails: DetailsListBasicExampleReactComponent |}>
+        inherit React.Component<DetailsListBasicExampleReactComponent, DetailsListBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListBasicExampleStatic =
@@ -15616,13 +15902,17 @@ module __components_DetailsList_examples_DetailsList_Basic_Example =
     type [<AllowNullLiteral>] DetailsListBasicExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] DetailsListBasicExampleReactComponent2 =
+        abstract items: ResizeArray<DetailsListBasicExampleReactComponent> with get, set
+        abstract selectionDetails: DetailsListBasicExampleReactComponent with get, set
+
 module __components_DetailsList_examples_DetailsList_Compact_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract DetailsListCompactExample: DetailsListCompactExampleStatic
 
     type [<AllowNullLiteral>] DetailsListCompactExample =
-        inherit React.Component<DetailsListCompactExampleReactComponent, {| items: ResizeArray<DetailsListCompactExampleReactComponent>; selectionDetails: string |}>
+        inherit React.Component<DetailsListCompactExampleReactComponent, DetailsListCompactExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListCompactExampleStatic =
@@ -15633,6 +15923,10 @@ module __components_DetailsList_examples_DetailsList_Compact_Example =
 
     type [<AllowNullLiteral>] DetailsListCompactExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] DetailsListCompactExampleReactComponent2 =
+        abstract items: ResizeArray<DetailsListCompactExampleReactComponent> with get, set
+        abstract selectionDetails: string with get, set
 
 module __components_DetailsList_examples_DetailsList_CustomColumns_Example =
     type IColumn = __components_DetailsList_examples_office_ui_fabric_react_lib_DetailsList.IColumn
@@ -15753,7 +16047,7 @@ module __components_DetailsList_examples_DetailsList_Grouped_Example =
         abstract DetailsListGroupedExample: DetailsListGroupedExampleStatic
 
     type [<AllowNullLiteral>] DetailsListGroupedExample =
-        inherit BaseComponent<DetailsListGroupedExampleBaseComponent, {| items: ResizeArray<DetailsListGroupedExampleBaseComponent> |}>
+        inherit BaseComponent<DetailsListGroupedExampleBaseComponent, DetailsListGroupedExampleBaseComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DetailsListGroupedExampleStatic =
@@ -15764,6 +16058,9 @@ module __components_DetailsList_examples_DetailsList_Grouped_Example =
 
     type [<AllowNullLiteral>] DetailsListGroupedExampleBaseComponent =
         interface end
+
+    type [<AllowNullLiteral>] DetailsListGroupedExampleBaseComponent2 =
+        abstract items: ResizeArray<DetailsListGroupedExampleBaseComponent> with get, set
 
 module __components_DetailsList_examples_DetailsList_NavigatingFocus_Example =
 
@@ -15791,7 +16088,7 @@ module __components_Dialog_examples_Dialog_Basic_Example =
         abstract DialogBasicExample: DialogBasicExampleStatic
 
     type [<AllowNullLiteral>] DialogBasicExample =
-        inherit React.Component<DialogBasicExampleReactComponent, {| hideDialog: bool |}>
+        inherit React.Component<DialogBasicExampleReactComponent, DialogBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogBasicExampleStatic =
@@ -15803,13 +16100,16 @@ module __components_Dialog_examples_Dialog_Basic_Example =
     type [<AllowNullLiteral>] DialogBasicExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] DialogBasicExampleReactComponent2 =
+        abstract hideDialog: bool with get, set
+
 module __components_Dialog_examples_Dialog_Blocking_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract DialogBlockingExample: DialogBlockingExampleStatic
 
     type [<AllowNullLiteral>] DialogBlockingExample =
-        inherit React.Component<DialogBlockingExampleReactComponent, {| hideDialog: bool |}>
+        inherit React.Component<DialogBlockingExampleReactComponent, DialogBlockingExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogBlockingExampleStatic =
@@ -15821,13 +16121,16 @@ module __components_Dialog_examples_Dialog_Blocking_Example =
     type [<AllowNullLiteral>] DialogBlockingExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] DialogBlockingExampleReactComponent2 =
+        abstract hideDialog: bool with get, set
+
 module __components_Dialog_examples_Dialog_LargeHeader_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract DialogLargeHeaderExample: DialogLargeHeaderExampleStatic
 
     type [<AllowNullLiteral>] DialogLargeHeaderExample =
-        inherit React.Component<DialogLargeHeaderExampleReactComponent, {| hideDialog: bool |}>
+        inherit React.Component<DialogLargeHeaderExampleReactComponent, DialogLargeHeaderExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] DialogLargeHeaderExampleStatic =
@@ -15838,6 +16141,9 @@ module __components_Dialog_examples_Dialog_LargeHeader_Example =
 
     type [<AllowNullLiteral>] DialogLargeHeaderExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] DialogLargeHeaderExampleReactComponent2 =
+        abstract hideDialog: bool with get, set
 
 module __components_Divider_examples_VerticalDivider_Basic_Example =
 
@@ -15866,7 +16172,12 @@ module __components_Divider_examples_VerticalDivider_Custom_Example =
 module __components_DocumentCard_examples_data =
 
     type [<AllowNullLiteral>] IExports =
-        abstract completeParts: ResizeArray<{| ``type``: string; actions: ResizeArray<string>; views: float |}>
+        abstract completeParts: ResizeArray<IExportsCompleteParts>
+
+    type [<AllowNullLiteral>] IExportsCompleteParts =
+        abstract ``type``: string with get, set
+        abstract actions: ResizeArray<string> with get, set
+        abstract views: float with get, set
 
 module __components_DocumentCard_examples_DocumentCard_Basic_Example =
 
@@ -15912,7 +16223,7 @@ module __components_Dropdown_examples_Dropdown_Basic_Example =
         abstract DropdownBasicExample: DropdownBasicExampleStatic
 
     type [<AllowNullLiteral>] DropdownBasicExample =
-        inherit BaseComponent<DropdownBasicExampleBaseComponent, {| selectedItem: {| key: U2<string, float> option |} option; selectedItems: ResizeArray<string> |}>
+        inherit BaseComponent<DropdownBasicExampleBaseComponent, DropdownBasicExampleBaseComponent2>
         abstract render: unit -> JSX.Element
         abstract changeState: (IDropdownOption -> unit) with get, set
         abstract onChangeMultiSelect: (IDropdownOption -> unit) with get, set
@@ -15926,6 +16237,13 @@ module __components_Dropdown_examples_Dropdown_Basic_Example =
 
     type [<AllowNullLiteral>] DropdownBasicExampleBaseComponent =
         interface end
+
+    type [<AllowNullLiteral>] DropdownBasicExampleBaseComponentSelectedItem =
+        abstract key: U2<string, float> option with get, set
+
+    type [<AllowNullLiteral>] DropdownBasicExampleBaseComponent2 =
+        abstract selectedItem: DropdownBasicExampleBaseComponentSelectedItem option with get, set
+        abstract selectedItems: ResizeArray<string> with get, set
 
 module __components_Dropdown_examples_Dropdown_Custom_Example =
 
@@ -16781,25 +17099,28 @@ module __components_Layer_examples_Layer_Basic_Example =
         abstract LayerBasicExample: LayerBasicExampleStatic
 
     type [<AllowNullLiteral>] LayerContentExample =
-        inherit BaseComponent<LayerContentExampleBaseComponent, {| time: string |}>
-        abstract context: {| message: string |} with get, set
+        inherit BaseComponent<LayerContentExampleBaseComponent, LayerContentExampleBaseComponent2>
+        abstract context: LayerContentExampleContext with get, set
         abstract componentDidMount: unit -> unit
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] LayerContentExampleStatic =
-        abstract contextTypes: {| message: PropTypes.Requireable<obj option> |} with get, set
+        abstract contextTypes: LayerContentExampleStaticContextTypes with get, set
         [<EmitConstructor>] abstract Create: props: LayerContentExampleStaticProps -> LayerContentExample
 
     type [<AllowNullLiteral>] LayerContentExampleStaticProps =
         interface end
 
     type [<AllowNullLiteral>] LayerBasicExample =
-        inherit BaseComponent<LayerContentExampleBaseComponent, {| showLayer: bool |}>
-        abstract getChildContext: unit -> {| message: string |}
+        inherit BaseComponent<LayerContentExampleBaseComponent, LayerBasicExampleBaseComponent>
+        abstract getChildContext: unit -> LayerBasicExampleGetChildContextReturn
         abstract render: unit -> JSX.Element
 
+    type [<AllowNullLiteral>] LayerBasicExampleGetChildContextReturn =
+        abstract message: string with get, set
+
     type [<AllowNullLiteral>] LayerBasicExampleStatic =
-        abstract childContextTypes: {| message: PropTypes.Requireable<obj option> |} with get, set
+        abstract childContextTypes: LayerContentExampleStaticContextTypes with get, set
         [<EmitConstructor>] abstract Create: props: LayerBasicExampleStaticProps -> LayerBasicExample
 
     type [<AllowNullLiteral>] LayerBasicExampleStaticProps =
@@ -16807,6 +17128,18 @@ module __components_Layer_examples_Layer_Basic_Example =
 
     type [<AllowNullLiteral>] LayerContentExampleBaseComponent =
         interface end
+
+    type [<AllowNullLiteral>] LayerContentExampleBaseComponent2 =
+        abstract time: string with get, set
+
+    type [<AllowNullLiteral>] LayerContentExampleContext =
+        abstract message: string with get, set
+
+    type [<AllowNullLiteral>] LayerContentExampleStaticContextTypes =
+        abstract message: PropTypes.Requireable<obj option> with get, set
+
+    type [<AllowNullLiteral>] LayerBasicExampleBaseComponent =
+        abstract showLayer: bool with get, set
 
 module __components_Layer_examples_Layer_Customized_Example =
 
@@ -16836,7 +17169,7 @@ module __components_Layer_examples_Layer_Hosted_Example =
         abstract LayerHostedExample: LayerHostedExampleStatic
 
     type [<AllowNullLiteral>] LayerHostedExample =
-        inherit React.Component<LayerHostedExampleReactComponent, {| showLayer: bool; showLayerNoId: bool; showHost: bool |}>
+        inherit React.Component<LayerHostedExampleReactComponent, LayerHostedExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] LayerHostedExampleStatic =
@@ -16847,6 +17180,11 @@ module __components_Layer_examples_Layer_Hosted_Example =
 
     type [<AllowNullLiteral>] LayerHostedExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] LayerHostedExampleReactComponent2 =
+        abstract showLayer: bool with get, set
+        abstract showLayerNoId: bool with get, set
+        abstract showHost: bool with get, set
 
 module __components_Link_examples_Link_Basic_Example =
 
@@ -16965,7 +17303,7 @@ module __components_Modal_examples_Modal_Basic_Example =
         abstract ModalBasicExample: ModalBasicExampleStatic
 
     type [<AllowNullLiteral>] ModalBasicExample =
-        inherit React.Component<ModalBasicExampleReactComponent, {| showModal: bool |}>
+        inherit React.Component<ModalBasicExampleReactComponent, ModalBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ModalBasicExampleStatic =
@@ -16976,6 +17314,9 @@ module __components_Modal_examples_Modal_Basic_Example =
 
     type [<AllowNullLiteral>] ModalBasicExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] ModalBasicExampleReactComponent2 =
+        abstract showModal: bool with get, set
 
 module __components_Nav_examples_Nav_Basic_Example =
     type INavProps = __components_Nav_examples_office_ui_fabric_react_lib_Nav.INavProps
@@ -17084,7 +17425,7 @@ module __components_Overlay_examples_Overlay_Dark_Example =
         abstract getStyles: IStyleFunction<IOverlayDarkExamplePropsGetStylesIStyleFunction, IOverlayExampleStyles> option with get, set
 
     type [<AllowNullLiteral>] OverlayDarkExample =
-        inherit React.Component<IOverlayDarkExamplePropsGetStylesIStyleFunction, {| isOverlayVisible: bool |}>
+        inherit React.Component<IOverlayDarkExamplePropsGetStylesIStyleFunction, OverlayDarkExampleReactComponent>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] OverlayDarkExampleStatic =
@@ -17095,6 +17436,9 @@ module __components_Overlay_examples_Overlay_Dark_Example =
 
     type [<AllowNullLiteral>] IOverlayDarkExamplePropsGetStylesIStyleFunction =
         interface end
+
+    type [<AllowNullLiteral>] OverlayDarkExampleReactComponent =
+        abstract isOverlayVisible: bool with get, set
 
 module __components_Overlay_examples_Overlay_Example_styles =
     type IStyle = Styling.IStyle
@@ -17116,7 +17460,7 @@ module __components_Overlay_examples_Overlay_Light_Example =
         abstract getStyles: IStyleFunction<IOverlayLightExamplePropsGetStylesIStyleFunction, IOverlayExampleStyles> option with get, set
 
     type [<AllowNullLiteral>] OverlayLightExample =
-        inherit React.Component<IOverlayLightExamplePropsGetStylesIStyleFunction, {| isOverlayVisible: bool |}>
+        inherit React.Component<IOverlayLightExamplePropsGetStylesIStyleFunction, OverlayLightExampleReactComponent>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] OverlayLightExampleStatic =
@@ -17128,13 +17472,16 @@ module __components_Overlay_examples_Overlay_Light_Example =
     type [<AllowNullLiteral>] IOverlayLightExamplePropsGetStylesIStyleFunction =
         interface end
 
+    type [<AllowNullLiteral>] OverlayLightExampleReactComponent =
+        abstract isOverlayVisible: bool with get, set
+
 module __components_Panel_examples_Panel_Custom_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelCustomExample: PanelCustomExampleStatic
 
     type [<AllowNullLiteral>] PanelCustomExample =
-        inherit React.Component<PanelCustomExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelCustomExampleReactComponent, PanelCustomExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelCustomExampleStatic =
@@ -17146,13 +17493,16 @@ module __components_Panel_examples_Panel_Custom_Example =
     type [<AllowNullLiteral>] PanelCustomExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelCustomExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_ExtraLarge_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelExtraLargeExample: PanelExtraLargeExampleStatic
 
     type [<AllowNullLiteral>] PanelExtraLargeExample =
-        inherit React.Component<PanelExtraLargeExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelExtraLargeExampleReactComponent, PanelExtraLargeExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelExtraLargeExampleStatic =
@@ -17164,13 +17514,16 @@ module __components_Panel_examples_Panel_ExtraLarge_Example =
     type [<AllowNullLiteral>] PanelExtraLargeExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelExtraLargeExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_Footer_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelFooterExample: PanelFooterExampleStatic
 
     type [<AllowNullLiteral>] PanelFooterExample =
-        inherit React.Component<PanelFooterExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelFooterExampleReactComponent, PanelFooterExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelFooterExampleStatic =
@@ -17182,13 +17535,16 @@ module __components_Panel_examples_Panel_Footer_Example =
     type [<AllowNullLiteral>] PanelFooterExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelFooterExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelHiddenOnDismissExample: PanelHiddenOnDismissExampleStatic
 
     type [<AllowNullLiteral>] PanelHiddenOnDismissExample =
-        inherit React.Component<PanelHiddenOnDismissExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelHiddenOnDismissExampleReactComponent, PanelHiddenOnDismissExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelHiddenOnDismissExampleStatic =
@@ -17200,13 +17556,16 @@ module __components_Panel_examples_Panel_HiddenOnDismiss_Example =
     type [<AllowNullLiteral>] PanelHiddenOnDismissExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelHiddenOnDismissExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_Large_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLargeExample: PanelLargeExampleStatic
 
     type [<AllowNullLiteral>] PanelLargeExample =
-        inherit React.Component<PanelLargeExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelLargeExampleReactComponent, PanelLargeExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLargeExampleStatic =
@@ -17218,13 +17577,16 @@ module __components_Panel_examples_Panel_Large_Example =
     type [<AllowNullLiteral>] PanelLargeExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelLargeExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_LargeFixed_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLargeFixedExample: PanelLargeFixedExampleStatic
 
     type [<AllowNullLiteral>] PanelLargeFixedExample =
-        inherit React.Component<PanelLargeFixedExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelLargeFixedExampleReactComponent, PanelLargeFixedExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLargeFixedExampleStatic =
@@ -17236,13 +17598,16 @@ module __components_Panel_examples_Panel_LargeFixed_Example =
     type [<AllowNullLiteral>] PanelLargeFixedExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelLargeFixedExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_LightDismiss_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLightDismissExample: PanelLightDismissExampleStatic
 
     type [<AllowNullLiteral>] PanelLightDismissExample =
-        inherit React.Component<PanelLightDismissExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelLightDismissExampleReactComponent, PanelLightDismissExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLightDismissExampleStatic =
@@ -17254,13 +17619,16 @@ module __components_Panel_examples_Panel_LightDismiss_Example =
     type [<AllowNullLiteral>] PanelLightDismissExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelLightDismissExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_LightDismissCustom_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelLightDismissCustomExample: PanelLightDismissCustomExampleStatic
 
     type [<AllowNullLiteral>] PanelLightDismissCustomExample =
-        inherit React.Component<PanelLightDismissCustomExampleReactComponent, {| showPanel: bool; hideDialog: bool |}>
+        inherit React.Component<PanelLightDismissCustomExampleReactComponent, PanelLightDismissCustomExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelLightDismissCustomExampleStatic =
@@ -17272,13 +17640,17 @@ module __components_Panel_examples_Panel_LightDismissCustom_Example =
     type [<AllowNullLiteral>] PanelLightDismissCustomExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelLightDismissCustomExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+        abstract hideDialog: bool with get, set
+
 module __components_Panel_examples_Panel_Medium_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelMediumExample: PanelMediumExampleStatic
 
     type [<AllowNullLiteral>] PanelMediumExample =
-        inherit React.Component<PanelMediumExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelMediumExampleReactComponent, PanelMediumExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelMediumExampleStatic =
@@ -17290,13 +17662,16 @@ module __components_Panel_examples_Panel_Medium_Example =
     type [<AllowNullLiteral>] PanelMediumExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelMediumExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_NonModal_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelNonModalExample: PanelNonModalExampleStatic
 
     type [<AllowNullLiteral>] PanelNonModalExample =
-        inherit React.Component<PanelNonModalExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelNonModalExampleReactComponent, PanelNonModalExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelNonModalExampleStatic =
@@ -17308,13 +17683,16 @@ module __components_Panel_examples_Panel_NonModal_Example =
     type [<AllowNullLiteral>] PanelNonModalExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelNonModalExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_SmallFluid_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelSmallFluidExample: PanelSmallFluidExampleStatic
 
     type [<AllowNullLiteral>] PanelSmallFluidExample =
-        inherit React.Component<PanelSmallFluidExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelSmallFluidExampleReactComponent, PanelSmallFluidExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelSmallFluidExampleStatic =
@@ -17326,13 +17704,16 @@ module __components_Panel_examples_Panel_SmallFluid_Example =
     type [<AllowNullLiteral>] PanelSmallFluidExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelSmallFluidExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_SmallLeft_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelSmallLeftExample: PanelSmallLeftExampleStatic
 
     type [<AllowNullLiteral>] PanelSmallLeftExample =
-        inherit React.Component<PanelSmallLeftExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelSmallLeftExampleReactComponent, PanelSmallLeftExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelSmallLeftExampleStatic =
@@ -17344,13 +17725,16 @@ module __components_Panel_examples_Panel_SmallLeft_Example =
     type [<AllowNullLiteral>] PanelSmallLeftExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelSmallLeftExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Panel_examples_Panel_SmallRight_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PanelSmallRightExample: PanelSmallRightExampleStatic
 
     type [<AllowNullLiteral>] PanelSmallRightExample =
-        inherit React.Component<PanelSmallRightExampleReactComponent, {| showPanel: bool |}>
+        inherit React.Component<PanelSmallRightExampleReactComponent, PanelSmallRightExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PanelSmallRightExampleStatic =
@@ -17362,13 +17746,16 @@ module __components_Panel_examples_Panel_SmallRight_Example =
     type [<AllowNullLiteral>] PanelSmallRightExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PanelSmallRightExampleReactComponent2 =
+        abstract showPanel: bool with get, set
+
 module __components_Persona_examples_Persona_Alternate_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaAlternateExample: PersonaAlternateExampleStatic
 
     type [<AllowNullLiteral>] PersonaAlternateExample =
-        inherit React.Component<PersonaAlternateExampleReactComponent, {| renderPersonaDetails: bool |}>
+        inherit React.Component<PersonaAlternateExampleReactComponent, PersonaAlternateExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PersonaAlternateExampleStatic =
@@ -17380,13 +17767,16 @@ module __components_Persona_examples_Persona_Alternate_Example =
     type [<AllowNullLiteral>] PersonaAlternateExampleReactComponent =
         interface end
 
+    type [<AllowNullLiteral>] PersonaAlternateExampleReactComponent2 =
+        abstract renderPersonaDetails: bool with get, set
+
 module __components_Persona_examples_Persona_Basic_Example =
 
     type [<AllowNullLiteral>] IExports =
         abstract PersonaBasicExample: PersonaBasicExampleStatic
 
     type [<AllowNullLiteral>] PersonaBasicExample =
-        inherit React.Component<PersonaBasicExampleReactComponent, {| renderPersonaDetails: bool option |}>
+        inherit React.Component<PersonaBasicExampleReactComponent, PersonaBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PersonaBasicExampleStatic =
@@ -17397,6 +17787,9 @@ module __components_Persona_examples_Persona_Basic_Example =
 
     type [<AllowNullLiteral>] PersonaBasicExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] PersonaBasicExampleReactComponent2 =
+        abstract renderPersonaDetails: bool option with get, set
 
 module __components_Persona_examples_Persona_CustomCoinRender_Example =
 
@@ -17667,7 +18060,7 @@ module __components_pickers_PeoplePicker_PeoplePicker =
     /// Standard People Picker.
     type [<AllowNullLiteral>] NormalPeoplePickerStatic =
         [<EmitConstructor>] abstract Create: unit -> NormalPeoplePicker
-        abstract defaultProps: {| onRenderItem: IPeoplePickerItemProps -> JSX.Element; onRenderSuggestionsItem: IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element; createGenericItem: obj |} with get, set
+        abstract defaultProps: NormalPeoplePickerStaticDefaultProps with get, set
 
     /// Compact layout. It uses small personas when displaying search results.
     type [<AllowNullLiteral>] CompactPeoplePicker =
@@ -17676,7 +18069,7 @@ module __components_pickers_PeoplePicker_PeoplePicker =
     /// Compact layout. It uses small personas when displaying search results.
     type [<AllowNullLiteral>] CompactPeoplePickerStatic =
         [<EmitConstructor>] abstract Create: unit -> CompactPeoplePicker
-        abstract defaultProps: {| onRenderItem: IPeoplePickerItemProps -> JSX.Element; onRenderSuggestionsItem: IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element; createGenericItem: obj |} with get, set
+        abstract defaultProps: NormalPeoplePickerStaticDefaultProps with get, set
 
     /// MemberList layout. The selected people show up below the search box.
     type [<AllowNullLiteral>] ListPeoplePicker =
@@ -17685,12 +18078,17 @@ module __components_pickers_PeoplePicker_PeoplePicker =
     /// MemberList layout. The selected people show up below the search box.
     type [<AllowNullLiteral>] ListPeoplePickerStatic =
         [<EmitConstructor>] abstract Create: unit -> ListPeoplePicker
-        abstract defaultProps: {| onRenderItem: IPeoplePickerItemProps -> JSX.Element; onRenderSuggestionsItem: IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element; createGenericItem: obj |} with get, set
+        abstract defaultProps: NormalPeoplePickerStaticDefaultProps with get, set
 
     type [<AllowNullLiteral>] IGenericItem =
         abstract primaryText: string with get, set
         abstract imageInitials: string with get, set
         abstract ValidationState: ValidationState with get, set
+
+    type [<AllowNullLiteral>] NormalPeoplePickerStaticDefaultProps =
+        abstract onRenderItem: (IPeoplePickerItemProps -> JSX.Element) with get, set
+        abstract onRenderSuggestionsItem: (IPersonaProps -> (IBasePickerSuggestionsProps) option -> JSX.Element) with get, set
+        abstract createGenericItem: obj with get, set
 
 module __components_pickers_PeoplePicker_PeoplePicker_scss =
 
@@ -17744,9 +18142,9 @@ module __components_pickers_Suggestions_Suggestions =
 
     type [<AllowNullLiteral>] Suggestions<'T> =
         inherit BaseComponent<ISuggestionsProps<'T>, ISuggestionsState>
-        abstract _forceResolveButton: {| Invoke: IButton option -> unit; current: IButton option; value: IButton option |} with get, set
-        abstract _searchForMoreButton: {| Invoke: IButton option -> unit; current: IButton option; value: IButton option |} with get, set
-        abstract _selectedElement: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
+        abstract _forceResolveButton: Suggestions_forceResolveButton with get, set
+        abstract _searchForMoreButton: Suggestions_forceResolveButton with get, set
+        abstract _selectedElement: Suggestions_selectedElement with get, set
         abstract componentDidMount: unit -> unit
         abstract componentDidUpdate: unit -> unit
         abstract render: unit -> JSX.Element
@@ -17765,6 +18163,16 @@ module __components_pickers_Suggestions_Suggestions =
 
     type [<AllowNullLiteral>] SuggestionsItemBaseComponent =
         interface end
+
+    type [<AllowNullLiteral>] Suggestions_forceResolveButton =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: IButton option -> unit
+        abstract current: IButton option with get, set
+        abstract value: IButton option with get, set
+
+    type [<AllowNullLiteral>] Suggestions_selectedElement =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
 
 module __components_pickers_Suggestions_Suggestions_scss =
 
@@ -17948,7 +18356,11 @@ module __components_pickers_TagPicker_TagPicker =
 
     type [<AllowNullLiteral>] TagPickerStatic =
         [<EmitConstructor>] abstract Create: unit -> TagPicker
-        abstract defaultProps: {| onRenderItem: ITagItemProps -> JSX.Element; onRenderSuggestionsItem: ITag -> JSX.Element |} with get, set
+        abstract defaultProps: TagPickerStaticDefaultProps with get, set
+
+    type [<AllowNullLiteral>] TagPickerStaticDefaultProps =
+        abstract onRenderItem: (ITagItemProps -> JSX.Element) with get, set
+        abstract onRenderSuggestionsItem: (ITag -> JSX.Element) with get, set
 
 module __components_Pivot_examples_Pivot_Basic_Example =
 
@@ -18046,11 +18458,14 @@ module __components_Pivot_examples_Pivot_Separate_Example =
 
     type [<AllowNullLiteral>] PivotSeparateExample =
         inherit React.Component<obj option, obj option>
-        abstract state: {| selectedKey: string |} with get, set
+        abstract state: PivotSeparateExampleState with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] PivotSeparateExampleStatic =
         [<EmitConstructor>] abstract Create: unit -> PivotSeparateExample
+
+    type [<AllowNullLiteral>] PivotSeparateExampleState =
+        abstract selectedKey: string with get, set
 
 module __components_Pivot_examples_Pivot_Tabs_Example =
 
@@ -18153,7 +18568,7 @@ module __components_Rating_examples_Rating_ButtonControlled_Example =
         abstract RatingButtonControlledExample: RatingButtonControlledExampleStatic
 
     type [<AllowNullLiteral>] RatingButtonControlledExample =
-        inherit React.Component<RatingButtonControlledExampleReactComponent, {| rating: float |}>
+        inherit React.Component<RatingButtonControlledExampleReactComponent, RatingButtonControlledExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] RatingButtonControlledExampleStatic =
@@ -18164,6 +18579,9 @@ module __components_Rating_examples_Rating_ButtonControlled_Example =
 
     type [<AllowNullLiteral>] RatingButtonControlledExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] RatingButtonControlledExampleReactComponent2 =
+        abstract rating: float with get, set
 
 module __components_ResizeGroup_examples_ResizeGroup_Example_scss =
 
@@ -18240,7 +18658,7 @@ module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
         abstract ScrollablePaneDetailsListExample: ScrollablePaneDetailsListExampleStatic
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExample =
-        inherit React.Component<ScrollablePaneDetailsListExampleReactComponent, {| items: ResizeArray<ScrollablePaneDetailsListExampleReactComponent>; selectionDetails: string |}>
+        inherit React.Component<ScrollablePaneDetailsListExampleReactComponent, ScrollablePaneDetailsListExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleStatic =
@@ -18251,6 +18669,10 @@ module __components_ScrollablePane_examples_ScrollablePane_DetailsList_Example =
 
     type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] ScrollablePaneDetailsListExampleReactComponent2 =
+        abstract items: ResizeArray<ScrollablePaneDetailsListExampleReactComponent> with get, set
+        abstract selectionDetails: string with get, set
 
 module __components_SearchBox_examples_SearchBox_Disabled_Example =
 
@@ -18394,7 +18816,13 @@ module __components_SelectedItemsList_SelectedPeopleList_SelectedPeopleListPage 
 module __components_Shimmer_examples_ExampleHelper =
 
     type [<AllowNullLiteral>] IExports =
-        abstract PersonaDetails: {| imageUrl: string; imageInitials: string; primaryText: string; secondaryText: string |}
+        abstract PersonaDetails: IExportsPersonaDetails
+
+    type [<AllowNullLiteral>] IExportsPersonaDetails =
+        abstract imageUrl: string with get, set
+        abstract imageInitials: string with get, set
+        abstract primaryText: string with get, set
+        abstract secondaryText: string with get, set
 
 module __components_Shimmer_examples_Shimmer_Application_Example =
     type BaseComponent = __components_Shimmer_examples_office_ui_fabric_react_lib_Utilities.BaseComponent
@@ -18823,7 +19251,7 @@ module __components_Slider_examples_Slider_Basic_Example =
         abstract SliderBasicExample: SliderBasicExampleStatic
 
     type [<AllowNullLiteral>] SliderBasicExample =
-        inherit React.Component<SliderBasicExampleReactComponent, {| value: float |}>
+        inherit React.Component<SliderBasicExampleReactComponent, SliderBasicExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] SliderBasicExampleStatic =
@@ -18834,6 +19262,9 @@ module __components_Slider_examples_Slider_Basic_Example =
 
     type [<AllowNullLiteral>] SliderBasicExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] SliderBasicExampleReactComponent2 =
+        abstract value: float with get, set
 
 module __components_SpinButton_examples_SpinButton_Basic_Example =
 
@@ -19127,7 +19558,7 @@ module __components_TextField_examples_TextField_CustomRender_Example =
         abstract TextFieldCustomRenderExample: TextFieldCustomRenderExampleStatic
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExample =
-        inherit React.Component<TextFieldCustomRenderExampleReactComponent, {| isCalloutVisible: bool |}>
+        inherit React.Component<TextFieldCustomRenderExampleReactComponent, TextFieldCustomRenderExampleReactComponent2>
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExampleStatic =
@@ -19138,6 +19569,9 @@ module __components_TextField_examples_TextField_CustomRender_Example =
 
     type [<AllowNullLiteral>] TextFieldCustomRenderExampleReactComponent =
         interface end
+
+    type [<AllowNullLiteral>] TextFieldCustomRenderExampleReactComponent2 =
+        abstract isCalloutVisible: bool with get, set
 
 module __components_TextField_examples_TextField_ErrorMessage_Example =
 
@@ -19652,11 +20086,16 @@ module __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedI
 
     type [<AllowNullLiteral>] ExtendedSelectedItem =
         inherit BaseComponent<ISelectedPeopleItemProps, IPeoplePickerItemState>
-        abstract persona: {| Invoke: HTMLDivElement option -> unit; current: HTMLDivElement option; value: HTMLDivElement option |} with get, set
+        abstract persona: ExtendedSelectedItemPersona with get, set
         abstract render: unit -> JSX.Element
 
     type [<AllowNullLiteral>] ExtendedSelectedItemStatic =
         [<EmitConstructor>] abstract Create: props: ISelectedPeopleItemProps -> ExtendedSelectedItem
+
+    type [<AllowNullLiteral>] ExtendedSelectedItemPersona =
+        [<Emit "$0($1...)">] abstract Invoke: ``component``: HTMLDivElement option -> unit
+        abstract current: HTMLDivElement option with get, set
+        abstract value: HTMLDivElement option with get, set
 
 module __components_SelectedItemsList_SelectedPeopleList_Items_ExtendedSelectedItem_scss =
 

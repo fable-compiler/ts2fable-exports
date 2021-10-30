@@ -51,7 +51,7 @@ module Chai =
         abstract addProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
         abstract overwriteMethod: ctx: obj * name: string * method: Function -> unit
         abstract overwriteProperty: ctx: obj * name: string * getter: (unit -> obj option) -> unit
-        abstract compareByInspect: a: obj * b: obj -> ChaiUtilsCompareByInspect
+        abstract compareByInspect: a: obj * b: obj -> ChaiUtilsCompareByInspectReturn
         abstract expectTypes: obj: obj * types: ResizeArray<string> -> unit
         abstract flag: obj: obj * key: string * ?value: obj -> obj option
         abstract getActual: obj: obj * args: AssertionArgs -> obj option
@@ -75,6 +75,9 @@ module Chai =
         abstract hasProperty: obj: obj option * name: ObjectProperty -> bool
         abstract getPathInfo: obj: obj * path: string -> PathInfo
         abstract getPathValue: obj: obj * path: string -> obj option
+
+    type [<RequireQualifiedAccess>] ChaiUtilsCompareByInspectReturn =
+        | N1 = 1
 
     type [<AllowNullLiteral>] ChaiPlugin =
         [<Emit "$0($1...)">] abstract Invoke: chai: ChaiStatic * utils: ChaiUtils -> unit
@@ -1267,9 +1270,6 @@ module Chai =
 
     type [<AllowNullLiteral>] AssertionErrorStatic =
         [<EmitConstructor>] abstract Create: message: string * ?_props: obj * ?ssf: Function -> AssertionError
-
-    type [<RequireQualifiedAccess>] ChaiUtilsCompareByInspect =
-        | N1 = 1
 
     type [<AllowNullLiteral>] AssertHasAnyKeys =
         [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
