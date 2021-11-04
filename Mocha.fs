@@ -12,7 +12,7 @@ type Error = System.Exception
 type Function = System.Action
 type RegExp = System.Text.RegularExpressions.Regex
 
-let [<Import("*","mocha")>] mocha: Mocha = jsNative
+let [<ImportAll("mocha")>] mocha: Mocha = jsNative
 let [<Import("describe","mocha")>] describe: Mocha.IContextDefinition = jsNative
 let [<Import("xdescribe","mocha")>] xdescribe: Mocha.IContextDefinition = jsNative
 let [<Import("context","mocha")>] context: Mocha.IContextDefinition = jsNative

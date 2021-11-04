@@ -6,7 +6,7 @@ open Fable.Core.JS
 
 type TemplateStringsArray = System.Collections.Generic.IReadOnlyList<string>
 
-let [<Import("*","chalk")>] chalk: obj = jsNative
+let [<ImportAll("chalk")>] chalk: obj = jsNative
 
 type [<AllowNullLiteral>] IExports =
     abstract ChalkConstructor: ChalkConstructorStatic

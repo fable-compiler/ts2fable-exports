@@ -14,7 +14,7 @@ type Function = System.Action
 type ReadonlyArray<'T> = System.Collections.Generic.IReadOnlyList<'T>
 type RegExp = System.Text.RegularExpressions.Regex
 
-let [<Import("*","vscode")>] vscode: Vscode.IExports = jsNative
+let [<ImportAll("vscode")>] vscode: Vscode.IExports = jsNative
 
 module Vscode =
     /// Namespace for tasks functionality.

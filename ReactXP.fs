@@ -72,7 +72,7 @@ module __android_Image =
         [<EmitConstructor>] abstract Create: unit -> Image
 
 module __android_ReactXP =
-    let [<Import("*","reactxp/android/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+    let [<ImportAll("reactxp/android/ReactXP")>] reactXP: ReactXP.IExports = jsNative
 
     module ReactXP =
 
@@ -828,7 +828,7 @@ module __common_lodashMini =
 
 module __common_ModuleInterface =
     module RX = __Interfaces
-    let [<Import("*","reactxp/common/ModuleInterface")>] reactXP: ReactXP.IExports = jsNative
+    let [<ImportAll("reactxp/common/ModuleInterface")>] reactXP: ReactXP.IExports = jsNative
 
     module ReactXP =
 
@@ -1015,7 +1015,7 @@ module __common_StyleLeakDetector =
 
 module __common_Types =
     module RX = __Interfaces
-    let [<Import("*","reactxp/common/Types")>] animated: Animated.IExports = jsNative
+    let [<ImportAll("reactxp/common/Types")>] animated: Animated.IExports = jsNative
 
     type [<AllowNullLiteral>] IExports =
         abstract AnimatedValue: AnimatedValueStatic
@@ -2328,7 +2328,7 @@ module __ios_Linking =
         [<EmitConstructor>] abstract Create: unit -> Linking
 
 module __ios_ReactXP =
-    let [<Import("*","reactxp/ios/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+    let [<ImportAll("reactxp/ios/ReactXP")>] reactXP: ReactXP.IExports = jsNative
 
     module ReactXP =
 
@@ -2549,7 +2549,7 @@ module __macos_Linking =
         [<EmitConstructor>] abstract Create: unit -> Linking
 
 module __macos_ReactXP =
-    let [<Import("*","reactxp/macos/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+    let [<ImportAll("reactxp/macos/ReactXP")>] reactXP: ReactXP.IExports = jsNative
 
     module ReactXP =
 
@@ -4290,7 +4290,7 @@ module __web_PopupContainerView =
         [<EmitConstructor>] abstract Create: props: PopupContainerViewProps * ?context: PopupContainerViewContext -> PopupContainerView
 
 module __web_ReactXP =
-    let [<Import("*","reactxp/web/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+    let [<ImportAll("reactxp/web/ReactXP")>] reactXP: ReactXP.IExports = jsNative
 
     module ReactXP =
 
@@ -4989,7 +4989,7 @@ module __windows_Link =
         [<EmitConstructor>] abstract Create: props: Types.LinkProps -> Link
 
 module __windows_ReactXP =
-    let [<Import("*","reactxp/windows/ReactXP")>] reactXP: ReactXP.IExports = jsNative
+    let [<ImportAll("reactxp/windows/ReactXP")>] reactXP: ReactXP.IExports = jsNative
 
     module ReactXP =
 

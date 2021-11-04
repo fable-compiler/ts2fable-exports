@@ -10,7 +10,7 @@ open Browser.Types
 
 type Array<'T> = System.Collections.Generic.IList<'T>
 
-let [<Import("*","izitoast")>] iziToast: IziToast = jsNative
+let [<ImportAll("izitoast")>] iziToast: IziToast = jsNative
 
 type [<StringEnum>] [<RequireQualifiedAccess>] IziToastPosition =
     | BottomRight

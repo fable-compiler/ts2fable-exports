@@ -16,7 +16,7 @@ type ReadonlySet<'T> = Set<'T>
 type RegExp = System.Text.RegularExpressions.Regex
 type Symbol = obj
 
-let [<Import("*","chai")>] chai: Chai.ChaiStatic = jsNative
+let [<ImportAll("chai")>] chai: Chai.ChaiStatic = jsNative
 
 module Chai =
 
