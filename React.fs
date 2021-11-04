@@ -13,7 +13,7 @@ open Browser.Types
 type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 
-let [<Import("*","react")>] react: React.IExports = jsNative
+let [<ImportAll("react")>] react: React.IExports = jsNative
 
 type NativeAnimationEvent =
     AnimationEvent

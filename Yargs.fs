@@ -16,7 +16,7 @@ type RegExp = System.Text.RegularExpressions.Regex
 
 type DetailedArguments = Yargs_parser.DetailedArguments
 type Configuration = Yargs_parser.Configuration
-let [<Import("*","yargs")>] yargs: Yargs.Argv = jsNative
+let [<ImportAll("yargs")>] yargs: Yargs.Argv = jsNative
 
 module Yargs =
 
