@@ -184,7 +184,10 @@ module React =
         U2<ReactElement<obj option>, ReactText>
 
     type ReactFragment =
-        Array<U3<ReactChild, ResizeArray<obj option>, bool>>
+        U2<ReactFragmentCase1, Array<U3<ReactChild, ResizeArray<obj option>, bool>>>
+
+    type [<AllowNullLiteral>] ReactFragmentCase1 =
+        interface end
 
     type ReactNode =
         U3<ReactChild, ReactFragment, bool> option
@@ -543,7 +546,7 @@ label: \"I'm a Button\"
 
     type [<AllowNullLiteral>] DOMAttributes<'T> =
         abstract children: ReactNode option with get, set
-        abstract dangerouslySetInnerHTML: DOMAttributesDangerouslySetInnerHTML option with get, set
+        abstract dangerouslySetInnerHTML: {| __html: string |} option with get, set
         abstract onCopy: ClipboardEventHandler<'T> option with get, set
         abstract onCopyCapture: ClipboardEventHandler<'T> option with get, set
         abstract onCut: ClipboardEventHandler<'T> option with get, set
@@ -2536,9 +2539,6 @@ label: \"I'm a Button\"
 
     type [<AllowNullLiteral>] MixinStatics =
         [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
-
-    type [<AllowNullLiteral>] DOMAttributesDangerouslySetInnerHTML =
-        abstract __html: string with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAccumulate =
         | None
