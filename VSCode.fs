@@ -40,13 +40,13 @@ module Vscode =
     /// 
     /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
     /// register a command handler with the identifier <c>extension.sayHello</c>.
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// commands.registerCommand('extension.sayHello', () =&gt; {
     ///  	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
     /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
-    /// <code language="json">
+    /// <code lang="json">
     /// {
     ///  	"contributes": {
     ///  		"commands": [{
@@ -85,7 +85,7 @@ module Vscode =
     /// that can be called with a <see cref="TextDocument">TextDocument</see> and a <see cref="Position">Position</see> returning hover info. The rest, like tracking the
     /// mouse, positioning the hover, keeping the hover stable etc. is taken care of by the editor.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// languages.registerHoverProvider('javascript', {
     ///  	provideHover(document, position, token) {
     ///  		return new Hover('I am a hover!');
@@ -111,7 +111,7 @@ module Vscode =
     /// Extension writers can provide APIs to other extensions by returning their API public
     /// surface from the <c>activate</c>-call.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// export function activate(context: vscode.ExtensionContext) {
     ///  	let api = {
     ///  		sum(a, b) {
@@ -129,7 +129,7 @@ module Vscode =
     /// to <c>package.json</c>, and use the <see cref="extensions.getExtension">getExtension</see>-function
     /// and the <see cref="Extension.exports">exports</see>-property, like below:
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// let mathExt = extensions.getExtension('genius.math');
     /// let importedApi = mathExt.exports;
     /// 
@@ -576,7 +576,7 @@ module Vscode =
         /// A position that reflects the given delta. Will return <c>this</c> position if the change
         /// is not changing anything.
         /// </returns>
-        abstract translate: change: PositionTranslateChange -> Position
+        abstract translate: change: {| lineDelta: float option; characterDelta: float option |} -> Position
         /// <summary>Create a new position derived from this position.</summary>
         /// <param name="line">Value that should be used as line value, default is the <see cref="Position.line">existing value</see></param>
         /// <param name="character">Value that should be used as character value, default is the <see cref="Position.character">existing value</see></param>
@@ -588,15 +588,7 @@ module Vscode =
         /// A position that reflects the given change. Will return <c>this</c> position if the change
         /// is not changing anything.
         /// </returns>
-        abstract ``with``: change: PositionWithChange -> Position
-
-    type [<AllowNullLiteral>] PositionTranslateChange =
-        abstract lineDelta: float option with get, set
-        abstract characterDelta: float option with get, set
-
-    type [<AllowNullLiteral>] PositionWithChange =
-        abstract line: float option with get, set
-        abstract character: float option with get, set
+        abstract ``with``: change: {| line: float option; character: float option |} -> Position
 
     /// <summary>
     /// Represents a line and character position, such as
@@ -670,11 +662,7 @@ module Vscode =
         /// A range that reflects the given change. Will return <c>this</c> range if the change
         /// is not changing anything.
         /// </returns>
-        abstract ``with``: change: RangeWithChange -> Range
-
-    type [<AllowNullLiteral>] RangeWithChange =
-        abstract start: Position option with get, set
-        abstract ``end``: Position option with get, set
+        abstract ``with``: change: {| start: Position option; ``end``: Position option |} -> Range
 
     /// <summary>
     /// A range represents an ordered pair of two positions.
@@ -1085,7 +1073,7 @@ module Vscode =
         /// <param name="callback">A function which can create edits using an <see cref="TextEditorEdit">edit-builder</see>.</param>
         /// <param name="options">The undo/redo behavior around this edit. By default, undo stops will be created before and after this edit.</param>
         /// <returns>A promise that resolves with a value indicating if the edits could be applied.</returns>
-        abstract edit: callback: (TextEditorEdit -> unit) * ?options: TextEditorEditOptions -> Thenable<bool>
+        abstract edit: callback: (TextEditorEdit -> unit) * ?options: {| undoStopBefore: bool; undoStopAfter: bool |} -> Thenable<bool>
         /// <summary>
         /// Insert a <see cref="SnippetString">snippet</see> and put the editor into snippet mode. "Snippet mode"
         /// means the editor adds placeholders and additional cursors so that the user can complete
@@ -1098,7 +1086,7 @@ module Vscode =
         /// A promise that resolves with a value indicating if the snippet could be inserted. Note that the promise does not signal
         /// that the snippet is completely filled-in or accepted.
         /// </returns>
-        abstract insertSnippet: snippet: SnippetString * ?location: U4<Position, Range, ResizeArray<Position>, ResizeArray<Range>> * ?options: TextEditorInsertSnippetOptions -> Thenable<bool>
+        abstract insertSnippet: snippet: SnippetString * ?location: U4<Position, Range, ResizeArray<Position>, ResizeArray<Range>> * ?options: {| undoStopBefore: bool; undoStopAfter: bool |} -> Thenable<bool>
         /// <summary>
         /// Adds a set of decorations to the text editor. If a set of decorations already exists with
         /// the given <see cref="TextEditorDecorationType">decoration type</see>, they will be replaced.
@@ -1122,14 +1110,6 @@ module Vscode =
         [<Obsolete("Use the command `workbench.action.closeActiveEditor` instead.
 This method shows unexpected behavior and will be removed in the next major update.")>]
         abstract hide: unit -> unit
-
-    type [<AllowNullLiteral>] TextEditorEditOptions =
-        abstract undoStopBefore: bool with get, set
-        abstract undoStopAfter: bool with get, set
-
-    type [<AllowNullLiteral>] TextEditorInsertSnippetOptions =
-        abstract undoStopBefore: bool with get, set
-        abstract undoStopAfter: bool with get, set
 
     /// <summary>Represents an end of line character sequence in a <see cref="TextDocument">document</see>.</summary>
     type [<RequireQualifiedAccess>] EndOfLine =
@@ -1198,7 +1178,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// 
         /// The *difference* to the <see cref="Uri.path"><c>path</c></see>-property is the use of the platform specific
         /// path separator and the handling of UNC paths. The sample below outlines the difference:
-        /// <code language="ts">
+        /// <code lang="ts">
         /// const u = URI.parse('file://server/c$/folder/file.txt')
         /// u.authority === 'server'
         /// u.path === '/shares/c$/file.txt'
@@ -1209,7 +1189,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// <summary>
         /// Derive a new Uri from this Uri.
         /// 
-        /// <code language="ts">
+        /// <code lang="ts">
         /// let file = Uri.parse('before:some/file/path');
         /// let other = file.with({ scheme: 'after' });
         /// assert.ok(other.toString() === 'after:some/file/path');
@@ -1273,7 +1253,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// as path, not as stringified-uri. E.g. <c>Uri.file(path)</c> is *not* the same as
         /// <c>Uri.parse('file://' + path)</c> because the path might contain characters that are
         /// interpreted (# and ?). See the following sample:
-        /// <code language="ts">
+        /// <code lang="ts">
         /// const good = URI.file('/coding/c#/project1');
         /// good.scheme === 'file';
         /// good.path === '/coding/c#/project1';
@@ -1335,7 +1315,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// Returns a new disposable which, upon dispose, will
         /// dispose all provided disposables.
         /// </returns>
-        abstract from: [<ParamArray>] disposableLikes: DisposableStaticFrom[] -> Disposable
+        abstract from: [<ParamArray>] disposableLikes: {| dispose: unit -> obj option |}[] -> Disposable
         /// <summary>
         /// Creates a new Disposable calling the provided function
         /// on dispose.
@@ -1504,7 +1484,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         abstract canSelectMany: bool option with get, set
         /// A set of file filters that are used by the dialog. Each entry is a human readable label,
         /// like "TypeScript", and an array of extensions, e.g.
-        /// <code language="ts">
+        /// <code lang="ts">
         /// {
         ///  	'Images': ['png', 'jpg']
         ///  	'TypeScript': ['ts', 'tsx']
@@ -1520,7 +1500,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         abstract saveLabel: string option with get, set
         /// A set of file filters that are used by the dialog. Each entry is a human readable label,
         /// like "TypeScript", and an array of extensions, e.g.
-        /// <code language="ts">
+        /// <code lang="ts">
         /// {
         ///  	'Images': ['png', 'jpg']
         ///  	'TypeScript': ['ts', 'tsx']
@@ -1673,7 +1653,7 @@ This method shows unexpected behavior and will be removed in the next major upda
     /// 
     /// The snippets below are all valid implementations of the <see cref="HoverProvider"><c>HoverProvider</c></see>:
     /// 
-    /// <code language="ts">
+    /// <code lang="ts">
     /// let a: HoverProvider = {
     ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
     ///  		return new Hover('Hello World');
@@ -2068,7 +2048,7 @@ This method shows unexpected behavior and will be removed in the next major upda
     /// markdown strings will be sanitized - that means html will be escaped.~~
     [<Obsolete("This type is deprecated, please use [`MarkdownString`](#MarkdownString) instead.")>]
     type MarkedString =
-        U4<MarkdownString, string, string, string>
+        U3<MarkdownString, string, {| language: string; value: string |}>
 
     /// A hover represents additional information for a symbol or word. Hovers are
     /// rendered in a tooltip-like widget.
@@ -2402,10 +2382,10 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// Defines if an existing file should be overwritten or be
         /// ignored. When overwrite and ignoreIfExists are both set overwrite wins.
         /// </param>
-        abstract createFile: uri: Uri * ?options: WorkspaceEditCreateFileOptions -> unit
+        abstract createFile: uri: Uri * ?options: {| overwrite: bool option; ignoreIfExists: bool option |} -> unit
         /// <summary>Delete a file or folder.</summary>
         /// <param name="uri">The uri of the file that is to be deleted.</param>
-        abstract deleteFile: uri: Uri * ?options: WorkspaceEditDeleteFileOptions -> unit
+        abstract deleteFile: uri: Uri * ?options: {| recursive: bool option; ignoreIfNotExists: bool option |} -> unit
         /// <summary>Rename a file or folder.</summary>
         /// <param name="oldUri">The existing file.</param>
         /// <param name="newUri">The new location.</param>
@@ -2413,22 +2393,10 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// Defines if existing files should be overwritten or be
         /// ignored. When overwrite and ignoreIfExists are both set overwrite wins.
         /// </param>
-        abstract renameFile: oldUri: Uri * newUri: Uri * ?options: WorkspaceEditRenameFileOptions -> unit
+        abstract renameFile: oldUri: Uri * newUri: Uri * ?options: {| overwrite: bool option; ignoreIfExists: bool option |} -> unit
         /// <summary>Get all text edits grouped by resource.</summary>
         /// <returns>A shallow copy of <c>[Uri, TextEdit[]]</c>-tuples.</returns>
         abstract entries: unit -> ResizeArray<Uri * ResizeArray<TextEdit>>
-
-    type [<AllowNullLiteral>] WorkspaceEditCreateFileOptions =
-        abstract overwrite: bool option with get, set
-        abstract ignoreIfExists: bool option with get, set
-
-    type [<AllowNullLiteral>] WorkspaceEditDeleteFileOptions =
-        abstract recursive: bool option with get, set
-        abstract ignoreIfNotExists: bool option with get, set
-
-    type [<AllowNullLiteral>] WorkspaceEditRenameFileOptions =
-        abstract overwrite: bool option with get, set
-        abstract ignoreIfExists: bool option with get, set
 
     /// <summary>
     /// A workspace edit is a collection of textual and files changes for
@@ -2535,7 +2503,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// <param name="position">The position at which rename will be invoked.</param>
         /// <param name="token">A cancellation token.</param>
         /// <returns>The range or range and placeholder text of the identifier that is to be renamed. The lack of a result can signaled by returning <c>undefined</c> or <c>null</c>.</returns>
-        abstract prepareRename: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<U2<Range, RenameProviderPrepareRenameProviderResult>>
+        abstract prepareRename: document: TextDocument * position: Position * token: CancellationToken -> ProviderResult<U2<Range, {| range: Range; placeholder: string |}>>
 
     /// Value-object describing what options formatting should use.
     type [<AllowNullLiteral>] FormattingOptions =
@@ -3088,11 +3056,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// An array of color presentations or a thenable that resolves to such. The lack of a result
         /// can be signaled by returning <c>undefined</c>, <c>null</c>, or an empty array.
         /// </returns>
-        abstract provideColorPresentations: color: Color * context: DocumentColorProviderProvideColorPresentationsContext * token: CancellationToken -> ProviderResult<ResizeArray<ColorPresentation>>
-
-    type [<AllowNullLiteral>] DocumentColorProviderProvideColorPresentationsContext =
-        abstract document: TextDocument with get, set
-        abstract range: Range with get, set
+        abstract provideColorPresentations: color: Color * context: {| document: TextDocument; range: Range |} * token: CancellationToken -> ProviderResult<ResizeArray<ColorPresentation>>
 
     /// A line based folding range. To be valid, start and end line must a zero or larger and smaller than the number of lines in the document.
     /// Invalid ranges will be ignored.
@@ -3227,10 +3191,10 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         abstract onEnterRules: ResizeArray<OnEnterRule> option with get, set
         /// **Deprecated** Do not use.
         [<Obsolete("Will be replaced by a better API soon.")>]
-        abstract __electricCharacterSupport: LanguageConfiguration__electricCharacterSupport option with get, set
+        abstract __electricCharacterSupport: {| brackets: obj option; docComment: {| scope: string; ``open``: string; lineStart: string; close: string option |} option |} option with get, set
         /// **Deprecated** Do not use.
         [<Obsolete("Use the autoClosingPairs property in the language configuration file instead.")>]
-        abstract __characterPairSupport: LanguageConfiguration__characterPairSupport option with get, set
+        abstract __characterPairSupport: {| autoClosingPairs: ResizeArray<{| ``open``: string; close: string; notIn: ResizeArray<string> option |}> |} option with get, set
 
     /// The configuration target
     type [<RequireQualifiedAccess>] ConfigurationTarget =
@@ -3259,7 +3223,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// part of the section identifier. The following snippets shows how to retrieve all configurations
     /// from <c>launch.json</c>:
     /// 
-    /// <code language="ts">
+    /// <code lang="ts">
     /// // launch.json configuration
     /// const config = workspace.getConfiguration('launch', vscode.window.activeTextEditor.document.uri);
     /// 
@@ -3696,7 +3660,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     type [<AllowNullLiteral>] ExtensionContext =
         /// An array to which disposables can be added. When this
         /// extension is deactivated the disposables will be disposed.
-        abstract subscriptions: ResizeArray<ExtensionContextSubscriptions> with get, set
+        abstract subscriptions: ResizeArray<{| dispose: unit -> obj option |}> with get, set
         /// <summary>
         /// A memento object that stores state in the context
         /// of the currently opened <see cref="workspace.workspaceFolders">workspace</see>.
@@ -3823,7 +3787,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// a task. They need to be defined in the package.json of the
         /// extension under the 'taskDefinitions' extension point. The npm
         /// task definition for example looks like this
-        /// <code language="typescript">
+        /// <code lang="typescript">
         /// interface NpmTaskDefinition extends TaskDefinition {
         ///      script: string;
         /// }
@@ -3876,7 +3840,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// are escaped. If a <c>{ escapeChar, charsToEscape }</c> literal is provide all characters
         /// in <c>charsToEscape</c> are escaped using the <c>escapeChar</c>.
         /// </summary>
-        abstract escape: U2<string, ShellQuotingOptionsEscape> option with get, set
+        abstract escape: U2<string, {| escapeChar: string; charsToEscape: string |}> option with get, set
         /// The character used for strong quoting. The string's length must be 1.
         abstract strong: string option with get, set
         /// The character used for weak quoting. The string's length must be 1.
@@ -4248,7 +4212,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// <param name="uri">The uri of the file to be watched.</param>
         /// <param name="options">Configures the watch.</param>
         /// <returns>A disposable that tells the provider to stop watching the <c>uri</c>.</returns>
-        abstract watch: uri: Uri * options: FileSystemProviderWatchOptions -> Disposable
+        abstract watch: uri: Uri * options: {| recursive: bool; excludes: ResizeArray<string> |} -> Disposable
         /// <summary>
         /// Retrieve metadata about a file.
         /// 
@@ -4284,13 +4248,13 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when the parent of <c>uri</c> doesn't exist and <c>create</c> is set, e.g. no mkdirp-logic required.</exception>
         /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>uri</c> already exists, <c>create</c> is set but <c>overwrite</c> is not set.</exception>
         /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
-        abstract writeFile: uri: Uri * content: Uint8Array * options: FileSystemProviderWriteFileOptions -> U2<unit, Thenable<unit>>
+        abstract writeFile: uri: Uri * content: Uint8Array * options: {| create: bool; overwrite: bool |} -> U2<unit, Thenable<unit>>
         /// <summary>Delete a file.</summary>
         /// <param name="uri">The resource that is to be deleted.</param>
         /// <param name="options">Defines if deletion of folders is recursive.</param>
         /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when <c>uri</c> doesn't exist.</exception>
         /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
-        abstract delete: uri: Uri * options: FileSystemProviderDeleteOptions -> U2<unit, Thenable<unit>>
+        abstract delete: uri: Uri * options: {| recursive: bool |} -> U2<unit, Thenable<unit>>
         /// <summary>Rename a file or folder.</summary>
         /// <param name="oldUri">The existing file.</param>
         /// <param name="newUri">The new location.</param>
@@ -4299,7 +4263,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when parent of <c>newUri</c> doesn't exist, e.g. no mkdirp-logic required.</exception>
         /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>newUri</c> exists and when the <c>overwrite</c> option is not <c>true</c>.</exception>
         /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
-        abstract rename: oldUri: Uri * newUri: Uri * options: FileSystemProviderRenameOptions -> U2<unit, Thenable<unit>>
+        abstract rename: oldUri: Uri * newUri: Uri * options: {| overwrite: bool |} -> U2<unit, Thenable<unit>>
         /// <summary>
         /// Copy files or folders. Implementing this function is optional but it will speedup
         /// the copy operation.
@@ -4311,24 +4275,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// <exception cref=""><see cref="FileSystemError.FileNotFound"><c>FileNotFound</c></see> when parent of <c>destination</c> doesn't exist, e.g. no mkdirp-logic required.</exception>
         /// <exception cref=""><see cref="FileSystemError.FileExists"><c>FileExists</c></see> when <c>destination</c> exists and when the <c>overwrite</c> option is not <c>true</c>.</exception>
         /// <exception cref=""><see cref="FileSystemError.NoPermissions"><c>NoPermissions</c></see> when permissions aren't sufficient.</exception>
-        abstract copy: source: Uri * destination: Uri * options: FileSystemProviderCopyOptions -> U2<unit, Thenable<unit>>
-
-    type [<AllowNullLiteral>] FileSystemProviderWatchOptions =
-        abstract recursive: bool with get, set
-        abstract excludes: ResizeArray<string> with get, set
-
-    type [<AllowNullLiteral>] FileSystemProviderWriteFileOptions =
-        abstract create: bool with get, set
-        abstract overwrite: bool with get, set
-
-    type [<AllowNullLiteral>] FileSystemProviderDeleteOptions =
-        abstract recursive: bool with get, set
-
-    type [<AllowNullLiteral>] FileSystemProviderRenameOptions =
-        abstract overwrite: bool with get, set
-
-    type [<AllowNullLiteral>] FileSystemProviderCopyOptions =
-        abstract overwrite: bool with get, set
+        abstract copy: source: Uri * destination: Uri * options: {| overwrite: bool |} -> U2<unit, Thenable<unit>>
 
     /// Content settings for a webview.
     type [<AllowNullLiteral>] WebviewOptions =
@@ -4398,7 +4345,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// Title of the panel shown in UI.
         abstract title: string with get, set
         /// Icon for the panel shown in UI.
-        abstract iconPath: U2<Uri, WebviewPanelIconPath> option with get, set
+        abstract iconPath: U2<Uri, {| light: Uri; dark: Uri |}> option with get, set
         /// Webview belonging to the panel.
         abstract webview: Webview
         /// Content settings for the webview panel.
@@ -4459,7 +4406,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// by the webview content itself. To save off a persisted state, call <c>acquireVsCodeApi().setState()</c> with
     /// any json serializable object. To restore the state again, call <c>getState()</c>
     /// 
-    /// <code language="js">
+    /// <code lang="js">
     /// // Within the webview
     /// const vscode = acquireVsCodeApi();
     /// 
@@ -4545,13 +4492,13 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// 
     /// This is a sample that registers a command handler and adds an entry for that command to the palette. First
     /// register a command handler with the identifier <c>extension.sayHello</c>.
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// commands.registerCommand('extension.sayHello', () =&gt; {
     ///  	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
     /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
-    /// <code language="json">
+    /// <code lang="json">
     /// {
     ///  	"contributes": {
     ///  		"commands": [{
@@ -4884,7 +4831,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="showOptions">Where to show the webview in the editor. If preserveFocus is set, the new webview will not take focus.</param>
             /// <param name="options">Settings for the new panel.</param>
             /// <returns>New webview panel.</returns>
-            abstract createWebviewPanel: viewType: string * title: string * showOptions: U2<ViewColumn, IExportsCreateWebviewPanel> * ?options: obj -> WebviewPanel
+            abstract createWebviewPanel: viewType: string * title: string * showOptions: U2<ViewColumn, {| viewColumn: ViewColumn; preserveFocus: bool option |}> * ?options: obj -> WebviewPanel
             /// <summary>
             /// Set a message to the status bar. This is a short hand for the more powerful
             /// status bar <see cref="window.createStatusBarItem">items</see>.
@@ -4941,7 +4888,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// long running operation.
             /// </param>
             /// <returns>The thenable the task-callback returned.</returns>
-            abstract withProgress: options: ProgressOptions * task: (Progress<IExportsWithProgressProgress> -> CancellationToken -> Thenable<'R>) -> Thenable<'R>
+            abstract withProgress: options: ProgressOptions * task: (Progress<{| message: string option; increment: float option |}> -> CancellationToken -> Thenable<'R>) -> Thenable<'R>
             /// <summary>Creates a status bar <see cref="StatusBarItem">item</see>.</summary>
             /// <param name="alignment">The alignment of the item.</param>
             /// <param name="priority">The priority of the item. Higher values mean the item should be shown more to the left.</param>
@@ -5010,14 +4957,6 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="serializer">Webview serializer.</param>
             abstract registerWebviewPanelSerializer: viewType: string * serializer: WebviewPanelSerializer -> Disposable
 
-        type [<AllowNullLiteral>] IExportsCreateWebviewPanel =
-            abstract viewColumn: ViewColumn with get, set
-            abstract preserveFocus: bool option with get, set
-
-        type [<AllowNullLiteral>] IExportsWithProgressProgress =
-            abstract message: string option with get, set
-            abstract increment: float option with get, set
-
     /// <summary>Options for creating a <see cref="TreeView">TreeView</see></summary>
     type [<AllowNullLiteral>] TreeViewOptions<'T> =
         /// A data provider that provides tree data.
@@ -5067,12 +5006,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// 
         /// **NOTE:** <see cref="TreeDataProvider">TreeDataProvider</see> is required to implement <see cref="TreeDataProvider.getParent">getParent</see> method to access this API.
         /// </summary>
-        abstract reveal: element: 'T * ?options: TreeViewRevealOptions -> Thenable<unit>
-
-    type [<AllowNullLiteral>] TreeViewRevealOptions =
-        abstract select: bool option with get, set
-        abstract focus: bool option with get, set
-        abstract expand: U2<bool, float> option with get, set
+        abstract reveal: element: 'T * ?options: {| select: bool option; focus: bool option; expand: U2<bool, float> option |} -> Thenable<unit>
 
     /// A data provider that provides tree data
     type [<AllowNullLiteral>] TreeDataProvider<'T> =
@@ -5112,7 +5046,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// When <c>falsy</c>, <see cref="ThemeIcon.Folder">Folder Theme Icon</see> is assigned, if item is collapsible otherwise <see cref="ThemeIcon.File">File Theme Icon</see>.
         /// When a <see cref="ThemeIcon">ThemeIcon</see> is specified, icon is derived from the current file icon theme for the specified theme icon using <see cref="TreeItem.resourceUri">resourceUri</see> (if provided).
         /// </summary>
-        abstract iconPath: U4<string, Uri, TreeItemIconPath, ThemeIcon> option with get, set
+        abstract iconPath: U4<string, Uri, {| light: U2<string, Uri>; dark: U2<string, Uri> |}, ThemeIcon> option with get, set
         /// <summary>
         /// A human readable string which is rendered less prominent.
         /// When <c>true</c>, it is derived from <see cref="TreeItem.resourceUri">resourceUri</see> and when <c>falsy</c>, it is not shown.
@@ -5352,7 +5286,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// <summary>Button for an action in a <see cref="QuickPick">QuickPick</see> or <see cref="InputBox">InputBox</see>.</summary>
     type [<AllowNullLiteral>] QuickInputButton =
         /// Icon for the button.
-        abstract iconPath: U3<Uri, WebviewPanelIconPath, ThemeIcon>
+        abstract iconPath: U3<Uri, {| light: Uri; dark: Uri |}, ThemeIcon>
         /// An optional tooltip.
         abstract tooltip: string option
 
@@ -5418,7 +5352,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// *Note:* This function can only be called during event dispatch and not
         /// in an asynchronous manner:
         /// 
-        /// <code language="ts">
+        /// <code lang="ts">
         /// workspace.onWillSaveTextDocument(event =&gt; {
         ///  	// async, will *throw* an error
         ///  	setTimeout(() =&gt; event.waitUntil(promise));
@@ -5528,17 +5462,17 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// workspace folders have been updated.
             /// 
             /// **Example:** adding a new workspace folder at the end of workspace folders
-            /// <code language="typescript">
+            /// <code lang="typescript">
             /// workspace.updateWorkspaceFolders(workspace.workspaceFolders ? workspace.workspaceFolders.length : 0, null, { uri: ...});
             /// </code>
             /// 
             /// **Example:** removing the first workspace folder
-            /// <code language="typescript">
+            /// <code lang="typescript">
             /// workspace.updateWorkspaceFolders(0, 1);
             /// </code>
             /// 
             /// **Example:** replacing an existing workspace folder with a new one
-            /// <code language="typescript">
+            /// <code lang="typescript">
             /// workspace.updateWorkspaceFolders(0, 1, { uri: ...});
             /// </code>
             /// 
@@ -5561,7 +5495,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// true if the operation was successfully started and false otherwise if arguments were used that would result
             /// in invalid workspace folder state (e.g. 2 folders with the same URI).
             /// </returns>
-            abstract updateWorkspaceFolders: start: float * deleteCount: float option * [<ParamArray>] workspaceFoldersToAdd: IExportsUpdateWorkspaceFolders[] -> bool
+            abstract updateWorkspaceFolders: start: float * deleteCount: float option * [<ParamArray>] workspaceFoldersToAdd: {| uri: Uri; name: string option |}[] -> bool
             /// <summary>
             /// Creates a file system watcher.
             /// 
@@ -5648,7 +5582,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// </summary>
             /// <param name="options">Options to control how the document will be created.</param>
             /// <returns>A promise that resolves to a <see cref="TextDocument">document</see>.</returns>
-            abstract openTextDocument: ?options: OpenTextDocumentOptions -> Thenable<TextDocument>
+            abstract openTextDocument: ?options: {| language: string option; content: string option |} -> Thenable<TextDocument>
             /// <summary>
             /// Register a text document content provider.
             /// 
@@ -5732,19 +5666,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// <param name="provider">The filesystem provider.</param>
             /// <param name="options">Immutable metadata about the provider.</param>
             /// <returns>A <see cref="Disposable">disposable</see> that unregisters this provider when being disposed.</returns>
-            abstract registerFileSystemProvider: scheme: string * provider: FileSystemProvider * ?options: RegisterFileSystemProviderOptions -> Disposable
-
-        type [<AllowNullLiteral>] OpenTextDocumentOptions =
-            abstract language: string option with get, set
-            abstract content: string option with get, set
-
-        type [<AllowNullLiteral>] RegisterFileSystemProviderOptions =
-            abstract isCaseSensitive: bool option with get, set
-            abstract isReadonly: bool option with get, set
-
-        type [<AllowNullLiteral>] IExportsUpdateWorkspaceFolders =
-            abstract uri: Uri with get, set
-            abstract name: string option with get, set
+            abstract registerFileSystemProvider: scheme: string * provider: FileSystemProvider * ?options: {| isCaseSensitive: bool option; isReadonly: bool option |} -> Disposable
 
     /// An event describing the change in Configuration
     type [<AllowNullLiteral>] ConfigurationChangeEvent =
@@ -5767,7 +5689,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// that can be called with a <see cref="TextDocument">TextDocument</see> and a <see cref="Position">Position</see> returning hover info. The rest, like tracking the
     /// mouse, positioning the hover, keeping the hover stable etc. is taken care of by the editor.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// languages.registerHoverProvider('javascript', {
     ///  	provideHover(document, position, token) {
     ///  		return new Hover('I am a hover!');
@@ -5813,7 +5735,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             ///   4. The result is the maximum value of each match
             /// 
             /// Samples:
-            /// <code language="js">
+            /// <code lang="js">
             /// // default document from disk (file-scheme)
             /// doc.uri; //'file:///my/file.js'
             /// doc.languageId; // 'javascript'
@@ -6541,7 +6463,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// Extension writers can provide APIs to other extensions by returning their API public
     /// surface from the <c>activate</c>-call.
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// export function activate(context: vscode.ExtensionContext) {
     ///  	let api = {
     ///  		sum(a, b) {
@@ -6559,7 +6481,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// to <c>package.json</c>, and use the <see cref="extensions.getExtension">getExtension</see>-function
     /// and the <see cref="Extension.exports">exports</see>-property, like below:
     /// 
-    /// <code language="javascript">
+    /// <code lang="javascript">
     /// let mathExt = extensions.getExtension('genius.math');
     /// let importedApi = mathExt.exports;
     /// 
@@ -6585,40 +6507,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// </summary>
             abstract onDidChange: Event<unit>
 
-    type [<AllowNullLiteral>] DisposableStaticFrom =
-        abstract dispose: (unit -> obj option) with get, set
-
     type [<AllowNullLiteral>] OpenDialogOptionsFilters =
         [<EmitIndexer>] abstract Item: name: string -> ResizeArray<string> with get, set
-
-    type [<AllowNullLiteral>] RenameProviderPrepareRenameProviderResult =
-        abstract range: Range with get, set
-        abstract placeholder: string with get, set
-
-    type [<AllowNullLiteral>] LanguageConfiguration__electricCharacterSupportDocComment =
-        abstract scope: string with get, set
-        abstract ``open``: string with get, set
-        abstract lineStart: string with get, set
-        abstract close: string option with get, set
-
-    type [<AllowNullLiteral>] LanguageConfiguration__electricCharacterSupport =
-        /// This property is deprecated and will be **ignored** from
-        /// the editor.
-        [<Obsolete("")>]
-        abstract brackets: obj option with get, set
-        /// This property is deprecated and not fully supported anymore by
-        /// the editor (scope and lineStart are ignored).
-        /// Use the autoClosingPairs property in the language configuration file instead.
-        [<Obsolete("")>]
-        abstract docComment: LanguageConfiguration__electricCharacterSupportDocComment option with get, set
-
-    type [<AllowNullLiteral>] LanguageConfiguration__characterPairSupportAutoClosingPairs =
-        abstract ``open``: string with get, set
-        abstract close: string with get, set
-        abstract notIn: ResizeArray<string> option with get, set
-
-    type [<AllowNullLiteral>] LanguageConfiguration__characterPairSupport =
-        abstract autoClosingPairs: ResizeArray<LanguageConfiguration__characterPairSupportAutoClosingPairs> with get, set
 
     type [<AllowNullLiteral>] WorkspaceConfigurationInspect<'T> =
         abstract key: string with get, set
@@ -6627,25 +6517,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         abstract workspaceValue: 'T option with get, set
         abstract workspaceFolderValue: 'T option with get, set
 
-    type [<AllowNullLiteral>] ExtensionContextSubscriptions =
-        abstract dispose: unit -> obj option
-
     type [<AllowNullLiteral>] ProcessExecutionOptionsEnv =
         [<EmitIndexer>] abstract Item: key: string -> string with get, set
-
-    type [<AllowNullLiteral>] ShellQuotingOptionsEscape =
-        /// The escape character.
-        abstract escapeChar: string with get, set
-        /// The characters to escape.
-        abstract charsToEscape: string with get, set
-
-    type [<AllowNullLiteral>] WebviewPanelIconPath =
-        abstract light: Uri with get, set
-        abstract dark: Uri with get, set
-
-    type [<AllowNullLiteral>] TreeItemIconPath =
-        abstract light: U2<string, Uri> with get, set
-        abstract dark: U2<string, Uri> with get, set
 
     type [<AllowNullLiteral>] TerminalOptionsEnv =
         [<EmitIndexer>] abstract Item: key: string -> string option with get, set
