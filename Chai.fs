@@ -154,8 +154,8 @@ module Chai =
         abstract own: Own with get, set
         abstract any: KeyFilter with get, set
         abstract all: KeyFilter with get, set
-        abstract a: TypeComparison with get, set
-        abstract an: TypeComparison with get, set
+        abstract a: Assertion with get, set
+        abstract an: Assertion with get, set
         abstract ``include``: Include with get, set
         abstract includes: Include with get, set
         abstract contain: Include with get, set
@@ -208,7 +208,7 @@ module Chai =
         abstract extensible: Assertion with get, set
         abstract ``sealed``: Assertion with get, set
         abstract frozen: Assertion with get, set
-        abstract oneOf: list: ResizeArray<obj option> * ?message: string -> Assertion
+        abstract oneOf: OneOf with get, set
 
     type [<AllowNullLiteral>] LanguageChains =
         abstract ``to``: Assertion with get, set
@@ -233,11 +233,13 @@ module Chai =
         abstract greaterThan: NumberComparer with get, set
         abstract least: NumberComparer with get, set
         abstract gte: NumberComparer with get, set
+        abstract greaterThanOrEqual: NumberComparer with get, set
         abstract below: NumberComparer with get, set
         abstract lt: NumberComparer with get, set
         abstract lessThan: NumberComparer with get, set
         abstract most: NumberComparer with get, set
         abstract lte: NumberComparer with get, set
+        abstract lessThanOrEqual: NumberComparer with get, set
         abstract within: start: float * finish: float * ?message: string -> Assertion
         abstract within: start: DateTime * finish: DateTime * ?message: string -> Assertion
 
@@ -295,12 +297,12 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: value: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Property =
-        [<Emit "$0($1...)">] abstract Invoke: name: string * value: obj option * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: name: string * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * value: obj option * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] OwnPropertyDescriptor =
-        [<Emit "$0($1...)">] abstract Invoke: name: string * descriptor: PropertyDescriptor * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: name: string * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * descriptor: PropertyDescriptor * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Length =
         inherit LanguageChains
@@ -315,6 +317,10 @@ module Chai =
         abstract members: Members with get, set
         abstract any: KeyFilter with get, set
         abstract all: KeyFilter with get, set
+        abstract oneOf: OneOf with get, set
+
+    type [<AllowNullLiteral>] OneOf =
+        [<Emit "$0($1...)">] abstract Invoke: list: ResizeArray<obj> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Match =
         [<Emit "$0($1...)">] abstract Invoke: regexp: RegExp * ?message: string -> Assertion
@@ -337,7 +343,11 @@ module Chai =
         [<Emit "$0($1...)">] abstract Invoke: set: ResizeArray<obj option> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] PropertyChange =
-        [<Emit "$0($1...)">] abstract Invoke: object: Object * ?property: string * ?message: string -> Assertion
+        [<Emit "$0($1...)">] abstract Invoke: object: Object * ?property: string * ?message: string -> DeltaAssertion
+
+    type [<AllowNullLiteral>] DeltaAssertion =
+        inherit Assertion
+        abstract by: delta: float * ?msg: string -> Assertion
 
     type [<AllowNullLiteral>] Assert =
         /// <param name="expression">Expression to test for truthiness.</param>
@@ -375,7 +385,7 @@ module Chai =
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract equal: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts non-strict inequality (==) of actual and expected.</summary>
+        /// <summary>Asserts non-strict inequality (!=) of actual and expected.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
@@ -385,22 +395,22 @@ module Chai =
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract strictEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts strict inequality (==) of actual and expected.</summary>
+        /// <summary>Asserts strict inequality (!==) of actual and expected.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notStrictEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts that actual is deeply equal (==) to expected.</summary>
+        /// <summary>Asserts that actual is deeply equal to expected.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract deepEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts that actual is not deeply equal (==) to expected.</summary>
+        /// <summary>Asserts that actual is not deeply equal to expected.</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
         abstract notDeepEqual: actual: 'T * expected: 'T * ?message: string -> unit
-        /// <summary>Asserts that actual is deeply strict equal (===) to expected.</summary>
+        /// <summary>Alias to deepEqual</summary>
         /// <param name="actual">Actual value.</param>
         /// <param name="expected">Potential expected value.</param>
         /// <param name="message">Message to display on error.</param>
@@ -953,6 +963,14 @@ module Chai =
         /// <param name="subset">Potential contained set of values.</param>
         /// <param name="message">Message to display on error.</param>
         abstract includeMembers: superset: ResizeArray<'T> * subset: ResizeArray<'T> * ?message: string -> unit
+        /// <summary>
+        /// Asserts that subset isn’t included in superset in any order.
+        /// Uses a strict equality check (===). Duplicates are ignored.
+        /// </summary>
+        /// <param name="superset">Actual set of values.</param>
+        /// <param name="subset">Potential not contained set of values.</param>
+        /// <param name="message">Message to display on error.</param>
+        abstract notIncludeMembers: superset: ResizeArray<'T> * subset: ResizeArray<'T> * ?message: string -> unit
         /// <summary>
         /// Asserts that subset is included in superset using deep equality checking.
         /// Order is not take into account.

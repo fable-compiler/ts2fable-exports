@@ -114,7 +114,7 @@ type [<AllowNullLiteral>] MessageStatic =
     abstract bytesListAsB64: bytesList: ResizeArray<Uint8Array> -> ResizeArray<string>
     abstract bytesListAsU8: strList: ResizeArray<string> -> ResizeArray<Uint8Array>
     abstract getFieldWithDefault: msg: Message * fieldNumber: float * defaultValue: 'T -> 'T
-    abstract getMapField: msg: Message * fieldNumber: float * noLazyCreate: bool * valueCtor: obj -> Map<obj option, obj option>
+    abstract getMapField: msg: Message * fieldNumber: float * noLazyCreate: bool * ?valueCtor: obj -> Map<obj option, obj option>
     abstract setField: msg: Message * fieldNumber: float * value: FieldValue -> unit
     abstract addToRepeatedField: msg: Message * fieldNumber: float * value: obj option * ?index: float -> unit
     abstract setOneofField: msg: Message * fieldNumber: float * oneof: ResizeArray<float> * value: FieldValue -> unit
@@ -240,10 +240,12 @@ type [<AllowNullLiteral>] Map<'K, 'V> =
     abstract getEntryList: unit -> Array<'K * 'V>
     abstract entries: unit -> Map.Iterator<'K * 'V>
     abstract keys: unit -> Map.Iterator<'K>
+    abstract values: unit -> Map.Iterator<'V>
     abstract forEach: callback: ('V -> 'K -> unit) * ?thisArg: MapForEachThisArg -> unit
     abstract set: key: 'K * value: 'V -> Map<'K, 'V>
     abstract get: key: 'K -> 'V option
     abstract has: key: 'K -> bool
+    abstract serializeBinary: fieldNumber: float * writer: BinaryWriter * keyWriterFn: (float -> 'K -> unit) * valueWriterFn: (float -> 'V -> BinaryWriteCallback -> unit) * ?writeCallback: BinaryWriteCallback -> unit
 
 type [<AllowNullLiteral>] MapForEachThisArg =
     interface end
@@ -251,10 +253,12 @@ type [<AllowNullLiteral>] MapForEachThisArg =
 type [<AllowNullLiteral>] MapStatic =
     [<EmitConstructor>] abstract Create: arr: Array<'K * 'V> * ?valueCtor: {| Create: obj option -> Map<'K, 'V> |} -> Map<'K, 'V>
     abstract fromObject: entries: Array<'TK * 'TV> * valueCtor: obj option * valueFromObject: obj option -> Map<'TK, 'TV>
+    abstract deserializeBinary: map: Map<'K, 'V> * reader: BinaryReader * keyReaderFn: (BinaryReader -> 'K) * valueReaderFn: (BinaryReader -> obj option -> BinaryReadCallback -> 'V) * ?readCallback: BinaryReadCallback * ?defaultKey: 'K * ?defaultValue: 'V -> unit
 
 module Map =
 
     type [<AllowNullLiteral>] Iterator<'T> =
+        abstract ``[Symbol.iterator]``: unit -> Iterator<'T>
         abstract next: unit -> IteratorResult<'T>
 
     type [<AllowNullLiteral>] IteratorResult<'T> =
@@ -265,7 +269,10 @@ type [<AllowNullLiteral>] BinaryReadReader =
     [<Emit "$0($1...)">] abstract Invoke: msg: obj option * binaryReader: BinaryReader -> unit
 
 type [<AllowNullLiteral>] BinaryRead =
-    [<Emit "$0($1...)">] abstract Invoke: msg: obj option * reader: BinaryReadReader -> unit
+    [<Emit "$0($1...)">] abstract Invoke: msg: obj option * reader: BinaryReadReader -> obj option
+
+type [<AllowNullLiteral>] BinaryReadCallback =
+    [<Emit "$0($1...)">] abstract Invoke: value: obj option * binaryReader: BinaryReader -> unit
 
 type [<AllowNullLiteral>] BinaryWriteCallback =
     [<Emit "$0($1...)">] abstract Invoke: value: obj option * binaryWriter: BinaryWriter -> unit

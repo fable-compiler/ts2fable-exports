@@ -12,7 +12,9 @@ type Array<'T> = System.Collections.Generic.IList<'T>
 type Error = System.Exception
 type Function = System.Action
 
-module ReactXP = __web_ReactXP
+
+module ReactXP =
+    module ReactXP = __web_ReactXP
 
 module __android_Accessibility =
     type NativeAccessibility = __native_common_Accessibility.Accessibility
