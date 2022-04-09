@@ -142,9 +142,9 @@ module Yargs =
         abstract command: command: U2<string, ResizeArray<string>> * description: string * ?builder: BuilderCallback<'T, 'U> * ?handler: (Arguments<'U> -> unit) -> Argv<'T>
         abstract command: command: U2<string, ResizeArray<string>> * description: string * ?builder: 'O * ?handler: (Arguments<InferredOptionTypes<'O>> -> unit) -> Argv<'T>
         abstract command: command: U2<string, ResizeArray<string>> * description: string * ``module``: CommandModule<'T, 'U> -> Argv<'U>
-        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: obj * ?builder: BuilderCallback<'T, 'U> * ?handler: (Arguments<'U> -> unit) -> Argv<'T>
-        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: obj * ?builder: 'O * ?handler: (Arguments<InferredOptionTypes<'O>> -> unit) -> Argv<'T>
-        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: obj * ``module``: CommandModule<'T, 'U> -> Argv<'U>
+        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: bool * ?builder: BuilderCallback<'T, 'U> * ?handler: (Arguments<'U> -> unit) -> Argv<'T>
+        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: bool * ?builder: 'O * ?handler: (Arguments<InferredOptionTypes<'O>> -> unit) -> Argv<'T>
+        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: bool * ``module``: CommandModule<'T, 'U> -> Argv<'U>
         abstract command: ``module``: CommandModule<'T, 'U> -> Argv<'U>
         /// Apply command modules from a directory relative to the module calling this method.
         abstract commandDir: dir: string * ?opts: RequireDirectoryOptions -> Argv<'T>
@@ -489,14 +489,14 @@ Use '.global()' instead")>]
         abstract wrap: columns: float option -> Argv<'T>
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
@@ -511,14 +511,14 @@ Use '.global()' instead")>]
         [<EmitIndexer>] abstract Item: shortName: string -> U2<string, ResizeArray<string>> with get, set
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
@@ -533,14 +533,14 @@ Use '.global()' instead")>]
         [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
@@ -555,14 +555,14 @@ Use '.global()' instead")>]
         [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
@@ -577,14 +577,14 @@ Use '.global()' instead")>]
         [<EmitIndexer>] abstract Item: key: string -> U2<string, ResizeArray<string>> with get, set
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
@@ -599,14 +599,14 @@ Use '.global()' instead")>]
         [<EmitIndexer>] abstract Item: key: string -> float with get, set
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]
@@ -621,14 +621,14 @@ Use '.global()' instead")>]
         [<EmitIndexer>] abstract Item: key: string -> string with get, set
 
     /// <summary>
-    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-    /// Unlike an indexer in F#, index signatures index over a type's members. 
+    /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+    /// Unlike an indexer in F#, index signatures index over a type's members.
     /// 
     /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
     /// but instead by just specifying fields.
     /// 
-    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-    /// For example:  
+    /// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+    /// For example:
     /// <code lang="fsharp">
     /// type I =
     ///     [&lt;EmitIndexer&gt;]

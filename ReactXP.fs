@@ -2709,8 +2709,8 @@ module __native_common_Accessibility =
 
     type [<AllowNullLiteral>] MacComponentAccessibilityProps =
         abstract onClick: (Types.SyntheticEvent -> unit) option with get, set
-        abstract acceptsKeyboardFocus: obj option with get, set
-        abstract enableFocusRing: obj option with get, set
+        abstract acceptsKeyboardFocus: bool option with get, set
+        abstract enableFocusRing: bool option with get, set
 
     type [<AllowNullLiteral>] Accessibility =
         inherit CommonAccessibility

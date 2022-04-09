@@ -55,14 +55,14 @@ type [<AllowNullLiteral>] Message =
     abstract toObject: ?includeInstance: bool -> MessageToObjectReturn
 
 /// <summary>
-/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+/// Unlike an indexer in F#, index signatures index over a type's members.
 /// 
 /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
 /// but instead by just specifying fields.
 /// 
-/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-/// For example:  
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+/// For example:
 /// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
@@ -77,14 +77,14 @@ type [<AllowNullLiteral>] MessageSerializeBinaryExtensionsExtensions =
     [<EmitIndexer>] abstract Item: key: float -> ExtensionFieldBinaryInfo<Message> with get, set
 
 /// <summary>
-/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+/// Unlike an indexer in F#, index signatures index over a type's members.
 /// 
 /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
 /// but instead by just specifying fields.
 /// 
-/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-/// For example:  
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+/// For example:
 /// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
@@ -145,14 +145,14 @@ type [<AllowNullLiteral>] MessageStaticToObjectExtensionObj =
     interface end
 
 /// <summary>
-/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+/// Unlike an indexer in F#, index signatures index over a type's members.
 /// 
 /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
 /// but instead by just specifying fields.
 /// 
-/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-/// For example:  
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+/// For example:
 /// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]
@@ -198,14 +198,14 @@ type [<AllowNullLiteral>] ExtensionFieldInfoStatic =
     [<EmitConstructor>] abstract Create: fieldIndex: float * fieldName: ExtensionFieldInfoStaticFieldName * ctor: obj * toObjectFn: Message.StaticToObject * isRepeated: float -> ExtensionFieldInfo<'T>
 
 /// <summary>
-/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+/// Unlike an indexer in F#, index signatures index over a type's members.
 /// 
 /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
 /// but instead by just specifying fields.
 /// 
-/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-/// For example:  
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+/// For example:
 /// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]

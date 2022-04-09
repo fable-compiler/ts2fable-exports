@@ -10800,19 +10800,22 @@ module Electron =
             inherit Electron.BrowserView
 
         type [<AllowNullLiteral>] BrowserViewStatic =
-            [<EmitConstructor>] abstract Create: unit -> BrowserView
+            /// BrowserView
+            [<EmitConstructor>] abstract Create: ?options: BrowserViewConstructorOptions -> BrowserView
 
         type [<AllowNullLiteral>] BrowserWindow =
             inherit Electron.BrowserWindow
 
         type [<AllowNullLiteral>] BrowserWindowStatic =
-            [<EmitConstructor>] abstract Create: unit -> BrowserWindow
+            /// BrowserWindow
+            [<EmitConstructor>] abstract Create: ?options: BrowserWindowConstructorOptions -> BrowserWindow
 
         type [<AllowNullLiteral>] ClientRequest =
             inherit Electron.ClientRequest
 
         type [<AllowNullLiteral>] ClientRequestStatic =
-            [<EmitConstructor>] abstract Create: unit -> ClientRequest
+            /// ClientRequest
+            [<EmitConstructor>] abstract Create: options: U2<ClientRequestConstructorOptions, string> -> ClientRequest
 
         type [<AllowNullLiteral>] CommandLine =
             inherit Electron.CommandLine
@@ -10854,13 +10857,15 @@ module Electron =
             inherit Electron.Menu
 
         type [<AllowNullLiteral>] MenuStatic =
+            /// Menu
             [<EmitConstructor>] abstract Create: unit -> Menu
 
         type [<AllowNullLiteral>] MenuItem =
             inherit Electron.MenuItem
 
         type [<AllowNullLiteral>] MenuItemStatic =
-            [<EmitConstructor>] abstract Create: unit -> MenuItem
+            /// MenuItem
+            [<EmitConstructor>] abstract Create: options: MenuItemConstructorOptions -> MenuItem
 
         type [<AllowNullLiteral>] MessageChannelMain =
             inherit Electron.MessageChannelMain
@@ -10878,7 +10883,8 @@ module Electron =
             inherit Electron.Notification
 
         type [<AllowNullLiteral>] NotificationStatic =
-            [<EmitConstructor>] abstract Create: unit -> Notification
+            /// Notification
+            [<EmitConstructor>] abstract Create: ?options: NotificationConstructorOptions -> Notification
 
         type [<AllowNullLiteral>] ServiceWorkers =
             inherit Electron.ServiceWorkers
@@ -10899,79 +10905,92 @@ module Electron =
             inherit Electron.ShareMenu
 
         type [<AllowNullLiteral>] ShareMenuStatic =
-            [<EmitConstructor>] abstract Create: unit -> ShareMenu
+            /// ShareMenu
+            [<EmitConstructor>] abstract Create: sharingItem: SharingItem -> ShareMenu
 
         type [<AllowNullLiteral>] TouchBar =
             inherit Electron.TouchBar
 
         type [<AllowNullLiteral>] TouchBarStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBar
+            /// TouchBar
+            [<EmitConstructor>] abstract Create: options: TouchBarConstructorOptions -> TouchBar
 
         type [<AllowNullLiteral>] TouchBarButton =
             inherit Electron.TouchBarButton
 
         type [<AllowNullLiteral>] TouchBarButtonStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarButton
+            /// TouchBarButton
+            [<EmitConstructor>] abstract Create: options: TouchBarButtonConstructorOptions -> TouchBarButton
 
         type [<AllowNullLiteral>] TouchBarColorPicker =
             inherit Electron.TouchBarColorPicker
 
         type [<AllowNullLiteral>] TouchBarColorPickerStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarColorPicker
+            /// TouchBarColorPicker
+            [<EmitConstructor>] abstract Create: options: TouchBarColorPickerConstructorOptions -> TouchBarColorPicker
 
         type [<AllowNullLiteral>] TouchBarGroup =
             inherit Electron.TouchBarGroup
 
         type [<AllowNullLiteral>] TouchBarGroupStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarGroup
+            /// TouchBarGroup
+            [<EmitConstructor>] abstract Create: options: TouchBarGroupConstructorOptions -> TouchBarGroup
 
         type [<AllowNullLiteral>] TouchBarLabel =
             inherit Electron.TouchBarLabel
 
         type [<AllowNullLiteral>] TouchBarLabelStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarLabel
+            /// TouchBarLabel
+            [<EmitConstructor>] abstract Create: options: TouchBarLabelConstructorOptions -> TouchBarLabel
 
         type [<AllowNullLiteral>] TouchBarOtherItemsProxy =
             inherit Electron.TouchBarOtherItemsProxy
 
         type [<AllowNullLiteral>] TouchBarOtherItemsProxyStatic =
+            /// TouchBarOtherItemsProxy
             [<EmitConstructor>] abstract Create: unit -> TouchBarOtherItemsProxy
 
         type [<AllowNullLiteral>] TouchBarPopover =
             inherit Electron.TouchBarPopover
 
         type [<AllowNullLiteral>] TouchBarPopoverStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarPopover
+            /// TouchBarPopover
+            [<EmitConstructor>] abstract Create: options: TouchBarPopoverConstructorOptions -> TouchBarPopover
 
         type [<AllowNullLiteral>] TouchBarScrubber =
             inherit Electron.TouchBarScrubber
 
         type [<AllowNullLiteral>] TouchBarScrubberStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarScrubber
+            /// TouchBarScrubber
+            [<EmitConstructor>] abstract Create: options: TouchBarScrubberConstructorOptions -> TouchBarScrubber
 
         type [<AllowNullLiteral>] TouchBarSegmentedControl =
             inherit Electron.TouchBarSegmentedControl
 
         type [<AllowNullLiteral>] TouchBarSegmentedControlStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarSegmentedControl
+            /// TouchBarSegmentedControl
+            [<EmitConstructor>] abstract Create: options: TouchBarSegmentedControlConstructorOptions -> TouchBarSegmentedControl
 
         type [<AllowNullLiteral>] TouchBarSlider =
             inherit Electron.TouchBarSlider
 
         type [<AllowNullLiteral>] TouchBarSliderStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarSlider
+            /// TouchBarSlider
+            [<EmitConstructor>] abstract Create: options: TouchBarSliderConstructorOptions -> TouchBarSlider
 
         type [<AllowNullLiteral>] TouchBarSpacer =
             inherit Electron.TouchBarSpacer
 
         type [<AllowNullLiteral>] TouchBarSpacerStatic =
-            [<EmitConstructor>] abstract Create: unit -> TouchBarSpacer
+            /// TouchBarSpacer
+            [<EmitConstructor>] abstract Create: options: TouchBarSpacerConstructorOptions -> TouchBarSpacer
 
         type [<AllowNullLiteral>] Tray =
             inherit Electron.Tray
 
         type [<AllowNullLiteral>] TrayStatic =
-            [<EmitConstructor>] abstract Create: unit -> Tray
+            /// Tray
+            [<EmitConstructor>] abstract Create: image: U2<NativeImage, string> * ?guid: string -> Tray
 
         type [<AllowNullLiteral>] WebContents =
             inherit Electron.WebContents
