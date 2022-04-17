@@ -419,7 +419,7 @@ module Monaco =
         abstract uris: IMarkdownStringUris option with get, set
 
     type [<AllowNullLiteral>] IKeyboardEvent =
-        abstract _standardKeyboardEventBrand: obj
+        abstract _standardKeyboardEventBrand: bool
         abstract browserEvent: KeyboardEvent
         abstract target: HTMLElement
         abstract ctrlKey: bool
@@ -1426,7 +1426,8 @@ module Monaco =
             /// <param name="operations">The edit operations.</param>
             /// <returns>If desired, the inverse edit operations, that, when applied, will bring the model back to the previous state.</returns>
             abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> -> unit
-            abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> * computeUndoEdits: obj -> unit
+            abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> * computeUndoEdits: bool -> unit
+            abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> * computeUndoEdits: bool -> ResizeArray<IValidEditOperation>
             /// Change the end of line sequence without recording in the undo stack.
             /// This can have dire consequences on the undo stack! See @pushEOL for the preferred way.
             abstract setEOL: eol: EndOfLineSequence -> unit

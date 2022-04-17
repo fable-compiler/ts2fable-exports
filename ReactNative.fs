@@ -4430,10 +4430,10 @@ module StyleSheet =
 
     type [<AllowNullLiteral>] AbsoluteFillStyle =
         abstract position: string with get, set
-        abstract left: obj with get, set
-        abstract right: obj with get, set
-        abstract top: obj with get, set
-        abstract bottom: obj with get, set
+        abstract left: int with get, set
+        abstract right: int with get, set
+        abstract top: int with get, set
+        abstract bottom: int with get, set
 
 type [<AllowNullLiteral>] RelayProfiler =
     abstract attachProfileHandler: name: string * handler: (string -> (obj) option -> (unit -> unit)) -> unit
@@ -4744,14 +4744,14 @@ type [<AllowNullLiteral>] Dimensions =
     [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: ({| window: ScaledSize; screen: ScaledSize |} -> unit) -> unit
 
 /// <summary>
-/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).  
-/// Unlike an indexer in F#, index signatures index over a type's members. 
+/// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
+/// Unlike an indexer in F#, index signatures index over a type's members.
 /// 
 /// As such an index signature cannot be implemented via regular F# Indexer (<c>Item</c> property),
 /// but instead by just specifying fields.
 /// 
-/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.  
-/// For example:  
+/// Easiest way to declare such a type is with an Anonymous Record and force it into the function.
+/// For example:
 /// <code lang="fsharp">
 /// type I =
 ///     [&lt;EmitIndexer&gt;]

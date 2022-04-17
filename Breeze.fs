@@ -455,7 +455,7 @@ type [<AllowNullLiteral>] PropertyChangedEvent =
     abstract subscribe: ?callback: (PropertyChangedEventArgs -> unit) -> float
 
 type [<AllowNullLiteral>] PropertyChangedEventStatic =
-    [<EmitConstructor>] abstract Create: unit -> PropertyChangedEvent
+    [<EmitConstructor>] abstract Create: name: string * publisher: obj option * ?defaultErrorCallback: ErrorCallback -> PropertyChangedEvent
 
 type [<AllowNullLiteral>] ValidationErrorsChangedEventArgs =
     abstract entity: Entity with get, set
@@ -470,7 +470,7 @@ type [<AllowNullLiteral>] ValidationErrorsChangedEvent =
     abstract subscribe: ?callback: (ValidationErrorsChangedEventArgs -> unit) -> float
 
 type [<AllowNullLiteral>] ValidationErrorsChangedEventStatic =
-    [<EmitConstructor>] abstract Create: unit -> ValidationErrorsChangedEvent
+    [<EmitConstructor>] abstract Create: name: string * publisher: obj option * ?defaultErrorCallback: ErrorCallback -> ValidationErrorsChangedEvent
 
 type [<AllowNullLiteral>] EntityKey =
     abstract equals: entityKey: EntityKey -> bool
@@ -623,7 +623,7 @@ type [<AllowNullLiteral>] EntityChangedEvent =
     abstract subscribe: ?callback: (EntityChangedEventArgs -> unit) -> float
 
 type [<AllowNullLiteral>] EntityChangedEventStatic =
-    [<EmitConstructor>] abstract Create: unit -> EntityChangedEvent
+    [<EmitConstructor>] abstract Create: name: string * publisher: obj option * ?defaultErrorCallback: ErrorCallback -> EntityChangedEvent
 
 type [<AllowNullLiteral>] HasChangesChangedEventArgs =
     abstract entityManager: EntityManager with get, set
@@ -637,7 +637,7 @@ type [<AllowNullLiteral>] HasChangesChangedEvent =
     abstract subscribe: ?callback: (HasChangesChangedEventArgs -> unit) -> float
 
 type [<AllowNullLiteral>] HasChangesChangedEventStatic =
-    [<EmitConstructor>] abstract Create: unit -> HasChangesChangedEvent
+    [<EmitConstructor>] abstract Create: name: string * publisher: obj option * ?defaultErrorCallback: ErrorCallback -> HasChangesChangedEvent
 
 type [<AllowNullLiteral>] EntityQuery =
     abstract entityManager: EntityManager with get, set

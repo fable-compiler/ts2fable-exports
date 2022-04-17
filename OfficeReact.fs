@@ -336,7 +336,7 @@ module __components_Autofill_Autofill =
 
     /// Legacy, @deprecated, do not use.
     type [<AllowNullLiteral>] BaseAutoFillStatic =
-        [<EmitConstructor>] abstract Create: unit -> BaseAutoFill
+        [<EmitConstructor>] abstract Create: props: IAutofillProps -> BaseAutoFill
 
 module __components_Autofill_Autofill_types =
     type Autofill = __components_Autofill_Autofill.Autofill
@@ -9255,7 +9255,7 @@ module __components_pickers_BasePicker =
         abstract onBackspace: ev: React.KeyboardEvent<HTMLElement> -> unit
 
     type [<AllowNullLiteral>] BasePickerListBelowStatic =
-        [<EmitConstructor>] abstract Create: unit -> BasePickerListBelow<'T, 'P> when 'P :> IBasePickerProps<'T>
+        [<EmitConstructor>] abstract Create: basePickerProps: 'P -> BasePickerListBelow<'T, 'P>
 
 module __components_pickers_BasePicker_scss =
 

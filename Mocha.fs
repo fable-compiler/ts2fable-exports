@@ -220,73 +220,73 @@ module Mocha =
             inherit Base
 
         type [<AllowNullLiteral>] DocStatic =
-            [<EmitConstructor>] abstract Create: unit -> Doc
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Doc
 
         type [<AllowNullLiteral>] Dot =
             inherit Base
 
         type [<AllowNullLiteral>] DotStatic =
-            [<EmitConstructor>] abstract Create: unit -> Dot
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Dot
 
         type [<AllowNullLiteral>] HTML =
             inherit Base
 
         type [<AllowNullLiteral>] HTMLStatic =
-            [<EmitConstructor>] abstract Create: unit -> HTML
+            [<EmitConstructor>] abstract Create: runner: IRunner -> HTML
 
         type [<AllowNullLiteral>] HTMLCov =
             inherit Base
 
         type [<AllowNullLiteral>] HTMLCovStatic =
-            [<EmitConstructor>] abstract Create: unit -> HTMLCov
+            [<EmitConstructor>] abstract Create: runner: IRunner -> HTMLCov
 
         type [<AllowNullLiteral>] JSON =
             inherit Base
 
         type [<AllowNullLiteral>] JSONStatic =
-            [<EmitConstructor>] abstract Create: unit -> JSON
+            [<EmitConstructor>] abstract Create: runner: IRunner -> JSON
 
         type [<AllowNullLiteral>] JSONCov =
             inherit Base
 
         type [<AllowNullLiteral>] JSONCovStatic =
-            [<EmitConstructor>] abstract Create: unit -> JSONCov
+            [<EmitConstructor>] abstract Create: runner: IRunner -> JSONCov
 
         type [<AllowNullLiteral>] JSONStream =
             inherit Base
 
         type [<AllowNullLiteral>] JSONStreamStatic =
-            [<EmitConstructor>] abstract Create: unit -> JSONStream
+            [<EmitConstructor>] abstract Create: runner: IRunner -> JSONStream
 
         type [<AllowNullLiteral>] Landing =
             inherit Base
 
         type [<AllowNullLiteral>] LandingStatic =
-            [<EmitConstructor>] abstract Create: unit -> Landing
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Landing
 
         type [<AllowNullLiteral>] List =
             inherit Base
 
         type [<AllowNullLiteral>] ListStatic =
-            [<EmitConstructor>] abstract Create: unit -> List
+            [<EmitConstructor>] abstract Create: runner: IRunner -> List
 
         type [<AllowNullLiteral>] Markdown =
             inherit Base
 
         type [<AllowNullLiteral>] MarkdownStatic =
-            [<EmitConstructor>] abstract Create: unit -> Markdown
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Markdown
 
         type [<AllowNullLiteral>] Min =
             inherit Base
 
         type [<AllowNullLiteral>] MinStatic =
-            [<EmitConstructor>] abstract Create: unit -> Min
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Min
 
         type [<AllowNullLiteral>] Nyan =
             inherit Base
 
         type [<AllowNullLiteral>] NyanStatic =
-            [<EmitConstructor>] abstract Create: unit -> Nyan
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Nyan
 
         type [<AllowNullLiteral>] Progress =
             inherit Base
@@ -302,13 +302,13 @@ module Mocha =
             inherit Base
 
         type [<AllowNullLiteral>] SpecStatic =
-            [<EmitConstructor>] abstract Create: unit -> Spec
+            [<EmitConstructor>] abstract Create: runner: IRunner -> Spec
 
         type [<AllowNullLiteral>] TAP =
             inherit Base
 
         type [<AllowNullLiteral>] TAPStatic =
-            [<EmitConstructor>] abstract Create: unit -> TAP
+            [<EmitConstructor>] abstract Create: runner: IRunner -> TAP
 
         type [<AllowNullLiteral>] XUnit =
             inherit Base
