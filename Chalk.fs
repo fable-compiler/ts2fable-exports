@@ -22,7 +22,7 @@ type [<AllowNullLiteral>] ChalkOptions =
     abstract level: Level option with get, set
 
 type [<AllowNullLiteral>] ChalkConstructor =
-    [<Emit "$0($1...)">] abstract Invoke: ?options: ChalkOptions -> Chalk
+    [<Emit("$0($1...)")>] abstract Invoke: ?options: ChalkOptions -> Chalk
 
 type [<AllowNullLiteral>] ChalkConstructorStatic =
     [<EmitConstructor>] abstract Create: ?options: ChalkOptions -> ChalkConstructor
@@ -34,8 +34,8 @@ type [<AllowNullLiteral>] ColorSupport =
     abstract has16m: bool with get, set
 
 type [<AllowNullLiteral>] Chalk =
-    [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] text: string[] -> string
-    [<Emit "$0($1...)">] abstract Invoke: text: TemplateStringsArray * [<ParamArray>] placeholders: string[] -> string
+    [<Emit("$0($1...)")>] abstract Invoke: [<ParamArray>] text: string[] -> string
+    [<Emit("$0($1...)")>] abstract Invoke: text: TemplateStringsArray * [<ParamArray>] placeholders: string[] -> string
     abstract constructor: ChalkConstructor with get, set
     abstract enabled: bool with get, set
     abstract level: Level with get, set

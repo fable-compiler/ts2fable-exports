@@ -46,8 +46,8 @@ module Yargs =
     /// <c>Arguments&lt;T&gt;</c> to simplify the inferred type signature in client code.
     /// </summary>
     type [<AllowNullLiteral>] Argv<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: unit -> obj
-        [<Emit "$0($1...)">] abstract Invoke: args: ResizeArray<string> * ?cwd: string -> Argv<'T>
+        [<Emit("$0($1...)")>] abstract Invoke: unit -> obj
+        [<Emit("$0($1...)")>] abstract Invoke: args: ResizeArray<string> * ?cwd: string -> Argv<'T>
         /// <summary>
         /// Set key names as equivalent such that updates to a key will propagate to aliases and vice-versa.
         /// 
@@ -804,7 +804,7 @@ Use 'demandOption' instead")>]
         ParseCallback<obj>
 
     type [<AllowNullLiteral>] ParseCallback<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: err: Error option * argv: Arguments<'T> * output: string -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: err: Error option * argv: Arguments<'T> * output: string -> unit
 
     type CommandBuilder =
         CommandBuilder<obj, obj>
@@ -819,19 +819,19 @@ Use 'demandOption' instead")>]
         [<EmitIndexer>] abstract Item: key: string -> Options with get, set
 
     type [<AllowNullLiteral>] SyncCompletionFunction =
-        [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option -> ResizeArray<string>
+        [<Emit("$0($1...)")>] abstract Invoke: current: string * argv: obj option -> ResizeArray<string>
 
     type [<AllowNullLiteral>] AsyncCompletionFunction =
-        [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option * ``done``: (ResizeArray<string> -> unit) -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: current: string * argv: obj option * ``done``: (ResizeArray<string> -> unit) -> unit
 
     type [<AllowNullLiteral>] PromiseCompletionFunction =
-        [<Emit "$0($1...)">] abstract Invoke: current: string * argv: obj option -> Promise<ResizeArray<string>>
+        [<Emit("$0($1...)")>] abstract Invoke: current: string * argv: obj option -> Promise<ResizeArray<string>>
 
     type MiddlewareFunction =
         MiddlewareFunction<obj>
 
     type [<AllowNullLiteral>] MiddlewareFunction<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: args: Arguments<'T> -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: args: Arguments<'T> -> unit
 
     type Choices =
         ReadonlyArray<U2<string, float> option>

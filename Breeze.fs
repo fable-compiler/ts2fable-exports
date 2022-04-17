@@ -103,7 +103,7 @@ module Core =
         abstract toJSONSafeReplacer: prop: string * ``val``: obj option -> obj option
 
     type [<AllowNullLiteral>] ErrorCallback =
-        [<Emit "$0($1...)">] abstract Invoke: error: Error -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: error: Error -> unit
 
     type [<AllowNullLiteral>] IEnum =
         abstract contains: object: obj option -> bool
@@ -578,10 +578,10 @@ type [<AllowNullLiteral>] EntityManagerProperties =
     abstract keyGeneratorCtor: Function option with get, set
 
 type [<AllowNullLiteral>] ExecuteQuerySuccessCallback =
-    [<Emit "$0($1...)">] abstract Invoke: data: QueryResult -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: data: QueryResult -> unit
 
 type [<AllowNullLiteral>] ExecuteQueryErrorCallback =
-    [<Emit "$0($1...)">] abstract Invoke: error: ExecuteQueryErrorCallbackInvokeError -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: error: ExecuteQueryErrorCallbackInvokeError -> unit
 
 type [<AllowNullLiteral>] ExecuteQueryErrorCallbackInvokeError =
     abstract query: EntityQuery with get, set
@@ -591,7 +591,7 @@ type [<AllowNullLiteral>] ExecuteQueryErrorCallbackInvokeError =
     abstract stack: string option with get, set
 
 type [<AllowNullLiteral>] SaveChangesSuccessCallback =
-    [<Emit "$0($1...)">] abstract Invoke: saveResult: SaveResult -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: saveResult: SaveResult -> unit
 
 type [<AllowNullLiteral>] EntityError =
     abstract entity: Entity with get, set
@@ -601,7 +601,7 @@ type [<AllowNullLiteral>] EntityError =
     abstract propertyName: string with get, set
 
 type [<AllowNullLiteral>] SaveChangesErrorCallback =
-    [<Emit "$0($1...)">] abstract Invoke: error: SaveChangesErrorCallbackInvokeError -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: error: SaveChangesErrorCallbackInvokeError -> unit
 
 type [<AllowNullLiteral>] SaveChangesErrorCallbackInvokeError =
     abstract entityErrors: ResizeArray<EntityError> with get, set
@@ -931,12 +931,12 @@ type [<AllowNullLiteral>] PredicateStatic =
     abstract ``or``: PredicateMethod with get, set
 
 type [<AllowNullLiteral>] PredicateMethod =
-    [<Emit "$0($1...)">] abstract Invoke: predicates: ResizeArray<Predicate> -> Predicate
-    [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] predicates: Predicate[] -> Predicate
-    [<Emit "$0($1...)">] abstract Invoke: property: string * operator: string * value: obj option * ?valueIsLiteral: bool -> Predicate
-    [<Emit "$0($1...)">] abstract Invoke: property: string * operator: FilterQueryOpSymbol * value: obj option * ?valueIsLiteral: bool -> Predicate
-    [<Emit "$0($1...)">] abstract Invoke: property: string * filterop: FilterQueryOpSymbol * property2: string * filterop2: FilterQueryOpSymbol * value: obj option -> Predicate
-    [<Emit "$0($1...)">] abstract Invoke: property: string * filterop: string * property2: string * filterop2: string * value: obj option -> Predicate
+    [<Emit("$0($1...)")>] abstract Invoke: predicates: ResizeArray<Predicate> -> Predicate
+    [<Emit("$0($1...)")>] abstract Invoke: [<ParamArray>] predicates: Predicate[] -> Predicate
+    [<Emit("$0($1...)")>] abstract Invoke: property: string * operator: string * value: obj option * ?valueIsLiteral: bool -> Predicate
+    [<Emit("$0($1...)")>] abstract Invoke: property: string * operator: FilterQueryOpSymbol * value: obj option * ?valueIsLiteral: bool -> Predicate
+    [<Emit("$0($1...)")>] abstract Invoke: property: string * filterop: FilterQueryOpSymbol * property2: string * filterop2: FilterQueryOpSymbol * value: obj option -> Predicate
+    [<Emit("$0($1...)")>] abstract Invoke: property: string * filterop: string * property2: string * filterop2: string * value: obj option -> Predicate
 
 type [<AllowNullLiteral>] QueryOptions =
     abstract fetchStrategy: FetchStrategySymbol with get, set
@@ -1095,7 +1095,7 @@ type [<AllowNullLiteral>] ValidatorStatic =
     abstract makeRegExpValidator: validatorName: string * expression: RegExp * defaultMessage: string * ?context: obj -> Validator
 
 type [<AllowNullLiteral>] ValidatorFunction =
-    [<Emit "$0($1...)">] abstract Invoke: value: obj option * context: ValidatorFunctionContext -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: value: obj option * context: ValidatorFunctionContext -> unit
 
 type [<AllowNullLiteral>] ValidatorFunctionContext =
     abstract value: obj option with get, set

@@ -1338,7 +1338,7 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// <param name="thisArgs">The <c>this</c>-argument which will be used when calling the event listener.</param>
         /// <param name="disposables">An array to which a <see cref="Disposable">disposable</see> will be added.</param>
         /// <returns>A disposable which unsubscribes the event listener.</returns>
-        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArgs: obj * ?disposables: ResizeArray<Disposable> -> Disposable
+        [<Emit("$0($1...)")>] abstract Invoke: listener: ('T -> obj option) * ?thisArgs: obj * ?disposables: ResizeArray<Disposable> -> Disposable
 
     /// <summary>
     /// An event emitter can be used to create and manage an <see cref="Event">event</see> for others

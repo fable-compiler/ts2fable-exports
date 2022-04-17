@@ -59,7 +59,7 @@ module React =
         abstract createFactory: ``type``: ClassType<'P, ClassicComponent<'P, ComponentState>, ClassicComponentClass<'P>> -> CFactory<'P, ClassicComponent<'P, ComponentState>>
         abstract createFactory: ``type``: ClassType<'P, 'T, 'C> -> CFactory<'P, 'T> when 'T :> Component<'P, ComponentState> and 'C :> ComponentClass<'P>
         abstract createFactory: ``type``: ComponentClass<'P> -> Factory<'P>
-        [<Emit "$0.createElement('input',$1,$2)">] abstract createElement_input: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
+        [<Emit("$0.createElement('input',$1,$2)")>] abstract createElement_input: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<IExportsCreateElement_inputDetailedReactHTMLElement, HTMLInputElement>
         abstract createElement: ``type``: KeyOf<ReactHTML> * ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T> when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement
         abstract createElement: ``type``: KeyOf<ReactSVG> * ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement when 'P :> SVGAttributes<'T> and 'T :> SVGElement
         abstract createElement: ``type``: string * ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T> when 'P :> DOMAttributes<'T> and 'T :> Element
@@ -149,13 +149,13 @@ module React =
         abstract ``type``: KeyOf<ReactSVG> with get, set
 
     type [<AllowNullLiteral>] Factory<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactElement<'P>
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactElement<'P>
 
     type [<AllowNullLiteral>] SFCFactory<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> SFCElement<'P>
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> SFCElement<'P>
 
     type [<AllowNullLiteral>] ComponentFactory<'P, 'T when 'T :> Component<'P, ComponentState>> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, 'T>
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> CElement<'P, 'T>
 
     type CFactory<'P, 'T when 'T :> Component<'P, ComponentState>> =
         ComponentFactory<'P, 'T>
@@ -164,18 +164,18 @@ module React =
         CFactory<'P, ClassicComponent<'P, ComponentState>>
 
     type [<AllowNullLiteral>] DOMFactory<'P, 'T when 'P :> DOMAttributes<'T> and 'T :> Element> =
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T>
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> DOMElement<'P, 'T>
 
     type [<AllowNullLiteral>] HTMLFactory<'T when 'T :> HTMLElement> =
         inherit DetailedHTMLFactory<AllHTMLAttributes<'T>, 'T>
 
     type [<AllowNullLiteral>] DetailedHTMLFactory<'P, 'T when 'P :> HTMLAttributes<'T> and 'T :> HTMLElement> =
         inherit DOMFactory<'P, 'T>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T>
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> DetailedReactHTMLElement<'P, 'T>
 
     type [<AllowNullLiteral>] SVGFactory =
         inherit DOMFactory<SVGAttributes<SVGElement>, SVGElement>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: obj * [<ParamArray>] children: ReactNode[] -> ReactSVGElement
 
     type ReactText =
         U2<string, float>
@@ -252,7 +252,7 @@ module React =
         StatelessComponent<obj>
 
     type [<AllowNullLiteral>] StatelessComponent<'P> =
-        [<Emit "$0($1...)">] abstract Invoke: props: obj * ?context: obj -> ReactElement<obj option> option
+        [<Emit("$0($1...)")>] abstract Invoke: props: obj * ?context: obj -> ReactElement<obj option> option
         abstract propTypes: ValidationMap<'P> option with get, set
         abstract contextTypes: ValidationMap<obj option> option with get, set
         abstract defaultProps: obj option with get, set
@@ -472,7 +472,7 @@ module React =
         abstract pseudoElement: string with get, set
 
     type [<AllowNullLiteral>] EventHandler<'E when 'E :> SyntheticEvent<obj option>> =
-        [<Emit "$0($1...)">] abstract Invoke: ``event``: 'E -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: ``event``: 'E -> unit
 
     type ReactEventHandler<'T> =
         EventHandler<SyntheticEvent<'T>>
@@ -2471,7 +2471,7 @@ label: \"I'm a Button\"
         inherit ReactSVG
 
     type [<AllowNullLiteral>] Validator<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: object: 'T * key: string * componentName: string * [<ParamArray>] rest: obj option[] -> Error option
+        [<Emit("$0($1...)")>] abstract Invoke: object: 'T * key: string * componentName: string * [<ParamArray>] rest: obj option[] -> Error option
 
     type [<AllowNullLiteral>] Requireable<'T> =
         inherit Validator<'T>
@@ -2551,12 +2551,12 @@ label: \"I'm a Button\"
     type [<StringEnum>] [<RequireQualifiedAccess>] SVGAttributesAlignmentBaseline =
         | Auto
         | Baseline
-        | [<CompiledName "before-edge">] BeforeEdge
-        | [<CompiledName "text-before-edge">] TextBeforeEdge
+        | [<CompiledName("before-edge")>] BeforeEdge
+        | [<CompiledName("text-before-edge")>] TextBeforeEdge
         | Middle
         | Central
-        | [<CompiledName "after-edge">] AfterEdge
-        | [<CompiledName "text-after-edge">] TextAfterEdge
+        | [<CompiledName("after-edge")>] AfterEdge
+        | [<CompiledName("text-after-edge")>] TextAfterEdge
         | Ideographic
         | Alphabetic
         | Hanging

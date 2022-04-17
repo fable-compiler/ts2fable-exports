@@ -458,13 +458,13 @@ type Constructor<'T> =
     obj
 
 type [<AllowNullLiteral>] MeasureOnSuccessCallback =
-    [<Emit "$0($1...)">] abstract Invoke: x: float * y: float * width: float * height: float * pageX: float * pageY: float -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: x: float * y: float * width: float * height: float * pageX: float * pageY: float -> unit
 
 type [<AllowNullLiteral>] MeasureInWindowOnSuccessCallback =
-    [<Emit "$0($1...)">] abstract Invoke: x: float * y: float * width: float * height: float -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: x: float * y: float * width: float * height: float -> unit
 
 type [<AllowNullLiteral>] MeasureLayoutOnSuccessCallback =
-    [<Emit "$0($1...)">] abstract Invoke: left: float * top: float * width: float * height: float -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: left: float * top: float * width: float * height: float -> unit
 
 /// EventSubscription represents a subscription to a particular event. It can
 /// remove its own subscription.
@@ -715,13 +715,13 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     abstract refs: NativeMethodsMixinStaticRefs with get, set
 
 type [<AllowNullLiteral>] Runnable =
-    [<Emit "$0($1...)">] abstract Invoke: appParameters: obj option -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: appParameters: obj option -> unit
 
 type [<AllowNullLiteral>] Task =
-    [<Emit "$0($1...)">] abstract Invoke: taskData: obj option -> Promise<unit>
+    [<Emit("$0($1...)")>] abstract Invoke: taskData: obj option -> Promise<unit>
 
 type [<AllowNullLiteral>] TaskProvider =
-    [<Emit "$0($1...)">] abstract Invoke: unit -> Task
+    [<Emit("$0($1...)")>] abstract Invoke: unit -> Task
 
 type NodeHandle =
     float
@@ -786,7 +786,7 @@ type [<AllowNullLiteral>] Touchable =
     abstract onTouchEndCapture: (GestureResponderEvent -> unit) option with get, set
 
 type [<AllowNullLiteral>] ComponentProvider =
-    [<Emit "$0($1...)">] abstract Invoke: unit -> React.ComponentType<obj option>
+    [<Emit("$0($1...)")>] abstract Invoke: unit -> React.ComponentType<obj option>
 
 type [<AllowNullLiteral>] AppConfig =
     abstract appKey: string with get, set
@@ -869,8 +869,8 @@ type [<AllowNullLiteral>] LayoutAnimationStatic =
     abstract spring: (((unit -> unit)) option -> unit) with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexAlignType =
-    | [<CompiledName "flex-start">] FlexStart
-    | [<CompiledName "flex-end">] FlexEnd
+    | [<CompiledName("flex-start")>] FlexStart
+    | [<CompiledName("flex-end")>] FlexEnd
     | Center
     | Stretch
     | Baseline
@@ -1296,19 +1296,19 @@ type [<AllowNullLiteral>] TextInputAndroidProps =
 
 type [<StringEnum>] [<RequireQualifiedAccess>] KeyboardType =
     | Default
-    | [<CompiledName "email-address">] EmailAddress
+    | [<CompiledName("email-address")>] EmailAddress
     | Numeric
-    | [<CompiledName "phone-pad">] PhonePad
+    | [<CompiledName("phone-pad")>] PhonePad
 
 type [<StringEnum>] [<RequireQualifiedAccess>] KeyboardTypeIOS =
-    | [<CompiledName "ascii-capable">] AsciiCapable
-    | [<CompiledName "numbers-and-punctuation">] NumbersAndPunctuation
+    | [<CompiledName("ascii-capable")>] AsciiCapable
+    | [<CompiledName("numbers-and-punctuation")>] NumbersAndPunctuation
     | Url
-    | [<CompiledName "number-pad">] NumberPad
-    | [<CompiledName "name-phone-pad">] NamePhonePad
-    | [<CompiledName "decimal-pad">] DecimalPad
+    | [<CompiledName("number-pad")>] NumberPad
+    | [<CompiledName("name-phone-pad")>] NamePhonePad
+    | [<CompiledName("decimal-pad")>] DecimalPad
     | Twitter
-    | [<CompiledName "web-search">] WebSearch
+    | [<CompiledName("web-search")>] WebSearch
 
 type KeyboardTypeAndroid =
     string
@@ -1333,7 +1333,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ReturnKeyTypeIOS =
     | Join
     | Route
     | Yahoo
-    | [<CompiledName "emergency-call">] EmergencyCall
+    | [<CompiledName("emergency-call")>] EmergencyCall
 
 type ReturnKeyTypeOptions =
     U3<ReturnKeyType, ReturnKeyTypeAndroid, ReturnKeyTypeIOS>
@@ -3364,7 +3364,7 @@ type [<AllowNullLiteral>] ListRenderItemInfo<'ItemT> =
     abstract separators: {| highlight: unit -> unit; unhighlight: unit -> unit; updateProps: ListRenderItemInfoSeparatorsUpdateProps -> obj option -> unit |} with get, set
 
 type [<AllowNullLiteral>] ListRenderItem<'ItemT> =
-    [<Emit "$0($1...)">] abstract Invoke: info: ListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
+    [<Emit("$0($1...)")>] abstract Invoke: info: ListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
 
 type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     inherit VirtualizedListProps<'ItemT>
@@ -3503,7 +3503,7 @@ type [<AllowNullLiteral>] SectionListRenderItemInfo<'ItemT> =
     abstract section: SectionListData<'ItemT> with get, set
 
 type [<AllowNullLiteral>] SectionListRenderItem<'ItemT> =
-    [<Emit "$0($1...)">] abstract Invoke: info: SectionListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
+    [<Emit("$0($1...)")>] abstract Invoke: info: SectionListRenderItemInfo<'ItemT> -> React.ReactElement<obj option> option
 
 type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     inherit VirtualizedListWithoutRenderItemProps<'ItemT>
@@ -4737,11 +4737,11 @@ type [<AllowNullLiteral>] Dimensions =
     /// <summary>Add an event listener for dimension changes</summary>
     /// <param name="type">the type of event to listen to</param>
     /// <param name="handler">the event handler</param>
-    [<Emit "$0.addEventListener('change',$1)">] abstract addEventListener_change: handler: ({| window: ScaledSize; screen: ScaledSize |} -> unit) -> unit
+    [<Emit("$0.addEventListener('change',$1)")>] abstract addEventListener_change: handler: ({| window: ScaledSize; screen: ScaledSize |} -> unit) -> unit
     /// <summary>Remove an event listener</summary>
     /// <param name="type">the type of event</param>
     /// <param name="handler">the event handler</param>
-    [<Emit "$0.removeEventListener('change',$1)">] abstract removeEventListener_change: handler: ({| window: ScaledSize; screen: ScaledSize |} -> unit) -> unit
+    [<Emit("$0.removeEventListener('change',$1)")>] abstract removeEventListener_change: handler: ({| window: ScaledSize; screen: ScaledSize |} -> unit) -> unit
 
 /// <summary>
 /// Typescript interface contains an <see href="https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures">index signature</see> (like <c>{ [key:string]: string }</c>).
@@ -5542,9 +5542,9 @@ type [<AllowNullLiteral>] AlertIOSButton =
 
 type [<StringEnum>] [<RequireQualifiedAccess>] AlertType =
     | Default
-    | [<CompiledName "plain-text">] PlainText
-    | [<CompiledName "secure-text">] SecureText
-    | [<CompiledName "login-password">] LoginPassword
+    | [<CompiledName("plain-text")>] PlainText
+    | [<CompiledName("secure-text")>] SecureText
+    | [<CompiledName("login-password")>] LoginPassword
 
 /// <summary>
 /// <c>AlertIOS</c> provides functionality to create an iOS alert dialog with a
@@ -5706,18 +5706,18 @@ type [<AllowNullLiteral>] ButtonStatic =
     [<EmitConstructor>] abstract Create: unit -> Button
 
 type [<StringEnum>] [<RequireQualifiedAccess>] CameraRollGroupType =
-    | [<CompiledName "Album">] Album
-    | [<CompiledName "All">] All
-    | [<CompiledName "Event">] Event
-    | [<CompiledName "Faces">] Faces
-    | [<CompiledName "Library">] Library
-    | [<CompiledName "PhotoStream">] PhotoStream
-    | [<CompiledName "SavedPhotos">] SavedPhotos
+    | [<CompiledName("Album")>] Album
+    | [<CompiledName("All")>] All
+    | [<CompiledName("Event")>] Event
+    | [<CompiledName("Faces")>] Faces
+    | [<CompiledName("Library")>] Library
+    | [<CompiledName("PhotoStream")>] PhotoStream
+    | [<CompiledName("SavedPhotos")>] SavedPhotos
 
 type [<StringEnum>] [<RequireQualifiedAccess>] CameraRollAssetType =
-    | [<CompiledName "All">] All
-    | [<CompiledName "Videos">] Videos
-    | [<CompiledName "Photos">] Photos
+    | [<CompiledName("All")>] All
+    | [<CompiledName("Videos")>] Videos
+    | [<CompiledName("Photos")>] Photos
 
 type [<AllowNullLiteral>] CameraRollFetchParams =
     abstract first: float with get, set
@@ -5907,31 +5907,31 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ConnectionType =
     | Wifi
     | Cell
     | Unknown
-    | [<CompiledName "NONE">] NONE
-    | [<CompiledName "MOBILE">] MOBILE
-    | [<CompiledName "WIFI">] WIFI
-    | [<CompiledName "MOBILE_MMS">] MOBILE_MMS
-    | [<CompiledName "MOBILE_SUPL">] MOBILE_SUPL
-    | [<CompiledName "MOBILE_DUN">] MOBILE_DUN
-    | [<CompiledName "MOBILE_HIPRI">] MOBILE_HIPRI
-    | [<CompiledName "WIMAX">] WIMAX
-    | [<CompiledName "BLUETOOTH">] BLUETOOTH
-    | [<CompiledName "DUMMY">] DUMMY
-    | [<CompiledName "ETHERNET">] ETHERNET
-    | [<CompiledName "MOBILE_FOTA">] MOBILE_FOTA
-    | [<CompiledName "MOBILE_IMS">] MOBILE_IMS
-    | [<CompiledName "MOBILE_CBS">] MOBILE_CBS
-    | [<CompiledName "WIFI_P2P">] WIFI_P2P
-    | [<CompiledName "MOBILE_IA">] MOBILE_IA
-    | [<CompiledName "MOBILE_EMERGENCY">] MOBILE_EMERGENCY
-    | [<CompiledName "PROXY">] PROXY
-    | [<CompiledName "VPN">] VPN
-    | [<CompiledName "UNKNOWN">] UNKNOWN
+    | [<CompiledName("NONE")>] NONE
+    | [<CompiledName("MOBILE")>] MOBILE
+    | [<CompiledName("WIFI")>] WIFI
+    | [<CompiledName("MOBILE_MMS")>] MOBILE_MMS
+    | [<CompiledName("MOBILE_SUPL")>] MOBILE_SUPL
+    | [<CompiledName("MOBILE_DUN")>] MOBILE_DUN
+    | [<CompiledName("MOBILE_HIPRI")>] MOBILE_HIPRI
+    | [<CompiledName("WIMAX")>] WIMAX
+    | [<CompiledName("BLUETOOTH")>] BLUETOOTH
+    | [<CompiledName("DUMMY")>] DUMMY
+    | [<CompiledName("ETHERNET")>] ETHERNET
+    | [<CompiledName("MOBILE_FOTA")>] MOBILE_FOTA
+    | [<CompiledName("MOBILE_IMS")>] MOBILE_IMS
+    | [<CompiledName("MOBILE_CBS")>] MOBILE_CBS
+    | [<CompiledName("WIFI_P2P")>] WIFI_P2P
+    | [<CompiledName("MOBILE_IA")>] MOBILE_IA
+    | [<CompiledName("MOBILE_EMERGENCY")>] MOBILE_EMERGENCY
+    | [<CompiledName("PROXY")>] PROXY
+    | [<CompiledName("VPN")>] VPN
+    | [<CompiledName("UNKNOWN")>] UNKNOWN
 
 type [<StringEnum>] [<RequireQualifiedAccess>] EffectiveConnectionType =
-    | [<CompiledName "2g">] N2g
-    | [<CompiledName "3g">] N3g
-    | [<CompiledName "4g">] N4g
+    | [<CompiledName("2g")>] N2g
+    | [<CompiledName("3g")>] N3g
+    | [<CompiledName("4g")>] N4g
     | Unknown
 
 type [<AllowNullLiteral>] ConnectionInfo =
@@ -6063,30 +6063,30 @@ type [<AllowNullLiteral>] Rationale =
     abstract message: string with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] Permission =
-    | [<CompiledName "android.permission.READ_CALENDAR">] Android_permission_READ_CALENDAR
-    | [<CompiledName "android.permission.WRITE_CALENDAR">] Android_permission_WRITE_CALENDAR
-    | [<CompiledName "android.permission.CAMERA">] Android_permission_CAMERA
-    | [<CompiledName "android.permission.READ_CONTACTS">] Android_permission_READ_CONTACTS
-    | [<CompiledName "android.permission.WRITE_CONTACTS">] Android_permission_WRITE_CONTACTS
-    | [<CompiledName "android.permission.GET_ACCOUNTS">] Android_permission_GET_ACCOUNTS
-    | [<CompiledName "android.permission.ACCESS_FINE_LOCATION">] Android_permission_ACCESS_FINE_LOCATION
-    | [<CompiledName "android.permission.ACCESS_COARSE_LOCATION">] Android_permission_ACCESS_COARSE_LOCATION
-    | [<CompiledName "android.permission.RECORD_AUDIO">] Android_permission_RECORD_AUDIO
-    | [<CompiledName "android.permission.READ_PHONE_STATE">] Android_permission_READ_PHONE_STATE
-    | [<CompiledName "android.permission.CALL_PHONE">] Android_permission_CALL_PHONE
-    | [<CompiledName "android.permission.READ_CALL_LOG">] Android_permission_READ_CALL_LOG
-    | [<CompiledName "android.permission.WRITE_CALL_LOG">] Android_permission_WRITE_CALL_LOG
-    | [<CompiledName "com.android.voicemail.permission.ADD_VOICEMAIL">] Com_android_voicemail_permission_ADD_VOICEMAIL
-    | [<CompiledName "android.permission.USE_SIP">] Android_permission_USE_SIP
-    | [<CompiledName "android.permission.PROCESS_OUTGOING_CALLS">] Android_permission_PROCESS_OUTGOING_CALLS
-    | [<CompiledName "android.permission.BODY_SENSORS">] Android_permission_BODY_SENSORS
-    | [<CompiledName "android.permission.SEND_SMS">] Android_permission_SEND_SMS
-    | [<CompiledName "android.permission.RECEIVE_SMS">] Android_permission_RECEIVE_SMS
-    | [<CompiledName "android.permission.READ_SMS">] Android_permission_READ_SMS
-    | [<CompiledName "android.permission.RECEIVE_WAP_PUSH">] Android_permission_RECEIVE_WAP_PUSH
-    | [<CompiledName "android.permission.RECEIVE_MMS">] Android_permission_RECEIVE_MMS
-    | [<CompiledName "android.permission.READ_EXTERNAL_STORAGE">] Android_permission_READ_EXTERNAL_STORAGE
-    | [<CompiledName "android.permission.WRITE_EXTERNAL_STORAGE">] Android_permission_WRITE_EXTERNAL_STORAGE
+    | [<CompiledName("android.permission.READ_CALENDAR")>] Android_permission_READ_CALENDAR
+    | [<CompiledName("android.permission.WRITE_CALENDAR")>] Android_permission_WRITE_CALENDAR
+    | [<CompiledName("android.permission.CAMERA")>] Android_permission_CAMERA
+    | [<CompiledName("android.permission.READ_CONTACTS")>] Android_permission_READ_CONTACTS
+    | [<CompiledName("android.permission.WRITE_CONTACTS")>] Android_permission_WRITE_CONTACTS
+    | [<CompiledName("android.permission.GET_ACCOUNTS")>] Android_permission_GET_ACCOUNTS
+    | [<CompiledName("android.permission.ACCESS_FINE_LOCATION")>] Android_permission_ACCESS_FINE_LOCATION
+    | [<CompiledName("android.permission.ACCESS_COARSE_LOCATION")>] Android_permission_ACCESS_COARSE_LOCATION
+    | [<CompiledName("android.permission.RECORD_AUDIO")>] Android_permission_RECORD_AUDIO
+    | [<CompiledName("android.permission.READ_PHONE_STATE")>] Android_permission_READ_PHONE_STATE
+    | [<CompiledName("android.permission.CALL_PHONE")>] Android_permission_CALL_PHONE
+    | [<CompiledName("android.permission.READ_CALL_LOG")>] Android_permission_READ_CALL_LOG
+    | [<CompiledName("android.permission.WRITE_CALL_LOG")>] Android_permission_WRITE_CALL_LOG
+    | [<CompiledName("com.android.voicemail.permission.ADD_VOICEMAIL")>] Com_android_voicemail_permission_ADD_VOICEMAIL
+    | [<CompiledName("android.permission.USE_SIP")>] Android_permission_USE_SIP
+    | [<CompiledName("android.permission.PROCESS_OUTGOING_CALLS")>] Android_permission_PROCESS_OUTGOING_CALLS
+    | [<CompiledName("android.permission.BODY_SENSORS")>] Android_permission_BODY_SENSORS
+    | [<CompiledName("android.permission.SEND_SMS")>] Android_permission_SEND_SMS
+    | [<CompiledName("android.permission.RECEIVE_SMS")>] Android_permission_RECEIVE_SMS
+    | [<CompiledName("android.permission.READ_SMS")>] Android_permission_READ_SMS
+    | [<CompiledName("android.permission.RECEIVE_WAP_PUSH")>] Android_permission_RECEIVE_WAP_PUSH
+    | [<CompiledName("android.permission.RECEIVE_MMS")>] Android_permission_RECEIVE_MMS
+    | [<CompiledName("android.permission.READ_EXTERNAL_STORAGE")>] Android_permission_READ_EXTERNAL_STORAGE
+    | [<CompiledName("android.permission.WRITE_EXTERNAL_STORAGE")>] Android_permission_WRITE_EXTERNAL_STORAGE
 
 type [<StringEnum>] [<RequireQualifiedAccess>] PermissionStatus =
     | Granted
@@ -6222,14 +6222,14 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// The handler will be invoked with a hex string representing the deviceToken.
     /// 
     /// The type MUST be 'register'
-    [<Emit "$0.addEventListener('register',$1)">] abstract addEventListener_register: handler: (string -> unit) -> unit
+    [<Emit("$0.addEventListener('register',$1)")>] abstract addEventListener_register: handler: (string -> unit) -> unit
     /// Fired when the user fails to register for remote notifications.
     /// Typically occurs when APNS is having issues, or the device is a simulator.
     /// 
     /// The handler will be invoked with {message: string, code: number, details: any}.
     /// 
     /// The type MUST be 'registrationError'
-    [<Emit "$0.addEventListener('registrationError',$1)">] abstract addEventListener_registrationError: handler: ({| message: string; code: float; details: obj option |} -> unit) -> unit
+    [<Emit("$0.addEventListener('registrationError',$1)")>] abstract addEventListener_registrationError: handler: ({| message: string; code: float; details: obj option |} -> unit) -> unit
     /// <summary>
     /// Removes the event listener. Do this in <c>componentWillUnmount</c> to prevent
     /// memory leaks
@@ -6278,8 +6278,8 @@ type [<AllowNullLiteral>] SettingsStatic =
 
 type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarStyle =
     | Default
-    | [<CompiledName "light-content">] LightContent
-    | [<CompiledName "dark-content">] DarkContent
+    | [<CompiledName("light-content")>] LightContent
+    | [<CompiledName("dark-content")>] DarkContent
 
 type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarAnimation =
     | None
@@ -6600,7 +6600,7 @@ type [<AllowNullLiteral>] EasingFunction =
     /// but this cool website has nice visual illustrations of what they represent:
     /// <see href="http://xaedes.de/dev/transitions/" />
     /// </summary>
-    [<Emit "$0($1...)">] abstract Invoke: value: float -> float
+    [<Emit("$0($1...)")>] abstract Invoke: value: float -> float
 
 type [<AllowNullLiteral>] EasingStatic =
     abstract step0: EasingFunction with get, set
@@ -6768,7 +6768,7 @@ module Animated =
         abstract extrapolateRight: ExtrapolateType option with get, set
 
     type [<AllowNullLiteral>] ValueListenerCallback =
-        [<Emit "$0($1...)">] abstract Invoke: state: {| value: float |} -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: state: {| value: float |} -> unit
 
     /// <summary>
     /// Standard value for driving animations.  One <c>Animated.Value</c> can drive
@@ -6819,7 +6819,7 @@ module Animated =
         [<EmitConstructor>] abstract Create: value: float -> Value
 
     type [<AllowNullLiteral>] ValueXYListenerCallback =
-        [<Emit "$0($1...)">] abstract Invoke: value: {| x: float; y: float |} -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: value: {| x: float; y: float |} -> unit
 
     /// <summary>
     /// 2D Value for driving 2D animations, such as pan gestures.  Almost identical
@@ -6871,7 +6871,7 @@ module Animated =
         abstract finished: bool with get, set
 
     type [<AllowNullLiteral>] EndCallback =
-        [<Emit "$0($1...)">] abstract Invoke: result: EndResult -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: result: EndResult -> unit
 
     type [<AllowNullLiteral>] CompositeAnimation =
         abstract start: ((EndCallback) option -> unit) with get, set
@@ -7299,7 +7299,7 @@ type [<AllowNullLiteral>] ComponentInterface<'P> =
     abstract propTypes: PropTypes.ValidationMap<'P> with get, set
 
 type [<AllowNullLiteral>] ErrorHandlerCallback =
-    [<Emit "$0($1...)">] abstract Invoke: error: obj option * ?isFatal: bool -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: error: obj option * ?isFatal: bool -> unit
 
 type [<AllowNullLiteral>] ErrorUtils =
     abstract setGlobalHandler: (ErrorHandlerCallback -> unit) with get, set
@@ -7344,12 +7344,12 @@ type [<AllowNullLiteral>] LayoutAnimationStaticConfigChecker =
     [<EmitIndexer>] abstract Item: key: string -> obj option with get, set
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleAlignContent =
-    | [<CompiledName "flex-start">] FlexStart
-    | [<CompiledName "flex-end">] FlexEnd
+    | [<CompiledName("flex-start")>] FlexStart
+    | [<CompiledName("flex-end")>] FlexEnd
     | Center
     | Stretch
-    | [<CompiledName "space-between">] SpaceBetween
-    | [<CompiledName "space-around">] SpaceAround
+    | [<CompiledName("space-between")>] SpaceBetween
+    | [<CompiledName("space-around")>] SpaceAround
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleDisplay =
     | None
@@ -7358,21 +7358,21 @@ type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleDisplay =
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleFlexDirection =
     | Row
     | Column
-    | [<CompiledName "row-reverse">] RowReverse
-    | [<CompiledName "column-reverse">] ColumnReverse
+    | [<CompiledName("row-reverse")>] RowReverse
+    | [<CompiledName("column-reverse")>] ColumnReverse
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleFlexWrap =
     | Wrap
     | Nowrap
-    | [<CompiledName "wrap-reverse">] WrapReverse
+    | [<CompiledName("wrap-reverse")>] WrapReverse
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleJustifyContent =
-    | [<CompiledName "flex-start">] FlexStart
-    | [<CompiledName "flex-end">] FlexEnd
+    | [<CompiledName("flex-start")>] FlexStart
+    | [<CompiledName("flex-end")>] FlexEnd
     | Center
-    | [<CompiledName "space-between">] SpaceBetween
-    | [<CompiledName "space-around">] SpaceAround
-    | [<CompiledName "space-evenly">] SpaceEvenly
+    | [<CompiledName("space-between")>] SpaceBetween
+    | [<CompiledName("space-around")>] SpaceAround
+    | [<CompiledName("space-evenly")>] SpaceEvenly
 
 type [<StringEnum>] [<RequireQualifiedAccess>] FlexStyleOverflow =
     | Visible
@@ -7427,15 +7427,15 @@ type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleFontStyle =
 type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleFontWeight =
     | Normal
     | Bold
-    | [<CompiledName "100">] N100
-    | [<CompiledName "200">] N200
-    | [<CompiledName "300">] N300
-    | [<CompiledName "400">] N400
-    | [<CompiledName "500">] N500
-    | [<CompiledName "600">] N600
-    | [<CompiledName "700">] N700
-    | [<CompiledName "800">] N800
-    | [<CompiledName "900">] N900
+    | [<CompiledName("100")>] N100
+    | [<CompiledName("200")>] N200
+    | [<CompiledName("300")>] N300
+    | [<CompiledName("400")>] N400
+    | [<CompiledName("500")>] N500
+    | [<CompiledName("600")>] N600
+    | [<CompiledName("700")>] N700
+    | [<CompiledName("800")>] N800
+    | [<CompiledName("900")>] N900
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextAlign =
     | Auto
@@ -7447,8 +7447,8 @@ type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextAlign =
 type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextDecorationLine =
     | None
     | Underline
-    | [<CompiledName "line-through">] LineThrough
-    | [<CompiledName "underline line-through">] ``Underline lineThrough``
+    | [<CompiledName("line-through")>] LineThrough
+    | [<CompiledName("underline line-through")>] ``Underline lineThrough``
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TextPropsAndroidTextBreakStrategy =
     | Simple
@@ -7463,8 +7463,8 @@ type [<StringEnum>] [<RequireQualifiedAccess>] TextPropsEllipsizeMode =
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsClearButtonMode =
     | Never
-    | [<CompiledName "while-editing">] WhileEditing
-    | [<CompiledName "unless-editing">] UnlessEditing
+    | [<CompiledName("while-editing")>] WhileEditing
+    | [<CompiledName("unless-editing")>] UnlessEditing
     | Always
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsKeyboardAppearance =
@@ -7474,7 +7474,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsKeyboardAppearan
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TextInputIOSPropsTextContentType =
     | None
-    | [<CompiledName "URL">] URL
+    | [<CompiledName("URL")>] URL
     | AddressCity
     | AddressCityAndState
     | AddressState
@@ -7535,22 +7535,22 @@ type [<StringEnum>] [<RequireQualifiedAccess>] AccessibilityPropsAndroidImportan
     | Auto
     | Yes
     | No
-    | [<CompiledName "no-hide-descendants">] NoHideDescendants
+    | [<CompiledName("no-hide-descendants")>] NoHideDescendants
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ViewPropsPointerEvents =
-    | [<CompiledName "box-none">] BoxNone
+    | [<CompiledName("box-none")>] BoxNone
     | None
-    | [<CompiledName "box-only">] BoxOnly
+    | [<CompiledName("box-only")>] BoxOnly
     | Auto
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ViewPagerAndroidPropsOnPageScrollStateChanged =
-    | [<CompiledName "Idle">] Idle
-    | [<CompiledName "Dragging">] Dragging
-    | [<CompiledName "Settling">] Settling
+    | [<CompiledName("Idle")>] Idle
+    | [<CompiledName("Dragging")>] Dragging
+    | [<CompiledName("Settling")>] Settling
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ViewPagerAndroidPropsKeyboardDismissMode =
     | None
-    | [<CompiledName "on-drag">] OnDrag
+    | [<CompiledName("on-drag")>] OnDrag
 
 type [<StringEnum>] [<RequireQualifiedAccess>] KeyboardAvoidingViewPropsBehavior =
     | Height
@@ -7571,8 +7571,8 @@ type [<StringEnum>] [<RequireQualifiedAccess>] WebViewIOSLoadRequestEventNavigat
     | Other
 
 type [<StringEnum>] [<RequireQualifiedAccess>] WebViewUriSourceMethod =
-    | [<CompiledName "GET">] GET
-    | [<CompiledName "POST">] POST
+    | [<CompiledName("GET")>] GET
+    | [<CompiledName("POST")>] POST
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ActivityIndicatorIOSPropsSize =
     | Small
@@ -7598,21 +7598,21 @@ type [<StringEnum>] [<RequireQualifiedAccess>] DatePickerIOSPropsMode =
 
 type [<StringEnum>] [<RequireQualifiedAccess>] DrawerLayoutAndroidPropsDrawerLockMode =
     | Unlocked
-    | [<CompiledName "locked-closed">] LockedClosed
-    | [<CompiledName "locked-open">] LockedOpen
+    | [<CompiledName("locked-closed")>] LockedClosed
+    | [<CompiledName("locked-open")>] LockedOpen
 
 type [<StringEnum>] [<RequireQualifiedAccess>] PickerPropsAndroidMode =
     | Dialog
     | Dropdown
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ProgressBarAndroidPropsStyleAttr =
-    | [<CompiledName "Horizontal">] Horizontal
-    | [<CompiledName "Normal">] Normal
-    | [<CompiledName "Small">] Small
-    | [<CompiledName "Large">] Large
-    | [<CompiledName "Inverse">] Inverse
-    | [<CompiledName "SmallInverse">] SmallInverse
-    | [<CompiledName "LargeInverse">] LargeInverse
+    | [<CompiledName("Horizontal")>] Horizontal
+    | [<CompiledName("Normal")>] Normal
+    | [<CompiledName("Small")>] Small
+    | [<CompiledName("Large")>] Large
+    | [<CompiledName("Inverse")>] Inverse
+    | [<CompiledName("SmallInverse")>] SmallInverse
+    | [<CompiledName("LargeInverse")>] LargeInverse
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ProgressViewIOSPropsProgressViewStyle =
     | Default
@@ -7624,8 +7624,8 @@ type [<AllowNullLiteral>] ImageURISourceHeaders =
 type [<StringEnum>] [<RequireQualifiedAccess>] ImageURISourceCache =
     | Default
     | Reload
-    | [<CompiledName "force-cache">] ForceCache
-    | [<CompiledName "only-if-cached">] OnlyIfCached
+    | [<CompiledName("force-cache")>] ForceCache
+    | [<CompiledName("only-if-cached")>] OnlyIfCached
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ImagePropsAndroidResizeMethod =
     | Auto
@@ -7664,10 +7664,10 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ModalPropsIOSPresentationStyle =
 
 type [<StringEnum>] [<RequireQualifiedAccess>] ModalPropsIOSSupportedOrientationsArray =
     | Portrait
-    | [<CompiledName "portrait-upside-down">] PortraitUpsideDown
+    | [<CompiledName("portrait-upside-down")>] PortraitUpsideDown
     | Landscape
-    | [<CompiledName "landscape-left">] LandscapeLeft
-    | [<CompiledName "landscape-right">] LandscapeRight
+    | [<CompiledName("landscape-left")>] LandscapeLeft
+    | [<CompiledName("landscape-right")>] LandscapeRight
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TabBarIOSItemPropsSystemIcon =
     | Bookmarks
@@ -7677,11 +7677,11 @@ type [<StringEnum>] [<RequireQualifiedAccess>] TabBarIOSItemPropsSystemIcon =
     | Featured
     | History
     | More
-    | [<CompiledName "most-recent">] MostRecent
-    | [<CompiledName "most-viewed">] MostViewed
+    | [<CompiledName("most-recent")>] MostRecent
+    | [<CompiledName("most-viewed")>] MostViewed
     | Recents
     | Search
-    | [<CompiledName "top-rated">] TopRated
+    | [<CompiledName("top-rated")>] TopRated
 
 type [<StringEnum>] [<RequireQualifiedAccess>] TabBarIOSPropsItemPositioning =
     | Fill
@@ -7716,7 +7716,7 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsAndroidOverScrollM
 type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsKeyboardDismissMode =
     | None
     | Interactive
-    | [<CompiledName "on-drag">] OnDrag
+    | [<CompiledName("on-drag")>] OnDrag
 
 type [<StringEnum>] [<RequireQualifiedAccess>] AlertButtonStyle =
     | Default

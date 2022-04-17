@@ -8716,7 +8716,7 @@ module __components_Panel_Panel_types =
         /// If provided, this **must** be used as the ID of an element containing the
         /// panel's title, because the panel popup uses this ID as its aria-labelledby.
         /// </param>
-        [<Emit "$0($1...)">] abstract Invoke: ?props: IPanelProps * ?defaultRender: IPanelHeaderRenderer * ?headerTextId: string -> JSX.Element option
+        [<Emit("$0($1...)")>] abstract Invoke: ?props: IPanelProps * ?defaultRender: IPanelHeaderRenderer * ?headerTextId: string -> JSX.Element option
 
     type [<RequireQualifiedAccess>] PanelType =
         /// Renders the panel in 'small' mode, anchored to the far side (right in LTR mode), and has a fluid width.
@@ -12474,14 +12474,14 @@ module __demo_ComponentStatus_ComponentStatus_types =
         abstract testCoverage: ChecklistStatus with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ChecklistStatus =
-        | [<CompiledName "Unknown">] Unknown
-        | [<CompiledName "Not applicable">] NotApplicable
-        | [<CompiledName "Pass">] Pass
-        | [<CompiledName "Fail">] Fail
-        | [<CompiledName "No tests">] None
-        | [<CompiledName "Poor">] Poor
-        | [<CompiledName "Fair">] Fair
-        | [<CompiledName "Good">] Good
+        | [<CompiledName("Unknown")>] Unknown
+        | [<CompiledName("Not applicable")>] NotApplicable
+        | [<CompiledName("Pass")>] Pass
+        | [<CompiledName("Fail")>] Fail
+        | [<CompiledName("No tests")>] None
+        | [<CompiledName("Poor")>] Poor
+        | [<CompiledName("Fair")>] Fair
+        | [<CompiledName("Good")>] Good
 
 module __demo_ComponentStatus_ComponentStatusPage =
 

@@ -51,7 +51,7 @@ type [<AllowNullLiteral>] MochaSetupOptions =
     abstract require: ResizeArray<string> option with get, set
 
 type [<AllowNullLiteral>] MochaDone =
-    [<Emit "$0($1...)">] abstract Invoke: ?error: obj -> obj option
+    [<Emit("$0($1...)")>] abstract Invoke: ?error: obj -> obj option
 
 type [<AllowNullLiteral>] ReporterConstructor =
     interface end
@@ -177,13 +177,13 @@ module Mocha =
         abstract run: (((float -> unit)) option -> IRunner) with get, set
 
     type [<AllowNullLiteral>] IContextDefinition =
-        [<Emit "$0($1...)">] abstract Invoke: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
+        [<Emit("$0($1...)")>] abstract Invoke: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
         abstract only: description: string * callback: (ISuiteCallbackContext -> unit) -> ISuite
         abstract skip: description: string * callback: (ISuiteCallbackContext -> unit) -> unit
         abstract timeout: ms: U2<float, string> -> unit
 
     type [<AllowNullLiteral>] ITestDefinition =
-        [<Emit "$0($1...)">] abstract Invoke: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
+        [<Emit("$0($1...)")>] abstract Invoke: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
         abstract only: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> ITest
         abstract skip: expectation: string * ?callback: (ITestCallbackContext -> MochaDone -> obj option) -> unit
         abstract timeout: ms: U2<float, string> -> unit
