@@ -181,7 +181,7 @@ module Message =
         ResizeArray<obj option>
 
     type [<AllowNullLiteral>] StaticToObject =
-        [<Emit "$0($1...)">] abstract Invoke: includeInstance: bool * msg: Message -> StaticToObjectInvokeReturn
+        [<Emit("$0($1...)")>] abstract Invoke: includeInstance: bool * msg: Message -> StaticToObjectInvokeReturn
 
     type [<AllowNullLiteral>] StaticToObjectInvokeReturn =
         interface end
@@ -266,19 +266,19 @@ module Map =
         abstract value: 'T with get, set
 
 type [<AllowNullLiteral>] BinaryReadReader =
-    [<Emit "$0($1...)">] abstract Invoke: msg: obj option * binaryReader: BinaryReader -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: msg: obj option * binaryReader: BinaryReader -> unit
 
 type [<AllowNullLiteral>] BinaryRead =
-    [<Emit "$0($1...)">] abstract Invoke: msg: obj option * reader: BinaryReadReader -> obj option
+    [<Emit("$0($1...)")>] abstract Invoke: msg: obj option * reader: BinaryReadReader -> obj option
 
 type [<AllowNullLiteral>] BinaryReadCallback =
-    [<Emit "$0($1...)">] abstract Invoke: value: obj option * binaryReader: BinaryReader -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: value: obj option * binaryReader: BinaryReader -> unit
 
 type [<AllowNullLiteral>] BinaryWriteCallback =
-    [<Emit "$0($1...)">] abstract Invoke: value: obj option * binaryWriter: BinaryWriter -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: value: obj option * binaryWriter: BinaryWriter -> unit
 
 type [<AllowNullLiteral>] BinaryWrite =
-    [<Emit "$0($1...)">] abstract Invoke: fieldNumber: float * value: obj option * writerCallback: BinaryWriteCallback -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: fieldNumber: float * value: obj option * writerCallback: BinaryWriteCallback -> unit
 
 type [<AllowNullLiteral>] BinaryReader =
     abstract alloc: ?bytes: ByteSource * ?start: float * ?length: float -> BinaryReader

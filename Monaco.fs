@@ -63,7 +63,7 @@ module Monaco =
         abstract dispose: unit -> unit
 
     type [<AllowNullLiteral>] IEvent<'T> =
-        [<Emit "$0($1...)">] abstract Invoke: listener: ('T -> obj option) * ?thisArg: obj -> IDisposable
+        [<Emit("$0($1...)")>] abstract Invoke: listener: ('T -> obj option) * ?thisArg: obj -> IDisposable
 
     /// A helper that allows to emit and listen to typed events
     type [<AllowNullLiteral>] Emitter<'T> =
@@ -764,8 +764,8 @@ module Monaco =
 
         type [<StringEnum>] [<RequireQualifiedAccess>] BuiltinTheme =
             | Vs
-            | [<CompiledName "vs-dark">] VsDark
-            | [<CompiledName "hc-black">] HcBlack
+            | [<CompiledName("vs-dark")>] VsDark
+            | [<CompiledName("hc-black")>] HcBlack
 
         type [<AllowNullLiteral>] IStandaloneThemeData =
             abstract ``base``: BuiltinTheme with get, set
@@ -951,7 +951,7 @@ module Monaco =
             abstract getModifiedEditor: unit -> IStandaloneCodeEditor
 
         type [<AllowNullLiteral>] ICommandHandler =
-            [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] args: obj option[] -> unit
+            [<Emit("$0($1...)")>] abstract Invoke: [<ParamArray>] args: obj option[] -> unit
 
         type [<AllowNullLiteral>] IContextKey<'T> =
             abstract set: value: 'T -> unit
@@ -1171,7 +1171,7 @@ module Monaco =
         /// A callback that can compute the cursor state after applying a series of edit operations.
         type [<AllowNullLiteral>] ICursorStateComputer =
             /// A callback that can compute the resulting cursors state after some edit operations have been executed.
-            [<Emit "$0($1...)">] abstract Invoke: inverseEditOperations: ResizeArray<IValidEditOperation> -> ResizeArray<Selection> option
+            [<Emit("$0($1...)")>] abstract Invoke: inverseEditOperations: ResizeArray<IValidEditOperation> -> ResizeArray<Selection> option
 
         type [<AllowNullLiteral>] TextModelResolvedOptions =
             abstract _textModelResolvedOptionsBrand: unit with get, set
@@ -3444,9 +3444,9 @@ module Monaco =
             | Line
             | Block
             | Underline
-            | [<CompiledName "line-thin">] LineThin
-            | [<CompiledName "block-outline">] BlockOutline
-            | [<CompiledName "underline-thin">] UnderlineThin
+            | [<CompiledName("line-thin")>] LineThin
+            | [<CompiledName("block-outline")>] BlockOutline
+            | [<CompiledName("underline-thin")>] UnderlineThin
 
         type [<StringEnum>] [<RequireQualifiedAccess>] IEditorOptionsWordWrap =
             | Off
@@ -5021,8 +5021,8 @@ module Monaco =
             type [<StringEnum>] [<RequireQualifiedAccess>] HTMLFormatConfigurationWrapAttributes =
                 | Auto
                 | Force
-                | [<CompiledName "force-aligned">] ForceAligned
-                | [<CompiledName "force-expand-multiline">] ForceExpandMultiline
+                | [<CompiledName("force-aligned")>] ForceAligned
+                | [<CompiledName("force-expand-multiline")>] ForceExpandMultiline
 
         type [<AllowNullLiteral>] IMonarchLanguageTokenizer =
             [<EmitIndexer>] abstract Item: name: string -> ResizeArray<IMonarchLanguageRule> with get, set

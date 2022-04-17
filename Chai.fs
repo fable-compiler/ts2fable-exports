@@ -77,7 +77,7 @@ module Chai =
         abstract getPathValue: obj: obj * path: string -> obj option
 
     type [<AllowNullLiteral>] ChaiPlugin =
-        [<Emit "$0($1...)">] abstract Invoke: chai: ChaiStatic * utils: ChaiUtils -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: chai: ChaiStatic * utils: ChaiUtils -> unit
 
     type [<AllowNullLiteral>] ChaiStatic =
         abstract expect: ExpectStatic with get, set
@@ -92,7 +92,7 @@ module Chai =
         abstract version: string with get, set
 
     type [<AllowNullLiteral>] ExpectStatic =
-        [<Emit "$0($1...)">] abstract Invoke: ``val``: obj option * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: ``val``: obj option * ?message: string -> Assertion
         abstract fail: ?message: string -> obj
         abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: Operator -> obj
 
@@ -140,8 +140,8 @@ module Chai =
         abstract fail: actual: obj option * expected: obj option * ?message: string * ?operator: Operator -> obj
 
     type [<AllowNullLiteral>] ShouldThrow =
-        [<Emit "$0($1...)">] abstract Invoke: actual: Function * ?expected: U2<string, RegExp> * ?message: string -> unit
-        [<Emit "$0($1...)">] abstract Invoke: actual: Function * constructor: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: actual: Function * ?expected: U2<string, RegExp> * ?message: string -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: actual: Function * constructor: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> unit
 
     type [<AllowNullLiteral>] Assertion =
         inherit LanguageChains
@@ -244,18 +244,18 @@ module Chai =
         abstract within: start: DateTime * finish: DateTime * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] NumberComparer =
-        [<Emit "$0($1...)">] abstract Invoke: value: U2<float, DateTime> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: value: U2<float, DateTime> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] TypeComparison =
-        [<Emit "$0($1...)">] abstract Invoke: ``type``: string * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: ``type``: string * ?message: string -> Assertion
         abstract instanceof: InstanceOf with get, set
         abstract instanceOf: InstanceOf with get, set
 
     type [<AllowNullLiteral>] InstanceOf =
-        [<Emit "$0($1...)">] abstract Invoke: constructor: obj option * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: constructor: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] CloseTo =
-        [<Emit "$0($1...)">] abstract Invoke: expected: float * delta: float * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: expected: float * delta: float * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Nested =
         abstract ``include``: Include with get, set
@@ -294,23 +294,23 @@ module Chai =
         abstract members: Members with get, set
 
     type [<AllowNullLiteral>] Equal =
-        [<Emit "$0($1...)">] abstract Invoke: value: obj option * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: value: obj option * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Property =
-        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * value: obj option * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: name: U2<string, Symbol> * value: obj option * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: name: U2<string, Symbol> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] OwnPropertyDescriptor =
-        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * descriptor: PropertyDescriptor * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: name: U2<string, Symbol> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: name: U2<string, Symbol> * descriptor: PropertyDescriptor * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: name: U2<string, Symbol> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Length =
         inherit LanguageChains
         inherit NumericComparison
-        [<Emit "$0($1...)">] abstract Invoke: length: float * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: length: float * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Include =
-        [<Emit "$0($1...)">] abstract Invoke: value: obj option * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: value: obj option * ?message: string -> Assertion
         abstract keys: Keys with get, set
         abstract deep: Deep with get, set
         abstract ordered: Ordered with get, set
@@ -320,30 +320,30 @@ module Chai =
         abstract oneOf: OneOf with get, set
 
     type [<AllowNullLiteral>] OneOf =
-        [<Emit "$0($1...)">] abstract Invoke: list: ResizeArray<obj> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: list: ResizeArray<obj> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Match =
-        [<Emit "$0($1...)">] abstract Invoke: regexp: RegExp * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: regexp: RegExp * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Keys =
-        [<Emit "$0($1...)">] abstract Invoke: [<ParamArray>] keys: string[] -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: keys: U2<ResizeArray<obj option>, Object> -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: [<ParamArray>] keys: string[] -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: keys: U2<ResizeArray<obj option>, Object> -> Assertion
 
     type [<AllowNullLiteral>] Throw =
-        [<Emit "$0($1...)">] abstract Invoke: ?expected: U2<string, RegExp> * ?message: string -> Assertion
-        [<Emit "$0($1...)">] abstract Invoke: constructor: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: ?expected: U2<string, RegExp> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: constructor: U2<Error, Function> * ?expected: U2<string, RegExp> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] RespondTo =
-        [<Emit "$0($1...)">] abstract Invoke: method: string * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: method: string * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Satisfy =
-        [<Emit "$0($1...)">] abstract Invoke: matcher: Function * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: matcher: Function * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] Members =
-        [<Emit "$0($1...)">] abstract Invoke: set: ResizeArray<obj option> * ?message: string -> Assertion
+        [<Emit("$0($1...)")>] abstract Invoke: set: ResizeArray<obj option> * ?message: string -> Assertion
 
     type [<AllowNullLiteral>] PropertyChange =
-        [<Emit "$0($1...)">] abstract Invoke: object: Object * ?property: string * ?message: string -> DeltaAssertion
+        [<Emit("$0($1...)")>] abstract Invoke: object: Object * ?property: string * ?message: string -> DeltaAssertion
 
     type [<AllowNullLiteral>] DeltaAssertion =
         inherit Assertion
@@ -352,7 +352,7 @@ module Chai =
     type [<AllowNullLiteral>] Assert =
         /// <param name="expression">Expression to test for truthiness.</param>
         /// <param name="message">Message to display on error.</param>
-        [<Emit "$0($1...)">] abstract Invoke: expression: obj option * ?message: string -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: expression: obj option * ?message: string -> unit
         /// <summary>Throws a failure.</summary>
         /// <param name="message">Message to display on error.</param>
         /// <remarks>Node.js assert module-compatible.</remarks>

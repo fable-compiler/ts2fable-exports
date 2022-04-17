@@ -219,8 +219,8 @@ module __android_StatusBar =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
+        | [<CompiledName("light-content")>] LightContent
+        | [<CompiledName("dark-content")>] DarkContent
 
 module __android_Text =
     type Types = __common_Interfaces.Types
@@ -266,7 +266,7 @@ module __common_AccessibilityUtil =
         | Auto
         | Yes
         | No
-        | [<CompiledName "no-hide-descendants">] NoHideDescendants
+        | [<CompiledName("no-hide-descendants")>] NoHideDescendants
 
     type [<AllowNullLiteral>] AccessibilityPlatformUtil =
         abstract setAccessibilityFocus: ``component``: React.Component<obj option, obj option> -> unit
@@ -773,8 +773,8 @@ module __common_Interfaces =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
+        | [<CompiledName("light-content")>] LightContent
+        | [<CompiledName("dark-content")>] DarkContent
 
 module __common_Linking =
     module SyncTasks = Synctasks
@@ -1347,7 +1347,7 @@ module __common_Types =
         | None = 36
 
     type [<AllowNullLiteral>] FocusArbitrator =
-        [<Emit "$0($1...)">] abstract Invoke: candidates: ResizeArray<FocusCandidate> -> FocusCandidate option
+        [<Emit("$0($1...)")>] abstract Invoke: candidates: ResizeArray<FocusCandidate> -> FocusCandidate option
 
     type [<AllowNullLiteral>] FocusCandidate =
         abstract ``component``: RX.FocusableComponent with get, set
@@ -1828,10 +1828,10 @@ module __common_Types =
         float
 
     type [<AllowNullLiteral>] LocationSuccessCallback =
-        [<Emit "$0($1...)">] abstract Invoke: position: Position -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: position: Position -> unit
 
     type [<AllowNullLiteral>] LocationFailureCallback =
-        [<Emit "$0($1...)">] abstract Invoke: error: LocationErrorType -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: error: LocationErrorType -> unit
 
     module Animated =
 
@@ -1844,7 +1844,7 @@ module __common_Types =
             abstract finished: bool with get, set
 
         type [<AllowNullLiteral>] EndCallback =
-            [<Emit "$0($1...)">] abstract Invoke: result: EndResult -> unit
+            [<Emit("$0($1...)")>] abstract Invoke: result: EndResult -> unit
 
         type [<AllowNullLiteral>] CompositeAnimation =
             abstract start: ((EndCallback) option -> unit) with get, set
@@ -1870,13 +1870,13 @@ module __common_Types =
             abstract outputRange: ResizeArray<U2<float, string>> with get, set
 
         type [<AllowNullLiteral>] TimingFunction =
-            [<Emit "$0($1...)">] abstract Invoke: value: U2<RX.Types.AnimatedValue, RX.Types.InterpolatedValue> * config: TimingAnimationConfig -> CompositeAnimation
+            [<Emit("$0($1...)")>] abstract Invoke: value: U2<RX.Types.AnimatedValue, RX.Types.InterpolatedValue> * config: TimingAnimationConfig -> CompositeAnimation
 
         type [<AllowNullLiteral>] SequenceFunction =
-            [<Emit "$0($1...)">] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
+            [<Emit("$0($1...)")>] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
 
         type [<AllowNullLiteral>] ParallelFunction =
-            [<Emit "$0($1...)">] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
+            [<Emit("$0($1...)")>] abstract Invoke: animations: Array<CompositeAnimation> -> CompositeAnimation
 
         type [<AllowNullLiteral>] EasingFunction =
             abstract cssName: string with get, set
@@ -2053,13 +2053,13 @@ module __common_Types =
     type [<StringEnum>] [<RequireQualifiedAccess>] FlexboxParentStyleFlexDirection =
         | Column
         | Row
-        | [<CompiledName "column-reverse">] ColumnReverse
-        | [<CompiledName "row-reverse">] RowReverse
+        | [<CompiledName("column-reverse")>] ColumnReverse
+        | [<CompiledName("row-reverse")>] RowReverse
 
     type [<StringEnum>] [<RequireQualifiedAccess>] FlexboxParentStyleAlignSelf =
         | Auto
-        | [<CompiledName "flex-start">] FlexStart
-        | [<CompiledName "flex-end">] FlexEnd
+        | [<CompiledName("flex-start")>] FlexStart
+        | [<CompiledName("flex-end")>] FlexEnd
         | Center
         | Stretch
 
@@ -2068,8 +2068,8 @@ module __common_Types =
         | Relative
 
     type [<StringEnum>] [<RequireQualifiedAccess>] FlexboxChildrenStyleAlignItems =
-        | [<CompiledName "flex-start">] FlexStart
-        | [<CompiledName "flex-end">] FlexEnd
+        | [<CompiledName("flex-start")>] FlexStart
+        | [<CompiledName("flex-end")>] FlexEnd
         | Center
         | Stretch
 
@@ -2078,11 +2078,11 @@ module __common_Types =
         | Nowrap
 
     type [<StringEnum>] [<RequireQualifiedAccess>] FlexboxChildrenStyleJustifyContent =
-        | [<CompiledName "flex-start">] FlexStart
-        | [<CompiledName "flex-end">] FlexEnd
+        | [<CompiledName("flex-start")>] FlexStart
+        | [<CompiledName("flex-end")>] FlexEnd
         | Center
-        | [<CompiledName "space-between">] SpaceBetween
-        | [<CompiledName "space-around">] SpaceAround
+        | [<CompiledName("space-between")>] SpaceBetween
+        | [<CompiledName("space-around")>] SpaceAround
 
     type [<AllowNullLiteral>] TransformStyleTransform =
         abstract perspective: float option with get, set
@@ -2119,12 +2119,12 @@ module __common_Types =
         | None
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ViewStyleWordBreak =
-        | [<CompiledName "break-all">] BreakAll
-        | [<CompiledName "break-word">] BreakWord
+        | [<CompiledName("break-all")>] BreakAll
+        | [<CompiledName("break-word")>] BreakWord
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ViewStyleAppRegion =
         | Drag
-        | [<CompiledName "no-drag">] NoDrag
+        | [<CompiledName("no-drag")>] NoDrag
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ViewStyleCursor =
         | Pointer
@@ -2141,15 +2141,15 @@ module __common_Types =
     type [<StringEnum>] [<RequireQualifiedAccess>] FontInfoFontWeight =
         | Normal
         | Bold
-        | [<CompiledName "100">] N100
-        | [<CompiledName "200">] N200
-        | [<CompiledName "300">] N300
-        | [<CompiledName "400">] N400
-        | [<CompiledName "500">] N500
-        | [<CompiledName "600">] N600
-        | [<CompiledName "700">] N700
-        | [<CompiledName "800">] N800
-        | [<CompiledName "900">] N900
+        | [<CompiledName("100")>] N100
+        | [<CompiledName("200")>] N200
+        | [<CompiledName("300")>] N300
+        | [<CompiledName("400")>] N400
+        | [<CompiledName("500")>] N500
+        | [<CompiledName("600")>] N600
+        | [<CompiledName("700")>] N700
+        | [<CompiledName("800")>] N800
+        | [<CompiledName("900")>] N900
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextAlign =
         | Auto
@@ -2161,8 +2161,8 @@ module __common_Types =
     type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextDecorationLine =
         | None
         | Underline
-        | [<CompiledName "line-through">] LineThrough
-        | [<CompiledName "underline line-through">] ``Underline lineThrough``
+        | [<CompiledName("line-through")>] LineThrough
+        | [<CompiledName("underline line-through")>] ``Underline lineThrough``
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TextStyleTextDecorationStyle =
         | Solid
@@ -2203,7 +2203,7 @@ module __common_Types =
     type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsKeyboardDismissMode =
         | None
         | Interactive
-        | [<CompiledName "on-drag">] OnDrag
+        | [<CompiledName("on-drag")>] OnDrag
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ScrollViewPropsOverScrollMode =
         | Auto
@@ -2224,8 +2224,8 @@ module __common_Types =
     type [<StringEnum>] [<RequireQualifiedAccess>] TextInputPropsSharedKeyboardType =
         | Default
         | Numeric
-        | [<CompiledName "email-address">] EmailAddress
-        | [<CompiledName "number-pad">] NumberPad
+        | [<CompiledName("email-address")>] EmailAddress
+        | [<CompiledName("number-pad")>] NumberPad
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TextInputPropsSharedKeyboardAppearance =
         | Default
@@ -2241,8 +2241,8 @@ module __common_Types =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TextInputPropsSharedClearButtonMode =
         | Never
-        | [<CompiledName "while-editing">] WhileEditing
-        | [<CompiledName "unless-editing">] UnlessEditing
+        | [<CompiledName("while-editing")>] WhileEditing
+        | [<CompiledName("unless-editing")>] UnlessEditing
         | Always
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ActivityIndicatorPropsSize =
@@ -2457,8 +2457,8 @@ module __ios_StatusBar =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
+        | [<CompiledName("light-content")>] LightContent
+        | [<CompiledName("dark-content")>] DarkContent
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
         | Fade
@@ -2682,8 +2682,8 @@ module __macos_StatusBar =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
+        | [<CompiledName("light-content")>] LightContent
+        | [<CompiledName("dark-content")>] DarkContent
 
 module __macos_View =
     type Types = __common_Interfaces.Types
@@ -4500,8 +4500,8 @@ module __web_StatusBar =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
+        | [<CompiledName("light-content")>] LightContent
+        | [<CompiledName("dark-content")>] DarkContent
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetHidden =
         | Fade
@@ -5086,8 +5086,8 @@ module __windows_StatusBar =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] StatusBarSetBarStyle =
         | Default
-        | [<CompiledName "light-content">] LightContent
-        | [<CompiledName "dark-content">] DarkContent
+        | [<CompiledName("light-content")>] LightContent
+        | [<CompiledName("dark-content")>] DarkContent
 
 module __windows_Text =
     type ExtendedTextProps = React_native.ExtendedTextProps
@@ -5214,7 +5214,7 @@ module __common_utils_AutoFocusHelper =
         abstract accessibilityId: string option with get, set
 
     type [<AllowNullLiteral>] SortAndFilterFunc =
-        [<Emit "$0($1...)">] abstract Invoke: candidates: ResizeArray<FocusCandidateInternal> -> ResizeArray<FocusCandidateInternal>
+        [<Emit("$0($1...)")>] abstract Invoke: candidates: ResizeArray<FocusCandidateInternal> -> ResizeArray<FocusCandidateInternal>
 
     type [<AllowNullLiteral>] FocusArbitratorProvider =
         abstract setCallback: ?arbitrator: RX.Types.FocusArbitrator -> unit
@@ -5254,10 +5254,10 @@ module __common_utils_FocusManager =
         abstract callbacks: ResizeArray<FocusableComponentStateCallback> option with get, set
 
     type [<AllowNullLiteral>] FocusableComponentStateCallback =
-        [<Emit "$0($1...)">] abstract Invoke: restrictedOrLimited: bool -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: restrictedOrLimited: bool -> unit
 
     type [<AllowNullLiteral>] FocusManagerRestrictionStateCallback =
-        [<Emit "$0($1...)">] abstract Invoke: restricted: RestrictFocusType -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: restricted: RestrictFocusType -> unit
 
     type [<AllowNullLiteral>] FocusManager =
         abstract _myFocusableComponentIds: FocusManager_myFocusableComponentIds with get, set

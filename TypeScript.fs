@@ -3397,7 +3397,7 @@ module Ts =
         interface end
 
     type [<AllowNullLiteral>] WriteFileCallback =
-        [<Emit "$0($1...)">] abstract Invoke: fileName: string * data: string * writeByteOrderMark: bool * ?onError: (string -> unit) * ?sourceFiles: ResizeArray<SourceFile> -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: fileName: string * data: string * writeByteOrderMark: bool * ?onError: (string -> unit) * ?sourceFiles: ResizeArray<SourceFile> -> unit
 
     type [<AllowNullLiteral>] OperationCanceledException =
         interface end
@@ -3450,7 +3450,7 @@ module Ts =
         abstract references: ResizeArray<ResolvedProjectReference option> option with get, set
 
     type [<AllowNullLiteral>] CustomTransformerFactory =
-        [<Emit "$0($1...)">] abstract Invoke: context: TransformationContext -> CustomTransformer
+        [<Emit("$0($1...)")>] abstract Invoke: context: TransformationContext -> CustomTransformer
 
     type [<AllowNullLiteral>] CustomTransformer =
         abstract transformSourceFile: node: SourceFile -> SourceFile
@@ -3762,21 +3762,21 @@ module Ts =
         abstract getJsDocTags: unit -> ResizeArray<JSDocTagInfo>
 
     type [<StringEnum>] [<RequireQualifiedAccess>] InternalSymbolName =
-        | [<CompiledName "__call">] Call
-        | [<CompiledName "__constructor">] Constructor
-        | [<CompiledName "__new">] New
-        | [<CompiledName "__index">] Index
-        | [<CompiledName "__export">] ExportStar
-        | [<CompiledName "__global">] Global
-        | [<CompiledName "__missing">] Missing
-        | [<CompiledName "__type">] Type
-        | [<CompiledName "__object">] Object
-        | [<CompiledName "__jsxAttributes">] JSXAttributes
-        | [<CompiledName "__class">] Class
-        | [<CompiledName "__function">] Function
-        | [<CompiledName "__computed">] Computed
-        | [<CompiledName "__resolving__">] Resolving
-        | [<CompiledName "export=">] ExportEquals
+        | [<CompiledName("__call")>] Call
+        | [<CompiledName("__constructor")>] Constructor
+        | [<CompiledName("__new")>] New
+        | [<CompiledName("__index")>] Index
+        | [<CompiledName("__export")>] ExportStar
+        | [<CompiledName("__global")>] Global
+        | [<CompiledName("__missing")>] Missing
+        | [<CompiledName("__type")>] Type
+        | [<CompiledName("__object")>] Object
+        | [<CompiledName("__jsxAttributes")>] JSXAttributes
+        | [<CompiledName("__class")>] Class
+        | [<CompiledName("__function")>] Function
+        | [<CompiledName("__computed")>] Computed
+        | [<CompiledName("__resolving__")>] Resolving
+        | [<CompiledName("export=")>] ExportEquals
         | Default
         | This
 
@@ -4395,13 +4395,13 @@ Use typeAcquisition.enable instead.")>]
         abstract version: string with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] Extension =
-        | [<CompiledName ".ts">] Ts
-        | [<CompiledName ".tsx">] Tsx
-        | [<CompiledName ".d.ts">] Dts
-        | [<CompiledName ".js">] Js
-        | [<CompiledName ".jsx">] Jsx
-        | [<CompiledName ".json">] Json
-        | [<CompiledName ".tsbuildinfo">] TsBuildInfo
+        | [<CompiledName(".ts")>] Ts
+        | [<CompiledName(".tsx")>] Tsx
+        | [<CompiledName(".d.ts")>] Dts
+        | [<CompiledName(".js")>] Js
+        | [<CompiledName(".jsx")>] Jsx
+        | [<CompiledName(".json")>] Json
+        | [<CompiledName(".tsbuildinfo")>] TsBuildInfo
 
     type [<AllowNullLiteral>] ResolvedModuleWithFailedLookupLocations =
         abstract resolvedModule: ResolvedModuleFull option
@@ -4490,7 +4490,7 @@ Use typeAcquisition.enable instead.")>]
         abstract text: string
 
     type [<AllowNullLiteral>] EmitHelperUniqueNameCallback =
-        [<Emit "$0($1...)">] abstract Invoke: name: string -> string
+        [<Emit("$0($1...)")>] abstract Invoke: name: string -> string
 
     type [<RequireQualifiedAccess>] EmitHint =
         | SourceFile = 0
@@ -4572,17 +4572,17 @@ Use typeAcquisition.enable instead.")>]
         /// A function that is used to initialize and return a <c>Transformer</c> callback, which in turn
         /// will be used to transform one or more nodes.
         /// </summary>
-        [<Emit "$0($1...)">] abstract Invoke: context: TransformationContext -> Transformer<'T>
+        [<Emit("$0($1...)")>] abstract Invoke: context: TransformationContext -> Transformer<'T>
 
     /// A function that transforms a node.
     type [<AllowNullLiteral>] Transformer<'T when 'T :> Node> =
         /// A function that transforms a node.
-        [<Emit "$0($1...)">] abstract Invoke: node: 'T -> 'T
+        [<Emit("$0($1...)")>] abstract Invoke: node: 'T -> 'T
 
     /// A function that accepts and possibly transforms a node.
     type [<AllowNullLiteral>] Visitor =
         /// A function that accepts and possibly transforms a node.
-        [<Emit "$0($1...)">] abstract Invoke: node: Node -> VisitResult<Node>
+        [<Emit("$0($1...)")>] abstract Invoke: node: Node -> VisitResult<Node>
 
     type VisitResult<'T when 'T :> Node> =
         U2<'T, ResizeArray<'T>> option
@@ -4774,10 +4774,10 @@ Use typeAcquisition.enable instead.")>]
         | Deleted = 2
 
     type [<AllowNullLiteral>] FileWatcherCallback =
-        [<Emit "$0($1...)">] abstract Invoke: fileName: string * eventKind: FileWatcherEventKind -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: fileName: string * eventKind: FileWatcherEventKind -> unit
 
     type [<AllowNullLiteral>] DirectoryWatcherCallback =
-        [<Emit "$0($1...)">] abstract Invoke: fileName: string -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: fileName: string -> unit
 
     type [<AllowNullLiteral>] System =
         abstract args: ResizeArray<string> with get, set
@@ -4818,7 +4818,7 @@ Use typeAcquisition.enable instead.")>]
         abstract close: unit -> unit
 
     type [<AllowNullLiteral>] ErrorCallback =
-        [<Emit "$0($1...)">] abstract Invoke: message: DiagnosticMessage * length: float -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: message: DiagnosticMessage * length: float -> unit
 
     type [<AllowNullLiteral>] Scanner =
         abstract getStartPos: unit -> float
@@ -4861,7 +4861,7 @@ Use typeAcquisition.enable instead.")>]
         U4<NoSubstitutionTemplateLiteral, TemplateHead, TemplateMiddle, TemplateTail>
 
     type [<AllowNullLiteral>] DiagnosticReporter =
-        [<Emit "$0($1...)">] abstract Invoke: diagnostic: Diagnostic -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: diagnostic: Diagnostic -> unit
 
     /// Reports config file diagnostics
     type [<AllowNullLiteral>] ConfigFileDiagnosticsReporter =
@@ -5002,12 +5002,12 @@ Use typeAcquisition.enable instead.")>]
         abstract createProgram: CreateProgram<'T> option with get, set
 
     type [<AllowNullLiteral>] WatchStatusReporter =
-        [<Emit "$0($1...)">] abstract Invoke: diagnostic: Diagnostic * newLine: string * options: CompilerOptions * ?errorCount: float -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: diagnostic: Diagnostic * newLine: string * options: CompilerOptions * ?errorCount: float -> unit
 
     /// Create the program with rootNames and options, if they are undefined, oldProgram and new configFile diagnostics create new program
     type [<AllowNullLiteral>] CreateProgram<'T when 'T :> BuilderProgram> =
         /// Create the program with rootNames and options, if they are undefined, oldProgram and new configFile diagnostics create new program
-        [<Emit "$0($1...)">] abstract Invoke: rootNames: ResizeArray<string> option * options: CompilerOptions option * ?host: CompilerHost * ?oldProgram: 'T * ?configFileParsingDiagnostics: ResizeArray<Diagnostic> * ?projectReferences: ResizeArray<ProjectReference> -> 'T
+        [<Emit("$0($1...)")>] abstract Invoke: rootNames: ResizeArray<string> option * options: CompilerOptions option * ?host: CompilerHost * ?oldProgram: 'T * ?configFileParsingDiagnostics: ResizeArray<Diagnostic> * ?projectReferences: ResizeArray<ProjectReference> -> 'T
 
     /// Host that has watch functionality used in --watch mode
     type [<AllowNullLiteral>] WatchHost =
@@ -5107,7 +5107,7 @@ Use typeAcquisition.enable instead.")>]
         [<EmitIndexer>] abstract Item: option: string -> CompilerOptionsValue option with get, set
 
     type [<AllowNullLiteral>] ReportEmitErrorSummary =
-        [<Emit "$0($1...)">] abstract Invoke: errorCount: float -> unit
+        [<Emit("$0($1...)")>] abstract Invoke: errorCount: float -> unit
 
     type [<AllowNullLiteral>] SolutionBuilderHostBase<'T when 'T :> BuilderProgram> =
         inherit ProgramHost<'T>
@@ -5435,13 +5435,13 @@ Use typeAcquisition.enable instead.")>]
         CombinedCodeFixScope
 
     type [<StringEnum>] [<RequireQualifiedAccess>] CompletionsTriggerCharacter =
-        | [<CompiledName ".">] ``_``
-        | [<CompiledName "\"">] ``"``
-        | [<CompiledName "'">] ``'``
-        | [<CompiledName "`">] ``'``
-        | [<CompiledName "/">] ``/``
-        | [<CompiledName "@">] ``@``
-        | [<CompiledName "<">] ``<``
+        | [<CompiledName(".")>] ``_``
+        | [<CompiledName("\"")>] ``"``
+        | [<CompiledName("'")>] ``'``
+        | [<CompiledName("`")>] ``'``
+        | [<CompiledName("/")>] ``/``
+        | [<CompiledName("@")>] ``@``
+        | [<CompiledName("<")>] ``<``
 
     type [<AllowNullLiteral>] GetCompletionsAtPositionOptions =
         inherit UserPreferences
@@ -5454,9 +5454,9 @@ Use typeAcquisition.enable instead.")>]
         abstract includeInsertTextCompletions: bool option with get, set
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SignatureHelpTriggerCharacter =
-        | [<CompiledName ",">] ``,``
-        | [<CompiledName "(">] ``(``
-        | [<CompiledName "<">] ``<``
+        | [<CompiledName(",")>] ``,``
+        | [<CompiledName("(")>] ``(``
+        | [<CompiledName("<")>] ``<``
 
     type SignatureHelpRetriggerCharacter =
         U2<SignatureHelpTriggerCharacter, string>
@@ -5970,108 +5970,108 @@ Use typeAcquisition.enable instead.")>]
         abstract getEncodedLexicalClassifications: text: string * endOfLineState: EndOfLineState * syntacticClassifierAbsent: bool -> Classifications
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ScriptElementKind =
-        | [<CompiledName "">] Unknown
+        | [<CompiledName("")>] Unknown
         | Warning
         /// predefined type (void) or keyword (class)
         | Keyword
         /// top level script node
-        | [<CompiledName "script">] ScriptElement
+        | [<CompiledName("script")>] ScriptElement
         /// module foo {}
-        | [<CompiledName "module">] ModuleElement
+        | [<CompiledName("module")>] ModuleElement
         /// class X {}
-        | [<CompiledName "class">] ClassElement
+        | [<CompiledName("class")>] ClassElement
         /// var x = class X {}
-        | [<CompiledName "local class">] LocalClassElement
+        | [<CompiledName("local class")>] LocalClassElement
         /// interface Y {}
-        | [<CompiledName "interface">] InterfaceElement
+        | [<CompiledName("interface")>] InterfaceElement
         /// type T = ...
-        | [<CompiledName "type">] TypeElement
+        | [<CompiledName("type")>] TypeElement
         /// enum E
-        | [<CompiledName "enum">] EnumElement
-        | [<CompiledName "enum member">] EnumMemberElement
+        | [<CompiledName("enum")>] EnumElement
+        | [<CompiledName("enum member")>] EnumMemberElement
         /// Inside module and script only
         /// const v = ..
-        | [<CompiledName "var">] VariableElement
+        | [<CompiledName("var")>] VariableElement
         /// Inside function
-        | [<CompiledName "local var">] LocalVariableElement
+        | [<CompiledName("local var")>] LocalVariableElement
         /// Inside module and script only
         /// function f() { }
-        | [<CompiledName "function">] FunctionElement
+        | [<CompiledName("function")>] FunctionElement
         /// Inside function
-        | [<CompiledName "local function">] LocalFunctionElement
+        | [<CompiledName("local function")>] LocalFunctionElement
         /// class X { [public|private]* foo() {} }
-        | [<CompiledName "method">] MemberFunctionElement
+        | [<CompiledName("method")>] MemberFunctionElement
         /// class X { [public|private]* [get|set] foo:number; }
-        | [<CompiledName "getter">] MemberGetAccessorElement
-        | [<CompiledName "setter">] MemberSetAccessorElement
+        | [<CompiledName("getter")>] MemberGetAccessorElement
+        | [<CompiledName("setter")>] MemberSetAccessorElement
         /// class X { [public|private]* foo:number; }
         /// interface Y { foo:number; }
-        | [<CompiledName "property">] MemberVariableElement
+        | [<CompiledName("property")>] MemberVariableElement
         /// class X { constructor() { } }
-        | [<CompiledName "constructor">] ConstructorImplementationElement
+        | [<CompiledName("constructor")>] ConstructorImplementationElement
         /// interface Y { ():number; }
-        | [<CompiledName "call">] CallSignatureElement
+        | [<CompiledName("call")>] CallSignatureElement
         /// interface Y { []:number; }
-        | [<CompiledName "index">] IndexSignatureElement
+        | [<CompiledName("index")>] IndexSignatureElement
         /// interface Y { new():Y; }
-        | [<CompiledName "construct">] ConstructSignatureElement
+        | [<CompiledName("construct")>] ConstructSignatureElement
         /// function foo(*Y*: string)
-        | [<CompiledName "parameter">] ParameterElement
-        | [<CompiledName "type parameter">] TypeParameterElement
-        | [<CompiledName "primitive type">] PrimitiveType
+        | [<CompiledName("parameter")>] ParameterElement
+        | [<CompiledName("type parameter")>] TypeParameterElement
+        | [<CompiledName("primitive type")>] PrimitiveType
         | Label
         | Alias
-        | [<CompiledName "const">] ConstElement
-        | [<CompiledName "let">] LetElement
+        | [<CompiledName("const")>] ConstElement
+        | [<CompiledName("let")>] LetElement
         | Directory
-        | [<CompiledName "external module name">] ExternalModuleName
+        | [<CompiledName("external module name")>] ExternalModuleName
         /// <JsxTagName attribute1 attribute2={0} />
-        | [<CompiledName "JSX attribute">] JsxAttribute
+        | [<CompiledName("JSX attribute")>] JsxAttribute
         /// String literal
         | String
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ScriptElementKindModifier =
-        | [<CompiledName "">] None
-        | [<CompiledName "public">] PublicMemberModifier
-        | [<CompiledName "private">] PrivateMemberModifier
-        | [<CompiledName "protected">] ProtectedMemberModifier
-        | [<CompiledName "export">] ExportedModifier
-        | [<CompiledName "declare">] AmbientModifier
-        | [<CompiledName "static">] StaticModifier
-        | [<CompiledName "abstract">] AbstractModifier
-        | [<CompiledName "optional">] OptionalModifier
-        | [<CompiledName ".d.ts">] DtsModifier
-        | [<CompiledName ".ts">] TsModifier
-        | [<CompiledName ".tsx">] TsxModifier
-        | [<CompiledName ".js">] JsModifier
-        | [<CompiledName ".jsx">] JsxModifier
-        | [<CompiledName ".json">] JsonModifier
+        | [<CompiledName("")>] None
+        | [<CompiledName("public")>] PublicMemberModifier
+        | [<CompiledName("private")>] PrivateMemberModifier
+        | [<CompiledName("protected")>] ProtectedMemberModifier
+        | [<CompiledName("export")>] ExportedModifier
+        | [<CompiledName("declare")>] AmbientModifier
+        | [<CompiledName("static")>] StaticModifier
+        | [<CompiledName("abstract")>] AbstractModifier
+        | [<CompiledName("optional")>] OptionalModifier
+        | [<CompiledName(".d.ts")>] DtsModifier
+        | [<CompiledName(".ts")>] TsModifier
+        | [<CompiledName(".tsx")>] TsxModifier
+        | [<CompiledName(".js")>] JsModifier
+        | [<CompiledName(".jsx")>] JsxModifier
+        | [<CompiledName(".json")>] JsonModifier
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ClassificationTypeNames =
         | Comment
         | Identifier
         | Keyword
-        | [<CompiledName "number">] NumericLiteral
-        | [<CompiledName "bigint">] BigintLiteral
+        | [<CompiledName("number")>] NumericLiteral
+        | [<CompiledName("bigint")>] BigintLiteral
         | Operator
-        | [<CompiledName "string">] StringLiteral
-        | [<CompiledName "whitespace">] WhiteSpace
+        | [<CompiledName("string")>] StringLiteral
+        | [<CompiledName("whitespace")>] WhiteSpace
         | Text
         | Punctuation
-        | [<CompiledName "class name">] ClassName
-        | [<CompiledName "enum name">] EnumName
-        | [<CompiledName "interface name">] InterfaceName
-        | [<CompiledName "module name">] ModuleName
-        | [<CompiledName "type parameter name">] TypeParameterName
-        | [<CompiledName "type alias name">] TypeAliasName
-        | [<CompiledName "parameter name">] ParameterName
-        | [<CompiledName "doc comment tag name">] DocCommentTagName
-        | [<CompiledName "jsx open tag name">] JsxOpenTagName
-        | [<CompiledName "jsx close tag name">] JsxCloseTagName
-        | [<CompiledName "jsx self closing tag name">] JsxSelfClosingTagName
-        | [<CompiledName "jsx attribute">] JsxAttribute
-        | [<CompiledName "jsx text">] JsxText
-        | [<CompiledName "jsx attribute string literal value">] JsxAttributeStringLiteralValue
+        | [<CompiledName("class name")>] ClassName
+        | [<CompiledName("enum name")>] EnumName
+        | [<CompiledName("interface name")>] InterfaceName
+        | [<CompiledName("module name")>] ModuleName
+        | [<CompiledName("type parameter name")>] TypeParameterName
+        | [<CompiledName("type alias name")>] TypeAliasName
+        | [<CompiledName("parameter name")>] ParameterName
+        | [<CompiledName("doc comment tag name")>] DocCommentTagName
+        | [<CompiledName("jsx open tag name")>] JsxOpenTagName
+        | [<CompiledName("jsx close tag name")>] JsxCloseTagName
+        | [<CompiledName("jsx self closing tag name")>] JsxSelfClosingTagName
+        | [<CompiledName("jsx attribute")>] JsxAttribute
+        | [<CompiledName("jsx text")>] JsxText
+        | [<CompiledName("jsx attribute string literal value")>] JsxAttributeStringLiteralValue
 
     type [<RequireQualifiedAccess>] ClassificationType =
         | Comment = 1
@@ -6193,7 +6193,7 @@ Use typeAcquisition.enable instead.")>]
 
     type [<StringEnum>] [<RequireQualifiedAccess>] UserPreferencesImportModuleSpecifierPreference =
         | Relative
-        | [<CompiledName "non-relative">] NonRelative
+        | [<CompiledName("non-relative")>] NonRelative
 
     type [<StringEnum>] [<RequireQualifiedAccess>] UserPreferencesImportModuleSpecifierEnding =
         | Minimal

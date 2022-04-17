@@ -53,13 +53,13 @@ type [<AllowNullLiteral>] Es6Thenable<'R> =
     abstract ``then``: ?onFulfilled: ('R -> U2<'U, Es6Thenable<'U>>) * ?onRejected: (obj option -> unit) -> Es6Thenable<'U>
 
 type [<AllowNullLiteral>] SuccessFunc<'T, 'U> =
-    [<Emit "$0($1...)">] abstract Invoke: value: 'T -> U2<'U, Thenable<'U>>
+    [<Emit("$0($1...)")>] abstract Invoke: value: 'T -> U2<'U, Thenable<'U>>
 
 type [<AllowNullLiteral>] ErrorFunc<'U> =
-    [<Emit "$0($1...)">] abstract Invoke: error: obj option -> U2<'U, Thenable<'U>>
+    [<Emit("$0($1...)")>] abstract Invoke: error: obj option -> U2<'U, Thenable<'U>>
 
 type [<AllowNullLiteral>] CancelFunc =
-    [<Emit "$0($1...)">] abstract Invoke: context: obj option -> unit
+    [<Emit("$0($1...)")>] abstract Invoke: context: obj option -> unit
 
 type [<AllowNullLiteral>] Deferred<'T> =
     abstract resolve: obj: 'T -> Deferred<'T>

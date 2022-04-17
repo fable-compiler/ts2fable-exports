@@ -103,28 +103,28 @@ module Electron =
         /// <see href="https://www.chromium.org/developers/design-documents/accessibility" /> for more
         /// details.
         /// </summary>
-        [<Emit "$0.on('accessibility-support-changed',$1)">] abstract ``on_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.once('accessibility-support-changed',$1)">] abstract ``once_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.addListener('accessibility-support-changed',$1)">] abstract ``addListener_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.removeListener('accessibility-support-changed',$1)">] abstract ``removeListener_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.on('accessibility-support-changed',$1)")>] abstract ``on_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.once('accessibility-support-changed',$1)")>] abstract ``once_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.addListener('accessibility-support-changed',$1)")>] abstract ``addListener_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.removeListener('accessibility-support-changed',$1)")>] abstract ``removeListener_accessibility-support-changed``: listener: (Event -> bool -> unit) -> App
         /// <summary>
         /// Emitted when the application is activated. Various actions can trigger this
         /// event, such as launching the application for the first time, attempting to
         /// re-launch the application when it's already running, or clicking on the
         /// application's dock or taskbar icon.
         /// </summary>
-        [<Emit "$0.on('activate',$1)">] abstract on_activate: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.once('activate',$1)">] abstract once_activate: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.addListener('activate',$1)">] abstract addListener_activate: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.removeListener('activate',$1)">] abstract removeListener_activate: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.on('activate',$1)")>] abstract on_activate: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.once('activate',$1)")>] abstract once_activate: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.addListener('activate',$1)")>] abstract addListener_activate: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.removeListener('activate',$1)")>] abstract removeListener_activate: listener: (Event -> bool -> unit) -> App
         /// <summary>
         /// Emitted during Handoff after an activity from this device was successfully
         /// resumed on another one.
         /// </summary>
-        [<Emit "$0.on('activity-was-continued',$1)">] abstract ``on_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.once('activity-was-continued',$1)">] abstract ``once_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.addListener('activity-was-continued',$1)">] abstract ``addListener_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.removeListener('activity-was-continued',$1)">] abstract ``removeListener_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.on('activity-was-continued',$1)")>] abstract ``on_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.once('activity-was-continued',$1)")>] abstract ``once_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.addListener('activity-was-continued',$1)")>] abstract ``addListener_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.removeListener('activity-was-continued',$1)")>] abstract ``removeListener_activity-was-continued``: listener: (Event -> string -> obj -> unit) -> App
         /// <summary>
         /// Emitted before the application starts closing its windows. Calling
         /// <c>event.preventDefault()</c> will prevent the default behavior, which is terminating
@@ -137,40 +137,40 @@ module Electron =
         /// **Note:** On Windows, this event will not be emitted if the app is closed due to
         /// a shutdown/restart of the system or a user logout.
         /// </summary>
-        [<Emit "$0.on('before-quit',$1)">] abstract ``on_before-quit``: listener: (Event -> unit) -> App
-        [<Emit "$0.once('before-quit',$1)">] abstract ``once_before-quit``: listener: (Event -> unit) -> App
-        [<Emit "$0.addListener('before-quit',$1)">] abstract ``addListener_before-quit``: listener: (Event -> unit) -> App
-        [<Emit "$0.removeListener('before-quit',$1)">] abstract ``removeListener_before-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.on('before-quit',$1)")>] abstract ``on_before-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.once('before-quit',$1)")>] abstract ``once_before-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.addListener('before-quit',$1)")>] abstract ``addListener_before-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.removeListener('before-quit',$1)")>] abstract ``removeListener_before-quit``: listener: (Event -> unit) -> App
         /// Emitted when a browserWindow gets blurred.
-        [<Emit "$0.on('browser-window-blur',$1)">] abstract ``on_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.once('browser-window-blur',$1)">] abstract ``once_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.addListener('browser-window-blur',$1)">] abstract ``addListener_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.removeListener('browser-window-blur',$1)">] abstract ``removeListener_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.on('browser-window-blur',$1)")>] abstract ``on_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.once('browser-window-blur',$1)")>] abstract ``once_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.addListener('browser-window-blur',$1)")>] abstract ``addListener_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.removeListener('browser-window-blur',$1)")>] abstract ``removeListener_browser-window-blur``: listener: (Event -> BrowserWindow -> unit) -> App
         /// Emitted when a new browserWindow is created.
-        [<Emit "$0.on('browser-window-created',$1)">] abstract ``on_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.once('browser-window-created',$1)">] abstract ``once_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.addListener('browser-window-created',$1)">] abstract ``addListener_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.removeListener('browser-window-created',$1)">] abstract ``removeListener_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.on('browser-window-created',$1)")>] abstract ``on_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.once('browser-window-created',$1)")>] abstract ``once_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.addListener('browser-window-created',$1)")>] abstract ``addListener_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.removeListener('browser-window-created',$1)")>] abstract ``removeListener_browser-window-created``: listener: (Event -> BrowserWindow -> unit) -> App
         /// Emitted when a browserWindow gets focused.
-        [<Emit "$0.on('browser-window-focus',$1)">] abstract ``on_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.once('browser-window-focus',$1)">] abstract ``once_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.addListener('browser-window-focus',$1)">] abstract ``addListener_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
-        [<Emit "$0.removeListener('browser-window-focus',$1)">] abstract ``removeListener_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.on('browser-window-focus',$1)")>] abstract ``on_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.once('browser-window-focus',$1)")>] abstract ``once_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.addListener('browser-window-focus',$1)")>] abstract ``addListener_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
+        [<Emit("$0.removeListener('browser-window-focus',$1)")>] abstract ``removeListener_browser-window-focus``: listener: (Event -> BrowserWindow -> unit) -> App
         /// <summary>
         /// Emitted when failed to verify the <c>certificate</c> for <c>url</c>, to trust the
         /// certificate you should prevent the default behavior with
         /// <c>event.preventDefault()</c> and call <c>callback(true)</c>.
         /// </summary>
-        [<Emit "$0.on('certificate-error',$1)">] abstract ``on_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
-        [<Emit "$0.once('certificate-error',$1)">] abstract ``once_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
-        [<Emit "$0.addListener('certificate-error',$1)">] abstract ``addListener_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
-        [<Emit "$0.removeListener('certificate-error',$1)">] abstract ``removeListener_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
+        [<Emit("$0.on('certificate-error',$1)")>] abstract ``on_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
+        [<Emit("$0.once('certificate-error',$1)")>] abstract ``once_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
+        [<Emit("$0.addListener('certificate-error',$1)")>] abstract ``addListener_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
+        [<Emit("$0.removeListener('certificate-error',$1)")>] abstract ``removeListener_certificate-error``: listener: (Event -> WebContents -> string -> string -> Certificate -> (bool -> unit) -> unit) -> App
         /// Emitted when the child process unexpectedly disappears. This is normally because
         /// it was crashed or killed. It does not include renderer processes.
-        [<Emit "$0.on('child-process-gone',$1)">] abstract ``on_child-process-gone``: listener: (Event -> Details -> unit) -> App
-        [<Emit "$0.once('child-process-gone',$1)">] abstract ``once_child-process-gone``: listener: (Event -> Details -> unit) -> App
-        [<Emit "$0.addListener('child-process-gone',$1)">] abstract ``addListener_child-process-gone``: listener: (Event -> Details -> unit) -> App
-        [<Emit "$0.removeListener('child-process-gone',$1)">] abstract ``removeListener_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit("$0.on('child-process-gone',$1)")>] abstract ``on_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit("$0.once('child-process-gone',$1)")>] abstract ``once_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit("$0.addListener('child-process-gone',$1)")>] abstract ``addListener_child-process-gone``: listener: (Event -> Details -> unit) -> App
+        [<Emit("$0.removeListener('child-process-gone',$1)")>] abstract ``removeListener_child-process-gone``: listener: (Event -> Details -> unit) -> App
         /// <summary>
         /// Emitted during Handoff when an activity from a different device wants to be
         /// resumed. You should call <c>event.preventDefault()</c> if you want to handle this
@@ -181,41 +181,41 @@ module Electron =
         /// activity types are specified in the app's <c>Info.plist</c> under the
         /// <c>NSUserActivityTypes</c> key.
         /// </summary>
-        [<Emit "$0.on('continue-activity',$1)">] abstract ``on_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.once('continue-activity',$1)">] abstract ``once_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.addListener('continue-activity',$1)">] abstract ``addListener_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.removeListener('continue-activity',$1)">] abstract ``removeListener_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.on('continue-activity',$1)")>] abstract ``on_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.once('continue-activity',$1)")>] abstract ``once_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.addListener('continue-activity',$1)")>] abstract ``addListener_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.removeListener('continue-activity',$1)")>] abstract ``removeListener_continue-activity``: listener: (Event -> string -> obj -> unit) -> App
         /// <summary>
         /// Emitted during Handoff when an activity from a different device fails to be
         /// resumed.
         /// </summary>
-        [<Emit "$0.on('continue-activity-error',$1)">] abstract ``on_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
-        [<Emit "$0.once('continue-activity-error',$1)">] abstract ``once_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
-        [<Emit "$0.addListener('continue-activity-error',$1)">] abstract ``addListener_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
-        [<Emit "$0.removeListener('continue-activity-error',$1)">] abstract ``removeListener_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
+        [<Emit("$0.on('continue-activity-error',$1)")>] abstract ``on_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
+        [<Emit("$0.once('continue-activity-error',$1)")>] abstract ``once_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
+        [<Emit("$0.addListener('continue-activity-error',$1)")>] abstract ``addListener_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
+        [<Emit("$0.removeListener('continue-activity-error',$1)")>] abstract ``removeListener_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
         /// <summary>
         /// Emitted when <c>desktopCapturer.getSources()</c> is called in the renderer process of
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will make it return empty
         /// sources.
         /// </summary>
-        [<Emit "$0.on('desktop-capturer-get-sources',$1)">] abstract ``on_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.once('desktop-capturer-get-sources',$1)">] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.addListener('desktop-capturer-get-sources',$1)">] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.removeListener('desktop-capturer-get-sources',$1)">] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.on('desktop-capturer-get-sources',$1)")>] abstract ``on_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.once('desktop-capturer-get-sources',$1)")>] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.addListener('desktop-capturer-get-sources',$1)")>] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.removeListener('desktop-capturer-get-sources',$1)")>] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
         /// <summary>
         /// Emitted when mac application become active. Difference from <c>activate</c> event is
         /// that <c>did-become-active</c> is emitted every time the app becomes active, not only
         /// when Dock icon is clicked or application is re-launched.
         /// </summary>
-        [<Emit "$0.on('did-become-active',$1)">] abstract ``on_did-become-active``: listener: (Event -> unit) -> App
-        [<Emit "$0.once('did-become-active',$1)">] abstract ``once_did-become-active``: listener: (Event -> unit) -> App
-        [<Emit "$0.addListener('did-become-active',$1)">] abstract ``addListener_did-become-active``: listener: (Event -> unit) -> App
-        [<Emit "$0.removeListener('did-become-active',$1)">] abstract ``removeListener_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit("$0.on('did-become-active',$1)")>] abstract ``on_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit("$0.once('did-become-active',$1)")>] abstract ``once_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit("$0.addListener('did-become-active',$1)")>] abstract ``addListener_did-become-active``: listener: (Event -> unit) -> App
+        [<Emit("$0.removeListener('did-become-active',$1)")>] abstract ``removeListener_did-become-active``: listener: (Event -> unit) -> App
         /// Emitted whenever there is a GPU info update.
-        [<Emit "$0.on('gpu-info-update',$1)">] abstract ``on_gpu-info-update``: listener: Function -> App
-        [<Emit "$0.once('gpu-info-update',$1)">] abstract ``once_gpu-info-update``: listener: Function -> App
-        [<Emit "$0.addListener('gpu-info-update',$1)">] abstract ``addListener_gpu-info-update``: listener: Function -> App
-        [<Emit "$0.removeListener('gpu-info-update',$1)">] abstract ``removeListener_gpu-info-update``: listener: Function -> App
+        [<Emit("$0.on('gpu-info-update',$1)")>] abstract ``on_gpu-info-update``: listener: Function -> App
+        [<Emit("$0.once('gpu-info-update',$1)")>] abstract ``once_gpu-info-update``: listener: Function -> App
+        [<Emit("$0.addListener('gpu-info-update',$1)")>] abstract ``addListener_gpu-info-update``: listener: Function -> App
+        [<Emit("$0.removeListener('gpu-info-update',$1)")>] abstract ``removeListener_gpu-info-update``: listener: Function -> App
         /// <summary>
         /// Emitted when the GPU process crashes or is killed.
         /// 
@@ -225,10 +225,10 @@ module Electron =
         /// <c>reason === 'killed'</c> when you switch to that event.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('gpu-process-crashed',$1)">] abstract ``on_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.once('gpu-process-crashed',$1)">] abstract ``once_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.addListener('gpu-process-crashed',$1)">] abstract ``addListener_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
-        [<Emit "$0.removeListener('gpu-process-crashed',$1)">] abstract ``removeListener_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.on('gpu-process-crashed',$1)")>] abstract ``on_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.once('gpu-process-crashed',$1)")>] abstract ``once_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.addListener('gpu-process-crashed',$1)")>] abstract ``addListener_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
+        [<Emit("$0.removeListener('gpu-process-crashed',$1)")>] abstract ``removeListener_gpu-process-crashed``: listener: (Event -> bool -> unit) -> App
         /// <summary>
         /// Emitted when <c>webContents</c> wants to do basic auth.
         /// 
@@ -240,18 +240,18 @@ module Electron =
         /// request will be cancelled and the authentication error will be returned to the
         /// page.
         /// </summary>
-        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
-        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
-        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
-        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit("$0.on('login',$1)")>] abstract on_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit("$0.once('login',$1)")>] abstract once_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit("$0.addListener('login',$1)")>] abstract addListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
+        [<Emit("$0.removeListener('login',$1)")>] abstract removeListener_login: listener: (Event -> WebContents -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> App
         /// <summary>
         /// Emitted when the user clicks the native macOS new tab button. The new tab button
         /// is only visible if the current <c>BrowserWindow</c> has a <c>tabbingIdentifier</c>
         /// </summary>
-        [<Emit "$0.on('new-window-for-tab',$1)">] abstract ``on_new-window-for-tab``: listener: (Event -> unit) -> App
-        [<Emit "$0.once('new-window-for-tab',$1)">] abstract ``once_new-window-for-tab``: listener: (Event -> unit) -> App
-        [<Emit "$0.addListener('new-window-for-tab',$1)">] abstract ``addListener_new-window-for-tab``: listener: (Event -> unit) -> App
-        [<Emit "$0.removeListener('new-window-for-tab',$1)">] abstract ``removeListener_new-window-for-tab``: listener: (Event -> unit) -> App
+        [<Emit("$0.on('new-window-for-tab',$1)")>] abstract ``on_new-window-for-tab``: listener: (Event -> unit) -> App
+        [<Emit("$0.once('new-window-for-tab',$1)")>] abstract ``once_new-window-for-tab``: listener: (Event -> unit) -> App
+        [<Emit("$0.addListener('new-window-for-tab',$1)")>] abstract ``addListener_new-window-for-tab``: listener: (Event -> unit) -> App
+        [<Emit("$0.removeListener('new-window-for-tab',$1)")>] abstract ``removeListener_new-window-for-tab``: listener: (Event -> unit) -> App
         /// <summary>
         /// Emitted when the user wants to open a file with the application. The <c>open-file</c>
         /// event is usually emitted when the application is already open and the OS wants
@@ -265,10 +265,10 @@ module Electron =
         /// On Windows, you have to parse <c>process.argv</c> (in the main process) to get the
         /// filepath.
         /// </summary>
-        [<Emit "$0.on('open-file',$1)">] abstract ``on_open-file``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.once('open-file',$1)">] abstract ``once_open-file``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.addListener('open-file',$1)">] abstract ``addListener_open-file``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.removeListener('open-file',$1)">] abstract ``removeListener_open-file``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.on('open-file',$1)")>] abstract ``on_open-file``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.once('open-file',$1)")>] abstract ``once_open-file``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.addListener('open-file',$1)")>] abstract ``addListener_open-file``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.removeListener('open-file',$1)")>] abstract ``removeListener_open-file``: listener: (Event -> string -> unit) -> App
         /// <summary>
         /// Emitted when the user wants to open a URL with the application. Your
         /// application's <c>Info.plist</c> file must define the URL scheme within the
@@ -276,18 +276,18 @@ module Electron =
         /// 
         /// You should call <c>event.preventDefault()</c> if you want to handle this event.
         /// </summary>
-        [<Emit "$0.on('open-url',$1)">] abstract ``on_open-url``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.once('open-url',$1)">] abstract ``once_open-url``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.addListener('open-url',$1)">] abstract ``addListener_open-url``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.removeListener('open-url',$1)">] abstract ``removeListener_open-url``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.on('open-url',$1)")>] abstract ``on_open-url``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.once('open-url',$1)")>] abstract ``once_open-url``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.addListener('open-url',$1)")>] abstract ``addListener_open-url``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.removeListener('open-url',$1)")>] abstract ``removeListener_open-url``: listener: (Event -> string -> unit) -> App
         /// Emitted when the application is quitting.
         /// 
         /// **Note:** On Windows, this event will not be emitted if the app is closed due to
         /// a shutdown/restart of the system or a user logout.
-        [<Emit "$0.on('quit',$1)">] abstract on_quit: listener: (Event -> float -> unit) -> App
-        [<Emit "$0.once('quit',$1)">] abstract once_quit: listener: (Event -> float -> unit) -> App
-        [<Emit "$0.addListener('quit',$1)">] abstract addListener_quit: listener: (Event -> float -> unit) -> App
-        [<Emit "$0.removeListener('quit',$1)">] abstract removeListener_quit: listener: (Event -> float -> unit) -> App
+        [<Emit("$0.on('quit',$1)")>] abstract on_quit: listener: (Event -> float -> unit) -> App
+        [<Emit("$0.once('quit',$1)")>] abstract once_quit: listener: (Event -> float -> unit) -> App
+        [<Emit("$0.addListener('quit',$1)")>] abstract addListener_quit: listener: (Event -> float -> unit) -> App
+        [<Emit("$0.removeListener('quit',$1)")>] abstract removeListener_quit: listener: (Event -> float -> unit) -> App
         /// <summary>
         /// Emitted once, when Electron has finished initializing. On macOS, <c>launchInfo</c>
         /// holds the <c>userInfo</c> of the <c>NSUserNotification</c> or information from
@@ -296,66 +296,66 @@ module Electron =
         /// this event has already fired and <c>app.whenReady()</c> to get a Promise that is
         /// fulfilled when Electron is initialized.
         /// </summary>
-        [<Emit "$0.on('ready',$1)">] abstract on_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
-        [<Emit "$0.once('ready',$1)">] abstract once_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
-        [<Emit "$0.addListener('ready',$1)">] abstract addListener_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
-        [<Emit "$0.removeListener('ready',$1)">] abstract removeListener_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
+        [<Emit("$0.on('ready',$1)")>] abstract on_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
+        [<Emit("$0.once('ready',$1)")>] abstract once_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
+        [<Emit("$0.addListener('ready',$1)")>] abstract addListener_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
+        [<Emit("$0.removeListener('ready',$1)")>] abstract removeListener_ready: listener: (Event -> U2<Record<string, obj option>, NotificationResponse> -> unit) -> App
         /// <summary>
         /// Emitted when <c>remote.getBuiltin()</c> is called in the renderer process of
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the module from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-builtin',$1)">] abstract ``on_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.once('remote-get-builtin',$1)">] abstract ``once_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.addListener('remote-get-builtin',$1)">] abstract ``addListener_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.removeListener('remote-get-builtin',$1)">] abstract ``removeListener_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.on('remote-get-builtin',$1)")>] abstract ``on_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.once('remote-get-builtin',$1)")>] abstract ``once_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.addListener('remote-get-builtin',$1)")>] abstract ``addListener_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.removeListener('remote-get-builtin',$1)")>] abstract ``removeListener_remote-get-builtin``: listener: (Event -> WebContents -> string -> unit) -> App
         /// <summary>
         /// Emitted when <c>remote.getCurrentWebContents()</c> is called in the renderer process
         /// of <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the object from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-current-web-contents',$1)">] abstract ``on_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.once('remote-get-current-web-contents',$1)">] abstract ``once_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.addListener('remote-get-current-web-contents',$1)">] abstract ``addListener_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.removeListener('remote-get-current-web-contents',$1)">] abstract ``removeListener_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.on('remote-get-current-web-contents',$1)")>] abstract ``on_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.once('remote-get-current-web-contents',$1)")>] abstract ``once_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.addListener('remote-get-current-web-contents',$1)")>] abstract ``addListener_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.removeListener('remote-get-current-web-contents',$1)")>] abstract ``removeListener_remote-get-current-web-contents``: listener: (Event -> WebContents -> unit) -> App
         /// <summary>
         /// Emitted when <c>remote.getCurrentWindow()</c> is called in the renderer process of
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the object from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-current-window',$1)">] abstract ``on_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.once('remote-get-current-window',$1)">] abstract ``once_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.addListener('remote-get-current-window',$1)">] abstract ``addListener_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.removeListener('remote-get-current-window',$1)">] abstract ``removeListener_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.on('remote-get-current-window',$1)")>] abstract ``on_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.once('remote-get-current-window',$1)")>] abstract ``once_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.addListener('remote-get-current-window',$1)")>] abstract ``addListener_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.removeListener('remote-get-current-window',$1)")>] abstract ``removeListener_remote-get-current-window``: listener: (Event -> WebContents -> unit) -> App
         /// <summary>
         /// Emitted when <c>remote.getGlobal()</c> is called in the renderer process of
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the global from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-global',$1)">] abstract ``on_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.once('remote-get-global',$1)">] abstract ``once_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.addListener('remote-get-global',$1)">] abstract ``addListener_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.removeListener('remote-get-global',$1)">] abstract ``removeListener_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.on('remote-get-global',$1)")>] abstract ``on_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.once('remote-get-global',$1)")>] abstract ``once_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.addListener('remote-get-global',$1)")>] abstract ``addListener_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.removeListener('remote-get-global',$1)")>] abstract ``removeListener_remote-get-global``: listener: (Event -> WebContents -> string -> unit) -> App
         /// <summary>
         /// Emitted when <c>remote.require()</c> is called in the renderer process of
         /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will prevent the module from
         /// being returned. Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-require',$1)">] abstract ``on_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.once('remote-require',$1)">] abstract ``once_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.addListener('remote-require',$1)">] abstract ``addListener_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
-        [<Emit "$0.removeListener('remote-require',$1)">] abstract ``removeListener_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.on('remote-require',$1)")>] abstract ``on_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.once('remote-require',$1)")>] abstract ``once_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.addListener('remote-require',$1)")>] abstract ``addListener_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
+        [<Emit("$0.removeListener('remote-require',$1)")>] abstract ``removeListener_remote-require``: listener: (Event -> WebContents -> string -> unit) -> App
         /// Emitted when the renderer process unexpectedly disappears.  This is normally
         /// because it was crashed or killed.
-        [<Emit "$0.on('render-process-gone',$1)">] abstract ``on_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
-        [<Emit "$0.once('render-process-gone',$1)">] abstract ``once_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
-        [<Emit "$0.addListener('render-process-gone',$1)">] abstract ``addListener_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
-        [<Emit "$0.removeListener('render-process-gone',$1)">] abstract ``removeListener_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit("$0.on('render-process-gone',$1)")>] abstract ``on_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit("$0.once('render-process-gone',$1)")>] abstract ``once_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit("$0.addListener('render-process-gone',$1)")>] abstract ``addListener_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
+        [<Emit("$0.removeListener('render-process-gone',$1)")>] abstract ``removeListener_render-process-gone``: listener: (Event -> WebContents -> RenderProcessGoneDetails -> unit) -> App
         /// <summary>
         /// Emitted when the renderer process of <c>webContents</c> crashes or is killed.
         /// 
@@ -365,10 +365,10 @@ module Electron =
         /// checking <c>reason === 'killed'</c> when you switch to that event.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('renderer-process-crashed',$1)">] abstract ``on_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
-        [<Emit "$0.once('renderer-process-crashed',$1)">] abstract ``once_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
-        [<Emit "$0.addListener('renderer-process-crashed',$1)">] abstract ``addListener_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
-        [<Emit "$0.removeListener('renderer-process-crashed',$1)">] abstract ``removeListener_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
+        [<Emit("$0.on('renderer-process-crashed',$1)")>] abstract ``on_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
+        [<Emit("$0.once('renderer-process-crashed',$1)")>] abstract ``once_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
+        [<Emit("$0.addListener('renderer-process-crashed',$1)")>] abstract ``addListener_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
+        [<Emit("$0.removeListener('renderer-process-crashed',$1)")>] abstract ``removeListener_renderer-process-crashed``: listener: (Event -> WebContents -> bool -> unit) -> App
         /// <summary>
         /// This event will be emitted inside the primary instance of your application when
         /// a second instance has been executed and calls <c>app.requestSingleInstanceLock()</c>.
@@ -386,10 +386,10 @@ module Electron =
         /// **Note:** Extra command line arguments might be added by Chromium, such as
         /// <c>--original-process-start-time</c>.
         /// </summary>
-        [<Emit "$0.on('second-instance',$1)">] abstract ``on_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
-        [<Emit "$0.once('second-instance',$1)">] abstract ``once_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
-        [<Emit "$0.addListener('second-instance',$1)">] abstract ``addListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
-        [<Emit "$0.removeListener('second-instance',$1)">] abstract ``removeListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
+        [<Emit("$0.on('second-instance',$1)")>] abstract ``on_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
+        [<Emit("$0.once('second-instance',$1)")>] abstract ``once_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
+        [<Emit("$0.addListener('second-instance',$1)")>] abstract ``addListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
+        [<Emit("$0.removeListener('second-instance',$1)")>] abstract ``removeListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
         /// <summary>
         /// Emitted when a client certificate is requested.
         /// 
@@ -398,15 +398,15 @@ module Electron =
         /// <c>event.preventDefault()</c> prevents the application from using the first
         /// certificate from the store.
         /// </summary>
-        [<Emit "$0.on('select-client-certificate',$1)">] abstract ``on_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
-        [<Emit "$0.once('select-client-certificate',$1)">] abstract ``once_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
-        [<Emit "$0.addListener('select-client-certificate',$1)">] abstract ``addListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
-        [<Emit "$0.removeListener('select-client-certificate',$1)">] abstract ``removeListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit("$0.on('select-client-certificate',$1)")>] abstract ``on_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit("$0.once('select-client-certificate',$1)")>] abstract ``once_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit("$0.addListener('select-client-certificate',$1)")>] abstract ``addListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
+        [<Emit("$0.removeListener('select-client-certificate',$1)")>] abstract ``removeListener_select-client-certificate``: listener: (Event -> WebContents -> string -> ResizeArray<Certificate> -> ((Certificate) option -> unit) -> unit) -> App
         /// <summary>Emitted when Electron has created a new <c>session</c>.</summary>
-        [<Emit "$0.on('session-created',$1)">] abstract ``on_session-created``: listener: (Session -> unit) -> App
-        [<Emit "$0.once('session-created',$1)">] abstract ``once_session-created``: listener: (Session -> unit) -> App
-        [<Emit "$0.addListener('session-created',$1)">] abstract ``addListener_session-created``: listener: (Session -> unit) -> App
-        [<Emit "$0.removeListener('session-created',$1)">] abstract ``removeListener_session-created``: listener: (Session -> unit) -> App
+        [<Emit("$0.on('session-created',$1)")>] abstract ``on_session-created``: listener: (Session -> unit) -> App
+        [<Emit("$0.once('session-created',$1)")>] abstract ``once_session-created``: listener: (Session -> unit) -> App
+        [<Emit("$0.addListener('session-created',$1)")>] abstract ``addListener_session-created``: listener: (Session -> unit) -> App
+        [<Emit("$0.removeListener('session-created',$1)")>] abstract ``removeListener_session-created``: listener: (Session -> unit) -> App
         /// <summary>
         /// Emitted when Handoff is about to be resumed on another device. If you need to
         /// update the state to be transferred, you should call <c>event.preventDefault()</c>
@@ -414,24 +414,24 @@ module Electron =
         /// <c>app.updateCurrentActivity()</c> in a timely manner. Otherwise, the operation will
         /// fail and <c>continue-activity-error</c> will be called.
         /// </summary>
-        [<Emit "$0.on('update-activity-state',$1)">] abstract ``on_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.once('update-activity-state',$1)">] abstract ``once_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.addListener('update-activity-state',$1)">] abstract ``addListener_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
-        [<Emit "$0.removeListener('update-activity-state',$1)">] abstract ``removeListener_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.on('update-activity-state',$1)")>] abstract ``on_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.once('update-activity-state',$1)")>] abstract ``once_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.addListener('update-activity-state',$1)")>] abstract ``addListener_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
+        [<Emit("$0.removeListener('update-activity-state',$1)")>] abstract ``removeListener_update-activity-state``: listener: (Event -> string -> obj -> unit) -> App
         /// Emitted when a new webContents is created.
-        [<Emit "$0.on('web-contents-created',$1)">] abstract ``on_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.once('web-contents-created',$1)">] abstract ``once_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.addListener('web-contents-created',$1)">] abstract ``addListener_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit "$0.removeListener('web-contents-created',$1)">] abstract ``removeListener_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.on('web-contents-created',$1)")>] abstract ``on_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.once('web-contents-created',$1)")>] abstract ``once_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.addListener('web-contents-created',$1)")>] abstract ``addListener_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
+        [<Emit("$0.removeListener('web-contents-created',$1)")>] abstract ``removeListener_web-contents-created``: listener: (Event -> WebContents -> unit) -> App
         /// <summary>
         /// Emitted during Handoff before an activity from a different device wants to be
         /// resumed. You should call <c>event.preventDefault()</c> if you want to handle this
         /// event.
         /// </summary>
-        [<Emit "$0.on('will-continue-activity',$1)">] abstract ``on_will-continue-activity``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.once('will-continue-activity',$1)">] abstract ``once_will-continue-activity``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.addListener('will-continue-activity',$1)">] abstract ``addListener_will-continue-activity``: listener: (Event -> string -> unit) -> App
-        [<Emit "$0.removeListener('will-continue-activity',$1)">] abstract ``removeListener_will-continue-activity``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.on('will-continue-activity',$1)")>] abstract ``on_will-continue-activity``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.once('will-continue-activity',$1)")>] abstract ``once_will-continue-activity``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.addListener('will-continue-activity',$1)")>] abstract ``addListener_will-continue-activity``: listener: (Event -> string -> unit) -> App
+        [<Emit("$0.removeListener('will-continue-activity',$1)")>] abstract ``removeListener_will-continue-activity``: listener: (Event -> string -> unit) -> App
         /// <summary>
         /// Emitted when the application has finished basic startup. On Windows and Linux,
         /// the <c>will-finish-launching</c> event is the same as the <c>ready</c> event; on macOS,
@@ -441,10 +441,10 @@ module Electron =
         /// 
         /// In most cases, you should do everything in the <c>ready</c> event handler.
         /// </summary>
-        [<Emit "$0.on('will-finish-launching',$1)">] abstract ``on_will-finish-launching``: listener: Function -> App
-        [<Emit "$0.once('will-finish-launching',$1)">] abstract ``once_will-finish-launching``: listener: Function -> App
-        [<Emit "$0.addListener('will-finish-launching',$1)">] abstract ``addListener_will-finish-launching``: listener: Function -> App
-        [<Emit "$0.removeListener('will-finish-launching',$1)">] abstract ``removeListener_will-finish-launching``: listener: Function -> App
+        [<Emit("$0.on('will-finish-launching',$1)")>] abstract ``on_will-finish-launching``: listener: Function -> App
+        [<Emit("$0.once('will-finish-launching',$1)")>] abstract ``once_will-finish-launching``: listener: Function -> App
+        [<Emit("$0.addListener('will-finish-launching',$1)")>] abstract ``addListener_will-finish-launching``: listener: Function -> App
+        [<Emit("$0.removeListener('will-finish-launching',$1)")>] abstract ``removeListener_will-finish-launching``: listener: Function -> App
         /// <summary>
         /// Emitted when all windows have been closed and the application will quit. Calling
         /// <c>event.preventDefault()</c> will prevent the default behavior, which is terminating
@@ -456,10 +456,10 @@ module Electron =
         /// **Note:** On Windows, this event will not be emitted if the app is closed due to
         /// a shutdown/restart of the system or a user logout.
         /// </summary>
-        [<Emit "$0.on('will-quit',$1)">] abstract ``on_will-quit``: listener: (Event -> unit) -> App
-        [<Emit "$0.once('will-quit',$1)">] abstract ``once_will-quit``: listener: (Event -> unit) -> App
-        [<Emit "$0.addListener('will-quit',$1)">] abstract ``addListener_will-quit``: listener: (Event -> unit) -> App
-        [<Emit "$0.removeListener('will-quit',$1)">] abstract ``removeListener_will-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.on('will-quit',$1)")>] abstract ``on_will-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.once('will-quit',$1)")>] abstract ``once_will-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.addListener('will-quit',$1)")>] abstract ``addListener_will-quit``: listener: (Event -> unit) -> App
+        [<Emit("$0.removeListener('will-quit',$1)")>] abstract ``removeListener_will-quit``: listener: (Event -> unit) -> App
         /// <summary>
         /// Emitted when all windows have been closed.
         /// 
@@ -470,10 +470,10 @@ module Electron =
         /// <c>will-quit</c> event, and in this case the <c>window-all-closed</c> event would not be
         /// emitted.
         /// </summary>
-        [<Emit "$0.on('window-all-closed',$1)">] abstract ``on_window-all-closed``: listener: Function -> App
-        [<Emit "$0.once('window-all-closed',$1)">] abstract ``once_window-all-closed``: listener: Function -> App
-        [<Emit "$0.addListener('window-all-closed',$1)">] abstract ``addListener_window-all-closed``: listener: Function -> App
-        [<Emit "$0.removeListener('window-all-closed',$1)">] abstract ``removeListener_window-all-closed``: listener: Function -> App
+        [<Emit("$0.on('window-all-closed',$1)")>] abstract ``on_window-all-closed``: listener: Function -> App
+        [<Emit("$0.once('window-all-closed',$1)")>] abstract ``once_window-all-closed``: listener: Function -> App
+        [<Emit("$0.addListener('window-all-closed',$1)")>] abstract ``addListener_window-all-closed``: listener: Function -> App
+        [<Emit("$0.removeListener('window-all-closed',$1)")>] abstract ``removeListener_window-all-closed``: listener: Function -> App
         /// <summary>
         /// Adds <c>path</c> to the recent documents list.
         /// 
@@ -1130,26 +1130,26 @@ module Electron =
         /// perform actions before the windows are closed while a process is quitting, as
         /// well as listening to <c>before-quit</c>.
         /// </summary>
-        [<Emit "$0.on('before-quit-for-update',$1)">] abstract ``on_before-quit-for-update``: listener: Function -> AutoUpdater
-        [<Emit "$0.once('before-quit-for-update',$1)">] abstract ``once_before-quit-for-update``: listener: Function -> AutoUpdater
-        [<Emit "$0.addListener('before-quit-for-update',$1)">] abstract ``addListener_before-quit-for-update``: listener: Function -> AutoUpdater
-        [<Emit "$0.removeListener('before-quit-for-update',$1)">] abstract ``removeListener_before-quit-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.on('before-quit-for-update',$1)")>] abstract ``on_before-quit-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.once('before-quit-for-update',$1)")>] abstract ``once_before-quit-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.addListener('before-quit-for-update',$1)")>] abstract ``addListener_before-quit-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.removeListener('before-quit-for-update',$1)")>] abstract ``removeListener_before-quit-for-update``: listener: Function -> AutoUpdater
         /// Emitted when checking if an update has started.
-        [<Emit "$0.on('checking-for-update',$1)">] abstract ``on_checking-for-update``: listener: Function -> AutoUpdater
-        [<Emit "$0.once('checking-for-update',$1)">] abstract ``once_checking-for-update``: listener: Function -> AutoUpdater
-        [<Emit "$0.addListener('checking-for-update',$1)">] abstract ``addListener_checking-for-update``: listener: Function -> AutoUpdater
-        [<Emit "$0.removeListener('checking-for-update',$1)">] abstract ``removeListener_checking-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.on('checking-for-update',$1)")>] abstract ``on_checking-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.once('checking-for-update',$1)")>] abstract ``once_checking-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.addListener('checking-for-update',$1)")>] abstract ``addListener_checking-for-update``: listener: Function -> AutoUpdater
+        [<Emit("$0.removeListener('checking-for-update',$1)")>] abstract ``removeListener_checking-for-update``: listener: Function -> AutoUpdater
         /// Emitted when there is an error while updating.
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> AutoUpdater
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> AutoUpdater
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> AutoUpdater
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (Error -> unit) -> AutoUpdater
+        [<Emit("$0.on('error',$1)")>] abstract on_error: listener: (Error -> unit) -> AutoUpdater
+        [<Emit("$0.once('error',$1)")>] abstract once_error: listener: (Error -> unit) -> AutoUpdater
+        [<Emit("$0.addListener('error',$1)")>] abstract addListener_error: listener: (Error -> unit) -> AutoUpdater
+        [<Emit("$0.removeListener('error',$1)")>] abstract removeListener_error: listener: (Error -> unit) -> AutoUpdater
         /// Emitted when there is an available update. The update is downloaded
         /// automatically.
-        [<Emit "$0.on('update-available',$1)">] abstract ``on_update-available``: listener: Function -> AutoUpdater
-        [<Emit "$0.once('update-available',$1)">] abstract ``once_update-available``: listener: Function -> AutoUpdater
-        [<Emit "$0.addListener('update-available',$1)">] abstract ``addListener_update-available``: listener: Function -> AutoUpdater
-        [<Emit "$0.removeListener('update-available',$1)">] abstract ``removeListener_update-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.on('update-available',$1)")>] abstract ``on_update-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.once('update-available',$1)")>] abstract ``once_update-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.addListener('update-available',$1)")>] abstract ``addListener_update-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.removeListener('update-available',$1)")>] abstract ``removeListener_update-available``: listener: Function -> AutoUpdater
         /// <summary>
         /// Emitted when an update has been downloaded.
         /// 
@@ -1158,15 +1158,15 @@ module Electron =
         /// **Note:** It is not strictly necessary to handle this event. A successfully
         /// downloaded update will still be applied the next time the application starts.
         /// </summary>
-        [<Emit "$0.on('update-downloaded',$1)">] abstract ``on_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
-        [<Emit "$0.once('update-downloaded',$1)">] abstract ``once_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
-        [<Emit "$0.addListener('update-downloaded',$1)">] abstract ``addListener_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
-        [<Emit "$0.removeListener('update-downloaded',$1)">] abstract ``removeListener_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
+        [<Emit("$0.on('update-downloaded',$1)")>] abstract ``on_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
+        [<Emit("$0.once('update-downloaded',$1)")>] abstract ``once_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
+        [<Emit("$0.addListener('update-downloaded',$1)")>] abstract ``addListener_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
+        [<Emit("$0.removeListener('update-downloaded',$1)")>] abstract ``removeListener_update-downloaded``: listener: (Event -> string -> string -> DateTime -> string -> unit) -> AutoUpdater
         /// Emitted when there is no available update.
-        [<Emit "$0.on('update-not-available',$1)">] abstract ``on_update-not-available``: listener: Function -> AutoUpdater
-        [<Emit "$0.once('update-not-available',$1)">] abstract ``once_update-not-available``: listener: Function -> AutoUpdater
-        [<Emit "$0.addListener('update-not-available',$1)">] abstract ``addListener_update-not-available``: listener: Function -> AutoUpdater
-        [<Emit "$0.removeListener('update-not-available',$1)">] abstract ``removeListener_update-not-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.on('update-not-available',$1)")>] abstract ``on_update-not-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.once('update-not-available',$1)")>] abstract ``once_update-not-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.addListener('update-not-available',$1)")>] abstract ``addListener_update-not-available``: listener: Function -> AutoUpdater
+        [<Emit("$0.removeListener('update-not-available',$1)")>] abstract ``removeListener_update-not-available``: listener: Function -> AutoUpdater
         /// <summary>
         /// Asks the server whether there is an update. You must call <c>setFeedURL</c> before
         /// using this API.
@@ -1210,10 +1210,10 @@ module Electron =
     type [<AllowNullLiteral>] BrowserWindow =
         inherit NodeEventEmitter
         /// Emitted when the window is set or unset to show always on top of other windows.
-        [<Emit "$0.on('always-on-top-changed',$1)">] abstract ``on_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
-        [<Emit "$0.once('always-on-top-changed',$1)">] abstract ``once_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('always-on-top-changed',$1)">] abstract ``addListener_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('always-on-top-changed',$1)">] abstract ``removeListener_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.on('always-on-top-changed',$1)")>] abstract ``on_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.once('always-on-top-changed',$1)")>] abstract ``once_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('always-on-top-changed',$1)")>] abstract ``addListener_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('always-on-top-changed',$1)")>] abstract ``removeListener_always-on-top-changed``: listener: (Event -> bool -> unit) -> BrowserWindow
         /// <summary>
         /// Emitted when an App Command is invoked. These are typically related to keyboard
         /// media keys or browser commands, as well as the "Back" button built into some
@@ -1228,15 +1228,15 @@ module Electron =
         /// <c>browser-backward</c>
         /// <c>browser-forward</c>
         /// </summary>
-        [<Emit "$0.on('app-command',$1)">] abstract ``on_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
-        [<Emit "$0.once('app-command',$1)">] abstract ``once_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('app-command',$1)">] abstract ``addListener_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('app-command',$1)">] abstract ``removeListener_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.on('app-command',$1)")>] abstract ``on_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.once('app-command',$1)")>] abstract ``once_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('app-command',$1)")>] abstract ``addListener_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('app-command',$1)")>] abstract ``removeListener_app-command``: listener: (Event -> string -> unit) -> BrowserWindow
         /// Emitted when the window loses focus.
-        [<Emit "$0.on('blur',$1)">] abstract on_blur: listener: Function -> BrowserWindow
-        [<Emit "$0.once('blur',$1)">] abstract once_blur: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('blur',$1)">] abstract addListener_blur: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('blur',$1)">] abstract removeListener_blur: listener: Function -> BrowserWindow
+        [<Emit("$0.on('blur',$1)")>] abstract on_blur: listener: Function -> BrowserWindow
+        [<Emit("$0.once('blur',$1)")>] abstract once_blur: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('blur',$1)")>] abstract addListener_blur: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('blur',$1)")>] abstract removeListener_blur: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted when the window is going to be closed. It's emitted before the
         /// <c>beforeunload</c> and <c>unload</c> event of the DOM. Calling <c>event.preventDefault()</c>
@@ -1253,84 +1253,84 @@ module Electron =
         /// instead of only returning a value, as the former works more consistently within
         /// Electron._
         /// </summary>
-        [<Emit "$0.on('close',$1)">] abstract on_close: listener: (Event -> unit) -> BrowserWindow
-        [<Emit "$0.once('close',$1)">] abstract once_close: listener: (Event -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (Event -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: (Event -> unit) -> BrowserWindow
+        [<Emit("$0.on('close',$1)")>] abstract on_close: listener: (Event -> unit) -> BrowserWindow
+        [<Emit("$0.once('close',$1)")>] abstract once_close: listener: (Event -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('close',$1)")>] abstract addListener_close: listener: (Event -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('close',$1)")>] abstract removeListener_close: listener: (Event -> unit) -> BrowserWindow
         /// Emitted when the window is closed. After you have received this event you should
         /// remove the reference to the window and avoid using it any more.
-        [<Emit "$0.on('closed',$1)">] abstract on_closed: listener: Function -> BrowserWindow
-        [<Emit "$0.once('closed',$1)">] abstract once_closed: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('closed',$1)">] abstract addListener_closed: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('closed',$1)">] abstract removeListener_closed: listener: Function -> BrowserWindow
+        [<Emit("$0.on('closed',$1)")>] abstract on_closed: listener: Function -> BrowserWindow
+        [<Emit("$0.once('closed',$1)")>] abstract once_closed: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('closed',$1)")>] abstract addListener_closed: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('closed',$1)")>] abstract removeListener_closed: listener: Function -> BrowserWindow
         /// Emitted when the window enters a full-screen state.
-        [<Emit "$0.on('enter-full-screen',$1)">] abstract ``on_enter-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('enter-full-screen',$1)">] abstract ``once_enter-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('enter-full-screen',$1)">] abstract ``addListener_enter-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('enter-full-screen',$1)">] abstract ``removeListener_enter-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('enter-full-screen',$1)")>] abstract ``on_enter-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('enter-full-screen',$1)")>] abstract ``once_enter-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('enter-full-screen',$1)")>] abstract ``addListener_enter-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('enter-full-screen',$1)")>] abstract ``removeListener_enter-full-screen``: listener: Function -> BrowserWindow
         /// Emitted when the window enters a full-screen state triggered by HTML API.
-        [<Emit "$0.on('enter-html-full-screen',$1)">] abstract ``on_enter-html-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('enter-html-full-screen',$1)">] abstract ``once_enter-html-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('enter-html-full-screen',$1)">] abstract ``addListener_enter-html-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('enter-html-full-screen',$1)">] abstract ``removeListener_enter-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('enter-html-full-screen',$1)")>] abstract ``on_enter-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('enter-html-full-screen',$1)")>] abstract ``once_enter-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('enter-html-full-screen',$1)")>] abstract ``addListener_enter-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('enter-html-full-screen',$1)")>] abstract ``removeListener_enter-html-full-screen``: listener: Function -> BrowserWindow
         /// Emitted when the window gains focus.
-        [<Emit "$0.on('focus',$1)">] abstract on_focus: listener: Function -> BrowserWindow
-        [<Emit "$0.once('focus',$1)">] abstract once_focus: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('focus',$1)">] abstract addListener_focus: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('focus',$1)">] abstract removeListener_focus: listener: Function -> BrowserWindow
+        [<Emit("$0.on('focus',$1)")>] abstract on_focus: listener: Function -> BrowserWindow
+        [<Emit("$0.once('focus',$1)")>] abstract once_focus: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('focus',$1)")>] abstract addListener_focus: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('focus',$1)")>] abstract removeListener_focus: listener: Function -> BrowserWindow
         /// Emitted when the window is hidden.
-        [<Emit "$0.on('hide',$1)">] abstract on_hide: listener: Function -> BrowserWindow
-        [<Emit "$0.once('hide',$1)">] abstract once_hide: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('hide',$1)">] abstract addListener_hide: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('hide',$1)">] abstract removeListener_hide: listener: Function -> BrowserWindow
+        [<Emit("$0.on('hide',$1)")>] abstract on_hide: listener: Function -> BrowserWindow
+        [<Emit("$0.once('hide',$1)")>] abstract once_hide: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('hide',$1)")>] abstract addListener_hide: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('hide',$1)")>] abstract removeListener_hide: listener: Function -> BrowserWindow
         /// Emitted when the window leaves a full-screen state.
-        [<Emit "$0.on('leave-full-screen',$1)">] abstract ``on_leave-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('leave-full-screen',$1)">] abstract ``once_leave-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('leave-full-screen',$1)">] abstract ``addListener_leave-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('leave-full-screen',$1)">] abstract ``removeListener_leave-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('leave-full-screen',$1)")>] abstract ``on_leave-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('leave-full-screen',$1)")>] abstract ``once_leave-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('leave-full-screen',$1)")>] abstract ``addListener_leave-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('leave-full-screen',$1)")>] abstract ``removeListener_leave-full-screen``: listener: Function -> BrowserWindow
         /// Emitted when the window leaves a full-screen state triggered by HTML API.
-        [<Emit "$0.on('leave-html-full-screen',$1)">] abstract ``on_leave-html-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('leave-html-full-screen',$1)">] abstract ``once_leave-html-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('leave-html-full-screen',$1)">] abstract ``addListener_leave-html-full-screen``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('leave-html-full-screen',$1)">] abstract ``removeListener_leave-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('leave-html-full-screen',$1)")>] abstract ``on_leave-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('leave-html-full-screen',$1)")>] abstract ``once_leave-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('leave-html-full-screen',$1)")>] abstract ``addListener_leave-html-full-screen``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('leave-html-full-screen',$1)")>] abstract ``removeListener_leave-html-full-screen``: listener: Function -> BrowserWindow
         /// Emitted when window is maximized.
-        [<Emit "$0.on('maximize',$1)">] abstract on_maximize: listener: Function -> BrowserWindow
-        [<Emit "$0.once('maximize',$1)">] abstract once_maximize: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('maximize',$1)">] abstract addListener_maximize: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('maximize',$1)">] abstract removeListener_maximize: listener: Function -> BrowserWindow
+        [<Emit("$0.on('maximize',$1)")>] abstract on_maximize: listener: Function -> BrowserWindow
+        [<Emit("$0.once('maximize',$1)")>] abstract once_maximize: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('maximize',$1)")>] abstract addListener_maximize: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('maximize',$1)")>] abstract removeListener_maximize: listener: Function -> BrowserWindow
         /// Emitted when the window is minimized.
-        [<Emit "$0.on('minimize',$1)">] abstract on_minimize: listener: Function -> BrowserWindow
-        [<Emit "$0.once('minimize',$1)">] abstract once_minimize: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('minimize',$1)">] abstract addListener_minimize: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('minimize',$1)">] abstract removeListener_minimize: listener: Function -> BrowserWindow
+        [<Emit("$0.on('minimize',$1)")>] abstract on_minimize: listener: Function -> BrowserWindow
+        [<Emit("$0.once('minimize',$1)")>] abstract once_minimize: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('minimize',$1)")>] abstract addListener_minimize: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('minimize',$1)")>] abstract removeListener_minimize: listener: Function -> BrowserWindow
         /// Emitted when the window is being moved to a new position.
-        [<Emit "$0.on('move',$1)">] abstract on_move: listener: Function -> BrowserWindow
-        [<Emit "$0.once('move',$1)">] abstract once_move: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('move',$1)">] abstract addListener_move: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('move',$1)">] abstract removeListener_move: listener: Function -> BrowserWindow
+        [<Emit("$0.on('move',$1)")>] abstract on_move: listener: Function -> BrowserWindow
+        [<Emit("$0.once('move',$1)")>] abstract once_move: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('move',$1)")>] abstract addListener_move: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('move',$1)")>] abstract removeListener_move: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted once when the window is moved to a new position.
         /// 
         /// __Note__: On macOS this event is an alias of <c>move</c>.
         /// </summary>
-        [<Emit "$0.on('moved',$1)">] abstract on_moved: listener: Function -> BrowserWindow
-        [<Emit "$0.once('moved',$1)">] abstract once_moved: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('moved',$1)">] abstract addListener_moved: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('moved',$1)">] abstract removeListener_moved: listener: Function -> BrowserWindow
+        [<Emit("$0.on('moved',$1)")>] abstract on_moved: listener: Function -> BrowserWindow
+        [<Emit("$0.once('moved',$1)")>] abstract once_moved: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('moved',$1)")>] abstract addListener_moved: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('moved',$1)")>] abstract removeListener_moved: listener: Function -> BrowserWindow
         /// <summary>Emitted when the native new tab button is clicked.</summary>
-        [<Emit "$0.on('new-window-for-tab',$1)">] abstract ``on_new-window-for-tab``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('new-window-for-tab',$1)">] abstract ``once_new-window-for-tab``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('new-window-for-tab',$1)">] abstract ``addListener_new-window-for-tab``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('new-window-for-tab',$1)">] abstract ``removeListener_new-window-for-tab``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('new-window-for-tab',$1)")>] abstract ``on_new-window-for-tab``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('new-window-for-tab',$1)")>] abstract ``once_new-window-for-tab``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('new-window-for-tab',$1)")>] abstract ``addListener_new-window-for-tab``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('new-window-for-tab',$1)")>] abstract ``removeListener_new-window-for-tab``: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted when the document changed its title, calling <c>event.preventDefault()</c>
         /// will prevent the native window's title from changing. <c>explicitSet</c> is false
         /// when title is synthesized from file URL.
         /// </summary>
-        [<Emit "$0.on('page-title-updated',$1)">] abstract ``on_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
-        [<Emit "$0.once('page-title-updated',$1)">] abstract ``once_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('page-title-updated',$1)">] abstract ``addListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('page-title-updated',$1)">] abstract ``removeListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.on('page-title-updated',$1)")>] abstract ``on_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.once('page-title-updated',$1)")>] abstract ``once_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('page-title-updated',$1)")>] abstract ``addListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('page-title-updated',$1)")>] abstract ``removeListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> BrowserWindow
         /// <summary>
         /// Emitted when the web page has been rendered (while not being shown) and window
         /// can be displayed without a visual flash.
@@ -1339,15 +1339,15 @@ module Electron =
         /// "visible" and paint even though <c>show</c> is false.  This event will never fire if
         /// you use <c>paintWhenInitiallyHidden: false</c>
         /// </summary>
-        [<Emit "$0.on('ready-to-show',$1)">] abstract ``on_ready-to-show``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('ready-to-show',$1)">] abstract ``once_ready-to-show``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('ready-to-show',$1)">] abstract ``addListener_ready-to-show``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('ready-to-show',$1)">] abstract ``removeListener_ready-to-show``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('ready-to-show',$1)")>] abstract ``on_ready-to-show``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('ready-to-show',$1)")>] abstract ``once_ready-to-show``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('ready-to-show',$1)")>] abstract ``addListener_ready-to-show``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('ready-to-show',$1)")>] abstract ``removeListener_ready-to-show``: listener: Function -> BrowserWindow
         /// Emitted after the window has been resized.
-        [<Emit "$0.on('resize',$1)">] abstract on_resize: listener: Function -> BrowserWindow
-        [<Emit "$0.once('resize',$1)">] abstract once_resize: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('resize',$1)">] abstract addListener_resize: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('resize',$1)">] abstract removeListener_resize: listener: Function -> BrowserWindow
+        [<Emit("$0.on('resize',$1)")>] abstract on_resize: listener: Function -> BrowserWindow
+        [<Emit("$0.once('resize',$1)")>] abstract once_resize: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('resize',$1)")>] abstract addListener_resize: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('resize',$1)")>] abstract removeListener_resize: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted once when the window has finished being resized.
         /// 
@@ -1355,20 +1355,20 @@ module Electron =
         /// resizing the window with <c>setBounds</c>/<c>setSize</c> and setting the <c>animate</c>
         /// parameter to <c>true</c> will also emit this event once resizing has finished.
         /// </summary>
-        [<Emit "$0.on('resized',$1)">] abstract on_resized: listener: Function -> BrowserWindow
-        [<Emit "$0.once('resized',$1)">] abstract once_resized: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('resized',$1)">] abstract addListener_resized: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('resized',$1)">] abstract removeListener_resized: listener: Function -> BrowserWindow
+        [<Emit("$0.on('resized',$1)")>] abstract on_resized: listener: Function -> BrowserWindow
+        [<Emit("$0.once('resized',$1)")>] abstract once_resized: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('resized',$1)")>] abstract addListener_resized: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('resized',$1)")>] abstract removeListener_resized: listener: Function -> BrowserWindow
         /// Emitted when the unresponsive web page becomes responsive again.
-        [<Emit "$0.on('responsive',$1)">] abstract on_responsive: listener: Function -> BrowserWindow
-        [<Emit "$0.once('responsive',$1)">] abstract once_responsive: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('responsive',$1)">] abstract addListener_responsive: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('responsive',$1)">] abstract removeListener_responsive: listener: Function -> BrowserWindow
+        [<Emit("$0.on('responsive',$1)")>] abstract on_responsive: listener: Function -> BrowserWindow
+        [<Emit("$0.once('responsive',$1)")>] abstract once_responsive: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('responsive',$1)")>] abstract addListener_responsive: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('responsive',$1)")>] abstract removeListener_responsive: listener: Function -> BrowserWindow
         /// Emitted when the window is restored from a minimized state.
-        [<Emit "$0.on('restore',$1)">] abstract on_restore: listener: Function -> BrowserWindow
-        [<Emit "$0.once('restore',$1)">] abstract once_restore: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('restore',$1)">] abstract addListener_restore: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('restore',$1)">] abstract removeListener_restore: listener: Function -> BrowserWindow
+        [<Emit("$0.on('restore',$1)")>] abstract on_restore: listener: Function -> BrowserWindow
+        [<Emit("$0.once('restore',$1)")>] abstract once_restore: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('restore',$1)")>] abstract addListener_restore: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('restore',$1)")>] abstract removeListener_restore: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted on trackpad rotation gesture. Continually emitted until rotation gesture
         /// is ended. The <c>rotation</c> value on each emission is the angle in degrees rotated
@@ -1376,48 +1376,48 @@ module Electron =
         /// always be of value <c>0</c>. Counter-clockwise rotation values are positive, while
         /// clockwise ones are negative.
         /// </summary>
-        [<Emit "$0.on('rotate-gesture',$1)">] abstract ``on_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
-        [<Emit "$0.once('rotate-gesture',$1)">] abstract ``once_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('rotate-gesture',$1)">] abstract ``addListener_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('rotate-gesture',$1)">] abstract ``removeListener_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
+        [<Emit("$0.on('rotate-gesture',$1)")>] abstract ``on_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
+        [<Emit("$0.once('rotate-gesture',$1)")>] abstract ``once_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('rotate-gesture',$1)")>] abstract ``addListener_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('rotate-gesture',$1)")>] abstract ``removeListener_rotate-gesture``: listener: (Event -> float -> unit) -> BrowserWindow
         /// <summary>Emitted when scroll wheel event phase has begun.</summary>
-        [<Emit "$0.on('scroll-touch-begin',$1)">] abstract ``on_scroll-touch-begin``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('scroll-touch-begin',$1)">] abstract ``once_scroll-touch-begin``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('scroll-touch-begin',$1)">] abstract ``addListener_scroll-touch-begin``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('scroll-touch-begin',$1)">] abstract ``removeListener_scroll-touch-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('scroll-touch-begin',$1)")>] abstract ``on_scroll-touch-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('scroll-touch-begin',$1)")>] abstract ``once_scroll-touch-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('scroll-touch-begin',$1)")>] abstract ``addListener_scroll-touch-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('scroll-touch-begin',$1)")>] abstract ``removeListener_scroll-touch-begin``: listener: Function -> BrowserWindow
         /// <summary>Emitted when scroll wheel event phase filed upon reaching the edge of element.</summary>
-        [<Emit "$0.on('scroll-touch-edge',$1)">] abstract ``on_scroll-touch-edge``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('scroll-touch-edge',$1)">] abstract ``once_scroll-touch-edge``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('scroll-touch-edge',$1)">] abstract ``addListener_scroll-touch-edge``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('scroll-touch-edge',$1)">] abstract ``removeListener_scroll-touch-edge``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('scroll-touch-edge',$1)")>] abstract ``on_scroll-touch-edge``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('scroll-touch-edge',$1)")>] abstract ``once_scroll-touch-edge``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('scroll-touch-edge',$1)")>] abstract ``addListener_scroll-touch-edge``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('scroll-touch-edge',$1)")>] abstract ``removeListener_scroll-touch-edge``: listener: Function -> BrowserWindow
         /// <summary>Emitted when scroll wheel event phase has ended.</summary>
-        [<Emit "$0.on('scroll-touch-end',$1)">] abstract ``on_scroll-touch-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('scroll-touch-end',$1)">] abstract ``once_scroll-touch-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('scroll-touch-end',$1)">] abstract ``addListener_scroll-touch-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('scroll-touch-end',$1)">] abstract ``removeListener_scroll-touch-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('scroll-touch-end',$1)")>] abstract ``on_scroll-touch-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('scroll-touch-end',$1)")>] abstract ``once_scroll-touch-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('scroll-touch-end',$1)")>] abstract ``addListener_scroll-touch-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('scroll-touch-end',$1)")>] abstract ``removeListener_scroll-touch-end``: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted when window session is going to end due to force shutdown or machine
         /// restart or session log off.
         /// </summary>
-        [<Emit "$0.on('session-end',$1)">] abstract ``on_session-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('session-end',$1)">] abstract ``once_session-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('session-end',$1)">] abstract ``addListener_session-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('session-end',$1)">] abstract ``removeListener_session-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('session-end',$1)")>] abstract ``on_session-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('session-end',$1)")>] abstract ``once_session-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('session-end',$1)")>] abstract ``addListener_session-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('session-end',$1)")>] abstract ``removeListener_session-end``: listener: Function -> BrowserWindow
         /// <summary>Emitted when the window opens a sheet.</summary>
-        [<Emit "$0.on('sheet-begin',$1)">] abstract ``on_sheet-begin``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('sheet-begin',$1)">] abstract ``once_sheet-begin``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('sheet-begin',$1)">] abstract ``addListener_sheet-begin``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('sheet-begin',$1)">] abstract ``removeListener_sheet-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('sheet-begin',$1)")>] abstract ``on_sheet-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('sheet-begin',$1)")>] abstract ``once_sheet-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('sheet-begin',$1)")>] abstract ``addListener_sheet-begin``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('sheet-begin',$1)")>] abstract ``removeListener_sheet-begin``: listener: Function -> BrowserWindow
         /// <summary>Emitted when the window has closed a sheet.</summary>
-        [<Emit "$0.on('sheet-end',$1)">] abstract ``on_sheet-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.once('sheet-end',$1)">] abstract ``once_sheet-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('sheet-end',$1)">] abstract ``addListener_sheet-end``: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('sheet-end',$1)">] abstract ``removeListener_sheet-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.on('sheet-end',$1)")>] abstract ``on_sheet-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.once('sheet-end',$1)")>] abstract ``once_sheet-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('sheet-end',$1)")>] abstract ``addListener_sheet-end``: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('sheet-end',$1)")>] abstract ``removeListener_sheet-end``: listener: Function -> BrowserWindow
         /// Emitted when the window is shown.
-        [<Emit "$0.on('show',$1)">] abstract on_show: listener: Function -> BrowserWindow
-        [<Emit "$0.once('show',$1)">] abstract once_show: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('show',$1)">] abstract addListener_show: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('show',$1)">] abstract removeListener_show: listener: Function -> BrowserWindow
+        [<Emit("$0.on('show',$1)")>] abstract on_show: listener: Function -> BrowserWindow
+        [<Emit("$0.once('show',$1)")>] abstract once_show: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('show',$1)")>] abstract addListener_show: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('show',$1)")>] abstract removeListener_show: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted on 3-finger swipe. Possible directions are <c>up</c>, <c>right</c>, <c>down</c>,
         /// <c>left</c>.
@@ -1429,10 +1429,10 @@ module Electron =
         /// Preferences &gt; Trackpad &gt; More Gestures` must be set to 'Swipe with two or three
         /// fingers'.
         /// </summary>
-        [<Emit "$0.on('swipe',$1)">] abstract on_swipe: listener: (Event -> string -> unit) -> BrowserWindow
-        [<Emit "$0.once('swipe',$1)">] abstract once_swipe: listener: (Event -> string -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('swipe',$1)">] abstract addListener_swipe: listener: (Event -> string -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('swipe',$1)">] abstract removeListener_swipe: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.on('swipe',$1)")>] abstract on_swipe: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.once('swipe',$1)")>] abstract once_swipe: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('swipe',$1)")>] abstract addListener_swipe: listener: (Event -> string -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('swipe',$1)")>] abstract removeListener_swipe: listener: (Event -> string -> unit) -> BrowserWindow
         /// <summary>
         /// Emitted when the system context menu is triggered on the window, this is
         /// normally only triggered when the user right clicks on the non-client area of
@@ -1441,20 +1441,20 @@ module Electron =
         /// 
         /// Calling <c>event.preventDefault()</c> will prevent the menu from being displayed.
         /// </summary>
-        [<Emit "$0.on('system-context-menu',$1)">] abstract ``on_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
-        [<Emit "$0.once('system-context-menu',$1)">] abstract ``once_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('system-context-menu',$1)">] abstract ``addListener_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('system-context-menu',$1)">] abstract ``removeListener_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit("$0.on('system-context-menu',$1)")>] abstract ``on_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit("$0.once('system-context-menu',$1)")>] abstract ``once_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('system-context-menu',$1)")>] abstract ``addListener_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('system-context-menu',$1)")>] abstract ``removeListener_system-context-menu``: listener: (Event -> Point -> unit) -> BrowserWindow
         /// Emitted when the window exits from a maximized state.
-        [<Emit "$0.on('unmaximize',$1)">] abstract on_unmaximize: listener: Function -> BrowserWindow
-        [<Emit "$0.once('unmaximize',$1)">] abstract once_unmaximize: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('unmaximize',$1)">] abstract addListener_unmaximize: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('unmaximize',$1)">] abstract removeListener_unmaximize: listener: Function -> BrowserWindow
+        [<Emit("$0.on('unmaximize',$1)")>] abstract on_unmaximize: listener: Function -> BrowserWindow
+        [<Emit("$0.once('unmaximize',$1)")>] abstract once_unmaximize: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('unmaximize',$1)")>] abstract addListener_unmaximize: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('unmaximize',$1)")>] abstract removeListener_unmaximize: listener: Function -> BrowserWindow
         /// Emitted when the web page becomes unresponsive.
-        [<Emit "$0.on('unresponsive',$1)">] abstract on_unresponsive: listener: Function -> BrowserWindow
-        [<Emit "$0.once('unresponsive',$1)">] abstract once_unresponsive: listener: Function -> BrowserWindow
-        [<Emit "$0.addListener('unresponsive',$1)">] abstract addListener_unresponsive: listener: Function -> BrowserWindow
-        [<Emit "$0.removeListener('unresponsive',$1)">] abstract removeListener_unresponsive: listener: Function -> BrowserWindow
+        [<Emit("$0.on('unresponsive',$1)")>] abstract on_unresponsive: listener: Function -> BrowserWindow
+        [<Emit("$0.once('unresponsive',$1)")>] abstract once_unresponsive: listener: Function -> BrowserWindow
+        [<Emit("$0.addListener('unresponsive',$1)")>] abstract addListener_unresponsive: listener: Function -> BrowserWindow
+        [<Emit("$0.removeListener('unresponsive',$1)")>] abstract removeListener_unresponsive: listener: Function -> BrowserWindow
         /// <summary>
         /// Emitted before the window is moved. On Windows, calling <c>event.preventDefault()</c>
         /// will prevent the window from being moved.
@@ -1462,10 +1462,10 @@ module Electron =
         /// Note that this is only emitted when the window is being resized manually.
         /// Resizing the window with <c>setBounds</c>/<c>setSize</c> will not emit this event.
         /// </summary>
-        [<Emit "$0.on('will-move',$1)">] abstract ``on_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
-        [<Emit "$0.once('will-move',$1)">] abstract ``once_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('will-move',$1)">] abstract ``addListener_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('will-move',$1)">] abstract ``removeListener_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.on('will-move',$1)")>] abstract ``on_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.once('will-move',$1)")>] abstract ``once_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('will-move',$1)")>] abstract ``addListener_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('will-move',$1)")>] abstract ``removeListener_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
         /// <summary>
         /// Emitted before the window is resized. Calling <c>event.preventDefault()</c> will
         /// prevent the window from being resized.
@@ -1473,10 +1473,10 @@ module Electron =
         /// Note that this is only emitted when the window is being resized manually.
         /// Resizing the window with <c>setBounds</c>/<c>setSize</c> will not emit this event.
         /// </summary>
-        [<Emit "$0.on('will-resize',$1)">] abstract ``on_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
-        [<Emit "$0.once('will-resize',$1)">] abstract ``once_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
-        [<Emit "$0.addListener('will-resize',$1)">] abstract ``addListener_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
-        [<Emit "$0.removeListener('will-resize',$1)">] abstract ``removeListener_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.on('will-resize',$1)")>] abstract ``on_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.once('will-resize',$1)")>] abstract ``once_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.addListener('will-resize',$1)")>] abstract ``addListener_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
+        [<Emit("$0.removeListener('will-resize',$1)")>] abstract ``removeListener_will-resize``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
         /// <summary>Replacement API for setBrowserView supporting work with multi browser views.</summary>
         abstract addBrowserView: browserView: BrowserView -> unit
         /// <summary>Adds a window as a tab on this window, after the tab for the window instance.</summary>
@@ -2119,36 +2119,36 @@ module Electron =
         /// Emitted when the <c>request</c> is aborted. The <c>abort</c> event will not be fired if
         /// the <c>request</c> is already closed.
         /// </summary>
-        [<Emit "$0.on('abort',$1)">] abstract on_abort: listener: Function -> ClientRequest
-        [<Emit "$0.once('abort',$1)">] abstract once_abort: listener: Function -> ClientRequest
-        [<Emit "$0.addListener('abort',$1)">] abstract addListener_abort: listener: Function -> ClientRequest
-        [<Emit "$0.removeListener('abort',$1)">] abstract removeListener_abort: listener: Function -> ClientRequest
+        [<Emit("$0.on('abort',$1)")>] abstract on_abort: listener: Function -> ClientRequest
+        [<Emit("$0.once('abort',$1)")>] abstract once_abort: listener: Function -> ClientRequest
+        [<Emit("$0.addListener('abort',$1)")>] abstract addListener_abort: listener: Function -> ClientRequest
+        [<Emit("$0.removeListener('abort',$1)")>] abstract removeListener_abort: listener: Function -> ClientRequest
         /// <summary>
         /// Emitted as the last event in the HTTP request-response transaction. The <c>close</c>
         /// event indicates that no more events will be emitted on either the <c>request</c> or
         /// <c>response</c> objects.
         /// </summary>
-        [<Emit "$0.on('close',$1)">] abstract on_close: listener: Function -> ClientRequest
-        [<Emit "$0.once('close',$1)">] abstract once_close: listener: Function -> ClientRequest
-        [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: Function -> ClientRequest
-        [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: Function -> ClientRequest
+        [<Emit("$0.on('close',$1)")>] abstract on_close: listener: Function -> ClientRequest
+        [<Emit("$0.once('close',$1)")>] abstract once_close: listener: Function -> ClientRequest
+        [<Emit("$0.addListener('close',$1)")>] abstract addListener_close: listener: Function -> ClientRequest
+        [<Emit("$0.removeListener('close',$1)")>] abstract removeListener_close: listener: Function -> ClientRequest
         /// <summary>
         /// Emitted when the <c>net</c> module fails to issue a network request. Typically when
         /// the <c>request</c> object emits an <c>error</c> event, a <c>close</c> event will subsequently
         /// follow and no response object will be provided.
         /// </summary>
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: (Error -> unit) -> ClientRequest
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: (Error -> unit) -> ClientRequest
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: (Error -> unit) -> ClientRequest
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: (Error -> unit) -> ClientRequest
+        [<Emit("$0.on('error',$1)")>] abstract on_error: listener: (Error -> unit) -> ClientRequest
+        [<Emit("$0.once('error',$1)")>] abstract once_error: listener: (Error -> unit) -> ClientRequest
+        [<Emit("$0.addListener('error',$1)")>] abstract addListener_error: listener: (Error -> unit) -> ClientRequest
+        [<Emit("$0.removeListener('error',$1)")>] abstract removeListener_error: listener: (Error -> unit) -> ClientRequest
         /// <summary>
         /// Emitted just after the last chunk of the <c>request</c>'s data has been written into
         /// the <c>request</c> object.
         /// </summary>
-        [<Emit "$0.on('finish',$1)">] abstract on_finish: listener: Function -> ClientRequest
-        [<Emit "$0.once('finish',$1)">] abstract once_finish: listener: Function -> ClientRequest
-        [<Emit "$0.addListener('finish',$1)">] abstract addListener_finish: listener: Function -> ClientRequest
-        [<Emit "$0.removeListener('finish',$1)">] abstract removeListener_finish: listener: Function -> ClientRequest
+        [<Emit("$0.on('finish',$1)")>] abstract on_finish: listener: Function -> ClientRequest
+        [<Emit("$0.once('finish',$1)")>] abstract once_finish: listener: Function -> ClientRequest
+        [<Emit("$0.addListener('finish',$1)")>] abstract addListener_finish: listener: Function -> ClientRequest
+        [<Emit("$0.removeListener('finish',$1)")>] abstract removeListener_finish: listener: Function -> ClientRequest
         /// <summary>
         /// Emitted when an authenticating proxy is asking for user credentials.
         /// 
@@ -2160,24 +2160,24 @@ module Electron =
         /// Providing empty credentials will cancel the request and report an authentication
         /// error on the response object:
         /// </summary>
-        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
-        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
-        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
-        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit("$0.on('login',$1)")>] abstract on_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit("$0.once('login',$1)")>] abstract once_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit("$0.addListener('login',$1)")>] abstract addListener_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
+        [<Emit("$0.removeListener('login',$1)")>] abstract removeListener_login: listener: (AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> ClientRequest
         /// <summary>
         /// Emitted when the server returns a redirect response (e.g. 301 Moved
         /// Permanently). Calling <c>request.followRedirect</c> will continue with the
         /// redirection.  If this event is handled, <c>request.followRedirect</c> must be called
         /// **synchronously**, otherwise the request will be cancelled.
         /// </summary>
-        [<Emit "$0.on('redirect',$1)">] abstract on_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
-        [<Emit "$0.once('redirect',$1)">] abstract once_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
-        [<Emit "$0.addListener('redirect',$1)">] abstract addListener_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
-        [<Emit "$0.removeListener('redirect',$1)">] abstract removeListener_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
-        [<Emit "$0.on('response',$1)">] abstract on_response: listener: (IncomingMessage -> unit) -> ClientRequest
-        [<Emit "$0.once('response',$1)">] abstract once_response: listener: (IncomingMessage -> unit) -> ClientRequest
-        [<Emit "$0.addListener('response',$1)">] abstract addListener_response: listener: (IncomingMessage -> unit) -> ClientRequest
-        [<Emit "$0.removeListener('response',$1)">] abstract removeListener_response: listener: (IncomingMessage -> unit) -> ClientRequest
+        [<Emit("$0.on('redirect',$1)")>] abstract on_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
+        [<Emit("$0.once('redirect',$1)")>] abstract once_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
+        [<Emit("$0.addListener('redirect',$1)")>] abstract addListener_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
+        [<Emit("$0.removeListener('redirect',$1)")>] abstract removeListener_redirect: listener: (float -> string -> string -> Record<string, ResizeArray<string>> -> unit) -> ClientRequest
+        [<Emit("$0.on('response',$1)")>] abstract on_response: listener: (IncomingMessage -> unit) -> ClientRequest
+        [<Emit("$0.once('response',$1)")>] abstract once_response: listener: (IncomingMessage -> unit) -> ClientRequest
+        [<Emit("$0.addListener('response',$1)")>] abstract addListener_response: listener: (IncomingMessage -> unit) -> ClientRequest
+        [<Emit("$0.removeListener('response',$1)")>] abstract removeListener_response: listener: (IncomingMessage -> unit) -> ClientRequest
         /// <summary>
         /// Cancels an ongoing HTTP transaction. If the request has already emitted the
         /// <c>close</c> event, the abort operation will have no effect. Otherwise an ongoing
@@ -2439,10 +2439,10 @@ module Electron =
         inherit NodeEventEmitter
         /// Emitted when a cookie is changed because it was added, edited, removed, or
         /// expired.
-        [<Emit "$0.on('changed',$1)">] abstract on_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
-        [<Emit "$0.once('changed',$1)">] abstract once_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
-        [<Emit "$0.addListener('changed',$1)">] abstract addListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
-        [<Emit "$0.removeListener('changed',$1)">] abstract removeListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit("$0.on('changed',$1)")>] abstract on_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit("$0.once('changed',$1)")>] abstract once_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit("$0.addListener('changed',$1)")>] abstract addListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
+        [<Emit("$0.removeListener('changed',$1)")>] abstract removeListener_changed: listener: (Event -> Cookie -> CookiesOn_changed -> bool -> unit) -> Cookies
         /// A promise which resolves when the cookie store has been flushed
         /// 
         /// Writes any unwritten cookies data to disk.
@@ -2578,15 +2578,15 @@ module Electron =
         /// Emitted when the debugging session is terminated. This happens either when
         /// <c>webContents</c> is closed or devtools is invoked for the attached <c>webContents</c>.
         /// </summary>
-        [<Emit "$0.on('detach',$1)">] abstract on_detach: listener: (Event -> string -> unit) -> Debugger
-        [<Emit "$0.once('detach',$1)">] abstract once_detach: listener: (Event -> string -> unit) -> Debugger
-        [<Emit "$0.addListener('detach',$1)">] abstract addListener_detach: listener: (Event -> string -> unit) -> Debugger
-        [<Emit "$0.removeListener('detach',$1)">] abstract removeListener_detach: listener: (Event -> string -> unit) -> Debugger
+        [<Emit("$0.on('detach',$1)")>] abstract on_detach: listener: (Event -> string -> unit) -> Debugger
+        [<Emit("$0.once('detach',$1)")>] abstract once_detach: listener: (Event -> string -> unit) -> Debugger
+        [<Emit("$0.addListener('detach',$1)")>] abstract addListener_detach: listener: (Event -> string -> unit) -> Debugger
+        [<Emit("$0.removeListener('detach',$1)")>] abstract removeListener_detach: listener: (Event -> string -> unit) -> Debugger
         /// Emitted whenever the debugging target issues an instrumentation event.
-        [<Emit "$0.on('message',$1)">] abstract on_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
-        [<Emit "$0.once('message',$1)">] abstract once_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
-        [<Emit "$0.addListener('message',$1)">] abstract addListener_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
-        [<Emit "$0.removeListener('message',$1)">] abstract removeListener_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
+        [<Emit("$0.on('message',$1)")>] abstract on_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
+        [<Emit("$0.once('message',$1)")>] abstract once_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
+        [<Emit("$0.addListener('message',$1)")>] abstract addListener_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
+        [<Emit("$0.removeListener('message',$1)")>] abstract removeListener_message: listener: (Event -> string -> obj option -> string -> unit) -> Debugger
         /// <summary>Attaches the debugger to the <c>webContents</c>.</summary>
         abstract attach: ?protocolVersion: string -> unit
         /// <summary>Detaches the debugger from the <c>webContents</c>.</summary>
@@ -2977,10 +2977,10 @@ module Electron =
         /// * <c>cancelled</c> - The download has been cancelled.
         /// * <c>interrupted</c> - The download has interrupted and can not resume.
         /// </summary>
-        [<Emit "$0.on('done',$1)">] abstract on_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
-        [<Emit "$0.once('done',$1)">] abstract once_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
-        [<Emit "$0.addListener('done',$1)">] abstract addListener_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
-        [<Emit "$0.removeListener('done',$1)">] abstract removeListener_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
+        [<Emit("$0.on('done',$1)")>] abstract on_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
+        [<Emit("$0.once('done',$1)")>] abstract once_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
+        [<Emit("$0.addListener('done',$1)")>] abstract addListener_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
+        [<Emit("$0.removeListener('done',$1)")>] abstract removeListener_done: listener: (Event -> DownloadItemOn_done -> unit) -> DownloadItem
         /// <summary>
         /// Emitted when the download has been updated and is not done.
         /// 
@@ -2989,10 +2989,10 @@ module Electron =
         /// * <c>progressing</c> - The download is in-progress.
         /// * <c>interrupted</c> - The download has interrupted and can be resumed.
         /// </summary>
-        [<Emit "$0.on('updated',$1)">] abstract on_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
-        [<Emit "$0.once('updated',$1)">] abstract once_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
-        [<Emit "$0.addListener('updated',$1)">] abstract addListener_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
-        [<Emit "$0.removeListener('updated',$1)">] abstract removeListener_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
+        [<Emit("$0.on('updated',$1)")>] abstract on_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
+        [<Emit("$0.once('updated',$1)")>] abstract once_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
+        [<Emit("$0.addListener('updated',$1)")>] abstract addListener_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
+        [<Emit("$0.removeListener('updated',$1)")>] abstract removeListener_updated: listener: (Event -> DownloadItemOn_updated -> unit) -> DownloadItem
         /// Cancels the download operation.
         abstract cancel: unit -> unit
         /// Whether the download can resume.
@@ -3185,10 +3185,10 @@ module Electron =
 
     type [<AllowNullLiteral>] InAppPurchase =
         inherit NodeJS.EventEmitter
-        [<Emit "$0.on('transactions-updated',$1)">] abstract ``on_transactions-updated``: listener: Function -> InAppPurchase
-        [<Emit "$0.once('transactions-updated',$1)">] abstract ``once_transactions-updated``: listener: Function -> InAppPurchase
-        [<Emit "$0.addListener('transactions-updated',$1)">] abstract ``addListener_transactions-updated``: listener: Function -> InAppPurchase
-        [<Emit "$0.removeListener('transactions-updated',$1)">] abstract ``removeListener_transactions-updated``: listener: Function -> InAppPurchase
+        [<Emit("$0.on('transactions-updated',$1)")>] abstract ``on_transactions-updated``: listener: Function -> InAppPurchase
+        [<Emit("$0.once('transactions-updated',$1)")>] abstract ``once_transactions-updated``: listener: Function -> InAppPurchase
+        [<Emit("$0.addListener('transactions-updated',$1)")>] abstract ``addListener_transactions-updated``: listener: Function -> InAppPurchase
+        [<Emit("$0.removeListener('transactions-updated',$1)")>] abstract ``removeListener_transactions-updated``: listener: Function -> InAppPurchase
         /// whether a user can make a payment.
         abstract canMakePayments: unit -> bool
         /// Completes all pending transactions.
@@ -3222,23 +3222,23 @@ module Electron =
     type [<AllowNullLiteral>] IncomingMessage =
         inherit NodeEventEmitter
         /// Emitted when a request has been canceled during an ongoing HTTP transaction.
-        [<Emit "$0.on('aborted',$1)">] abstract on_aborted: listener: Function -> IncomingMessage
-        [<Emit "$0.once('aborted',$1)">] abstract once_aborted: listener: Function -> IncomingMessage
-        [<Emit "$0.addListener('aborted',$1)">] abstract addListener_aborted: listener: Function -> IncomingMessage
-        [<Emit "$0.removeListener('aborted',$1)">] abstract removeListener_aborted: listener: Function -> IncomingMessage
+        [<Emit("$0.on('aborted',$1)")>] abstract on_aborted: listener: Function -> IncomingMessage
+        [<Emit("$0.once('aborted',$1)")>] abstract once_aborted: listener: Function -> IncomingMessage
+        [<Emit("$0.addListener('aborted',$1)")>] abstract addListener_aborted: listener: Function -> IncomingMessage
+        [<Emit("$0.removeListener('aborted',$1)")>] abstract removeListener_aborted: listener: Function -> IncomingMessage
         /// <summary>
         /// The <c>data</c> event is the usual method of transferring response data into
         /// applicative code.
         /// </summary>
-        [<Emit "$0.on('data',$1)">] abstract on_data: listener: (Buffer -> unit) -> IncomingMessage
-        [<Emit "$0.once('data',$1)">] abstract once_data: listener: (Buffer -> unit) -> IncomingMessage
-        [<Emit "$0.addListener('data',$1)">] abstract addListener_data: listener: (Buffer -> unit) -> IncomingMessage
-        [<Emit "$0.removeListener('data',$1)">] abstract removeListener_data: listener: (Buffer -> unit) -> IncomingMessage
+        [<Emit("$0.on('data',$1)")>] abstract on_data: listener: (Buffer -> unit) -> IncomingMessage
+        [<Emit("$0.once('data',$1)")>] abstract once_data: listener: (Buffer -> unit) -> IncomingMessage
+        [<Emit("$0.addListener('data',$1)")>] abstract addListener_data: listener: (Buffer -> unit) -> IncomingMessage
+        [<Emit("$0.removeListener('data',$1)")>] abstract removeListener_data: listener: (Buffer -> unit) -> IncomingMessage
         /// Indicates that response body has ended. Must be placed before 'data' event.
-        [<Emit "$0.on('end',$1)">] abstract on_end: listener: Function -> IncomingMessage
-        [<Emit "$0.once('end',$1)">] abstract once_end: listener: Function -> IncomingMessage
-        [<Emit "$0.addListener('end',$1)">] abstract addListener_end: listener: Function -> IncomingMessage
-        [<Emit "$0.removeListener('end',$1)">] abstract removeListener_end: listener: Function -> IncomingMessage
+        [<Emit("$0.on('end',$1)")>] abstract on_end: listener: Function -> IncomingMessage
+        [<Emit("$0.once('end',$1)")>] abstract once_end: listener: Function -> IncomingMessage
+        [<Emit("$0.addListener('end',$1)")>] abstract addListener_end: listener: Function -> IncomingMessage
+        [<Emit("$0.removeListener('end',$1)")>] abstract removeListener_end: listener: Function -> IncomingMessage
         /// <summary>
         /// Returns:
         /// 
@@ -3249,10 +3249,10 @@ module Electron =
         /// streaming, an <c>error</c> event will be emitted on the response object and a <c>close</c>
         /// event will subsequently follow on the request object.
         /// </summary>
-        [<Emit "$0.on('error',$1)">] abstract on_error: listener: Function -> IncomingMessage
-        [<Emit "$0.once('error',$1)">] abstract once_error: listener: Function -> IncomingMessage
-        [<Emit "$0.addListener('error',$1)">] abstract addListener_error: listener: Function -> IncomingMessage
-        [<Emit "$0.removeListener('error',$1)">] abstract removeListener_error: listener: Function -> IncomingMessage
+        [<Emit("$0.on('error',$1)")>] abstract on_error: listener: Function -> IncomingMessage
+        [<Emit("$0.once('error',$1)")>] abstract once_error: listener: Function -> IncomingMessage
+        [<Emit("$0.addListener('error',$1)")>] abstract addListener_error: listener: Function -> IncomingMessage
+        [<Emit("$0.removeListener('error',$1)")>] abstract removeListener_error: listener: Function -> IncomingMessage
         abstract headers: Record<string, U2<string, ResizeArray<string>>> with get, set
         abstract httpVersion: string with get, set
         abstract httpVersionMajor: float with get, set
@@ -3582,15 +3582,15 @@ module Electron =
 
     type [<AllowNullLiteral>] Menu =
         /// <summary>Emitted when a popup is closed either manually or with <c>menu.closePopup()</c>.</summary>
-        [<Emit "$0.on('menu-will-close',$1)">] abstract ``on_menu-will-close``: listener: (Event -> unit) -> Menu
-        [<Emit "$0.once('menu-will-close',$1)">] abstract ``once_menu-will-close``: listener: (Event -> unit) -> Menu
-        [<Emit "$0.addListener('menu-will-close',$1)">] abstract ``addListener_menu-will-close``: listener: (Event -> unit) -> Menu
-        [<Emit "$0.removeListener('menu-will-close',$1)">] abstract ``removeListener_menu-will-close``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.on('menu-will-close',$1)")>] abstract ``on_menu-will-close``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.once('menu-will-close',$1)")>] abstract ``once_menu-will-close``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.addListener('menu-will-close',$1)")>] abstract ``addListener_menu-will-close``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.removeListener('menu-will-close',$1)")>] abstract ``removeListener_menu-will-close``: listener: (Event -> unit) -> Menu
         /// <summary>Emitted when <c>menu.popup()</c> is called.</summary>
-        [<Emit "$0.on('menu-will-show',$1)">] abstract ``on_menu-will-show``: listener: (Event -> unit) -> Menu
-        [<Emit "$0.once('menu-will-show',$1)">] abstract ``once_menu-will-show``: listener: (Event -> unit) -> Menu
-        [<Emit "$0.addListener('menu-will-show',$1)">] abstract ``addListener_menu-will-show``: listener: (Event -> unit) -> Menu
-        [<Emit "$0.removeListener('menu-will-show',$1)">] abstract ``removeListener_menu-will-show``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.on('menu-will-show',$1)")>] abstract ``on_menu-will-show``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.once('menu-will-show',$1)")>] abstract ``once_menu-will-show``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.addListener('menu-will-show',$1)")>] abstract ``addListener_menu-will-show``: listener: (Event -> unit) -> Menu
+        [<Emit("$0.removeListener('menu-will-show',$1)")>] abstract ``removeListener_menu-will-show``: listener: (Event -> unit) -> Menu
         /// <summary>Appends the <c>menuItem</c> to the menu.</summary>
         abstract append: menuItem: MenuItem -> unit
         /// <summary>Closes the context menu in the <c>browserWindow</c>.</summary>
@@ -3686,15 +3686,15 @@ module Electron =
     type [<AllowNullLiteral>] MessagePortMain =
         inherit NodeEventEmitter
         /// Emitted when the remote end of a MessagePortMain object becomes disconnected.
-        [<Emit "$0.on('close',$1)">] abstract on_close: listener: Function -> MessagePortMain
-        [<Emit "$0.once('close',$1)">] abstract once_close: listener: Function -> MessagePortMain
-        [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: Function -> MessagePortMain
-        [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: Function -> MessagePortMain
+        [<Emit("$0.on('close',$1)")>] abstract on_close: listener: Function -> MessagePortMain
+        [<Emit("$0.once('close',$1)")>] abstract once_close: listener: Function -> MessagePortMain
+        [<Emit("$0.addListener('close',$1)")>] abstract addListener_close: listener: Function -> MessagePortMain
+        [<Emit("$0.removeListener('close',$1)")>] abstract removeListener_close: listener: Function -> MessagePortMain
         /// Emitted when a MessagePortMain object receives a message.
-        [<Emit "$0.on('message',$1)">] abstract on_message: listener: (MessageEvent -> unit) -> MessagePortMain
-        [<Emit "$0.once('message',$1)">] abstract once_message: listener: (MessageEvent -> unit) -> MessagePortMain
-        [<Emit "$0.addListener('message',$1)">] abstract addListener_message: listener: (MessageEvent -> unit) -> MessagePortMain
-        [<Emit "$0.removeListener('message',$1)">] abstract removeListener_message: listener: (MessageEvent -> unit) -> MessagePortMain
+        [<Emit("$0.on('message',$1)")>] abstract on_message: listener: (MessageEvent -> unit) -> MessagePortMain
+        [<Emit("$0.once('message',$1)")>] abstract once_message: listener: (MessageEvent -> unit) -> MessagePortMain
+        [<Emit("$0.addListener('message',$1)")>] abstract addListener_message: listener: (MessageEvent -> unit) -> MessagePortMain
+        [<Emit("$0.removeListener('message',$1)")>] abstract removeListener_message: listener: (MessageEvent -> unit) -> MessagePortMain
         /// Disconnects the port, so it is no longer active.
         abstract close: unit -> unit
         /// Sends a message from the port, and optionally, transfers ownership of objects to
@@ -3870,10 +3870,10 @@ module Electron =
         /// <c>shouldUseHighContrastColors</c> or <c>shouldUseInvertedColorScheme</c> has changed. You
         /// will have to check them to determine which one has changed.
         /// </summary>
-        [<Emit "$0.on('updated',$1)">] abstract on_updated: listener: Function -> NativeTheme
-        [<Emit "$0.once('updated',$1)">] abstract once_updated: listener: Function -> NativeTheme
-        [<Emit "$0.addListener('updated',$1)">] abstract addListener_updated: listener: Function -> NativeTheme
-        [<Emit "$0.removeListener('updated',$1)">] abstract removeListener_updated: listener: Function -> NativeTheme
+        [<Emit("$0.on('updated',$1)")>] abstract on_updated: listener: Function -> NativeTheme
+        [<Emit("$0.once('updated',$1)")>] abstract once_updated: listener: Function -> NativeTheme
+        [<Emit("$0.addListener('updated',$1)")>] abstract addListener_updated: listener: Function -> NativeTheme
+        [<Emit("$0.removeListener('updated',$1)")>] abstract removeListener_updated: listener: Function -> NativeTheme
         /// <summary>
         /// A <c>Boolean</c> for if the OS / Chromium currently has a dark mode enabled or is
         /// being instructed to show a dark-style UI.  If you want to modify this value you
@@ -3980,48 +3980,48 @@ module Electron =
 
     type [<AllowNullLiteral>] Notification =
         inherit NodeEventEmitter
-        [<Emit "$0.on('action',$1)">] abstract on_action: listener: (Event -> float -> unit) -> Notification
-        [<Emit "$0.once('action',$1)">] abstract once_action: listener: (Event -> float -> unit) -> Notification
-        [<Emit "$0.addListener('action',$1)">] abstract addListener_action: listener: (Event -> float -> unit) -> Notification
-        [<Emit "$0.removeListener('action',$1)">] abstract removeListener_action: listener: (Event -> float -> unit) -> Notification
+        [<Emit("$0.on('action',$1)")>] abstract on_action: listener: (Event -> float -> unit) -> Notification
+        [<Emit("$0.once('action',$1)")>] abstract once_action: listener: (Event -> float -> unit) -> Notification
+        [<Emit("$0.addListener('action',$1)")>] abstract addListener_action: listener: (Event -> float -> unit) -> Notification
+        [<Emit("$0.removeListener('action',$1)")>] abstract removeListener_action: listener: (Event -> float -> unit) -> Notification
         /// Emitted when the notification is clicked by the user.
-        [<Emit "$0.on('click',$1)">] abstract on_click: listener: (Event -> unit) -> Notification
-        [<Emit "$0.once('click',$1)">] abstract once_click: listener: (Event -> unit) -> Notification
-        [<Emit "$0.addListener('click',$1)">] abstract addListener_click: listener: (Event -> unit) -> Notification
-        [<Emit "$0.removeListener('click',$1)">] abstract removeListener_click: listener: (Event -> unit) -> Notification
+        [<Emit("$0.on('click',$1)")>] abstract on_click: listener: (Event -> unit) -> Notification
+        [<Emit("$0.once('click',$1)")>] abstract once_click: listener: (Event -> unit) -> Notification
+        [<Emit("$0.addListener('click',$1)")>] abstract addListener_click: listener: (Event -> unit) -> Notification
+        [<Emit("$0.removeListener('click',$1)")>] abstract removeListener_click: listener: (Event -> unit) -> Notification
         /// Emitted when the notification is closed by manual intervention from the user.
         /// 
         /// This event is not guaranteed to be emitted in all cases where the notification
         /// is closed.
-        [<Emit "$0.on('close',$1)">] abstract on_close: listener: (Event -> unit) -> Notification
-        [<Emit "$0.once('close',$1)">] abstract once_close: listener: (Event -> unit) -> Notification
-        [<Emit "$0.addListener('close',$1)">] abstract addListener_close: listener: (Event -> unit) -> Notification
-        [<Emit "$0.removeListener('close',$1)">] abstract removeListener_close: listener: (Event -> unit) -> Notification
+        [<Emit("$0.on('close',$1)")>] abstract on_close: listener: (Event -> unit) -> Notification
+        [<Emit("$0.once('close',$1)")>] abstract once_close: listener: (Event -> unit) -> Notification
+        [<Emit("$0.addListener('close',$1)")>] abstract addListener_close: listener: (Event -> unit) -> Notification
+        [<Emit("$0.removeListener('close',$1)")>] abstract removeListener_close: listener: (Event -> unit) -> Notification
         /// <summary>
         /// Emitted when an error is encountered while creating and showing the native
         /// notification.
         /// </summary>
-        [<Emit "$0.on('failed',$1)">] abstract on_failed: listener: (Event -> string -> unit) -> Notification
-        [<Emit "$0.once('failed',$1)">] abstract once_failed: listener: (Event -> string -> unit) -> Notification
-        [<Emit "$0.addListener('failed',$1)">] abstract addListener_failed: listener: (Event -> string -> unit) -> Notification
-        [<Emit "$0.removeListener('failed',$1)">] abstract removeListener_failed: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.on('failed',$1)")>] abstract on_failed: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.once('failed',$1)")>] abstract once_failed: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.addListener('failed',$1)")>] abstract addListener_failed: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.removeListener('failed',$1)")>] abstract removeListener_failed: listener: (Event -> string -> unit) -> Notification
         /// <summary>
         /// Emitted when the user clicks the "Reply" button on a notification with
         /// <c>hasReply: true</c>.
         /// </summary>
-        [<Emit "$0.on('reply',$1)">] abstract on_reply: listener: (Event -> string -> unit) -> Notification
-        [<Emit "$0.once('reply',$1)">] abstract once_reply: listener: (Event -> string -> unit) -> Notification
-        [<Emit "$0.addListener('reply',$1)">] abstract addListener_reply: listener: (Event -> string -> unit) -> Notification
-        [<Emit "$0.removeListener('reply',$1)">] abstract removeListener_reply: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.on('reply',$1)")>] abstract on_reply: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.once('reply',$1)")>] abstract once_reply: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.addListener('reply',$1)")>] abstract addListener_reply: listener: (Event -> string -> unit) -> Notification
+        [<Emit("$0.removeListener('reply',$1)")>] abstract removeListener_reply: listener: (Event -> string -> unit) -> Notification
         /// <summary>
         /// Emitted when the notification is shown to the user, note this could be fired
         /// multiple times as a notification can be shown multiple times through the
         /// <c>show()</c> method.
         /// </summary>
-        [<Emit "$0.on('show',$1)">] abstract on_show: listener: (Event -> unit) -> Notification
-        [<Emit "$0.once('show',$1)">] abstract once_show: listener: (Event -> unit) -> Notification
-        [<Emit "$0.addListener('show',$1)">] abstract addListener_show: listener: (Event -> unit) -> Notification
-        [<Emit "$0.removeListener('show',$1)">] abstract removeListener_show: listener: (Event -> unit) -> Notification
+        [<Emit("$0.on('show',$1)")>] abstract on_show: listener: (Event -> unit) -> Notification
+        [<Emit("$0.once('show',$1)")>] abstract once_show: listener: (Event -> unit) -> Notification
+        [<Emit("$0.addListener('show',$1)")>] abstract addListener_show: listener: (Event -> unit) -> Notification
+        [<Emit("$0.removeListener('show',$1)")>] abstract removeListener_show: listener: (Event -> unit) -> Notification
         /// Dismisses the notification.
         abstract close: unit -> unit
         /// <summary>
@@ -4105,61 +4105,61 @@ module Electron =
     type [<AllowNullLiteral>] PowerMonitor =
         inherit NodeJS.EventEmitter
         /// <summary>Emitted when the system is about to lock the screen.</summary>
-        [<Emit "$0.on('lock-screen',$1)">] abstract ``on_lock-screen``: listener: Function -> PowerMonitor
-        [<Emit "$0.once('lock-screen',$1)">] abstract ``once_lock-screen``: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('lock-screen',$1)">] abstract ``addListener_lock-screen``: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('lock-screen',$1)">] abstract ``removeListener_lock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.on('lock-screen',$1)")>] abstract ``on_lock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.once('lock-screen',$1)")>] abstract ``once_lock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('lock-screen',$1)")>] abstract ``addListener_lock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('lock-screen',$1)")>] abstract ``removeListener_lock-screen``: listener: Function -> PowerMonitor
         /// <summary>Emitted when the system changes to AC power.</summary>
-        [<Emit "$0.on('on-ac',$1)">] abstract ``on_on-ac``: listener: Function -> PowerMonitor
-        [<Emit "$0.once('on-ac',$1)">] abstract ``once_on-ac``: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('on-ac',$1)">] abstract ``addListener_on-ac``: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('on-ac',$1)">] abstract ``removeListener_on-ac``: listener: Function -> PowerMonitor
+        [<Emit("$0.on('on-ac',$1)")>] abstract ``on_on-ac``: listener: Function -> PowerMonitor
+        [<Emit("$0.once('on-ac',$1)")>] abstract ``once_on-ac``: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('on-ac',$1)")>] abstract ``addListener_on-ac``: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('on-ac',$1)")>] abstract ``removeListener_on-ac``: listener: Function -> PowerMonitor
         /// <summary>Emitted when system changes to battery power.</summary>
-        [<Emit "$0.on('on-battery',$1)">] abstract ``on_on-battery``: listener: Function -> PowerMonitor
-        [<Emit "$0.once('on-battery',$1)">] abstract ``once_on-battery``: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('on-battery',$1)">] abstract ``addListener_on-battery``: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('on-battery',$1)">] abstract ``removeListener_on-battery``: listener: Function -> PowerMonitor
+        [<Emit("$0.on('on-battery',$1)")>] abstract ``on_on-battery``: listener: Function -> PowerMonitor
+        [<Emit("$0.once('on-battery',$1)")>] abstract ``once_on-battery``: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('on-battery',$1)")>] abstract ``addListener_on-battery``: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('on-battery',$1)")>] abstract ``removeListener_on-battery``: listener: Function -> PowerMonitor
         /// <summary>Emitted when system is resuming.</summary>
-        [<Emit "$0.on('resume',$1)">] abstract on_resume: listener: Function -> PowerMonitor
-        [<Emit "$0.once('resume',$1)">] abstract once_resume: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('resume',$1)">] abstract addListener_resume: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('resume',$1)">] abstract removeListener_resume: listener: Function -> PowerMonitor
+        [<Emit("$0.on('resume',$1)")>] abstract on_resume: listener: Function -> PowerMonitor
+        [<Emit("$0.once('resume',$1)")>] abstract once_resume: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('resume',$1)")>] abstract addListener_resume: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('resume',$1)")>] abstract removeListener_resume: listener: Function -> PowerMonitor
         /// <summary>
         /// Emitted when the system is about to reboot or shut down. If the event handler
         /// invokes <c>e.preventDefault()</c>, Electron will attempt to delay system shutdown in
         /// order for the app to exit cleanly. If <c>e.preventDefault()</c> is called, the app
         /// should exit as soon as possible by calling something like <c>app.quit()</c>.
         /// </summary>
-        [<Emit "$0.on('shutdown',$1)">] abstract on_shutdown: listener: Function -> PowerMonitor
-        [<Emit "$0.once('shutdown',$1)">] abstract once_shutdown: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('shutdown',$1)">] abstract addListener_shutdown: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('shutdown',$1)">] abstract removeListener_shutdown: listener: Function -> PowerMonitor
+        [<Emit("$0.on('shutdown',$1)")>] abstract on_shutdown: listener: Function -> PowerMonitor
+        [<Emit("$0.once('shutdown',$1)")>] abstract once_shutdown: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('shutdown',$1)")>] abstract addListener_shutdown: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('shutdown',$1)")>] abstract removeListener_shutdown: listener: Function -> PowerMonitor
         /// <summary>Emitted when the system is suspending.</summary>
-        [<Emit "$0.on('suspend',$1)">] abstract on_suspend: listener: Function -> PowerMonitor
-        [<Emit "$0.once('suspend',$1)">] abstract once_suspend: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('suspend',$1)">] abstract addListener_suspend: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('suspend',$1)">] abstract removeListener_suspend: listener: Function -> PowerMonitor
+        [<Emit("$0.on('suspend',$1)")>] abstract on_suspend: listener: Function -> PowerMonitor
+        [<Emit("$0.once('suspend',$1)")>] abstract once_suspend: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('suspend',$1)")>] abstract addListener_suspend: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('suspend',$1)")>] abstract removeListener_suspend: listener: Function -> PowerMonitor
         /// <summary>Emitted as soon as the systems screen is unlocked.</summary>
-        [<Emit "$0.on('unlock-screen',$1)">] abstract ``on_unlock-screen``: listener: Function -> PowerMonitor
-        [<Emit "$0.once('unlock-screen',$1)">] abstract ``once_unlock-screen``: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('unlock-screen',$1)">] abstract ``addListener_unlock-screen``: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('unlock-screen',$1)">] abstract ``removeListener_unlock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.on('unlock-screen',$1)")>] abstract ``on_unlock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.once('unlock-screen',$1)")>] abstract ``once_unlock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('unlock-screen',$1)")>] abstract ``addListener_unlock-screen``: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('unlock-screen',$1)")>] abstract ``removeListener_unlock-screen``: listener: Function -> PowerMonitor
         /// <summary>
         /// Emitted when a login session is activated. See documentation for more
         /// information.
         /// </summary>
-        [<Emit "$0.on('user-did-become-active',$1)">] abstract ``on_user-did-become-active``: listener: Function -> PowerMonitor
-        [<Emit "$0.once('user-did-become-active',$1)">] abstract ``once_user-did-become-active``: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('user-did-become-active',$1)">] abstract ``addListener_user-did-become-active``: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('user-did-become-active',$1)">] abstract ``removeListener_user-did-become-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.on('user-did-become-active',$1)")>] abstract ``on_user-did-become-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.once('user-did-become-active',$1)")>] abstract ``once_user-did-become-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('user-did-become-active',$1)")>] abstract ``addListener_user-did-become-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('user-did-become-active',$1)")>] abstract ``removeListener_user-did-become-active``: listener: Function -> PowerMonitor
         /// <summary>
         /// Emitted when a login session is deactivated. See documentation for more
         /// information.
         /// </summary>
-        [<Emit "$0.on('user-did-resign-active',$1)">] abstract ``on_user-did-resign-active``: listener: Function -> PowerMonitor
-        [<Emit "$0.once('user-did-resign-active',$1)">] abstract ``once_user-did-resign-active``: listener: Function -> PowerMonitor
-        [<Emit "$0.addListener('user-did-resign-active',$1)">] abstract ``addListener_user-did-resign-active``: listener: Function -> PowerMonitor
-        [<Emit "$0.removeListener('user-did-resign-active',$1)">] abstract ``removeListener_user-did-resign-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.on('user-did-resign-active',$1)")>] abstract ``on_user-did-resign-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.once('user-did-resign-active',$1)")>] abstract ``once_user-did-resign-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.addListener('user-did-resign-active',$1)")>] abstract ``addListener_user-did-resign-active``: listener: Function -> PowerMonitor
+        [<Emit("$0.removeListener('user-did-resign-active',$1)")>] abstract ``removeListener_user-did-resign-active``: listener: Function -> PowerMonitor
         /// <summary>
         /// The system's current state. Can be <c>active</c>, <c>idle</c>, <c>locked</c> or <c>unknown</c>.
         /// 
@@ -4550,24 +4550,24 @@ module Electron =
     type [<AllowNullLiteral>] Screen =
         inherit NodeJS.EventEmitter
         /// <summary>Emitted when <c>newDisplay</c> has been added.</summary>
-        [<Emit "$0.on('display-added',$1)">] abstract ``on_display-added``: listener: (Event -> Display -> unit) -> Screen
-        [<Emit "$0.once('display-added',$1)">] abstract ``once_display-added``: listener: (Event -> Display -> unit) -> Screen
-        [<Emit "$0.addListener('display-added',$1)">] abstract ``addListener_display-added``: listener: (Event -> Display -> unit) -> Screen
-        [<Emit "$0.removeListener('display-added',$1)">] abstract ``removeListener_display-added``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.on('display-added',$1)")>] abstract ``on_display-added``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.once('display-added',$1)")>] abstract ``once_display-added``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.addListener('display-added',$1)")>] abstract ``addListener_display-added``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.removeListener('display-added',$1)")>] abstract ``removeListener_display-added``: listener: (Event -> Display -> unit) -> Screen
         /// <summary>
         /// Emitted when one or more metrics change in a <c>display</c>. The <c>changedMetrics</c> is
         /// an array of strings that describe the changes. Possible changes are <c>bounds</c>,
         /// <c>workArea</c>, <c>scaleFactor</c> and <c>rotation</c>.
         /// </summary>
-        [<Emit "$0.on('display-metrics-changed',$1)">] abstract ``on_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
-        [<Emit "$0.once('display-metrics-changed',$1)">] abstract ``once_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
-        [<Emit "$0.addListener('display-metrics-changed',$1)">] abstract ``addListener_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
-        [<Emit "$0.removeListener('display-metrics-changed',$1)">] abstract ``removeListener_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
+        [<Emit("$0.on('display-metrics-changed',$1)")>] abstract ``on_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
+        [<Emit("$0.once('display-metrics-changed',$1)")>] abstract ``once_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
+        [<Emit("$0.addListener('display-metrics-changed',$1)")>] abstract ``addListener_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
+        [<Emit("$0.removeListener('display-metrics-changed',$1)")>] abstract ``removeListener_display-metrics-changed``: listener: (Event -> Display -> ResizeArray<string> -> unit) -> Screen
         /// <summary>Emitted when <c>oldDisplay</c> has been removed.</summary>
-        [<Emit "$0.on('display-removed',$1)">] abstract ``on_display-removed``: listener: (Event -> Display -> unit) -> Screen
-        [<Emit "$0.once('display-removed',$1)">] abstract ``once_display-removed``: listener: (Event -> Display -> unit) -> Screen
-        [<Emit "$0.addListener('display-removed',$1)">] abstract ``addListener_display-removed``: listener: (Event -> Display -> unit) -> Screen
-        [<Emit "$0.removeListener('display-removed',$1)">] abstract ``removeListener_display-removed``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.on('display-removed',$1)")>] abstract ``on_display-removed``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.once('display-removed',$1)")>] abstract ``once_display-removed``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.addListener('display-removed',$1)")>] abstract ``addListener_display-removed``: listener: (Event -> Display -> unit) -> Screen
+        [<Emit("$0.removeListener('display-removed',$1)")>] abstract ``removeListener_display-removed``: listener: (Event -> Display -> unit) -> Screen
         /// <summary>
         /// Converts a screen DIP point to a screen physical point. The DPI scale is
         /// performed relative to the display containing the DIP point.
@@ -4650,19 +4650,19 @@ module Electron =
     type [<AllowNullLiteral>] ServiceWorkers =
         inherit NodeEventEmitter
         /// Emitted when a service worker logs something to the console.
-        [<Emit "$0.on('console-message',$1)">] abstract ``on_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
-        [<Emit "$0.once('console-message',$1)">] abstract ``once_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
-        [<Emit "$0.addListener('console-message',$1)">] abstract ``addListener_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
-        [<Emit "$0.removeListener('console-message',$1)">] abstract ``removeListener_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.on('console-message',$1)")>] abstract ``on_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.once('console-message',$1)")>] abstract ``once_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.addListener('console-message',$1)")>] abstract ``addListener_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.removeListener('console-message',$1)")>] abstract ``removeListener_console-message``: listener: (Event -> MessageDetails -> unit) -> ServiceWorkers
         /// <summary>
         /// Emitted when a service worker has been registered. Can occur after a call to
         /// <c>navigator.serviceWorker.register('/sw.js')</c> successfully resolves or when a
         /// Chrome extension is loaded.
         /// </summary>
-        [<Emit "$0.on('registration-completed',$1)">] abstract ``on_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
-        [<Emit "$0.once('registration-completed',$1)">] abstract ``once_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
-        [<Emit "$0.addListener('registration-completed',$1)">] abstract ``addListener_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
-        [<Emit "$0.removeListener('registration-completed',$1)">] abstract ``removeListener_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.on('registration-completed',$1)")>] abstract ``on_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.once('registration-completed',$1)")>] abstract ``once_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.addListener('registration-completed',$1)")>] abstract ``addListener_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
+        [<Emit("$0.removeListener('registration-completed',$1)")>] abstract ``removeListener_registration-completed``: listener: (Event -> RegistrationCompletedDetails -> unit) -> ServiceWorkers
         /// A ServiceWorkerInfo object where the keys are the service worker version ID and
         /// the values are the information about that service worker.
         abstract getAllRunning: unit -> Record<float, ServiceWorkerInfo>
@@ -4686,30 +4686,30 @@ module Electron =
         ///    * from a crash.
         /// if the extension requested it (<c>chrome.runtime.reload()</c>).
         /// </summary>
-        [<Emit "$0.on('extension-loaded',$1)">] abstract ``on_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.once('extension-loaded',$1)">] abstract ``once_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.addListener('extension-loaded',$1)">] abstract ``addListener_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.removeListener('extension-loaded',$1)">] abstract ``removeListener_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.on('extension-loaded',$1)")>] abstract ``on_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.once('extension-loaded',$1)")>] abstract ``once_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.addListener('extension-loaded',$1)")>] abstract ``addListener_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.removeListener('extension-loaded',$1)")>] abstract ``removeListener_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
         /// Emitted after an extension is loaded and all necessary browser state is
         /// initialized to support the start of the extension's background page.
-        [<Emit "$0.on('extension-ready',$1)">] abstract ``on_extension-ready``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.once('extension-ready',$1)">] abstract ``once_extension-ready``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.addListener('extension-ready',$1)">] abstract ``addListener_extension-ready``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.removeListener('extension-ready',$1)">] abstract ``removeListener_extension-ready``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.on('extension-ready',$1)")>] abstract ``on_extension-ready``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.once('extension-ready',$1)")>] abstract ``once_extension-ready``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.addListener('extension-ready',$1)")>] abstract ``addListener_extension-ready``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.removeListener('extension-ready',$1)")>] abstract ``removeListener_extension-ready``: listener: (Event -> Extension -> unit) -> Session
         /// <summary>
         /// Emitted after an extension is unloaded. This occurs when
         /// <c>Session.removeExtension</c> is called.
         /// </summary>
-        [<Emit "$0.on('extension-unloaded',$1)">] abstract ``on_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.once('extension-unloaded',$1)">] abstract ``once_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.addListener('extension-unloaded',$1)">] abstract ``addListener_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
-        [<Emit "$0.removeListener('extension-unloaded',$1)">] abstract ``removeListener_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.on('extension-unloaded',$1)")>] abstract ``on_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.once('extension-unloaded',$1)")>] abstract ``once_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.addListener('extension-unloaded',$1)")>] abstract ``addListener_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
+        [<Emit("$0.removeListener('extension-unloaded',$1)")>] abstract ``removeListener_extension-unloaded``: listener: (Event -> Extension -> unit) -> Session
         /// Emitted when a render process requests preconnection to a URL, generally due to
         /// a resource hint.
-        [<Emit "$0.on('preconnect',$1)">] abstract on_preconnect: listener: (Event -> string -> bool -> unit) -> Session
-        [<Emit "$0.once('preconnect',$1)">] abstract once_preconnect: listener: (Event -> string -> bool -> unit) -> Session
-        [<Emit "$0.addListener('preconnect',$1)">] abstract addListener_preconnect: listener: (Event -> string -> bool -> unit) -> Session
-        [<Emit "$0.removeListener('preconnect',$1)">] abstract removeListener_preconnect: listener: (Event -> string -> bool -> unit) -> Session
+        [<Emit("$0.on('preconnect',$1)")>] abstract on_preconnect: listener: (Event -> string -> bool -> unit) -> Session
+        [<Emit("$0.once('preconnect',$1)")>] abstract once_preconnect: listener: (Event -> string -> bool -> unit) -> Session
+        [<Emit("$0.addListener('preconnect',$1)")>] abstract addListener_preconnect: listener: (Event -> string -> bool -> unit) -> Session
+        [<Emit("$0.removeListener('preconnect',$1)")>] abstract removeListener_preconnect: listener: (Event -> string -> bool -> unit) -> Session
         /// <summary>
         /// Emitted when a serial port needs to be selected when a call to
         /// <c>navigator.serial.requestPort</c> is made. <c>callback</c> should be called with
@@ -4723,60 +4723,60 @@ module Electron =
         /// feature you will need to set <c>enableBlinkFeatures: 'Serial'</c> on the
         /// <c>webPreferences</c> property when opening a BrowserWindow.
         /// </summary>
-        [<Emit "$0.on('select-serial-port',$1)">] abstract ``on_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
-        [<Emit "$0.once('select-serial-port',$1)">] abstract ``once_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
-        [<Emit "$0.addListener('select-serial-port',$1)">] abstract ``addListener_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
-        [<Emit "$0.removeListener('select-serial-port',$1)">] abstract ``removeListener_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
+        [<Emit("$0.on('select-serial-port',$1)")>] abstract ``on_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
+        [<Emit("$0.once('select-serial-port',$1)")>] abstract ``once_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
+        [<Emit("$0.addListener('select-serial-port',$1)")>] abstract ``addListener_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
+        [<Emit("$0.removeListener('select-serial-port',$1)")>] abstract ``removeListener_select-serial-port``: listener: (Event -> ResizeArray<SerialPort> -> WebContents -> (string -> unit) -> unit) -> Session
         /// <summary>
         /// Emitted after <c>navigator.serial.requestPort</c> has been called and
         /// <c>select-serial-port</c> has fired if a new serial port becomes available.  For
         /// example, this event will fire when a new USB device is plugged in.
         /// </summary>
-        [<Emit "$0.on('serial-port-added',$1)">] abstract ``on_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
-        [<Emit "$0.once('serial-port-added',$1)">] abstract ``once_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
-        [<Emit "$0.addListener('serial-port-added',$1)">] abstract ``addListener_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
-        [<Emit "$0.removeListener('serial-port-added',$1)">] abstract ``removeListener_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.on('serial-port-added',$1)")>] abstract ``on_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.once('serial-port-added',$1)")>] abstract ``once_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.addListener('serial-port-added',$1)")>] abstract ``addListener_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.removeListener('serial-port-added',$1)")>] abstract ``removeListener_serial-port-added``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
         /// <summary>
         /// Emitted after <c>navigator.serial.requestPort</c> has been called and
         /// <c>select-serial-port</c> has fired if a serial port has been removed.  For example,
         /// this event will fire when a USB device is unplugged.
         /// </summary>
-        [<Emit "$0.on('serial-port-removed',$1)">] abstract ``on_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
-        [<Emit "$0.once('serial-port-removed',$1)">] abstract ``once_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
-        [<Emit "$0.addListener('serial-port-removed',$1)">] abstract ``addListener_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
-        [<Emit "$0.removeListener('serial-port-removed',$1)">] abstract ``removeListener_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.on('serial-port-removed',$1)")>] abstract ``on_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.once('serial-port-removed',$1)")>] abstract ``once_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.addListener('serial-port-removed',$1)")>] abstract ``addListener_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
+        [<Emit("$0.removeListener('serial-port-removed',$1)")>] abstract ``removeListener_serial-port-removed``: listener: (Event -> SerialPort -> WebContents -> unit) -> Session
         /// Emitted when a hunspell dictionary file starts downloading
-        [<Emit "$0.on('spellcheck-dictionary-download-begin',$1)">] abstract ``on_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.once('spellcheck-dictionary-download-begin',$1)">] abstract ``once_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.addListener('spellcheck-dictionary-download-begin',$1)">] abstract ``addListener_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.removeListener('spellcheck-dictionary-download-begin',$1)">] abstract ``removeListener_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.on('spellcheck-dictionary-download-begin',$1)")>] abstract ``on_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.once('spellcheck-dictionary-download-begin',$1)")>] abstract ``once_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.addListener('spellcheck-dictionary-download-begin',$1)")>] abstract ``addListener_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.removeListener('spellcheck-dictionary-download-begin',$1)")>] abstract ``removeListener_spellcheck-dictionary-download-begin``: listener: (Event -> string -> unit) -> Session
         /// Emitted when a hunspell dictionary file download fails.  For details on the
         /// failure you should collect a netlog and inspect the download request.
-        [<Emit "$0.on('spellcheck-dictionary-download-failure',$1)">] abstract ``on_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.once('spellcheck-dictionary-download-failure',$1)">] abstract ``once_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.addListener('spellcheck-dictionary-download-failure',$1)">] abstract ``addListener_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.removeListener('spellcheck-dictionary-download-failure',$1)">] abstract ``removeListener_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.on('spellcheck-dictionary-download-failure',$1)")>] abstract ``on_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.once('spellcheck-dictionary-download-failure',$1)")>] abstract ``once_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.addListener('spellcheck-dictionary-download-failure',$1)")>] abstract ``addListener_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.removeListener('spellcheck-dictionary-download-failure',$1)")>] abstract ``removeListener_spellcheck-dictionary-download-failure``: listener: (Event -> string -> unit) -> Session
         /// Emitted when a hunspell dictionary file has been successfully downloaded
-        [<Emit "$0.on('spellcheck-dictionary-download-success',$1)">] abstract ``on_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.once('spellcheck-dictionary-download-success',$1)">] abstract ``once_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.addListener('spellcheck-dictionary-download-success',$1)">] abstract ``addListener_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.removeListener('spellcheck-dictionary-download-success',$1)">] abstract ``removeListener_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.on('spellcheck-dictionary-download-success',$1)")>] abstract ``on_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.once('spellcheck-dictionary-download-success',$1)")>] abstract ``once_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.addListener('spellcheck-dictionary-download-success',$1)")>] abstract ``addListener_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.removeListener('spellcheck-dictionary-download-success',$1)")>] abstract ``removeListener_spellcheck-dictionary-download-success``: listener: (Event -> string -> unit) -> Session
         /// Emitted when a hunspell dictionary file has been successfully initialized. This
         /// occurs after the file has been downloaded.
-        [<Emit "$0.on('spellcheck-dictionary-initialized',$1)">] abstract ``on_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.once('spellcheck-dictionary-initialized',$1)">] abstract ``once_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.addListener('spellcheck-dictionary-initialized',$1)">] abstract ``addListener_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
-        [<Emit "$0.removeListener('spellcheck-dictionary-initialized',$1)">] abstract ``removeListener_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.on('spellcheck-dictionary-initialized',$1)")>] abstract ``on_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.once('spellcheck-dictionary-initialized',$1)")>] abstract ``once_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.addListener('spellcheck-dictionary-initialized',$1)")>] abstract ``addListener_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
+        [<Emit("$0.removeListener('spellcheck-dictionary-initialized',$1)")>] abstract ``removeListener_spellcheck-dictionary-initialized``: listener: (Event -> string -> unit) -> Session
         /// <summary>
         /// Emitted when Electron is about to download <c>item</c> in <c>webContents</c>.
         /// 
         /// Calling <c>event.preventDefault()</c> will cancel the download and <c>item</c> will not be
         /// available from next tick of the process.
         /// </summary>
-        [<Emit "$0.on('will-download',$1)">] abstract ``on_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
-        [<Emit "$0.once('will-download',$1)">] abstract ``once_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
-        [<Emit "$0.addListener('will-download',$1)">] abstract ``addListener_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
-        [<Emit "$0.removeListener('will-download',$1)">] abstract ``removeListener_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
+        [<Emit("$0.on('will-download',$1)")>] abstract ``on_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
+        [<Emit("$0.once('will-download',$1)")>] abstract ``once_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
+        [<Emit("$0.addListener('will-download',$1)")>] abstract ``addListener_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
+        [<Emit("$0.removeListener('will-download',$1)")>] abstract ``removeListener_will-download``: listener: (Event -> DownloadItem -> WebContents -> unit) -> Session
         /// Whether the word was successfully written to the custom dictionary. This API
         /// will not work on non-persistent (in-memory) sessions.
         /// 
@@ -5192,26 +5192,26 @@ module Electron =
 
     type [<AllowNullLiteral>] SystemPreferences =
         inherit NodeJS.EventEmitter
-        [<Emit "$0.on('accent-color-changed',$1)">] abstract ``on_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
-        [<Emit "$0.once('accent-color-changed',$1)">] abstract ``once_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
-        [<Emit "$0.addListener('accent-color-changed',$1)">] abstract ``addListener_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
-        [<Emit "$0.removeListener('accent-color-changed',$1)">] abstract ``removeListener_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
-        [<Emit "$0.on('color-changed',$1)">] abstract ``on_color-changed``: listener: (Event -> unit) -> SystemPreferences
-        [<Emit "$0.once('color-changed',$1)">] abstract ``once_color-changed``: listener: (Event -> unit) -> SystemPreferences
-        [<Emit "$0.addListener('color-changed',$1)">] abstract ``addListener_color-changed``: listener: (Event -> unit) -> SystemPreferences
-        [<Emit "$0.removeListener('color-changed',$1)">] abstract ``removeListener_color-changed``: listener: (Event -> unit) -> SystemPreferences
+        [<Emit("$0.on('accent-color-changed',$1)")>] abstract ``on_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
+        [<Emit("$0.once('accent-color-changed',$1)")>] abstract ``once_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
+        [<Emit("$0.addListener('accent-color-changed',$1)")>] abstract ``addListener_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
+        [<Emit("$0.removeListener('accent-color-changed',$1)")>] abstract ``removeListener_accent-color-changed``: listener: (Event -> string -> unit) -> SystemPreferences
+        [<Emit("$0.on('color-changed',$1)")>] abstract ``on_color-changed``: listener: (Event -> unit) -> SystemPreferences
+        [<Emit("$0.once('color-changed',$1)")>] abstract ``once_color-changed``: listener: (Event -> unit) -> SystemPreferences
+        [<Emit("$0.addListener('color-changed',$1)")>] abstract ``addListener_color-changed``: listener: (Event -> unit) -> SystemPreferences
+        [<Emit("$0.removeListener('color-changed',$1)")>] abstract ``removeListener_color-changed``: listener: (Event -> unit) -> SystemPreferences
         /// <summary>**Deprecated:** Should use the new <c>updated</c> event on the <c>nativeTheme</c> module.</summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('high-contrast-color-scheme-changed',$1)">] abstract ``on_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
-        [<Emit "$0.once('high-contrast-color-scheme-changed',$1)">] abstract ``once_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
-        [<Emit "$0.addListener('high-contrast-color-scheme-changed',$1)">] abstract ``addListener_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
-        [<Emit "$0.removeListener('high-contrast-color-scheme-changed',$1)">] abstract ``removeListener_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.on('high-contrast-color-scheme-changed',$1)")>] abstract ``on_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.once('high-contrast-color-scheme-changed',$1)")>] abstract ``once_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.addListener('high-contrast-color-scheme-changed',$1)")>] abstract ``addListener_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.removeListener('high-contrast-color-scheme-changed',$1)")>] abstract ``removeListener_high-contrast-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
         /// <summary>**Deprecated:** Should use the new <c>updated</c> event on the <c>nativeTheme</c> module.</summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('inverted-color-scheme-changed',$1)">] abstract ``on_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
-        [<Emit "$0.once('inverted-color-scheme-changed',$1)">] abstract ``once_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
-        [<Emit "$0.addListener('inverted-color-scheme-changed',$1)">] abstract ``addListener_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
-        [<Emit "$0.removeListener('inverted-color-scheme-changed',$1)">] abstract ``removeListener_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.on('inverted-color-scheme-changed',$1)")>] abstract ``on_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.once('inverted-color-scheme-changed',$1)")>] abstract ``once_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.addListener('inverted-color-scheme-changed',$1)")>] abstract ``addListener_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
+        [<Emit("$0.removeListener('inverted-color-scheme-changed',$1)")>] abstract ``removeListener_inverted-color-scheme-changed``: listener: (Event -> bool -> unit) -> SystemPreferences
         /// <summary>
         /// A promise that resolves with <c>true</c> if consent was granted and <c>false</c> if it was
         /// denied. If an invalid <c>mediaType</c> is passed, the promise will be rejected. If an
@@ -5711,98 +5711,98 @@ module Electron =
     type [<AllowNullLiteral>] Tray =
         inherit NodeEventEmitter
         /// <summary>Emitted when the tray balloon is clicked.</summary>
-        [<Emit "$0.on('balloon-click',$1)">] abstract ``on_balloon-click``: listener: Function -> Tray
-        [<Emit "$0.once('balloon-click',$1)">] abstract ``once_balloon-click``: listener: Function -> Tray
-        [<Emit "$0.addListener('balloon-click',$1)">] abstract ``addListener_balloon-click``: listener: Function -> Tray
-        [<Emit "$0.removeListener('balloon-click',$1)">] abstract ``removeListener_balloon-click``: listener: Function -> Tray
+        [<Emit("$0.on('balloon-click',$1)")>] abstract ``on_balloon-click``: listener: Function -> Tray
+        [<Emit("$0.once('balloon-click',$1)")>] abstract ``once_balloon-click``: listener: Function -> Tray
+        [<Emit("$0.addListener('balloon-click',$1)")>] abstract ``addListener_balloon-click``: listener: Function -> Tray
+        [<Emit("$0.removeListener('balloon-click',$1)")>] abstract ``removeListener_balloon-click``: listener: Function -> Tray
         /// <summary>
         /// Emitted when the tray balloon is closed because of timeout or user manually
         /// closes it.
         /// </summary>
-        [<Emit "$0.on('balloon-closed',$1)">] abstract ``on_balloon-closed``: listener: Function -> Tray
-        [<Emit "$0.once('balloon-closed',$1)">] abstract ``once_balloon-closed``: listener: Function -> Tray
-        [<Emit "$0.addListener('balloon-closed',$1)">] abstract ``addListener_balloon-closed``: listener: Function -> Tray
-        [<Emit "$0.removeListener('balloon-closed',$1)">] abstract ``removeListener_balloon-closed``: listener: Function -> Tray
+        [<Emit("$0.on('balloon-closed',$1)")>] abstract ``on_balloon-closed``: listener: Function -> Tray
+        [<Emit("$0.once('balloon-closed',$1)")>] abstract ``once_balloon-closed``: listener: Function -> Tray
+        [<Emit("$0.addListener('balloon-closed',$1)")>] abstract ``addListener_balloon-closed``: listener: Function -> Tray
+        [<Emit("$0.removeListener('balloon-closed',$1)")>] abstract ``removeListener_balloon-closed``: listener: Function -> Tray
         /// <summary>Emitted when the tray balloon shows.</summary>
-        [<Emit "$0.on('balloon-show',$1)">] abstract ``on_balloon-show``: listener: Function -> Tray
-        [<Emit "$0.once('balloon-show',$1)">] abstract ``once_balloon-show``: listener: Function -> Tray
-        [<Emit "$0.addListener('balloon-show',$1)">] abstract ``addListener_balloon-show``: listener: Function -> Tray
-        [<Emit "$0.removeListener('balloon-show',$1)">] abstract ``removeListener_balloon-show``: listener: Function -> Tray
+        [<Emit("$0.on('balloon-show',$1)")>] abstract ``on_balloon-show``: listener: Function -> Tray
+        [<Emit("$0.once('balloon-show',$1)")>] abstract ``once_balloon-show``: listener: Function -> Tray
+        [<Emit("$0.addListener('balloon-show',$1)")>] abstract ``addListener_balloon-show``: listener: Function -> Tray
+        [<Emit("$0.removeListener('balloon-show',$1)")>] abstract ``removeListener_balloon-show``: listener: Function -> Tray
         /// Emitted when the tray icon is clicked.
-        [<Emit "$0.on('click',$1)">] abstract on_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
-        [<Emit "$0.once('click',$1)">] abstract once_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
-        [<Emit "$0.addListener('click',$1)">] abstract addListener_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
-        [<Emit "$0.removeListener('click',$1)">] abstract removeListener_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
+        [<Emit("$0.on('click',$1)")>] abstract on_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
+        [<Emit("$0.once('click',$1)")>] abstract once_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
+        [<Emit("$0.addListener('click',$1)")>] abstract addListener_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
+        [<Emit("$0.removeListener('click',$1)")>] abstract removeListener_click: listener: (KeyboardEvent -> Rectangle -> Point -> unit) -> Tray
         /// <summary>Emitted when the tray icon is double clicked.</summary>
-        [<Emit "$0.on('double-click',$1)">] abstract ``on_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
-        [<Emit "$0.once('double-click',$1)">] abstract ``once_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
-        [<Emit "$0.addListener('double-click',$1)">] abstract ``addListener_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
-        [<Emit "$0.removeListener('double-click',$1)">] abstract ``removeListener_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.on('double-click',$1)")>] abstract ``on_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.once('double-click',$1)")>] abstract ``once_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.addListener('double-click',$1)")>] abstract ``addListener_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.removeListener('double-click',$1)")>] abstract ``removeListener_double-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
         /// <summary>Emitted when a drag operation ends on the tray or ends at another location.</summary>
-        [<Emit "$0.on('drag-end',$1)">] abstract ``on_drag-end``: listener: Function -> Tray
-        [<Emit "$0.once('drag-end',$1)">] abstract ``once_drag-end``: listener: Function -> Tray
-        [<Emit "$0.addListener('drag-end',$1)">] abstract ``addListener_drag-end``: listener: Function -> Tray
-        [<Emit "$0.removeListener('drag-end',$1)">] abstract ``removeListener_drag-end``: listener: Function -> Tray
+        [<Emit("$0.on('drag-end',$1)")>] abstract ``on_drag-end``: listener: Function -> Tray
+        [<Emit("$0.once('drag-end',$1)")>] abstract ``once_drag-end``: listener: Function -> Tray
+        [<Emit("$0.addListener('drag-end',$1)")>] abstract ``addListener_drag-end``: listener: Function -> Tray
+        [<Emit("$0.removeListener('drag-end',$1)")>] abstract ``removeListener_drag-end``: listener: Function -> Tray
         /// <summary>Emitted when a drag operation enters the tray icon.</summary>
-        [<Emit "$0.on('drag-enter',$1)">] abstract ``on_drag-enter``: listener: Function -> Tray
-        [<Emit "$0.once('drag-enter',$1)">] abstract ``once_drag-enter``: listener: Function -> Tray
-        [<Emit "$0.addListener('drag-enter',$1)">] abstract ``addListener_drag-enter``: listener: Function -> Tray
-        [<Emit "$0.removeListener('drag-enter',$1)">] abstract ``removeListener_drag-enter``: listener: Function -> Tray
+        [<Emit("$0.on('drag-enter',$1)")>] abstract ``on_drag-enter``: listener: Function -> Tray
+        [<Emit("$0.once('drag-enter',$1)")>] abstract ``once_drag-enter``: listener: Function -> Tray
+        [<Emit("$0.addListener('drag-enter',$1)")>] abstract ``addListener_drag-enter``: listener: Function -> Tray
+        [<Emit("$0.removeListener('drag-enter',$1)")>] abstract ``removeListener_drag-enter``: listener: Function -> Tray
         /// <summary>Emitted when a drag operation exits the tray icon.</summary>
-        [<Emit "$0.on('drag-leave',$1)">] abstract ``on_drag-leave``: listener: Function -> Tray
-        [<Emit "$0.once('drag-leave',$1)">] abstract ``once_drag-leave``: listener: Function -> Tray
-        [<Emit "$0.addListener('drag-leave',$1)">] abstract ``addListener_drag-leave``: listener: Function -> Tray
-        [<Emit "$0.removeListener('drag-leave',$1)">] abstract ``removeListener_drag-leave``: listener: Function -> Tray
+        [<Emit("$0.on('drag-leave',$1)")>] abstract ``on_drag-leave``: listener: Function -> Tray
+        [<Emit("$0.once('drag-leave',$1)")>] abstract ``once_drag-leave``: listener: Function -> Tray
+        [<Emit("$0.addListener('drag-leave',$1)")>] abstract ``addListener_drag-leave``: listener: Function -> Tray
+        [<Emit("$0.removeListener('drag-leave',$1)")>] abstract ``removeListener_drag-leave``: listener: Function -> Tray
         /// <summary>Emitted when any dragged items are dropped on the tray icon.</summary>
-        [<Emit "$0.on('drop',$1)">] abstract on_drop: listener: Function -> Tray
-        [<Emit "$0.once('drop',$1)">] abstract once_drop: listener: Function -> Tray
-        [<Emit "$0.addListener('drop',$1)">] abstract addListener_drop: listener: Function -> Tray
-        [<Emit "$0.removeListener('drop',$1)">] abstract removeListener_drop: listener: Function -> Tray
+        [<Emit("$0.on('drop',$1)")>] abstract on_drop: listener: Function -> Tray
+        [<Emit("$0.once('drop',$1)")>] abstract once_drop: listener: Function -> Tray
+        [<Emit("$0.addListener('drop',$1)")>] abstract addListener_drop: listener: Function -> Tray
+        [<Emit("$0.removeListener('drop',$1)")>] abstract removeListener_drop: listener: Function -> Tray
         /// <summary>Emitted when dragged files are dropped in the tray icon.</summary>
-        [<Emit "$0.on('drop-files',$1)">] abstract ``on_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
-        [<Emit "$0.once('drop-files',$1)">] abstract ``once_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
-        [<Emit "$0.addListener('drop-files',$1)">] abstract ``addListener_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
-        [<Emit "$0.removeListener('drop-files',$1)">] abstract ``removeListener_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
+        [<Emit("$0.on('drop-files',$1)")>] abstract ``on_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
+        [<Emit("$0.once('drop-files',$1)")>] abstract ``once_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
+        [<Emit("$0.addListener('drop-files',$1)")>] abstract ``addListener_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
+        [<Emit("$0.removeListener('drop-files',$1)")>] abstract ``removeListener_drop-files``: listener: (Event -> ResizeArray<string> -> unit) -> Tray
         /// <summary>Emitted when dragged text is dropped in the tray icon.</summary>
-        [<Emit "$0.on('drop-text',$1)">] abstract ``on_drop-text``: listener: (Event -> string -> unit) -> Tray
-        [<Emit "$0.once('drop-text',$1)">] abstract ``once_drop-text``: listener: (Event -> string -> unit) -> Tray
-        [<Emit "$0.addListener('drop-text',$1)">] abstract ``addListener_drop-text``: listener: (Event -> string -> unit) -> Tray
-        [<Emit "$0.removeListener('drop-text',$1)">] abstract ``removeListener_drop-text``: listener: (Event -> string -> unit) -> Tray
+        [<Emit("$0.on('drop-text',$1)")>] abstract ``on_drop-text``: listener: (Event -> string -> unit) -> Tray
+        [<Emit("$0.once('drop-text',$1)")>] abstract ``once_drop-text``: listener: (Event -> string -> unit) -> Tray
+        [<Emit("$0.addListener('drop-text',$1)")>] abstract ``addListener_drop-text``: listener: (Event -> string -> unit) -> Tray
+        [<Emit("$0.removeListener('drop-text',$1)")>] abstract ``removeListener_drop-text``: listener: (Event -> string -> unit) -> Tray
         /// <summary>Emitted when the mouse clicks the tray icon.</summary>
-        [<Emit "$0.on('mouse-down',$1)">] abstract ``on_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.once('mouse-down',$1)">] abstract ``once_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.addListener('mouse-down',$1)">] abstract ``addListener_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.removeListener('mouse-down',$1)">] abstract ``removeListener_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.on('mouse-down',$1)")>] abstract ``on_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.once('mouse-down',$1)")>] abstract ``once_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.addListener('mouse-down',$1)")>] abstract ``addListener_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.removeListener('mouse-down',$1)")>] abstract ``removeListener_mouse-down``: listener: (KeyboardEvent -> Point -> unit) -> Tray
         /// <summary>Emitted when the mouse enters the tray icon.</summary>
-        [<Emit "$0.on('mouse-enter',$1)">] abstract ``on_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.once('mouse-enter',$1)">] abstract ``once_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.addListener('mouse-enter',$1)">] abstract ``addListener_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.removeListener('mouse-enter',$1)">] abstract ``removeListener_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.on('mouse-enter',$1)")>] abstract ``on_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.once('mouse-enter',$1)")>] abstract ``once_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.addListener('mouse-enter',$1)")>] abstract ``addListener_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.removeListener('mouse-enter',$1)")>] abstract ``removeListener_mouse-enter``: listener: (KeyboardEvent -> Point -> unit) -> Tray
         /// <summary>Emitted when the mouse exits the tray icon.</summary>
-        [<Emit "$0.on('mouse-leave',$1)">] abstract ``on_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.once('mouse-leave',$1)">] abstract ``once_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.addListener('mouse-leave',$1)">] abstract ``addListener_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.removeListener('mouse-leave',$1)">] abstract ``removeListener_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.on('mouse-leave',$1)")>] abstract ``on_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.once('mouse-leave',$1)")>] abstract ``once_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.addListener('mouse-leave',$1)")>] abstract ``addListener_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.removeListener('mouse-leave',$1)")>] abstract ``removeListener_mouse-leave``: listener: (KeyboardEvent -> Point -> unit) -> Tray
         /// <summary>Emitted when the mouse moves in the tray icon.</summary>
-        [<Emit "$0.on('mouse-move',$1)">] abstract ``on_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.once('mouse-move',$1)">] abstract ``once_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.addListener('mouse-move',$1)">] abstract ``addListener_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.removeListener('mouse-move',$1)">] abstract ``removeListener_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.on('mouse-move',$1)")>] abstract ``on_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.once('mouse-move',$1)")>] abstract ``once_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.addListener('mouse-move',$1)")>] abstract ``addListener_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.removeListener('mouse-move',$1)")>] abstract ``removeListener_mouse-move``: listener: (KeyboardEvent -> Point -> unit) -> Tray
         /// <summary>
         /// Emitted when the mouse is released from clicking the tray icon.
         /// 
         /// Note: This will not be emitted if you have set a context menu for your Tray
         /// using <c>tray.setContextMenu</c>, as a result of macOS-level constraints.
         /// </summary>
-        [<Emit "$0.on('mouse-up',$1)">] abstract ``on_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.once('mouse-up',$1)">] abstract ``once_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.addListener('mouse-up',$1)">] abstract ``addListener_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
-        [<Emit "$0.removeListener('mouse-up',$1)">] abstract ``removeListener_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.on('mouse-up',$1)")>] abstract ``on_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.once('mouse-up',$1)")>] abstract ``once_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.addListener('mouse-up',$1)")>] abstract ``addListener_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
+        [<Emit("$0.removeListener('mouse-up',$1)")>] abstract ``removeListener_mouse-up``: listener: (KeyboardEvent -> Point -> unit) -> Tray
         /// <summary>Emitted when the tray icon is right clicked.</summary>
-        [<Emit "$0.on('right-click',$1)">] abstract ``on_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
-        [<Emit "$0.once('right-click',$1)">] abstract ``once_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
-        [<Emit "$0.addListener('right-click',$1)">] abstract ``addListener_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
-        [<Emit "$0.removeListener('right-click',$1)">] abstract ``removeListener_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.on('right-click',$1)")>] abstract ``on_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.once('right-click',$1)")>] abstract ``once_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.addListener('right-click',$1)")>] abstract ``addListener_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
+        [<Emit("$0.removeListener('right-click',$1)")>] abstract ``removeListener_right-click``: listener: (KeyboardEvent -> Rectangle -> unit) -> Tray
         /// <summary>Closes an open context menu, as set by <c>tray.setContextMenu()</c>.</summary>
         abstract closeContextMenu: unit -> unit
         /// Destroys the tray icon immediately.
@@ -5893,29 +5893,29 @@ module Electron =
         /// 
         /// To only prevent the menu shortcuts, use <c>setIgnoreMenuShortcuts</c>:
         /// </summary>
-        [<Emit "$0.on('before-input-event',$1)">] abstract ``on_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
-        [<Emit "$0.once('before-input-event',$1)">] abstract ``once_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
-        [<Emit "$0.addListener('before-input-event',$1)">] abstract ``addListener_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
-        [<Emit "$0.removeListener('before-input-event',$1)">] abstract ``removeListener_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
+        [<Emit("$0.on('before-input-event',$1)")>] abstract ``on_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
+        [<Emit("$0.once('before-input-event',$1)")>] abstract ``once_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
+        [<Emit("$0.addListener('before-input-event',$1)")>] abstract ``addListener_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
+        [<Emit("$0.removeListener('before-input-event',$1)")>] abstract ``removeListener_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
         /// <summary>
         /// Emitted when failed to verify the <c>certificate</c> for <c>url</c>.
         /// 
         /// The usage is the same with the <c>certificate-error</c> event of <c>app</c>.
         /// </summary>
-        [<Emit "$0.on('certificate-error',$1)">] abstract ``on_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
-        [<Emit "$0.once('certificate-error',$1)">] abstract ``once_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
-        [<Emit "$0.addListener('certificate-error',$1)">] abstract ``addListener_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
-        [<Emit "$0.removeListener('certificate-error',$1)">] abstract ``removeListener_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
+        [<Emit("$0.on('certificate-error',$1)")>] abstract ``on_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
+        [<Emit("$0.once('certificate-error',$1)")>] abstract ``once_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
+        [<Emit("$0.addListener('certificate-error',$1)")>] abstract ``addListener_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
+        [<Emit("$0.removeListener('certificate-error',$1)")>] abstract ``removeListener_certificate-error``: listener: (Event -> string -> string -> Certificate -> (bool -> unit) -> unit) -> WebContents
         /// Emitted when the associated window logs a console message.
-        [<Emit "$0.on('console-message',$1)">] abstract ``on_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
-        [<Emit "$0.once('console-message',$1)">] abstract ``once_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('console-message',$1)">] abstract ``addListener_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('console-message',$1)">] abstract ``removeListener_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.on('console-message',$1)")>] abstract ``on_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.once('console-message',$1)")>] abstract ``once_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('console-message',$1)")>] abstract ``addListener_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('console-message',$1)")>] abstract ``removeListener_console-message``: listener: (Event -> float -> string -> float -> string -> unit) -> WebContents
         /// Emitted when there is a new context menu that needs to be handled.
-        [<Emit "$0.on('context-menu',$1)">] abstract ``on_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
-        [<Emit "$0.once('context-menu',$1)">] abstract ``once_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
-        [<Emit "$0.addListener('context-menu',$1)">] abstract ``addListener_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
-        [<Emit "$0.removeListener('context-menu',$1)">] abstract ``removeListener_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
+        [<Emit("$0.on('context-menu',$1)")>] abstract ``on_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
+        [<Emit("$0.once('context-menu',$1)")>] abstract ``once_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
+        [<Emit("$0.addListener('context-menu',$1)")>] abstract ``addListener_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
+        [<Emit("$0.removeListener('context-menu',$1)")>] abstract ``removeListener_context-menu``: listener: (Event -> ContextMenuParams -> unit) -> WebContents
         /// <summary>
         /// Emitted when the renderer process crashes or is killed.
         /// 
@@ -5925,10 +5925,10 @@ module Electron =
         /// checking <c>reason === 'killed'</c> when you switch to that event.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('crashed',$1)">] abstract on_crashed: listener: (Event -> bool -> unit) -> WebContents
-        [<Emit "$0.once('crashed',$1)">] abstract once_crashed: listener: (Event -> bool -> unit) -> WebContents
-        [<Emit "$0.addListener('crashed',$1)">] abstract addListener_crashed: listener: (Event -> bool -> unit) -> WebContents
-        [<Emit "$0.removeListener('crashed',$1)">] abstract removeListener_crashed: listener: (Event -> bool -> unit) -> WebContents
+        [<Emit("$0.on('crashed',$1)")>] abstract on_crashed: listener: (Event -> bool -> unit) -> WebContents
+        [<Emit("$0.once('crashed',$1)")>] abstract once_crashed: listener: (Event -> bool -> unit) -> WebContents
+        [<Emit("$0.addListener('crashed',$1)")>] abstract addListener_crashed: listener: (Event -> bool -> unit) -> WebContents
+        [<Emit("$0.removeListener('crashed',$1)")>] abstract removeListener_crashed: listener: (Event -> bool -> unit) -> WebContents
         /// <summary>
         /// Emitted when the cursor's type changes. The <c>type</c> parameter can be <c>default</c>,
         /// <c>crosshair</c>, <c>pointer</c>, <c>text</c>, <c>wait</c>, <c>help</c>, <c>e-resize</c>, <c>n-resize</c>,
@@ -5943,54 +5943,54 @@ module Electron =
         /// cursor image in a <c>NativeImage</c>, and <c>scale</c>, <c>size</c> and <c>hotspot</c> will hold
         /// additional information about the custom cursor.
         /// </summary>
-        [<Emit "$0.on('cursor-changed',$1)">] abstract ``on_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
-        [<Emit "$0.once('cursor-changed',$1)">] abstract ``once_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
-        [<Emit "$0.addListener('cursor-changed',$1)">] abstract ``addListener_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
-        [<Emit "$0.removeListener('cursor-changed',$1)">] abstract ``removeListener_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
+        [<Emit("$0.on('cursor-changed',$1)")>] abstract ``on_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
+        [<Emit("$0.once('cursor-changed',$1)")>] abstract ``once_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
+        [<Emit("$0.addListener('cursor-changed',$1)")>] abstract ``addListener_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
+        [<Emit("$0.removeListener('cursor-changed',$1)")>] abstract ``removeListener_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
         /// <summary>
         /// Emitted when <c>desktopCapturer.getSources()</c> is called in the renderer process.
         /// Calling <c>event.preventDefault()</c> will make it return empty sources.
         /// </summary>
-        [<Emit "$0.on('desktop-capturer-get-sources',$1)">] abstract ``on_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.once('desktop-capturer-get-sources',$1)">] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.addListener('desktop-capturer-get-sources',$1)">] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.removeListener('desktop-capturer-get-sources',$1)">] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.on('desktop-capturer-get-sources',$1)")>] abstract ``on_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.once('desktop-capturer-get-sources',$1)")>] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.addListener('desktop-capturer-get-sources',$1)")>] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.removeListener('desktop-capturer-get-sources',$1)")>] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
         /// <summary>Emitted when <c>webContents</c> is destroyed.</summary>
-        [<Emit "$0.on('destroyed',$1)">] abstract on_destroyed: listener: Function -> WebContents
-        [<Emit "$0.once('destroyed',$1)">] abstract once_destroyed: listener: Function -> WebContents
-        [<Emit "$0.addListener('destroyed',$1)">] abstract addListener_destroyed: listener: Function -> WebContents
-        [<Emit "$0.removeListener('destroyed',$1)">] abstract removeListener_destroyed: listener: Function -> WebContents
+        [<Emit("$0.on('destroyed',$1)")>] abstract on_destroyed: listener: Function -> WebContents
+        [<Emit("$0.once('destroyed',$1)")>] abstract once_destroyed: listener: Function -> WebContents
+        [<Emit("$0.addListener('destroyed',$1)")>] abstract addListener_destroyed: listener: Function -> WebContents
+        [<Emit("$0.removeListener('destroyed',$1)")>] abstract removeListener_destroyed: listener: Function -> WebContents
         /// Emitted when DevTools is closed.
-        [<Emit "$0.on('devtools-closed',$1)">] abstract ``on_devtools-closed``: listener: Function -> WebContents
-        [<Emit "$0.once('devtools-closed',$1)">] abstract ``once_devtools-closed``: listener: Function -> WebContents
-        [<Emit "$0.addListener('devtools-closed',$1)">] abstract ``addListener_devtools-closed``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('devtools-closed',$1)">] abstract ``removeListener_devtools-closed``: listener: Function -> WebContents
+        [<Emit("$0.on('devtools-closed',$1)")>] abstract ``on_devtools-closed``: listener: Function -> WebContents
+        [<Emit("$0.once('devtools-closed',$1)")>] abstract ``once_devtools-closed``: listener: Function -> WebContents
+        [<Emit("$0.addListener('devtools-closed',$1)")>] abstract ``addListener_devtools-closed``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('devtools-closed',$1)")>] abstract ``removeListener_devtools-closed``: listener: Function -> WebContents
         /// Emitted when DevTools is focused / opened.
-        [<Emit "$0.on('devtools-focused',$1)">] abstract ``on_devtools-focused``: listener: Function -> WebContents
-        [<Emit "$0.once('devtools-focused',$1)">] abstract ``once_devtools-focused``: listener: Function -> WebContents
-        [<Emit "$0.addListener('devtools-focused',$1)">] abstract ``addListener_devtools-focused``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('devtools-focused',$1)">] abstract ``removeListener_devtools-focused``: listener: Function -> WebContents
+        [<Emit("$0.on('devtools-focused',$1)")>] abstract ``on_devtools-focused``: listener: Function -> WebContents
+        [<Emit("$0.once('devtools-focused',$1)")>] abstract ``once_devtools-focused``: listener: Function -> WebContents
+        [<Emit("$0.addListener('devtools-focused',$1)")>] abstract ``addListener_devtools-focused``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('devtools-focused',$1)")>] abstract ``removeListener_devtools-focused``: listener: Function -> WebContents
         /// Emitted when DevTools is opened.
-        [<Emit "$0.on('devtools-opened',$1)">] abstract ``on_devtools-opened``: listener: Function -> WebContents
-        [<Emit "$0.once('devtools-opened',$1)">] abstract ``once_devtools-opened``: listener: Function -> WebContents
-        [<Emit "$0.addListener('devtools-opened',$1)">] abstract ``addListener_devtools-opened``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('devtools-opened',$1)">] abstract ``removeListener_devtools-opened``: listener: Function -> WebContents
+        [<Emit("$0.on('devtools-opened',$1)")>] abstract ``on_devtools-opened``: listener: Function -> WebContents
+        [<Emit("$0.once('devtools-opened',$1)")>] abstract ``once_devtools-opened``: listener: Function -> WebContents
+        [<Emit("$0.addListener('devtools-opened',$1)")>] abstract ``addListener_devtools-opened``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('devtools-opened',$1)")>] abstract ``removeListener_devtools-opened``: listener: Function -> WebContents
         /// Emitted when the devtools window instructs the webContents to reload
-        [<Emit "$0.on('devtools-reload-page',$1)">] abstract ``on_devtools-reload-page``: listener: Function -> WebContents
-        [<Emit "$0.once('devtools-reload-page',$1)">] abstract ``once_devtools-reload-page``: listener: Function -> WebContents
-        [<Emit "$0.addListener('devtools-reload-page',$1)">] abstract ``addListener_devtools-reload-page``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('devtools-reload-page',$1)">] abstract ``removeListener_devtools-reload-page``: listener: Function -> WebContents
+        [<Emit("$0.on('devtools-reload-page',$1)")>] abstract ``on_devtools-reload-page``: listener: Function -> WebContents
+        [<Emit("$0.once('devtools-reload-page',$1)")>] abstract ``once_devtools-reload-page``: listener: Function -> WebContents
+        [<Emit("$0.addListener('devtools-reload-page',$1)")>] abstract ``addListener_devtools-reload-page``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('devtools-reload-page',$1)")>] abstract ``removeListener_devtools-reload-page``: listener: Function -> WebContents
         /// <summary>Emitted when a <c>&lt;webview&gt;</c> has been attached to this web contents.</summary>
-        [<Emit "$0.on('did-attach-webview',$1)">] abstract ``on_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
-        [<Emit "$0.once('did-attach-webview',$1)">] abstract ``once_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
-        [<Emit "$0.addListener('did-attach-webview',$1)">] abstract ``addListener_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-attach-webview',$1)">] abstract ``removeListener_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
+        [<Emit("$0.on('did-attach-webview',$1)")>] abstract ``on_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
+        [<Emit("$0.once('did-attach-webview',$1)")>] abstract ``once_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
+        [<Emit("$0.addListener('did-attach-webview',$1)")>] abstract ``addListener_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-attach-webview',$1)")>] abstract ``removeListener_did-attach-webview``: listener: (Event -> WebContents -> unit) -> WebContents
         /// Emitted when a page's theme color changes. This is usually due to encountering a
         /// meta tag:
-        [<Emit "$0.on('did-change-theme-color',$1)">] abstract ``on_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
-        [<Emit "$0.once('did-change-theme-color',$1)">] abstract ``once_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
-        [<Emit "$0.addListener('did-change-theme-color',$1)">] abstract ``addListener_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-change-theme-color',$1)">] abstract ``removeListener_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit("$0.on('did-change-theme-color',$1)")>] abstract ``on_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit("$0.once('did-change-theme-color',$1)")>] abstract ``once_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit("$0.addListener('did-change-theme-color',$1)")>] abstract ``addListener_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-change-theme-color',$1)")>] abstract ``removeListener_did-change-theme-color``: listener: (Event -> string option -> unit) -> WebContents
         /// <summary>
         /// Emitted _after_ successful creation of a window via <c>window.open</c> in the
         /// renderer. Not emitted if the creation of the window is canceled from
@@ -5999,39 +5999,39 @@ module Electron =
         /// See <c>window.open()</c> for more details and how to use this in conjunction with
         /// <c>webContents.setWindowOpenHandler</c>.
         /// </summary>
-        [<Emit "$0.on('did-create-window',$1)">] abstract ``on_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
-        [<Emit "$0.once('did-create-window',$1)">] abstract ``once_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
-        [<Emit "$0.addListener('did-create-window',$1)">] abstract ``addListener_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-create-window',$1)">] abstract ``removeListener_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
+        [<Emit("$0.on('did-create-window',$1)")>] abstract ``on_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
+        [<Emit("$0.once('did-create-window',$1)")>] abstract ``once_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
+        [<Emit("$0.addListener('did-create-window',$1)")>] abstract ``addListener_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-create-window',$1)")>] abstract ``removeListener_did-create-window``: listener: (BrowserWindow -> DidCreateWindowDetails -> unit) -> WebContents
         /// <summary>
         /// This event is like <c>did-finish-load</c> but emitted when the load failed. The full
         /// list of error codes and their meaning is available here.
         /// </summary>
-        [<Emit "$0.on('did-fail-load',$1)">] abstract ``on_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-fail-load',$1)">] abstract ``once_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-fail-load',$1)">] abstract ``addListener_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-fail-load',$1)">] abstract ``removeListener_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-fail-load',$1)")>] abstract ``on_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-fail-load',$1)")>] abstract ``once_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-fail-load',$1)")>] abstract ``addListener_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-fail-load',$1)")>] abstract ``removeListener_did-fail-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
         /// <summary>
         /// This event is like <c>did-fail-load</c> but emitted when the load was cancelled (e.g.
         /// <c>window.stop()</c> was invoked).
         /// </summary>
-        [<Emit "$0.on('did-fail-provisional-load',$1)">] abstract ``on_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-fail-provisional-load',$1)">] abstract ``once_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-fail-provisional-load',$1)">] abstract ``addListener_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-fail-provisional-load',$1)">] abstract ``removeListener_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-fail-provisional-load',$1)")>] abstract ``on_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-fail-provisional-load',$1)")>] abstract ``once_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-fail-provisional-load',$1)")>] abstract ``addListener_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-fail-provisional-load',$1)")>] abstract ``removeListener_did-fail-provisional-load``: listener: (Event -> float -> string -> string -> bool -> float -> float -> unit) -> WebContents
         /// <summary>
         /// Emitted when the navigation is done, i.e. the spinner of the tab has stopped
         /// spinning, and the <c>onload</c> event was dispatched.
         /// </summary>
-        [<Emit "$0.on('did-finish-load',$1)">] abstract ``on_did-finish-load``: listener: Function -> WebContents
-        [<Emit "$0.once('did-finish-load',$1)">] abstract ``once_did-finish-load``: listener: Function -> WebContents
-        [<Emit "$0.addListener('did-finish-load',$1)">] abstract ``addListener_did-finish-load``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('did-finish-load',$1)">] abstract ``removeListener_did-finish-load``: listener: Function -> WebContents
+        [<Emit("$0.on('did-finish-load',$1)")>] abstract ``on_did-finish-load``: listener: Function -> WebContents
+        [<Emit("$0.once('did-finish-load',$1)")>] abstract ``once_did-finish-load``: listener: Function -> WebContents
+        [<Emit("$0.addListener('did-finish-load',$1)")>] abstract ``addListener_did-finish-load``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('did-finish-load',$1)")>] abstract ``removeListener_did-finish-load``: listener: Function -> WebContents
         /// Emitted when a frame has done navigation.
-        [<Emit "$0.on('did-frame-finish-load',$1)">] abstract ``on_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-frame-finish-load',$1)">] abstract ``once_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-frame-finish-load',$1)">] abstract ``addListener_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-frame-finish-load',$1)">] abstract ``removeListener_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-frame-finish-load',$1)")>] abstract ``on_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-frame-finish-load',$1)")>] abstract ``once_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-frame-finish-load',$1)")>] abstract ``addListener_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-frame-finish-load',$1)")>] abstract ``removeListener_did-frame-finish-load``: listener: (Event -> bool -> float -> float -> unit) -> WebContents
         /// <summary>
         /// Emitted when any frame navigation is done.
         /// 
@@ -6039,10 +6039,10 @@ module Electron =
         /// or updating the <c>window.location.hash</c>. Use <c>did-navigate-in-page</c> event for
         /// this purpose.
         /// </summary>
-        [<Emit "$0.on('did-frame-navigate',$1)">] abstract ``on_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-frame-navigate',$1)">] abstract ``once_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-frame-navigate',$1)">] abstract ``addListener_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-frame-navigate',$1)">] abstract ``removeListener_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-frame-navigate',$1)")>] abstract ``on_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-frame-navigate',$1)")>] abstract ``once_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-frame-navigate',$1)")>] abstract ``addListener_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-frame-navigate',$1)")>] abstract ``removeListener_did-frame-navigate``: listener: (Event -> string -> float -> string -> bool -> float -> float -> unit) -> WebContents
         /// <summary>
         /// Emitted when a main frame navigation is done.
         /// 
@@ -6050,10 +6050,10 @@ module Electron =
         /// or updating the <c>window.location.hash</c>. Use <c>did-navigate-in-page</c> event for
         /// this purpose.
         /// </summary>
-        [<Emit "$0.on('did-navigate',$1)">] abstract ``on_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
-        [<Emit "$0.once('did-navigate',$1)">] abstract ``once_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('did-navigate',$1)">] abstract ``addListener_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-navigate',$1)">] abstract ``removeListener_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.on('did-navigate',$1)")>] abstract ``on_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.once('did-navigate',$1)")>] abstract ``once_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('did-navigate',$1)")>] abstract ``addListener_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-navigate',$1)")>] abstract ``removeListener_did-navigate``: listener: (Event -> string -> float -> string -> unit) -> WebContents
         /// <summary>
         /// Emitted when an in-page navigation happened in any frame.
         /// 
@@ -6061,10 +6061,10 @@ module Electron =
         /// navigation outside of the page. Examples of this occurring are when anchor links
         /// are clicked or when the DOM <c>hashchange</c> event is triggered.
         /// </summary>
-        [<Emit "$0.on('did-navigate-in-page',$1)">] abstract ``on_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-navigate-in-page',$1)">] abstract ``once_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-navigate-in-page',$1)">] abstract ``addListener_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-navigate-in-page',$1)">] abstract ``removeListener_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-navigate-in-page',$1)")>] abstract ``on_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-navigate-in-page',$1)")>] abstract ``once_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-navigate-in-page',$1)")>] abstract ``addListener_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-navigate-in-page',$1)")>] abstract ``removeListener_did-navigate-in-page``: listener: (Event -> string -> bool -> float -> float -> unit) -> WebContents
         /// <summary>
         /// Emitted after a server side redirect occurs during navigation.  For example a
         /// 302 redirect.
@@ -6072,83 +6072,83 @@ module Electron =
         /// This event cannot be prevented, if you want to prevent redirects you should
         /// checkout out the <c>will-redirect</c> event above.
         /// </summary>
-        [<Emit "$0.on('did-redirect-navigation',$1)">] abstract ``on_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-redirect-navigation',$1)">] abstract ``once_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-redirect-navigation',$1)">] abstract ``addListener_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-redirect-navigation',$1)">] abstract ``removeListener_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-redirect-navigation',$1)")>] abstract ``on_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-redirect-navigation',$1)")>] abstract ``once_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-redirect-navigation',$1)")>] abstract ``addListener_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-redirect-navigation',$1)")>] abstract ``removeListener_did-redirect-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
         /// Corresponds to the points in time when the spinner of the tab started spinning.
-        [<Emit "$0.on('did-start-loading',$1)">] abstract ``on_did-start-loading``: listener: Function -> WebContents
-        [<Emit "$0.once('did-start-loading',$1)">] abstract ``once_did-start-loading``: listener: Function -> WebContents
-        [<Emit "$0.addListener('did-start-loading',$1)">] abstract ``addListener_did-start-loading``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('did-start-loading',$1)">] abstract ``removeListener_did-start-loading``: listener: Function -> WebContents
+        [<Emit("$0.on('did-start-loading',$1)")>] abstract ``on_did-start-loading``: listener: Function -> WebContents
+        [<Emit("$0.once('did-start-loading',$1)")>] abstract ``once_did-start-loading``: listener: Function -> WebContents
+        [<Emit("$0.addListener('did-start-loading',$1)")>] abstract ``addListener_did-start-loading``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('did-start-loading',$1)")>] abstract ``removeListener_did-start-loading``: listener: Function -> WebContents
         /// <summary>
         /// Emitted when any frame (including main) starts navigating. <c>isInPlace</c> will be
         /// <c>true</c> for in-page navigations.
         /// </summary>
-        [<Emit "$0.on('did-start-navigation',$1)">] abstract ``on_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('did-start-navigation',$1)">] abstract ``once_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('did-start-navigation',$1)">] abstract ``addListener_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('did-start-navigation',$1)">] abstract ``removeListener_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('did-start-navigation',$1)")>] abstract ``on_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('did-start-navigation',$1)")>] abstract ``once_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('did-start-navigation',$1)")>] abstract ``addListener_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('did-start-navigation',$1)")>] abstract ``removeListener_did-start-navigation``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
         /// Corresponds to the points in time when the spinner of the tab stopped spinning.
-        [<Emit "$0.on('did-stop-loading',$1)">] abstract ``on_did-stop-loading``: listener: Function -> WebContents
-        [<Emit "$0.once('did-stop-loading',$1)">] abstract ``once_did-stop-loading``: listener: Function -> WebContents
-        [<Emit "$0.addListener('did-stop-loading',$1)">] abstract ``addListener_did-stop-loading``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('did-stop-loading',$1)">] abstract ``removeListener_did-stop-loading``: listener: Function -> WebContents
+        [<Emit("$0.on('did-stop-loading',$1)")>] abstract ``on_did-stop-loading``: listener: Function -> WebContents
+        [<Emit("$0.once('did-stop-loading',$1)")>] abstract ``once_did-stop-loading``: listener: Function -> WebContents
+        [<Emit("$0.addListener('did-stop-loading',$1)")>] abstract ``addListener_did-stop-loading``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('did-stop-loading',$1)")>] abstract ``removeListener_did-stop-loading``: listener: Function -> WebContents
         /// Emitted when the document in the given frame is loaded.
-        [<Emit "$0.on('dom-ready',$1)">] abstract ``on_dom-ready``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.once('dom-ready',$1)">] abstract ``once_dom-ready``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.addListener('dom-ready',$1)">] abstract ``addListener_dom-ready``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.removeListener('dom-ready',$1)">] abstract ``removeListener_dom-ready``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.on('dom-ready',$1)")>] abstract ``on_dom-ready``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.once('dom-ready',$1)")>] abstract ``once_dom-ready``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.addListener('dom-ready',$1)")>] abstract ``addListener_dom-ready``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.removeListener('dom-ready',$1)")>] abstract ``removeListener_dom-ready``: listener: (Event -> unit) -> WebContents
         /// Emitted when the window enters a full-screen state triggered by HTML API.
-        [<Emit "$0.on('enter-html-full-screen',$1)">] abstract ``on_enter-html-full-screen``: listener: Function -> WebContents
-        [<Emit "$0.once('enter-html-full-screen',$1)">] abstract ``once_enter-html-full-screen``: listener: Function -> WebContents
-        [<Emit "$0.addListener('enter-html-full-screen',$1)">] abstract ``addListener_enter-html-full-screen``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('enter-html-full-screen',$1)">] abstract ``removeListener_enter-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.on('enter-html-full-screen',$1)")>] abstract ``on_enter-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.once('enter-html-full-screen',$1)")>] abstract ``once_enter-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.addListener('enter-html-full-screen',$1)")>] abstract ``addListener_enter-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('enter-html-full-screen',$1)")>] abstract ``removeListener_enter-html-full-screen``: listener: Function -> WebContents
         /// <summary>Emitted when a result is available for [<c>webContents.findInPage</c>] request.</summary>
-        [<Emit "$0.on('found-in-page',$1)">] abstract ``on_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
-        [<Emit "$0.once('found-in-page',$1)">] abstract ``once_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
-        [<Emit "$0.addListener('found-in-page',$1)">] abstract ``addListener_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
-        [<Emit "$0.removeListener('found-in-page',$1)">] abstract ``removeListener_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
+        [<Emit("$0.on('found-in-page',$1)")>] abstract ``on_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
+        [<Emit("$0.once('found-in-page',$1)")>] abstract ``once_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
+        [<Emit("$0.addListener('found-in-page',$1)")>] abstract ``addListener_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
+        [<Emit("$0.removeListener('found-in-page',$1)")>] abstract ``removeListener_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
         /// <summary>
         /// Emitted when the renderer process sends an asynchronous message via
         /// <c>ipcRenderer.send()</c>.
         /// </summary>
-        [<Emit "$0.on('ipc-message',$1)">] abstract ``on_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
-        [<Emit "$0.once('ipc-message',$1)">] abstract ``once_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
-        [<Emit "$0.addListener('ipc-message',$1)">] abstract ``addListener_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
-        [<Emit "$0.removeListener('ipc-message',$1)">] abstract ``removeListener_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.on('ipc-message',$1)")>] abstract ``on_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.once('ipc-message',$1)")>] abstract ``once_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.addListener('ipc-message',$1)")>] abstract ``addListener_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.removeListener('ipc-message',$1)")>] abstract ``removeListener_ipc-message``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
         /// <summary>
         /// Emitted when the renderer process sends a synchronous message via
         /// <c>ipcRenderer.sendSync()</c>.
         /// </summary>
-        [<Emit "$0.on('ipc-message-sync',$1)">] abstract ``on_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
-        [<Emit "$0.once('ipc-message-sync',$1)">] abstract ``once_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
-        [<Emit "$0.addListener('ipc-message-sync',$1)">] abstract ``addListener_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
-        [<Emit "$0.removeListener('ipc-message-sync',$1)">] abstract ``removeListener_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.on('ipc-message-sync',$1)")>] abstract ``on_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.once('ipc-message-sync',$1)")>] abstract ``once_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.addListener('ipc-message-sync',$1)")>] abstract ``addListener_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
+        [<Emit("$0.removeListener('ipc-message-sync',$1)")>] abstract ``removeListener_ipc-message-sync``: listener: (Event -> string -> ResizeArray<obj option> -> unit) -> WebContents
         /// Emitted when the window leaves a full-screen state triggered by HTML API.
-        [<Emit "$0.on('leave-html-full-screen',$1)">] abstract ``on_leave-html-full-screen``: listener: Function -> WebContents
-        [<Emit "$0.once('leave-html-full-screen',$1)">] abstract ``once_leave-html-full-screen``: listener: Function -> WebContents
-        [<Emit "$0.addListener('leave-html-full-screen',$1)">] abstract ``addListener_leave-html-full-screen``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('leave-html-full-screen',$1)">] abstract ``removeListener_leave-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.on('leave-html-full-screen',$1)")>] abstract ``on_leave-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.once('leave-html-full-screen',$1)")>] abstract ``once_leave-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.addListener('leave-html-full-screen',$1)")>] abstract ``addListener_leave-html-full-screen``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('leave-html-full-screen',$1)")>] abstract ``removeListener_leave-html-full-screen``: listener: Function -> WebContents
         /// <summary>
         /// Emitted when <c>webContents</c> wants to do basic auth.
         /// 
         /// The usage is the same with the <c>login</c> event of <c>app</c>.
         /// </summary>
-        [<Emit "$0.on('login',$1)">] abstract on_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
-        [<Emit "$0.once('login',$1)">] abstract once_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
-        [<Emit "$0.addListener('login',$1)">] abstract addListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
-        [<Emit "$0.removeListener('login',$1)">] abstract removeListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit("$0.on('login',$1)")>] abstract on_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit("$0.once('login',$1)")>] abstract once_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit("$0.addListener('login',$1)")>] abstract addListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
+        [<Emit("$0.removeListener('login',$1)")>] abstract removeListener_login: listener: (Event -> AuthenticationResponseDetails -> AuthInfo -> ((string) option -> (string) option -> unit) -> unit) -> WebContents
         /// Emitted when media is paused or done playing.
-        [<Emit "$0.on('media-paused',$1)">] abstract ``on_media-paused``: listener: Function -> WebContents
-        [<Emit "$0.once('media-paused',$1)">] abstract ``once_media-paused``: listener: Function -> WebContents
-        [<Emit "$0.addListener('media-paused',$1)">] abstract ``addListener_media-paused``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('media-paused',$1)">] abstract ``removeListener_media-paused``: listener: Function -> WebContents
+        [<Emit("$0.on('media-paused',$1)")>] abstract ``on_media-paused``: listener: Function -> WebContents
+        [<Emit("$0.once('media-paused',$1)")>] abstract ``once_media-paused``: listener: Function -> WebContents
+        [<Emit("$0.addListener('media-paused',$1)")>] abstract ``addListener_media-paused``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('media-paused',$1)")>] abstract ``removeListener_media-paused``: listener: Function -> WebContents
         /// Emitted when media starts playing.
-        [<Emit "$0.on('media-started-playing',$1)">] abstract ``on_media-started-playing``: listener: Function -> WebContents
-        [<Emit "$0.once('media-started-playing',$1)">] abstract ``once_media-started-playing``: listener: Function -> WebContents
-        [<Emit "$0.addListener('media-started-playing',$1)">] abstract ``addListener_media-started-playing``: listener: Function -> WebContents
-        [<Emit "$0.removeListener('media-started-playing',$1)">] abstract ``removeListener_media-started-playing``: listener: Function -> WebContents
+        [<Emit("$0.on('media-started-playing',$1)")>] abstract ``on_media-started-playing``: listener: Function -> WebContents
+        [<Emit("$0.once('media-started-playing',$1)")>] abstract ``once_media-started-playing``: listener: Function -> WebContents
+        [<Emit("$0.addListener('media-started-playing',$1)")>] abstract ``addListener_media-started-playing``: listener: Function -> WebContents
+        [<Emit("$0.removeListener('media-started-playing',$1)")>] abstract ``removeListener_media-started-playing``: listener: Function -> WebContents
         /// <summary>
         /// Deprecated in favor of <c>webContents.setWindowOpenHandler</c>.
         /// 
@@ -6164,113 +6164,113 @@ module Electron =
         /// unexpected behavior. For example:
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('new-window',$1)">] abstract ``on_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
-        [<Emit "$0.once('new-window',$1)">] abstract ``once_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
-        [<Emit "$0.addListener('new-window',$1)">] abstract ``addListener_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
-        [<Emit "$0.removeListener('new-window',$1)">] abstract ``removeListener_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit("$0.on('new-window',$1)")>] abstract ``on_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit("$0.once('new-window',$1)")>] abstract ``once_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit("$0.addListener('new-window',$1)")>] abstract ``addListener_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
+        [<Emit("$0.removeListener('new-window',$1)")>] abstract ``removeListener_new-window``: listener: (NewWindowWebContentsEvent -> string -> string -> WebContentsOn_newWindow -> BrowserWindowConstructorOptions -> ResizeArray<string> -> Referrer -> PostBody -> unit) -> WebContents
         /// Emitted when page receives favicon urls.
-        [<Emit "$0.on('page-favicon-updated',$1)">] abstract ``on_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
-        [<Emit "$0.once('page-favicon-updated',$1)">] abstract ``once_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
-        [<Emit "$0.addListener('page-favicon-updated',$1)">] abstract ``addListener_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
-        [<Emit "$0.removeListener('page-favicon-updated',$1)">] abstract ``removeListener_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit("$0.on('page-favicon-updated',$1)")>] abstract ``on_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit("$0.once('page-favicon-updated',$1)")>] abstract ``once_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit("$0.addListener('page-favicon-updated',$1)")>] abstract ``addListener_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
+        [<Emit("$0.removeListener('page-favicon-updated',$1)")>] abstract ``removeListener_page-favicon-updated``: listener: (Event -> ResizeArray<string> -> unit) -> WebContents
         /// <summary>
         /// Fired when page title is set during navigation. <c>explicitSet</c> is false when
         /// title is synthesized from file url.
         /// </summary>
-        [<Emit "$0.on('page-title-updated',$1)">] abstract ``on_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
-        [<Emit "$0.once('page-title-updated',$1)">] abstract ``once_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
-        [<Emit "$0.addListener('page-title-updated',$1)">] abstract ``addListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
-        [<Emit "$0.removeListener('page-title-updated',$1)">] abstract ``removeListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
+        [<Emit("$0.on('page-title-updated',$1)")>] abstract ``on_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
+        [<Emit("$0.once('page-title-updated',$1)")>] abstract ``once_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
+        [<Emit("$0.addListener('page-title-updated',$1)")>] abstract ``addListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
+        [<Emit("$0.removeListener('page-title-updated',$1)")>] abstract ``removeListener_page-title-updated``: listener: (Event -> string -> bool -> unit) -> WebContents
         /// Emitted when a new frame is generated. Only the dirty area is passed in the
         /// buffer.
-        [<Emit "$0.on('paint',$1)">] abstract on_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
-        [<Emit "$0.once('paint',$1)">] abstract once_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
-        [<Emit "$0.addListener('paint',$1)">] abstract addListener_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
-        [<Emit "$0.removeListener('paint',$1)">] abstract removeListener_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
+        [<Emit("$0.on('paint',$1)")>] abstract on_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
+        [<Emit("$0.once('paint',$1)")>] abstract once_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
+        [<Emit("$0.addListener('paint',$1)")>] abstract addListener_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
+        [<Emit("$0.removeListener('paint',$1)")>] abstract removeListener_paint: listener: (Event -> Rectangle -> NativeImage -> unit) -> WebContents
         /// Emitted when a plugin process has crashed.
-        [<Emit "$0.on('plugin-crashed',$1)">] abstract ``on_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
-        [<Emit "$0.once('plugin-crashed',$1)">] abstract ``once_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('plugin-crashed',$1)">] abstract ``addListener_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('plugin-crashed',$1)">] abstract ``removeListener_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
+        [<Emit("$0.on('plugin-crashed',$1)")>] abstract ``on_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
+        [<Emit("$0.once('plugin-crashed',$1)")>] abstract ``once_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('plugin-crashed',$1)")>] abstract ``addListener_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('plugin-crashed',$1)")>] abstract ``removeListener_plugin-crashed``: listener: (Event -> string -> string -> unit) -> WebContents
         /// <summary>
         /// Emitted when the <c>WebContents</c> preferred size has changed.
         /// 
         /// This event will only be emitted when <c>enablePreferredSizeMode</c> is set to <c>true</c>
         /// in <c>webPreferences</c>.
         /// </summary>
-        [<Emit "$0.on('preferred-size-changed',$1)">] abstract ``on_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
-        [<Emit "$0.once('preferred-size-changed',$1)">] abstract ``once_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
-        [<Emit "$0.addListener('preferred-size-changed',$1)">] abstract ``addListener_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
-        [<Emit "$0.removeListener('preferred-size-changed',$1)">] abstract ``removeListener_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
+        [<Emit("$0.on('preferred-size-changed',$1)")>] abstract ``on_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
+        [<Emit("$0.once('preferred-size-changed',$1)")>] abstract ``once_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
+        [<Emit("$0.addListener('preferred-size-changed',$1)")>] abstract ``addListener_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
+        [<Emit("$0.removeListener('preferred-size-changed',$1)")>] abstract ``removeListener_preferred-size-changed``: listener: (Event -> Size -> unit) -> WebContents
         /// <summary>
         /// Emitted when the preload script <c>preloadPath</c> throws an unhandled exception
         /// <c>error</c>.
         /// </summary>
-        [<Emit "$0.on('preload-error',$1)">] abstract ``on_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
-        [<Emit "$0.once('preload-error',$1)">] abstract ``once_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
-        [<Emit "$0.addListener('preload-error',$1)">] abstract ``addListener_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
-        [<Emit "$0.removeListener('preload-error',$1)">] abstract ``removeListener_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
+        [<Emit("$0.on('preload-error',$1)")>] abstract ``on_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
+        [<Emit("$0.once('preload-error',$1)")>] abstract ``once_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
+        [<Emit("$0.addListener('preload-error',$1)")>] abstract ``addListener_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
+        [<Emit("$0.removeListener('preload-error',$1)")>] abstract ``removeListener_preload-error``: listener: (Event -> string -> Error -> unit) -> WebContents
         /// <summary>
         /// Emitted when <c>remote.getBuiltin()</c> is called in the renderer process. Calling
         /// <c>event.preventDefault()</c> will prevent the module from being returned. Custom
         /// value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-builtin',$1)">] abstract ``on_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.once('remote-get-builtin',$1)">] abstract ``once_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('remote-get-builtin',$1)">] abstract ``addListener_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('remote-get-builtin',$1)">] abstract ``removeListener_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.on('remote-get-builtin',$1)")>] abstract ``on_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.once('remote-get-builtin',$1)")>] abstract ``once_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('remote-get-builtin',$1)")>] abstract ``addListener_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('remote-get-builtin',$1)")>] abstract ``removeListener_remote-get-builtin``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         /// <summary>
         /// Emitted when <c>remote.getCurrentWebContents()</c> is called in the renderer process.
         /// Calling <c>event.preventDefault()</c> will prevent the object from being returned.
         /// Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-current-web-contents',$1)">] abstract ``on_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
-        [<Emit "$0.once('remote-get-current-web-contents',$1)">] abstract ``once_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
-        [<Emit "$0.addListener('remote-get-current-web-contents',$1)">] abstract ``addListener_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
-        [<Emit "$0.removeListener('remote-get-current-web-contents',$1)">] abstract ``removeListener_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.on('remote-get-current-web-contents',$1)")>] abstract ``on_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.once('remote-get-current-web-contents',$1)")>] abstract ``once_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.addListener('remote-get-current-web-contents',$1)")>] abstract ``addListener_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.removeListener('remote-get-current-web-contents',$1)")>] abstract ``removeListener_remote-get-current-web-contents``: listener: (IpcMainEvent -> unit) -> WebContents
         /// <summary>
         /// Emitted when <c>remote.getCurrentWindow()</c> is called in the renderer process.
         /// Calling <c>event.preventDefault()</c> will prevent the object from being returned.
         /// Custom value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-current-window',$1)">] abstract ``on_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
-        [<Emit "$0.once('remote-get-current-window',$1)">] abstract ``once_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
-        [<Emit "$0.addListener('remote-get-current-window',$1)">] abstract ``addListener_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
-        [<Emit "$0.removeListener('remote-get-current-window',$1)">] abstract ``removeListener_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.on('remote-get-current-window',$1)")>] abstract ``on_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.once('remote-get-current-window',$1)")>] abstract ``once_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.addListener('remote-get-current-window',$1)")>] abstract ``addListener_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
+        [<Emit("$0.removeListener('remote-get-current-window',$1)")>] abstract ``removeListener_remote-get-current-window``: listener: (IpcMainEvent -> unit) -> WebContents
         /// <summary>
         /// Emitted when <c>remote.getGlobal()</c> is called in the renderer process. Calling
         /// <c>event.preventDefault()</c> will prevent the global from being returned. Custom
         /// value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-get-global',$1)">] abstract ``on_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.once('remote-get-global',$1)">] abstract ``once_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('remote-get-global',$1)">] abstract ``addListener_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('remote-get-global',$1)">] abstract ``removeListener_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.on('remote-get-global',$1)")>] abstract ``on_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.once('remote-get-global',$1)")>] abstract ``once_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('remote-get-global',$1)")>] abstract ``addListener_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('remote-get-global',$1)")>] abstract ``removeListener_remote-get-global``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         /// <summary>
         /// Emitted when <c>remote.require()</c> is called in the renderer process. Calling
         /// <c>event.preventDefault()</c> will prevent the module from being returned. Custom
         /// value can be returned by setting <c>event.returnValue</c>.
         /// </summary>
         [<Obsolete("")>]
-        [<Emit "$0.on('remote-require',$1)">] abstract ``on_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.once('remote-require',$1)">] abstract ``once_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('remote-require',$1)">] abstract ``addListener_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('remote-require',$1)">] abstract ``removeListener_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.on('remote-require',$1)")>] abstract ``on_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.once('remote-require',$1)")>] abstract ``once_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('remote-require',$1)")>] abstract ``addListener_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('remote-require',$1)")>] abstract ``removeListener_remote-require``: listener: (IpcMainEvent -> string -> unit) -> WebContents
         /// Emitted when the renderer process unexpectedly disappears.  This is normally
         /// because it was crashed or killed.
-        [<Emit "$0.on('render-process-gone',$1)">] abstract ``on_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
-        [<Emit "$0.once('render-process-gone',$1)">] abstract ``once_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
-        [<Emit "$0.addListener('render-process-gone',$1)">] abstract ``addListener_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
-        [<Emit "$0.removeListener('render-process-gone',$1)">] abstract ``removeListener_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit("$0.on('render-process-gone',$1)")>] abstract ``on_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit("$0.once('render-process-gone',$1)")>] abstract ``once_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit("$0.addListener('render-process-gone',$1)")>] abstract ``addListener_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
+        [<Emit("$0.removeListener('render-process-gone',$1)")>] abstract ``removeListener_render-process-gone``: listener: (Event -> RenderProcessGoneDetails -> unit) -> WebContents
         /// Emitted when the unresponsive web page becomes responsive again.
-        [<Emit "$0.on('responsive',$1)">] abstract on_responsive: listener: Function -> WebContents
-        [<Emit "$0.once('responsive',$1)">] abstract once_responsive: listener: Function -> WebContents
-        [<Emit "$0.addListener('responsive',$1)">] abstract addListener_responsive: listener: Function -> WebContents
-        [<Emit "$0.removeListener('responsive',$1)">] abstract removeListener_responsive: listener: Function -> WebContents
+        [<Emit("$0.on('responsive',$1)")>] abstract on_responsive: listener: Function -> WebContents
+        [<Emit("$0.once('responsive',$1)")>] abstract once_responsive: listener: Function -> WebContents
+        [<Emit("$0.addListener('responsive',$1)")>] abstract addListener_responsive: listener: Function -> WebContents
+        [<Emit("$0.removeListener('responsive',$1)")>] abstract removeListener_responsive: listener: Function -> WebContents
         /// <summary>
         /// Emitted when bluetooth device needs to be selected on call to
         /// <c>navigator.bluetooth.requestDevice</c>. To use <c>navigator.bluetooth</c> api
@@ -6281,29 +6281,29 @@ module Electron =
         /// If no event listener is added for this event, all bluetooth requests will be
         /// cancelled.
         /// </summary>
-        [<Emit "$0.on('select-bluetooth-device',$1)">] abstract ``on_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
-        [<Emit "$0.once('select-bluetooth-device',$1)">] abstract ``once_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
-        [<Emit "$0.addListener('select-bluetooth-device',$1)">] abstract ``addListener_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
-        [<Emit "$0.removeListener('select-bluetooth-device',$1)">] abstract ``removeListener_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
+        [<Emit("$0.on('select-bluetooth-device',$1)")>] abstract ``on_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
+        [<Emit("$0.once('select-bluetooth-device',$1)")>] abstract ``once_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
+        [<Emit("$0.addListener('select-bluetooth-device',$1)")>] abstract ``addListener_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
+        [<Emit("$0.removeListener('select-bluetooth-device',$1)")>] abstract ``removeListener_select-bluetooth-device``: listener: (Event -> ResizeArray<BluetoothDevice> -> (string -> unit) -> unit) -> WebContents
         /// <summary>
         /// Emitted when a client certificate is requested.
         /// 
         /// The usage is the same with the <c>select-client-certificate</c> event of <c>app</c>.
         /// </summary>
-        [<Emit "$0.on('select-client-certificate',$1)">] abstract ``on_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
-        [<Emit "$0.once('select-client-certificate',$1)">] abstract ``once_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
-        [<Emit "$0.addListener('select-client-certificate',$1)">] abstract ``addListener_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
-        [<Emit "$0.removeListener('select-client-certificate',$1)">] abstract ``removeListener_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
+        [<Emit("$0.on('select-client-certificate',$1)")>] abstract ``on_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
+        [<Emit("$0.once('select-client-certificate',$1)")>] abstract ``once_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
+        [<Emit("$0.addListener('select-client-certificate',$1)")>] abstract ``addListener_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
+        [<Emit("$0.removeListener('select-client-certificate',$1)")>] abstract ``removeListener_select-client-certificate``: listener: (Event -> string -> ResizeArray<Certificate> -> (Certificate -> unit) -> unit) -> WebContents
         /// Emitted when the web page becomes unresponsive.
-        [<Emit "$0.on('unresponsive',$1)">] abstract on_unresponsive: listener: Function -> WebContents
-        [<Emit "$0.once('unresponsive',$1)">] abstract once_unresponsive: listener: Function -> WebContents
-        [<Emit "$0.addListener('unresponsive',$1)">] abstract addListener_unresponsive: listener: Function -> WebContents
-        [<Emit "$0.removeListener('unresponsive',$1)">] abstract removeListener_unresponsive: listener: Function -> WebContents
+        [<Emit("$0.on('unresponsive',$1)")>] abstract on_unresponsive: listener: Function -> WebContents
+        [<Emit("$0.once('unresponsive',$1)")>] abstract once_unresponsive: listener: Function -> WebContents
+        [<Emit("$0.addListener('unresponsive',$1)")>] abstract addListener_unresponsive: listener: Function -> WebContents
+        [<Emit("$0.removeListener('unresponsive',$1)")>] abstract removeListener_unresponsive: listener: Function -> WebContents
         /// Emitted when mouse moves over a link or the keyboard moves the focus to a link.
-        [<Emit "$0.on('update-target-url',$1)">] abstract ``on_update-target-url``: listener: (Event -> string -> unit) -> WebContents
-        [<Emit "$0.once('update-target-url',$1)">] abstract ``once_update-target-url``: listener: (Event -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('update-target-url',$1)">] abstract ``addListener_update-target-url``: listener: (Event -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('update-target-url',$1)">] abstract ``removeListener_update-target-url``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.on('update-target-url',$1)")>] abstract ``on_update-target-url``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.once('update-target-url',$1)")>] abstract ``once_update-target-url``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('update-target-url',$1)")>] abstract ``addListener_update-target-url``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('update-target-url',$1)")>] abstract ``removeListener_update-target-url``: listener: (Event -> string -> unit) -> WebContents
         /// <summary>
         /// Emitted when a <c>&lt;webview&gt;</c>'s web contents is being attached to this web
         /// contents. Calling <c>event.preventDefault()</c> will destroy the guest page.
@@ -6315,10 +6315,10 @@ module Electron =
         /// **Note:** The specified <c>preload</c> script option will appear as <c>preloadURL</c> (not
         /// <c>preload</c>) in the <c>webPreferences</c> object emitted with this event.
         /// </summary>
-        [<Emit "$0.on('will-attach-webview',$1)">] abstract ``on_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
-        [<Emit "$0.once('will-attach-webview',$1)">] abstract ``once_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
-        [<Emit "$0.addListener('will-attach-webview',$1)">] abstract ``addListener_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
-        [<Emit "$0.removeListener('will-attach-webview',$1)">] abstract ``removeListener_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
+        [<Emit("$0.on('will-attach-webview',$1)")>] abstract ``on_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
+        [<Emit("$0.once('will-attach-webview',$1)")>] abstract ``once_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
+        [<Emit("$0.addListener('will-attach-webview',$1)")>] abstract ``addListener_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
+        [<Emit("$0.removeListener('will-attach-webview',$1)")>] abstract ``removeListener_will-attach-webview``: listener: (Event -> WebPreferences -> Record<string, string> -> unit) -> WebContents
         /// <summary>
         /// Emitted when a user or the page wants to start navigation. It can happen when
         /// the <c>window.location</c> object is changed or a user clicks a link in the page.
@@ -6332,10 +6332,10 @@ module Electron =
         /// 
         /// Calling <c>event.preventDefault()</c> will prevent the navigation.
         /// </summary>
-        [<Emit "$0.on('will-navigate',$1)">] abstract ``on_will-navigate``: listener: (Event -> string -> unit) -> WebContents
-        [<Emit "$0.once('will-navigate',$1)">] abstract ``once_will-navigate``: listener: (Event -> string -> unit) -> WebContents
-        [<Emit "$0.addListener('will-navigate',$1)">] abstract ``addListener_will-navigate``: listener: (Event -> string -> unit) -> WebContents
-        [<Emit "$0.removeListener('will-navigate',$1)">] abstract ``removeListener_will-navigate``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.on('will-navigate',$1)")>] abstract ``on_will-navigate``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.once('will-navigate',$1)")>] abstract ``once_will-navigate``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.addListener('will-navigate',$1)")>] abstract ``addListener_will-navigate``: listener: (Event -> string -> unit) -> WebContents
+        [<Emit("$0.removeListener('will-navigate',$1)")>] abstract ``removeListener_will-navigate``: listener: (Event -> string -> unit) -> WebContents
         /// <summary>
         /// Emitted when a <c>beforeunload</c> event handler is attempting to cancel a page
         /// unload.
@@ -6343,10 +6343,10 @@ module Electron =
         /// Calling <c>event.preventDefault()</c> will ignore the <c>beforeunload</c> event handler
         /// and allow the page to be unloaded.
         /// </summary>
-        [<Emit "$0.on('will-prevent-unload',$1)">] abstract ``on_will-prevent-unload``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.once('will-prevent-unload',$1)">] abstract ``once_will-prevent-unload``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.addListener('will-prevent-unload',$1)">] abstract ``addListener_will-prevent-unload``: listener: (Event -> unit) -> WebContents
-        [<Emit "$0.removeListener('will-prevent-unload',$1)">] abstract ``removeListener_will-prevent-unload``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.on('will-prevent-unload',$1)")>] abstract ``on_will-prevent-unload``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.once('will-prevent-unload',$1)")>] abstract ``once_will-prevent-unload``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.addListener('will-prevent-unload',$1)")>] abstract ``addListener_will-prevent-unload``: listener: (Event -> unit) -> WebContents
+        [<Emit("$0.removeListener('will-prevent-unload',$1)")>] abstract ``removeListener_will-prevent-unload``: listener: (Event -> unit) -> WebContents
         /// <summary>
         /// Emitted as a server side redirect occurs during navigation.  For example a 302
         /// redirect.
@@ -6357,16 +6357,16 @@ module Electron =
         /// Calling <c>event.preventDefault()</c> will prevent the navigation (not just the
         /// redirect).
         /// </summary>
-        [<Emit "$0.on('will-redirect',$1)">] abstract ``on_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.once('will-redirect',$1)">] abstract ``once_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.addListener('will-redirect',$1)">] abstract ``addListener_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
-        [<Emit "$0.removeListener('will-redirect',$1)">] abstract ``removeListener_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.on('will-redirect',$1)")>] abstract ``on_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.once('will-redirect',$1)")>] abstract ``once_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.addListener('will-redirect',$1)")>] abstract ``addListener_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
+        [<Emit("$0.removeListener('will-redirect',$1)")>] abstract ``removeListener_will-redirect``: listener: (Event -> string -> bool -> bool -> float -> float -> unit) -> WebContents
         /// Emitted when the user is requesting to change the zoom level using the mouse
         /// wheel.
-        [<Emit "$0.on('zoom-changed',$1)">] abstract ``on_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
-        [<Emit "$0.once('zoom-changed',$1)">] abstract ``once_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
-        [<Emit "$0.addListener('zoom-changed',$1)">] abstract ``addListener_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
-        [<Emit "$0.removeListener('zoom-changed',$1)">] abstract ``removeListener_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
+        [<Emit("$0.on('zoom-changed',$1)")>] abstract ``on_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
+        [<Emit("$0.once('zoom-changed',$1)")>] abstract ``once_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
+        [<Emit("$0.addListener('zoom-changed',$1)")>] abstract ``addListener_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
+        [<Emit("$0.removeListener('zoom-changed',$1)")>] abstract ``removeListener_zoom-changed``: listener: (Event -> WebContentsOn_zoomChanged -> unit) -> WebContents
         /// Adds the specified path to DevTools workspace. Must be used after DevTools
         /// creation:
         abstract addWorkSpace: path: string -> unit
@@ -7185,64 +7185,64 @@ module Electron =
         /// Fired when a load has committed. This includes navigation within the current
         /// document as well as subframe document-level loads, but does not include
         /// asynchronous resource loads.
-        [<Emit "$0.addEventListener('load-commit',$1,$2)">] abstract ``addEventListener_load-commit``: listener: (LoadCommitEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('load-commit',$1)">] abstract ``removeEventListener_load-commit``: listener: (LoadCommitEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('load-commit',$1,$2)")>] abstract ``addEventListener_load-commit``: listener: (LoadCommitEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('load-commit',$1)")>] abstract ``removeEventListener_load-commit``: listener: (LoadCommitEvent -> unit) -> WebviewTag
         /// <summary>
         /// Fired when the navigation is done, i.e. the spinner of the tab will stop
         /// spinning, and the <c>onload</c> event is dispatched.
         /// </summary>
-        [<Emit "$0.addEventListener('did-finish-load',$1,$2)">] abstract ``addEventListener_did-finish-load``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-finish-load',$1)">] abstract ``removeEventListener_did-finish-load``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-finish-load',$1,$2)")>] abstract ``addEventListener_did-finish-load``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-finish-load',$1)")>] abstract ``removeEventListener_did-finish-load``: listener: (Event -> unit) -> WebviewTag
         /// <summary>
         /// This event is like <c>did-finish-load</c>, but fired when the load failed or was
         /// cancelled, e.g. <c>window.stop()</c> is invoked.
         /// </summary>
-        [<Emit "$0.addEventListener('did-fail-load',$1,$2)">] abstract ``addEventListener_did-fail-load``: listener: (DidFailLoadEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-fail-load',$1)">] abstract ``removeEventListener_did-fail-load``: listener: (DidFailLoadEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-fail-load',$1,$2)")>] abstract ``addEventListener_did-fail-load``: listener: (DidFailLoadEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-fail-load',$1)")>] abstract ``removeEventListener_did-fail-load``: listener: (DidFailLoadEvent -> unit) -> WebviewTag
         /// Fired when a frame has done navigation.
-        [<Emit "$0.addEventListener('did-frame-finish-load',$1,$2)">] abstract ``addEventListener_did-frame-finish-load``: listener: (DidFrameFinishLoadEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-frame-finish-load',$1)">] abstract ``removeEventListener_did-frame-finish-load``: listener: (DidFrameFinishLoadEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-frame-finish-load',$1,$2)")>] abstract ``addEventListener_did-frame-finish-load``: listener: (DidFrameFinishLoadEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-frame-finish-load',$1)")>] abstract ``removeEventListener_did-frame-finish-load``: listener: (DidFrameFinishLoadEvent -> unit) -> WebviewTag
         /// Corresponds to the points in time when the spinner of the tab starts spinning.
-        [<Emit "$0.addEventListener('did-start-loading',$1,$2)">] abstract ``addEventListener_did-start-loading``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-start-loading',$1)">] abstract ``removeEventListener_did-start-loading``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-start-loading',$1,$2)")>] abstract ``addEventListener_did-start-loading``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-start-loading',$1)")>] abstract ``removeEventListener_did-start-loading``: listener: (Event -> unit) -> WebviewTag
         /// Corresponds to the points in time when the spinner of the tab stops spinning.
-        [<Emit "$0.addEventListener('did-stop-loading',$1,$2)">] abstract ``addEventListener_did-stop-loading``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-stop-loading',$1)">] abstract ``removeEventListener_did-stop-loading``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-stop-loading',$1,$2)")>] abstract ``addEventListener_did-stop-loading``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-stop-loading',$1)")>] abstract ``removeEventListener_did-stop-loading``: listener: (Event -> unit) -> WebviewTag
         /// Fired when attached to the embedder web contents.
-        [<Emit "$0.addEventListener('did-attach',$1,$2)">] abstract ``addEventListener_did-attach``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-attach',$1)">] abstract ``removeEventListener_did-attach``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-attach',$1,$2)")>] abstract ``addEventListener_did-attach``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-attach',$1)")>] abstract ``removeEventListener_did-attach``: listener: (Event -> unit) -> WebviewTag
         /// Fired when document in the given frame is loaded.
-        [<Emit "$0.addEventListener('dom-ready',$1,$2)">] abstract ``addEventListener_dom-ready``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('dom-ready',$1)">] abstract ``removeEventListener_dom-ready``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('dom-ready',$1,$2)")>] abstract ``addEventListener_dom-ready``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('dom-ready',$1)")>] abstract ``removeEventListener_dom-ready``: listener: (Event -> unit) -> WebviewTag
         /// <summary>
         /// Fired when page title is set during navigation. <c>explicitSet</c> is false when
         /// title is synthesized from file url.
         /// </summary>
-        [<Emit "$0.addEventListener('page-title-updated',$1,$2)">] abstract ``addEventListener_page-title-updated``: listener: (PageTitleUpdatedEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('page-title-updated',$1)">] abstract ``removeEventListener_page-title-updated``: listener: (PageTitleUpdatedEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('page-title-updated',$1,$2)")>] abstract ``addEventListener_page-title-updated``: listener: (PageTitleUpdatedEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('page-title-updated',$1)")>] abstract ``removeEventListener_page-title-updated``: listener: (PageTitleUpdatedEvent -> unit) -> WebviewTag
         /// Fired when page receives favicon urls.
-        [<Emit "$0.addEventListener('page-favicon-updated',$1,$2)">] abstract ``addEventListener_page-favicon-updated``: listener: (PageFaviconUpdatedEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('page-favicon-updated',$1)">] abstract ``removeEventListener_page-favicon-updated``: listener: (PageFaviconUpdatedEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('page-favicon-updated',$1,$2)")>] abstract ``addEventListener_page-favicon-updated``: listener: (PageFaviconUpdatedEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('page-favicon-updated',$1)")>] abstract ``removeEventListener_page-favicon-updated``: listener: (PageFaviconUpdatedEvent -> unit) -> WebviewTag
         /// Fired when page enters fullscreen triggered by HTML API.
-        [<Emit "$0.addEventListener('enter-html-full-screen',$1,$2)">] abstract ``addEventListener_enter-html-full-screen``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('enter-html-full-screen',$1)">] abstract ``removeEventListener_enter-html-full-screen``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('enter-html-full-screen',$1,$2)")>] abstract ``addEventListener_enter-html-full-screen``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('enter-html-full-screen',$1)")>] abstract ``removeEventListener_enter-html-full-screen``: listener: (Event -> unit) -> WebviewTag
         /// Fired when page leaves fullscreen triggered by HTML API.
-        [<Emit "$0.addEventListener('leave-html-full-screen',$1,$2)">] abstract ``addEventListener_leave-html-full-screen``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('leave-html-full-screen',$1)">] abstract ``removeEventListener_leave-html-full-screen``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('leave-html-full-screen',$1,$2)")>] abstract ``addEventListener_leave-html-full-screen``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('leave-html-full-screen',$1)")>] abstract ``removeEventListener_leave-html-full-screen``: listener: (Event -> unit) -> WebviewTag
         /// Fired when the guest window logs a console message.
         /// 
         /// The following example code forwards all log messages to the embedder's console
         /// without regard for log level or other properties.
-        [<Emit "$0.addEventListener('console-message',$1,$2)">] abstract ``addEventListener_console-message``: listener: (ConsoleMessageEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('console-message',$1)">] abstract ``removeEventListener_console-message``: listener: (ConsoleMessageEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('console-message',$1,$2)")>] abstract ``addEventListener_console-message``: listener: (ConsoleMessageEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('console-message',$1)")>] abstract ``removeEventListener_console-message``: listener: (ConsoleMessageEvent -> unit) -> WebviewTag
         /// <summary>Fired when a result is available for <c>webview.findInPage</c> request.</summary>
-        [<Emit "$0.addEventListener('found-in-page',$1,$2)">] abstract ``addEventListener_found-in-page``: listener: (FoundInPageEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('found-in-page',$1)">] abstract ``removeEventListener_found-in-page``: listener: (FoundInPageEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('found-in-page',$1,$2)")>] abstract ``addEventListener_found-in-page``: listener: (FoundInPageEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('found-in-page',$1)")>] abstract ``removeEventListener_found-in-page``: listener: (FoundInPageEvent -> unit) -> WebviewTag
         /// Fired when the guest page attempts to open a new browser window.
         /// 
         /// The following example code opens the new url in system's default browser.
-        [<Emit "$0.addEventListener('new-window',$1,$2)">] abstract ``addEventListener_new-window``: listener: (NewWindowEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('new-window',$1)">] abstract ``removeEventListener_new-window``: listener: (NewWindowEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('new-window',$1,$2)")>] abstract ``addEventListener_new-window``: listener: (NewWindowEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('new-window',$1)")>] abstract ``removeEventListener_new-window``: listener: (NewWindowEvent -> unit) -> WebviewTag
         /// <summary>
         /// Emitted when a user or the page wants to start navigation. It can happen when
         /// the <c>window.location</c> object is changed or a user clicks a link in the page.
@@ -7256,14 +7256,14 @@ module Electron =
         /// 
         /// Calling <c>event.preventDefault()</c> does __NOT__ have any effect.
         /// </summary>
-        [<Emit "$0.addEventListener('will-navigate',$1,$2)">] abstract ``addEventListener_will-navigate``: listener: (WillNavigateEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('will-navigate',$1)">] abstract ``removeEventListener_will-navigate``: listener: (WillNavigateEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('will-navigate',$1,$2)")>] abstract ``addEventListener_will-navigate``: listener: (WillNavigateEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('will-navigate',$1)")>] abstract ``removeEventListener_will-navigate``: listener: (WillNavigateEvent -> unit) -> WebviewTag
         /// <summary>
         /// Emitted when any frame (including main) starts navigating. <c>isInPlace</c> will be
         /// <c>true</c> for in-page navigations.
         /// </summary>
-        [<Emit "$0.addEventListener('did-start-navigation',$1,$2)">] abstract ``addEventListener_did-start-navigation``: listener: (DidStartNavigationEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-start-navigation',$1)">] abstract ``removeEventListener_did-start-navigation``: listener: (DidStartNavigationEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-start-navigation',$1,$2)")>] abstract ``addEventListener_did-start-navigation``: listener: (DidStartNavigationEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-start-navigation',$1)")>] abstract ``removeEventListener_did-start-navigation``: listener: (DidStartNavigationEvent -> unit) -> WebviewTag
         /// <summary>
         /// Emitted when a navigation is done.
         /// 
@@ -7271,8 +7271,8 @@ module Electron =
         /// or updating the <c>window.location.hash</c>. Use <c>did-navigate-in-page</c> event for
         /// this purpose.
         /// </summary>
-        [<Emit "$0.addEventListener('did-navigate',$1,$2)">] abstract ``addEventListener_did-navigate``: listener: (DidNavigateEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-navigate',$1)">] abstract ``removeEventListener_did-navigate``: listener: (DidNavigateEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-navigate',$1,$2)")>] abstract ``addEventListener_did-navigate``: listener: (DidNavigateEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-navigate',$1)")>] abstract ``removeEventListener_did-navigate``: listener: (DidNavigateEvent -> unit) -> WebviewTag
         /// <summary>
         /// Emitted when any frame navigation is done.
         /// 
@@ -7280,8 +7280,8 @@ module Electron =
         /// or updating the <c>window.location.hash</c>. Use <c>did-navigate-in-page</c> event for
         /// this purpose.
         /// </summary>
-        [<Emit "$0.addEventListener('did-frame-navigate',$1,$2)">] abstract ``addEventListener_did-frame-navigate``: listener: (DidFrameNavigateEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-frame-navigate',$1)">] abstract ``removeEventListener_did-frame-navigate``: listener: (DidFrameNavigateEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-frame-navigate',$1,$2)")>] abstract ``addEventListener_did-frame-navigate``: listener: (DidFrameNavigateEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-frame-navigate',$1)")>] abstract ``removeEventListener_did-frame-navigate``: listener: (DidFrameNavigateEvent -> unit) -> WebviewTag
         /// <summary>
         /// Emitted when an in-page navigation happened.
         /// 
@@ -7289,58 +7289,58 @@ module Electron =
         /// navigation outside of the page. Examples of this occurring are when anchor links
         /// are clicked or when the DOM <c>hashchange</c> event is triggered.
         /// </summary>
-        [<Emit "$0.addEventListener('did-navigate-in-page',$1,$2)">] abstract ``addEventListener_did-navigate-in-page``: listener: (DidNavigateInPageEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-navigate-in-page',$1)">] abstract ``removeEventListener_did-navigate-in-page``: listener: (DidNavigateInPageEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-navigate-in-page',$1,$2)")>] abstract ``addEventListener_did-navigate-in-page``: listener: (DidNavigateInPageEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-navigate-in-page',$1)")>] abstract ``removeEventListener_did-navigate-in-page``: listener: (DidNavigateInPageEvent -> unit) -> WebviewTag
         /// <summary>
         /// Fired when the guest page attempts to close itself.
         /// 
         /// The following example code navigates the <c>webview</c> to <c>about:blank</c> when the
         /// guest attempts to close itself.
         /// </summary>
-        [<Emit "$0.addEventListener('close',$1,$2)">] abstract addEventListener_close: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('close',$1)">] abstract removeEventListener_close: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('close',$1,$2)")>] abstract addEventListener_close: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('close',$1)")>] abstract removeEventListener_close: listener: (Event -> unit) -> WebviewTag
         /// <summary>
         /// Fired when the guest page has sent an asynchronous message to embedder page.
         /// 
         /// With <c>sendToHost</c> method and <c>ipc-message</c> event you can communicate between
         /// guest page and embedder page:
         /// </summary>
-        [<Emit "$0.addEventListener('ipc-message',$1,$2)">] abstract ``addEventListener_ipc-message``: listener: (IpcMessageEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('ipc-message',$1)">] abstract ``removeEventListener_ipc-message``: listener: (IpcMessageEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('ipc-message',$1,$2)")>] abstract ``addEventListener_ipc-message``: listener: (IpcMessageEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('ipc-message',$1)")>] abstract ``removeEventListener_ipc-message``: listener: (IpcMessageEvent -> unit) -> WebviewTag
         /// Fired when the renderer process is crashed.
-        [<Emit "$0.addEventListener('crashed',$1,$2)">] abstract addEventListener_crashed: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('crashed',$1)">] abstract removeEventListener_crashed: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('crashed',$1,$2)")>] abstract addEventListener_crashed: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('crashed',$1)")>] abstract removeEventListener_crashed: listener: (Event -> unit) -> WebviewTag
         /// Fired when a plugin process is crashed.
-        [<Emit "$0.addEventListener('plugin-crashed',$1,$2)">] abstract ``addEventListener_plugin-crashed``: listener: (PluginCrashedEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('plugin-crashed',$1)">] abstract ``removeEventListener_plugin-crashed``: listener: (PluginCrashedEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('plugin-crashed',$1,$2)")>] abstract ``addEventListener_plugin-crashed``: listener: (PluginCrashedEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('plugin-crashed',$1)")>] abstract ``removeEventListener_plugin-crashed``: listener: (PluginCrashedEvent -> unit) -> WebviewTag
         /// Fired when the WebContents is destroyed.
-        [<Emit "$0.addEventListener('destroyed',$1,$2)">] abstract addEventListener_destroyed: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('destroyed',$1)">] abstract removeEventListener_destroyed: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('destroyed',$1,$2)")>] abstract addEventListener_destroyed: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('destroyed',$1)")>] abstract removeEventListener_destroyed: listener: (Event -> unit) -> WebviewTag
         /// Emitted when media starts playing.
-        [<Emit "$0.addEventListener('media-started-playing',$1,$2)">] abstract ``addEventListener_media-started-playing``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('media-started-playing',$1)">] abstract ``removeEventListener_media-started-playing``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('media-started-playing',$1,$2)")>] abstract ``addEventListener_media-started-playing``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('media-started-playing',$1)")>] abstract ``removeEventListener_media-started-playing``: listener: (Event -> unit) -> WebviewTag
         /// Emitted when media is paused or done playing.
-        [<Emit "$0.addEventListener('media-paused',$1,$2)">] abstract ``addEventListener_media-paused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('media-paused',$1)">] abstract ``removeEventListener_media-paused``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('media-paused',$1,$2)")>] abstract ``addEventListener_media-paused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('media-paused',$1)")>] abstract ``removeEventListener_media-paused``: listener: (Event -> unit) -> WebviewTag
         /// Emitted when a page's theme color changes. This is usually due to encountering a
         /// meta tag:
-        [<Emit "$0.addEventListener('did-change-theme-color',$1,$2)">] abstract ``addEventListener_did-change-theme-color``: listener: (DidChangeThemeColorEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('did-change-theme-color',$1)">] abstract ``removeEventListener_did-change-theme-color``: listener: (DidChangeThemeColorEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('did-change-theme-color',$1,$2)")>] abstract ``addEventListener_did-change-theme-color``: listener: (DidChangeThemeColorEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('did-change-theme-color',$1)")>] abstract ``removeEventListener_did-change-theme-color``: listener: (DidChangeThemeColorEvent -> unit) -> WebviewTag
         /// Emitted when mouse moves over a link or the keyboard moves the focus to a link.
-        [<Emit "$0.addEventListener('update-target-url',$1,$2)">] abstract ``addEventListener_update-target-url``: listener: (UpdateTargetUrlEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('update-target-url',$1)">] abstract ``removeEventListener_update-target-url``: listener: (UpdateTargetUrlEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('update-target-url',$1,$2)")>] abstract ``addEventListener_update-target-url``: listener: (UpdateTargetUrlEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('update-target-url',$1)")>] abstract ``removeEventListener_update-target-url``: listener: (UpdateTargetUrlEvent -> unit) -> WebviewTag
         /// Emitted when DevTools is opened.
-        [<Emit "$0.addEventListener('devtools-opened',$1,$2)">] abstract ``addEventListener_devtools-opened``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('devtools-opened',$1)">] abstract ``removeEventListener_devtools-opened``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('devtools-opened',$1,$2)")>] abstract ``addEventListener_devtools-opened``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('devtools-opened',$1)")>] abstract ``removeEventListener_devtools-opened``: listener: (Event -> unit) -> WebviewTag
         /// Emitted when DevTools is closed.
-        [<Emit "$0.addEventListener('devtools-closed',$1,$2)">] abstract ``addEventListener_devtools-closed``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('devtools-closed',$1)">] abstract ``removeEventListener_devtools-closed``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('devtools-closed',$1,$2)")>] abstract ``addEventListener_devtools-closed``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('devtools-closed',$1)")>] abstract ``removeEventListener_devtools-closed``: listener: (Event -> unit) -> WebviewTag
         /// Emitted when DevTools is focused / opened.
-        [<Emit "$0.addEventListener('devtools-focused',$1,$2)">] abstract ``addEventListener_devtools-focused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('devtools-focused',$1)">] abstract ``removeEventListener_devtools-focused``: listener: (Event -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('devtools-focused',$1,$2)")>] abstract ``addEventListener_devtools-focused``: listener: (Event -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('devtools-focused',$1)")>] abstract ``removeEventListener_devtools-focused``: listener: (Event -> unit) -> WebviewTag
         /// Emitted when there is a new context menu that needs to be handled.
-        [<Emit "$0.addEventListener('context-menu',$1,$2)">] abstract ``addEventListener_context-menu``: listener: (ContextMenuEvent -> unit) * ?useCapture: bool -> WebviewTag
-        [<Emit "$0.removeEventListener('context-menu',$1)">] abstract ``removeEventListener_context-menu``: listener: (ContextMenuEvent -> unit) -> WebviewTag
+        [<Emit("$0.addEventListener('context-menu',$1,$2)")>] abstract ``addEventListener_context-menu``: listener: (ContextMenuEvent -> unit) * ?useCapture: bool -> WebviewTag
+        [<Emit("$0.removeEventListener('context-menu',$1)")>] abstract ``removeEventListener_context-menu``: listener: (ContextMenuEvent -> unit) -> WebviewTag
         abstract addEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> obj -> obj option) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
         abstract removeEventListener: ``type``: KeyOf<HTMLElementEventMap> * listener: (HTMLElement -> obj -> obj option) * ?useCapture: bool -> unit
@@ -12310,15 +12310,15 @@ module Electron =
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetAlwaysOnTop =
         | Normal
         | Floating
-        | [<CompiledName "torn-off-menu">] TornOffMenu
-        | [<CompiledName "modal-panel">] ModalPanel
-        | [<CompiledName "main-menu">] MainMenu
+        | [<CompiledName("torn-off-menu")>] TornOffMenu
+        | [<CompiledName("modal-panel")>] ModalPanel
+        | [<CompiledName("main-menu")>] MainMenu
         | Status
-        | [<CompiledName "pop-up-menu">] PopUpMenu
-        | [<CompiledName "screen-saver">] ScreenSaver
+        | [<CompiledName("pop-up-menu")>] PopUpMenu
+        | [<CompiledName("screen-saver")>] ScreenSaver
 
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetVibrancy =
-        | [<CompiledName "appearance-based">] AppearanceBased
+        | [<CompiledName("appearance-based")>] AppearanceBased
         | Light
         | Dark
         | Titlebar
@@ -12326,17 +12326,17 @@ module Electron =
         | Menu
         | Popover
         | Sidebar
-        | [<CompiledName "medium-light">] MediumLight
-        | [<CompiledName "ultra-dark">] UltraDark
+        | [<CompiledName("medium-light")>] MediumLight
+        | [<CompiledName("ultra-dark")>] UltraDark
         | Header
         | Sheet
         | Window
         | Hud
-        | [<CompiledName "fullscreen-ui">] FullscreenUi
+        | [<CompiledName("fullscreen-ui")>] FullscreenUi
         | Tooltip
         | Content
-        | [<CompiledName "under-window">] UnderWindow
-        | [<CompiledName "under-page">] UnderPage
+        | [<CompiledName("under-window")>] UnderWindow
+        | [<CompiledName("under-page")>] UnderPage
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ClipboardAvailableFormats =
         | Selection
@@ -12353,7 +12353,7 @@ module Electron =
         | Overwrite
         | Expired
         | Evicted
-        | [<CompiledName "expired-overwrite">] ExpiredOverwrite
+        | [<CompiledName("expired-overwrite")>] ExpiredOverwrite
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DisplayAccelerometerSupport =
         | Available
@@ -12542,8 +12542,8 @@ module Electron =
         | Unknown
 
     type [<StringEnum>] [<RequireQualifiedAccess>] PowerSaveBlockerStart =
-        | [<CompiledName "prevent-app-suspension">] PreventAppSuspension
-        | [<CompiledName "prevent-display-sleep">] PreventDisplaySleep
+        | [<CompiledName("prevent-app-suspension")>] PreventAppSuspension
+        | [<CompiledName("prevent-display-sleep")>] PreventDisplaySleep
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ProcessMetricIntegrityLevel =
         | Untrusted
@@ -12553,30 +12553,30 @@ module Electron =
         | Unknown
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ProcessMetricType =
-        | [<CompiledName "Browser">] Browser
-        | [<CompiledName "Tab">] Tab
-        | [<CompiledName "Utility">] Utility
-        | [<CompiledName "Zygote">] Zygote
-        | [<CompiledName "Sandbox helper">] ``Sandbox helper``
-        | [<CompiledName "GPU">] GPU
-        | [<CompiledName "Pepper Plugin">] ``Pepper Plugin``
-        | [<CompiledName "Pepper Plugin Broker">] ``Pepper Plugin Broker``
-        | [<CompiledName "Unknown">] Unknown
+        | [<CompiledName("Browser")>] Browser
+        | [<CompiledName("Tab")>] Tab
+        | [<CompiledName("Utility")>] Utility
+        | [<CompiledName("Zygote")>] Zygote
+        | [<CompiledName("Sandbox helper")>] ``Sandbox helper``
+        | [<CompiledName("GPU")>] GPU
+        | [<CompiledName("Pepper Plugin")>] ``Pepper Plugin``
+        | [<CompiledName("Pepper Plugin Broker")>] ``Pepper Plugin Broker``
+        | [<CompiledName("Unknown")>] Unknown
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ReferrerPolicy =
         | Default
-        | [<CompiledName "unsafe-url">] UnsafeUrl
-        | [<CompiledName "no-referrer-when-downgrade">] NoReferrerWhenDowngrade
-        | [<CompiledName "no-referrer">] NoReferrer
+        | [<CompiledName("unsafe-url")>] UnsafeUrl
+        | [<CompiledName("no-referrer-when-downgrade")>] NoReferrerWhenDowngrade
+        | [<CompiledName("no-referrer")>] NoReferrer
         | Origin
-        | [<CompiledName "strict-origin-when-cross-origin">] StrictOriginWhenCrossOrigin
-        | [<CompiledName "same-origin">] SameOrigin
-        | [<CompiledName "strict-origin">] StrictOrigin
+        | [<CompiledName("strict-origin-when-cross-origin")>] StrictOriginWhenCrossOrigin
+        | [<CompiledName("same-origin")>] SameOrigin
+        | [<CompiledName("strict-origin")>] StrictOrigin
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SessionSetPermissionRequestHandler =
-        | [<CompiledName "clipboard-read">] ClipboardRead
+        | [<CompiledName("clipboard-read")>] ClipboardRead
         | Media
-        | [<CompiledName "display-capture">] DisplayCapture
+        | [<CompiledName("display-capture")>] DisplayCapture
         | MediaKeySystem
         | Geolocation
         | Notifications
@@ -12602,69 +12602,69 @@ module Electron =
         | Unknown
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetColor =
-        | [<CompiledName "3d-dark-shadow">] N3dDarkShadow
-        | [<CompiledName "3d-face">] N3dFace
-        | [<CompiledName "3d-highlight">] N3dHighlight
-        | [<CompiledName "3d-light">] N3dLight
-        | [<CompiledName "3d-shadow">] N3dShadow
-        | [<CompiledName "active-border">] ActiveBorder
-        | [<CompiledName "active-caption">] ActiveCaption
-        | [<CompiledName "active-caption-gradient">] ActiveCaptionGradient
-        | [<CompiledName "app-workspace">] AppWorkspace
-        | [<CompiledName "button-text">] ButtonText
-        | [<CompiledName "caption-text">] CaptionText
+        | [<CompiledName("3d-dark-shadow")>] N3dDarkShadow
+        | [<CompiledName("3d-face")>] N3dFace
+        | [<CompiledName("3d-highlight")>] N3dHighlight
+        | [<CompiledName("3d-light")>] N3dLight
+        | [<CompiledName("3d-shadow")>] N3dShadow
+        | [<CompiledName("active-border")>] ActiveBorder
+        | [<CompiledName("active-caption")>] ActiveCaption
+        | [<CompiledName("active-caption-gradient")>] ActiveCaptionGradient
+        | [<CompiledName("app-workspace")>] AppWorkspace
+        | [<CompiledName("button-text")>] ButtonText
+        | [<CompiledName("caption-text")>] CaptionText
         | Desktop
-        | [<CompiledName "disabled-text">] DisabledText
+        | [<CompiledName("disabled-text")>] DisabledText
         | Highlight
-        | [<CompiledName "highlight-text">] HighlightText
+        | [<CompiledName("highlight-text")>] HighlightText
         | Hotlight
-        | [<CompiledName "inactive-border">] InactiveBorder
-        | [<CompiledName "inactive-caption">] InactiveCaption
-        | [<CompiledName "inactive-caption-gradient">] InactiveCaptionGradient
-        | [<CompiledName "inactive-caption-text">] InactiveCaptionText
-        | [<CompiledName "info-background">] InfoBackground
-        | [<CompiledName "info-text">] InfoText
+        | [<CompiledName("inactive-border")>] InactiveBorder
+        | [<CompiledName("inactive-caption")>] InactiveCaption
+        | [<CompiledName("inactive-caption-gradient")>] InactiveCaptionGradient
+        | [<CompiledName("inactive-caption-text")>] InactiveCaptionText
+        | [<CompiledName("info-background")>] InfoBackground
+        | [<CompiledName("info-text")>] InfoText
         | Menu
-        | [<CompiledName "menu-highlight">] MenuHighlight
+        | [<CompiledName("menu-highlight")>] MenuHighlight
         | Menubar
-        | [<CompiledName "menu-text">] MenuText
+        | [<CompiledName("menu-text")>] MenuText
         | Scrollbar
         | Window
-        | [<CompiledName "window-frame">] WindowFrame
-        | [<CompiledName "window-text">] WindowText
-        | [<CompiledName "alternate-selected-control-text">] AlternateSelectedControlText
-        | [<CompiledName "control-background">] ControlBackground
+        | [<CompiledName("window-frame")>] WindowFrame
+        | [<CompiledName("window-text")>] WindowText
+        | [<CompiledName("alternate-selected-control-text")>] AlternateSelectedControlText
+        | [<CompiledName("control-background")>] ControlBackground
         | Control
-        | [<CompiledName "control-text">] ControlText
-        | [<CompiledName "disabled-control-text">] DisabledControlText
-        | [<CompiledName "find-highlight">] FindHighlight
+        | [<CompiledName("control-text")>] ControlText
+        | [<CompiledName("disabled-control-text")>] DisabledControlText
+        | [<CompiledName("find-highlight")>] FindHighlight
         | Grid
-        | [<CompiledName "header-text">] HeaderText
+        | [<CompiledName("header-text")>] HeaderText
         | Highlight
-        | [<CompiledName "keyboard-focus-indicator">] KeyboardFocusIndicator
+        | [<CompiledName("keyboard-focus-indicator")>] KeyboardFocusIndicator
         | Label
         | Link
-        | [<CompiledName "placeholder-text">] PlaceholderText
-        | [<CompiledName "quaternary-label">] QuaternaryLabel
-        | [<CompiledName "scrubber-textured-background">] ScrubberTexturedBackground
-        | [<CompiledName "secondary-label">] SecondaryLabel
-        | [<CompiledName "selected-content-background">] SelectedContentBackground
-        | [<CompiledName "selected-control">] SelectedControl
-        | [<CompiledName "selected-control-text">] SelectedControlText
-        | [<CompiledName "selected-menu-item-text">] SelectedMenuItemText
-        | [<CompiledName "selected-text-background">] SelectedTextBackground
-        | [<CompiledName "selected-text">] SelectedText
+        | [<CompiledName("placeholder-text")>] PlaceholderText
+        | [<CompiledName("quaternary-label")>] QuaternaryLabel
+        | [<CompiledName("scrubber-textured-background")>] ScrubberTexturedBackground
+        | [<CompiledName("secondary-label")>] SecondaryLabel
+        | [<CompiledName("selected-content-background")>] SelectedContentBackground
+        | [<CompiledName("selected-control")>] SelectedControl
+        | [<CompiledName("selected-control-text")>] SelectedControlText
+        | [<CompiledName("selected-menu-item-text")>] SelectedMenuItemText
+        | [<CompiledName("selected-text-background")>] SelectedTextBackground
+        | [<CompiledName("selected-text")>] SelectedText
         | Separator
         | Shadow
-        | [<CompiledName "tertiary-label">] TertiaryLabel
-        | [<CompiledName "text-background">] TextBackground
+        | [<CompiledName("tertiary-label")>] TertiaryLabel
+        | [<CompiledName("text-background")>] TextBackground
         | Text
-        | [<CompiledName "under-page-background">] UnderPageBackground
-        | [<CompiledName "unemphasized-selected-content-background">] UnemphasizedSelectedContentBackground
-        | [<CompiledName "unemphasized-selected-text-background">] UnemphasizedSelectedTextBackground
-        | [<CompiledName "unemphasized-selected-text">] UnemphasizedSelectedText
-        | [<CompiledName "window-background">] WindowBackground
-        | [<CompiledName "window-frame-text">] WindowFrameText
+        | [<CompiledName("under-page-background")>] UnderPageBackground
+        | [<CompiledName("unemphasized-selected-content-background")>] UnemphasizedSelectedContentBackground
+        | [<CompiledName("unemphasized-selected-text-background")>] UnemphasizedSelectedTextBackground
+        | [<CompiledName("unemphasized-selected-text")>] UnemphasizedSelectedText
+        | [<CompiledName("window-background")>] WindowBackground
+        | [<CompiledName("window-frame-text")>] WindowFrameText
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetMediaAccessStatus =
         | Microphone
@@ -12672,7 +12672,7 @@ module Electron =
         | Screen
 
     type [<StringEnum>] [<RequireQualifiedAccess>] SystemPreferencesGetMediaAccessStatus2 =
-        | [<CompiledName "not-determined">] NotDetermined
+        | [<CompiledName("not-determined")>] NotDetermined
         | Granted
         | Denied
         | Restricted
@@ -12728,10 +12728,10 @@ module Electron =
         | Flexible
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TraceConfigRecording_mode =
-        | [<CompiledName "record-until-full">] RecordUntilFull
-        | [<CompiledName "record-continuously">] RecordContinuously
-        | [<CompiledName "record-as-much-as-possible">] RecordAsMuchAsPossible
-        | [<CompiledName "trace-to-console">] TraceToConsole
+        | [<CompiledName("record-until-full")>] RecordUntilFull
+        | [<CompiledName("record-continuously")>] RecordContinuously
+        | [<CompiledName("record-as-much-as-possible")>] RecordAsMuchAsPossible
+        | [<CompiledName("trace-to-console")>] TraceToConsole
 
     type [<StringEnum>] [<RequireQualifiedAccess>] TransactionTransactionState =
         | Purchasing
@@ -12742,10 +12742,10 @@ module Electron =
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsOn_newWindow =
         | Default
-        | [<CompiledName "foreground-tab">] ForegroundTab
-        | [<CompiledName "background-tab">] BackgroundTab
-        | [<CompiledName "new-window">] NewWindow
-        | [<CompiledName "save-to-disk">] SaveToDisk
+        | [<CompiledName("foreground-tab")>] ForegroundTab
+        | [<CompiledName("background-tab")>] BackgroundTab
+        | [<CompiledName("new-window")>] NewWindow
+        | [<CompiledName("save-to-disk")>] SaveToDisk
         | Other
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsOn_zoomChanged =
@@ -12761,9 +12761,9 @@ module Electron =
         | Offscreen
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSavePage =
-        | [<CompiledName "HTMLOnly">] HTMLOnly
-        | [<CompiledName "HTMLComplete">] HTMLComplete
-        | [<CompiledName "MHTML">] MHTML
+        | [<CompiledName("HTMLOnly")>] HTMLOnly
+        | [<CompiledName("HTMLComplete")>] HTMLComplete
+        | [<CompiledName("MHTML")>] MHTML
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsSetWebRTCIPHandlingPolicy =
         | Default
@@ -12826,22 +12826,22 @@ module Electron =
         | AdjustSelectionReset
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DetailsType =
-        | [<CompiledName "Utility">] Utility
-        | [<CompiledName "Zygote">] Zygote
-        | [<CompiledName "Sandbox helper">] ``Sandbox helper``
-        | [<CompiledName "GPU">] GPU
-        | [<CompiledName "Pepper Plugin">] ``Pepper Plugin``
-        | [<CompiledName "Pepper Plugin Broker">] ``Pepper Plugin Broker``
-        | [<CompiledName "Unknown">] Unknown
+        | [<CompiledName("Utility")>] Utility
+        | [<CompiledName("Zygote")>] Zygote
+        | [<CompiledName("Sandbox helper")>] ``Sandbox helper``
+        | [<CompiledName("GPU")>] GPU
+        | [<CompiledName("Pepper Plugin")>] ``Pepper Plugin``
+        | [<CompiledName("Pepper Plugin Broker")>] ``Pepper Plugin Broker``
+        | [<CompiledName("Unknown")>] Unknown
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DetailsReason =
-        | [<CompiledName "clean-exit">] CleanExit
-        | [<CompiledName "abnormal-exit">] AbnormalExit
+        | [<CompiledName("clean-exit")>] CleanExit
+        | [<CompiledName("abnormal-exit")>] AbnormalExit
         | Killed
         | Crashed
         | Oom
-        | [<CompiledName "launch-failed">] LaunchFailed
-        | [<CompiledName "integrity-failure">] IntegrityFailure
+        | [<CompiledName("launch-failed")>] LaunchFailed
+        | [<CompiledName("integrity-failure")>] IntegrityFailure
 
     type [<StringEnum>] [<RequireQualifiedAccess>] DisplayBalloonOptionsIconType =
         | None
@@ -12863,9 +12863,9 @@ module Electron =
         | Javascript
         | Xml
         | Network
-        | [<CompiledName "console-api">] ConsoleApi
+        | [<CompiledName("console-api")>] ConsoleApi
         | Storage
-        | [<CompiledName "app-cache">] AppCache
+        | [<CompiledName("app-cache")>] AppCache
         | Rendering
         | Security
         | Deprecation
@@ -12935,11 +12935,11 @@ module Electron =
     type [<StringEnum>] [<RequireQualifiedAccess>] TouchBarSegmentedControlConstructorOptionsSegmentStyle =
         | Automatic
         | Rounded
-        | [<CompiledName "textured-rounded">] TexturedRounded
-        | [<CompiledName "round-rect">] RoundRect
-        | [<CompiledName "textured-square">] TexturedSquare
+        | [<CompiledName("textured-rounded")>] TexturedRounded
+        | [<CompiledName("round-rect")>] RoundRect
+        | [<CompiledName("textured-square")>] TexturedSquare
         | Capsule
-        | [<CompiledName "small-square">] SmallSquare
+        | [<CompiledName("small-square")>] SmallSquare
         | Separated
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebContentsPrintOptionsDuplexMode =
@@ -12954,9 +12954,9 @@ module Electron =
         | Custom
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebPreferencesAutoplayPolicy =
-        | [<CompiledName "no-user-gesture-required">] NoUserGestureRequired
-        | [<CompiledName "user-gesture-required">] UserGestureRequired
-        | [<CompiledName "document-user-activation-required">] DocumentUserActivationRequired
+        | [<CompiledName("no-user-gesture-required")>] NoUserGestureRequired
+        | [<CompiledName("user-gesture-required")>] UserGestureRequired
+        | [<CompiledName("document-user-activation-required")>] DocumentUserActivationRequired
 
     type [<StringEnum>] [<RequireQualifiedAccess>] WebPreferencesV8CacheOptions =
         | None
@@ -12965,23 +12965,23 @@ module Electron =
         | BypassHeatCheckAndEagerCompile
 
 type [<AllowNullLiteral>] NodeRequireFunction =
-    [<Emit "$0.Invoke('electron')">] abstract Invoke_electron: unit -> obj
-    [<Emit "$0.Invoke('electron/main')">] abstract ``Invoke_electron/main``: unit -> obj
-    [<Emit "$0.Invoke('electron/common')">] abstract ``Invoke_electron/common``: unit -> obj
-    [<Emit "$0.Invoke('electron/renderer')">] abstract ``Invoke_electron/renderer``: unit -> obj
+    [<Emit("$0.Invoke('electron')")>] abstract Invoke_electron: unit -> obj
+    [<Emit("$0.Invoke('electron/main')")>] abstract ``Invoke_electron/main``: unit -> obj
+    [<Emit("$0.Invoke('electron/common')")>] abstract ``Invoke_electron/common``: unit -> obj
+    [<Emit("$0.Invoke('electron/renderer')")>] abstract ``Invoke_electron/renderer``: unit -> obj
 
 type [<AllowNullLiteral>] NodeRequire =
-    [<Emit "$0.Invoke('electron')">] abstract Invoke_electron: unit -> obj
-    [<Emit "$0.Invoke('electron/main')">] abstract ``Invoke_electron/main``: unit -> obj
-    [<Emit "$0.Invoke('electron/common')">] abstract ``Invoke_electron/common``: unit -> obj
-    [<Emit "$0.Invoke('electron/renderer')">] abstract ``Invoke_electron/renderer``: unit -> obj
+    [<Emit("$0.Invoke('electron')")>] abstract Invoke_electron: unit -> obj
+    [<Emit("$0.Invoke('electron/main')")>] abstract ``Invoke_electron/main``: unit -> obj
+    [<Emit("$0.Invoke('electron/common')")>] abstract ``Invoke_electron/common``: unit -> obj
+    [<Emit("$0.Invoke('electron/renderer')")>] abstract ``Invoke_electron/renderer``: unit -> obj
 
 type [<AllowNullLiteral>] File =
     /// The real path to the file on the users filesystem
     abstract path: string with get, set
 
 type [<AllowNullLiteral>] Document =
-    [<Emit "$0.createElement('webview')">] abstract createElement_webview: unit -> Electron.WebviewTag
+    [<Emit("$0.createElement('webview')")>] abstract createElement_webview: unit -> Electron.WebviewTag
 
 module NodeJS =
 
@@ -12989,10 +12989,10 @@ module NodeJS =
         inherit NodeJS.EventEmitter
         /// Emitted when Electron has loaded its internal initialization script and is
         /// beginning to load the web page or the main script.
-        [<Emit "$0.on('loaded',$1)">] abstract on_loaded: listener: Function -> Process
-        [<Emit "$0.once('loaded',$1)">] abstract once_loaded: listener: Function -> Process
-        [<Emit "$0.addListener('loaded',$1)">] abstract addListener_loaded: listener: Function -> Process
-        [<Emit "$0.removeListener('loaded',$1)">] abstract removeListener_loaded: listener: Function -> Process
+        [<Emit("$0.on('loaded',$1)")>] abstract on_loaded: listener: Function -> Process
+        [<Emit("$0.once('loaded',$1)")>] abstract once_loaded: listener: Function -> Process
+        [<Emit("$0.addListener('loaded',$1)")>] abstract addListener_loaded: listener: Function -> Process
+        [<Emit("$0.removeListener('loaded',$1)")>] abstract removeListener_loaded: listener: Function -> Process
         /// Causes the main thread of the current process crash.
         abstract crash: unit -> unit
         /// <summary>
