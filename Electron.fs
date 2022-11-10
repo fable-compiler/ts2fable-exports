@@ -29,7 +29,6 @@ module Electron =
         abstract Accelerator: AcceleratorStatic
         abstract BrowserView: BrowserViewStatic
         abstract BrowserWindow: BrowserWindowStatic
-        abstract BrowserWindowProxy: BrowserWindowProxyStatic
         abstract ClientRequest: ClientRequestStatic
         abstract CommandLine: CommandLineStatic
         abstract Cookies: CookiesStatic
@@ -194,15 +193,6 @@ module Electron =
         [<Emit("$0.addListener('continue-activity-error',$1)")>] abstract ``addListener_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
         [<Emit("$0.removeListener('continue-activity-error',$1)")>] abstract ``removeListener_continue-activity-error``: listener: (Event -> string -> string -> unit) -> App
         /// <summary>
-        /// Emitted when <c>desktopCapturer.getSources()</c> is called in the renderer process of
-        /// <c>webContents</c>. Calling <c>event.preventDefault()</c> will make it return empty
-        /// sources.
-        /// </summary>
-        [<Emit("$0.on('desktop-capturer-get-sources',$1)")>] abstract ``on_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit("$0.once('desktop-capturer-get-sources',$1)")>] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit("$0.addListener('desktop-capturer-get-sources',$1)")>] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        [<Emit("$0.removeListener('desktop-capturer-get-sources',$1)")>] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> WebContents -> unit) -> App
-        /// <summary>
         /// Emitted when mac application become active. Difference from <c>activate</c> event is
         /// that <c>did-become-active</c> is emitted every time the app becomes active, not only
         /// when Dock icon is clicked or application is re-launched.
@@ -336,10 +326,10 @@ module Electron =
         /// **Note:** Extra command line arguments might be added by Chromium, such as
         /// <c>--original-process-start-time</c>.
         /// </summary>
-        [<Emit("$0.on('second-instance',$1)")>] abstract ``on_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
-        [<Emit("$0.once('second-instance',$1)")>] abstract ``once_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
-        [<Emit("$0.addListener('second-instance',$1)")>] abstract ``addListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
-        [<Emit("$0.removeListener('second-instance',$1)")>] abstract ``removeListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> unit) -> App
+        [<Emit("$0.on('second-instance',$1)")>] abstract ``on_second-instance``: listener: (Event -> ResizeArray<string> -> string -> obj -> unit) -> App
+        [<Emit("$0.once('second-instance',$1)")>] abstract ``once_second-instance``: listener: (Event -> ResizeArray<string> -> string -> obj -> unit) -> App
+        [<Emit("$0.addListener('second-instance',$1)")>] abstract ``addListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> obj -> unit) -> App
+        [<Emit("$0.removeListener('second-instance',$1)")>] abstract ``removeListener_second-instance``: listener: (Event -> ResizeArray<string> -> string -> obj -> unit) -> App
         /// <summary>
         /// Emitted when a client certificate is requested.
         /// 
@@ -489,8 +479,8 @@ module Electron =
         /// Resolve with an object containing the following:
         /// 
         /// * <c>icon</c> NativeImage - the display icon of the app handling the protocol.
-        /// * <c>path</c> String  - installation path of the app handling the protocol.
-        /// * <c>name</c> String - display name of the app handling the protocol.
+        /// * <c>path</c> string  - installation path of the app handling the protocol.
+        /// * <c>name</c> string - display name of the app handling the protocol.
         /// 
         /// This method returns a promise that contains the application name, icon and path
         /// of the default handler for the protocol (aka URI scheme) of a URL.
@@ -585,31 +575,31 @@ module Electron =
         /// you need to pass the same arguments here for <c>openAtLogin</c> to be set correctly.
         /// 
         /// 
-        /// * <c>openAtLogin</c> Boolean - <c>true</c> if the app is set to open at login.
-        /// * <c>openAsHidden</c> Boolean _macOS_ - <c>true</c> if the app is set to open as hidden at
+        /// * <c>openAtLogin</c> boolean - <c>true</c> if the app is set to open at login.
+        /// * <c>openAsHidden</c> boolean _macOS_ - <c>true</c> if the app is set to open as hidden at
         /// login. This setting is not available on MAS builds.
-        /// * <c>wasOpenedAtLogin</c> Boolean _macOS_ - <c>true</c> if the app was opened at login
+        /// * <c>wasOpenedAtLogin</c> boolean _macOS_ - <c>true</c> if the app was opened at login
         /// automatically. This setting is not available on MAS builds.
-        /// * <c>wasOpenedAsHidden</c> Boolean _macOS_ - <c>true</c> if the app was opened as a hidden
+        /// * <c>wasOpenedAsHidden</c> boolean _macOS_ - <c>true</c> if the app was opened as a hidden
         /// login item. This indicates that the app should not open any windows at startup.
         /// This setting is not available on MAS builds.
-        /// * <c>restoreState</c> Boolean _macOS_ - <c>true</c> if the app was opened as a login item
+        /// * <c>restoreState</c> boolean _macOS_ - <c>true</c> if the app was opened as a login item
         /// that should restore the state from the previous session. This indicates that the
         /// app should restore the windows that were open the last time the app was closed.
         /// This setting is not available on MAS builds.
-        /// * <c>executableWillLaunchAtLogin</c> Boolean _Windows_ - <c>true</c> if app is set to open
+        /// * <c>executableWillLaunchAtLogin</c> boolean _Windows_ - <c>true</c> if app is set to open
         /// at login and its run key is not deactivated. This differs from <c>openAtLogin</c> as
         /// it ignores the <c>args</c> option, this property will be true if the given executable
         /// would be launched at login with **any** arguments.
         /// * <c>launchItems</c> Object[] _Windows_
-        ///    * <c>name</c> String _Windows_ - name value of a registry entry.
-        ///    * <c>path</c> String _Windows_ - The executable to an app that corresponds to a
+        ///    * <c>name</c> string _Windows_ - name value of a registry entry.
+        ///    * <c>path</c> string _Windows_ - The executable to an app that corresponds to a
         /// registry entry.
-        ///    * <c>args</c> String[] _Windows_ - the command-line arguments to pass to the
+        ///    * <c>args</c> string[] _Windows_ - the command-line arguments to pass to the
         /// executable.
-        ///    * <c>scope</c> String _Windows_ - one of <c>user</c> or <c>machine</c>. Indicates whether the
+        ///    * <c>scope</c> string _Windows_ - one of <c>user</c> or <c>machine</c>. Indicates whether the
         /// registry entry is under <c>HKEY_CURRENT USER</c> or <c>HKEY_LOCAL_MACHINE</c>.
-        ///    * <c>enabled</c> Boolean _Windows_ - <c>true</c> if the app registry key is startup
+        ///    * <c>enabled</c> boolean _Windows_ - <c>true</c> if the app registry key is startup
         /// approved and therefore shows as <c>enabled</c> in Task Manager and Windows settings.
         /// </summary>
         abstract getLoginItemSettings: ?options: LoginItemSettingsOptions -> LoginItemSettings
@@ -788,7 +778,7 @@ module Electron =
         /// An example of activating the window of primary instance when a second instance
         /// starts:
         /// </summary>
-        abstract requestSingleInstanceLock: unit -> bool
+        abstract requestSingleInstanceLock: ?additionalData: Record<obj option, obj option> -> bool
         /// <summary>Marks the current Handoff user activity as inactive without invalidating it.</summary>
         abstract resignCurrentActivity: unit -> unit
         /// <summary>
@@ -912,7 +902,7 @@ module Electron =
         /// 
         /// Here's a very simple example of creating a custom Jump List:
         /// </summary>
-        abstract setJumpList: categories: ResizeArray<JumpListCategory> option -> unit
+        abstract setJumpList: categories: ResizeArray<JumpListCategory> option -> AppSetJumpList
         /// <summary>
         /// To work with Electron's <c>autoUpdater</c> on Windows, which uses Squirrel, you'll
         /// want to set the launch path to Update.exe, and pass arguments that specify your
@@ -1000,7 +990,7 @@ module Electron =
         /// </summary>
         abstract whenReady: unit -> Promise<unit>
         /// <summary>
-        /// A <c>Boolean</c> property that's <c>true</c> if Chrome's accessibility support is enabled,
+        /// A <c>boolean</c> property that's <c>true</c> if Chrome's accessibility support is enabled,
         /// <c>false</c> otherwise. This property will be <c>true</c> if the use of assistive
         /// technologies, such as screen readers, has been detected. Setting this property
         /// to <c>true</c> manually enables Chrome's accessibility support, allowing developers
@@ -1044,13 +1034,13 @@ module Electron =
         /// </summary>
         abstract dock: Dock
         /// <summary>
-        /// A <c>Boolean</c> property that returns  <c>true</c> if the app is packaged, <c>false</c>
+        /// A <c>boolean</c> property that returns  <c>true</c> if the app is packaged, <c>false</c>
         /// otherwise. For many apps, this property can be used to distinguish development
         /// and production environments.
         /// </summary>
         abstract isPackaged: bool
         /// <summary>
-        /// A <c>String</c> property that indicates the current application's name, which is the
+        /// A <c>string</c> property that indicates the current application's name, which is the
         /// name in the application's <c>package.json</c> file.
         /// 
         /// Usually the <c>name</c> field of <c>package.json</c> is a short lowercase name, according
@@ -1060,7 +1050,7 @@ module Electron =
         /// </summary>
         abstract name: string with get, set
         /// <summary>
-        /// A <c>Boolean</c> which when <c>true</c> indicates that the app is currently running under
+        /// A <c>boolean</c> which when <c>true</c> indicates that the app is currently running under
         /// an ARM64 translator (like the macOS Rosetta Translator Environment or Windows
         /// WOW).
         /// 
@@ -1069,7 +1059,7 @@ module Electron =
         /// </summary>
         abstract runningUnderARM64Translation: bool
         /// <summary>
-        /// A <c>Boolean</c> which when <c>true</c> indicates that the app is currently running under
+        /// A <c>boolean</c> which when <c>true</c> indicates that the app is currently running under
         /// the Rosetta Translator Environment.
         /// 
         /// You can use this property to prompt users to download the arm64 version of your
@@ -1082,7 +1072,7 @@ module Electron =
         [<Obsolete("")>]
         abstract runningUnderRosettaTranslation: bool
         /// <summary>
-        /// A <c>String</c> which is the user agent string Electron will use as a global
+        /// A <c>string</c> which is the user agent string Electron will use as a global
         /// fallback.
         /// 
         /// This is the user agent that will be used when no user agent is set at the
@@ -1173,6 +1163,34 @@ module Electron =
         /// <summary>The <c>bounds</c> of this BrowserView instance as <c>Object</c>.</summary>
         abstract getBounds: unit -> Rectangle
         abstract setAutoResize: options: AutoResizeOptions -> unit
+        /// <summary>
+        /// Examples of valid <c>color</c> values:
+        /// 
+        /// * Hex
+        ///    * #fff (RGB)
+        ///    * #ffff (ARGB)
+        ///    * #ffffff (RRGGBB)
+        ///    * #ffffffff (AARRGGBB)
+        /// * RGB
+        ///    * rgb(([\d]+),\s*([\d]+),\s*([\d]+))
+        ///      * e.g. rgb(255, 255, 255)
+        /// * RGBA
+        ///    * rgba(([\d]+),\s*([\d]+),\s*([\d]+),\s*([\d.]+))
+        ///      * e.g. rgba(255, 255, 255, 1.0)
+        /// * HSL
+        ///    * hsl((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%)
+        ///      * e.g. hsl(200, 20%, 50%)
+        /// * HSLA
+        ///    * hsla((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+))
+        ///      * e.g. hsla(200, 20%, 50%, 0.5)
+        /// * Color name
+        ///    * Options are listed in SkParseColor.cpp
+        ///    * Similar to CSS Color Module Level 3 keywords, but case-sensitive.
+        ///      * e.g. <c>blueviolet</c> or <c>red</c>
+        /// 
+        /// **Note:** Hex format with alpha takes <c>AARRGGBB</c> or <c>ARGB</c>, _not_ <c>RRGGBBA</c> or
+        /// <c>RGA</c>.
+        /// </summary>
         abstract setBackgroundColor: color: string -> unit
         /// <summary>Resizes and moves the view to the supplied bounds relative to the window.</summary>
         abstract setBounds: bounds: Rectangle -> unit
@@ -1435,8 +1453,8 @@ module Electron =
         /// Emitted before the window is moved. On Windows, calling <c>event.preventDefault()</c>
         /// will prevent the window from being moved.
         /// 
-        /// Note that this is only emitted when the window is being resized manually.
-        /// Resizing the window with <c>setBounds</c>/<c>setSize</c> will not emit this event.
+        /// Note that this is only emitted when the window is being moved manually. Moving
+        /// the window with <c>setPosition</c>/<c>setBounds</c>/<c>center</c> will not emit this event.
         /// </summary>
         [<Emit("$0.on('will-move',$1)")>] abstract ``on_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
         [<Emit("$0.once('will-move',$1)")>] abstract ``once_will-move``: listener: (Event -> Rectangle -> unit) -> BrowserWindow
@@ -1495,7 +1513,14 @@ module Electron =
         /// Focuses on the window.
         abstract focus: unit -> unit
         abstract focusOnWebView: unit -> unit
-        /// <summary>Gets the background color of the window. See Setting <c>backgroundColor</c>.</summary>
+        /// <summary>
+        /// Gets the background color of the window in Hex (<c>#RRGGBB</c>) format.
+        /// 
+        /// See Setting <c>backgroundColor</c>.
+        /// 
+        /// **Note:** The alpha value is _not_ returned alongside the red, green, and blue
+        /// values.
+        /// </summary>
         abstract getBackgroundColor: unit -> string
         /// <summary>The <c>bounds</c> of the window as <c>Object</c>.</summary>
         abstract getBounds: unit -> Rectangle
@@ -1762,7 +1787,33 @@ module Electron =
         /// hide it immediately.
         /// </summary>
         abstract setAutoHideMenuBar: hide: bool -> unit
-        /// <summary>Sets the background color of the window. See Setting <c>backgroundColor</c>.</summary>
+        /// <summary>
+        /// Examples of valid <c>backgroundColor</c> values:
+        /// 
+        /// * Hex
+        ///    * #fff (shorthand RGB)
+        ///    * #ffff (shorthand ARGB)
+        ///    * #ffffff (RGB)
+        ///    * #ffffffff (ARGB)
+        /// * RGB
+        ///    * rgb(([\d]+),\s*([\d]+),\s*([\d]+))
+        ///      * e.g. rgb(255, 255, 255)
+        /// * RGBA
+        ///    * rgba(([\d]+),\s*([\d]+),\s*([\d]+),\s*([\d.]+))
+        ///      * e.g. rgba(255, 255, 255, 1.0)
+        /// * HSL
+        ///    * hsl((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%)
+        ///      * e.g. hsl(200, 20%, 50%)
+        /// * HSLA
+        ///    * hsla((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+))
+        ///      * e.g. hsla(200, 20%, 50%, 0.5)
+        /// * Color name
+        ///    * Options are listed in SkParseColor.cpp
+        ///    * Similar to CSS Color Module Level 3 keywords, but case-sensitive.
+        ///      * e.g. <c>blueviolet</c> or <c>red</c>
+        /// 
+        /// Sets the background color of the window. See Setting <c>backgroundColor</c>.
+        /// </summary>
         abstract setBackgroundColor: backgroundColor: string -> unit
         /// Resizes and moves the window to the supplied bounds. Any properties that are not
         /// supplied will default to their current values.
@@ -1907,7 +1958,7 @@ module Electron =
         /// Whether the buttons were added successfully
         /// 
         /// Add a thumbnail toolbar with a specified set of buttons to the thumbnail image
-        /// of a window in a taskbar button layout. Returns a <c>Boolean</c> object indicates
+        /// of a window in a taskbar button layout. Returns a <c>boolean</c> object indicates
         /// whether the thumbnail has been added successfully.
         /// 
         /// The number of buttons in thumbnail toolbar should be no greater than 7 due to
@@ -1920,11 +1971,11 @@ module Electron =
         /// * <c>Button</c> Object
         ///    * <c>icon</c> NativeImage - The icon showing in thumbnail toolbar.
         ///    * <c>click</c> Function
-        ///    * <c>tooltip</c> String (optional) - The text of the button's tooltip.
-        ///    * <c>flags</c> String[] (optional) - Control specific states and behaviors of the
+        ///    * <c>tooltip</c> string (optional) - The text of the button's tooltip.
+        ///    * <c>flags</c> string[] (optional) - Control specific states and behaviors of the
         /// button. By default, it is <c>['enabled']</c>.
         /// 
-        /// The <c>flags</c> is an array that can include following <c>String</c>s:
+        /// The <c>flags</c> is an array that can include following <c>string</c>s:
         /// 
         /// * <c>enabled</c> - The button is active and available to the user.
         /// * <c>disabled</c> - The button is disabled. It is present, but has a visual state
@@ -1952,6 +2003,11 @@ module Electron =
         abstract setThumbnailToolTip: toolTip: string -> unit
         /// <summary>Changes the title of native window to <c>title</c>.</summary>
         abstract setTitle: title: string -> unit
+        /// <summary>
+        /// On a Window with Window Controls Overlay already enabled, this method updates
+        /// the style of the title bar overlay.
+        /// </summary>
+        abstract setTitleBarOverlay: options: TitleBarOverlayOptions -> unit
         /// <summary>
         /// Raises <c>browserView</c> above other <c>BrowserView</c>s attached to <c>win</c>. Throws an
         /// error if <c>browserView</c> is not attached to <c>win</c>.
@@ -2000,13 +2056,13 @@ module Electron =
         /// Unmaximizes the window.
         abstract unmaximize: unit -> unit
         /// <summary>
-        /// A <c>String</c> property that defines an alternative title provided only to
+        /// A <c>string</c> property that defines an alternative title provided only to
         /// accessibility tools such as screen readers. This string is not directly visible
         /// to users.
         /// </summary>
         abstract accessibleTitle: string with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window menu bar should hide
+        /// A <c>boolean</c> property that determines whether the window menu bar should hide
         /// itself automatically. Once set, the menu bar will only show when users press the
         /// single <c>Alt</c> key.
         /// 
@@ -2015,30 +2071,30 @@ module Electron =
         /// </summary>
         abstract autoHideMenuBar: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window can be manually closed
+        /// A <c>boolean</c> property that determines whether the window can be manually closed
         /// by user.
         /// 
         /// On Linux the setter is a no-op, although the getter returns <c>true</c>.
         /// </summary>
         abstract closable: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that specifies whether the window’s document has been
+        /// A <c>boolean</c> property that specifies whether the window’s document has been
         /// edited.
         /// 
         /// The icon in title bar will become gray when set to <c>true</c>.
         /// </summary>
         abstract documentEdited: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window is excluded from the
+        /// A <c>boolean</c> property that determines whether the window is excluded from the
         /// application’s Windows menu. <c>false</c> by default.
         /// </summary>
         abstract excludedFromShownWindowsMenu: bool with get, set
-        /// <summary>A <c>Boolean</c> property that determines whether the window is focusable.</summary>
+        /// <summary>A <c>boolean</c> property that determines whether the window is focusable.</summary>
         abstract focusable: bool with get, set
-        /// <summary>A <c>Boolean</c> property that determines whether the window is in fullscreen mode.</summary>
+        /// <summary>A <c>boolean</c> property that determines whether the window is in fullscreen mode.</summary>
         abstract fullScreen: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the maximize/zoom window button
+        /// A <c>boolean</c> property that determines whether the maximize/zoom window button
         /// toggles fullscreen mode or maximizes the window.
         /// </summary>
         abstract fullScreenable: bool with get, set
@@ -2047,61 +2103,61 @@ module Electron =
         /// among all <c>BrowserWindow</c> instances of the entire Electron application.
         /// </summary>
         abstract id: float
-        /// <summary>A <c>Boolean</c> property that determines whether the window is in kiosk mode.</summary>
+        /// <summary>A <c>boolean</c> property that determines whether the window is in kiosk mode.</summary>
         abstract kiosk: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window can be manually
+        /// A <c>boolean</c> property that determines whether the window can be manually
         /// maximized by user.
         /// 
         /// On Linux the setter is a no-op, although the getter returns <c>true</c>.
         /// </summary>
         abstract maximizable: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the menu bar should be visible.
+        /// A <c>boolean</c> property that determines whether the menu bar should be visible.
         /// 
         /// **Note:** If the menu bar is auto-hide, users can still bring up the menu bar by
         /// pressing the single <c>Alt</c> key.
         /// </summary>
         abstract menuBarVisible: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window can be manually
+        /// A <c>boolean</c> property that determines whether the window can be manually
         /// minimized by user.
         /// 
         /// On Linux the setter is a no-op, although the getter returns <c>true</c>.
         /// </summary>
         abstract minimizable: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines Whether the window can be moved by user.
+        /// A <c>boolean</c> property that determines Whether the window can be moved by user.
         /// 
         /// On Linux the setter is a no-op, although the getter returns <c>true</c>.
         /// </summary>
         abstract movable: bool with get, set
         /// <summary>
-        /// A <c>String</c> property that determines the pathname of the file the window
+        /// A <c>string</c> property that determines the pathname of the file the window
         /// represents, and the icon of the file will show in window's title bar.
         /// </summary>
         abstract representedFilename: string with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window can be manually resized
+        /// A <c>boolean</c> property that determines whether the window can be manually resized
         /// by user.
         /// </summary>
         abstract resizable: bool with get, set
-        /// <summary>A <c>Boolean</c> property that determines whether the window has a shadow.</summary>
+        /// <summary>A <c>boolean</c> property that determines whether the window has a shadow.</summary>
         abstract shadow: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window is in simple (pre-Lion)
+        /// A <c>boolean</c> property that determines whether the window is in simple (pre-Lion)
         /// fullscreen mode.
         /// </summary>
         abstract simpleFullScreen: bool with get, set
         /// <summary>
-        /// A <c>String</c> property that determines the title of the native window.
+        /// A <c>string</c> property that determines the title of the native window.
         /// 
         /// **Note:** The title of the web page can be different from the title of the
         /// native window.
         /// </summary>
         abstract title: string with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the window is visible on all
+        /// A <c>boolean</c> property that determines whether the window is visible on all
         /// workspaces.
         /// 
         /// **Note:** Always returns false on Windows.
@@ -2134,31 +2190,6 @@ module Electron =
         abstract getAllWindows: unit -> ResizeArray<BrowserWindow>
         /// <summary>The window that is focused in this application, otherwise returns <c>null</c>.</summary>
         abstract getFocusedWindow: unit -> BrowserWindow option
-
-    type [<AllowNullLiteral>] BrowserWindowProxy =
-        /// Removes focus from the child window.
-        abstract blur: unit -> unit
-        /// Forcefully closes the child window without calling its unload event.
-        abstract close: unit -> unit
-        /// Evaluates the code in the child window.
-        abstract eval: code: string -> unit
-        /// Focuses the child window (brings the window to front).
-        abstract focus: unit -> unit
-        /// <summary>
-        /// Sends a message to the child window with the specified origin or <c>*</c> for no
-        /// origin preference.
-        /// 
-        /// In addition to these methods, the child window implements <c>window.opener</c> object
-        /// with no properties and a single method.
-        /// </summary>
-        abstract postMessage: message: obj option * targetOrigin: string -> unit
-        /// Invokes the print dialog on the child window.
-        abstract print: unit -> unit
-        /// <summary>A <c>Boolean</c> that is set to true after the child window gets closed.</summary>
-        abstract closed: bool with get, set
-
-    type [<AllowNullLiteral>] BrowserWindowProxyStatic =
-        [<EmitConstructor>] abstract Create: unit -> BrowserWindowProxy
 
     type [<AllowNullLiteral>] Certificate =
         /// PEM encoded data
@@ -2237,8 +2268,8 @@ module Electron =
         /// 
         /// The <c>callback</c> function is expected to be called back with user credentials:
         /// 
-        /// * <c>username</c> String
-        /// * <c>password</c> String
+        /// * <c>username</c> string
+        /// * <c>password</c> string
         /// 
         /// Providing empty credentials will cancel the request and report an authentication
         /// error on the response object:
@@ -2281,9 +2312,9 @@ module Electron =
         /// The value of a previously set extra header name.
         abstract getHeader: name: string -> string
         /// <summary>
-        /// * <c>active</c> Boolean - Whether the request is currently active. If this is false
+        /// * <c>active</c> boolean - Whether the request is currently active. If this is false
         /// no other properties will be set
-        /// * <c>started</c> Boolean - Whether the upload has started. If this is false both
+        /// * <c>started</c> boolean - Whether the upload has started. If this is false both
         /// <c>current</c> and <c>total</c> will be set to 0.
         /// * <c>current</c> Integer - The number of bytes that have been uploaded so far
         /// * <c>total</c> Integer - The number of bytes that will be uploaded this request
@@ -2298,7 +2329,7 @@ module Electron =
         /// <summary>
         /// Adds an extra HTTP header. The header name will be issued as-is without
         /// lowercasing. It can be called only before first write. Calling this method after
-        /// the first write will throw an error. If the passed value is not a <c>String</c>, its
+        /// the first write will throw an error. If the passed value is not a <c>string</c>, its
         /// <c>toString()</c> method will be called to obtain the final value.
         /// 
         /// Certain headers are restricted from being set by apps. These headers are listed
@@ -2330,7 +2361,7 @@ module Electron =
         /// </summary>
         abstract write: chunk: U2<string, Buffer> * ?encoding: string * ?callback: (unit -> unit) -> unit
         /// <summary>
-        /// A <c>Boolean</c> specifying whether the request will use HTTP chunked transfer
+        /// A <c>boolean</c> specifying whether the request will use HTTP chunked transfer
         /// encoding or not. Defaults to false. The property is readable and writable,
         /// however it can be set only before the first write operation as the HTTP headers
         /// are not yet put on the wire. Trying to set the <c>chunkedEncoding</c> property after
@@ -2361,12 +2392,12 @@ module Electron =
         /// </summary>
         abstract read: format: string -> string
         /// <summary>
-        /// * <c>title</c> String
-        /// * <c>url</c> String
+        /// * <c>title</c> string
+        /// * <c>url</c> string
         /// 
         /// Returns an Object containing <c>title</c> and <c>url</c> keys representing the bookmark in
         /// the clipboard. The <c>title</c> and <c>url</c> values will be empty strings when the
-        /// bookmark is unavailable.
+        /// bookmark is unavailable.  The <c>title</c> value will always be empty on Windows.
         /// </summary>
         abstract readBookmark: unit -> ReadBookmark
         /// <summary>Reads <c>format</c> type from the clipboard.</summary>
@@ -2391,7 +2422,7 @@ module Electron =
         /// <summary>Writes <c>data</c> to the clipboard.</summary>
         abstract write: data: Data * ?``type``: ClipboardAvailableFormats -> unit
         /// <summary>
-        /// Writes the <c>title</c> and <c>url</c> into the clipboard as a bookmark.
+        /// Writes the <c>title</c> (macOS only) and <c>url</c> into the clipboard as a bookmark.
         /// 
         /// **Note:** Most apps on Windows don't support pasting bookmarks into them so you
         /// can use <c>clipboard.write</c> to write both a bookmark and fallback text to the
@@ -2469,8 +2500,8 @@ module Electron =
         /// Resolves with an object containing the <c>value</c> and <c>percentage</c> of trace buffer
         /// maximum usage
         /// 
-        /// * <c>value</c> Number
-        /// * <c>percentage</c> Number
+        /// * <c>value</c> number
+        /// * <c>percentage</c> number
         /// 
         /// Get the maximum usage across processes of trace buffer as a percentage of the
         /// full state.
@@ -2604,13 +2635,6 @@ module Electron =
         /// must be no longer than 39 bytes, and values must be no longer than 20320 bytes.
         /// Keys with names longer than the maximum will be silently ignored. Key values
         /// longer than the maximum length will be truncated.
-        /// 
-        /// **Note:** On linux values that are longer than 127 bytes will be chunked into
-        /// multiple keys, each 127 bytes in length.  E.g. `addExtraParameter('foo',
-        /// 'a'.repeat(130))<c> will result in two chunked keys </c>foo__1<c> and </c>foo__2`, the
-        /// first will contain the first 127 bytes and the second will contain the remaining
-        /// 3 bytes.  On your crash reporting backend you should stitch together keys in
-        /// this format.
         /// </summary>
         abstract addExtraParameter: key: string * value: string -> unit
         /// <summary>
@@ -2800,8 +2824,8 @@ module Electron =
         /// <summary>
         /// resolves with a promise containing the following properties:
         /// 
-        /// * <c>response</c> Number - The index of the clicked button.
-        /// * <c>checkboxChecked</c> Boolean - The checked state of the checkbox if
+        /// * <c>response</c> number - The index of the clicked button.
+        /// * <c>checkboxChecked</c> boolean - The checked state of the checkbox if
         /// <c>checkboxLabel</c> was set. Otherwise <c>false</c>.
         /// 
         /// Shows a message box.
@@ -2813,8 +2837,8 @@ module Electron =
         /// <summary>
         /// resolves with a promise containing the following properties:
         /// 
-        /// * <c>response</c> Number - The index of the clicked button.
-        /// * <c>checkboxChecked</c> Boolean - The checked state of the checkbox if
+        /// * <c>response</c> number - The index of the clicked button.
+        /// * <c>checkboxChecked</c> boolean - The checked state of the checkbox if
         /// <c>checkboxLabel</c> was set. Otherwise <c>false</c>.
         /// 
         /// Shows a message box.
@@ -2848,10 +2872,10 @@ module Electron =
         /// <summary>
         /// Resolve with an object containing the following:
         /// 
-        /// * <c>canceled</c> Boolean - whether or not the dialog was canceled.
-        /// * <c>filePaths</c> String[] - An array of file paths chosen by the user. If the
+        /// * <c>canceled</c> boolean - whether or not the dialog was canceled.
+        /// * <c>filePaths</c> string[] - An array of file paths chosen by the user. If the
         /// dialog is cancelled this will be an empty array.
-        /// * <c>bookmarks</c> String[] (optional) _macOS_ _mas_ - An array matching the
+        /// * <c>bookmarks</c> string[] (optional) _macOS_ _mas_ - An array matching the
         /// <c>filePaths</c> array of base64 encoded strings which contains security scoped
         /// bookmark data. <c>securityScopedBookmarks</c> must be enabled for this to be
         /// populated. (For return values, see table here.)
@@ -2874,10 +2898,10 @@ module Electron =
         /// <summary>
         /// Resolve with an object containing the following:
         /// 
-        /// * <c>canceled</c> Boolean - whether or not the dialog was canceled.
-        /// * <c>filePaths</c> String[] - An array of file paths chosen by the user. If the
+        /// * <c>canceled</c> boolean - whether or not the dialog was canceled.
+        /// * <c>filePaths</c> string[] - An array of file paths chosen by the user. If the
         /// dialog is cancelled this will be an empty array.
-        /// * <c>bookmarks</c> String[] (optional) _macOS_ _mas_ - An array matching the
+        /// * <c>bookmarks</c> string[] (optional) _macOS_ _mas_ - An array matching the
         /// <c>filePaths</c> array of base64 encoded strings which contains security scoped
         /// bookmark data. <c>securityScopedBookmarks</c> must be enabled for this to be
         /// populated. (For return values, see table here.)
@@ -2938,10 +2962,10 @@ module Electron =
         /// <summary>
         /// Resolve with an object containing the following:
         /// 
-        /// * <c>canceled</c> Boolean - whether or not the dialog was canceled.
-        /// * <c>filePath</c> String (optional) - If the dialog is canceled, this will be
+        /// * <c>canceled</c> boolean - whether or not the dialog was canceled.
+        /// * <c>filePath</c> string (optional) - If the dialog is canceled, this will be
         /// <c>undefined</c>.
-        /// * <c>bookmark</c> String (optional) _macOS_ _mas_ - Base64 encoded string which
+        /// * <c>bookmark</c> string (optional) _macOS_ _mas_ - Base64 encoded string which
         /// contains the security scoped bookmark data for the saved file.
         /// <c>securityScopedBookmarks</c> must be enabled for this to be present. (For return
         /// values, see table here.)
@@ -2959,10 +2983,10 @@ module Electron =
         /// <summary>
         /// Resolve with an object containing the following:
         /// 
-        /// * <c>canceled</c> Boolean - whether or not the dialog was canceled.
-        /// * <c>filePath</c> String (optional) - If the dialog is canceled, this will be
+        /// * <c>canceled</c> boolean - whether or not the dialog was canceled.
+        /// * <c>filePath</c> string (optional) - If the dialog is canceled, this will be
         /// <c>undefined</c>.
-        /// * <c>bookmark</c> String (optional) _macOS_ _mas_ - Base64 encoded string which
+        /// * <c>bookmark</c> string (optional) _macOS_ _mas_ - Base64 encoded string which
         /// contains the security scoped bookmark data for the saved file.
         /// <c>securityScopedBookmarks</c> must be enabled for this to be present. (For return
         /// values, see table here.)
@@ -3042,8 +3066,8 @@ module Electron =
         /// However, the request remains active until either the application becomes active
         /// or the request is canceled.
         /// 
-        /// **Nota Bene:** This method can only be used while the app is not focused; when
-        /// the app is focused it will return -1.
+        /// **Note:** This method can only be used while the app is not focused; when the
+        /// app is focused it will return -1.
         /// </summary>
         abstract bounce: ?``type``: DockBounce -> float
         /// <summary>Cancel the bounce of <c>id</c>.</summary>
@@ -3177,7 +3201,7 @@ module Electron =
         /// </summary>
         abstract setSavePath: path: string -> unit
         /// <summary>
-        /// A <c>String</c> property that determines the save file path of the download item.
+        /// A <c>string</c> property that determines the save file path of the download item.
         /// 
         /// The property is only available in session's <c>will-download</c> callback function.
         /// If user doesn't set the save path via the property, Electron will use the
@@ -3396,7 +3420,7 @@ module Electron =
         /// </summary>
         abstract headers: Record<string, U2<string, ResizeArray<string>>> with get, set
         /// <summary>
-        /// A <c>String</c> indicating the HTTP protocol version number. Typical values are '1.0'
+        /// A <c>string</c> indicating the HTTP protocol version number. Typical values are '1.0'
         /// or '1.1'. Additionally <c>httpVersionMajor</c> and <c>httpVersionMinor</c> are two
         /// Integer-valued readable properties that return respectively the HTTP major and
         /// minor version numbers.
@@ -3406,9 +3430,17 @@ module Electron =
         abstract httpVersionMajor: float with get, set
         /// <summary>An <c>Integer</c> indicating the HTTP protocol minor version number.</summary>
         abstract httpVersionMinor: float with get, set
+        /// <summary>
+        /// A <c>string[]</c> containing the raw HTTP response headers exactly as they were
+        /// received. The keys and values are in the same list. It is not a list of tuples.
+        /// So, the even-numbered offsets are key values, and the odd-numbered offsets are
+        /// the associated values. Header names are not lowercased, and duplicates are not
+        /// merged.
+        /// </summary>
+        abstract rawHeaders: ResizeArray<string> with get, set
         /// <summary>An <c>Integer</c> indicating the HTTP response status code.</summary>
         abstract statusCode: float with get, set
-        /// <summary>A <c>String</c> representing the HTTP status message.</summary>
+        /// <summary>A <c>string</c> representing the HTTP status message.</summary>
         abstract statusMessage: string with get, set
 
     type [<AllowNullLiteral>] IncomingMessageStatic =
@@ -3813,7 +3845,7 @@ module Electron =
         /// <summary>An <c>Accelerator</c> (optional) indicating the item's accelerator, if set.</summary>
         abstract accelerator: Accelerator option with get, set
         /// <summary>
-        /// A <c>Boolean</c> indicating whether the item is checked, this property can be
+        /// A <c>boolean</c> indicating whether the item is checked, this property can be
         /// dynamically changed.
         /// 
         /// A <c>checkbox</c> menu item will toggle the <c>checked</c> property on and off when
@@ -3834,33 +3866,33 @@ module Electron =
         /// * <c>focusedWebContents</c> WebContents
         /// </summary>
         abstract click: Function with get, set
-        /// <summary>A <c>Number</c> indicating an item's sequential unique id.</summary>
+        /// <summary>A <c>number</c> indicating an item's sequential unique id.</summary>
         abstract commandId: float with get, set
         /// <summary>
-        /// A <c>Boolean</c> indicating whether the item is enabled, this property can be
+        /// A <c>boolean</c> indicating whether the item is enabled, this property can be
         /// dynamically changed.
         /// </summary>
         abstract enabled: bool with get, set
-        /// <summary>A <c>NativeImage | String</c> (optional) indicating the item's icon, if set.</summary>
+        /// <summary>A <c>NativeImage | string</c> (optional) indicating the item's icon, if set.</summary>
         abstract icon: U2<NativeImage, string> option with get, set
         /// <summary>
-        /// A <c>String</c> indicating the item's unique id, this property can be dynamically
+        /// A <c>string</c> indicating the item's unique id, this property can be dynamically
         /// changed.
         /// </summary>
         abstract id: string with get, set
-        /// <summary>A <c>String</c> indicating the item's visible label.</summary>
+        /// <summary>A <c>string</c> indicating the item's visible label.</summary>
         abstract label: string with get, set
         /// <summary>A <c>Menu</c> that the item is a part of.</summary>
         abstract menu: Menu with get, set
         /// <summary>
-        /// A <c>Boolean</c> indicating if the accelerator should be registered with the system
+        /// A <c>boolean</c> indicating if the accelerator should be registered with the system
         /// or just displayed.
         /// 
         /// This property can be dynamically changed.
         /// </summary>
         abstract registerAccelerator: bool with get, set
         /// <summary>
-        /// A <c>String</c> (optional) indicating the item's role, if set. Can be <c>undo</c>, <c>redo</c>,
+        /// A <c>string</c> (optional) indicating the item's role, if set. Can be <c>undo</c>, <c>redo</c>,
         /// <c>cut</c>, <c>copy</c>, <c>paste</c>, <c>pasteAndMatchStyle</c>, <c>delete</c>, <c>selectAll</c>, <c>reload</c>,
         /// <c>forceReload</c>, <c>toggleDevTools</c>, <c>resetZoom</c>, <c>zoomIn</c>, <c>zoomOut</c>,
         /// <c>toggleSpellChecker</c>, <c>togglefullscreen</c>, <c>window</c>, <c>minimize</c>, <c>close</c>, <c>help</c>,
@@ -3877,14 +3909,14 @@ module Electron =
         /// This property can be dynamically changed.
         /// </summary>
         abstract sharingItem: SharingItem with get, set
-        /// <summary>A <c>String</c> indicating the item's sublabel.</summary>
+        /// <summary>A <c>string</c> indicating the item's sublabel.</summary>
         abstract sublabel: string with get, set
         /// <summary>A <c>Menu</c> (optional) containing the menu item's submenu, if present.</summary>
         abstract submenu: Menu option with get, set
-        /// <summary>A <c>String</c> indicating the item's hover text.</summary>
+        /// <summary>A <c>string</c> indicating the item's hover text.</summary>
         abstract toolTip: string with get, set
         /// <summary>
-        /// A <c>String</c> indicating the type of the item. Can be <c>normal</c>, <c>separator</c>,
+        /// A <c>string</c> indicating the type of the item. Can be <c>normal</c>, <c>separator</c>,
         /// <c>submenu</c>, <c>checkbox</c> or <c>radio</c>.
         /// </summary>
         abstract ``type``: MenuItemType with get, set
@@ -3899,7 +3931,7 @@ module Electron =
         /// </summary>
         abstract userAccelerator: Accelerator option
         /// <summary>
-        /// A <c>Boolean</c> indicating whether the item is visible, this property can be
+        /// A <c>boolean</c> indicating whether the item is visible, this property can be
         /// dynamically changed.
         /// </summary>
         abstract visible: bool with get, set
@@ -4041,7 +4073,7 @@ module Electron =
         /// <summary>A Buffer that contains the image's <c>PNG</c> encoded data.</summary>
         abstract toPNG: ?options: ToPNGOptions -> Buffer
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether the image is considered a template
+        /// A <c>boolean</c> property that determines whether the image is considered a template
         /// image.
         /// 
         /// Please note that this property only has an effect on macOS.
@@ -4122,23 +4154,23 @@ module Electron =
         /// </summary>
         abstract inForcedColorsMode: bool
         /// <summary>
-        /// A <c>Boolean</c> for if the OS / Chromium currently has a dark mode enabled or is
+        /// A <c>boolean</c> for if the OS / Chromium currently has a dark mode enabled or is
         /// being instructed to show a dark-style UI.  If you want to modify this value you
         /// should use <c>themeSource</c> below.
         /// </summary>
         abstract shouldUseDarkColors: bool
         /// <summary>
-        /// A <c>Boolean</c> for if the OS / Chromium currently has high-contrast mode enabled or
+        /// A <c>boolean</c> for if the OS / Chromium currently has high-contrast mode enabled or
         /// is being instructed to show a high-contrast UI.
         /// </summary>
         abstract shouldUseHighContrastColors: bool
         /// <summary>
-        /// A <c>Boolean</c> for if the OS / Chromium currently has an inverted color scheme or
+        /// A <c>boolean</c> for if the OS / Chromium currently has an inverted color scheme or
         /// is being instructed to use an inverted color scheme.
         /// </summary>
         abstract shouldUseInvertedColorScheme: bool
         /// <summary>
-        /// A <c>String</c> property that can be <c>system</c>, <c>light</c> or <c>dark</c>.  It is used to
+        /// A <c>string</c> property that can be <c>system</c>, <c>light</c> or <c>dark</c>.  It is used to
         /// override and supersede the value that Chromium has chosen to use internally.
         /// 
         /// Setting this property to <c>system</c> will remove the override and everything will
@@ -4194,7 +4226,7 @@ module Electron =
         /// </summary>
         abstract request: options: U2<ClientRequestConstructorOptions, string> -> ClientRequest
         /// <summary>
-        /// A <c>Boolean</c> property. Whether there is currently internet connection.
+        /// A <c>boolean</c> property. Whether there is currently internet connection.
         /// 
         /// A return value of <c>false</c> is a pretty strong indicator that the user won't be
         /// able to connect to remote sites. However, a return value of <c>true</c> is
@@ -4216,7 +4248,7 @@ module Electron =
         /// end when app quits.
         abstract stopLogging: unit -> Promise<unit>
         /// <summary>
-        /// A <c>Boolean</c> property that indicates whether network logs are currently being
+        /// A <c>boolean</c> property that indicates whether network logs are currently being
         /// recorded.
         /// </summary>
         abstract currentlyLogging: bool
@@ -4283,34 +4315,34 @@ module Electron =
         abstract show: unit -> unit
         /// <summary>A <c>NotificationAction[]</c> property representing the actions of the notification.</summary>
         abstract actions: ResizeArray<NotificationAction> with get, set
-        /// <summary>A <c>String</c> property representing the body of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the body of the notification.</summary>
         abstract body: string with get, set
-        /// <summary>A <c>String</c> property representing the close button text of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the close button text of the notification.</summary>
         abstract closeButtonText: string with get, set
-        /// <summary>A <c>Boolean</c> property representing whether the notification has a reply action.</summary>
+        /// <summary>A <c>boolean</c> property representing whether the notification has a reply action.</summary>
         abstract hasReply: bool with get, set
-        /// <summary>A <c>String</c> property representing the reply placeholder of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the reply placeholder of the notification.</summary>
         abstract replyPlaceholder: string with get, set
-        /// <summary>A <c>Boolean</c> property representing whether the notification is silent.</summary>
+        /// <summary>A <c>boolean</c> property representing whether the notification is silent.</summary>
         abstract silent: bool with get, set
-        /// <summary>A <c>String</c> property representing the sound of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the sound of the notification.</summary>
         abstract sound: string with get, set
-        /// <summary>A <c>String</c> property representing the subtitle of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the subtitle of the notification.</summary>
         abstract subtitle: string with get, set
         /// <summary>
-        /// A <c>String</c> property representing the type of timeout duration for the
+        /// A <c>string</c> property representing the type of timeout duration for the
         /// notification. Can be 'default' or 'never'.
         /// 
         /// If <c>timeoutType</c> is set to 'never', the notification never expires. It stays
         /// open until closed by the calling API or the user.
         /// </summary>
         abstract timeoutType: NotificationTimeoutType with get, set
-        /// <summary>A <c>String</c> property representing the title of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the title of the notification.</summary>
         abstract title: string with get, set
-        /// <summary>A <c>String</c> property representing the custom Toast XML of the notification.</summary>
+        /// <summary>A <c>string</c> property representing the custom Toast XML of the notification.</summary>
         abstract toastXml: string with get, set
         /// <summary>
-        /// A <c>String</c> property representing the urgency level of the notification. Can be
+        /// A <c>string</c> property representing the urgency level of the notification. Can be
         /// 'normal', 'critical', or 'low'.
         /// 
         /// Default is 'low' - see NotifyUrgency for more information.
@@ -4340,6 +4372,20 @@ module Electron =
         abstract userInfo: Record<string, obj option> with get, set
         /// The text entered or chosen by the user.
         abstract userText: string option with get, set
+
+    type [<AllowNullLiteral>] PaymentDiscount =
+        /// A string used to uniquely identify a discount offer for a product.
+        abstract identifier: string with get, set
+        /// A string that identifies the key used to generate the signature.
+        abstract keyIdentifier: string with get, set
+        /// A universally unique ID (UUID) value that you define.
+        abstract nonce: string with get, set
+        /// A UTF-8 string representing the properties of a specific discount offer,
+        /// cryptographically signed.
+        abstract signature: string with get, set
+        /// The date and time of the signature's creation in milliseconds, formatted in Unix
+        /// epoch time.
+        abstract timestamp: float with get, set
 
     type [<AllowNullLiteral>] Point =
         abstract x: float with get, set
@@ -4438,7 +4484,7 @@ module Electron =
         /// </summary>
         abstract isOnBatteryPower: unit -> bool
         /// <summary>
-        /// A <c>Boolean</c> property. True if the system is on battery power.
+        /// A <c>boolean</c> property. True if the system is on battery power.
         /// 
         /// See <c>powerMonitor.isOnBatteryPower()</c>.
         /// </summary>
@@ -4525,10 +4571,19 @@ module Electron =
         abstract contentVersion: string with get, set
         /// 3 character code presenting a product's currency based on the ISO 4217 standard.
         abstract currencyCode: string with get, set
+        /// An array of discount offers
+        abstract discounts: ResizeArray<ProductDiscount> with get, set
+        /// The total size of the content, in bytes.
+        abstract downloadContentLengths: ResizeArray<float> with get, set
+        /// A string that identifies the version of the content.
+        abstract downloadContentVersion: string with get, set
         /// The locale formatted price of the product.
         abstract formattedPrice: string with get, set
+        /// The object containing introductory price information for the product. available
+        /// for the product.
+        abstract introductoryPrice: ProductDiscount option with get, set
         /// <summary>
-        /// A Boolean value that indicates whether the App Store has downloadable content
+        /// A boolean value that indicates whether the App Store has downloadable content
         /// for this product. <c>true</c> if at least one file has been associated with the
         /// product.
         /// </summary>
@@ -4541,6 +4596,39 @@ module Electron =
         abstract price: float with get, set
         /// The string that identifies the product to the Apple App Store.
         abstract productIdentifier: string with get, set
+        /// The identifier of the subscription group to which the subscription belongs.
+        abstract subscriptionGroupIdentifier: string with get, set
+        /// The period details for products that are subscriptions.
+        abstract subscriptionPeriod: ProductSubscriptionPeriod option with get, set
+
+    type [<AllowNullLiteral>] ProductDiscount =
+        /// A string used to uniquely identify a discount offer for a product.
+        abstract identifier: string with get, set
+        /// An integer that indicates the number of periods the product discount is
+        /// available.
+        abstract numberOfPeriods: float with get, set
+        /// <summary>
+        /// The payment mode for this product discount. Can be <c>payAsYouGo</c>, <c>payUpFront</c>,
+        /// or <c>freeTrial</c>.
+        /// </summary>
+        abstract paymentMode: ProductDiscountPaymentMode with get, set
+        /// The discount price of the product in the local currency.
+        abstract price: float with get, set
+        /// The locale used to format the discount price of the product.
+        abstract priceLocale: string with get, set
+        /// An object that defines the period for the product discount.
+        abstract subscriptionPeriod: ProductSubscriptionPeriod option with get, set
+        /// The type of discount offer.
+        abstract ``type``: float with get, set
+
+    type [<AllowNullLiteral>] ProductSubscriptionPeriod =
+        /// The number of units per subscription period.
+        abstract numberOfUnits: float with get, set
+        /// <summary>
+        /// The increment of time that a subscription period is specified in. Can be <c>day</c>,
+        /// <c>week</c>, <c>month</c>, <c>year</c>.
+        /// </summary>
+        abstract unit: ProductSubscriptionPeriodUnit with get, set
 
     type [<AllowNullLiteral>] Protocol =
         /// <summary>
@@ -4575,7 +4663,7 @@ module Electron =
         /// Whether the protocol was successfully intercepted
         /// 
         /// Intercepts <c>scheme</c> protocol and uses <c>handler</c> as the protocol's new handler
-        /// which sends a <c>String</c> as a response.
+        /// which sends a <c>string</c> as a response.
         /// </summary>
         abstract interceptStringProtocol: scheme: string * handler: (ProtocolRequest -> (U2<string, ProtocolResponse> -> unit) -> unit) -> bool
         /// <summary>Whether <c>scheme</c> is already intercepted.</summary>
@@ -4674,10 +4762,10 @@ module Electron =
         /// <summary>
         /// Whether the protocol was successfully registered
         /// 
-        /// Registers a protocol of <c>scheme</c> that will send a <c>String</c> as a response.
+        /// Registers a protocol of <c>scheme</c> that will send a <c>string</c> as a response.
         /// 
         /// The usage is the same with <c>registerFileProtocol</c>, except that the <c>callback</c>
-        /// should be called with either a <c>String</c> or an object that has the <c>data</c>
+        /// should be called with either a <c>string</c> or an object that has the <c>data</c>
         /// property.
         /// </summary>
         abstract registerStringProtocol: scheme: string * handler: (ProtocolRequest -> (U2<string, ProtocolResponse> -> unit) -> unit) -> bool
@@ -4707,7 +4795,7 @@ module Electron =
         /// <summary>
         /// The response body. When returning stream as response, this is a Node.js readable
         /// stream representing the response body. When returning <c>Buffer</c> as response, this
-        /// is a <c>Buffer</c>. When returning <c>String</c> as response, this is a <c>String</c>. This is
+        /// is a <c>Buffer</c>. When returning <c>string</c> as response, this is a <c>string</c>. This is
         /// ignored for other types of responses.
         /// </summary>
         abstract data: U3<Buffer, string, NodeJS.ReadableStream> option with get, set
@@ -4716,8 +4804,8 @@ module Electron =
         /// available error numbers you can use, please see the net error list.
         /// </summary>
         abstract error: float option with get, set
-        /// An object containing the response headers. The keys must be String, and values
-        /// must be either String or Array of String.
+        /// An object containing the response headers. The keys must be string, and values
+        /// must be either string or Array of string.
         abstract headers: Record<string, U2<string, ResizeArray<string>>> option with get, set
         /// <summary>The HTTP <c>method</c>. This is only used for file and URL responses.</summary>
         abstract method: string option with get, set
@@ -4790,10 +4878,13 @@ module Electron =
         /// 
         /// This function will throw an error if encryption fails.
         abstract encryptString: plainText: string -> Buffer
+        /// <summary>
         /// Whether encryption is available.
         /// 
-        /// On Linux, returns true if the secret key is available. On MacOS, returns true if
-        /// Keychain is available. On Windows, returns true with no other preconditions.
+        /// On Linux, returns true if the app has emitted the <c>ready</c> event and the secret
+        /// key is available. On MacOS, returns true if Keychain is available. On Windows,
+        /// returns true once the app has emitted the <c>ready</c> event.
+        /// </summary>
         abstract isEncryptionAvailable: unit -> bool
 
     type [<AllowNullLiteral>] Screen =
@@ -5069,6 +5160,8 @@ module Electron =
         /// 
         /// Clears the session’s HTTP cache.
         abstract clearCache: unit -> Promise<unit>
+        /// resolves when the code cache clear operation is complete.
+        abstract clearCodeCaches: options: ClearCodeCachesOptions -> Promise<unit>
         /// Resolves when the operation is complete.
         /// 
         /// Clears the host resolver cache.
@@ -5141,7 +5234,7 @@ module Electron =
         /// </summary>
         abstract getSpellCheckerLanguages: unit -> ResizeArray<string>
         /// <summary>
-        /// A <c>String | null</c> indicating the absolute file system path where data for this
+        /// A <c>string | null</c> indicating the absolute file system path where data for this
         /// session is persisted on disk.  For in memory sessions this returns <c>null</c>.
         /// </summary>
         abstract getStoragePath: unit -> unit
@@ -5212,6 +5305,16 @@ module Electron =
         /// &gt; **NOTE:** The result of this procedure is cached by the network service.
         /// </summary>
         abstract setCertificateVerifyProc: proc: (Request -> (float -> unit) -> unit) option -> unit
+        /// <summary>
+        /// Sets the directory to store the generated JS code cache for this session. The
+        /// directory is not required to be created by the user before this call, the
+        /// runtime will create if it does not exist otherwise will use the existing
+        /// directory. If directory cannot be created, then code cache will not be used and
+        /// all operations related to code cache will fail silently inside the runtime. By
+        /// default, the directory will be <c>Code Cache</c> under the respective user data
+        /// folder.
+        /// </summary>
+        abstract setCodeCachePath: path: string -> unit
         /// <summary>
         /// Sets the handler which can be used to respond to device permission checks for
         /// the <c>session</c>. Returning <c>true</c> will allow the device to be permitted and
@@ -5319,9 +5422,11 @@ module Electron =
         /// If you want to override this behavior you can use this API to point the
         /// dictionary downloader at your own hosted version of the hunspell dictionaries.
         /// We publish a <c>hunspell_dictionaries.zip</c> file with each release which contains
-        /// the files you need to host here, the file server must be **case insensitive**
-        /// you must upload each file twice, once with the case it has in the ZIP file and
-        /// once with the filename as all lower case.
+        /// the files you need to host here.
+        /// 
+        /// The file server must be **case insensitive**. If you cannot do this, you must
+        /// upload each file twice: once with the case it has in the ZIP file and once with
+        /// the filename as all lowercase.
         /// 
         /// If the files present in <c>hunspell_dictionaries.zip</c> are available at
         /// <c>https://example.com/dictionaries/language-code.bdic</c> then you should call this
@@ -5362,7 +5467,7 @@ module Electron =
         /// </summary>
         abstract setUserAgent: userAgent: string * ?acceptLanguages: string -> unit
         /// <summary>
-        /// A <c>String[]</c> array which consists of all the known available spell checker
+        /// A <c>string[]</c> array which consists of all the known available spell checker
         /// languages.  Providing a language code to the <c>setSpellCheckerLanguages</c> API that
         /// isn't in this array will result in an error.
         /// </summary>
@@ -5375,10 +5480,10 @@ module Electron =
         abstract protocol: Protocol
         /// <summary>A <c>ServiceWorkers</c> object for this session.</summary>
         abstract serviceWorkers: ServiceWorkers
-        /// <summary>A <c>Boolean</c> indicating whether builtin spell checker is enabled.</summary>
+        /// <summary>A <c>boolean</c> indicating whether builtin spell checker is enabled.</summary>
         abstract spellCheckerEnabled: bool with get, set
         /// <summary>
-        /// A <c>String | null</c> indicating the absolute file system path where data for this
+        /// A <c>string | null</c> indicating the absolute file system path where data for this
         /// session is persisted on disk.  For in memory sessions this returns <c>null</c>.
         /// </summary>
         abstract storagePath: string option
@@ -5553,12 +5658,12 @@ module Electron =
         /// </summary>
         abstract getAccentColor: unit -> string
         /// <summary>
-        /// * <c>shouldRenderRichAnimation</c> Boolean - Returns true if rich animations should
+        /// * <c>shouldRenderRichAnimation</c> boolean - Returns true if rich animations should
         /// be rendered. Looks at session type (e.g. remote desktop) and accessibility
         /// settings to give guidance for heavy animations.
-        /// * <c>scrollAnimationsEnabledBySystem</c> Boolean - Determines on a per-platform basis
+        /// * <c>scrollAnimationsEnabledBySystem</c> boolean - Determines on a per-platform basis
         /// whether scroll animations (e.g. produced by home/end key) should be enabled.
-        /// * <c>prefersReducedMotion</c> Boolean - Determines whether the user desires reduced
+        /// * <c>prefersReducedMotion</c> boolean - Determines whether the user desires reduced
         /// motion based on platform APIs.
         /// 
         /// Returns an object with system animation settings.
@@ -5722,8 +5827,11 @@ module Electron =
         /// Same as <c>subscribeNotification</c>, but uses <c>NSNotificationCenter</c> for local
         /// defaults. This is necessary for events such as
         /// <c>NSUserDefaultsDidChangeNotification</c>.
+        /// 
+        /// If <c>event</c> is null, the <c>NSNotificationCenter</c> doesn’t use it as criteria for
+        /// delivery to the observer. See docs for more information.
         /// </summary>
-        abstract subscribeLocalNotification: ``event``: string * callback: (string -> Record<string, obj> -> string -> unit) -> float
+        abstract subscribeLocalNotification: ``event``: string option * callback: (string -> Record<string, obj> -> string -> unit) -> float
         /// <summary>
         /// The ID of this subscription
         /// 
@@ -5743,16 +5851,22 @@ module Electron =
         /// * <c>AppleAquaColorVariantChanged</c>
         /// * <c>AppleColorPreferencesChangedNotification</c>
         /// * <c>AppleShowScrollBarsSettingChanged</c>
+        /// 
+        /// If <c>event</c> is null, the <c>NSDistributedNotificationCenter</c> doesn’t use it as
+        /// criteria for delivery to the observer. See docs  for more information.
         /// </summary>
-        abstract subscribeNotification: ``event``: string * callback: (string -> Record<string, obj> -> string -> unit) -> float
+        abstract subscribeNotification: ``event``: string option * callback: (string -> Record<string, obj> -> string -> unit) -> float
         /// <summary>
         /// The ID of this subscription
         /// 
         /// Same as <c>subscribeNotification</c>, but uses
         /// <c>NSWorkspace.sharedWorkspace.notificationCenter</c>. This is necessary for events
         /// such as <c>NSWorkspaceDidActivateApplicationNotification</c>.
+        /// 
+        /// If <c>event</c> is null, the <c>NSWorkspaceNotificationCenter</c> doesn’t use it as
+        /// criteria for delivery to the observer. See docs for more information.
         /// </summary>
-        abstract subscribeWorkspaceNotification: ``event``: string * callback: (string -> Record<string, obj> -> string -> unit) -> float
+        abstract subscribeWorkspaceNotification: ``event``: string option * callback: (string -> Record<string, obj> -> string -> unit) -> float
         /// <summary>
         /// Same as <c>unsubscribeNotification</c>, but removes the subscriber from
         /// <c>NSNotificationCenter</c>.
@@ -5766,7 +5880,7 @@ module Electron =
         /// </summary>
         abstract unsubscribeWorkspaceNotification: id: float -> unit
         /// <summary>
-        /// A <c>String</c> property that can be <c>dark</c>, <c>light</c> or <c>unknown</c>. It determines the
+        /// A <c>string</c> property that can be <c>dark</c>, <c>light</c> or <c>unknown</c>. It determines the
         /// macOS appearance setting for your application. This maps to values in:
         /// NSApplication.appearance. Setting this will override the system default as well
         /// as the value of <c>getEffectiveAppearance</c>.
@@ -5778,7 +5892,7 @@ module Electron =
         /// </summary>
         abstract appLevelAppearance: SystemPreferencesGetAppLevelAppearance with get, set
         /// <summary>
-        /// A <c>String</c> property that can be <c>dark</c>, <c>light</c> or <c>unknown</c>.
+        /// A <c>string</c> property that can be <c>dark</c>, <c>light</c> or <c>unknown</c>.
         /// 
         /// Returns the macOS appearance setting that is currently applied to your
         /// application, maps to NSApplication.effectiveAppearance
@@ -5862,26 +5976,26 @@ module Electron =
 
     type [<AllowNullLiteral>] TouchBarButton =
         /// <summary>
-        /// A <c>String</c> representing the description of the button to be read by a screen
+        /// A <c>string</c> representing the description of the button to be read by a screen
         /// reader. Will only be read by screen readers if no label is set.
         /// </summary>
         abstract accessibilityLabel: string with get, set
         /// <summary>
-        /// A <c>String</c> hex code representing the button's current background color. Changing
+        /// A <c>string</c> hex code representing the button's current background color. Changing
         /// this value immediately updates the button in the touch bar.
         /// </summary>
         abstract backgroundColor: string with get, set
-        /// <summary>A <c>Boolean</c> representing whether the button is in an enabled state.</summary>
+        /// <summary>A <c>boolean</c> representing whether the button is in an enabled state.</summary>
         abstract enabled: bool with get, set
         /// <summary>
         /// A <c>NativeImage</c> representing the button's current icon. Changing this value
         /// immediately updates the button in the touch bar.
         /// </summary>
         abstract icon: NativeImage with get, set
-        /// <summary>A <c>String</c> - Can be <c>left</c>, <c>right</c> or <c>overlay</c>.  Defaults to <c>overlay</c>.</summary>
+        /// <summary>A <c>string</c> - Can be <c>left</c>, <c>right</c> or <c>overlay</c>.  Defaults to <c>overlay</c>.</summary>
         abstract iconPosition: TouchBarButtonIconPosition with get, set
         /// <summary>
-        /// A <c>String</c> representing the button's current text. Changing this value
+        /// A <c>string</c> representing the button's current text. Changing this value
         /// immediately updates the button in the touch bar.
         /// </summary>
         abstract label: string with get, set
@@ -5893,12 +6007,12 @@ module Electron =
     type [<AllowNullLiteral>] TouchBarColorPicker =
         inherit NodeEventEmitter
         /// <summary>
-        /// A <c>String[]</c> array representing the color picker's available colors to select.
+        /// A <c>string[]</c> array representing the color picker's available colors to select.
         /// Changing this value immediately updates the color picker in the touch bar.
         /// </summary>
         abstract availableColors: ResizeArray<string> with get, set
         /// <summary>
-        /// A <c>String</c> hex code representing the color picker's currently selected color.
+        /// A <c>string</c> hex code representing the color picker's currently selected color.
         /// Changing this value immediately updates the color picker in the touch bar.
         /// </summary>
         abstract selectedColor: string with get, set
@@ -5917,17 +6031,17 @@ module Electron =
     type [<AllowNullLiteral>] TouchBarLabel =
         inherit NodeEventEmitter
         /// <summary>
-        /// A <c>String</c> representing the description of the label to be read by a screen
+        /// A <c>string</c> representing the description of the label to be read by a screen
         /// reader.
         /// </summary>
         abstract accessibilityLabel: string with get, set
         /// <summary>
-        /// A <c>String</c> representing the label's current text. Changing this value
+        /// A <c>string</c> representing the label's current text. Changing this value
         /// immediately updates the label in the touch bar.
         /// </summary>
         abstract label: string with get, set
         /// <summary>
-        /// A <c>String</c> hex code representing the label's current text color. Changing this
+        /// A <c>string</c> hex code representing the label's current text color. Changing this
         /// value immediately updates the label in the touch bar.
         /// </summary>
         abstract textColor: string with get, set
@@ -5951,7 +6065,7 @@ module Electron =
         /// </summary>
         abstract icon: NativeImage with get, set
         /// <summary>
-        /// A <c>String</c> representing the popover's current button text. Changing this value
+        /// A <c>string</c> representing the popover's current button text. Changing this value
         /// immediately updates the popover in the touch bar.
         /// </summary>
         abstract label: string with get, set
@@ -5963,7 +6077,7 @@ module Electron =
     type [<AllowNullLiteral>] TouchBarScrubber =
         inherit NodeEventEmitter
         /// <summary>
-        /// A <c>Boolean</c> representing whether this scrubber is continuous or not. Updating
+        /// A <c>boolean</c> representing whether this scrubber is continuous or not. Updating
         /// this value immediately updates the control in the touch bar.
         /// </summary>
         abstract continuous: bool with get, set
@@ -5974,7 +6088,7 @@ module Electron =
         /// </summary>
         abstract items: ResizeArray<ScrubberItem> with get, set
         /// <summary>
-        /// A <c>String</c> representing the mode of this scrubber. Updating this value
+        /// A <c>string</c> representing the mode of this scrubber. Updating this value
         /// immediately updates the control in the touch bar. Possible values:
         /// 
         /// * <c>fixed</c> - Maps to <c>NSScrubberModeFixed</c>.
@@ -5982,7 +6096,7 @@ module Electron =
         /// </summary>
         abstract mode: TouchBarScrubberMode with get, set
         /// <summary>
-        /// A <c>String</c> representing the style that selected items in the scrubber should
+        /// A <c>string</c> representing the style that selected items in the scrubber should
         /// have. This style is overlayed on top of the scrubber item instead of being
         /// placed behind it. Updating this value immediately updates the control in the
         /// touch bar. Possible values:
@@ -5993,7 +6107,7 @@ module Electron =
         /// </summary>
         abstract overlayStyle: TouchBarScrubberOverlayStyle with get, set
         /// <summary>
-        /// A <c>String</c> representing the style that selected items in the scrubber should
+        /// A <c>string</c> representing the style that selected items in the scrubber should
         /// have. Updating this value immediately updates the control in the touch bar.
         /// Possible values:
         /// 
@@ -6003,7 +6117,7 @@ module Electron =
         /// </summary>
         abstract selectedStyle: TouchBarScrubberOverlayStyle with get, set
         /// <summary>
-        /// A <c>Boolean</c> representing whether to show the left / right selection arrows in
+        /// A <c>boolean</c> representing whether to show the left / right selection arrows in
         /// this scrubber. Updating this value immediately updates the control in the touch
         /// bar.
         /// </summary>
@@ -6016,7 +6130,7 @@ module Electron =
     type [<AllowNullLiteral>] TouchBarSegmentedControl =
         inherit NodeEventEmitter
         /// <summary>
-        /// A <c>String</c> representing the current selection mode of the control.  Can be
+        /// A <c>string</c> representing the current selection mode of the control.  Can be
         /// <c>single</c>, <c>multiple</c> or <c>buttons</c>.
         /// </summary>
         abstract mode: TouchBarSegmentedControlMode with get, set
@@ -6027,7 +6141,7 @@ module Electron =
         /// </summary>
         abstract segments: ResizeArray<SegmentedControlSegment> with get, set
         /// <summary>
-        /// A <c>String</c> representing the controls current segment style. Updating this value
+        /// A <c>string</c> representing the controls current segment style. Updating this value
         /// immediately updates the control in the touch bar.
         /// </summary>
         abstract segmentStyle: string with get, set
@@ -6045,22 +6159,22 @@ module Electron =
     type [<AllowNullLiteral>] TouchBarSlider =
         inherit NodeEventEmitter
         /// <summary>
-        /// A <c>String</c> representing the slider's current text. Changing this value
+        /// A <c>string</c> representing the slider's current text. Changing this value
         /// immediately updates the slider in the touch bar.
         /// </summary>
         abstract label: string with get, set
         /// <summary>
-        /// A <c>Number</c> representing the slider's current maximum value. Changing this value
+        /// A <c>number</c> representing the slider's current maximum value. Changing this value
         /// immediately updates the slider in the touch bar.
         /// </summary>
         abstract maxValue: float with get, set
         /// <summary>
-        /// A <c>Number</c> representing the slider's current minimum value. Changing this value
+        /// A <c>number</c> representing the slider's current minimum value. Changing this value
         /// immediately updates the slider in the touch bar.
         /// </summary>
         abstract minValue: float with get, set
         /// <summary>
-        /// A <c>Number</c> representing the slider's current value. Changing this value
+        /// A <c>number</c> representing the slider's current value. Changing this value
         /// immediately updates the slider in the touch bar.
         /// </summary>
         abstract value: float with get, set
@@ -6072,7 +6186,7 @@ module Electron =
     type [<AllowNullLiteral>] TouchBarSpacer =
         inherit NodeEventEmitter
         /// <summary>
-        /// A <c>String</c> representing the size of the spacer.  Can be <c>small</c>, <c>large</c> or
+        /// A <c>string</c> representing the size of the spacer.  Can be <c>small</c>, <c>large</c> or
         /// <c>flexible</c>.
         /// </summary>
         abstract size: TouchBarSpacerSize with get, set
@@ -6359,6 +6473,11 @@ module Electron =
         [<Emit("$0.once('before-input-event',$1)")>] abstract ``once_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
         [<Emit("$0.addListener('before-input-event',$1)")>] abstract ``addListener_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
         [<Emit("$0.removeListener('before-input-event',$1)")>] abstract ``removeListener_before-input-event``: listener: (Event -> Input -> unit) -> WebContents
+        /// <summary>Emitted when the <c>WebContents</c> loses focus.</summary>
+        [<Emit("$0.on('blur',$1)")>] abstract on_blur: listener: Function -> WebContents
+        [<Emit("$0.once('blur',$1)")>] abstract once_blur: listener: Function -> WebContents
+        [<Emit("$0.addListener('blur',$1)")>] abstract addListener_blur: listener: Function -> WebContents
+        [<Emit("$0.removeListener('blur',$1)")>] abstract removeListener_blur: listener: Function -> WebContents
         /// <summary>
         /// Emitted when failed to verify the <c>certificate</c> for <c>url</c>.
         /// 
@@ -6409,14 +6528,6 @@ module Electron =
         [<Emit("$0.once('cursor-changed',$1)")>] abstract ``once_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
         [<Emit("$0.addListener('cursor-changed',$1)")>] abstract ``addListener_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
         [<Emit("$0.removeListener('cursor-changed',$1)")>] abstract ``removeListener_cursor-changed``: listener: (Event -> string -> NativeImage -> float -> Size -> Point -> unit) -> WebContents
-        /// <summary>
-        /// Emitted when <c>desktopCapturer.getSources()</c> is called in the renderer process.
-        /// Calling <c>event.preventDefault()</c> will make it return empty sources.
-        /// </summary>
-        [<Emit("$0.on('desktop-capturer-get-sources',$1)")>] abstract ``on_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
-        [<Emit("$0.once('desktop-capturer-get-sources',$1)")>] abstract ``once_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
-        [<Emit("$0.addListener('desktop-capturer-get-sources',$1)")>] abstract ``addListener_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
-        [<Emit("$0.removeListener('desktop-capturer-get-sources',$1)")>] abstract ``removeListener_desktop-capturer-get-sources``: listener: (Event -> unit) -> WebContents
         /// <summary>Emitted when <c>webContents</c> is destroyed.</summary>
         [<Emit("$0.on('destroyed',$1)")>] abstract on_destroyed: listener: Function -> WebContents
         [<Emit("$0.once('destroyed',$1)")>] abstract once_destroyed: listener: Function -> WebContents
@@ -6566,6 +6677,22 @@ module Electron =
         [<Emit("$0.once('enter-html-full-screen',$1)")>] abstract ``once_enter-html-full-screen``: listener: Function -> WebContents
         [<Emit("$0.addListener('enter-html-full-screen',$1)")>] abstract ``addListener_enter-html-full-screen``: listener: Function -> WebContents
         [<Emit("$0.removeListener('enter-html-full-screen',$1)")>] abstract ``removeListener_enter-html-full-screen``: listener: Function -> WebContents
+        /// <summary>
+        /// Emitted when the <c>WebContents</c> gains focus.
+        /// 
+        /// Note that on macOS, having focus means the <c>WebContents</c> is the first responder
+        /// of window, so switching focus between windows would not trigger the <c>focus</c> and
+        /// <c>blur</c> events of <c>WebContents</c>, as the first responder of each window is not
+        /// changed.
+        /// 
+        /// The <c>focus</c> and <c>blur</c> events of <c>WebContents</c> should only be used to detect
+        /// focus change between different <c>WebContents</c> and <c>BrowserView</c> in the same
+        /// window.
+        /// </summary>
+        [<Emit("$0.on('focus',$1)")>] abstract on_focus: listener: Function -> WebContents
+        [<Emit("$0.once('focus',$1)")>] abstract once_focus: listener: Function -> WebContents
+        [<Emit("$0.addListener('focus',$1)")>] abstract addListener_focus: listener: Function -> WebContents
+        [<Emit("$0.removeListener('focus',$1)")>] abstract removeListener_focus: listener: Function -> WebContents
         /// <summary>Emitted when a result is available for [<c>webContents.findInPage</c>] request.</summary>
         [<Emit("$0.on('found-in-page',$1)")>] abstract ``on_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
         [<Emit("$0.once('found-in-page',$1)")>] abstract ``once_found-in-page``: listener: (Event -> Result -> unit) -> WebContents
@@ -6772,7 +6899,7 @@ module Electron =
         [<Emit("$0.addListener('will-prevent-unload',$1)")>] abstract ``addListener_will-prevent-unload``: listener: (Event -> unit) -> WebContents
         [<Emit("$0.removeListener('will-prevent-unload',$1)")>] abstract ``removeListener_will-prevent-unload``: listener: (Event -> unit) -> WebContents
         /// <summary>
-        /// Emitted as a server side redirect occurs during navigation.  For example a 302
+        /// Emitted when a server side redirect occurs during navigation.  For example a 302
         /// redirect.
         /// 
         /// This event will be emitted after <c>did-start-navigation</c> and always before the
@@ -6909,10 +7036,29 @@ module Electron =
         abstract getBackgroundThrottling: unit -> bool
         /// If *offscreen rendering* is enabled returns the current frame rate.
         abstract getFrameRate: unit -> float
+        /// <summary>
+        /// The identifier of a WebContents stream. This identifier can be used with
+        /// <c>navigator.mediaDevices.getUserMedia</c> using a <c>chromeMediaSource</c> of <c>tab</c>. The
+        /// identifier is restricted to the web contents that it is registered to and is
+        /// only valid for 10 seconds.
+        /// </summary>
+        abstract getMediaSourceId: requestWebContents: WebContents -> string
         /// <summary>The operating system <c>pid</c> of the associated renderer process.</summary>
         abstract getOSProcessId: unit -> float
+        /// <summary>
         /// Get the system printer list.
+        /// 
+        /// 
+        /// **Deprecated:** Should use the new <c>contents.getPrintersAsync</c> API.
+        /// </summary>
+        [<Obsolete("")>]
         abstract getPrinters: unit -> ResizeArray<PrinterInfo>
+        /// <summary>
+        /// Get the system printer list.
+        /// 
+        /// Resolves with a <c>PrinterInfo[]</c>
+        /// </summary>
+        abstract getPrintersAsync: unit -> Promise<ResizeArray<Electron.PrinterInfo>>
         /// <summary>
         /// The Chromium internal <c>pid</c> of the associated renderer. Can be compared to the
         /// <c>frameProcessId</c> passed by frame specific navigation events (e.g.
@@ -7244,10 +7390,10 @@ module Electron =
         abstract undo: unit -> unit
         /// <summary>Executes the editing command <c>unselect</c> in web page.</summary>
         abstract unselect: unit -> unit
-        /// <summary>A <c>Boolean</c> property that determines whether this page is muted.</summary>
+        /// <summary>A <c>boolean</c> property that determines whether this page is muted.</summary>
         abstract audioMuted: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> property that determines whether or not this WebContents will
+        /// A <c>boolean</c> property that determines whether or not this WebContents will
         /// throttle animations and timers when the page becomes backgrounded. This also
         /// affects the Page Visibility API.
         /// </summary>
@@ -7283,16 +7429,16 @@ module Electron =
         abstract mainFrame: WebFrameMain
         /// <summary>A <c>Session</c> used by this webContents.</summary>
         abstract session: Session
-        /// <summary>A <c>String</c> property that determines the user agent for this web page.</summary>
+        /// <summary>A <c>string</c> property that determines the user agent for this web page.</summary>
         abstract userAgent: string with get, set
         /// <summary>
-        /// A <c>Number</c> property that determines the zoom factor for this web contents.
+        /// A <c>number</c> property that determines the zoom factor for this web contents.
         /// 
         /// The zoom factor is the zoom percent divided by 100, so 300% = 3.0.
         /// </summary>
         abstract zoomFactor: float with get, set
         /// <summary>
-        /// A <c>Number</c> property that determines the zoom level for this web contents.
+        /// A <c>number</c> property that determines the zoom level for this web contents.
         /// 
         /// The original size is 0 and each increment above or below represents zooming 20%
         /// larger or smaller to default limits of 300% and 50% of original size,
@@ -7397,7 +7543,7 @@ module Electron =
         /// Injects CSS into the current web page and returns a unique key for the inserted
         /// stylesheet.
         /// </summary>
-        abstract insertCSS: css: string -> string
+        abstract insertCSS: css: string * ?options: InsertCSSOptions -> string
         /// <summary>Inserts <c>text</c> to the focused element.</summary>
         abstract insertText: text: string -> unit
         /// True if the word is misspelled according to the built in spellchecker, false
@@ -7414,19 +7560,6 @@ module Electron =
         /// specified.
         /// </summary>
         abstract setIsolatedWorldInfo: worldId: float * info: Info -> unit
-        /// <summary>
-        /// Sets a provider for spell checking in input fields and text areas.
-        /// 
-        /// If you want to use this method you must disable the builtin spellchecker when
-        /// you construct the window.
-        /// 
-        /// The <c>provider</c> must be an object that has a <c>spellCheck</c> method that accepts an
-        /// array of individual words for spellchecking. The <c>spellCheck</c> function runs
-        /// asynchronously and calls the <c>callback</c> function with an array of misspelt words
-        /// when complete.
-        /// 
-        /// An example of using node-spellchecker as provider:
-        /// </summary>
         abstract setSpellCheckProvider: language: string * provider: Provider -> unit
         /// Sets the maximum and minimum pinch-to-zoom level.
         /// 
@@ -7547,7 +7680,7 @@ module Electron =
         /// lifetime of the frame. When the frame is removed, the id is not used again.
         /// </summary>
         abstract frameTreeNodeId: float
-        /// <summary>A <c>String</c> representing the frame name.</summary>
+        /// <summary>A <c>string</c> representing the frame name.</summary>
         abstract name: string
         /// <summary>
         /// An <c>Integer</c> representing the operating system <c>pid</c> of the process which owns
@@ -7705,8 +7838,6 @@ module Electron =
 
     type [<AllowNullLiteral>] WebSource =
         abstract code: string with get, set
-        /// Default is 1.
-        abstract startLine: float option with get, set
         abstract url: string option with get, set
 
     type [<AllowNullLiteral>] WebviewTag =
@@ -8068,45 +8199,45 @@ module Electron =
         /// <summary>Executes editing command <c>unselect</c> in page.</summary>
         abstract unselect: unit -> unit
         /// <summary>
-        /// A <c>Boolean</c>. When this attribute is present the guest page will be allowed to
+        /// A <c>boolean</c>. When this attribute is present the guest page will be allowed to
         /// open new windows. Popups are disabled by default.
         /// </summary>
         abstract allowpopups: bool with get, set
         /// <summary>
-        /// A <c>String</c> which is a list of strings which specifies the blink features to be
+        /// A <c>string</c> which is a list of strings which specifies the blink features to be
         /// disabled separated by <c>,</c>. The full list of supported feature strings can be
         /// found in the RuntimeEnabledFeatures.json5 file.
         /// </summary>
         abstract disableblinkfeatures: string with get, set
         /// <summary>
-        /// A <c>Boolean</c>. When this attribute is present the guest page will have web
+        /// A <c>boolean</c>. When this attribute is present the guest page will have web
         /// security disabled. Web security is enabled by default.
         /// </summary>
         abstract disablewebsecurity: bool with get, set
         /// <summary>
-        /// A <c>String</c> which is a list of strings which specifies the blink features to be
+        /// A <c>string</c> which is a list of strings which specifies the blink features to be
         /// enabled separated by <c>,</c>. The full list of supported feature strings can be
         /// found in the RuntimeEnabledFeatures.json5 file.
         /// </summary>
         abstract enableblinkfeatures: string with get, set
-        /// <summary>A <c>String</c> that sets the referrer URL for the guest page.</summary>
+        /// <summary>A <c>string</c> that sets the referrer URL for the guest page.</summary>
         abstract httpreferrer: string with get, set
         /// <summary>
-        /// A <c>Boolean</c>. When this attribute is present the guest page in <c>webview</c> will
+        /// A <c>boolean</c>. When this attribute is present the guest page in <c>webview</c> will
         /// have node integration and can use node APIs like <c>require</c> and <c>process</c> to
         /// access low level system resources. Node integration is disabled by default in
         /// the guest page.
         /// </summary>
         abstract nodeintegration: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> for the experimental option for enabling NodeJS support in
+        /// A <c>boolean</c> for the experimental option for enabling NodeJS support in
         /// sub-frames such as iframes inside the <c>webview</c>. All your preloads will load for
         /// every iframe, you can use <c>process.isMainFrame</c> to determine if you are in the
         /// main frame or not. This option is disabled by default in the guest page.
         /// </summary>
         abstract nodeintegrationinsubframes: bool with get, set
         /// <summary>
-        /// A <c>String</c> that sets the session used by the page. If <c>partition</c> starts with
+        /// A <c>string</c> that sets the session used by the page. If <c>partition</c> starts with
         /// <c>persist:</c>, the page will use a persistent session available to all pages in the
         /// app with the same <c>partition</c>. if there is no <c>persist:</c> prefix, the page will
         /// use an in-memory session. By assigning the same <c>partition</c>, multiple pages can
@@ -8119,12 +8250,12 @@ module Electron =
         /// </summary>
         abstract partition: string with get, set
         /// <summary>
-        /// A <c>Boolean</c>. When this attribute is present the guest page in <c>webview</c> will be
+        /// A <c>boolean</c>. When this attribute is present the guest page in <c>webview</c> will be
         /// able to use browser plugins. Plugins are disabled by default.
         /// </summary>
         abstract plugins: bool with get, set
         /// <summary>
-        /// A <c>String</c> that specifies a script that will be loaded before other scripts run
+        /// A <c>string</c> that specifies a script that will be loaded before other scripts run
         /// in the guest page. The protocol of script's URL must be <c>file:</c> (even when using
         /// <c>asar:</c> archives) because it will be loaded by Node's <c>require</c> under the hood,
         /// which treats <c>asar:</c> archives as virtual directories.
@@ -8138,7 +8269,7 @@ module Electron =
         /// </summary>
         abstract preload: string with get, set
         /// <summary>
-        /// A <c>String</c> representing the visible URL. Writing to this attribute initiates
+        /// A <c>string</c> representing the visible URL. Writing to this attribute initiates
         /// top-level navigation.
         /// 
         /// Assigning <c>src</c> its own value will reload the current page.
@@ -8148,13 +8279,13 @@ module Electron =
         /// </summary>
         abstract src: string with get, set
         /// <summary>
-        /// A <c>String</c> that sets the user agent for the guest page before the page is
+        /// A <c>string</c> that sets the user agent for the guest page before the page is
         /// navigated to. Once the page is loaded, use the <c>setUserAgent</c> method to change
         /// the user agent.
         /// </summary>
         abstract useragent: string with get, set
         /// <summary>
-        /// A <c>String</c> which is a comma separated list of strings which specifies the web
+        /// A <c>string</c> which is a comma separated list of strings which specifies the web
         /// preferences to be set on the webview. The full list of supported preference
         /// strings can be found in BrowserWindow.
         /// 
@@ -8401,9 +8532,10 @@ module Electron =
         /// </summary>
         abstract enableLargerThanScreen: bool option with get, set
         /// <summary>
-        /// Window's background color as a hexadecimal value, like <c>#66CD00</c> or <c>#FFF</c> or
-        /// <c>#80FFFFFF</c> (alpha in #AARRGGBB format is supported if <c>transparent</c> is set to
-        /// <c>true</c>). Default is <c>#FFF</c> (white).
+        /// The window's background color in Hex, RGB, RGBA, HSL, HSLA or named CSS color
+        /// format. Alpha in #AARRGGBB format is supported if <c>transparent</c> is set to
+        /// <c>true</c>. Default is <c>#FFF</c> (white). See win.setBackgroundColor for more
+        /// information.
         /// </summary>
         abstract backgroundColor: string option with get, set
         /// <summary>Whether window should have a shadow. Default is <c>true</c>.</summary>
@@ -8476,7 +8608,7 @@ module Electron =
         /// Settings of web page's features.
         abstract webPreferences: WebPreferences option with get, set
         /// <summary>
-        /// When using a frameless window in conjuction with
+        /// When using a frameless window in conjunction with
         /// <c>win.setWindowButtonVisibility(true)</c> on macOS or using a <c>titleBarStyle</c> so
         /// that the standard window controls ("traffic lights" on macOS) are visible, this
         /// property enables the Window Controls Overlay JavaScript APIs and CSS Environment
@@ -8490,6 +8622,12 @@ module Electron =
         abstract certificate: Certificate with get, set
         /// The message to display to the user.
         abstract message: string with get, set
+
+    type [<AllowNullLiteral>] ClearCodeCachesOptions =
+        /// An array of url corresponding to the resource whose generated code cache needs
+        /// to be removed. If the list is empty then all entries in the cache directory will
+        /// be removed.
+        abstract urls: ResizeArray<string> option with get, set
 
     type [<AllowNullLiteral>] ClearStorageDataOptions =
         /// <summary>Should follow <c>window.location.origin</c>’s representation <c>scheme://host:port</c>.</summary>
@@ -8731,7 +8869,7 @@ module Electron =
         abstract expirationDate: float option with get, set
         /// <summary>
         /// The Same Site policy to apply to this cookie.  Can be <c>unspecified</c>,
-        /// <c>no_restriction</c>, <c>lax</c> or <c>strict</c>.  Default is <c>no_restriction</c>.
+        /// <c>no_restriction</c>, <c>lax</c> or <c>strict</c>.  Default is <c>lax</c>.
         /// </summary>
         abstract sameSite: CookieSameSite option with get, set
 
@@ -9102,8 +9240,8 @@ module Electron =
         abstract modifiers: ResizeArray<string> with get, set
 
     type [<AllowNullLiteral>] InsertCSSOptions =
-        /// Can be either 'user' or 'author'; Specifying 'user' enables you to prevent
-        /// websites from overriding the CSS you insert. Default is 'author'.
+        /// Can be either 'user' or 'author'. Sets the cascade origin of the inserted
+        /// stylesheet. Default is 'author'.
         abstract cssOrigin: string option with get, set
 
     type [<AllowNullLiteral>] IpcMessageEvent =
@@ -9222,13 +9360,15 @@ module Electron =
         /// <c>selectAll</c>, <c>reload</c>, <c>forceReload</c>, <c>toggleDevTools</c>, <c>resetZoom</c>, <c>zoomIn</c>,
         /// <c>zoomOut</c>, <c>toggleSpellChecker</c>, <c>togglefullscreen</c>, <c>window</c>, <c>minimize</c>,
         /// <c>close</c>, <c>help</c>, <c>about</c>, <c>services</c>, <c>hide</c>, <c>hideOthers</c>, <c>unhide</c>, <c>quit</c>,
-        /// <c>startSpeaking</c>, <c>stopSpeaking</c>, <c>zoom</c>, <c>front</c>, <c>appMenu</c>, <c>fileMenu</c>,
-        /// <c>editMenu</c>, <c>viewMenu</c>, <c>shareMenu</c>, <c>recentDocuments</c>, <c>toggleTabBar</c>,
-        /// <c>selectNextTab</c>, <c>selectPreviousTab</c>, <c>mergeAllWindows</c>, <c>clearRecentDocuments</c>,
-        /// <c>moveTabToNewWindow</c> or <c>windowMenu</c> - Define the action of the menu item, when
-        /// specified the <c>click</c> property will be ignored. See roles.
+        /// 'showSubstitutions', 'toggleSmartQuotes', 'toggleSmartDashes',
+        /// 'toggleTextReplacement', <c>startSpeaking</c>, <c>stopSpeaking</c>, <c>zoom</c>, <c>front</c>,
+        /// <c>appMenu</c>, <c>fileMenu</c>, <c>editMenu</c>, <c>viewMenu</c>, <c>shareMenu</c>, <c>recentDocuments</c>,
+        /// <c>toggleTabBar</c>, <c>selectNextTab</c>, <c>selectPreviousTab</c>, <c>mergeAllWindows</c>,
+        /// <c>clearRecentDocuments</c>, <c>moveTabToNewWindow</c> or <c>windowMenu</c> - Define the action
+        /// of the menu item, when specified the <c>click</c> property will be ignored. See
+        /// roles.
         /// </summary>
-        abstract role: MenuItemRole option with get, set
+        abstract role: MenuItemConstructorOptionsRole option with get, set
         /// <summary>Can be <c>normal</c>, <c>separator</c>, <c>submenu</c>, <c>checkbox</c> or <c>radio</c>.</summary>
         abstract ``type``: MenuItemType option with get, set
         abstract label: string option with get, set
@@ -9312,7 +9452,7 @@ module Electron =
         abstract checkboxLabel: string option with get, set
         /// <summary>Initial checked state of the checkbox. <c>false</c> by default.</summary>
         abstract checkboxChecked: bool option with get, set
-        abstract icon: NativeImage option with get, set
+        abstract icon: U2<NativeImage, string> option with get, set
         /// <summary>Custom width of the text in the message box.</summary>
         abstract textWidth: float option with get, set
         /// <summary>
@@ -9401,8 +9541,8 @@ module Electron =
         abstract versionId: float with get, set
         /// <summary>
         /// The type of source for this message.  Can be <c>javascript</c>, <c>xml</c>, <c>network</c>,
-        /// <c>console-api</c>, <c>storage</c>, <c>app-cache</c>, <c>rendering</c>, <c>security</c>, <c>deprecation</c>,
-        /// <c>worker</c>, <c>violation</c>, <c>intervention</c>, <c>recommendation</c> or <c>other</c>.
+        /// <c>console-api</c>, <c>storage</c>, <c>rendering</c>, <c>security</c>, <c>deprecation</c>, <c>worker</c>,
+        /// <c>violation</c>, <c>intervention</c>, <c>recommendation</c> or <c>other</c>.
         /// </summary>
         abstract source: MessageDetailsSource with get, set
         /// <summary>
@@ -9526,6 +9666,7 @@ module Electron =
         abstract resourceType: OnBeforeRedirectListenerDetailsResourceType with get, set
         abstract referrer: string with get, set
         abstract timestamp: float with get, set
+        abstract uploadData: ResizeArray<UploadData> option with get, set
         abstract requestHeaders: Record<string, string> with get, set
 
     type [<AllowNullLiteral>] OnCompletedListenerDetails =
@@ -9721,6 +9862,10 @@ module Electron =
         abstract productIdentifier: string with get, set
         /// The quantity purchased.
         abstract quantity: float with get, set
+        /// An opaque identifier for the user’s account on your system.
+        abstract applicationUsername: string with get, set
+        /// The details of the discount offer to apply to the payment.
+        abstract paymentDiscount: PaymentDiscount option with get, set
 
     type [<AllowNullLiteral>] PermissionCheckHandlerHandlerDetails =
         /// The origin of the frame embedding the frame that made the permission check.
@@ -9855,7 +10000,14 @@ module Electron =
         abstract hostname: string with get, set
         abstract certificate: Certificate with get, set
         abstract validatedCertificate: Certificate with get, set
-        /// Verification result from chromium.
+        /// <summary>
+        /// <c>true</c> if Chromium recognises the root CA as a standard root. If it isn't then
+        /// it's probably the case that this certificate was generated by a MITM proxy whose
+        /// root has been installed locally (for example, by a corporate proxy). This should
+        /// not be trusted if the <c>verificationResult</c> is not <c>OK</c>.
+        /// </summary>
+        abstract isIssuedByKnownRoot: bool with get, set
+        /// <summary><c>OK</c> if the certificate is trusted, otherwise an error like <c>CERT_REVOKED</c>.</summary>
         abstract verificationResult: string with get, set
         /// Error code.
         abstract errorCode: float with get, set
@@ -9993,7 +10145,7 @@ module Electron =
 
     type [<AllowNullLiteral>] SourcesOptions =
         /// <summary>
-        /// An array of Strings that lists the types of desktop sources to be captured,
+        /// An array of strings that lists the types of desktop sources to be captured,
         /// available types are <c>screen</c> and <c>window</c>.
         /// </summary>
         abstract types: ResizeArray<string> with get, set
@@ -10052,6 +10204,14 @@ module Electron =
         abstract swapTotal: float with get, set
         /// <summary>The free amount of swap memory in Kilobytes available to the system.</summary>
         abstract swapFree: float with get, set
+
+    type [<AllowNullLiteral>] TitleBarOverlayOptions =
+        /// <summary>The CSS color of the Window Controls Overlay when enabled.</summary>
+        abstract color: string option with get, set
+        /// <summary>The CSS color of the symbols on the Window Controls Overlay when enabled.</summary>
+        abstract symbolColor: string option with get, set
+        /// <summary>The height of the title bar and Window Controls Overlay in pixels.</summary>
+        abstract height: float option with get, set
 
     type [<AllowNullLiteral>] TitleOptions =
         /// <summary>
@@ -10250,9 +10410,9 @@ module Electron =
         /// </summary>
         abstract duplexMode: WebContentsPrintOptionsDuplexMode option with get, set
         abstract dpi: Record<string, float> option with get, set
-        /// String to be printed as page header.
+        /// string to be printed as page header.
         abstract header: string option with get, set
-        /// String to be printed as page footer.
+        /// string to be printed as page footer.
         abstract footer: string option with get, set
         /// <summary>
         /// Specify page size of the printed document. Can be <c>A3</c>, <c>A4</c>, <c>A5</c>, <c>Legal</c>,
@@ -10292,9 +10452,9 @@ module Electron =
         /// </summary>
         abstract duplexMode: WebContentsPrintOptionsDuplexMode option with get, set
         abstract dpi: Record<string, float> option with get, set
-        /// String to be printed as page header.
+        /// string to be printed as page header.
         abstract header: string option with get, set
-        /// String to be printed as page footer.
+        /// string to be printed as page footer.
         abstract footer: string option with get, set
         /// <summary>
         /// Specify page size of the printed document. Can be <c>A3</c>, <c>A4</c>, <c>A5</c>, <c>Legal</c>,
@@ -10622,12 +10782,6 @@ module Electron =
         /// </summary>
         abstract contextIsolation: bool option with get, set
         /// <summary>
-        /// Whether to use native <c>window.open()</c>. Defaults to <c>true</c>. Child windows will
-        /// always have node integration disabled unless <c>nodeIntegrationInSubFrames</c> is
-        /// true.
-        /// </summary>
-        abstract nativeWindowOpen: bool option with get, set
-        /// <summary>
         /// Whether to enable the <c>&lt;webview&gt;</c> tag. Defaults to <c>false</c>. **Note:** The
         /// <c>preload</c> script configured for the <c>&lt;webview&gt;</c> will have node integration
         /// enabled when it is executed so you should ensure remote/untrusted content is not
@@ -10743,7 +10897,6 @@ module Electron =
         type [<AllowNullLiteral>] IExports =
             abstract clipboard: Clipboard
             abstract crashReporter: CrashReporter
-            abstract desktopCapturer: DesktopCapturer
             abstract nativeImage: obj
             abstract shell: Shell
 
@@ -10752,9 +10905,6 @@ module Electron =
 
         type CrashReporter =
             Electron.CrashReporter
-
-        type DesktopCapturer =
-            Electron.DesktopCapturer
 
         type NativeImage =
             Electron.NativeImage
@@ -10803,6 +10953,9 @@ module Electron =
 
         type CertificateTrustDialogOptions =
             Electron.CertificateTrustDialogOptions
+
+        type ClearCodeCachesOptions =
+            Electron.ClearCodeCachesOptions
 
         type ClearStorageDataOptions =
             Electron.ClearStorageDataOptions
@@ -11128,6 +11281,9 @@ module Electron =
         type SystemMemoryInfo =
             Electron.SystemMemoryInfo
 
+        type TitleBarOverlayOptions =
+            Electron.TitleBarOverlayOptions
+
         type TitleOptions =
             Electron.TitleOptions
 
@@ -11323,6 +11479,9 @@ module Electron =
         type NotificationResponse =
             Electron.NotificationResponse
 
+        type PaymentDiscount =
+            Electron.PaymentDiscount
+
         type Point =
             Electron.Point
 
@@ -11340,6 +11499,12 @@ module Electron =
 
         type Product =
             Electron.Product
+
+        type ProductDiscount =
+            Electron.ProductDiscount
+
+        type ProductSubscriptionPeriod =
+            Electron.ProductSubscriptionPeriod
 
         type ProtocolRequest =
             Electron.ProtocolRequest
@@ -11421,6 +11586,7 @@ module Electron =
             abstract BrowserView: BrowserViewStatic
             abstract BrowserWindow: BrowserWindowStatic
             abstract contentTracing: ContentTracing
+            abstract desktopCapturer: DesktopCapturer
             abstract dialog: Dialog
             abstract globalShortcut: GlobalShortcut
             abstract inAppPurchase: InAppPurchase
@@ -11479,6 +11645,9 @@ module Electron =
 
         type Debugger =
             Electron.Debugger
+
+        type DesktopCapturer =
+            Electron.DesktopCapturer
 
         type Dialog =
             Electron.Dialog
@@ -11666,6 +11835,9 @@ module Electron =
         type CertificateTrustDialogOptions =
             Electron.CertificateTrustDialogOptions
 
+        type ClearCodeCachesOptions =
+            Electron.ClearCodeCachesOptions
+
         type ClearStorageDataOptions =
             Electron.ClearStorageDataOptions
 
@@ -11990,6 +12162,9 @@ module Electron =
         type SystemMemoryInfo =
             Electron.SystemMemoryInfo
 
+        type TitleBarOverlayOptions =
+            Electron.TitleBarOverlayOptions
+
         type TitleOptions =
             Electron.TitleOptions
 
@@ -12185,6 +12360,9 @@ module Electron =
         type NotificationResponse =
             Electron.NotificationResponse
 
+        type PaymentDiscount =
+            Electron.PaymentDiscount
+
         type Point =
             Electron.Point
 
@@ -12202,6 +12380,12 @@ module Electron =
 
         type Product =
             Electron.Product
+
+        type ProductDiscount =
+            Electron.ProductDiscount
+
+        type ProductSubscriptionPeriod =
+            Electron.ProductSubscriptionPeriod
 
         type ProtocolRequest =
             Electron.ProtocolRequest
@@ -12282,9 +12466,6 @@ module Electron =
             abstract ipcRenderer: IpcRenderer
             abstract webFrame: WebFrame
 
-        type BrowserWindowProxy =
-            Electron.BrowserWindowProxy
-
         type ContextBridge =
             Electron.ContextBridge
 
@@ -12335,6 +12516,9 @@ module Electron =
 
         type CertificateTrustDialogOptions =
             Electron.CertificateTrustDialogOptions
+
+        type ClearCodeCachesOptions =
+            Electron.ClearCodeCachesOptions
 
         type ClearStorageDataOptions =
             Electron.ClearStorageDataOptions
@@ -12660,6 +12844,9 @@ module Electron =
         type SystemMemoryInfo =
             Electron.SystemMemoryInfo
 
+        type TitleBarOverlayOptions =
+            Electron.TitleBarOverlayOptions
+
         type TitleOptions =
             Electron.TitleOptions
 
@@ -12855,6 +13042,9 @@ module Electron =
         type NotificationResponse =
             Electron.NotificationResponse
 
+        type PaymentDiscount =
+            Electron.PaymentDiscount
+
         type Point =
             Electron.Point
 
@@ -12872,6 +13062,12 @@ module Electron =
 
         type Product =
             Electron.Product
+
+        type ProductDiscount =
+            Electron.ProductDiscount
+
+        type ProductSubscriptionPeriod =
+            Electron.ProductSubscriptionPeriod
 
         type ProtocolRequest =
             Electron.ProtocolRequest
@@ -13005,9 +13201,6 @@ module Electron =
             /// BrowserWindow
             [<EmitConstructor>] abstract Create: ?options: BrowserWindowConstructorOptions -> BrowserWindow
 
-        type BrowserWindowProxy =
-            Electron.BrowserWindowProxy
-
         type ClientRequest =
             Electron.ClientRequest
 
@@ -13232,6 +13425,9 @@ module Electron =
 
         type CertificateTrustDialogOptions =
             Electron.CertificateTrustDialogOptions
+
+        type ClearCodeCachesOptions =
+            Electron.ClearCodeCachesOptions
 
         type ClearStorageDataOptions =
             Electron.ClearStorageDataOptions
@@ -13557,6 +13753,9 @@ module Electron =
         type SystemMemoryInfo =
             Electron.SystemMemoryInfo
 
+        type TitleBarOverlayOptions =
+            Electron.TitleBarOverlayOptions
+
         type TitleOptions =
             Electron.TitleOptions
 
@@ -13752,6 +13951,9 @@ module Electron =
         type NotificationResponse =
             Electron.NotificationResponse
 
+        type PaymentDiscount =
+            Electron.PaymentDiscount
+
         type Point =
             Electron.Point
 
@@ -13769,6 +13971,12 @@ module Electron =
 
         type Product =
             Electron.Product
+
+        type ProductDiscount =
+            Electron.ProductDiscount
+
+        type ProductSubscriptionPeriod =
+            Electron.ProductSubscriptionPeriod
 
         type ProtocolRequest =
             Electron.ProtocolRequest
@@ -13868,6 +14076,13 @@ module Electron =
         | Regular
         | Accessory
         | Prohibited
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] AppSetJumpList =
+        | Ok
+        | Error
+        | InvalidSeparatorError
+        | FileTypeRegistrationError
+        | CustomCategoryAccessDeniedError
 
     type [<StringEnum>] [<RequireQualifiedAccess>] BrowserWindowSetAlwaysOnTop =
         | Normal
@@ -14020,6 +14235,55 @@ module Electron =
         | MoveTabToNewWindow
         | WindowMenu
 
+    type [<StringEnum>] [<RequireQualifiedAccess>] MenuItemConstructorOptionsRole =
+        | Undo
+        | Redo
+        | Cut
+        | Copy
+        | Paste
+        | PasteAndMatchStyle
+        | Delete
+        | SelectAll
+        | Reload
+        | ForceReload
+        | ToggleDevTools
+        | ResetZoom
+        | ZoomIn
+        | ZoomOut
+        | ToggleSpellChecker
+        | Togglefullscreen
+        | Window
+        | Minimize
+        | Close
+        | Help
+        | About
+        | Services
+        | Hide
+        | HideOthers
+        | Unhide
+        | Quit
+        | ShowSubstitutions
+        | ToggleSmartQuotes
+        | ToggleSmartDashes
+        | ToggleTextReplacement
+        | StartSpeaking
+        | StopSpeaking
+        | Zoom
+        | Front
+        | AppMenu
+        | FileMenu
+        | EditMenu
+        | ViewMenu
+        | ShareMenu
+        | RecentDocuments
+        | ToggleTabBar
+        | SelectNextTab
+        | SelectPreviousTab
+        | MergeAllWindows
+        | ClearRecentDocuments
+        | MoveTabToNewWindow
+        | WindowMenu
+
     type [<StringEnum>] [<RequireQualifiedAccess>] MenuItemType =
         | Normal
         | Separator
@@ -14082,6 +14346,17 @@ module Electron =
         | [<CompiledName("Pepper Plugin")>] ``Pepper Plugin``
         | [<CompiledName("Pepper Plugin Broker")>] ``Pepper Plugin Broker``
         | [<CompiledName("Unknown")>] Unknown
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ProductDiscountPaymentMode =
+        | PayAsYouGo
+        | PayUpFront
+        | FreeTrial
+
+    type [<StringEnum>] [<RequireQualifiedAccess>] ProductSubscriptionPeriodUnit =
+        | Day
+        | Week
+        | Month
+        | Year
 
     type [<StringEnum>] [<RequireQualifiedAccess>] ReferrerPolicy =
         | Default
@@ -14394,7 +14669,6 @@ module Electron =
         | Network
         | [<CompiledName("console-api")>] ConsoleApi
         | Storage
-        | [<CompiledName("app-cache")>] AppCache
         | Rendering
         | Security
         | Deprecation
@@ -14577,7 +14851,7 @@ module NodeJS =
         /// * <c>heapSizeLimit</c> Integer
         /// * <c>mallocedMemory</c> Integer
         /// * <c>peakMallocedMemory</c> Integer
-        /// * <c>doesZapGarbage</c> Boolean
+        /// * <c>doesZapGarbage</c> boolean
         /// 
         /// Returns an object with V8 heap statistics. Note that all statistics are reported
         /// in Kilobytes.
@@ -14634,78 +14908,78 @@ module NodeJS =
         /// Takes a V8 heap snapshot and saves it to <c>filePath</c>.
         /// </summary>
         abstract takeHeapSnapshot: filePath: string -> bool
-        /// <summary>A <c>String</c> representing Chrome's version string.</summary>
+        /// <summary>A <c>string</c> representing Chrome's version string.</summary>
         abstract chrome: string
         /// <summary>
-        /// A <c>String</c> (optional) representing a globally unique ID of the current
+        /// A <c>string</c> (optional) representing a globally unique ID of the current
         /// JavaScript context. Each frame has its own JavaScript context. When
         /// contextIsolation is enabled, the isolated world also has a separate JavaScript
         /// context. This property is only available in the renderer process.
         /// </summary>
         abstract contextId: string option
         /// <summary>
-        /// A <c>Boolean</c> that indicates whether the current renderer context has
+        /// A <c>boolean</c> that indicates whether the current renderer context has
         /// <c>contextIsolation</c> enabled. It is <c>undefined</c> in the main process.
         /// </summary>
         abstract contextIsolated: bool
         /// <summary>
-        /// A <c>Boolean</c>. When app is started by being passed as parameter to the default
+        /// A <c>boolean</c>. When app is started by being passed as parameter to the default
         /// app, this property is <c>true</c> in the main process, otherwise it is <c>undefined</c>.
         /// </summary>
         abstract defaultApp: bool
-        /// <summary>A <c>String</c> representing Electron's version string.</summary>
+        /// <summary>A <c>string</c> representing Electron's version string.</summary>
         abstract electron: string
         /// <summary>
-        /// A <c>Boolean</c>, <c>true</c> when the current renderer context is the "main" renderer
+        /// A <c>boolean</c>, <c>true</c> when the current renderer context is the "main" renderer
         /// frame. If you want the ID of the current frame you should use
         /// <c>webFrame.routingId</c>.
         /// </summary>
         abstract isMainFrame: bool
         /// <summary>
-        /// A <c>Boolean</c>. For Mac App Store build, this property is <c>true</c>, for other builds
+        /// A <c>boolean</c>. For Mac App Store build, this property is <c>true</c>, for other builds
         /// it is <c>undefined</c>.
         /// </summary>
         abstract mas: bool
         /// <summary>
-        /// A <c>Boolean</c> that controls ASAR support inside your application. Setting this to
+        /// A <c>boolean</c> that controls ASAR support inside your application. Setting this to
         /// <c>true</c> will disable the support for <c>asar</c> archives in Node's built-in modules.
         /// </summary>
         abstract noAsar: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> that controls whether or not deprecation warnings are printed to
+        /// A <c>boolean</c> that controls whether or not deprecation warnings are printed to
         /// <c>stderr</c>. Setting this to <c>true</c> will silence deprecation warnings. This
         /// property is used instead of the <c>--no-deprecation</c> command line flag.
         /// </summary>
         abstract noDeprecation: bool with get, set
-        /// <summary>A <c>String</c> representing the path to the resources directory.</summary>
+        /// <summary>A <c>string</c> representing the path to the resources directory.</summary>
         abstract resourcesPath: string
         /// <summary>
-        /// A <c>Boolean</c>. When the renderer process is sandboxed, this property is <c>true</c>,
+        /// A <c>boolean</c>. When the renderer process is sandboxed, this property is <c>true</c>,
         /// otherwise it is <c>undefined</c>.
         /// </summary>
         abstract sandboxed: bool
         /// <summary>
-        /// A <c>Boolean</c> that controls whether or not deprecation warnings will be thrown as
+        /// A <c>boolean</c> that controls whether or not deprecation warnings will be thrown as
         /// exceptions. Setting this to <c>true</c> will throw errors for deprecations. This
         /// property is used instead of the <c>--throw-deprecation</c> command line flag.
         /// </summary>
         abstract throwDeprecation: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> that controls whether or not deprecations printed to <c>stderr</c>
+        /// A <c>boolean</c> that controls whether or not deprecations printed to <c>stderr</c>
         /// include their stack trace. Setting this to <c>true</c> will print stack traces for
         /// deprecations. This property is instead of the <c>--trace-deprecation</c> command line
         /// flag.
         /// </summary>
         abstract traceDeprecation: bool with get, set
         /// <summary>
-        /// A <c>Boolean</c> that controls whether or not process warnings printed to <c>stderr</c>
+        /// A <c>boolean</c> that controls whether or not process warnings printed to <c>stderr</c>
         /// include their stack trace. Setting this to <c>true</c> will print stack traces for
         /// process warnings (including deprecations). This property is instead of the
         /// <c>--trace-warnings</c> command line flag.
         /// </summary>
         abstract traceProcessWarnings: bool with get, set
         /// <summary>
-        /// A <c>String</c> representing the current process's type, can be:
+        /// A <c>string</c> representing the current process's type, can be:
         /// 
         /// * <c>browser</c> - The main process
         /// * <c>renderer</c> - A renderer process
@@ -14713,7 +14987,7 @@ module NodeJS =
         /// </summary>
         abstract ``type``: ProcessType
         /// <summary>
-        /// A <c>Boolean</c>. If the app is running as a Windows Store app (appx), this property
+        /// A <c>boolean</c>. If the app is running as a Windows Store app (appx), this property
         /// is <c>true</c>, for otherwise it is <c>undefined</c>.
         /// </summary>
         abstract windowsStore: bool
