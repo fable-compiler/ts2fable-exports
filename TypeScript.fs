@@ -1057,12 +1057,30 @@ module Ts =
         abstract pos: float with get, set
         abstract ``end``: float with get, set
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.EndOfFileToken | SyntaxKind.WhitespaceTrivia | SyntaxKind.AtToken | SyntaxKind.NewLineTrivia | SyntaxKind.AsteriskToken | SyntaxKind.OpenBraceToken | SyntaxKind.CloseBraceToken | SyntaxKind.LessThanToken | SyntaxKind.GreaterThanToken | SyntaxKind.OpenBracketToken | SyntaxKind.CloseBracketToken | SyntaxKind.EqualsToken | SyntaxKind.CommaToken | SyntaxKind.DotToken | SyntaxKind.Identifier | SyntaxKind.BacktickToken | SyntaxKind.Unknown | KeywordSyntaxKind
+    /// </code>
+    /// </remarks>
     type JSDocSyntaxKind =
-        U2<SyntaxKind, KeywordSyntaxKind>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.AbstractKeyword | SyntaxKind.AnyKeyword | SyntaxKind.AsKeyword | SyntaxKind.AssertsKeyword | SyntaxKind.BigIntKeyword | SyntaxKind.BooleanKeyword | SyntaxKind.BreakKeyword | SyntaxKind.CaseKeyword | SyntaxKind.CatchKeyword | SyntaxKind.ClassKeyword | SyntaxKind.ContinueKeyword | SyntaxKind.ConstKeyword | SyntaxKind.ConstructorKeyword | SyntaxKind.DebuggerKeyword | SyntaxKind.DeclareKeyword | SyntaxKind.DefaultKeyword | SyntaxKind.DeleteKeyword | SyntaxKind.DoKeyword | SyntaxKind.ElseKeyword | SyntaxKind.EnumKeyword | SyntaxKind.ExportKeyword | SyntaxKind.ExtendsKeyword | SyntaxKind.FalseKeyword | SyntaxKind.FinallyKeyword | SyntaxKind.ForKeyword | SyntaxKind.FromKeyword | SyntaxKind.FunctionKeyword | SyntaxKind.GetKeyword | SyntaxKind.IfKeyword | SyntaxKind.ImplementsKeyword | SyntaxKind.ImportKeyword | SyntaxKind.InKeyword | SyntaxKind.InferKeyword | SyntaxKind.InstanceOfKeyword | SyntaxKind.InterfaceKeyword | SyntaxKind.IsKeyword | SyntaxKind.KeyOfKeyword | SyntaxKind.LetKeyword | SyntaxKind.ModuleKeyword | SyntaxKind.NamespaceKeyword | SyntaxKind.NeverKeyword | SyntaxKind.NewKeyword | SyntaxKind.NullKeyword | SyntaxKind.NumberKeyword | SyntaxKind.ObjectKeyword | SyntaxKind.PackageKeyword | SyntaxKind.PrivateKeyword | SyntaxKind.ProtectedKeyword | SyntaxKind.PublicKeyword | SyntaxKind.ReadonlyKeyword | SyntaxKind.RequireKeyword | SyntaxKind.GlobalKeyword | SyntaxKind.ReturnKeyword | SyntaxKind.SetKeyword | SyntaxKind.StaticKeyword | SyntaxKind.StringKeyword | SyntaxKind.SuperKeyword | SyntaxKind.SwitchKeyword | SyntaxKind.SymbolKeyword | SyntaxKind.ThisKeyword | SyntaxKind.ThrowKeyword | SyntaxKind.TrueKeyword | SyntaxKind.TryKeyword | SyntaxKind.TypeKeyword | SyntaxKind.TypeOfKeyword | SyntaxKind.UndefinedKeyword | SyntaxKind.UniqueKeyword | SyntaxKind.UnknownKeyword | SyntaxKind.VarKeyword | SyntaxKind.VoidKeyword | SyntaxKind.WhileKeyword | SyntaxKind.WithKeyword | SyntaxKind.YieldKeyword | SyntaxKind.AsyncKeyword | SyntaxKind.AwaitKeyword | SyntaxKind.OfKeyword
+    /// </code>
+    /// </remarks>
     type KeywordSyntaxKind =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.LessThanSlashToken | SyntaxKind.EndOfFileToken | SyntaxKind.ConflictMarkerTrivia | SyntaxKind.JsxText | SyntaxKind.JsxTextAllWhiteSpaces | SyntaxKind.OpenBraceToken | SyntaxKind.LessThanToken
+    /// </code>
+    /// </remarks>
     type JsxTokenSyntaxKind =
         SyntaxKind
 
@@ -2056,6 +2074,12 @@ module Ts =
         inherit UnaryExpression
         abstract _updateExpressionBrand: obj option with get, set
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.PlusPlusToken | SyntaxKind.MinusMinusToken | SyntaxKind.PlusToken | SyntaxKind.MinusToken | SyntaxKind.TildeToken | SyntaxKind.ExclamationToken
+    /// </code>
+    /// </remarks>
     type PrefixUnaryOperator =
         SyntaxKind
 
@@ -2065,6 +2089,12 @@ module Ts =
         abstract operator: PrefixUnaryOperator with get, set
         abstract operand: UnaryExpression with get, set
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.PlusPlusToken | SyntaxKind.MinusMinusToken
+    /// </code>
+    /// </remarks>
     type PostfixUnaryOperator =
         SyntaxKind
 
@@ -2144,59 +2174,167 @@ module Ts =
     type ExponentiationOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.AsteriskToken | SyntaxKind.SlashToken | SyntaxKind.PercentToken
+    /// </code>
+    /// </remarks>
     type MultiplicativeOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// ExponentiationOperator | MultiplicativeOperator
+    /// </code>
+    /// </remarks>
     type MultiplicativeOperatorOrHigher =
-        U2<ExponentiationOperator, MultiplicativeOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.PlusToken | SyntaxKind.MinusToken
+    /// </code>
+    /// </remarks>
     type AdditiveOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// MultiplicativeOperatorOrHigher | AdditiveOperator
+    /// </code>
+    /// </remarks>
     type AdditiveOperatorOrHigher =
-        U2<MultiplicativeOperatorOrHigher, AdditiveOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.LessThanLessThanToken | SyntaxKind.GreaterThanGreaterThanToken | SyntaxKind.GreaterThanGreaterThanGreaterThanToken
+    /// </code>
+    /// </remarks>
     type ShiftOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// AdditiveOperatorOrHigher | ShiftOperator
+    /// </code>
+    /// </remarks>
     type ShiftOperatorOrHigher =
-        U2<AdditiveOperatorOrHigher, ShiftOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.LessThanToken | SyntaxKind.LessThanEqualsToken | SyntaxKind.GreaterThanToken | SyntaxKind.GreaterThanEqualsToken | SyntaxKind.InstanceOfKeyword | SyntaxKind.InKeyword
+    /// </code>
+    /// </remarks>
     type RelationalOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// ShiftOperatorOrHigher | RelationalOperator
+    /// </code>
+    /// </remarks>
     type RelationalOperatorOrHigher =
-        U2<ShiftOperatorOrHigher, RelationalOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.EqualsEqualsToken | SyntaxKind.EqualsEqualsEqualsToken | SyntaxKind.ExclamationEqualsEqualsToken | SyntaxKind.ExclamationEqualsToken
+    /// </code>
+    /// </remarks>
     type EqualityOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// RelationalOperatorOrHigher | EqualityOperator
+    /// </code>
+    /// </remarks>
     type EqualityOperatorOrHigher =
-        U2<RelationalOperatorOrHigher, EqualityOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.AmpersandToken | SyntaxKind.BarToken | SyntaxKind.CaretToken
+    /// </code>
+    /// </remarks>
     type BitwiseOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// EqualityOperatorOrHigher | BitwiseOperator
+    /// </code>
+    /// </remarks>
     type BitwiseOperatorOrHigher =
-        U2<EqualityOperatorOrHigher, BitwiseOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.AmpersandAmpersandToken | SyntaxKind.BarBarToken
+    /// </code>
+    /// </remarks>
     type LogicalOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// BitwiseOperatorOrHigher | LogicalOperator
+    /// </code>
+    /// </remarks>
     type LogicalOperatorOrHigher =
-        U2<BitwiseOperatorOrHigher, LogicalOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.PlusEqualsToken | SyntaxKind.MinusEqualsToken | SyntaxKind.AsteriskAsteriskEqualsToken | SyntaxKind.AsteriskEqualsToken | SyntaxKind.SlashEqualsToken | SyntaxKind.PercentEqualsToken | SyntaxKind.AmpersandEqualsToken | SyntaxKind.BarEqualsToken | SyntaxKind.CaretEqualsToken | SyntaxKind.LessThanLessThanEqualsToken | SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken | SyntaxKind.GreaterThanGreaterThanEqualsToken
+    /// </code>
+    /// </remarks>
     type CompoundAssignmentOperator =
         SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.EqualsToken | CompoundAssignmentOperator
+    /// </code>
+    /// </remarks>
     type AssignmentOperator =
-        U2<SyntaxKind, CompoundAssignmentOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.QuestionQuestionToken | LogicalOperatorOrHigher | AssignmentOperator
+    /// </code>
+    /// </remarks>
     type AssignmentOperatorOrHigher =
-        U3<SyntaxKind, LogicalOperatorOrHigher, AssignmentOperator>
+        SyntaxKind
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// AssignmentOperatorOrHigher | SyntaxKind.CommaToken
+    /// </code>
+    /// </remarks>
     type BinaryOperator =
-        U2<AssignmentOperatorOrHigher, SyntaxKind>
+        SyntaxKind
 
     type BinaryOperatorToken =
         Token<BinaryOperator>
@@ -2999,6 +3137,12 @@ module Ts =
         inherit TextRange
         abstract enabled: bool with get, set
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.SingleLineCommentTrivia | SyntaxKind.MultiLineCommentTrivia
+    /// </code>
+    /// </remarks>
     type CommentKind =
         SyntaxKind
 
