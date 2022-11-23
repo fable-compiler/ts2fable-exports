@@ -5579,12 +5579,12 @@ Use typeAcquisition.enable instead.")>]
         CombinedCodeFixScope
 
     type [<StringEnum>] [<RequireQualifiedAccess>] CompletionsTriggerCharacter =
-        | [<CompiledName(".")>] ``_``
-        | [<CompiledName("\"")>] ``"``
+        | [<CompiledName(".")>] DOT
+        | [<CompiledName("\"")>] QUOTATION
         | [<CompiledName("'")>] ``'``
-        | [<CompiledName("`")>] ``'``
-        | [<CompiledName("/")>] ``/``
-        | [<CompiledName("@")>] ``@``
+        | [<CompiledName("`")>] BACKTICK
+        | [<CompiledName("/")>] SLASH
+        | [<CompiledName("@")>] AT
         | [<CompiledName("<")>] ``<``
 
     type [<AllowNullLiteral>] GetCompletionsAtPositionOptions =
