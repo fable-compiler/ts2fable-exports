@@ -1549,51 +1549,141 @@ module Ts =
         inherit Node
         abstract kind: 'TKind with get, set
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.DotToken&gt;
+    /// </code>
+    /// </remarks>
     type DotToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.DotDotDotToken&gt;
+    /// </code>
+    /// </remarks>
     type DotDotDotToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.QuestionToken&gt;
+    /// </code>
+    /// </remarks>
     type QuestionToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.QuestionDotToken&gt;
+    /// </code>
+    /// </remarks>
     type QuestionDotToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.ExclamationToken&gt;
+    /// </code>
+    /// </remarks>
     type ExclamationToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.ColonToken&gt;
+    /// </code>
+    /// </remarks>
     type ColonToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.EqualsToken&gt;
+    /// </code>
+    /// </remarks>
     type EqualsToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.AsteriskToken&gt;
+    /// </code>
+    /// </remarks>
     type AsteriskToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.EqualsGreaterThanToken&gt;
+    /// </code>
+    /// </remarks>
     type EqualsGreaterThanToken =
         Token<SyntaxKind>
 
     type [<AllowNullLiteral>] EndOfFileToken =
         interface end
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.ReadonlyKeyword&gt;
+    /// </code>
+    /// </remarks>
     type ReadonlyToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.AwaitKeyword&gt;
+    /// </code>
+    /// </remarks>
     type AwaitKeywordToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.PlusToken&gt;
+    /// </code>
+    /// </remarks>
     type PlusToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.MinusToken&gt;
+    /// </code>
+    /// </remarks>
     type MinusToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.AssertsKeyword&gt;
+    /// </code>
+    /// </remarks>
     type AssertsToken =
         Token<SyntaxKind>
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// Token&lt;SyntaxKind.AbstractKeyword&gt; | Token&lt;SyntaxKind.AsyncKeyword&gt; | Token&lt;SyntaxKind.ConstKeyword&gt; | Token&lt;SyntaxKind.DeclareKeyword&gt; | Token&lt;SyntaxKind.DefaultKeyword&gt; | Token&lt;SyntaxKind.ExportKeyword&gt; | Token&lt;SyntaxKind.PublicKeyword&gt; | Token&lt;SyntaxKind.PrivateKeyword&gt; | Token&lt;SyntaxKind.ProtectedKeyword&gt; | Token&lt;SyntaxKind.ReadonlyKeyword&gt; | Token&lt;SyntaxKind.StaticKeyword&gt;
+    /// </code>
+    /// </remarks>
     type Modifier =
         Token<SyntaxKind>
 
@@ -2171,6 +2261,12 @@ module Ts =
         abstract isSpread: bool with get, set
         abstract ``type``: Type with get, set
 
+    /// <remarks>
+    /// Original in TypeScript:  
+    /// <code lang="typescript">
+    /// SyntaxKind.AsteriskAsteriskToken
+    /// </code>
+    /// </remarks>
     type ExponentiationOperator =
         SyntaxKind
 
