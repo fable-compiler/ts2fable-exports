@@ -500,7 +500,7 @@ module Ts =
         abstract createFileLevelUniqueName: text: string -> Identifier
         /// Create a unique name generated for a node.
         abstract getGeneratedNameForNode: node: Node option -> Identifier
-        abstract createToken: token: 'TKind -> Token<'TKind> when 'TKind : enum<int>
+        abstract createToken: token: 'TKind -> Token<'TKind>
         abstract createSuper: unit -> SuperExpression
         abstract createThis: unit -> obj
         abstract createNull: unit -> obj
@@ -1545,7 +1545,7 @@ module Ts =
         inherit TextRange
         abstract hasTrailingComma: bool option with get, set
 
-    type [<AllowNullLiteral>] Token<'TKind when 'TKind : enum<int>> =
+    type [<AllowNullLiteral>] Token<'TKind> =
         inherit Node
         abstract kind: 'TKind with get, set
 
