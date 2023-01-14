@@ -2220,9 +2220,9 @@ module Monaco =
 
         /// All computed editor options.
         type [<AllowNullLiteral>] IComputedEditorOptions =
-            abstract get: id: 'T -> FindComputedEditorOptionValueById<'T> when 'T : enum<int>
+            abstract get: id: 'T -> FindComputedEditorOptionValueById<'T>
 
-        type [<AllowNullLiteral>] IEditorOption<'K1, 'V when 'K1 : enum<int>> =
+        type [<AllowNullLiteral>] IEditorOption<'K1, 'V> =
             abstract id: 'K1
             abstract name: string
             abstract defaultValue: 'V with get, set
@@ -2746,13 +2746,13 @@ module Monaco =
         type EditorOptionsType =
             obj
 
-        type FindEditorOptionsKeyById<'T when 'T : enum<int>> =
+        type FindEditorOptionsKeyById<'T> =
             obj
 
         type ComputedEditorOptionValue<'T when 'T :> IEditorOption<obj option, obj option>> =
             obj
 
-        type FindComputedEditorOptionValueById<'T when 'T : enum<int>> =
+        type FindComputedEditorOptionValueById<'T> =
             NonNullable<ComputedEditorOptionValue<obj>>
 
         /// A view zone is a full horizontal rectangle that 'pushes' text down.
@@ -3014,7 +3014,7 @@ module Monaco =
             /// Gets all the editor computed options.
             abstract getOptions: unit -> IComputedEditorOptions
             /// Gets a specific editor option.
-            abstract getOption: id: 'T -> FindComputedEditorOptionValueById<'T> when 'T : enum<int>
+            abstract getOption: id: 'T -> FindComputedEditorOptionValueById<'T>
             /// Returns the editor's configuration (without any validation or defaults).
             abstract getRawOptions: unit -> IEditorOptions
             /// <summary>Get value of the current model attached to this editor.</summary>
