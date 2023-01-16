@@ -142,9 +142,9 @@ module Yargs =
         abstract command: command: U2<string, ResizeArray<string>> * description: string * ?builder: BuilderCallback<'T, 'U> * ?handler: (Arguments<'U> -> unit) -> Argv<'T>
         abstract command: command: U2<string, ResizeArray<string>> * description: string * ?builder: 'O * ?handler: (Arguments<InferredOptionTypes<'O>> -> unit) -> Argv<'T>
         abstract command: command: U2<string, ResizeArray<string>> * description: string * ``module``: CommandModule<'T, 'U> -> Argv<'U>
-        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: bool * ?builder: BuilderCallback<'T, 'U> * ?handler: (Arguments<'U> -> unit) -> Argv<'T>
-        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: bool * ?builder: 'O * ?handler: (Arguments<InferredOptionTypes<'O>> -> unit) -> Argv<'T>
-        abstract command: command: U2<string, ResizeArray<string>> * showInHelp: bool * ``module``: CommandModule<'T, 'U> -> Argv<'U>
+        [<Emit("$0.command($1,false,$2,$3)")>] abstract command_false: command: U2<string, ResizeArray<string>> * ?builder: BuilderCallback<'T, 'U> * ?handler: (Arguments<'U> -> unit) -> Argv<'T>
+        [<Emit("$0.command($1,false,$2,$3)")>] abstract command_false: command: U2<string, ResizeArray<string>> * ?builder: 'O * ?handler: (Arguments<InferredOptionTypes<'O>> -> unit) -> Argv<'T>
+        [<Emit("$0.command($1,false,$2)")>] abstract command_false: command: U2<string, ResizeArray<string>> * ``module``: CommandModule<'T, 'U> -> Argv<'U>
         abstract command: ``module``: CommandModule<'T, 'U> -> Argv<'U>
         /// Apply command modules from a directory relative to the module calling this method.
         abstract commandDir: dir: string * ?opts: RequireDirectoryOptions -> Argv<'T>

@@ -1426,8 +1426,8 @@ module Monaco =
             /// <param name="operations">The edit operations.</param>
             /// <returns>If desired, the inverse edit operations, that, when applied, will bring the model back to the previous state.</returns>
             abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> -> unit
-            abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> * computeUndoEdits: bool -> unit
-            abstract applyEdits: operations: ResizeArray<IIdentifiedSingleEditOperation> * computeUndoEdits: bool -> ResizeArray<IValidEditOperation>
+            [<Emit("$0.applyEdits($1,false)")>] abstract applyEdits_false: operations: ResizeArray<IIdentifiedSingleEditOperation> -> unit
+            [<Emit("$0.applyEdits($1,true)")>] abstract applyEdits_true: operations: ResizeArray<IIdentifiedSingleEditOperation> -> ResizeArray<IValidEditOperation>
             /// Change the end of line sequence without recording in the undo stack.
             /// This can have dire consequences on the undo stack! See @pushEOL for the preferred way.
             abstract setEOL: eol: EndOfLineSequence -> unit
