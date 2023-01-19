@@ -391,7 +391,7 @@ module Ts =
         abstract isCallOrNewExpression: node: Node -> bool
         abstract isTemplateLiteral: node: Node -> bool
         abstract isAssertionExpression: node: Node -> bool
-        abstract isIterationStatement: node: Node * lookInLabeledStatements: bool -> bool
+        [<Emit("$0.isIterationStatement($1,false)")>] abstract isIterationStatement_false: node: Node -> bool
         abstract isIterationStatement: node: Node * lookInLabeledStatements: bool -> bool
         abstract isJsxOpeningLikeElement: node: Node -> bool
         abstract isCaseOrDefaultClause: node: Node -> bool
