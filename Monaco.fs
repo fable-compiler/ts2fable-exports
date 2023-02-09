@@ -2753,7 +2753,7 @@ module Monaco =
             obj
 
         type FindComputedEditorOptionValueById<'T> =
-            NonNullable<ComputedEditorOptionValue<obj>>
+            ComputedEditorOptionValue<obj>
 
         /// A view zone is a full horizontal rectangle that 'pushes' text down.
         /// The editor reserves space for view zones when rendering.
