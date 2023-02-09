@@ -14435,7 +14435,7 @@ module Electron =
         | [<CompiledName("find-highlight")>] FindHighlight
         | Grid
         | [<CompiledName("header-text")>] HeaderText
-        | Highlight
+        | [<CompiledName("highlight")>] ``highlight``
         | [<CompiledName("keyboard-focus-indicator")>] KeyboardFocusIndicator
         | Label
         | Link
