@@ -592,14 +592,14 @@ module Electron =
         /// it ignores the <c>args</c> option, this property will be true if the given executable
         /// would be launched at login with **any** arguments.
         /// * <c>launchItems</c> Object[] _Windows_
-        ///    * <c>name</c> string _Windows_ - name value of a registry entry.
-        ///    * <c>path</c> string _Windows_ - The executable to an app that corresponds to a
+        ///   * <c>name</c> string _Windows_ - name value of a registry entry.
+        ///   * <c>path</c> string _Windows_ - The executable to an app that corresponds to a
         /// registry entry.
-        ///    * <c>args</c> string[] _Windows_ - the command-line arguments to pass to the
+        ///   * <c>args</c> string[] _Windows_ - the command-line arguments to pass to the
         /// executable.
-        ///    * <c>scope</c> string _Windows_ - one of <c>user</c> or <c>machine</c>. Indicates whether the
+        ///   * <c>scope</c> string _Windows_ - one of <c>user</c> or <c>machine</c>. Indicates whether the
         /// registry entry is under <c>HKEY_CURRENT USER</c> or <c>HKEY_LOCAL_MACHINE</c>.
-        ///    * <c>enabled</c> boolean _Windows_ - <c>true</c> if the app registry key is startup
+        ///   * <c>enabled</c> boolean _Windows_ - <c>true</c> if the app registry key is startup
         /// approved and therefore shows as <c>enabled</c> in Task Manager and Windows settings.
         /// </summary>
         abstract getLoginItemSettings: ?options: LoginItemSettingsOptions -> LoginItemSettings
@@ -1167,26 +1167,26 @@ module Electron =
         /// Examples of valid <c>color</c> values:
         /// 
         /// * Hex
-        ///    * #fff (RGB)
-        ///    * #ffff (ARGB)
-        ///    * #ffffff (RRGGBB)
-        ///    * #ffffffff (AARRGGBB)
+        ///   * #fff (RGB)
+        ///   * #ffff (ARGB)
+        ///   * #ffffff (RRGGBB)
+        ///   * #ffffffff (AARRGGBB)
         /// * RGB
-        ///    * rgb(([\d]+),\s*([\d]+),\s*([\d]+))
-        ///      * e.g. rgb(255, 255, 255)
+        ///   * rgb(([\d]+),\s*([\d]+),\s*([\d]+))
+        ///     * e.g. rgb(255, 255, 255)
         /// * RGBA
-        ///    * rgba(([\d]+),\s*([\d]+),\s*([\d]+),\s*([\d.]+))
-        ///      * e.g. rgba(255, 255, 255, 1.0)
+        ///   * rgba(([\d]+),\s*([\d]+),\s*([\d]+),\s*([\d.]+))
+        ///     * e.g. rgba(255, 255, 255, 1.0)
         /// * HSL
-        ///    * hsl((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%)
-        ///      * e.g. hsl(200, 20%, 50%)
+        ///   * hsl((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%)
+        ///     * e.g. hsl(200, 20%, 50%)
         /// * HSLA
-        ///    * hsla((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+))
-        ///      * e.g. hsla(200, 20%, 50%, 0.5)
+        ///   * hsla((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+))
+        ///     * e.g. hsla(200, 20%, 50%, 0.5)
         /// * Color name
-        ///    * Options are listed in SkParseColor.cpp
-        ///    * Similar to CSS Color Module Level 3 keywords, but case-sensitive.
-        ///      * e.g. <c>blueviolet</c> or <c>red</c>
+        ///   * Options are listed in SkParseColor.cpp
+        ///   * Similar to CSS Color Module Level 3 keywords, but case-sensitive.
+        ///     * e.g. <c>blueviolet</c> or <c>red</c>
         /// 
         /// **Note:** Hex format with alpha takes <c>AARRGGBB</c> or <c>ARGB</c>, _not_ <c>RRGGBBA</c> or
         /// <c>RGA</c>.
@@ -1473,8 +1473,8 @@ module Electron =
         /// * On Windows, possible values are <c>bottom</c>, <c>top</c>, <c>left</c>, <c>right</c>, <c>top-left</c>,
         /// <c>top-right</c>, <c>bottom-left</c>, <c>bottom-right</c>.
         /// * On macOS, possible values are <c>bottom</c> and <c>right</c>.
-        ///    * The value <c>bottom</c> is used to denote vertical resizing.
-        ///    * The value <c>right</c> is used to denote horizontal resizing.
+        ///   * The value <c>bottom</c> is used to denote vertical resizing.
+        ///   * The value <c>right</c> is used to denote horizontal resizing.
         /// </summary>
         [<Emit("$0.on('will-resize',$1)")>] abstract ``on_will-resize``: listener: (Event -> Rectangle -> WillResizeDetails -> unit) -> BrowserWindow
         [<Emit("$0.once('will-resize',$1)")>] abstract ``once_will-resize``: listener: (Event -> Rectangle -> WillResizeDetails -> unit) -> BrowserWindow
@@ -1791,26 +1791,26 @@ module Electron =
         /// Examples of valid <c>backgroundColor</c> values:
         /// 
         /// * Hex
-        ///    * #fff (shorthand RGB)
-        ///    * #ffff (shorthand ARGB)
-        ///    * #ffffff (RGB)
-        ///    * #ffffffff (ARGB)
+        ///   * #fff (shorthand RGB)
+        ///   * #ffff (shorthand ARGB)
+        ///   * #ffffff (RGB)
+        ///   * #ffffffff (ARGB)
         /// * RGB
-        ///    * rgb(([\d]+),\s*([\d]+),\s*([\d]+))
-        ///      * e.g. rgb(255, 255, 255)
+        ///   * rgb(([\d]+),\s*([\d]+),\s*([\d]+))
+        ///     * e.g. rgb(255, 255, 255)
         /// * RGBA
-        ///    * rgba(([\d]+),\s*([\d]+),\s*([\d]+),\s*([\d.]+))
-        ///      * e.g. rgba(255, 255, 255, 1.0)
+        ///   * rgba(([\d]+),\s*([\d]+),\s*([\d]+),\s*([\d.]+))
+        ///     * e.g. rgba(255, 255, 255, 1.0)
         /// * HSL
-        ///    * hsl((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%)
-        ///      * e.g. hsl(200, 20%, 50%)
+        ///   * hsl((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%)
+        ///     * e.g. hsl(200, 20%, 50%)
         /// * HSLA
-        ///    * hsla((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+))
-        ///      * e.g. hsla(200, 20%, 50%, 0.5)
+        ///   * hsla((-?[\d.]+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+))
+        ///     * e.g. hsla(200, 20%, 50%, 0.5)
         /// * Color name
-        ///    * Options are listed in SkParseColor.cpp
-        ///    * Similar to CSS Color Module Level 3 keywords, but case-sensitive.
-        ///      * e.g. <c>blueviolet</c> or <c>red</c>
+        ///   * Options are listed in SkParseColor.cpp
+        ///   * Similar to CSS Color Module Level 3 keywords, but case-sensitive.
+        ///     * e.g. <c>blueviolet</c> or <c>red</c>
         /// 
         /// Sets the background color of the window. See Setting <c>backgroundColor</c>.
         /// </summary>
@@ -1969,10 +1969,10 @@ module Electron =
         /// The <c>buttons</c> is an array of <c>Button</c> objects:
         /// 
         /// * <c>Button</c> Object
-        ///    * <c>icon</c> NativeImage - The icon showing in thumbnail toolbar.
-        ///    * <c>click</c> Function
-        ///    * <c>tooltip</c> string (optional) - The text of the button's tooltip.
-        ///    * <c>flags</c> string[] (optional) - Control specific states and behaviors of the
+        ///   * <c>icon</c> NativeImage - The icon showing in thumbnail toolbar.
+        ///   * <c>click</c> Function
+        ///   * <c>tooltip</c> string (optional) - The text of the button's tooltip.
+        ///   * <c>flags</c> string[] (optional) - Control specific states and behaviors of the
         /// button. By default, it is <c>['enabled']</c>.
         /// 
         /// The <c>flags</c> is an array that can include following <c>string</c>s:
@@ -5023,8 +5023,8 @@ module Electron =
         /// 
         /// * Extensions being loaded from <c>Session.loadExtension</c>.
         /// * Extensions being reloaded:
-        ///    * from a crash.
-        ///    * if the extension requested it (<c>chrome.runtime.reload()</c>).
+        ///   * from a crash.
+        ///   * if the extension requested it (<c>chrome.runtime.reload()</c>).
         /// </summary>
         [<Emit("$0.on('extension-loaded',$1)")>] abstract ``on_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
         [<Emit("$0.once('extension-loaded',$1)")>] abstract ``once_extension-loaded``: listener: (Event -> Extension -> unit) -> Session
@@ -5432,7 +5432,7 @@ module Electron =
         /// <c>https://example.com/dictionaries/language-code.bdic</c> then you should call this
         /// api with
         /// <c>ses.setSpellCheckerDictionaryDownloadURL('https://example.com/dictionaries/')</c>.
-        ///   Please note the trailing slash.  The URL to the dictionaries is formed as
+        ///  Please note the trailing slash.  The URL to the dictionaries is formed as
         /// <c>${url}${filename}</c>.
         /// 
         /// **Note:** On macOS the OS spellchecker is used and therefore we do not download

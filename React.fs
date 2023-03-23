@@ -776,10 +776,10 @@ label: \"I'm a Button\"
         abstract borderCollapse: U2<CSSWideKeyword, obj option> option with get, set
         /// The CSS border-color property sets the color of an element's four borders.
         /// This property can have from one to four values, made up of the elementary properties:
-        ///       •       border-top-color
-        ///       •       border-right-color
-        ///       •       border-bottom-color
-        ///       •       border-left-color The default color is the currentColor of each of these values.
+        ///      •       border-top-color
+        ///      •       border-right-color
+        ///      •       border-bottom-color
+        ///      •       border-left-color The default color is the currentColor of each of these values.
         /// If you provide one value, it sets the color for the element. Two values set the horizontal and vertical values,
         /// respectively. Providing three values sets the top, vertical, and bottom values, in that order.
         /// Four values set all for sides: top, right, bottom, and left, in that order.
@@ -1216,10 +1216,10 @@ label: \"I'm a Button\"
         /// The CSS outline property is a shorthand property for setting one or more of the individual outline properties outline-style,
         /// outline-width and outline-color in a single rule. In most cases the use of this shortcut is preferable and more convenient.
         /// Outlines differ from borders in the following ways:
-        ///       •       Outlines do not take up space, they are drawn above the content.
-        ///       •       Outlines may be non-rectangular. They are rectangular in Gecko/Firefox.
-        ///               Internet Explorer attempts to place the smallest contiguous outline around all elements or shapes that are indicated to have an outline.
-        ///               Opera draws a non-rectangular shape around a construct.
+        ///      •       Outlines do not take up space, they are drawn above the content.
+        ///      •       Outlines may be non-rectangular. They are rectangular in Gecko/Firefox.
+        ///              Internet Explorer attempts to place the smallest contiguous outline around all elements or shapes that are indicated to have an outline.
+        ///              Opera draws a non-rectangular shape around a construct.
         abstract outline: U2<CSSWideKeyword, obj option> option with get, set
         /// The outline-color property sets the color of the outline of an element. An outline is a line that is drawn around elements, outside the border edge, to make the element stand out.
         abstract outlineColor: U2<CSSWideKeyword, obj option> option with get, set

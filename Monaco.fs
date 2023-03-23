@@ -31,13 +31,13 @@ module Monaco =
         /// and encoding.
         /// 
         /// <code lang="txt">
-        ///        foo://example.com:8042/over/there?name=ferret#nose
-        ///        \_/   \______________/\_________/ \_________/ \__/
-        ///         |           |            |            |        |
-        ///      scheme     authority       path        query   fragment
-        ///         |   _____________________|__
-        ///        / \ /                        \
-        ///        urn:example:animal:ferret:nose
+        ///       foo://example.com:8042/over/there?name=ferret#nose
+        ///       \_/   \______________/\_________/ \_________/ \__/
+        ///        |           |            |            |        |
+        ///     scheme     authority       path        query   fragment
+        ///        |   _____________________|__
+        ///       / \ /                        \
+        ///       urn:example:animal:ferret:nose
         /// </code>
         /// </summary>
         abstract Uri: UriStatic
@@ -111,13 +111,13 @@ module Monaco =
     /// and encoding.
     /// 
     /// <code lang="txt">
-    ///        foo://example.com:8042/over/there?name=ferret#nose
-    ///        \_/   \______________/\_________/ \_________/ \__/
-    ///         |           |            |            |        |
-    ///      scheme     authority       path        query   fragment
-    ///         |   _____________________|__
-    ///        / \ /                        \
-    ///        urn:example:animal:ferret:nose
+    ///       foo://example.com:8042/over/there?name=ferret#nose
+    ///       \_/   \______________/\_________/ \_________/ \__/
+    ///        |           |            |            |        |
+    ///     scheme     authority       path        query   fragment
+    ///        |   _____________________|__
+    ///       / \ /                        \
+    ///       urn:example:animal:ferret:nose
     /// </code>
     /// </summary>
     type [<AllowNullLiteral>] Uri =
@@ -152,10 +152,10 @@ module Monaco =
         /// of UNC paths. See the below sample of a file-uri with an authority (UNC path).
         /// 
         /// <code lang="ts">
-        ///   const u = Uri.parse('file://server/c$/folder/file.txt')
-        ///   u.authority === 'server'
-        ///   u.path === '/shares/c$/file.txt'
-        ///   u.fsPath === '\\server\c$\folder\file.txt'
+        ///  const u = Uri.parse('file://server/c$/folder/file.txt')
+        ///  u.authority === 'server'
+        ///  u.path === '/shares/c$/file.txt'
+        ///  u.fsPath === '\\server\c$\folder\file.txt'
         /// </code>
         /// 
         /// Using <c>Uri#path</c> to read a file (using fs-apis) would not be enough because parts of the path,
@@ -191,13 +191,13 @@ module Monaco =
     /// and encoding.
     /// 
     /// <code lang="txt">
-    ///        foo://example.com:8042/over/there?name=ferret#nose
-    ///        \_/   \______________/\_________/ \_________/ \__/
-    ///         |           |            |            |        |
-    ///      scheme     authority       path        query   fragment
-    ///         |   _____________________|__
-    ///        / \ /                        \
-    ///        urn:example:animal:ferret:nose
+    ///       foo://example.com:8042/over/there?name=ferret#nose
+    ///       \_/   \______________/\_________/ \_________/ \__/
+    ///        |           |            |            |        |
+    ///     scheme     authority       path        query   fragment
+    ///        |   _____________________|__
+    ///       / \ /                        \
+    ///       urn:example:animal:ferret:nose
     /// </code>
     /// </summary>
     type [<AllowNullLiteral>] UriStatic =
@@ -825,9 +825,9 @@ module Monaco =
             abstract keybindingContext: string option with get, set
             /// Control if the action should show up in the context menu and where.
             /// The context menu of the editor has these default:
-            ///    navigation - The navigation group comes first in all cases.
-            ///    1_modification - This group comes next and contains commands that modify your code.
-            ///    9_cutcopypaste - The last default group with the basic editing commands.
+            ///   navigation - The navigation group comes first in all cases.
+            ///   1_modification - This group comes next and contains commands that modify your code.
+            ///   9_cutcopypaste - The last default group with the basic editing commands.
             /// You can also create your own group.
             /// Defaults to null (don't show in context menu).
             abstract contextMenuGroupId: string option with get, set
@@ -3613,21 +3613,21 @@ module Monaco =
         type [<AllowNullLiteral>] IEncodedLineTokens =
             /// <summary>
             /// The tokens on the line in a binary, encoded format. Each token occupies two array indices. For token i:
-            ///   - at offset 2*i =&gt; startIndex
-            ///   - at offset 2*i + 1 =&gt; metadata
+            ///  - at offset 2*i =&gt; startIndex
+            ///  - at offset 2*i + 1 =&gt; metadata
             /// Meta data is in binary format:
             /// - -------------------------------------------
-            ///      3322 2222 2222 1111 1111 1100 0000 0000
-            ///      1098 7654 3210 9876 5432 1098 7654 3210
+            ///     3322 2222 2222 1111 1111 1100 0000 0000
+            ///     1098 7654 3210 9876 5432 1098 7654 3210
             /// - -------------------------------------------
-            ///      bbbb bbbb bfff ffff ffFF FTTT LLLL LLLL
+            ///     bbbb bbbb bfff ffff ffFF FTTT LLLL LLLL
             /// - -------------------------------------------
-            ///   - L = EncodedLanguageId (8 bits): Use <c>getEncodedLanguageId</c> to get the encoded ID of a language.
-            ///   - T = StandardTokenType (3 bits): Other = 0, Comment = 1, String = 2, RegEx = 4.
-            ///   - F = FontStyle (3 bits): None = 0, Italic = 1, Bold = 2, Underline = 4.
-            ///   - f = foreground ColorId (9 bits)
-            ///   - b = background ColorId (9 bits)
-            ///   - The color value for each colorId is defined in IStandaloneThemeData.customTokenColors:
+            ///  - L = EncodedLanguageId (8 bits): Use <c>getEncodedLanguageId</c> to get the encoded ID of a language.
+            ///  - T = StandardTokenType (3 bits): Other = 0, Comment = 1, String = 2, RegEx = 4.
+            ///  - F = FontStyle (3 bits): None = 0, Italic = 1, Bold = 2, Underline = 4.
+            ///  - f = foreground ColorId (9 bits)
+            ///  - b = background ColorId (9 bits)
+            ///  - The color value for each colorId is defined in IStandaloneThemeData.customTokenColors:
             /// e.g. colorId = 1 is stored in IStandaloneThemeData.customTokenColors[1]. Color id = 0 means no color,
             /// id = 1 is for the default foreground color, id = 2 for the default background.
             /// </summary>
@@ -3687,7 +3687,7 @@ module Monaco =
             /// If the language supports Unicode identifiers (e.g. JavaScript), it is preferable
             /// to provide a word definition that uses exclusion of known separators.
             /// e.g.: A regex that matches anything except known separators (and dot is allowed to occur in a floating point number):
-            ///    /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
+            ///   /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
             abstract wordPattern: RegExp option with get, set
             /// The language's indentation settings.
             abstract indentationRules: IndentationRule option with get, set
@@ -3779,8 +3779,8 @@ module Monaco =
             /// Insert new line and indent once (relative to the previous line's indentation).
             | Indent = 1
             /// Insert two new lines:
-            ///   - the first one indented which will hold the cursor
-            ///   - the second one at the same indentation level
+            ///  - the first one indented which will hold the cursor
+            ///  - the second one at the same indentation level
             | IndentOutdent = 2
             /// Insert new line and outdent once (relative to the previous line's indentation).
             | Outdent = 3
@@ -4481,8 +4481,8 @@ module Monaco =
             abstract tokenPostfix: string option with get, set
 
         /// A rule is either a regular expression and an action
-        ///  		shorthands: [reg,act] == { regex: reg, action: act}
-        /// 		and       : [reg,act,nxt] == { regex: reg, action: act{ next: nxt }}
+        /// 		shorthands: [reg,act] == { regex: reg, action: act}
+        /// 	and       : [reg,act,nxt] == { regex: reg, action: act{ next: nxt }}
         type IShortMonarchLanguageRule1 =
             U2<string, RegExp> * IMonarchLanguageAction
 

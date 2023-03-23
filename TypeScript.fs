@@ -465,11 +465,11 @@ module Ts =
         /// </param>
         abstract resolveTypeReferenceDirective: typeReferenceDirectiveName: string * containingFile: string option * options: CompilerOptions * host: ModuleResolutionHost * ?redirectedReference: ResolvedProjectReference -> ResolvedTypeReferenceDirectiveWithFailedLookupLocations
         /// Given a set of options, returns the set of type directive names
-        ///    that should be included for this program automatically.
+        ///   that should be included for this program automatically.
         /// This list could either come from the config file,
-        ///    or from enumerating the types root + initial secondary types lookup location.
+        ///   or from enumerating the types root + initial secondary types lookup location.
         /// More type directives might appear in the program later as a result of loading actual source files;
-        ///    this list is only the set of defaults that are implicitly included.
+        ///   this list is only the set of defaults that are implicitly included.
         abstract getAutomaticTypeDirectiveNames: options: CompilerOptions * host: ModuleResolutionHost -> ResizeArray<string>
         abstract createModuleResolutionCache: currentDirectory: string * getCanonicalFileName: (string -> string) * ?options: CompilerOptions -> ModuleResolutionCache
         abstract resolveModuleNameFromCache: moduleName: string * containingFile: string * cache: ModuleResolutionCache -> ResolvedModuleWithFailedLookupLocations option
@@ -3516,7 +3516,7 @@ module Ts =
         abstract isDeclarationFile: bool with get, set
         /// lib.d.ts should have a reference comment like
         /// 
-        ///   /// <reference no-default-lib="true"/>
+        ///  /// <reference no-default-lib="true"/>
         /// 
         /// If any other file has this comment, it signals not to include lib.d.ts
         /// because this containing file is intended to act as a default library.
@@ -3776,9 +3776,9 @@ module Ts =
         /// If a symbol is a local symbol with an associated exported symbol, returns the exported symbol.
         /// Otherwise returns its input.
         /// For example, at <c>export type T = number;</c>:
-        ///      - <c>getSymbolAtLocation</c> at the location <c>T</c> will return the exported symbol for <c>T</c>.
-        ///      - But the result of <c>getSymbolsInScope</c> will contain the *local* symbol for <c>T</c>, not the exported symbol.
-        ///      - Calling <c>getExportSymbolOfSymbol</c> on that local symbol will return the exported symbol.
+        ///     - <c>getSymbolAtLocation</c> at the location <c>T</c> will return the exported symbol for <c>T</c>.
+        ///     - But the result of <c>getSymbolsInScope</c> will contain the *local* symbol for <c>T</c>, not the exported symbol.
+        ///     - Calling <c>getExportSymbolOfSymbol</c> on that local symbol will return the exported symbol.
         /// </summary>
         abstract getExportSymbolOfSymbol: symbol: Symbol -> Symbol
         abstract getPropertySymbolOfDestructuringAssignment: location: Identifier -> Symbol option
