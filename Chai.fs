@@ -609,7 +609,7 @@ module Chai =
         /// <param name="haystack">Container string.</param>
         /// <param name="needle">Potential substring of haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        [<Obsolete("Does not have any effect on string. Use {@link Assert#include} instead.")>]
+        [<Obsolete("Does not have any effect on string. Use {@link Assertinclude } instead.")>]
         abstract deepInclude: haystack: string * needle: string * ?message: string -> unit
         /// <summary>Asserts that haystack includes needle. Deep equality is used.</summary>
         /// <param name="haystack">Container array, set or map.</param>
@@ -625,7 +625,7 @@ module Chai =
         /// <param name="haystack">Container string.</param>
         /// <param name="needle">Potential substring of haystack.</param>
         /// <param name="message">Message to display on error.</param>
-        [<Obsolete("Does not have any effect on string. Use {@link Assert#notInclude} instead.")>]
+        [<Obsolete("Does not have any effect on string. Use {@link AssertnotInclude } instead.")>]
         abstract notDeepInclude: haystack: string * needle: string * ?message: string -> unit
         /// <summary>Asserts that haystack does not includes needle. Deep equality is used.</summary>
         /// <param name="haystack">Container array, set or map.</param>

@@ -220,11 +220,11 @@ type [<AllowNullLiteral>] IExports =
     /// 
     /// <code lang="`">
     /// &lt;SegmentedControlIOS
-    ///    values={['One', 'Two']}
-    ///    selectedIndex={this.state.selectedIndex}
-    ///    onChange={(event) =&gt; {
-    ///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-    ///    }}
+    ///   values={['One', 'Two']}
+    ///   selectedIndex={this.state.selectedIndex}
+    ///   onChange={(event) =&gt; {
+    ///     this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+    ///   }}
     /// /&gt;
     /// </code>
     /// </summary>
@@ -294,6 +294,7 @@ type [<AllowNullLiteral>] IExports =
     abstract SliderComponent: SliderComponentStatic
     abstract Slider: SliderStatic
     /// <summary>
+    /// 
     /// Use SwitchIOS to render a boolean input on iOS.
     /// 
     /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
@@ -443,7 +444,7 @@ type [<AllowNullLiteral>] IExports =
     /// This contains the non-native <c>XMLHttpRequest</c> object, which you can use if you want to route network requests
     /// through DevTools (to trace them):
     /// 
-    ///    global.XMLHttpRequest = global.originalXMLHttpRequest;
+    ///   global.XMLHttpRequest = global.originalXMLHttpRequest;
     /// </summary>
     /// <seealso href="https://github.com/facebook/react-native/issues/934" />
     abstract originalXMLHttpRequest: obj option
@@ -592,7 +593,7 @@ type [<AllowNullLiteral>] EventEmitter =
     /// 
     /// If it is called when not inside of an emitting cycle it will throw.
     /// </summary>
-    /// <exception cref="Error"> When called not during an eventing cycle</exception>
+    /// <exception cref="Error">When called not during an eventing cycle</exception>
     /// <example>
     ///   const subscription = emitter.addListenerMap({
     ///     someEvent: function(data, event) {
@@ -666,12 +667,12 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// returns the values via an async callback. If successful, the callback will
     /// be called with the following arguments:
     /// 
-    ///   - x
-    ///   - y
-    ///   - width
-    ///   - height
-    ///   - pageX
-    ///   - pageY
+    ///  - x
+    ///  - y
+    ///  - width
+    ///  - height
+    ///  - pageX
+    ///  - pageY
     /// 
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native. If you need the measurements as soon as
@@ -685,10 +686,10 @@ type [<AllowNullLiteral>] NativeMethodsMixinStatic =
     /// successful, the callback will be called with the following
     /// arguments:
     /// 
-    ///   - x
-    ///   - y
-    ///   - width
-    ///   - height
+    ///  - x
+    ///  - y
+    ///  - width
+    ///  - height
     /// 
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native.
@@ -1242,32 +1243,32 @@ type [<AllowNullLiteral>] TextInputIOSProps =
     /// 
     /// Possible values for <c>textContentType</c> are:
     /// 
-    ///   - <c>'none'</c>
-    ///   - <c>'URL'</c>
-    ///   - <c>'addressCity'</c>
-    ///   - <c>'addressCityAndState'</c>
-    ///   - <c>'addressState'</c>
-    ///   - <c>'countryName'</c>
-    ///   - <c>'creditCardNumber'</c>
-    ///   - <c>'emailAddress'</c>
-    ///   - <c>'familyName'</c>
-    ///   - <c>'fullStreetAddress'</c>
-    ///   - <c>'givenName'</c>
-    ///   - <c>'jobTitle'</c>
-    ///   - <c>'location'</c>
-    ///   - <c>'middleName'</c>
-    ///   - <c>'name'</c>
-    ///   - <c>'namePrefix'</c>
-    ///   - <c>'nameSuffix'</c>
-    ///   - <c>'nickname'</c>
-    ///   - <c>'organizationName'</c>
-    ///   - <c>'postalCode'</c>
-    ///   - <c>'streetAddressLine1'</c>
-    ///   - <c>'streetAddressLine2'</c>
-    ///   - <c>'sublocality'</c>
-    ///   - <c>'telephoneNumber'</c>
-    ///   - <c>'username'</c>
-    ///   - <c>'password'</c>
+    ///  - <c>'none'</c>
+    ///  - <c>'URL'</c>
+    ///  - <c>'addressCity'</c>
+    ///  - <c>'addressCityAndState'</c>
+    ///  - <c>'addressState'</c>
+    ///  - <c>'countryName'</c>
+    ///  - <c>'creditCardNumber'</c>
+    ///  - <c>'emailAddress'</c>
+    ///  - <c>'familyName'</c>
+    ///  - <c>'fullStreetAddress'</c>
+    ///  - <c>'givenName'</c>
+    ///  - <c>'jobTitle'</c>
+    ///  - <c>'location'</c>
+    ///  - <c>'middleName'</c>
+    ///  - <c>'name'</c>
+    ///  - <c>'namePrefix'</c>
+    ///  - <c>'nameSuffix'</c>
+    ///  - <c>'nickname'</c>
+    ///  - <c>'organizationName'</c>
+    ///  - <c>'postalCode'</c>
+    ///  - <c>'streetAddressLine1'</c>
+    ///  - <c>'streetAddressLine2'</c>
+    ///  - <c>'sublocality'</c>
+    ///  - <c>'telephoneNumber'</c>
+    ///  - <c>'username'</c>
+    ///  - <c>'password'</c>
     /// </summary>
     abstract textContentType: TextInputIOSPropsTextContentType option with get, set
 
@@ -1275,7 +1276,7 @@ type [<AllowNullLiteral>] TextInputIOSProps =
 /// <seealso href="https://facebook.github.io/react-native/docs/textinput.html#props" />
 type [<AllowNullLiteral>] TextInputAndroidProps =
     /// When false, if there is a small amount of space available around a text input (e.g. landscape orientation on a phone),
-    ///    the OS may choose to have the user edit the text inside of a full screen text input mode.
+    ///   the OS may choose to have the user edit the text inside of a full screen text input mode.
     /// When true, this feature is disabled and users will always edit the text directly inside of the text input.
     /// Defaults to false.
     abstract disableFullscreenUI: bool option with get, set
@@ -1388,10 +1389,10 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract allowFontScaling: bool option with get, set
     /// <summary>
     /// Can tell TextInput to automatically capitalize certain characters.
-    ///       characters: all characters,
-    ///       words: first letter of each word
-    ///       sentences: first letter of each sentence (default)
-    ///       none: don't auto capitalize anything
+    ///      characters: all characters,
+    ///      words: first letter of each word
+    ///      sentences: first letter of each sentence (default)
+    ///      none: don't auto capitalize anything
     /// 
     /// <see href="https://facebook.github.io/react-native/docs/textinput.html#autocapitalize" />
     /// </summary>
@@ -1452,7 +1453,7 @@ type [<AllowNullLiteral>] TextInputProps =
     abstract onSubmitEditing: (NativeSyntheticEvent<TextInputSubmitEditingEventData> -> unit) option with get, set
     /// <summary>
     /// Invoked on content scroll with
-    ///   <c>{ nativeEvent: { contentOffset: { x, y } } }</c>.
+    ///  <c>{ nativeEvent: { contentOffset: { x, y } } }</c>.
     /// 
     /// May also contain other properties from ScrollEvent but on Android contentSize is not provided for performance reasons.
     /// </summary>
@@ -1460,7 +1461,7 @@ type [<AllowNullLiteral>] TextInputProps =
     /// <summary>
     /// Callback that is called when a key is pressed.
     /// This will be called with
-    ///   <c>{ nativeEvent: { key: keyValue } }</c>
+    ///  <c>{ nativeEvent: { key: keyValue } }</c>
     /// where keyValue is 'Enter' or 'Backspace' for respective keys and the typed-in character otherwise including ' ' for space.
     /// 
     /// Fires before onChange callbacks.
@@ -1667,8 +1668,8 @@ type [<AllowNullLiteral>] ToolbarAndroidStatic =
 /// Best Practices
 /// Users can feel huge differences in the usability of web apps vs. native, and this is one of the big causes.
 /// Every action should have the following attributes:
-///       Feedback/highlighting- show the user what is handling their touch, and what will happen when they release the gesture
-///       Cancel-ability- when making an action, the user should be able to abort it mid-touch by dragging their finger away
+///      Feedback/highlighting- show the user what is handling their touch, and what will happen when they release the gesture
+///      Cancel-ability- when making an action, the user should be able to abort it mid-touch by dragging their finger away
 /// 
 /// These features make users more comfortable while using an app,
 /// because it allows people to experiment and interact without fear of making mistakes.
@@ -1856,10 +1857,10 @@ type [<AllowNullLiteral>] AccessibilityPropsAndroid =
     /// Works for Android only. See <see href="http://developer.android.com/reference/android/R.attr.html#importantForAccessibility" /> for references.
     /// 
     /// Possible values:
-    ///       'auto' - The system determines whether the view is important for accessibility - default (recommended).
-    ///       'yes' - The view is important for accessibility.
-    ///       'no' - The view is not important for accessibility.
-    ///       'no-hide-descendants' - The view is not important for accessibility, nor are any of its descendant views.
+    ///      'auto' - The system determines whether the view is important for accessibility - default (recommended).
+    ///      'yes' - The view is important for accessibility.
+    ///      'no' - The view is not important for accessibility.
+    ///      'no-hide-descendants' - The view is not important for accessibility, nor are any of its descendant views.
     /// </summary>
     abstract importantForAccessibility: AccessibilityPropsAndroidImportantForAccessibility option with get, set
 
@@ -1918,27 +1919,29 @@ type [<AllowNullLiteral>] ViewProps =
     /// 
     /// {nativeEvent: { layout: {x, y, width, height}}}.
     abstract onLayout: (LayoutChangeEvent -> unit) option with get, set
+    /// 
     /// In the absence of auto property, none is much like CSS's none value. box-none is as if you had applied the CSS class:
     /// 
     /// .box-none {
-    ///    pointer-events: none;
+    ///   pointer-events: none;
     /// }
     /// .box-none * {
-    ///    pointer-events: all;
+    ///   pointer-events: all;
     /// }
     /// 
     /// box-only is the equivalent of
     /// 
     /// .box-only {
-    ///    pointer-events: all;
+    ///   pointer-events: all;
     /// }
     /// .box-only * {
-    ///    pointer-events: none;
+    ///   pointer-events: none;
     /// }
     /// 
     /// But since pointerEvents does not affect layout/appearance, and we are already deviating from the spec by adding additional modes,
     /// we opt to not include pointerEvents on style. On some platforms, we would need to implement it as a className anyways. Using style or not is an implementation detail of the platform.
     abstract pointerEvents: ViewPropsPointerEvents option with get, set
+    /// 
     /// This is a special performance property exposed by RCTView and is useful for scrolling content when there are many subviews,
     /// most of which are offscreen. For this property to be effective, it must be applied to a view that contains many subviews that extend outside its bound.
     /// The subviews must also have overflow: hidden, as should the containing view (or one of its superviews).
@@ -1991,17 +1994,17 @@ type [<AllowNullLiteral>] ViewPagerAndroidProps =
     /// Executed when transitioning between pages (ether because of animation for
     /// the requested page change or when user is swiping/dragging between pages)
     /// The <c>event.nativeEvent</c> object for this callback will carry following data:
-    ///   - position - index of first page from the left that is currently visible
-    ///   - offset - value from range [0,1) describing stage between page transitions.
-    ///     Value x means that (1 - x) fraction of the page at "position" index is
-    ///     visible, and x fraction of the next page is visible.
+    ///  - position - index of first page from the left that is currently visible
+    ///  - offset - value from range [0,1) describing stage between page transitions.
+    ///    Value x means that (1 - x) fraction of the page at "position" index is
+    ///    visible, and x fraction of the next page is visible.
     /// </summary>
     abstract onPageScroll: (NativeSyntheticEvent<ViewPagerAndroidOnPageScrollEventData> -> unit) option with get, set
     /// <summary>
     /// This callback will be called once ViewPager finish navigating to selected page
     /// (when user swipes between pages). The <c>event.nativeEvent</c> object passed to this
     /// callback will have following fields:
-    ///   - position - index of page that has been selected
+    ///  - position - index of page that has been selected
     /// </summary>
     abstract onPageSelected: (NativeSyntheticEvent<ViewPagerAndroidOnPageSelectedEventData> -> unit) option with get, set
     /// Function called when the page scrolling state has changed.
@@ -2009,11 +2012,11 @@ type [<AllowNullLiteral>] ViewPagerAndroidProps =
     /// - idle, meaning there is no interaction with the page scroller happening at the time
     /// - dragging, meaning there is currently an interaction with the page scroller
     /// - settling, meaning that there was an interaction with the page scroller, and the
-    ///    page scroller is now finishing it's closing or opening animation
+    ///   page scroller is now finishing it's closing or opening animation
     abstract onPageScrollStateChanged: (ViewPagerAndroidPropsOnPageScrollStateChanged -> unit) option with get, set
     /// Determines whether the keyboard gets dismissed in response to a drag.
-    ///    - 'none' (the default), drags do not dismiss the keyboard.
-    ///    - 'on-drag', the keyboard is dismissed when a drag begins.
+    ///   - 'none' (the default), drags do not dismiss the keyboard.
+    ///   - 'on-drag', the keyboard is dismissed when a drag begins.
     abstract keyboardDismissMode: ViewPagerAndroidPropsKeyboardDismissMode option with get, set
     /// Blank space to show between pages. This is only visible while scrolling, pages are still
     /// edge-to-edge.
@@ -2327,11 +2330,11 @@ type [<AllowNullLiteral>] InputAccessoryViewProps =
 /// 
 /// <code lang="`">
 /// &lt;SegmentedControlIOS
-///    values={['One', 'Two']}
-///    selectedIndex={this.state.selectedIndex}
-///    onChange={(event) =&gt; {
-///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-///    }}
+///   values={['One', 'Two']}
+///   selectedIndex={this.state.selectedIndex}
+///   onChange={(event) =&gt; {
+///     this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+///   }}
 /// /&gt;
 /// </code>
 /// </summary>
@@ -2350,11 +2353,11 @@ type [<AllowNullLiteral>] SegmentedControlIOSComponent =
 /// 
 /// <code lang="`">
 /// &lt;SegmentedControlIOS
-///    values={['One', 'Two']}
-///    selectedIndex={this.state.selectedIndex}
-///    onChange={(event) =&gt; {
-///      this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-///    }}
+///   values={['One', 'Two']}
+///   selectedIndex={this.state.selectedIndex}
+///   onChange={(event) =&gt; {
+///     this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+///   }}
 /// /&gt;
 /// </code>
 /// </summary>
@@ -2542,22 +2545,22 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidProps =
     /// is white. If you want to set the opacity of the drawer, use rgba.
     /// Example:
     /// return (
-    ///    <DrawerLayoutAndroid drawerBackgroundColor="rgba(0,0,0,0.5)">
-    ///    </DrawerLayoutAndroid>
+    ///   <DrawerLayoutAndroid drawerBackgroundColor="rgba(0,0,0,0.5)">
+    ///   </DrawerLayoutAndroid>
     /// );
     abstract drawerBackgroundColor: string option with get, set
     /// Specifies the lock mode of the drawer. The drawer can be locked
     /// in 3 states:
     /// 
     /// - unlocked (default), meaning that the drawer will respond
-    ///    (open/close) to touch gestures.
+    ///   (open/close) to touch gestures.
     /// 
     /// - locked-closed, meaning that the drawer will stay closed and not
-    ///    respond to gestures.
+    ///   respond to gestures.
     /// 
     /// - locked-open, meaning that the drawer will stay opened and
-    ///    not respond to gestures. The drawer may still be opened and
-    ///    closed programmatically (openDrawer/closeDrawer).
+    ///   not respond to gestures. The drawer may still be opened and
+    ///   closed programmatically (openDrawer/closeDrawer).
     abstract drawerLockMode: DrawerLayoutAndroidPropsDrawerLockMode option with get, set
     /// Specifies the side of the screen from which the drawer will slide in.
     /// enum(DrawerLayoutAndroid.positions.Left, DrawerLayoutAndroid.positions.Right)
@@ -2578,12 +2581,12 @@ type [<AllowNullLiteral>] DrawerLayoutAndroidProps =
     /// Function called when the drawer state has changed.
     /// The drawer can be in 3 states:
     /// - idle, meaning there is no interaction with the navigation
-    ///    view happening at the time
+    ///   view happening at the time
     /// - dragging, meaning there is currently an interaction with the
-    ///    navigation view
+    ///   navigation view
     /// - settling, meaning that there was an interaction with the
-    ///    navigation view, and the navigation view is now finishing
-    ///    it's closing or opening animation
+    ///   navigation view, and the navigation view is now finishing
+    ///   it's closing or opening animation
     abstract onDrawerStateChanged: (ViewPagerAndroidPropsOnPageScrollStateChanged -> unit) option with get, set
     /// The navigation view that will be rendered to the side of the
     /// screen and can be pulled in.
@@ -2656,8 +2659,8 @@ type [<AllowNullLiteral>] PickerPropsAndroid =
     /// <summary>
     /// On Android, specifies how to display the selection items when the user taps on the picker:
     /// 
-    ///    - 'dialog': Show a modal dialog. This is the default.
-    ///    - 'dropdown': Shows a dropdown anchored to the picker view
+    ///   - 'dialog': Show a modal dialog. This is the default.
+    ///   - 'dropdown': Shows a dropdown anchored to the picker view
     /// </summary>
     abstract mode: PickerPropsAndroidMode option with get, set
     /// <summary>Prompt string for this picker, used on Android in dialog mode as the title of the dialog.</summary>
@@ -2725,13 +2728,13 @@ type [<AllowNullLiteral>] PickerIOSStatic =
 type [<AllowNullLiteral>] ProgressBarAndroidProps =
     inherit ViewProps
     /// Style of the ProgressBar. One of:
-    ///    Horizontal
-    ///    Normal (default)
-    ///    Small
-    ///    Large
-    ///    Inverse
-    ///    SmallInverse
-    ///    LargeInverse
+    ///   Horizontal
+    ///   Normal (default)
+    ///   Small
+    ///   Large
+    ///   Inverse
+    ///   SmallInverse
+    ///   LargeInverse
     abstract styleAttr: ProgressBarAndroidPropsStyleAttr option with get, set
     /// If the progress bar will show indeterminate progress.
     /// Note that this can only be false if styleAttr is Horizontal.
@@ -2998,6 +3001,7 @@ type [<AllowNullLiteral>] SwitchIOSProps =
     abstract value: bool option with get, set
 
 /// <summary>
+/// 
 /// Use SwitchIOS to render a boolean input on iOS.
 /// 
 /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
@@ -3008,6 +3012,7 @@ type [<AllowNullLiteral>] SwitchIOS =
     inherit React.Component<SwitchIOSProps>
 
 /// <summary>
+/// 
 /// Use SwitchIOS to render a boolean input on iOS.
 /// 
 /// This is a controlled component, so you must hook in to the onValueChange callback and update the value prop in order for the component to update,
@@ -3278,6 +3283,7 @@ type [<AllowNullLiteral>] ImagePropsBase =
 
 type [<AllowNullLiteral>] ImageProps =
     inherit ImagePropsBase
+    /// 
     /// Style
     abstract style: StyleProp<ImageStyle> option with get, set
 
@@ -3398,7 +3404,7 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// and is easy to use if you have fixed height items, for example:
     /// <code>
     /// getItemLayout={(data, index) =&gt; (
-    ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
+    ///   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
     /// </code>
     /// Remember to include separator length (height or width) in your offset calculation if you specify
@@ -3443,9 +3449,9 @@ type [<AllowNullLiteral>] FlatListProps<'ItemT> =
     /// Takes an item from data and renders it into the list. Typical usage:
     /// <code>
     /// _renderItem = ({item}) =&gt; (
-    ///    &lt;TouchableOpacity onPress={() =&gt; this._onPress(item)}&gt;
-    ///      &lt;Text&gt;{item.title}&lt;/Text&gt;
-    ///    &lt;TouchableOpacity/&gt;
+    ///   &lt;TouchableOpacity onPress={() =&gt; this._onPress(item)}&gt;
+    ///     &lt;Text&gt;{item.title}&lt;/Text&gt;
+    ///   &lt;TouchableOpacity/&gt;
     /// );
     /// ...
     /// &lt;FlatList data={[{title: 'Title Text', key: 'item1'}]} renderItem={this._renderItem} /&gt;
@@ -3529,7 +3535,7 @@ type [<AllowNullLiteral>] SectionListProps<'ItemT> =
     /// and is easy to use if you have fixed height items, for example:
     /// <code>
     /// getItemLayout={(data, index) =&gt; (
-    ///    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
+    ///   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
     /// )}
     /// </code>
     /// </summary>
@@ -3880,9 +3886,9 @@ type [<AllowNullLiteral>] MapViewProps =
     /// Insets for the map's legal label, originally at bottom left of the map. See EdgeInsetsPropType.js for more information.
     abstract legalLabelInsets: Insets option with get, set
     /// The map type to be displayed.
-    ///      standard: standard road map (default)
-    ///      satellite: satellite view
-    ///      hybrid: satellite view with roads and points of interest overlayed
+    ///     standard: standard road map (default)
+    ///     satellite: satellite view
+    ///     hybrid: satellite view with roads and points of interest overlayed
     /// 
     /// enum('standard', 'satellite', 'hybrid')
     abstract mapType: MapViewPropsMapType option with get, set
@@ -4132,6 +4138,7 @@ type [<AllowNullLiteral>] TouchableHighlightProps =
     inherit TouchableWithoutFeedbackProps
     /// Determines what the opacity of the wrapped view should be when touch is active.
     abstract activeOpacity: float option with get, set
+    /// 
     /// Called immediately after the underlay is hidden
     abstract onHideUnderlay: (unit -> unit) option with get, set
     /// Called immediately after the underlay is shown
@@ -4236,15 +4243,15 @@ type [<AllowNullLiteral>] TouchableNativeFeedbackProps =
     /// Determines the type of background drawable that's going to be used to display feedback.
     /// It takes an object with type property and extra data depending on the type.
     /// It's recommended to use one of the following static methods to generate that dictionary:
-    ///       1) TouchableNativeFeedback.SelectableBackground() - will create object that represents android theme's
-    ///          default background for selectable elements (?android:attr/selectableItemBackground)
-    ///       2) TouchableNativeFeedback.SelectableBackgroundBorderless() - will create object that represent android
-    ///          theme's default background for borderless selectable elements
-    ///          (?android:attr/selectableItemBackgroundBorderless). Available on android API level 21+
-    ///       3) TouchableNativeFeedback.Ripple(color, borderless) - will create object that represents ripple drawable
-    ///          with specified color (as a string). If property borderless evaluates to true the ripple will render
-    ///          outside of the view bounds (see native actionbar buttons as an example of that behavior). This background
-    ///          type is available on Android API level 21+
+    ///      1) TouchableNativeFeedback.SelectableBackground() - will create object that represents android theme's
+    ///         default background for selectable elements (?android:attr/selectableItemBackground)
+    ///      2) TouchableNativeFeedback.SelectableBackgroundBorderless() - will create object that represent android
+    ///         theme's default background for borderless selectable elements
+    ///         (?android:attr/selectableItemBackgroundBorderless). Available on android API level 21+
+    ///      3) TouchableNativeFeedback.Ripple(color, borderless) - will create object that represents ripple drawable
+    ///         with specified color (as a string). If property borderless evaluates to true the ripple will render
+    ///         outside of the view bounds (see native actionbar buttons as an example of that behavior). This background
+    ///         type is available on Android API level 21+
     abstract background: BackgroundPropType option with get, set
     abstract useForeground: bool option with get, set
 
@@ -4350,14 +4357,14 @@ module StyleSheet =
         /// Example:
         /// <code>
         /// const styles = StyleSheet.create({
-        ///    listItem: {
-        ///      flex: 1,
-        ///      fontSize: 16,
-        ///      color: 'white'
-        ///    },
-        ///    selectedListItem: {
-        ///      color: 'green'
-        ///    }
+        ///   listItem: {
+        ///     flex: 1,
+        ///     fontSize: 16,
+        ///     color: 'white'
+        ///   },
+        ///   selectedListItem: {
+        ///     color: 'green'
+        ///   }
         /// });
         /// 
         /// StyleSheet.flatten([styles.listItem, styles.selectedListItem])
@@ -4392,10 +4399,10 @@ module StyleSheet =
         /// used as the thickness of a border or division between two elements.
         /// Example:
         /// <code>
-        ///    {
-        ///      borderBottomColor: '#bbb',
-        ///      borderBottomWidth: StyleSheet.hairlineWidth
-        ///    }
+        ///   {
+        ///     borderBottomColor: '#bbb',
+        ///     borderBottomWidth: StyleSheet.hairlineWidth
+        ///   }
         /// </code>
         /// 
         /// This constant will always be a round number of pixels (so a line defined
@@ -4409,13 +4416,13 @@ module StyleSheet =
         /// Sometimes you may want <c>absoluteFill</c> but with a couple tweaks - <c>absoluteFillObject</c> can be
         /// used to create a customized entry in a <c>StyleSheet</c>, e.g.:
         /// 
-        ///    const styles = StyleSheet.create({
-        ///      wrapper: {
-        ///        ...StyleSheet.absoluteFillObject,
-        ///        top: 10,
-        ///        backgroundColor: 'transparent',
-        ///      },
-        ///    });
+        ///   const styles = StyleSheet.create({
+        ///     wrapper: {
+        ///       ...StyleSheet.absoluteFillObject,
+        ///       top: 10,
+        ///       backgroundColor: 'transparent',
+        ///     },
+        ///   });
         /// </summary>
         abstract absoluteFillObject: AbsoluteFillStyle
         /// <summary>
@@ -4558,15 +4565,15 @@ type [<AllowNullLiteral>] ListViewDataSourceStatic =
     /// 
     /// The default extractor expects data of one of the following forms:
     /// 
-    ///       { sectionID_1: { rowID_1: &lt;rowData1&gt;, ... }, ... }
+    ///      { sectionID_1: { rowID_1: &lt;rowData1&gt;, ... }, ... }
     /// 
-    ///     or
+    ///    or
     /// 
-    ///       { sectionID_1: [ &lt;rowData1&gt;, &lt;rowData2&gt;, ... ], ... }
+    ///      { sectionID_1: [ &lt;rowData1&gt;, &lt;rowData2&gt;, ... ], ... }
     /// 
-    ///     or
+    ///    or
     /// 
-    ///       [ [ &lt;rowData1&gt;, &lt;rowData2&gt;, ... ], ... ]
+    ///      [ [ &lt;rowData1&gt;, &lt;rowData2&gt;, ... ], ... ]
     /// 
     /// The constructor takes in a params argument that can contain any of the
     /// following:
@@ -4603,7 +4610,7 @@ type [<AllowNullLiteral>] TabBarIOSItemProps =
     /// Items comes with a few predefined system icons.
     /// Note that if you are using them, the title and selectedIcon will be overriden with the system ones.
     /// 
-    ///   enum('bookmarks', 'contacts', 'downloads', 'favorites', 'featured', 'history', 'more', 'most-recent', 'most-viewed', 'recents', 'search', 'top-rated')
+    ///  enum('bookmarks', 'contacts', 'downloads', 'favorites', 'featured', 'history', 'more', 'most-recent', 'most-viewed', 'recents', 'search', 'top-rated')
     abstract systemIcon: TabBarIOSItemPropsSystemIcon option with get, set
     /// Text that appears under the icon. It is ignored when a system icon is defined.
     abstract title: string option with get, set
@@ -4814,13 +4821,13 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// that gives priority to nested views.
     /// 
     /// - If a single tap on the scroll view triggers an action such as
-    ///    recentering a map style view yet wants to give priority to interaction
-    ///    views inside (such as dropped pins or labels), then we would return true
-    ///    from this method when there is a single touch.
+    ///   recentering a map style view yet wants to give priority to interaction
+    ///   views inside (such as dropped pins or labels), then we would return true
+    ///   from this method when there is a single touch.
     /// 
     /// - Similar to the previous case, if a two finger "tap" should trigger a
-    ///    zoom, we would check the <c>touches</c> count, and if <c>&gt;= 2</c>, we would return
-    ///    true.
+    ///   zoom, we would check the <c>touches</c> count, and if <c>&gt;= 2</c>, we would return
+    ///   true.
     /// </summary>
     abstract scrollResponderHandleStartShouldSetResponder: unit -> bool
     /// <summary>
@@ -4830,7 +4837,7 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// 
     /// - Currently animating.
     /// - Tapping anywhere that is not the focused input, while the keyboard is
-    ///    up (which should dismiss the keyboard).
+    ///   up (which should dismiss the keyboard).
     /// 
     /// Invoke this from an <c>onStartShouldSetResponderCapture</c> event.
     /// </summary>
@@ -4851,14 +4858,14 @@ type [<AllowNullLiteral>] ScrollResponderMixin =
     /// many common user experiences.
     /// 
     /// - Stop a scroll on the left edge, then turn that into an outer view's
-    ///    backswipe.
+    ///   backswipe.
     /// - Stop a scroll mid-bounce at the top, continue pulling to have the outer
-    ///    view dismiss.
+    ///   view dismiss.
     /// - However, without catching the scroll view mid-bounce (while it is
-    ///    motionless), if you drag far enough for the scroll view to become
-    ///    responder (and therefore drag the scroll view a bit), any backswipe
-    ///    navigation of a swipe gesture higher in the view hierarchy, should be
-    ///    rejected.
+    ///   motionless), if you drag far enough for the scroll view to become
+    ///   responder (and therefore drag the scroll view a bit), any backswipe
+    ///   navigation of a swipe gesture higher in the view hierarchy, should be
+    ///   rejected.
     abstract scrollResponderHandleTerminationRequest: unit -> bool
     /// <summary>Invoke this from an <c>onTouchEnd</c> event.</summary>
     /// <param name="e">Event.</param>
@@ -5048,8 +5055,8 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     abstract contentInsetAdjustmentBehavior: ScrollViewPropsIOSContentInsetAdjustmentBehavior option with get, set
     /// A floating-point number that determines how quickly the scroll view
     /// decelerates after the user lifts their finger. Reasonable choices include
-    ///    - Normal: 0.998 (the default)
-    ///    - Fast: 0.9
+    ///   - Normal: 0.998 (the default)
+    ///   - Fast: 0.9
     abstract decelerationRate: U2<float, string> option with get, set
     /// When true the ScrollView will try to lock to only vertical or horizontal
     /// scrolling while dragging.  The default value is false.
@@ -5057,9 +5064,9 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     /// The style of the scroll indicators.
     /// - default (the default), same as black.
     /// - black, scroll indicator is black. This style is good against
-    ///    a white content background.
+    ///   a white content background.
     /// - white, scroll indicator is white. This style is good against
-    ///    a black content background.
+    ///   a black content background.
     abstract indicatorStyle: ScrollViewPropsIOSIndicatorStyle option with get, set
     /// The maximum allowed zoom scale. The default value is 1.0.
     abstract maximumZoomScale: float option with get, set
@@ -5083,9 +5090,9 @@ type [<AllowNullLiteral>] ScrollViewPropsIOS =
     /// The default value is true.
     abstract scrollsToTop: bool option with get, set
     /// When snapToInterval is set, snapToAlignment will define the relationship of the the snapping to the scroll view.
-    ///       - start (the default) will align the snap at the left (horizontal) or top (vertical)
-    ///       - center will align the snap in the center
-    ///       - end will align the snap at the right (horizontal) or bottom (vertical)
+    ///      - start (the default) will align the snap at the left (horizontal) or top (vertical)
+    ///      - center will align the snap in the center
+    ///      - end will align the snap at the right (horizontal) or bottom (vertical)
     abstract snapToAlignment: ScrollViewPropsIOSSnapToAlignment option with get, set
     /// When set, causes the scroll view to stop at multiples of the value of snapToInterval.
     /// This can be used for paginating through children that have lengths smaller than the scroll view.
@@ -5118,10 +5125,10 @@ type [<AllowNullLiteral>] ScrollViewPropsAndroid =
     abstract scrollPerfTag: string option with get, set
     /// Used to override default value of overScroll mode.
     /// 
-    ///    Possible values:
-    ///      - 'auto' - Default value, allow a user to over-scroll this view only if the content is large enough to meaningfully scroll.
-    ///      - 'always' - Always allow a user to over-scroll this view.
-    ///      - 'never' - Never allow a user to over-scroll this view.
+    ///   Possible values:
+    ///    - 'auto' - Default value, allow a user to over-scroll this view only if the content is large enough to meaningfully scroll.
+    ///    - 'always' - Always allow a user to over-scroll this view.
+    ///    - 'never' - Never allow a user to over-scroll this view.
     abstract overScrollMode: ScrollViewPropsAndroidOverScrollMode option with get, set
     /// Enables nested scrolling for Android API level 21+. Nested scrolling is supported by default on iOS.
     abstract nestedScrollEnabled: bool option with get, set
@@ -5134,26 +5141,26 @@ type [<AllowNullLiteral>] ScrollViewProps =
     /// These styles will be applied to the scroll view content container which
     /// wraps all of the child views. Example:
     /// 
-    ///    return (
-    ///      <ScrollView contentContainerStyle={styles.contentContainer}>
-    ///      </ScrollView>
-    ///    );
-    ///    ...
-    ///    const styles = StyleSheet.create({
-    ///      contentContainer: {
-    ///        paddingVertical: 20
-    ///      }
-    ///    });
+    ///   return (
+    ///     <ScrollView contentContainerStyle={styles.contentContainer}>
+    ///     </ScrollView>
+    ///   );
+    ///   ...
+    ///   const styles = StyleSheet.create({
+    ///     contentContainer: {
+    ///       paddingVertical: 20
+    ///     }
+    ///   });
     abstract contentContainerStyle: StyleProp<ViewStyle> option with get, set
     /// When true the scroll view's children are arranged horizontally in a row
     /// instead of vertically in a column. The default value is false.
     abstract horizontal: bool option with get, set
     /// Determines whether the keyboard gets dismissed in response to a drag.
-    ///    - 'none' (the default) drags do not dismiss the keyboard.
-    ///    - 'onDrag' the keyboard is dismissed when a drag begins.
-    ///    - 'interactive' the keyboard is dismissed interactively with the drag
-    ///      and moves in synchrony with the touch; dragging upwards cancels the
-    ///      dismissal.
+    ///   - 'none' (the default) drags do not dismiss the keyboard.
+    ///   - 'onDrag' the keyboard is dismissed when a drag begins.
+    ///   - 'interactive' the keyboard is dismissed interactively with the drag
+    ///     and moves in synchrony with the touch; dragging upwards cancels the
+    ///     dismissal.
     abstract keyboardDismissMode: ScrollViewPropsKeyboardDismissMode option with get, set
     /// When false tapping outside of the focused text input when the keyboard
     /// is up dismisses the keyboard. When true the scroll view will not catch
@@ -5415,12 +5422,12 @@ type [<AllowNullLiteral>] ShareStatic =
     /// 
     /// ### Content
     /// 
-    ///   - <c>message</c> - a message to share
-    ///   - <c>title</c> - title of the message
+    ///  - <c>message</c> - a message to share
+    ///  - <c>title</c> - title of the message
     /// 
     /// #### iOS
     /// 
-    ///   - <c>url</c> - an URL to share
+    ///  - <c>url</c> - an URL to share
     /// 
     /// At least one of URL and message is required.
     /// 
@@ -5459,14 +5466,14 @@ type [<AllowNullLiteral>] AccessibilityInfoStatic =
     /// Returns a promise which resolves to a boolean. The result is true when a screen reader is enabled and false otherwise.
     abstract fetch: (unit -> Promise<bool>) with get, set
     /// Add an event handler. Supported events:
-    ///   - change: Fires when the state of the screen reader changes.
-    ///             The argument to the event handler is a boolean.
-    ///             The boolean is true when a screen reader is enabled and false otherwise.
+    ///  - change: Fires when the state of the screen reader changes.
+    ///            The argument to the event handler is a boolean.
+    ///            The boolean is true when a screen reader is enabled and false otherwise.
     /// 
     /// - announcementFinished: iOS-only event. Fires when the screen reader has finished making an announcement.
-    ///                          The argument to the event handler is a dictionary with these keys:
-    ///                           - announcement: The string announced by the screen reader.
-    ///                           - success: A boolean indicating whether the announcement was successfully made.
+    ///                         The argument to the event handler is a dictionary with these keys:
+    ///                          - announcement: The string announced by the screen reader.
+    ///                          - success: A boolean indicating whether the announcement was successfully made.
     abstract addEventListener: (AccessibilityEventName -> (AccessibilityEvent -> unit) -> unit) with get, set
     /// Remove an event handler.
     abstract removeEventListener: (AccessibilityEventName -> (AccessibilityEvent -> unit) -> unit) with get, set
@@ -5506,20 +5513,20 @@ type [<AllowNullLiteral>] AlertOptions =
 /// On Android at most three buttons can be specified. Android has a concept
 /// of a neutral, negative and a positive button:
 /// 
-///    - If you specify one button, it will be the 'positive' one (such as 'OK')
-///    - Two buttons mean 'negative', 'positive' (such as 'Cancel', 'OK')
-///    - Three buttons mean 'neutral', 'negative', 'positive' (such as 'Later', 'Cancel', 'OK')
+///   - If you specify one button, it will be the 'positive' one (such as 'OK')
+///   - Two buttons mean 'negative', 'positive' (such as 'Cancel', 'OK')
+///   - Three buttons mean 'neutral', 'negative', 'positive' (such as 'Later', 'Cancel', 'OK')
 /// 
 /// <code>
 /// // Works on both iOS and Android
 /// Alert.alert(
-///    'Alert Title',
-///    'My Alert Msg',
-///    [
-///      {text: 'Ask me later', onPress: () =&gt; console.log('Ask me later pressed')},
-///      {text: 'Cancel', onPress: () =&gt; console.log('Cancel Pressed'), style: 'cancel'},
-///      {text: 'OK', onPress: () =&gt; console.log('OK Pressed')},
-///    ]
+///   'Alert Title',
+///   'My Alert Msg',
+///   [
+///     {text: 'Ask me later', onPress: () =&gt; console.log('Ask me later pressed')},
+///     {text: 'Cancel', onPress: () =&gt; console.log('Cancel Pressed'), style: 'cancel'},
+///     {text: 'OK', onPress: () =&gt; console.log('OK Pressed')},
+///   ]
 /// )
 /// </code>
 /// </summary>
@@ -5603,9 +5610,9 @@ type [<AllowNullLiteral>] AlertIOSStatic =
 /// when handling push notifications.
 /// 
 /// iOS App States
-///       active - The app is running in the foreground
-///       background - The app is running in the background. The user is either in another app or on the home screen
-///       inactive - This is a transition state that currently never happens for typical React Native apps.
+///      active - The app is running in the foreground
+///      background - The app is running in the background. The user is either in another app or on the home screen
+///      inactive - This is a transition state that currently never happens for typical React Native apps.
 /// 
 /// For more information, see Apple's documentation: <see href="https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html" />
 /// </summary>
@@ -5806,9 +5813,9 @@ type [<AllowNullLiteral>] DatePickerAndroidStatic =
     /// - minDate (Date or timestamp in milliseconds) - minimum date that can be selected
     /// - maxDate (Date object or timestamp in milliseconds) - maximum date that can be selected
     /// - mode (enum('calendar', 'spinner', 'default')) - To set the date-picker mode to calendar/spinner/default
-    ///   - 'calendar': Show a date picker in calendar mode.
-    ///   - 'spinner': Show a date picker in spinner mode.
-    ///   - 'default': Show a default native date picker(spinner/calendar) based on android versions.
+    ///  - 'calendar': Show a date picker in calendar mode.
+    ///  - 'spinner': Show a date picker in spinner mode.
+    ///  - 'default': Show a default native date picker(spinner/calendar) based on android versions.
     /// 
     /// Returns a Promise which will be invoked an object containing action, year, month (0-11), day if the user picked a date.
     /// If the user dismissed the dialog, the Promise will still be resolved with action being DatePickerAndroid.dismissedAction and all the other keys being undefined.
@@ -5825,22 +5832,22 @@ type [<AllowNullLiteral>] IntentAndroidStatic =
     /// <summary>
     /// Starts a corresponding external activity for the given URL.
     /// 
-    ///   For example, if the URL is "<see href="https://www.facebook.com"," /> the system browser will be opened, or the "choose application" dialog will be shown.
+    ///  For example, if the URL is "<see href="https://www.facebook.com"," /> the system browser will be opened, or the "choose application" dialog will be shown.
     /// 
-    ///   You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
+    ///  You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
     /// 
-    ///   NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
+    ///  NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
     /// 
-    ///   NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
+    ///  NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
     /// </summary>
     [<Obsolete("")>]
     abstract openURL: url: string -> unit
     /// <summary>
     /// Determine whether or not an installed app can handle a given URL.
     /// 
-    ///   You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
+    ///  You can use other URLs, like a location (e.g. "geo:37.484847,-122.148386"), a contact, or any other URL that can be opened with {@code Intent.ACTION_VIEW}.
     /// 
-    ///   NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
+    ///  NOTE: For web URLs, the protocol ("<see href="http://"," /> "<see href="https://")" /> must be set accordingly!
     /// </summary>
     /// <param name="URL">the URL to open</param>
     [<Obsolete("")>]
@@ -5848,7 +5855,7 @@ type [<AllowNullLiteral>] IntentAndroidStatic =
     /// <summary>
     /// If the app launch was triggered by an app link with {@code Intent.ACTION_VIEW}, it will give the link url, otherwise it will give null
     /// 
-    ///   Refer <see href="http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents" />
+    ///  Refer <see href="http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents" />
     /// </summary>
     [<Obsolete("")>]
     abstract getInitialURL: callback: (string -> unit) -> unit
@@ -5948,12 +5955,12 @@ type [<AllowNullLiteral>] NetInfoStatic =
     /// Adds an event handler. Supported events:
     /// 
     /// - <c>connectionChange</c>: Fires when the network status changes. The argument to the event
-    ///    handler is an object with keys:
-    ///    - <c>type</c>: A <c>DeprecatedConnectionType</c> (listed above)
-    ///    - <c>effectiveType</c>: An <c>EffectiveConnectionType</c> (listed above)
+    ///   handler is an object with keys:
+    ///   - <c>type</c>: A <c>DeprecatedConnectionType</c> (listed above)
+    ///   - <c>effectiveType</c>: An <c>EffectiveConnectionType</c> (listed above)
     /// - <c>change</c>: This event is deprecated. Listen to <c>connectionChange</c> instead. Fires when
-    ///    the network status changes. The argument to the event handler is one of the deprecated
-    ///    connectivity types listed above.
+    ///   the network status changes. The argument to the event handler is one of the deprecated
+    ///   connectivity types listed above.
     /// </summary>
     abstract addEventListener: (string -> (U2<ConnectionInfo, ConnectionType> -> unit) -> unit) with get, set
     /// Removes the listener for network status changes.
@@ -6254,9 +6261,9 @@ type [<AllowNullLiteral>] PushNotificationIOSStatic =
     /// See what push permissions are currently enabled. <c>callback</c> will be
     /// invoked with a <c>permissions</c> object:
     /// 
-    ///   - <c>alert</c> :boolean
-    ///   - <c>badge</c> :boolean
-    ///   - <c>sound</c> :boolean
+    ///  - <c>alert</c> :boolean
+    ///  - <c>badge</c> :boolean
+    ///  - <c>sound</c> :boolean
     /// </summary>
     abstract checkPermissions: callback: (PushNotificationPermissions -> unit) -> unit
     /// <summary>
@@ -6361,16 +6368,16 @@ type [<AllowNullLiteral>] TimePickerAndroidOpenOptions =
 /// 
 /// <code>
 /// try {
-///    const {action, hour, minute} = await TimePickerAndroid.open({
-///      hour: 14,
-///      minute: 0,
-///      is24Hour: false, // Will display '2 PM'
-///    });
-///    if (action !== TimePickerAndroid.dismissedAction) {
-///      // Selected hour (0-23), minute (0-59)
-///    }
+///   const {action, hour, minute} = await TimePickerAndroid.open({
+///     hour: 14,
+///     minute: 0,
+///     is24Hour: false, // Will display '2 PM'
+///   });
+///   if (action !== TimePickerAndroid.dismissedAction) {
+///     // Selected hour (0-23), minute (0-59)
+///   }
 /// } catch ({code, message}) {
-///    console.warn('Cannot open time picker', message);
+///   console.warn('Cannot open time picker', message);
 /// }
 /// </code>
 /// </summary>
@@ -6379,15 +6386,15 @@ type [<AllowNullLiteral>] TimePickerAndroidStatic =
     /// Opens the standard Android time picker dialog.
     /// 
     /// The available keys for the <c>options</c> object are:
-    ///    * <c>hour</c> (0-23) - the hour to show, defaults to the current time
-    ///    * <c>minute</c> (0-59) - the minute to show, defaults to the current time
-    ///    * <c>is24Hour</c> (boolean) - If <c>true</c>, the picker uses the 24-hour format. If <c>false</c>,
-    ///      the picker shows an AM/PM chooser. If undefined, the default for the current locale
-    ///      is used.
-    ///    * <c>mode</c> (enum('clock', 'spinner', 'default')) - set the time picker mode
-    ///      * 'clock': Show a time picker in clock mode.
-    ///      * 'spinner': Show a time picker in spinner mode.
-    ///      * 'default': Show a default time picker based on Android versions.
+    ///   * <c>hour</c> (0-23) - the hour to show, defaults to the current time
+    ///   * <c>minute</c> (0-59) - the minute to show, defaults to the current time
+    ///   * <c>is24Hour</c> (boolean) - If <c>true</c>, the picker uses the 24-hour format. If <c>false</c>,
+    ///     the picker shows an AM/PM chooser. If undefined, the default for the current locale
+    ///     is used.
+    ///   * <c>mode</c> (enum('clock', 'spinner', 'default')) - set the time picker mode
+    ///     * 'clock': Show a time picker in clock mode.
+    ///     * 'spinner': Show a time picker in spinner mode.
+    ///     * 'default': Show a default time picker based on Android versions.
     /// 
     /// Returns a Promise which will be invoked an object containing <c>action</c>, <c>hour</c> (0-23),
     /// <c>minute</c> (0-59) if the user picked a time. If the user dismissed the dialog, the Promise will
@@ -6446,12 +6453,12 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// returns the values via an async callback. If successful, the callback will
     /// be called with the following arguments:
     /// 
-    ///   - x
-    ///   - y
-    ///   - width
-    ///   - height
-    ///   - pageX
-    ///   - pageY
+    ///  - x
+    ///  - y
+    ///  - width
+    ///  - height
+    ///  - pageX
+    ///  - pageY
     /// 
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native. If you need the measurements as soon as
@@ -6465,10 +6472,10 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// successful, the callback will be called with the following
     /// arguments:
     /// 
-    ///   - x
-    ///   - y
-    ///   - width
-    ///   - height
+    ///  - x
+    ///  - y
+    ///  - width
+    ///  - height
     /// 
     /// Note that these measurements are not available until after the rendering
     /// has been completed in native.
@@ -6490,7 +6497,7 @@ type [<AllowNullLiteral>] UIManagerStatic =
     /// 
     /// Note that in order to get this to work on **Android** you need to set the following flags via <c>UIManager</c>:
     /// 
-    ///      UIManager.setLayoutAnimationEnabledExperimental &amp;&amp; UIManager.setLayoutAnimationEnabledExperimental(true);
+    ///     UIManager.setLayoutAnimationEnabledExperimental &amp;&amp; UIManager.setLayoutAnimationEnabledExperimental(true);
     /// </summary>
     abstract setLayoutAnimationEnabledExperimental: value: bool -> unit
 
@@ -6706,13 +6713,13 @@ module Animated =
         /// 
         /// <code lang="javascript">
         /// onScroll={Animated.event(
-        ///    [{nativeEvent: {contentOffset: {x: this._scrollX}}}]
-        ///    {listener},          // Optional async listener
+        ///   [{nativeEvent: {contentOffset: {x: this._scrollX}}}]
+        ///   {listener},          // Optional async listener
         /// )
         /// ...
         /// onPanResponderMove: Animated.event([
-        ///    null,                // raw event arg ignored
-        ///    {dx: this._panX},    // gestureState arg
+        ///   null,                // raw event arg ignored
+        ///   {dx: this._panX},    // gestureState arg
         /// ]),
         /// </code>
         /// </summary>
@@ -6841,7 +6848,7 @@ module Animated =
         /// Converts <c>{x, y}</c> into <c>{left, top}</c> for use in style, e.g.
         /// 
         /// <code lang="javascript">
-        ///   style={this.state.anim.getLayout()}
+        ///  style={this.state.anim.getLayout()}
         /// </code>
         /// </summary>
         abstract getLayout: unit -> ValueXYGetLayoutReturn
@@ -6849,9 +6856,9 @@ module Animated =
         /// Converts <c>{x, y}</c> into a useable translation transform, e.g.
         /// 
         /// <code lang="javascript">
-        ///   style={{
-        ///     transform: this.state.anim.getTranslateTransform()
-        ///   }}
+        ///  style={{
+        ///    transform: this.state.anim.getTranslateTransform()
+        ///  }}
         /// </code>
         /// </summary>
         abstract getTranslateTransform: unit -> ResizeArray<ValueXYGetTranslateTransform>

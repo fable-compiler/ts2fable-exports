@@ -2462,7 +2462,7 @@ module __components_ComboBox_ComboBox_types =
         /// Callback issues when either:
         /// 1) the selected option changes
         /// 2) a manually edited value is submitted. In this case there may not be a matched option if allowFreeform is also true
-        ///     (and hence only value would be true, the other parameter would be null in this case)
+        ///    (and hence only value would be true, the other parameter would be null in this case)
         abstract onChanged: ((IComboBoxOption) option -> (float) option -> (string) option -> (obj) option -> unit) option with get, set
         /// Callback issued when the user changes the pending value in ComboBox
         abstract onPendingValueChanged: ((IComboBoxOption) option -> (float) option -> (string) option -> unit) option with get, set
@@ -3056,8 +3056,8 @@ module __components_ContextualMenu_ContextualMenu_types =
         abstract items: ResizeArray<IContextualMenuItem> option with get, set
         /// Properties to apply to a submenu to this item.
         /// The ContextualMenu will provide default values for 'target', 'onDismiss', 'isSubMenu',
-        ///   'id', 'shouldFocusOnMount', 'directionalHint', 'className', and 'gapSpace', all of which
-        ///   can be overridden.
+        ///  'id', 'shouldFocusOnMount', 'directionalHint', 'className', and 'gapSpace', all of which
+        ///  can be overridden.
         abstract subMenuProps: IContextualMenuProps option with get, set
         /// <summary>
         /// Method to provide the classnames to style the individual items inside a menu. Default value is the getItemClassnames func
@@ -3088,7 +3088,7 @@ module __components_ContextualMenu_ContextualMenu_types =
         /// (like an anchor or a button) or have the <c>data-is-focusable</c> property set to true.
         /// 
         /// The function receives a function that can be called to dismiss the menu as a second argument.
-        ///   This can be used to make sure that a custom menu item click dismisses the menu.
+        ///  This can be used to make sure that a custom menu item click dismisses the menu.
         /// </summary>
         /// <default>undefined</default>
         abstract onRender: (obj option -> ((obj) option -> (bool) option -> unit) -> React.ReactNode) option with get, set
@@ -8220,7 +8220,7 @@ module __components_Nav_Nav_types =
         /// Link <a> target.
         abstract target: string option with get, set
         /// Point to the parent node key.  This is used in EditNav when move node from sublink to
-        ///    parent link vs vers.
+        ///   parent link vs vers.
         abstract parentId: string option with get, set
         /// (Optional) By default, any link with onClick defined will render as a button.
         /// Set this property to true to override that behavior. (Links without onClick defined
@@ -9024,7 +9024,10 @@ module __components_Persona_Persona_types =
         /// <summary>tiny size has been deprecated in favor of standardized numeric sizing. Use size10 instead.</summary>
         /// <deprecated />
         | Tiny = 0
-        /// <summary>extraExtraSmall size has been deprecated in favor of standardized numeric sizing. Use size24 instead.</summary>
+        /// <summary>
+        /// 
+        /// extraExtraSmall size has been deprecated in favor of standardized numeric sizing. Use size24 instead.
+        /// </summary>
         /// <deprecated />
         | ExtraExtraSmall = 1
         /// <summary>extraSmall size has been deprecated in favor of standardized numeric sizing. Use size32 instead.</summary>
@@ -9454,17 +9457,17 @@ module __components_Pivot_Pivot_base =
 
     /// Usage:
     /// 
-    ///   <Pivot>
-    ///     <PivotItem linkText="Foo">
-    ///       <Label>Pivot #1</Label>
-    ///     </PivotItem>
-    ///     <PivotItem linkText="Bar">
-    ///       <Label>Pivot #2</Label>
-    ///     </PivotItem>
-    ///     <PivotItem linkText="Bas">
-    ///       <Label>Pivot #3</Label>
-    ///     </PivotItem>
-    ///   </Pivot>
+    ///  <Pivot>
+    ///    <PivotItem linkText="Foo">
+    ///      <Label>Pivot #1</Label>
+    ///    </PivotItem>
+    ///    <PivotItem linkText="Bar">
+    ///      <Label>Pivot #2</Label>
+    ///    </PivotItem>
+    ///    <PivotItem linkText="Bas">
+    ///      <Label>Pivot #3</Label>
+    ///    </PivotItem>
+    ///  </Pivot>
     type [<AllowNullLiteral>] IPivotState =
         abstract links: ResizeArray<IPivotItemProps> with get, set
         abstract selectedKey: string with get, set
@@ -11863,14 +11866,14 @@ module __components_TextField_TextField_types =
         abstract onNotifyValidationResult: (string -> string option -> unit) option with get, set
         /// The method is used to get the validation error message and determine whether the input value is valid or not.
         /// 
-        ///    When it returns string:
-        ///    - If valid, it returns empty string.
-        ///    - If invalid, it returns the error message string and the text field will
-        ///      show a red border and show an error message below the text field.
+        ///   When it returns string:
+        ///   - If valid, it returns empty string.
+        ///   - If invalid, it returns the error message string and the text field will
+        ///     show a red border and show an error message below the text field.
         /// 
-        ///    When it returns Promise<string>:
-        ///    - The resolved value is display as error message.
-        ///    - The rejected, the value is thrown away.
+        ///   When it returns Promise<string>:
+        ///   - The resolved value is display as error message.
+        ///   - The rejected, the value is thrown away.
         abstract onGetErrorMessage: (string -> U2<string, PromiseLike<string>> option) option with get, set
         /// <summary>Text field will start to validate after users stop typing for <c>deferredValidationTime</c> milliseconds.</summary>
         /// <default>200</default>
@@ -11907,9 +11910,9 @@ module __components_TextField_TextField_types =
         abstract maskChar: string option with get, set
         /// An object defining the format characters and corresponding regexp values.
         /// Default format characters: {
-        ///   '9': /[0-9]/,
-        ///   'a': /[a-zA-Z]/,
-        ///   '*': /[a-zA-Z0-9]/
+        ///  '9': /[0-9]/,
+        ///  'a': /[a-zA-Z]/,
+        ///  '*': /[a-zA-Z0-9]/
         /// }
         abstract maskFormat: ITextFieldPropsMaskFormat option with get, set
         /// Deprecated property. Serves no function.
@@ -12724,15 +12727,15 @@ module __utilities_color_shades =
         /// Given a color and a shade specification, generates the requested shade of the color.
         /// Logic:
         /// if white
-        ///   darken via tables defined above
+        ///  darken via tables defined above
         /// if black
-        ///   lighten
+        ///  lighten
         /// if light
-        ///   strongen
+        ///  strongen
         /// if dark
-        ///   soften
+        ///  soften
         /// else default
-        ///   soften or strongen depending on shade#
+        ///  soften or strongen depending on shade#
         /// </summary>
         /// <param name="color">The base color whose shade is to be computed</param>
         /// <param name="shade">The shade of the base color to compute</param>
@@ -12818,7 +12821,7 @@ module __utilities_dateMath_DateMath =
         abstract getYearEnd: date: DateTime -> DateTime
         /// <summary>
         /// Returns a date that is a copy of the given date, aside from the month changing to the given month.
-        ///   The method tries to preserve the day-of-month; however, if the new month does not have enough days
+        ///  The method tries to preserve the day-of-month; however, if the new month does not have enough days
         /// to contain the original day-of-month, we'll use the last day of the new month.
         /// </summary>
         /// <param name="date">The origin date</param>
@@ -19263,26 +19266,26 @@ module __components_TextField_MaskedTextField_MaskedTextField =
         abstract MaskedTextField: MaskedTextFieldStatic
 
     /// props.mask:
-    ///   The string containing the prompt and format characters.
+    ///  The string containing the prompt and format characters.
     /// Example:
-    ///   'Phone Number: (999) 9999'
+    ///  'Phone Number: (999) 9999'
     /// 
     /// _maskCharData
-    ///   An array of data containing information regarding the format characters,
-    ///   their indices inside the display text, and their corresponding values.
+    ///  An array of data containing information regarding the format characters,
+    ///  their indices inside the display text, and their corresponding values.
     /// Example:
-    ///   [
-    ///     { value: '1', displayIndex: 16, format: /[0-9]/ },
-    ///     { value: '2', displayIndex: 17, format: /[0-9]/ },
-    ///     { displayIndex: 18, format: /[0-9]/ },
-    ///     { value: '4', displayIndex: 22, format: /[0-9]/ },
-    ///     ...
-    ///   ]
+    ///  [
+    ///    { value: '1', displayIndex: 16, format: /[0-9]/ },
+    ///    { value: '2', displayIndex: 17, format: /[0-9]/ },
+    ///    { displayIndex: 18, format: /[0-9]/ },
+    ///    { value: '4', displayIndex: 22, format: /[0-9]/ },
+    ///    ...
+    ///  ]
     type [<AllowNullLiteral>] IMaskedTextFieldState =
         /// The mask string formatted with the input value.
         /// This is what is displayed inside the TextField
         /// Example:
-        ///   'Phone Number: 12_ - 4___'
+        ///  'Phone Number: 12_ - 4___'
         abstract displayValue: string with get, set
         /// The index into the rendered value of the first unfilled format character
         abstract maskCursorPosition: float option with get, set

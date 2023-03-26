@@ -42,18 +42,18 @@ module Vscode =
     /// register a command handler with the identifier <c>extension.sayHello</c>.
     /// <code lang="javascript">
     /// commands.registerCommand('extension.sayHello', () =&gt; {
-    ///  	window.showInformationMessage('Hello World!');
+    /// 	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
     /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
     /// <code lang="json">
     /// {
-    ///  	"contributes": {
-    ///  		"commands": [{
-    ///  			"command": "extension.sayHello",
-    ///  			"title": "Hello World"
-    ///  		}]
-    ///  	}
+    /// 	"contributes": {
+    /// 		"commands": [{
+    /// 			"command": "extension.sayHello",
+    /// 			"title": "Hello World"
+    /// 		}]
+    /// 	}
     /// }
     /// </code>
     /// </summary>
@@ -87,9 +87,9 @@ module Vscode =
     /// 
     /// <code lang="javascript">
     /// languages.registerHoverProvider('javascript', {
-    ///  	provideHover(document, position, token) {
-    ///  		return new Hover('I am a hover!');
-    ///  	}
+    /// 	provideHover(document, position, token) {
+    /// 		return new Hover('I am a hover!');
+    /// 	}
     /// });
     /// </code>
     /// 
@@ -113,16 +113,16 @@ module Vscode =
     /// 
     /// <code lang="javascript">
     /// export function activate(context: vscode.ExtensionContext) {
-    ///  	let api = {
-    ///  		sum(a, b) {
-    ///  			return a + b;
-    ///  		},
-    ///  		mul(a, b) {
-    ///  			return a * b;
-    ///  		}
-    ///  	};
-    ///  	// 'export' public api-surface
-    ///  	return api;
+    /// 	let api = {
+    /// 		sum(a, b) {
+    /// 			return a + b;
+    /// 		},
+    /// 		mul(a, b) {
+    /// 			return a * b;
+    /// 		}
+    /// 	};
+    /// 	// 'export' public api-surface
+    /// 	return api;
     /// }
     /// </code>
     /// When depending on the API of another extension add an <c>extensionDependency</c>-entry
@@ -789,8 +789,8 @@ module Vscode =
     type [<AllowNullLiteral>] TextEditorOptions =
         /// <summary>
         /// The size in spaces a tab takes. This is used for two purposes:
-        ///   - the rendering width of a tab character;
-        ///   - the number of spaces to insert when <see cref="TextEditorOptions.insertSpaces">insertSpaces</see> is true.
+        ///  - the rendering width of a tab character;
+        ///  - the number of spaces to insert when <see cref="TextEditorOptions.insertSpaces">insertSpaces</see> is true.
         /// 
         /// When getting a text editor's options, this property will always be a number (resolved).
         /// When setting a text editor's options, this property is optional and it can be a number or <c>"auto"</c>.
@@ -1486,8 +1486,8 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// like "TypeScript", and an array of extensions, e.g.
         /// <code lang="ts">
         /// {
-        ///  	'Images': ['png', 'jpg']
-        ///  	'TypeScript': ['ts', 'tsx']
+        /// 	'Images': ['png', 'jpg']
+        /// 	'TypeScript': ['ts', 'tsx']
         /// }
         /// </code>
         abstract filters: OpenDialogOptionsFilters option with get, set
@@ -1502,8 +1502,8 @@ This method shows unexpected behavior and will be removed in the next major upda
         /// like "TypeScript", and an array of extensions, e.g.
         /// <code lang="ts">
         /// {
-        ///  	'Images': ['png', 'jpg']
-        ///  	'TypeScript': ['ts', 'tsx']
+        /// 	'Images': ['png', 'jpg']
+        /// 	'TypeScript': ['ts', 'tsx']
         /// }
         /// </code>
         abstract filters: OpenDialogOptionsFilters option with get, set
@@ -1655,23 +1655,23 @@ This method shows unexpected behavior and will be removed in the next major upda
     /// 
     /// <code lang="ts">
     /// let a: HoverProvider = {
-    ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
-    ///  		return new Hover('Hello World');
-    ///  	}
+    /// 	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
+    /// 		return new Hover('Hello World');
+    /// 	}
     /// }
     /// 
     /// let b: HoverProvider = {
-    ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
-    ///  		return new Promise(resolve =&gt; {
-    ///  			resolve(new Hover('Hello World'));
-    ///  	 	});
-    ///  	}
+    /// 	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
+    /// 		return new Promise(resolve =&gt; {
+    /// 			resolve(new Hover('Hello World'));
+    /// 	 	});
+    /// 	}
     /// }
     /// 
     /// let c: HoverProvider = {
-    ///  	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
-    ///  		return; // undefined
-    ///  	}
+    /// 	provideHover(doc, pos, token): ProviderResult&lt;Hover&gt; {
+    /// 		return; // undefined
+    /// 	}
     /// }
     /// </code>
     /// </summary>
@@ -3147,8 +3147,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// Insert new line and indent once (relative to the previous line's indentation).
         | Indent = 1
         /// Insert two new lines:
-        ///   - the first one indented which will hold the cursor
-        ///   - the second one at the same indentation level
+        ///  - the first one indented which will hold the cursor
+        ///  - the second one at the same indentation level
         | IndentOutdent = 2
         /// Insert new line and outdent once (relative to the previous line's indentation).
         | Outdent = 3
@@ -3183,7 +3183,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// If the language supports Unicode identifiers (e.g. JavaScript), it is preferable
         /// to provide a word definition that uses exclusion of known separators.
         /// e.g.: A regex that matches anything except known separators (and dot is allowed to occur in a floating point number):
-        ///    /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
+        ///   /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g
         abstract wordPattern: RegExp option with get, set
         /// The language's indentation settings.
         abstract indentationRules: IndentationRule option with get, set
@@ -3789,7 +3789,7 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// task definition for example looks like this
         /// <code lang="typescript">
         /// interface NpmTaskDefinition extends TaskDefinition {
-        ///      script: string;
+        ///     script: string;
         /// }
         /// </code>
         /// 
@@ -4494,18 +4494,18 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// register a command handler with the identifier <c>extension.sayHello</c>.
     /// <code lang="javascript">
     /// commands.registerCommand('extension.sayHello', () =&gt; {
-    ///  	window.showInformationMessage('Hello World!');
+    /// 	window.showInformationMessage('Hello World!');
     /// });
     /// </code>
     /// Second, bind the command identifier to a title under which it will show in the palette (<c>package.json</c>).
     /// <code lang="json">
     /// {
-    ///  	"contributes": {
-    ///  		"commands": [{
-    ///  			"command": "extension.sayHello",
-    ///  			"title": "Hello World"
-    ///  		}]
-    ///  	}
+    /// 	"contributes": {
+    /// 		"commands": [{
+    /// 			"command": "extension.sayHello",
+    /// 			"title": "Hello World"
+    /// 		}]
+    /// 	}
     /// }
     /// </code>
     /// </summary>
@@ -5071,14 +5071,14 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// using <c>menus</c> extension point, you can specify context value for key <c>viewItem</c> in <c>when</c> expression like <c>viewItem == folder</c>.
         /// <code>
         /// "contributes": {
-        /// 		"menus": {
-        /// 			"view/item/context": [
-        /// 				{
-        /// 					"command": "extension.deleteFolder",
-        /// 					"when": "viewItem == folder"
-        /// 				}
-        /// 			]
-        /// 		}
+        /// 	"menus": {
+        /// 		"view/item/context": [
+        /// 			{
+        /// 				"command": "extension.deleteFolder",
+        /// 				"when": "viewItem == folder"
+        /// 			}
+        /// 		]
+        /// 	}
         /// }
         /// </code>
         /// This will show action <c>extension.deleteFolder</c> only for items with <c>contextValue</c> is <c>folder</c>.
@@ -5354,11 +5354,11 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// 
         /// <code lang="ts">
         /// workspace.onWillSaveTextDocument(event =&gt; {
-        ///  	// async, will *throw* an error
-        ///  	setTimeout(() =&gt; event.waitUntil(promise));
+        /// 	// async, will *throw* an error
+        /// 	setTimeout(() =&gt; event.waitUntil(promise));
         /// 
-        ///  	// sync, OK
-        ///  	event.waitUntil(promise);
+        /// 	// sync, OK
+        /// 	event.waitUntil(promise);
         /// })
         /// </code>
         /// </summary>
@@ -5627,8 +5627,8 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// 
             /// *Note 2:* Subscribers are called sequentially and they can <see cref="TextDocumentWillSaveEvent.waitUntil">delay</see> saving
             /// by registering asynchronous work. Protection against misbehaving listeners is implemented as such:
-            ///   * there is an overall time budget that all listeners share and if that is exhausted no further listener is called
-            ///   * listeners that take a long time or produce errors frequently will not be called anymore
+            ///  * there is an overall time budget that all listeners share and if that is exhausted no further listener is called
+            ///  * listeners that take a long time or produce errors frequently will not be called anymore
             /// 
             /// The current thresholds are 1.5 seconds as overall time budget and a listener can misbehave 3 times before being ignored.
             /// </summary>
@@ -5691,9 +5691,9 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// 
     /// <code lang="javascript">
     /// languages.registerHoverProvider('javascript', {
-    ///  	provideHover(document, position, token) {
-    ///  		return new Hover('I am a hover!');
-    ///  	}
+    /// 	provideHover(document, position, token) {
+    /// 		return new Hover('I am a hover!');
+    /// 	}
     /// });
     /// </code>
     /// 
@@ -5729,10 +5729,10 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
             /// 1. When <see cref="DocumentSelector"><c>DocumentSelector</c></see> is an array, compute the match for each contained <c>DocumentFilter</c> or language identifier and take the maximum value.
             /// 2. A string will be desugared to become the <c>language</c>-part of a <see cref="DocumentFilter"><c>DocumentFilter</c></see>, so <c>"fooLang"</c> is like <c>{ language: "fooLang" }</c>.
             /// 3. A <see cref="DocumentFilter"><c>DocumentFilter</c></see> will be matched against the document by comparing its parts with the document. The following rules apply:
-            ///   1. When the <c>DocumentFilter</c> is empty (<c>{}</c>) the result is <c>0</c>
-            ///   2. When <c>scheme</c>, <c>language</c>, or <c>pattern</c> are defined but one doesn’t match, the result is <c>0</c>
-            ///   3. Matching against <c>*</c> gives a score of <c>5</c>, matching via equality or via a glob-pattern gives a score of <c>10</c>
-            ///   4. The result is the maximum value of each match
+            ///  1. When the <c>DocumentFilter</c> is empty (<c>{}</c>) the result is <c>0</c>
+            ///  2. When <c>scheme</c>, <c>language</c>, or <c>pattern</c> are defined but one doesn’t match, the result is <c>0</c>
+            ///  3. Matching against <c>*</c> gives a score of <c>5</c>, matching via equality or via a glob-pattern gives a score of <c>10</c>
+            ///  4. The result is the maximum value of each match
             /// 
             /// Samples:
             /// <code lang="js">
@@ -6289,12 +6289,12 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
         /// - a debug adapter executable is specified as a command path and arguments (see <see cref="DebugAdapterExecutable">DebugAdapterExecutable</see>),
         /// - a debug adapter server reachable via a communication port (see <see cref="DebugAdapterServer">DebugAdapterServer</see>).
         /// If the method is not implemented the default behavior is this:
-        ///    createDebugAdapter(session: DebugSession, executable: DebugAdapterExecutable) {
-        ///       if (typeof session.configuration.debugServer === 'number') {
-        ///          return new DebugAdapterServer(session.configuration.debugServer);
-        ///       }
-        ///       return executable;
-        ///    }
+        ///   createDebugAdapter(session: DebugSession, executable: DebugAdapterExecutable) {
+        ///      if (typeof session.configuration.debugServer === 'number') {
+        ///         return new DebugAdapterServer(session.configuration.debugServer);
+        ///      }
+        ///      return executable;
+        ///   }
         /// </summary>
         /// <param name="session">The <see cref="DebugSession">debug session</see> for which the debug adapter will be used.</param>
         /// <param name="executable">The debug adapter's executable information as specified in the package.json (or undefined if no such information exists).</param>
@@ -6465,16 +6465,16 @@ line completions were [requested](#CompletionItemProvider.provideCompletionItems
     /// 
     /// <code lang="javascript">
     /// export function activate(context: vscode.ExtensionContext) {
-    ///  	let api = {
-    ///  		sum(a, b) {
-    ///  			return a + b;
-    ///  		},
-    ///  		mul(a, b) {
-    ///  			return a * b;
-    ///  		}
-    ///  	};
-    ///  	// 'export' public api-surface
-    ///  	return api;
+    /// 	let api = {
+    /// 		sum(a, b) {
+    /// 			return a + b;
+    /// 		},
+    /// 		mul(a, b) {
+    /// 			return a * b;
+    /// 		}
+    /// 	};
+    /// 	// 'export' public api-surface
+    /// 	return api;
     /// }
     /// </code>
     /// When depending on the API of another extension add an <c>extensionDependency</c>-entry
