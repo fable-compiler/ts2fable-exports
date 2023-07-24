@@ -1464,7 +1464,7 @@ label: \"I'm a Button\"
         abstract transitionTimingFunction: U2<CSSWideKeyword, obj option> option with get, set
         /// The unicode-bidi CSS property specifies the level of embedding with respect to the bidirectional algorithm.
         abstract unicodeBidi: U2<CSSWideKeyword, obj option> option with get, set
-        /// unicode-range allows you to set a specific range of characters to be downloaded from a font (embedded using @font-face) and made available for use on the current page.
+        /// <summary>unicode-range allows you to set a specific range of characters to be downloaded from a font (embedded using</summary>
         abstract unicodeRange: U2<CSSWideKeyword, obj option> option with get, set
         /// This is for all the high level UX stuff.
         abstract userFocus: U2<CSSWideKeyword, obj option> option with get, set
@@ -1537,10 +1537,7 @@ label: \"I'm a Button\"
         /// See CSS 2 z-index property <see href="https://www.w3.org/TR/CSS2/visuren.html#z-index" />
         /// </summary>
         abstract zIndex: U3<CSSWideKeyword, float, string> option with get, set
-        /// <summary>
-        /// Sets the initial zoom factor of a document defined by @viewport.
-        /// See CSS zoom descriptor <see href="https://drafts.csswg.org/css-device-adapt/#zoom-desc" />
-        /// </summary>
+        /// <summary>Sets the initial zoom factor of a document defined by</summary>
         abstract zoom: U4<CSSWideKeyword, float, CSSPercentage, string> option with get, set
         [<EmitIndexer>] abstract Item: propertyName: string -> obj option with get, set
 

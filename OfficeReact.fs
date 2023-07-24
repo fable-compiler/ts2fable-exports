@@ -214,9 +214,9 @@ module __components_ActivityItem_ActivityItem_types =
         abstract activityIcon: React.ReactNode option with get, set
         /// If activityIcon is not set, then the persona props in this array will be used as the icon for the this activity item.
         abstract activityPersonas: Array<IPersonaSharedProps> option with get, set
-        /// An element containing the text of comments or @mention messages. If no comments, commentText, or onRenderComments are included, no comments are shown.
+        /// <summary>An element containing the text of comments or</summary>
         abstract comments: U2<ResizeArray<React.ReactNode>, React.ReactNode> option with get, set
-        /// Text of comments or @mention messages. Deprecated, use comments instead.
+        /// <summary>Text of comments or</summary>
         [<Obsolete("")>]
         abstract commentText: string option with get, set
         /// Gets ref to component interface.
@@ -305,7 +305,8 @@ module __components_Autofill_Autofill =
 
     type [<AllowNullLiteral>] IExports =
         abstract Autofill: AutofillStatic
-        /// Legacy, @deprecated, do not use.
+        /// Legacy,
+        [<Obsolete(", do not use.")>]
         abstract BaseAutoFill: BaseAutoFillStatic
 
     type [<AllowNullLiteral>] IAutofillState =
@@ -330,11 +331,13 @@ module __components_Autofill_Autofill =
         abstract defaultProps: {| enableAutofillOnKeyPress: ResizeArray<KeyCodes> |} with get, set
         [<EmitConstructor>] abstract Create: props: IAutofillProps -> Autofill
 
-    /// Legacy, @deprecated, do not use.
+    /// Legacy,
+    [<Obsolete(", do not use.")>]
     type [<AllowNullLiteral>] BaseAutoFill =
         inherit Autofill
 
-    /// Legacy, @deprecated, do not use.
+    /// Legacy,
+    [<Obsolete(", do not use.")>]
     type [<AllowNullLiteral>] BaseAutoFillStatic =
         [<EmitConstructor>] abstract Create: props: IAutofillProps -> BaseAutoFill
 
